@@ -2,6 +2,14 @@ import abc
 from collections import defaultdict
 from typing import List
 
+from pulp import LpVariable, LpInteger
+
+
+class Games:
+    def __init__(self):
+        self.games = {}
+        self.current = None
+
 
 class Effect(abc.ABC):
     @abc.abstractmethod
@@ -27,6 +35,7 @@ We need to create a Building class that contains a list of effects.
 """
 class Building(Effect):
     def __init__(self, name: str):
+        self.lp_variable = None
         self.name = name
         self.effects_to_faction = {}
         self.effects_to_province = {}
@@ -39,6 +48,9 @@ class Building(Effect):
     def __eq__(self, other):
         return self.name == other.name
 
+    def __repr__(self):
+        return self.name
+
     def add_effect(self, effect: str, scope: str, amount: float):
         if scope.startswith('faction'):
             self.effects_to_faction[effect] = amount
@@ -48,6 +60,9 @@ class Building(Effect):
             self.effects_to_region[effect] = amount
         elif scope.startswith('building'):
             self.effects_to_building[effect] = amount
+
+    def add_constraint(self, low: int = 0, high: int = 1, type = LpInteger):
+        self.lp_variable = LpVariable(self.name, low, high, type)
 
     def gdp(self):
         """

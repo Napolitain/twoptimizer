@@ -31,28 +31,18 @@ if __name__ == '__main__':
         data = [i.split('\t') for i in data]
 
     # dict{game1: set{building1, building2, ...}, game2: set{building1, building2, ...}, ...}
-    games = defaultdict(lambda: dict)
+    games = {}
     for name, effect, scope, amount, _, _ in data:
         game = name.split("_")[0]
+        if game not in games:
+            games[game] = {}
         # Filter for att and maximize only gdp for now
         if "att" in name:
             # Filter only for east romans for now
             if ("roman" in name and "west" not in name) or ("orthodox" in name) or ("all" in name):
                 if name not in games[game]:
                     games[game][name] = Building(name)
-                games[game][name].add_effect(effect, scope, amount)
-
-
-    # games[game][name] is a building, which can have different effectss
-    # we need to compress for now, similar effects into 1
-    # For now, compress all gdp_* effects into one and remove others
-    for game in games:
-        for name in games[game]:
-            gdp = 0
-            for effect, scope, amount in games[game][name]:
-                if "gdp" in effect:
-                    gdp += float(amount)
-            games[game][name] = [("gdp", scope, gdp)]
+                games[game][name].add_effect(effect, scope, float(amount))
 
     # PuLP model
     # Create a gdp maximization problem
@@ -61,29 +51,23 @@ if __name__ == '__main__':
     max_buildings = 6
 
     # Create decision variables and include mandatory building condition
-    building_vars = {}
-    for game, buildings in games.items():
-        for name, effects in buildings.items():
-            for effect, scope, amount in effects:
-                if effect == 'gdp':  # We check if the effect is 'gdp'
-                    if "att_bld_roman_east_city_major_4" in name:
-                        # Mandatory building
-                        building_vars[name] = LpVariable(name, 1, 1, LpInteger)
-                    else:
-                        # Optional building
-                        building_vars[name] = LpVariable(name, 0, 1, LpInteger)
+    for building in games["att"].values():
+        if "att_bld_roman_east_city_major_4" in building.name:
+            # Mandatory building
+            building.add_constraint(1, 1, LpInteger)
+        else:
+            # Optional building
+            building.add_constraint(0, 1, LpInteger)
 
     # Objective function: Maximize GDP
     problem += lpSum(
-        float(amount) * building_vars[name]
-        for name, effects in games["att"].items()  # Iterate through each building's name and its effects
-        for effect, scope, amount in effects  # Unpack each effect tuple into effect, scope, and amount
-        if effect == "gdp"  # Only include effects that correspond to GDP
+        building.gdp() * building.lp_variable
+        for building in games["att"].values()
     ), "Total_GDP"
 
     # Constraint: Maximum number of buildings (excluding mandatory one)
     problem += (
-        lpSum(building_vars[name] for name in building_vars if "att_bld_roman_east_city_major_4" not in name)
+        lpSum(building.lp_variable for building in games["att"].values() if "att_bld_roman_east_city_major_4" not in building.name)
         <= max_buildings - 1,
         "Max_Optional_Buildings"
     )
