@@ -4,7 +4,7 @@
 # PuLP is an linear and mixed integer programming modeler written in Python.
 from pulp import *
 
-from twoptimizer import Building
+from twoptimizer import Building, Province, Region
 
 """
 A province contains n regions.
@@ -54,10 +54,20 @@ if __name__ == '__main__':
     for building in games["att"].values():
         if "att_bld_roman_east_city_major_4" in building.name:
             # Mandatory building
-            building.add_constraint(1, 1, LpInteger)
+            building.add_lp_variable(1, 1, LpInteger)
         else:
             # Optional building
-            building.add_constraint(0, 1, LpInteger)
+            building.add_lp_variable(0, 1, LpInteger)
+
+    thrace = Province(3)
+    constantinople = Region(6)
+    marcianopolis = Region(4)
+    trimontium = Region(4)
+
+    thrace.add_region(constantinople)
+    thrace.add_region(marcianopolis)
+    thrace.add_region(trimontium)
+
 
     # Objective function: Maximize GDP
     problem += lpSum(
@@ -78,5 +88,5 @@ if __name__ == '__main__':
     # Print the variables equal to 1 with their respective contribution
     for v in problem.variables():
         if v.varValue == 1:
-            print(v.name, "=", v.varValue)
+            print(v.name, "=", games["att"][v.name].gdp())
 

@@ -61,7 +61,7 @@ class Building(Effect):
         elif scope.startswith('building'):
             self.effects_to_building[effect] = amount
 
-    def add_constraint(self, low: int = 0, high: int = 1, type = LpInteger):
+    def add_lp_variable(self, low: int = 0, high: int = 1, type = LpInteger):
         self.lp_variable = LpVariable(self.name, low, high, type)
 
     def gdp(self):
