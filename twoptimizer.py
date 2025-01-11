@@ -182,7 +182,7 @@ def building_is_major(building_name: str) -> bool:
     :param building_name:
     :return:
     """
-    if "major" in building_name:
+    if "major" in building_name or "civic" in building_name or "military_upgrade" in building_name:
         return True
     return False
 
@@ -192,7 +192,7 @@ def building_is_minor(building_name: str) -> bool:
     :param building_name:
     :return:
     """
-    if "minor" in building_name or "agriculture" in building_name:
+    if "minor" in building_name or "agriculture" in building_name or "livestock" in building_name:
         return True
     return False
 
@@ -207,7 +207,18 @@ def building_is_not_of_faction(building_name: str) -> bool:
     return True
 
 
-class Region(Effect):
+def building_is_resource(building):
+    """
+    Check if a building is a resource building.
+    If the building contains resource but not port, it is a resource building.
+    If the building contains spice, it is a resource building.
+    :param building:
+    :return:
+    """
+    return ("resource" in building.name and "port" not in building.name) or "spice" in building.name
+
+
+class Region:
     """
     A region contains buildings.
     """
@@ -229,18 +240,23 @@ class Region(Effect):
         """
         # Add buildings Lp variables to the region.
         for building in Games.buildings[Games.current_game].values():
-            deep_copy = Building(f"{self.name}_{building.name}")
             if building_is_not_of_faction(building.name):
                 continue
             if region.region_type == RegionType.ATTILA_REGION_MAJOR and building_is_minor(building.name):
                 continue
             if region.region_type == RegionType.ATTILA_REGION_MINOR and building_is_major(building.name):
                 continue
+            deep_copy = Building(f"{self.name}_{building.name}")
+            deep_copy.lp_variable = LpVariable(deep_copy.name, 0, 1, LpInteger)
             self.buildings.append(deep_copy)
         # Add constraints to the region.
         self.add_type_constraint(region)
         self.add_resource_constraint(region)
         self.add_port_constraint(region)
+        # Add sanitation constraints
+        Games.problem += lpSum(
+            building.sanitation() * building.lp_variable for building in self.buildings
+        ) >= 1, f"Sanitation_Constraint_{self.name}"
 
     def add_port_constraint(self, region: RegionAttila):
         """
@@ -253,13 +269,11 @@ class Region(Effect):
                 building.lp_variable
                 for building in self.buildings
                 if "port" in building.name and "spice" not in building.name
-            ) == 1, "Port_Constraint"
+            ) == 1, f"{self.name}_Port_Constraint"
         else:
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in self.buildings
-                if "port" in building.name and "spice" not in building.name
-            ) == 0, "No_Port_Constraint"
+            for i, building in enumerate(self.buildings):
+                if "port" in building.name and "spice" not in building.name:
+                    self.buildings.pop(i)
 
     def add_resource_constraint(self, region: RegionAttila):
         """
@@ -268,18 +282,100 @@ class Region(Effect):
         :param region:
         :return:
         """
-        if region.has_ressource != RegionHasRessource.ATTILA_REGION_NO_RESSOURCE:
+        # Remove buildings that are illegal
+        for i, building in enumerate(self.buildings):
+            if region.has_ressource == RegionHasRessource.ATTILA_REGION_NO_RESSOURCE and building_is_resource(building):
+                self.buildings.pop(i)
+            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_SPICE:
+                # Remove all resources that are not spice (and ports)
+                if "resource" in building.name and "spice" not in building.name:
+                    self.buildings.pop(i)
+            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_FURS:
+                # If name contains resource and port, keep, if contains resource and furs, keep, else remove.
+                if "resource" in building.name and ("port" not in building.name and "furs" not in building.name):
+                    self.buildings.pop(i)
+            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_IRON:
+                if "resource" in building.name and ("iron" not in building.name and "port" not in building.name):
+                    self.buildings.pop(i)
+            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_WINE:
+                if "resource" in building.name and ("wine" not in building.name and "port" not in building.name):
+                    self.buildings.pop(i)
+            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_WOOD:
+                if "resource" in building.name and ("wood" not in building.name and "port" not in building.name):
+                    self.buildings.pop(i)
+            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_GOLD:
+                if "resource" in building.name and ("gold" not in building.name and "port" not in building.name):
+                    self.buildings.pop(i)
+            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_MARBLE:
+                if "resource" in building.name and ("marble" not in building.name and "port" not in building.name):
+                    self.buildings.pop(i)
+            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_GEMS:
+                if "resource" in building.name and ("gems" not in building.name and "port" not in building.name):
+                    self.buildings.pop(i)
+            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_SILK:
+                if "resource" in building.name and ("silk" not in building.name and "port" not in building.name):
+                    self.buildings.pop(i)
+            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_SALT:
+                if "resource" in building.name and ("salt" not in building.name and "port" not in building.name):
+                    self.buildings.pop(i)
+            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_LEAD:
+                if "resource" in building.name and ("lead" not in building.name and "port" not in building.name):
+                    self.buildings.pop(i)
+        # Add constraints
+        if region.has_ressource == RegionHasRessource.ATTILA_REGION_SPICE:
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
                 if "resource" in building.name and "spice" in building.name
-            ) == 1, "Spice_Resource_Constraint"
-        else:
+            ) == 1, f"{self.name}_Spice_Resource_Constraint"
+        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_FURS:
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
-                if "resource" in building.name and "port" not in building.name or "spice" in building.name
-            ) == 0, "No_Resource_Constraint"
+                if "resource" in building.name and "furs" in building.name
+            ) == 1, f"{self.name}_Furs_Resource_Constraint"
+        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_IRON:
+            Games.problem += lpSum(
+                building.lp_variable
+                for building in self.buildings
+                if "resource" in building.name and "iron" in building.name
+            ) == 1, f"{self.name}_Iron_Resource_Constraint"
+        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_WINE:
+            Games.problem += lpSum(
+                building.lp_variable
+                for building in self.buildings
+                if "resource" in building.name and "wine" in building.name
+            ) == 1, f"{self.name}_Wine_Resource_Constraint"
+        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_WOOD:
+            Games.problem += lpSum(
+                building.lp_variable
+                for building in self.buildings
+                if "resource" in building.name and "wood" in building.name
+            ) == 1, f"{self.name}_Wood_Resource_Constraint"
+        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_GOLD:
+            Games.problem += lpSum(
+                building.lp_variable
+                for building in self.buildings
+                if "resource" in building.name and "gold" in building.name
+            ) == 1, f"{self.name}_Gold_Resource_Constraint"
+        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_MARBLE:
+            Games.problem += lpSum(
+                building.lp_variable
+                for building in self.buildings
+                if "resource" in building.name and "marble" in building.name
+            ) == 1, f"{self.name}_Marble_Resource_Constraint"
+        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_GEMS:
+            Games.problem += lpSum(
+                building.lp_variable
+                for building in self.buildings
+                if "resource" in building.name and "gems" in building.name
+            ) == 1, f"{self.name}_Gems_Resource_Constraint"
+        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_SILK:
+            Games.problem += lpSum(
+                building.lp_variable
+                for building in self.buildings
+                if "resource" in building.name and "silk" in building.name
+            ) == 1, f"{self.name}_Silk_Resource_Constraint"
 
     def add_type_constraint(self, region):
         """
@@ -288,49 +384,26 @@ class Region(Effect):
         :param region:
         :return:
         """
+        for i, building in enumerate(self.buildings):
+            if region.region_type == RegionType.ATTILA_REGION_MAJOR and building_is_minor(building.name):
+                self.buildings.pop(i)
+            elif region.region_type == RegionType.ATTILA_REGION_MINOR and building_is_major(building.name):
+                self.buildings.pop(i)
         if region.region_type == RegionType.ATTILA_REGION_MAJOR:
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
-                if "minor" in building.name or "agriculture" in building.name
-            ) == 0, "No_Minor_Constraint"
+                if "city_major" in building.name
+            ) == 1, f"{self.name}_Major_Constraint"
         else:
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
-                if "major" in building.name or "civic" in building.name
-            ) == 0, "No_Major_Constraint"
-
-    def gdp(self):
-        """
-        For a region, we can just sum the gdp of all buildings, for now.
-        :return: sum of gdp of all buildings
-        """
-        return sum([building.gdp() for building in self.buildings])
-
-    def food(self):
-        """
-        For a region, we can just sum the food of all buildings, for now.
-        :return: sum of food of all buildings
-        """
-        return sum([building.food() for building in self.buildings])
-
-    def sanitation(self):
-        """
-        For a region, we need to make sure sanitation >= squalor in each building.
-        :return: sum of sanitation of all buildings minus squalor of all buildings
-        """
-        return sum([building.sanitation() for building in self.buildings])
-
-    def public_order(self):
-        """
-        For a region, we can just sum the public order of all buildings, for now.
-        :return: sum of public order of all buildings
-        """
-        return sum([building.public_order() for building in self.buildings])
+                if "city_minor" in building.name
+            ) == 1, f"{self.name}_Minor_Constraint"
 
 
-class Province(Effect):
+class Province:
     """
     We need to create a Province class that contains a list of regions.
     """
@@ -342,32 +415,27 @@ class Province(Effect):
     def add_region(self, region: Region):
         self.regions.append(region)
 
-    def gdp(self):
+    def add_public_order_constraint(self):
         """
-        We want to maximize the gdp of the province.
-        :return: sum of gdp of all regions
-        """
-        return sum([region.gdp() for region in self.regions])
-
-    def public_order(self):
-        """
-        We want to satisfy the public order of the province >== x.
-        With tax levels, we need to experiment different x values.
-        :return: sum of public order of all regions
-        """
-        return sum([region.public_order() for region in self.regions])
-
-    def food(self):
-        """
-        We need to satisfy the food of the province >== 0.
+        Add public order constraint to the province.
         :return:
         """
-        return sum([region.food() for region in self.regions])
+        Games.problem += lpSum(
+            building.public_order() * building.lp_variable
+            for region in self.regions
+            for building in region.buildings
+        ) >= 0, "Public_Order_Constraint"
 
-    def sanitation(self):
+    def add_food_constraint(self):
         """
-        We need to make sure sanitation >= squalor in each region, independently.
-        This method is not needed for now.
+        Add food constraint to the province.
         :return:
         """
-        return
+        Games.problem += lpSum(
+            building.food() * building.lp_variable
+            for region in self.regions
+            for building in region.buildings
+        ) >= 0, "Food_Constraint"
+
+    def buildings(self):
+        return [building for region in self.regions for building in region.buildings]

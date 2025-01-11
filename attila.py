@@ -52,42 +52,32 @@ if __name__ == '__main__':
     thrace.add_region(marcianopolis)
     thrace.add_region(trimontium)
 
-    constantinople.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MAJOR, RegionHasPort.ATTILA_REGION_PORT, RegionHasRessource.ATTILA_REGION_CHURCH))
-    marcianopolis.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT, RegionHasRessource.ATTILA_REGION_NO_RESSOURCE))
-    trimontium.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT, RegionHasRessource.ATTILA_REGION_GOLD))
 
     # Linear programming problem
     # Create a gdp maximization problem
     problem = Games.problem
 
-    # Create decision variables and include mandatory building condition
-    for building in Games.buildings["att"].values():
-        if "att_bld_roman_east_city_major_4" in building.name:
-            # Mandatory building
-            building.add_lp_variable(1, 1, LpInteger)
-        else:
-            # Optional building
-            building.add_lp_variable(0, 1, LpInteger)
+    constantinople.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MAJOR, RegionHasPort.ATTILA_REGION_PORT, RegionHasRessource.ATTILA_REGION_CHURCH))
+    marcianopolis.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT, RegionHasRessource.ATTILA_REGION_NO_RESSOURCE))
+    trimontium.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT, RegionHasRessource.ATTILA_REGION_GOLD))
+
+    # # Create decision variables and include mandatory building condition
+    # for building in Games.buildings["att"].values():
+    #     if "att_bld_roman_east_city_major_4" in building.name:
+    #         # Mandatory building
+    #         building.add_lp_variable(1, 1, LpInteger)
+    #     else:
+    #         # Optional building
+    #         building.add_lp_variable(0, 1, LpInteger)
 
     # Objective function: Maximize GDP
     problem += lpSum(
         building.gdp() * building.lp_variable
-        for building in Games.buildings["att"].values()
+        for building in thrace.buildings()
     ), "Total_GDP"
 
-    # Step 5: Constraints
-    # Global public order constraint
-    problem += lpSum(
-        building.public_order() * building.lp_variable
-        for region in thrace.regions
-        for building in region.buildings
-    ) >= 1, "Public_Order_Constraint"
-
-    # Regional sanitation constraints
-    for region in thrace.regions:
-        problem += lpSum(
-            building.sanitation() * building.lp_variable for building in region.buildings
-        ) >= 1, f"Sanitation_Constraint_{region.name}"
+    thrace.add_food_constraint()
+    thrace.add_public_order_constraint()
 
     # Regional building count constraints
     for region in thrace.regions:
@@ -101,6 +91,8 @@ if __name__ == '__main__':
 
     # Print the variables equal to 1 with their respective contribution
     for v in problem.variables():
+        # name key is the building name split("_") from 1 to end joined by _
+        name = "_".join(v.name.split("_")[1:])
         if v.varValue == 1:
-            print(v.name, "=", Games.buildings["att"][v.name].gdp())
+            print(v.name, "=", Games.buildings["att"][name].gdp())
 
