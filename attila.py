@@ -4,7 +4,8 @@
 # PuLP is an linear and mixed integer programming modeler written in Python.
 from pulp import *
 
-from twoptimizer import Building, Province, Region, RegionAttila, RegionHasPort, RegionHasRessource, RegionType, Games
+from twoptimizer import Building, Province, Region, RegionAttila, RegionHasPort, RegionHasRessource, RegionType, Games, \
+    AttilaFactions
 
 """
 A province contains n regions.
@@ -56,19 +57,14 @@ if __name__ == '__main__':
     # Linear programming problem
     # Create a gdp maximization problem
     problem = Games.problem
+    Games.faction = AttilaFactions.ATTILA_ROMAN_EAST
 
     constantinople.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MAJOR, RegionHasPort.ATTILA_REGION_PORT, RegionHasRessource.ATTILA_REGION_CHURCH))
     marcianopolis.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT, RegionHasRessource.ATTILA_REGION_NO_RESSOURCE))
     trimontium.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT, RegionHasRessource.ATTILA_REGION_GOLD))
-
-    # # Create decision variables and include mandatory building condition
-    # for building in Games.buildings["att"].values():
-    #     if "att_bld_roman_east_city_major_4" in building.name:
-    #         # Mandatory building
-    #         building.add_lp_variable(1, 1, LpInteger)
-    #     else:
-    #         # Optional building
-    #         building.add_lp_variable(0, 1, LpInteger)
+    print(constantinople.buildings)
+    print(marcianopolis.buildings)
+    print(trimontium.buildings)
 
     # Objective function: Maximize GDP
     problem += lpSum(

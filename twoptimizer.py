@@ -115,10 +115,10 @@ class Building(Effect):
         If it contains squalor, we subtract the values.
         :return: sum of sanitation values minus squalor values
         """
-        etf = sum([amount for effect, amount in self.effects_to_faction.items() if 'sanitation' in effect])
-        etp = sum([amount for effect, amount in self.effects_to_province.items() if 'sanitation' in effect])
-        etr = sum([amount for effect, amount in self.effects_to_region.items() if 'sanitation' in effect])
-        etb = sum([amount for effect, amount in self.effects_to_building.items() if 'sanitation' in effect])
+        etf = sum([amount for effect, amount in self.effects_to_faction.items() if 'sanitation_buildings' in effect])
+        etp = sum([amount for effect, amount in self.effects_to_province.items() if 'sanitation_buildings' in effect])
+        etr = sum([amount for effect, amount in self.effects_to_region.items() if 'sanitation_buildings' in effect])
+        etb = sum([amount for effect, amount in self.effects_to_building.items() if 'sanitation_buildings' in effect])
         sanitation = etf + etp + etr + etb
         etf = sum([amount for effect, amount in self.effects_to_faction.items() if "squalor" in effect])
         etp = sum([amount for effect, amount in self.effects_to_province.items() if "squalor" in effect])
@@ -182,7 +182,7 @@ def building_is_major(building_name: str) -> bool:
     :param building_name:
     :return:
     """
-    if "major" in building_name or "civic" in building_name or "military_upgrade" in building_name:
+    if "major" in building_name or "civic" in building_name or "military_upgrade" in building_name or "aqueducts" in building_name or "sewers" in building_name:
         return True
     return False
 
@@ -202,7 +202,7 @@ def building_is_not_of_faction(building_name: str) -> bool:
     :param building_name:
     :return:
     """
-    if Games.faction == AttilaFactions.ATTILA_ROMAN_EAST and ("roman" in building_name and "west" not in building_name) or ("orthodox" in building_name) or ("all" in building_name):
+    if Games.faction == AttilaFactions.ATTILA_ROMAN_EAST and ("roman" in building_name and "west" not in building_name) or ("orthodox" in building_name) or ("all" in building_name and "camel" not in building_name):
         return False
     return True
 
@@ -271,7 +271,7 @@ class Region:
                 if "port" in building.name and "spice" not in building.name
             ) == 1, f"{self.name}_Port_Constraint"
         else:
-            for i, building in enumerate(self.buildings):
+            for i, building in reversed(list(enumerate(self.buildings))):
                 if "port" in building.name and "spice" not in building.name:
                     self.buildings.pop(i)
 
@@ -283,7 +283,9 @@ class Region:
         :return:
         """
         # Remove buildings that are illegal
-        for i, building in enumerate(self.buildings):
+        for i, building in reversed(list(enumerate(self.buildings))):
+            if region.has_ressource != RegionHasRessource.ATTILA_REGION_CHURCH and "religion" in building.name and "legendary" in building.name:
+                self.buildings.pop(i)
             if region.has_ressource == RegionHasRessource.ATTILA_REGION_NO_RESSOURCE and building_is_resource(building):
                 self.buildings.pop(i)
             elif region.has_ressource == RegionHasRessource.ATTILA_REGION_SPICE:
@@ -292,36 +294,43 @@ class Region:
                     self.buildings.pop(i)
             elif region.has_ressource == RegionHasRessource.ATTILA_REGION_FURS:
                 # If name contains resource and port, keep, if contains resource and furs, keep, else remove.
-                if "resource" in building.name and ("port" not in building.name and "furs" not in building.name):
+                if ("resource" in building.name and "port" not in building.name and "furs" not in building.name) or "spice" in building.name:
                     self.buildings.pop(i)
             elif region.has_ressource == RegionHasRessource.ATTILA_REGION_IRON:
-                if "resource" in building.name and ("iron" not in building.name and "port" not in building.name):
+                if ("resource" in building.name and "iron" not in building.name and "port" not in building.name) or "spice" in building.name:
                     self.buildings.pop(i)
             elif region.has_ressource == RegionHasRessource.ATTILA_REGION_WINE:
-                if "resource" in building.name and ("wine" not in building.name and "port" not in building.name):
+                if ("resource" in building.name and "wine" not in building.name and "port" not in building.name) or "spice" in building.name:
                     self.buildings.pop(i)
             elif region.has_ressource == RegionHasRessource.ATTILA_REGION_WOOD:
-                if "resource" in building.name and ("wood" not in building.name and "port" not in building.name):
+                if ("resource" in building.name and "wood" not in building.name and "port" not in building.name) or "spice" in building.name:
                     self.buildings.pop(i)
             elif region.has_ressource == RegionHasRessource.ATTILA_REGION_GOLD:
-                if "resource" in building.name and ("gold" not in building.name and "port" not in building.name):
+                if ("resource" in building.name and "gold" not in building.name and "port" not in building.name) or "spice" in building.name:
                     self.buildings.pop(i)
             elif region.has_ressource == RegionHasRessource.ATTILA_REGION_MARBLE:
-                if "resource" in building.name and ("marble" not in building.name and "port" not in building.name):
+                if ("resource" in building.name and "marble" not in building.name and "port" not in building.name) or "spice" in building.name:
                     self.buildings.pop(i)
             elif region.has_ressource == RegionHasRessource.ATTILA_REGION_GEMS:
-                if "resource" in building.name and ("gems" not in building.name and "port" not in building.name):
+                if ("resource" in building.name and "gems" not in building.name and "port" not in building.name) or "spice" in building.name:
                     self.buildings.pop(i)
             elif region.has_ressource == RegionHasRessource.ATTILA_REGION_SILK:
-                if "resource" in building.name and ("silk" not in building.name and "port" not in building.name):
+                if ("resource" in building.name and "silk" not in building.name and "port" not in building.name) or "spice" in building.name:
                     self.buildings.pop(i)
             elif region.has_ressource == RegionHasRessource.ATTILA_REGION_SALT:
-                if "resource" in building.name and ("salt" not in building.name and "port" not in building.name):
+                if ("resource" in building.name and "salt" not in building.name and "port" not in building.name) or "spice" in building.name:
                     self.buildings.pop(i)
             elif region.has_ressource == RegionHasRessource.ATTILA_REGION_LEAD:
-                if "resource" in building.name and ("lead" not in building.name and "port" not in building.name):
+                if ("resource" in building.name and "lead" not in building.name and "port" not in building.name) or "spice" in building.name:
                     self.buildings.pop(i)
-        # Add constraints
+            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_OLIVES:
+                if ("resource" in building.name and "olives" not in building.name and "port" not in building.name) or "spice" in building.name:
+                    self.buildings.pop(i)
+            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_CHURCH:
+                if ("resource" in building.name and "port" not in building.name) or "spice" in building.name:
+                    self.buildings.pop(i)
+
+        # Add constraints, which make sure we use the resource building. It actually should be optional in Attila, but we make it mandatory for now.
         if region.has_ressource == RegionHasRessource.ATTILA_REGION_SPICE:
             Games.problem += lpSum(
                 building.lp_variable
@@ -376,6 +385,30 @@ class Region:
                 for building in self.buildings
                 if "resource" in building.name and "silk" in building.name
             ) == 1, f"{self.name}_Silk_Resource_Constraint"
+        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_SALT:
+            Games.problem += lpSum(
+                building.lp_variable
+                for building in self.buildings
+                if "resource" in building.name and "salt" in building.name
+            ) == 1, f"{self.name}_Salt_Resource_Constraint"
+        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_LEAD:
+            Games.problem += lpSum(
+                building.lp_variable
+                for building in self.buildings
+                if "resource" in building.name and "lead" in building.name
+            ) == 1, f"{self.name}_Lead_Resource_Constraint"
+        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_OLIVES:
+            Games.problem += lpSum(
+                building.lp_variable
+                for building in self.buildings
+                if "resource" in building.name and "olives" in building.name
+            ) == 1, f"{self.name}_Olives_Resource_Constraint"
+        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_CHURCH:
+            Games.problem += lpSum(
+                building.lp_variable
+                for building in self.buildings
+                if "resource" in building.name and "legendary" in building.name
+            ) == 1, f"{self.name}_Church_Resource_Constraint"
 
     def add_type_constraint(self, region):
         """
@@ -384,7 +417,7 @@ class Region:
         :param region:
         :return:
         """
-        for i, building in enumerate(self.buildings):
+        for i, building in reversed(list(enumerate(self.buildings))):
             if region.region_type == RegionType.ATTILA_REGION_MAJOR and building_is_minor(building.name):
                 self.buildings.pop(i)
             elif region.region_type == RegionType.ATTILA_REGION_MINOR and building_is_major(building.name):
