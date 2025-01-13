@@ -65,6 +65,15 @@ class Building(Effect):
         self.effects_to_region = {}
         self.effects_to_building = {}
 
+    def __copy__(self):
+        new_building = Building(self.name)
+        new_building.lp_variable = self.lp_variable
+        new_building.effects_to_faction = self.effects_to_faction.copy()
+        new_building.effects_to_province = self.effects_to_province.copy()
+        new_building.effects_to_region = self.effects_to_region.copy()
+        new_building.effects_to_building = self.effects_to_building.copy()
+        return new_building
+
     def __hash__(self):
         return hash(self.name)
 
@@ -72,7 +81,10 @@ class Building(Effect):
         return self.name == other.name
 
     def __repr__(self):
-        return self.name
+        return [self.name, self.gdp(), self.public_order(), self.sanitation(), self.food()]
+
+    def __str__(self):
+        return f"{self.name}, GDP: {self.gdp()}, Public Order: {self.public_order()}, Sanitation: {self.sanitation()}, Food: {self.food()}"
 
     def add_effect(self, effect: str, scope: str, amount: float):
         if scope.startswith('faction'):
@@ -83,9 +95,6 @@ class Building(Effect):
             self.effects_to_region[effect] = amount
         elif scope.startswith('building'):
             self.effects_to_building[effect] = amount
-
-    def add_lp_variable(self, low: int = 0, high: int = 1, type = LpInteger):
-        self.lp_variable = LpVariable(self.name, low, high, type)
 
     def gdp(self):
         """
@@ -246,7 +255,8 @@ class Region:
                 continue
             if region.region_type == RegionType.ATTILA_REGION_MINOR and building_is_major(building.name):
                 continue
-            deep_copy = Building(f"{self.name}_{building.name}")
+            deep_copy = building.__copy__()
+            deep_copy.name = f"{self.name}_{building.name}"
             deep_copy.lp_variable = LpVariable(deep_copy.name, 0, 1, LpInteger)
             self.buildings.append(deep_copy)
         # Add constraints to the region.
@@ -410,7 +420,7 @@ class Region:
                 if "resource" in building.name and "legendary" in building.name
             ) == 1, f"{self.name}_Church_Resource_Constraint"
 
-    def add_type_constraint(self, region):
+    def add_type_constraint(self, region: RegionAttila):
         """
         If the region is major, then we can add a constraint that all buildings with "minor" are between 0 and 0, as well as "agriculture".
         Conversely, disable civic, major buildings in minor regions.
@@ -470,5 +480,9 @@ class Province:
             for building in region.buildings
         ) >= 0, "Food_Constraint"
 
-    def buildings(self):
+    def buildings(self) -> List[Building]:
+        """
+        Return all buildings in the province that are potentially built. Basically, will be all our LpVariables.
+        :return:
+        """
         return [building for region in self.regions for building in region.buildings]
