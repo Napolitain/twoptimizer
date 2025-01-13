@@ -54,7 +54,6 @@ if __name__ == '__main__':
     thrace.add_region(marcianopolis)
     thrace.add_region(trimontium)
 
-
     # Linear programming problem
     # Create a gdp maximization problem
     problem = Games.problem
@@ -72,18 +71,18 @@ if __name__ == '__main__':
 
     thrace.add_food_constraint()
     thrace.add_public_order_constraint()
+    thrace.add_sanitation_constraint()
 
     # Regional building count constraints
     for region in thrace.regions:
-        problem += lpSum(
-            building.lp_variable for building in region.buildings
-        ) <= region.n_buildings, f"Max_Buildings_{region.name}"
+        region.add_chain_constraint()
+        region.add_building_count_constraint()
 
     for building in thrace.buildings():
         print(building)
 
     # Solve the problem
-    problem.solve()
+    status = problem.solve()
 
     # Print the variables equal to 1 with their respective contribution
     for v in problem.variables():
@@ -92,3 +91,27 @@ if __name__ == '__main__':
         if v.varValue == 1:
             print(v.name, "=", Games.buildings["att"][name])
 
+    # Check if the problem is infeasible
+    if LpStatus[status] == "Infeasible":
+        print("The problem is infeasible. Checking violated constraints...\n")
+        for name, constraint in problem.constraints.items():
+            # Evaluate LHS and RHS of the constraint
+            lhs = constraint.value()
+            rhs = constraint.constant
+            sense = constraint.sense
+
+            # Check if the constraint is violated
+            violated = False
+            if sense == -1 and lhs > rhs:  # <= constraint violated
+                violated = True
+            elif sense == 0 and lhs != rhs:  # == constraint violated
+                violated = True
+            elif sense == 1 and lhs < rhs:  # >= constraint violated
+                violated = True
+
+            # Print violated constraints
+            if violated:
+                print(f"Constraint '{name}' is violated.")
+                print(f"  LHS: {lhs}")
+                print(f"  RHS: {rhs}")
+                print(f"  Sense: {'<=' if sense == -1 else '==' if sense == 0 else '>='}\n")
