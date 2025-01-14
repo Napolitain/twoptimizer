@@ -221,7 +221,8 @@ class RegionHasRessource(enum.Enum):
     ATTILA_REGION_SALT = 11
     ATTILA_REGION_LEAD = 12
     ATTILA_REGION_OLIVES = 13
-    ATTILA_REGION_CHURCH = 14
+    ATTILA_REGION_CHURCH_CATHOLIC = 14
+    ATTILA_REGION_CHURCH_ORTHODOX = 15
 
 
 @dataclass
@@ -357,12 +358,15 @@ class Region:
             RegionHasRessource.ATTILA_REGION_SALT: ("salt", False),
             RegionHasRessource.ATTILA_REGION_LEAD: ("lead", False),
             RegionHasRessource.ATTILA_REGION_OLIVES: ("olives", False),
-            RegionHasRessource.ATTILA_REGION_CHURCH: ("legendary", True),
+            RegionHasRessource.ATTILA_REGION_CHURCH_CATHOLIC: ("religion_catholic_legendary", True),
+            RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX: ("religion_orthodox_legendary", True),
         }
         resources = {k: v[0] for k, v in resource_constraints.items()}
 
         for i, building in reversed(list(enumerate(self.buildings))):
-            if region.has_ressource != RegionHasRessource.ATTILA_REGION_CHURCH and "religion" in building.name and "legendary" in building.name:
+            if region.has_ressource != RegionHasRessource.ATTILA_REGION_CHURCH_CATHOLIC and "religion_catholic_legendary" in building.name:
+                self.buildings.pop(i)
+            elif region.has_ressource != RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX and "religion_orthodox_legendary" in building.name:
                 self.buildings.pop(i)
             elif region.has_ressource == RegionHasRessource.ATTILA_REGION_NO_RESSOURCE and building_is_resource(
                     building):
@@ -375,7 +379,7 @@ class Region:
                         and "port" not in building.name
                 ) or "spice" in building.name:
                     self.buildings.pop(i)
-            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_CHURCH:
+            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX or region.has_ressource == RegionHasRessource.ATTILA_REGION_CHURCH_CATHOLIC:
                 if ("resource" in building.name and "port" not in building.name) or "spice" in building.name:
                     self.buildings.pop(i)
 
