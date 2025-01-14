@@ -260,9 +260,10 @@ def building_is_not_of_faction(building_name: str) -> bool:
     :param building_name:
     :return:
     """
+    split_name = building_name.split("_")
     if Games.faction == AttilaFactions.ATTILA_ROMAN_EAST and (
             "roman" in building_name and "west" not in building_name) or ("orthodox" in building_name) or (
-            "all" in building_name and "camel" not in building_name):
+            "all" in split_name and "camel" not in building_name and "pigs" not in building_name):
         return False
     return True
 
@@ -288,6 +289,7 @@ class Region:
         self.buildings: List[Building] = []  # List of buildings that are potentially fit for the region.
         self.effects = defaultdict(list)
         self.name = name
+        self.region_type = None
 
     def add_buildings(self, region: RegionAttila):
         """
@@ -299,6 +301,7 @@ class Region:
         :param region:
         :return:
         """
+        self.region_type = region
         # Add buildings Lp variables to the region.
         for building in Games.buildings[Games.current_game].values():
             # Filter out buildings that are not of the faction to reduce the number of LpVariables.
@@ -314,10 +317,28 @@ class Region:
             deep_copy.name = f"{self.name}_{building.name}"
             deep_copy.lp_variable = LpVariable(deep_copy.name, 0, 1, LpInteger)
             self.buildings.append(deep_copy)
-        # Add constraints to the region.
-        self.add_type_constraint(region)
-        self.add_resource_constraint(region)
-        self.add_port_constraint(region)
+        # Filter buildings out (remove LpVariables)
+        self.filter_type()
+        self.filter_resource()
+        self.filter_port()
+
+    def add_constraints(self):
+        """
+        Add constraints to the region, after filtering out.
+        :return:
+        """
+        self.add_type_constraint(self.region_type)
+        self.add_resource_constraint(self.region_type)
+        self.add_port_constraint(self.region_type)
+        self.add_chain_constraint()
+        self.add_building_count_constraint()
+
+    def filter_port(self):
+        if self.region_type.has_port != RegionHasPort.ATTILA_REGION_PORT:
+            # Filter out all ports that are not spice if the region has no port to reduce the number of LpVariables.
+            for i, building in reversed(list(enumerate(self.buildings))):
+                if "port" in building.name and "spice" not in building.name:
+                    self.buildings.pop(i)
 
     def add_port_constraint(self, region: RegionAttila):
         """
@@ -331,10 +352,49 @@ class Region:
                 for building in self.buildings
                 if "port" in building.name and "spice" not in building.name
             ) == 1, f"{self.name}_Port_Constraint"
-        else:
-            # Filter out all ports that are not spice if the region has no port to reduce the number of LpVariables.
-            for i, building in reversed(list(enumerate(self.buildings))):
-                if "port" in building.name and "spice" not in building.name:
+
+    def filter_resource(self):
+        """
+        Filter out buildings that are not of the region resource type.
+        :return:
+        """
+        resource_constraints = {
+            RegionHasRessource.ATTILA_REGION_SPICE: ("spice", True),
+            RegionHasRessource.ATTILA_REGION_FURS: ("furs", False),
+            RegionHasRessource.ATTILA_REGION_IRON: ("iron", False),
+            RegionHasRessource.ATTILA_REGION_WINE: ("wine", False),
+            RegionHasRessource.ATTILA_REGION_WOOD: ("wood", False),
+            RegionHasRessource.ATTILA_REGION_GOLD: ("gold", False),
+            RegionHasRessource.ATTILA_REGION_MARBLE: ("marble", False),
+            RegionHasRessource.ATTILA_REGION_GEMS: ("gems", False),
+            RegionHasRessource.ATTILA_REGION_SILK: ("silk", False),
+            RegionHasRessource.ATTILA_REGION_SALT: ("salt", False),
+            RegionHasRessource.ATTILA_REGION_LEAD: ("lead", False),
+            RegionHasRessource.ATTILA_REGION_OLIVES: ("olives", False),
+            RegionHasRessource.ATTILA_REGION_CHURCH_CATHOLIC: ("religion_catholic_legendary", True),
+            RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX: ("religion_orthodox_legendary", True),
+        }
+        resources = {k: v[0] for k, v in resource_constraints.items()}
+
+        # Remove buildings that are illegal
+        for i, building in reversed(list(enumerate(self.buildings))):
+            if self.region_type.has_ressource != RegionHasRessource.ATTILA_REGION_CHURCH_CATHOLIC and "religion_catholic_legendary" in building.name:
+                self.buildings.pop(i)
+            elif self.region_type.has_ressource != RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX and "religion_orthodox_legendary" in building.name:
+                self.buildings.pop(i)
+            elif self.region_type.has_ressource == RegionHasRessource.ATTILA_REGION_NO_RESSOURCE and building_is_resource(
+                    building):
+                self.buildings.pop(i)
+            elif self.region_type.has_ressource in resources:
+                resource = resources[self.region_type.has_ressource]
+                if (
+                        "resource" in building.name
+                        and resource not in building.name
+                        and "port" not in building.name
+                ) or "spice" in building.name:
+                    self.buildings.pop(i)
+            elif self.region_type.has_ressource == RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX or self.region_type.has_ressource == RegionHasRessource.ATTILA_REGION_CHURCH_CATHOLIC:
+                if ("resource" in building.name and "port" not in building.name) or "spice" in building.name:
                     self.buildings.pop(i)
 
     def add_resource_constraint(self, region: RegionAttila):
@@ -360,28 +420,6 @@ class Region:
             RegionHasRessource.ATTILA_REGION_CHURCH_CATHOLIC: ("religion_catholic_legendary", True),
             RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX: ("religion_orthodox_legendary", True),
         }
-        resources = {k: v[0] for k, v in resource_constraints.items()}
-
-        # Remove buildings that are illegal
-        for i, building in reversed(list(enumerate(self.buildings))):
-            if region.has_ressource != RegionHasRessource.ATTILA_REGION_CHURCH_CATHOLIC and "religion_catholic_legendary" in building.name:
-                self.buildings.pop(i)
-            elif region.has_ressource != RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX and "religion_orthodox_legendary" in building.name:
-                self.buildings.pop(i)
-            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_NO_RESSOURCE and building_is_resource(
-                    building):
-                self.buildings.pop(i)
-            elif region.has_ressource in resources:
-                resource = resources[region.has_ressource]
-                if (
-                        "resource" in building.name
-                        and resource not in building.name
-                        and "port" not in building.name
-                ) or "spice" in building.name:
-                    self.buildings.pop(i)
-            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX or region.has_ressource == RegionHasRessource.ATTILA_REGION_CHURCH_CATHOLIC:
-                if ("resource" in building.name and "port" not in building.name) or "spice" in building.name:
-                    self.buildings.pop(i)
 
         # Add constraints dynamically based on the resource type
         if region.has_ressource in resource_constraints:
@@ -400,6 +438,17 @@ class Region:
             else:
                 Games.problem += constraint <= 1, f"{self.name}_{chain_name.capitalize()}_Resource_Constraint"
 
+    def filter_type(self):
+        """
+        Filter out buildings that are not of the region type.
+        :return:
+        """
+        for i, building in reversed(list(enumerate(self.buildings))):
+            if self.region_type == RegionType.ATTILA_REGION_MAJOR and building_is_minor(building.name):
+                self.buildings.pop(i)
+            elif self.region_type == RegionType.ATTILA_REGION_MINOR and building_is_major(building.name):
+                self.buildings.pop(i)
+
     def add_type_constraint(self, region: RegionAttila):
         """
         If the region is major, then we can add a constraint that all buildings with "minor" are between 0 and 0, as well as "agriculture".
@@ -407,11 +456,6 @@ class Region:
         :param region:
         :return:
         """
-        for i, building in reversed(list(enumerate(self.buildings))):
-            if region.region_type == RegionType.ATTILA_REGION_MAJOR and building_is_minor(building.name):
-                self.buildings.pop(i)
-            elif region.region_type == RegionType.ATTILA_REGION_MINOR and building_is_major(building.name):
-                self.buildings.pop(i)
         if region.region_type == RegionType.ATTILA_REGION_MAJOR:
             Games.problem += lpSum(
                 building.lp_variable
@@ -450,6 +494,18 @@ class Region:
         Games.problem += lpSum(
             building.lp_variable for building in self.buildings
         ) <= self.n_buildings, f"Max_Buildings_{self.name}"
+
+    def filter_city_level(self, city_level: int):
+        """
+        Filter out buildings that are not at least the city level.
+        :param city_level:
+        :return:
+        """
+        for i, building in reversed(list(enumerate(self.buildings))):
+            if "_city_" in building.name:
+                split_name = building.name.split("_")
+                if float(split_name[-1]) < city_level:
+                    self.buildings.pop(i)
 
 
 class Province:

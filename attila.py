@@ -64,20 +64,24 @@ if __name__ == '__main__':
     trimontium.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT,
                                           RegionHasRessource.ATTILA_REGION_GOLD))
 
-    # Objective function: Maximize GDP
+    # Filter out all buildings
+    for region in thrace.regions:
+        region.filter_city_level(4)
+
+    # Objective function: Maximize GDP on LpVariables (buildings) that are remaining
     problem += lpSum(
         building.gdp() * building.lp_variable
         for building in thrace.buildings()
     ), "Total_GDP"
 
-    thrace.add_food_constraint()
-    thrace.add_public_order_constraint()
+    # Regional constraints
+    for region in thrace.regions:
+        region.add_constraints()
     thrace.add_sanitation_constraint()
 
-    # Regional building count constraints
-    for region in thrace.regions:
-        region.add_chain_constraint()
-        region.add_building_count_constraint()
+    # Province constraints
+    thrace.add_food_constraint()
+    thrace.add_public_order_constraint()
 
     # Solve the problem
     status = problem.solve()
