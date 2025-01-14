@@ -34,6 +34,7 @@ class Games:
     current_game = "att"
     faction = AttilaFactions.ATTILA_NONE
 
+
 class Effect(abc.ABC):
     @abc.abstractmethod
     def gdp(self) -> float:
@@ -52,11 +53,19 @@ class Effect(abc.ABC):
         pass
 
 
+class Scope(enum.Enum):
+    FACTION = 1
+    PROVINCE = 2
+    REGION = 3
+    BUILDING = 4
+
+
 class Building(Effect):
     """
     A building contains effects that can be applied to a province, region, or building.
     We need to create a Building class that contains a list of effects.
     """
+
     def __init__(self, name: str):
         self.lp_variable = None
         self.name = name
@@ -101,10 +110,14 @@ class Building(Effect):
         For every effects dictionaries, if it contains gdp, and it doesn't contain mod, we sum the values.
         :return: sum of gdp values
         """
-        etf = sum([amount for effect, amount in self.effects_to_faction.items() if "gdp" in effect and 'mod' not in effect])
-        etp = sum([amount for effect, amount in self.effects_to_province.items() if "gdp" in effect and 'mod' not in effect])
-        etr = sum([amount for effect, amount in self.effects_to_region.items() if "gdp" in effect and 'mod' not in effect])
-        etb = sum([amount for effect, amount in self.effects_to_building.items() if "gdp" in effect and 'mod' not in effect])
+        etf = sum(
+            [amount for effect, amount in self.effects_to_faction.items() if "gdp" in effect and 'mod' not in effect])
+        etp = sum(
+            [amount for effect, amount in self.effects_to_province.items() if "gdp" in effect and 'mod' not in effect])
+        etr = sum(
+            [amount for effect, amount in self.effects_to_region.items() if "gdp" in effect and 'mod' not in effect])
+        etb = sum(
+            [amount for effect, amount in self.effects_to_building.items() if "gdp" in effect and 'mod' not in effect])
         return etf + etp + etr + etb
 
     def public_order(self):
@@ -124,31 +137,62 @@ class Building(Effect):
         If it contains squalor, we subtract the values.
         :return: sum of sanitation values minus squalor values
         """
-        etf = sum([amount for effect, amount in self.effects_to_faction.items() if 'sanitation_buildings' in effect])
         etr = sum([amount for effect, amount in self.effects_to_region.items() if 'sanitation_buildings' in effect])
         etb = sum([amount for effect, amount in self.effects_to_building.items() if 'sanitation_buildings' in effect])
-        sanitation = etf + etr + etb
-        etf = sum([amount for effect, amount in self.effects_to_faction.items() if "squalor" in effect])
+        sanitation = etr + etb
         etr = sum([amount for effect, amount in self.effects_to_region.items() if "squalor" in effect])
         etb = sum([amount for effect, amount in self.effects_to_building.items() if "squalor" in effect])
-        squalor = etf + etr + etb
+        squalor = etr + etb
         # Province scope will be handled in province class.
         return sanitation - squalor
+
+    def sanitation_scope(self, scope: Scope) -> float:
+        """
+        For every effects dictionaries, if it contains sanitation, we sum the values.
+        :param scope: Scope of the sanitation.
+        :return: sum of sanitation values
+        """
+        if scope == Scope.FACTION:
+            sanitation = sum(
+                [amount for effect, amount in self.effects_to_faction.items() if 'sanitation_buildings' in effect])
+            squalor = sum([amount for effect, amount in self.effects_to_faction.items() if "squalor" in effect])
+            return sanitation - squalor
+        elif scope == Scope.PROVINCE:
+            sanitation = sum(
+                [amount for effect, amount in self.effects_to_province.items() if 'sanitation_buildings' in effect])
+            squalor = sum([amount for effect, amount in self.effects_to_province.items() if "squalor" in effect])
+            return sanitation - squalor
+        else:
+            sanitation = sum(
+                [amount for effect, amount in self.effects_to_region.items() if 'sanitation_buildings' in effect])
+            squalor = sum([amount for effect, amount in self.effects_to_region.items() if "squalor" in effect])
+            sanitation += sum(
+                [amount for effect, amount in self.effects_to_building.items() if 'sanitation_buildings' in effect])
+            squalor += sum([amount for effect, amount in self.effects_to_building.items() if "squalor" in effect])
+            return sanitation - squalor
 
     def food(self):
         """
         For every effects dictionaries, if it contains food and production, we sum the values. If it contains food and consumption, we subtract the values.
         :return: sum of food production values minus food consumption values.
         """
-        etf = sum([amount for effect, amount in self.effects_to_faction.items() if "food" in effect and 'production' in effect])
-        etp = sum([amount for effect, amount in self.effects_to_province.items() if "food" in effect and 'production' in effect])
-        etr = sum([amount for effect, amount in self.effects_to_region.items() if "food" in effect and 'production' in effect])
-        etb = sum([amount for effect, amount in self.effects_to_building.items() if "food" in effect and 'production' in effect])
+        etf = sum([amount for effect, amount in self.effects_to_faction.items() if
+                   "food" in effect and 'production' in effect])
+        etp = sum([amount for effect, amount in self.effects_to_province.items() if
+                   "food" in effect and 'production' in effect])
+        etr = sum([amount for effect, amount in self.effects_to_region.items() if
+                   "food" in effect and 'production' in effect])
+        etb = sum([amount for effect, amount in self.effects_to_building.items() if
+                   "food" in effect and 'production' in effect])
         food_production = etf + etp + etr + etb
-        etf = sum([amount for effect, amount in self.effects_to_faction.items() if "food" in effect and 'consumption' in effect])
-        etp = sum([amount for effect, amount in self.effects_to_province.items() if "food" in effect and 'consumption' in effect])
-        etr = sum([amount for effect, amount in self.effects_to_region.items() if "food" in effect and 'consumption' in effect])
-        etb = sum([amount for effect, amount in self.effects_to_building.items() if "food" in effect and 'consumption' in effect])
+        etf = sum([amount for effect, amount in self.effects_to_faction.items() if
+                   "food" in effect and 'consumption' in effect])
+        etp = sum([amount for effect, amount in self.effects_to_province.items() if
+                   "food" in effect and 'consumption' in effect])
+        etr = sum([amount for effect, amount in self.effects_to_region.items() if
+                   "food" in effect and 'consumption' in effect])
+        etb = sum([amount for effect, amount in self.effects_to_building.items() if
+                   "food" in effect and 'consumption' in effect])
         food_consumption = etf + etp + etr + etb
         return food_production - food_consumption
 
@@ -157,9 +201,11 @@ class RegionType(enum.Enum):
     ATTILA_REGION_MAJOR = 1
     ATTILA_REGION_MINOR = 2
 
+
 class RegionHasPort(enum.Enum):
     ATTILA_REGION_NO_PORT = 1
     ATTILA_REGION_PORT = 2
+
 
 class RegionHasRessource(enum.Enum):
     ATTILA_REGION_NO_RESSOURCE = 1
@@ -176,6 +222,7 @@ class RegionHasRessource(enum.Enum):
     ATTILA_REGION_LEAD = 12
     ATTILA_REGION_OLIVES = 13
     ATTILA_REGION_CHURCH = 14
+
 
 @dataclass
 class RegionAttila:
@@ -194,6 +241,7 @@ def building_is_major(building_name: str) -> bool:
         return True
     return False
 
+
 def building_is_minor(building_name: str) -> bool:
     """
     Check if a building is minor (village).
@@ -204,13 +252,16 @@ def building_is_minor(building_name: str) -> bool:
         return True
     return False
 
+
 def building_is_not_of_faction(building_name: str) -> bool:
     """
     Check if a building is of the faction currently assigned in Games.
     :param building_name:
     :return:
     """
-    if Games.faction == AttilaFactions.ATTILA_ROMAN_EAST and ("roman" in building_name and "west" not in building_name) or ("orthodox" in building_name) or ("all" in building_name and "camel" not in building_name):
+    if Games.faction == AttilaFactions.ATTILA_ROMAN_EAST and (
+            "roman" in building_name and "west" not in building_name) or ("orthodox" in building_name) or (
+            "all" in building_name and "camel" not in building_name):
         return False
     return True
 
@@ -230,6 +281,7 @@ class Region:
     """
     A region contains buildings.
     """
+
     def __init__(self, n_buildings: int, name: str):
         self.n_buildings = n_buildings  # Number of buildings that can be built in the region. NOT equal to len(buildings).
         self.buildings: List[Building] = []  # List of buildings that are potentially fit for the region.
@@ -292,132 +344,55 @@ class Region:
         :return:
         """
         # Remove buildings that are illegal
+        resource_constraints = {
+            RegionHasRessource.ATTILA_REGION_SPICE: ("spice", True),
+            RegionHasRessource.ATTILA_REGION_FURS: ("furs", False),
+            RegionHasRessource.ATTILA_REGION_IRON: ("iron", False),
+            RegionHasRessource.ATTILA_REGION_WINE: ("wine", False),
+            RegionHasRessource.ATTILA_REGION_WOOD: ("wood", False),
+            RegionHasRessource.ATTILA_REGION_GOLD: ("gold", False),
+            RegionHasRessource.ATTILA_REGION_MARBLE: ("marble", False),
+            RegionHasRessource.ATTILA_REGION_GEMS: ("gems", False),
+            RegionHasRessource.ATTILA_REGION_SILK: ("silk", False),
+            RegionHasRessource.ATTILA_REGION_SALT: ("salt", False),
+            RegionHasRessource.ATTILA_REGION_LEAD: ("lead", False),
+            RegionHasRessource.ATTILA_REGION_OLIVES: ("olives", False),
+            RegionHasRessource.ATTILA_REGION_CHURCH: ("legendary", True),
+        }
+        resources = {k: v[0] for k, v in resource_constraints.items()}
+
         for i, building in reversed(list(enumerate(self.buildings))):
             if region.has_ressource != RegionHasRessource.ATTILA_REGION_CHURCH and "religion" in building.name and "legendary" in building.name:
                 self.buildings.pop(i)
-            if region.has_ressource == RegionHasRessource.ATTILA_REGION_NO_RESSOURCE and building_is_resource(building):
+            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_NO_RESSOURCE and building_is_resource(
+                    building):
                 self.buildings.pop(i)
-            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_SPICE:
-                # Remove all resources that are not spice (and ports)
-                if "resource" in building.name and "spice" not in building.name:
-                    self.buildings.pop(i)
-            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_FURS:
-                # If name contains resource and port, keep, if contains resource and furs, keep, else remove.
-                if ("resource" in building.name and "port" not in building.name and "furs" not in building.name) or "spice" in building.name:
-                    self.buildings.pop(i)
-            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_IRON:
-                if ("resource" in building.name and "iron" not in building.name and "port" not in building.name) or "spice" in building.name:
-                    self.buildings.pop(i)
-            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_WINE:
-                if ("resource" in building.name and "wine" not in building.name and "port" not in building.name) or "spice" in building.name:
-                    self.buildings.pop(i)
-            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_WOOD:
-                if ("resource" in building.name and "wood" not in building.name and "port" not in building.name) or "spice" in building.name:
-                    self.buildings.pop(i)
-            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_GOLD:
-                if ("resource" in building.name and "gold" not in building.name and "port" not in building.name) or "spice" in building.name:
-                    self.buildings.pop(i)
-            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_MARBLE:
-                if ("resource" in building.name and "marble" not in building.name and "port" not in building.name) or "spice" in building.name:
-                    self.buildings.pop(i)
-            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_GEMS:
-                if ("resource" in building.name and "gems" not in building.name and "port" not in building.name) or "spice" in building.name:
-                    self.buildings.pop(i)
-            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_SILK:
-                if ("resource" in building.name and "silk" not in building.name and "port" not in building.name) or "spice" in building.name:
-                    self.buildings.pop(i)
-            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_SALT:
-                if ("resource" in building.name and "salt" not in building.name and "port" not in building.name) or "spice" in building.name:
-                    self.buildings.pop(i)
-            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_LEAD:
-                if ("resource" in building.name and "lead" not in building.name and "port" not in building.name) or "spice" in building.name:
-                    self.buildings.pop(i)
-            elif region.has_ressource == RegionHasRessource.ATTILA_REGION_OLIVES:
-                if ("resource" in building.name and "olives" not in building.name and "port" not in building.name) or "spice" in building.name:
+            elif region.has_ressource in resources:
+                resource = resources[region.has_ressource]
+                if (
+                        "resource" in building.name
+                        and resource not in building.name
+                        and "port" not in building.name
+                ) or "spice" in building.name:
                     self.buildings.pop(i)
             elif region.has_ressource == RegionHasRessource.ATTILA_REGION_CHURCH:
                 if ("resource" in building.name and "port" not in building.name) or "spice" in building.name:
                     self.buildings.pop(i)
 
-        # Add constraints, which make sure we use the resource building. It actually should be optional in Attila, but we make it mandatory for now.
-        if region.has_ressource == RegionHasRessource.ATTILA_REGION_SPICE:
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in self.buildings
-                if "resource" in building.name and "spice" in building.name
-            ) == 1, f"{self.name}_Spice_Resource_Constraint"
-        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_FURS:
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in self.buildings
-                if "resource" in building.name and "furs" in building.name
-            ) <= 1, f"{self.name}_Furs_Resource_Constraint"
-        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_IRON:
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in self.buildings
-                if "resource" in building.name and "iron" in building.name
-            ) <= 1, f"{self.name}_Iron_Resource_Constraint"
-        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_WINE:
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in self.buildings
-                if "resource" in building.name and "wine" in building.name
-            ) <= 1, f"{self.name}_Wine_Resource_Constraint"
-        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_WOOD:
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in self.buildings
-                if "resource" in building.name and "wood" in building.name
-            ) <= 1, f"{self.name}_Wood_Resource_Constraint"
-        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_GOLD:
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in self.buildings
-                if "resource" in building.name and "gold" in building.name
-            ) <= 1, f"{self.name}_Gold_Resource_Constraint"
-        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_MARBLE:
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in self.buildings
-                if "resource" in building.name and "marble" in building.name
-            ) <= 1, f"{self.name}_Marble_Resource_Constraint"
-        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_GEMS:
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in self.buildings
-                if "resource" in building.name and "gems" in building.name
-            ) <= 1, f"{self.name}_Gems_Resource_Constraint"
-        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_SILK:
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in self.buildings
-                if "resource" in building.name and "silk" in building.name
-            ) <= 1, f"{self.name}_Silk_Resource_Constraint"
-        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_SALT:
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in self.buildings
-                if "resource" in building.name and "salt" in building.name
-            ) <= 1, f"{self.name}_Salt_Resource_Constraint"
-        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_LEAD:
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in self.buildings
-                if "resource" in building.name and "lead" in building.name
-            ) <= 1, f"{self.name}_Lead_Resource_Constraint"
-        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_OLIVES:
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in self.buildings
-                if "resource" in building.name and "olives" in building.name
-            ) <= 1, f"{self.name}_Olives_Resource_Constraint"
-        elif region.has_ressource == RegionHasRessource.ATTILA_REGION_CHURCH:
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in self.buildings
-                if "resource" in building.name and "legendary" in building.name
-            ) == 1, f"{self.name}_Church_Resource_Constraint"
+        # Add constraints dynamically based on the resource type
+        if region.has_ressource in resource_constraints:
+            chain_name, chain_is_mandatory = resource_constraints[region.has_ressource]
+            constraint = (
+                lpSum(
+                    building.lp_variable
+                    for building in self.buildings
+                    if "resource" in building.name and chain_name in building.name
+                )
+            )
+            if chain_is_mandatory:
+                Games.problem += constraint == 1, f"{self.name}_{chain_name.capitalize()}_Resource_Constraint"
+            else:
+                Games.problem += constraint <= 1, f"{self.name}_{chain_name.capitalize()}_Resource_Constraint"
 
     def add_type_constraint(self, region: RegionAttila):
         """
@@ -446,20 +421,20 @@ class Region:
 
     def add_chain_constraint(self):
         """
-        Add chain constraint to the region. building_1 and building_2 are exclusive, because it is an upgrade.
+        Add chain constraint to the region. buildingX_1 and buildingX_2 are exclusive, because it is an upgrade.
 
         :return:
         """
-        dictionary = defaultdict(list)
+        dictionary = defaultdict(list[Building])
         for building in self.buildings:
             # name is everything until last underscore
             name = building.name.split("_")[:-1]
             dictionary["_".join(name)].append(building)
-        for key, value in dictionary.items():
+        for building_chain, building_list in dictionary.items():
             Games.problem += lpSum(
                 building.lp_variable
-                for building in value
-            ) <= 1, f"{self.name}_Chain_Constraint_{key}"
+                for building in building_list
+            ) <= 1, f"{self.name}_Chain_Constraint_{building_chain}"
 
     def add_building_count_constraint(self):
         """
@@ -475,25 +450,18 @@ class Province:
     """
     We need to create a Province class that contains a list of regions.
     """
+
     def __init__(self, n_regions: int, name: str):
         self.regions = []
         self.n_regions = n_regions
         self.name = name
 
-    def get_sanitation_province(self):
+    def add_region(self, region: Region):
         """
-        Calculate the sanitation of the province excluding regional sanitation.
+        Add a region to the province.
+        :param region:
         :return:
         """
-        sanitation_province = 0
-        for building in self.buildings():
-            if "sanitation_buildings" in building.effects_to_province:
-                sanitation_province += building.effects_to_province["sanitation_buildings"]
-            if "squalor" in building.effects_to_province:
-                sanitation_province -= building.effects_to_province["squalor"]
-        return sanitation_province
-
-    def add_region(self, region: Region):
         self.regions.append(region)
 
     def add_public_order_constraint(self):
@@ -503,8 +471,7 @@ class Province:
         """
         Games.problem += lpSum(
             building.public_order() * building.lp_variable
-            for region in self.regions
-            for building in region.buildings
+            for building in self.buildings()
         ) >= 0, "Public_Order_Constraint"
 
     def add_food_constraint(self):
@@ -514,8 +481,7 @@ class Province:
         """
         Games.problem += lpSum(
             building.food() * building.lp_variable
-            for region in self.regions
-            for building in region.buildings
+            for building in self.buildings()
         ) >= 0, "Food_Constraint"
 
     def add_sanitation_constraint(self):
@@ -528,7 +494,10 @@ class Province:
             Games.problem += lpSum(
                 building.sanitation() * building.lp_variable
                 for building in region.buildings
-            ) >= 1 - self.get_sanitation_province(), f"Sanitation_Constraint_{region.name}"
+            ) >= 1 - lpSum(
+                building.sanitation_scope(Scope.PROVINCE) * building.lp_variable
+                for building in self.buildings()
+            ), f"Sanitation_Constraint_{region.name}"
 
     def buildings(self) -> List[Building]:
         """

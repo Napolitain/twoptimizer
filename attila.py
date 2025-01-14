@@ -1,6 +1,5 @@
 # att_effect_economy_gdp_industry
 # att_bld_roman_west_city_major_1
-from itertools import combinations
 
 # PuLP is an linear and mixed integer programming modeler written in Python.
 from pulp import *
@@ -22,7 +21,6 @@ We need to optimize using linear programming the economy of a province, here usi
 """
 ('cha_effect_imperium', 'faction_to_faction_own_unseen', '10.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '200.0000'), ('att_effect_public_order_base', 'province_to_province_own', '2.0000'), ('att_effect_region_resource_wine_production', 'building_to_building_own', '10.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '300.0000'), ('att_effect_public_order_base', 'province_to_province_own', '4.0000'), ('att_effect_region_resource_wine_production', 'building_to_building_own', '15.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '400.0000'), ('att_effect_public_order_base', 'province_to_province_own', '6.0000'), ('att_effect_region_resource_wine_production', 'building_to_building_own', '20.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '200.0000'), ('att_effect_province_growth_building', 'province_to_province_own', '2.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '300.0000'), ('att_effect_province_growth_building', 'province_to_province_own', '4.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '400.0000'), ('att_effect_province_growth_building', 'province_to_province_own', '6.0000'), ('att_effect_economy_gdp_mod_industry', 'province_to_region_own', '10.0000'), ('att_effect_region_resource_wood_production', 'building_to_building_own', '10.0000'), ('att_effect_economy_gdp_mod_industry', 'province_to_region_own', '20.0000'), ('att_effect_region_resource_wood_production', 'building_to_building_own', '15.0000'), ('att_effect_economy_gdp_mod_industry', 'province_to_region_own', '30.0000'), ('att_effect_region_resource_wood_production', 'building_to_building_own', '20.0000')]})
 """
-
 
 if __name__ == '__main__':
     # Read file data.tsv (tabulated)
@@ -59,9 +57,12 @@ if __name__ == '__main__':
     problem = Games.problem
     Games.faction = AttilaFactions.ATTILA_ROMAN_EAST
 
-    constantinople.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MAJOR, RegionHasPort.ATTILA_REGION_PORT, RegionHasRessource.ATTILA_REGION_CHURCH))
-    marcianopolis.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT, RegionHasRessource.ATTILA_REGION_NO_RESSOURCE))
-    trimontium.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT, RegionHasRessource.ATTILA_REGION_GOLD))
+    constantinople.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MAJOR, RegionHasPort.ATTILA_REGION_PORT,
+                                              RegionHasRessource.ATTILA_REGION_CHURCH))
+    marcianopolis.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT,
+                                             RegionHasRessource.ATTILA_REGION_NO_RESSOURCE))
+    trimontium.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT,
+                                          RegionHasRessource.ATTILA_REGION_GOLD))
 
     # Objective function: Maximize GDP
     problem += lpSum(
@@ -78,9 +79,6 @@ if __name__ == '__main__':
         region.add_chain_constraint()
         region.add_building_count_constraint()
 
-    for building in thrace.buildings():
-        print(building)
-
     # Solve the problem
     status = problem.solve()
 
@@ -90,28 +88,3 @@ if __name__ == '__main__':
         name = "_".join(v.name.split("_")[1:])
         if v.varValue == 1:
             print(v.name, "=", Games.buildings["att"][name])
-
-    # Check if the problem is infeasible
-    if LpStatus[status] == "Infeasible":
-        print("The problem is infeasible. Checking violated constraints...\n")
-        for name, constraint in problem.constraints.items():
-            # Evaluate LHS and RHS of the constraint
-            lhs = constraint.value()
-            rhs = constraint.constant
-            sense = constraint.sense
-
-            # Check if the constraint is violated
-            violated = False
-            if sense == -1 and lhs > rhs:  # <= constraint violated
-                violated = True
-            elif sense == 0 and lhs != rhs:  # == constraint violated
-                violated = True
-            elif sense == 1 and lhs < rhs:  # >= constraint violated
-                violated = True
-
-            # Print violated constraints
-            if violated:
-                print(f"Constraint '{name}' is violated.")
-                print(f"  LHS: {lhs}")
-                print(f"  RHS: {rhs}")
-                print(f"  Sense: {'<=' if sense == -1 else '==' if sense == 0 else '>='}\n")
