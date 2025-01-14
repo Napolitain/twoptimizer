@@ -344,7 +344,6 @@ class Region:
         :param region:
         :return:
         """
-        # Remove buildings that are illegal
         resource_constraints = {
             RegionHasRessource.ATTILA_REGION_SPICE: ("spice", True),
             RegionHasRessource.ATTILA_REGION_FURS: ("furs", False),
@@ -363,6 +362,7 @@ class Region:
         }
         resources = {k: v[0] for k, v in resource_constraints.items()}
 
+        # Remove buildings that are illegal
         for i, building in reversed(list(enumerate(self.buildings))):
             if region.has_ressource != RegionHasRessource.ATTILA_REGION_CHURCH_CATHOLIC and "religion_catholic_legendary" in building.name:
                 self.buildings.pop(i)
@@ -390,7 +390,9 @@ class Region:
                 lpSum(
                     building.lp_variable
                     for building in self.buildings
-                    if "resource" in building.name and chain_name in building.name
+                    if chain_name in building.name and (
+                            "resource" in building.name or "religion" in chain_name
+                    )
                 )
             )
             if chain_is_mandatory:
