@@ -26,6 +26,7 @@ class AttilaFactions(enum.Enum):
     ATTILA_SUEBI = 12
     ATTILA_HUNS = 13
     ATTILA_ALANS = 14
+    ATTILA_SASSANIDS = 15
 
 
 class Games:
@@ -96,6 +97,8 @@ class Building(Effect):
         return f"{self.name}, GDP: {self.gdp()}, Public Order: {self.public_order()}, Sanitation: {self.sanitation()}, Food: {self.food()}"
 
     def add_effect(self, effect: str, scope: str, amount: float):
+        # if "fertility" in effect:
+        #     amount *= Province.fertility
         if scope.startswith('faction'):
             self.effects_to_faction[effect] = amount
         elif scope.startswith('province'):
@@ -107,18 +110,30 @@ class Building(Effect):
 
     def gdp(self):
         """
-        For every effects dictionaries, if it contains gdp, and it doesn't contain mod, we sum the values.
-        :return: sum of gdp values
+        Calculate the total GDP by summing GDP values from effects,
+        adjusted for fertility where applicable.
+        :return: total GDP value.
         """
-        etf = sum(
-            [amount for effect, amount in self.effects_to_faction.items() if "gdp" in effect and 'mod' not in effect])
-        etp = sum(
-            [amount for effect, amount in self.effects_to_province.items() if "gdp" in effect and 'mod' not in effect])
-        etr = sum(
-            [amount for effect, amount in self.effects_to_region.items() if "gdp" in effect and 'mod' not in effect])
-        etb = sum(
-            [amount for effect, amount in self.effects_to_building.items() if "gdp" in effect and 'mod' not in effect])
-        return etf + etp + etr + etb
+
+        def calculate_gdp(include_fertility=False):
+            sources = [
+                self.effects_to_faction,
+                self.effects_to_province,
+                self.effects_to_region,
+                self.effects_to_building,
+            ]
+            gdp_sum = sum(
+                amount
+                for source in sources
+                for effect, amount in source.items()
+                if "gdp" in effect and "mod" not in effect and (include_fertility == ("fertility" in effect))
+            )
+            return gdp_sum * (Province.fertility if include_fertility else 1)
+
+        base_gdp = calculate_gdp()
+        fertility_gdp = calculate_gdp(include_fertility=True)
+
+        return base_gdp + fertility_gdp
 
     def public_order(self):
         """
@@ -173,27 +188,29 @@ class Building(Effect):
 
     def food(self):
         """
-        For every effects dictionaries, if it contains food and production, we sum the values. If it contains food and consumption, we subtract the values.
-        :return: sum of food production values minus food consumption values.
+        Calculate the net food production by summing food production values
+        (adjusted for fertility where applicable) and subtracting food consumption values.
+        :return: net food production.
         """
-        etf = sum([amount for effect, amount in self.effects_to_faction.items() if
-                   "food" in effect and 'production' in effect])
-        etp = sum([amount for effect, amount in self.effects_to_province.items() if
-                   "food" in effect and 'production' in effect])
-        etr = sum([amount for effect, amount in self.effects_to_region.items() if
-                   "food" in effect and 'production' in effect])
-        etb = sum([amount for effect, amount in self.effects_to_building.items() if
-                   "food" in effect and 'production' in effect])
-        food_production = etf + etp + etr + etb
-        etf = sum([amount for effect, amount in self.effects_to_faction.items() if
-                   "food" in effect and 'consumption' in effect])
-        etp = sum([amount for effect, amount in self.effects_to_province.items() if
-                   "food" in effect and 'consumption' in effect])
-        etr = sum([amount for effect, amount in self.effects_to_region.items() if
-                   "food" in effect and 'consumption' in effect])
-        etb = sum([amount for effect, amount in self.effects_to_building.items() if
-                   "food" in effect and 'consumption' in effect])
-        food_consumption = etf + etp + etr + etb
+
+        def calculate_food(effect_type, include_fertility=False):
+            sources = [
+                self.effects_to_faction,
+                self.effects_to_province,
+                self.effects_to_region,
+                self.effects_to_building,
+            ]
+            food_sum = sum(
+                amount
+                for source in sources
+                for effect, amount in source.items()
+                if "food" in effect and effect_type in effect and (include_fertility == ("fertility" in effect))
+            )
+            return food_sum * (Province.fertility if include_fertility else 1)
+
+        food_production = calculate_food("production") + calculate_food("production", include_fertility=True)
+        food_consumption = calculate_food("consumption")
+
         return food_production - food_consumption
 
 
@@ -261,10 +278,26 @@ def building_is_not_of_faction(building_name: str) -> bool:
     :return:
     """
     split_name = building_name.split("_")
-    if Games.faction == AttilaFactions.ATTILA_ROMAN_EAST and (
-            "roman" in building_name and "west" not in building_name) or ("orthodox" in building_name) or (
-            "all" in split_name and "camel" not in building_name and "pigs" not in building_name):
-        return False
+    if Games.faction == AttilaFactions.ATTILA_ROMAN_EAST:
+        if (
+                "roman" in building_name and "west" not in building_name) or ("orthodox" in building_name) or (
+                "all" in split_name and "camel" not in building_name and "pigs" not in building_name):
+            return False
+    if Games.faction == AttilaFactions.ATTILA_ROMAN_WEST:
+        if (
+                "roman" in building_name and "east" not in building_name) or ("catholic" in building_name) or (
+                "all" in split_name and "camel" not in building_name and "pigs" not in building_name):
+            return False
+    if Games.faction == AttilaFactions.ATTILA_FRANKS:
+        if "barbarian" in building_name or (
+                "catholic" in building_name) or (
+                "all" in split_name and "camel" not in building_name and "pigs" not in building_name):
+            return False
+    if Games.faction == AttilaFactions.ATTILA_SASSANIDS:
+        if "eastern" in building_name or (
+                "zoro" in building_name) or (
+                "all" in split_name and "cows" not in building_name and "pigs" not in building_name):
+            return False
     return True
 
 
@@ -512,11 +545,20 @@ class Province:
     """
     We need to create a Province class that contains a list of regions.
     """
+    fertility = 3
 
     def __init__(self, n_regions: int, name: str):
         self.regions = []
         self.n_regions = n_regions
         self.name = name
+
+    def set_fertility(self, fertility: int):
+        """
+        Set the fertility of the province.
+        :param fertility:
+        :return:
+        """
+        Province.fertility = fertility
 
     def add_region(self, region: Region):
         """

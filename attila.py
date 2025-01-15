@@ -55,7 +55,7 @@ if __name__ == '__main__':
     # Linear programming problem
     # Create a gdp maximization problem
     problem = Games.problem
-    Games.faction = AttilaFactions.ATTILA_ROMAN_EAST
+    Games.faction = AttilaFactions.ATTILA_SASSANIDS
 
     constantinople.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MAJOR, RegionHasPort.ATTILA_REGION_PORT,
                                               RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX))
@@ -66,9 +66,14 @@ if __name__ == '__main__':
 
     # Filter out all buildings
     for region in thrace.regions:
+        # Filter out city build below x (to force a city level)
         region.filter_city_level(4)
 
+    # Set province wide fertility : impacts food and GDP
+    thrace.set_fertility(1)
+
     # Objective function: Maximize GDP on LpVariables (buildings) that are remaining
+    # After this, we CANNOT change the buildings anymore, because LpVariables are already factored in the objective function.
     problem += lpSum(
         building.gdp() * building.lp_variable
         for building in thrace.buildings()
@@ -77,6 +82,7 @@ if __name__ == '__main__':
     # Regional constraints
     for region in thrace.regions:
         region.add_constraints()
+    # Sanitation is regional, but requires province wide view to look at province wide effects
     thrace.add_sanitation_constraint()
 
     # Province constraints
