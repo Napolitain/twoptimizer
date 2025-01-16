@@ -576,7 +576,7 @@ class Province:
         Games.problem += lpSum(
             building.public_order() * building.lp_variable
             for building in self.buildings()
-        ) >= 0, "Public_Order_Constraint"
+        ) >= 0, f"{self.name}_Public_Order_Constraint"
 
     def add_food_constraint(self):
         """
@@ -586,7 +586,7 @@ class Province:
         Games.problem += lpSum(
             building.food() * building.lp_variable
             for building in self.buildings()
-        ) >= 0, "Food_Constraint"
+        ) >= 0, f"{self.name}_Food_Constraint"
 
     def add_sanitation_constraint(self):
         """
@@ -601,7 +601,7 @@ class Province:
             ) >= 1 - lpSum(
                 building.sanitation_scope(Scope.PROVINCE) * building.lp_variable
                 for building in self.buildings()
-            ), f"Sanitation_Constraint_{region.name}"
+            ), f"{self.name}_Sanitation_Constraint_{region.name}"
 
     def buildings(self) -> List[Building]:
         """
@@ -609,3 +609,28 @@ class Province:
         :return:
         """
         return [building for region in self.regions for building in region.buildings]
+
+
+class Problem:
+    def __init__(self):
+        """
+        Init a linear programming problem.
+        """
+        self.provinces: List[Province] = []
+        self.problem = LpProblem("GDP Maximization", LpMaximize)
+        Games.problem = self.problem
+
+    def add_province(self, province: Province):
+        """
+        Add a province to the problem.
+        :param province:
+        :return:
+        """
+        self.provinces.append(province)
+
+    def buildings(self) -> List[Building]:
+        """
+        Return all buildings in the problem that are potentially built. Basically, will be all our LpVariables.
+        :return:
+        """
+        return [building for province in self.provinces for region in province.regions for building in region.buildings]

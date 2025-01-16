@@ -5,7 +5,7 @@
 from pulp import *
 
 from twoptimizer import Building, Province, Region, RegionAttila, RegionHasPort, RegionHasRessource, RegionType, Games, \
-    AttilaFactions
+    AttilaFactions, Problem
 
 """
 A province contains n regions.
@@ -43,6 +43,8 @@ if __name__ == '__main__':
             Games.buildings[game][name].add_effect(effect, scope, float(amount))
 
     # Create a province, with regions, and buildings constraints.
+    Games.faction = AttilaFactions.ATTILA_ROMAN_EAST
+
     thrace = Province(3, "Thrace")
     constantinople = Region(6, "Constantinople")
     marcianopolis = Region(4, "Marcianopolis")
@@ -52,48 +54,67 @@ if __name__ == '__main__':
     thrace.add_region(marcianopolis)
     thrace.add_region(trimontium)
 
+    macedonia = Province(3, "Macedonia")
+    thessalonica = Region(6, "Thessalonica")
+    corinthus = Region(4, "Corinthus")
+    dyrrachium = Region(4, "Dyrrachium")
+    macedonia.add_region(thessalonica)
+    macedonia.add_region(corinthus)
+    macedonia.add_region(dyrrachium)
+
     # Linear programming problem
     # Create a gdp maximization problem
-    problem = Games.problem
-    Games.faction = AttilaFactions.ATTILA_SASSANIDS
+    lp_problem = Problem()
+    # lp_problem.add_province(thrace)
+    # constantinople.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MAJOR, RegionHasPort.ATTILA_REGION_PORT,
+    #                                           RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX))
+    # marcianopolis.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT,
+    #                                          RegionHasRessource.ATTILA_REGION_NO_RESSOURCE))
+    # trimontium.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT,
+    #                                       RegionHasRessource.ATTILA_REGION_GOLD))
+    lp_problem.add_province(macedonia)
+    thessalonica.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MAJOR, RegionHasPort.ATTILA_REGION_PORT,
+                                            RegionHasRessource.ATTILA_REGION_NO_RESSOURCE))
+    corinthus.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_PORT,
+                                         RegionHasRessource.ATTILA_REGION_NO_RESSOURCE))
+    dyrrachium.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_PORT,
+                                          RegionHasRessource.ATTILA_REGION_OLIVES))
 
-    constantinople.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MAJOR, RegionHasPort.ATTILA_REGION_PORT,
-                                              RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX))
-    marcianopolis.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT,
-                                             RegionHasRessource.ATTILA_REGION_NO_RESSOURCE))
-    trimontium.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT,
-                                          RegionHasRessource.ATTILA_REGION_GOLD))
+    for province in lp_problem.provinces:
+        # Filter out all buildings
+        for region in province.regions:
+            # Filter out city build below x (to force a city level)
+            region.filter_city_level(4)
 
-    # Filter out all buildings
-    for region in thrace.regions:
-        # Filter out city build below x (to force a city level)
-        region.filter_city_level(4)
+        # Set province wide fertility : impacts food and GDP
+        province.set_fertility(1)
 
-    # Set province wide fertility : impacts food and GDP
-    thrace.set_fertility(1)
+        # Regional constraints
+        for region in province.regions:
+            region.add_constraints()
+        # Sanitation is regional, but requires province wide view to look at province wide effects
+        province.add_sanitation_constraint()
+
+        # Province constraints
+        province.add_food_constraint()
+        province.add_public_order_constraint()
 
     # Objective function: Maximize GDP on LpVariables (buildings) that are remaining
     # After this, we CANNOT change the buildings anymore, because LpVariables are already factored in the objective function.
-    problem += lpSum(
+    Games.problem += lpSum(
         building.gdp() * building.lp_variable
-        for building in thrace.buildings()
+        for building in lp_problem.buildings()
     ), "Total_GDP"
 
-    # Regional constraints
-    for region in thrace.regions:
-        region.add_constraints()
-    # Sanitation is regional, but requires province wide view to look at province wide effects
-    thrace.add_sanitation_constraint()
-
-    # Province constraints
-    thrace.add_food_constraint()
-    thrace.add_public_order_constraint()
-
     # Solve the problem
-    status = problem.solve()
+    status = Games.problem.solve()
+
+    # Print number of variables, constraints, and status of the solution
+    print(
+        f"Number of variables: {len(Games.problem.variables())}\nNumber of constraints: {len(Games.problem.constraints)}\n")
 
     # Print the variables equal to 1 with their respective contribution
-    for v in problem.variables():
+    for v in Games.problem.variables():
         # name key is the building name split("_") from 1 to end joined by _
         name = "_".join(v.name.split("_")[1:])
         if v.varValue == 1:
