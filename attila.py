@@ -1,11 +1,12 @@
 # att_effect_economy_gdp_industry
 # att_bld_roman_west_city_major_1
+import pathlib
 
 # PuLP is an linear and mixed integer programming modeler written in Python.
 from pulp import *
 
-from twoptimizer import Building, Province, Region, RegionAttila, RegionHasPort, RegionHasRessource, RegionType, Games, \
-    AttilaFactions, Problem
+from twoptimizer import Building, Province, Region, Games, \
+    AttilaFactions, Problem, get_entry_name, EntryType
 
 """
 A province contains n regions.
@@ -23,8 +24,12 @@ We need to optimize using linear programming the economy of a province, here usi
 """
 
 if __name__ == '__main__':
-    # Read file data.tsv (tabulated)
-    with open('data.tsv', 'r') as file:
+    # Attila data folder
+    path = pathlib.Path(__file__).parent.absolute() / "data" / "attila"
+    path_buildings = path / "building_effects_junction_tables.tsv"
+
+    # Read file building_effects_junction_tables.tsv (tabulated)
+    with open(path_buildings, 'r') as file:
         data = file.read()
         data = data.split('\n')
         data = [i.split('\t') for i in data]
@@ -37,10 +42,15 @@ if __name__ == '__main__':
             Games.buildings[game] = {}
         # Filter for att and maximize only gdp for now
         if "att" in name:
+            # building name is the name split("_") from bld to end
+            try:
+                building_name = get_entry_name(name, EntryType.BUILDING)
+            except ValueError:
+                continue
             # Filter only for east romans for now
-            if name not in Games.buildings[game]:
-                Games.buildings[game][name] = Building(name)
-            Games.buildings[game][name].add_effect(effect, scope, float(amount))
+            if building_name not in Games.buildings[game]:
+                Games.buildings[game][building_name] = Building(building_name)
+            Games.buildings[game][building_name].add_effect(effect, scope, float(amount))
 
     # Create a province, with regions, and buildings constraints.
     Games.faction = AttilaFactions.ATTILA_ROMAN_EAST
@@ -65,6 +75,7 @@ if __name__ == '__main__':
     # Linear programming problem
     # Create a gdp maximization problem
     lp_problem = Problem()
+    lp_problem.add_provinces(path)
     # lp_problem.add_province(thrace)
     # constantinople.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MAJOR, RegionHasPort.ATTILA_REGION_PORT,
     #                                           RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX))
@@ -72,13 +83,13 @@ if __name__ == '__main__':
     #                                          RegionHasRessource.ATTILA_REGION_NO_RESSOURCE))
     # trimontium.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT,
     #                                       RegionHasRessource.ATTILA_REGION_GOLD))
-    lp_problem.add_province(macedonia)
-    thessalonica.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MAJOR, RegionHasPort.ATTILA_REGION_PORT,
-                                            RegionHasRessource.ATTILA_REGION_NO_RESSOURCE))
-    corinthus.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_PORT,
-                                         RegionHasRessource.ATTILA_REGION_NO_RESSOURCE))
-    dyrrachium.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_PORT,
-                                          RegionHasRessource.ATTILA_REGION_OLIVES))
+    # lp_problem.add_province(macedonia)
+    # thessalonica.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MAJOR, RegionHasPort.ATTILA_REGION_PORT,
+    #                                         RegionHasRessource.ATTILA_REGION_NO_RESSOURCE))
+    # corinthus.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_PORT,
+    #                                      RegionHasRessource.ATTILA_REGION_NO_RESSOURCE))
+    # dyrrachium.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_PORT,
+    #                                       RegionHasRessource.ATTILA_REGION_OLIVES))
 
     for province in lp_problem.provinces:
         # Filter out all buildings
@@ -87,7 +98,7 @@ if __name__ == '__main__':
             region.filter_city_level(4)
 
         # Set province wide fertility : impacts food and GDP
-        province.set_fertility(1)
+        province.set_fertility(5)
 
         # Regional constraints
         for region in province.regions:
@@ -116,6 +127,6 @@ if __name__ == '__main__':
     # Print the variables equal to 1 with their respective contribution
     for v in Games.problem.variables():
         # name key is the building name split("_") from 1 to end joined by _
-        name = "_".join(v.name.split("_")[1:])
+        name = get_entry_name(v.name, EntryType.BUILDING)
         if v.varValue == 1:
-            print(v.name, "=", Games.buildings["att"][name])
+            print(get_entry_name(v.name, EntryType.REGION), "=", Games.buildings["att"][name])

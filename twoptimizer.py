@@ -2,9 +2,41 @@ import abc
 import enum
 from collections import defaultdict
 from dataclasses import dataclass
+from pathlib import Path
 from typing import List
 
 from pulp import LpVariable, LpInteger, LpProblem, LpMaximize, lpSum
+
+
+class EntryType(enum.Enum):
+    BUILDING = "bld"
+    REGION = "reg"
+    PROVINCE = "prov"
+
+
+def get_entry_name(name: str, entry_type: EntryType) -> str:
+    """
+    Get the building name from the full name.
+    x_y_bld_z -> bld_z
+    :param name: full name
+    :param entry_type: type of the entry (building, region, province)
+    :return: name of the entry
+    """
+    split_name = name.split("_")
+    i = 0
+    while i < len(split_name) and split_name[i] != entry_type.value:
+        i += 1
+    if i == len(split_name):
+        raise ValueError(f"Entry type {entry_type.value} not found in {name}.")
+    # Return everything after the entry type unless it matches any other entry type (e.g. reg, prov)
+    j = i + 1
+    # Matches bld, reg, if we search prov, etc...
+    entries = [entry.value for entry in EntryType if entry != entry_type]
+    while j < len(split_name) and split_name[j] not in entries:
+        j += 1
+    if j == len(split_name):
+        return "_".join(split_name[i:])
+    return "_".join(split_name[i:j])
 
 
 class AttilaFactions(enum.Enum):
@@ -225,21 +257,21 @@ class RegionHasPort(enum.Enum):
 
 
 class RegionHasRessource(enum.Enum):
-    ATTILA_REGION_NO_RESSOURCE = 1
-    ATTILA_REGION_FURS = 2
-    ATTILA_REGION_IRON = 3
-    ATTILA_REGION_WINE = 4
-    ATTILA_REGION_WOOD = 5
-    ATTILA_REGION_GOLD = 6
-    ATTILA_REGION_MARBLE = 7
-    ATTILA_REGION_GEMS = 8
-    ATTILA_REGION_SILK = 9
-    ATTILA_REGION_SPICE = 10
-    ATTILA_REGION_SALT = 11
-    ATTILA_REGION_LEAD = 12
-    ATTILA_REGION_OLIVES = 13
-    ATTILA_REGION_CHURCH_CATHOLIC = 14
-    ATTILA_REGION_CHURCH_ORTHODOX = 15
+    ATTILA_REGION_NO_RESSOURCE = "NONE"
+    ATTILA_REGION_FURS = "furs"
+    ATTILA_REGION_IRON = "iron"
+    ATTILA_REGION_WINE = "wine"
+    ATTILA_REGION_WOOD = "wood"
+    ATTILA_REGION_GOLD = "gold"
+    ATTILA_REGION_MARBLE = "marble"
+    ATTILA_REGION_GEMS = "gems"
+    ATTILA_REGION_SILK = "silk"
+    ATTILA_REGION_SPICE = "spice"
+    ATTILA_REGION_SALT = "salt"
+    ATTILA_REGION_LEAD = "lead"
+    ATTILA_REGION_OLIVES = "olives"
+    ATTILA_REGION_CHURCH_CATHOLIC = "church_catholic"
+    ATTILA_REGION_CHURCH_ORTHODOX = "church_orthodox"
 
 
 @dataclass
@@ -322,9 +354,20 @@ class Region:
         self.buildings: List[Building] = []  # List of buildings that are potentially fit for the region.
         self.effects = defaultdict(list)
         self.name = name
-        self.region_type = None
+        self.region_type = RegionType.ATTILA_REGION_MAJOR
+        self.has_port = RegionHasPort.ATTILA_REGION_NO_PORT
+        self.has_ressource = RegionHasRessource.ATTILA_REGION_NO_RESSOURCE
 
-    def add_buildings(self, region: RegionAttila):
+    def set_region_type(self, region_type):
+        self.region_type = region_type
+
+    def set_has_port(self, has_port):
+        self.has_port = has_port
+
+    def set_has_ressource(self, has_ressource):
+        self.has_ressource = has_ressource
+
+    def add_buildings(self, region: RegionAttila = None):
         """
         Add buildings to the region.
         It should filter buildings based on the region type, port, and resource.
@@ -334,15 +377,20 @@ class Region:
         :param region:
         :return:
         """
-        self.region_type = region
+        if region is not None:
+            self.region_type = region.region_type
+            self.has_port = region.has_port
+            self.has_ressource = region.has_ressource
+        elif self.region_type is None or self.has_port is None or self.has_ressource is None:
+            raise ValueError("Region type must be set before adding buildings.")
         # Add buildings Lp variables to the region.
         for building in Games.buildings[Games.current_game].values():
             # Filter out buildings that are not of the faction to reduce the number of LpVariables.
             if building_is_not_of_faction(building.name):
                 continue
-            if region.region_type == RegionType.ATTILA_REGION_MAJOR and building_is_minor(building.name):
+            if self.region_type == RegionType.ATTILA_REGION_MAJOR and building_is_minor(building.name):
                 continue
-            if region.region_type == RegionType.ATTILA_REGION_MINOR and building_is_major(building.name):
+            if self.region_type == RegionType.ATTILA_REGION_MINOR and building_is_major(building.name):
                 continue
             if "ruin" in building.name:
                 continue
@@ -360,26 +408,25 @@ class Region:
         Add constraints to the region, after filtering out.
         :return:
         """
-        self.add_type_constraint(self.region_type)
-        self.add_resource_constraint(self.region_type)
-        self.add_port_constraint(self.region_type)
+        self.add_type_constraint()
+        self.add_resource_constraint()
+        self.add_port_constraint()
         self.add_chain_constraint()
         self.add_building_count_constraint()
 
     def filter_port(self):
-        if self.region_type.has_port != RegionHasPort.ATTILA_REGION_PORT:
+        if self.has_port != RegionHasPort.ATTILA_REGION_PORT:
             # Filter out all ports that are not spice if the region has no port to reduce the number of LpVariables.
             for i, building in reversed(list(enumerate(self.buildings))):
                 if "port" in building.name and "spice" not in building.name:
                     self.buildings.pop(i)
 
-    def add_port_constraint(self, region: RegionAttila):
+    def add_port_constraint(self):
         """
         If the region has a port, then we can add a constraint that the number of buildings in the region with "port" is between 1 and 1.
-        :param region:
         :return:
         """
-        if region.has_port == RegionHasPort.ATTILA_REGION_PORT:
+        if self.has_port == RegionHasPort.ATTILA_REGION_PORT:
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
@@ -411,26 +458,26 @@ class Region:
 
         # Remove buildings that are illegal
         for i, building in reversed(list(enumerate(self.buildings))):
-            if self.region_type.has_ressource != RegionHasRessource.ATTILA_REGION_CHURCH_CATHOLIC and "religion_catholic_legendary" in building.name:
+            if self.has_ressource != RegionHasRessource.ATTILA_REGION_CHURCH_CATHOLIC and "religion_catholic_legendary" in building.name:
                 self.buildings.pop(i)
-            elif self.region_type.has_ressource != RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX and "religion_orthodox_legendary" in building.name:
+            elif self.has_ressource != RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX and "religion_orthodox_legendary" in building.name:
                 self.buildings.pop(i)
-            elif self.region_type.has_ressource == RegionHasRessource.ATTILA_REGION_NO_RESSOURCE and building_is_resource(
+            elif self.has_ressource == RegionHasRessource.ATTILA_REGION_NO_RESSOURCE and building_is_resource(
                     building):
                 self.buildings.pop(i)
-            elif self.region_type.has_ressource in resources:
-                resource = resources[self.region_type.has_ressource]
+            elif self.has_ressource in resources:
+                resource = resources[self.has_ressource]
                 if (
                         "resource" in building.name
                         and resource not in building.name
                         and "port" not in building.name
                 ) or "spice" in building.name:
                     self.buildings.pop(i)
-            elif self.region_type.has_ressource == RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX or self.region_type.has_ressource == RegionHasRessource.ATTILA_REGION_CHURCH_CATHOLIC:
+            elif self.has_ressource == RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX or self.has_ressource == RegionHasRessource.ATTILA_REGION_CHURCH_CATHOLIC:
                 if ("resource" in building.name and "port" not in building.name) or "spice" in building.name:
                     self.buildings.pop(i)
 
-    def add_resource_constraint(self, region: RegionAttila):
+    def add_resource_constraint(self):
         """
         If the region has a resource, then we can add a constraint that the number of buildings in the region with "resource" and "spice" is between 1 and 1. That's because
         spice resource is mandatory (is a port). Any other resource is optional.
@@ -455,8 +502,8 @@ class Region:
         }
 
         # Add constraints dynamically based on the resource type
-        if region.has_ressource in resource_constraints:
-            chain_name, chain_is_mandatory = resource_constraints[region.has_ressource]
+        if self.has_ressource in resource_constraints:
+            chain_name, chain_is_mandatory = resource_constraints[self.has_ressource]
             constraint = (
                 lpSum(
                     building.lp_variable
@@ -482,14 +529,13 @@ class Region:
             elif self.region_type == RegionType.ATTILA_REGION_MINOR and building_is_major(building.name):
                 self.buildings.pop(i)
 
-    def add_type_constraint(self, region: RegionAttila):
+    def add_type_constraint(self):
         """
         If the region is major, then we can add a constraint that all buildings with "minor" are between 0 and 0, as well as "agriculture".
         Conversely, disable civic, major buildings in minor regions.
-        :param region:
         :return:
         """
-        if region.region_type == RegionType.ATTILA_REGION_MAJOR:
+        if self.region_type == RegionType.ATTILA_REGION_MAJOR:
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
@@ -627,6 +673,87 @@ class Problem:
         :return:
         """
         self.provinces.append(province)
+
+    def add_provinces(self, file_tsv: Path):
+        """
+        Add all provinces to the problem.
+        :param file_tsv: file containing the provinces schema, usually start_pos_region_slot_templates_table.tsv
+        :return:
+        """
+        # Link region name to province name
+        path_province_region_junctions = file_tsv / "region_to_provinces_junctions_table.tsv"
+        dictionary_regions_to_province = {}
+        with open(path_province_region_junctions, 'r') as file:
+            data = file.read()
+            data = data.split('\n')
+            data = [i.split('\t') for i in data]
+        for province_name, region_name in data:
+            # Filter game
+            if Games.current_game not in province_name:
+                continue
+            pn = get_entry_name(province_name, EntryType.PROVINCE)
+            rn = get_entry_name(region_name, EntryType.REGION)
+            dictionary_regions_to_province[rn] = pn
+        # Link province name to province object
+        dictionary_provinces = {}
+        for province_name in dictionary_regions_to_province.values():
+            if province_name not in dictionary_provinces:
+                dictionary_provinces[province_name] = Province(3, province_name)
+        # Read file building_effects_junction_tables.tsv (tabulated)
+        path_startpos_regions = file_tsv / "start_pos_region_slot_templates_tables.tsv"
+        with open(path_startpos_regions, 'r') as file:
+            data = file.read()
+            data = data.split('\n')
+            data = [i.split('\t') for i in data]
+        dictionary_regions = {}
+        for _, _, full_region_name, type_building, building in data:
+            # Check if it is correct game
+            if Games.current_game not in full_region_name:
+                continue
+            region_name = get_entry_name(full_region_name, EntryType.REGION)
+            # Province name is the regio_name mapped to the province name
+            try:
+                province_name = dictionary_regions_to_province[region_name]
+            except KeyError:
+                print(f"Region {region_name} does not have a province.")
+                continue
+            # If region not in dictionary, add it
+            if region_name not in dictionary_regions:
+                # If building contains "major", it is a major region, else minor
+                if "major" in building:
+                    dictionary_regions[region_name] = Region(6, region_name)
+                else:
+                    dictionary_regions[region_name] = Region(4, region_name)
+                # Add region to province
+                dictionary_provinces[province_name].add_region(dictionary_regions[region_name])
+            # Add resources type / port to region
+            # 1. If type is primary, discard
+            if type_building == "primary":
+                continue
+            # 2. If type is port, add port if it is not "spice".
+            if type_building == "port":
+                if "spice" not in building:
+                    dictionary_regions[region_name].set_has_port(RegionHasPort.ATTILA_REGION_PORT)
+                else:
+                    dictionary_regions[region_name].set_has_ressource(RegionHasRessource.ATTILA_REGION_SPICE)
+            # 3. If type is secondary, add resource
+            if type_building == "secondary":
+                if "city" in building:
+                    dictionary_regions[region_name].set_has_ressource(
+                        RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX)
+                else:
+                    # Check if building is a resource building
+                    for ressource in RegionHasRessource:
+                        if ressource.value in building:
+                            dictionary_regions[region_name].set_has_ressource(ressource)
+        for province in dictionary_provinces.values():
+            self.add_province(province)
+        self.add_buildings()
+
+    def add_buildings(self):
+        for province in self.provinces:
+            for region in province.regions:
+                region.add_buildings()
 
     def buildings(self) -> List[Building]:
         """
