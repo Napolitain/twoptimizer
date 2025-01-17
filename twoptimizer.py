@@ -358,13 +358,13 @@ class Region:
         self.has_port = RegionHasPort.ATTILA_REGION_NO_PORT
         self.has_ressource = RegionHasRessource.ATTILA_REGION_NO_RESSOURCE
 
-    def set_region_type(self, region_type):
+    def set_region_type(self, region_type: RegionType):
         self.region_type = region_type
 
-    def set_has_port(self, has_port):
+    def set_has_port(self, has_port: RegionHasPort):
         self.has_port = has_port
 
-    def set_has_ressource(self, has_ressource):
+    def set_has_ressource(self, has_ressource: RegionHasRessource):
         self.has_ressource = has_ressource
 
     def add_buildings(self, region: RegionAttila = None):
@@ -706,9 +706,9 @@ class Problem:
             data = data.split('\n')
             data = [i.split('\t') for i in data]
         dictionary_regions = {}
-        for _, _, full_region_name, type_building, building in data:
+        for _, game, full_region_name, type_building, building in data:
             # Check if it is correct game
-            if Games.current_game not in full_region_name:
+            if Games.current_game not in full_region_name or "main_attila" not in game:
                 continue
             region_name = get_entry_name(full_region_name, EntryType.REGION)
             # Province name is the regio_name mapped to the province name
@@ -722,8 +722,10 @@ class Problem:
                 # If building contains "major", it is a major region, else minor
                 if "major" in building:
                     dictionary_regions[region_name] = Region(6, region_name)
+                    dictionary_regions[region_name].set_region_type(RegionType.ATTILA_REGION_MAJOR)
                 else:
                     dictionary_regions[region_name] = Region(4, region_name)
+                    dictionary_regions[region_name].set_region_type(RegionType.ATTILA_REGION_MINOR)
                 # Add region to province
                 dictionary_provinces[province_name].add_region(dictionary_regions[region_name])
             # Add resources type / port to region
@@ -747,7 +749,8 @@ class Problem:
                         if ressource.value in building:
                             dictionary_regions[region_name].set_has_ressource(ressource)
         for province in dictionary_provinces.values():
-            self.add_province(province)
+            if province.name == "prov_arabia_felix":
+                self.add_province(province)
         self.add_buildings()
 
     def add_buildings(self):

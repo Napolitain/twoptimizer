@@ -55,19 +55,19 @@ if __name__ == '__main__':
     # Create a province, with regions, and buildings constraints.
     Games.faction = AttilaFactions.ATTILA_ROMAN_EAST
 
-    thrace = Province(3, "Thrace")
-    constantinople = Region(6, "Constantinople")
-    marcianopolis = Region(4, "Marcianopolis")
-    trimontium = Region(4, "Trimontium")
+    thrace = Province(3, "prov_Thrace")
+    constantinople = Region(6, "reg_Constantinople")
+    marcianopolis = Region(4, "reg_Marcianopolis")
+    trimontium = Region(4, "reg_Trimontium")
 
     thrace.add_region(constantinople)
     thrace.add_region(marcianopolis)
     thrace.add_region(trimontium)
 
-    macedonia = Province(3, "Macedonia")
-    thessalonica = Region(6, "Thessalonica")
-    corinthus = Region(4, "Corinthus")
-    dyrrachium = Region(4, "Dyrrachium")
+    macedonia = Province(3, "prov_Macedonia")
+    thessalonica = Region(6, "reg_Thessalonica")
+    corinthus = Region(4, "reg_Corinthus")
+    dyrrachium = Region(4, "reg_Dyrrachium")
     macedonia.add_region(thessalonica)
     macedonia.add_region(corinthus)
     macedonia.add_region(dyrrachium)
