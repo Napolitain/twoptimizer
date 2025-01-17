@@ -1,0 +1,156 @@
+from engines.effect import Effect
+from engines.enums import Scope
+
+
+class Building(Effect):
+    """
+    A building contains effects that can be applied to a province, region, or building.
+    We need to create a Building class that contains a list of effects.
+    """
+    fertility = 3
+
+    def __init__(self, name: str):
+        self.lp_variable = None
+        self.name = name
+        self.effects_to_faction = {}
+        self.effects_to_province = {}
+        self.effects_to_region = {}
+        self.effects_to_building = {}
+
+    def __copy__(self):
+        new_building = Building(self.name)
+        new_building.lp_variable = self.lp_variable
+        new_building.effects_to_faction = self.effects_to_faction.copy()
+        new_building.effects_to_province = self.effects_to_province.copy()
+        new_building.effects_to_region = self.effects_to_region.copy()
+        new_building.effects_to_building = self.effects_to_building.copy()
+        return new_building
+
+    def __hash__(self):
+        return hash(self.name)
+
+    def __eq__(self, other):
+        return self.name == other.name
+
+    def __repr__(self):
+        return [self.name, self.gdp(), self.public_order(), self.sanitation(), self.food()]
+
+    def __str__(self):
+        return f"{self.name}, GDP: {self.gdp()}, Public Order: {self.public_order()}, Sanitation: {self.sanitation()}, Food: {self.food()}"
+
+    def add_effect(self, effect: str, scope: str, amount: float):
+        # if "fertility" in effect:
+        #     amount *= Province.fertility
+        if scope.startswith('faction'):
+            self.effects_to_faction[effect] = amount
+        elif scope.startswith('province'):
+            self.effects_to_province[effect] = amount
+        elif scope.startswith('region'):
+            self.effects_to_region[effect] = amount
+        elif scope.startswith('building'):
+            self.effects_to_building[effect] = amount
+
+    def gdp(self):
+        """
+        Calculate the total GDP by summing GDP values from effects,
+        adjusted for fertility where applicable.
+        :return: total GDP value.
+        """
+
+        def calculate_gdp(include_fertility=False):
+            sources = [
+                self.effects_to_faction,
+                self.effects_to_province,
+                self.effects_to_region,
+                self.effects_to_building,
+            ]
+            gdp_sum = sum(
+                amount
+                for source in sources
+                for effect, amount in source.items()
+                if "gdp" in effect and "mod" not in effect and (include_fertility == ("fertility" in effect))
+            )
+            return gdp_sum * (Building.fertility if include_fertility else 1)
+
+        base_gdp = calculate_gdp()
+        fertility_gdp = calculate_gdp(include_fertility=True)
+
+        return base_gdp + fertility_gdp
+
+    def public_order(self):
+        """
+        For every effects dictionaries, if it contains public_order, we sum the values.
+        :return: sum of public_order values
+        """
+        etf = sum([amount for effect, amount in self.effects_to_faction.items() if "public_order" in effect])
+        etp = sum([amount for effect, amount in self.effects_to_province.items() if "public_order" in effect])
+        etr = sum([amount for effect, amount in self.effects_to_region.items() if "public_order" in effect])
+        etb = sum([amount for effect, amount in self.effects_to_building.items() if "public_order" in effect])
+        return etf + etp + etr + etb
+
+    def sanitation(self):
+        """
+        For every effects dictionaries, if it contains sanitation, we sum the values.
+        If it contains squalor, we subtract the values.
+        :return: sum of sanitation values minus squalor values
+        """
+        etr = sum([amount for effect, amount in self.effects_to_region.items() if 'sanitation_buildings' in effect])
+        etb = sum([amount for effect, amount in self.effects_to_building.items() if 'sanitation_buildings' in effect])
+        sanitation = etr + etb
+        etr = sum([amount for effect, amount in self.effects_to_region.items() if "squalor" in effect])
+        etb = sum([amount for effect, amount in self.effects_to_building.items() if "squalor" in effect])
+        squalor = etr + etb
+        # Province scope will be handled in province class.
+        return sanitation - squalor
+
+    def sanitation_scope(self, scope: Scope) -> float:
+        """
+        For every effects dictionaries, if it contains sanitation, we sum the values.
+        :param scope: Scope of the sanitation.
+        :return: sum of sanitation values
+        """
+        if scope == Scope.FACTION:
+            sanitation = sum(
+                [amount for effect, amount in self.effects_to_faction.items() if 'sanitation_buildings' in effect])
+            squalor = sum([amount for effect, amount in self.effects_to_faction.items() if "squalor" in effect])
+            return sanitation - squalor
+        elif scope == Scope.PROVINCE:
+            sanitation = sum(
+                [amount for effect, amount in self.effects_to_province.items() if 'sanitation_buildings' in effect])
+            squalor = sum([amount for effect, amount in self.effects_to_province.items() if "squalor" in effect])
+            return sanitation - squalor
+        else:
+            sanitation = sum(
+                [amount for effect, amount in self.effects_to_region.items() if 'sanitation_buildings' in effect])
+            squalor = sum([amount for effect, amount in self.effects_to_region.items() if "squalor" in effect])
+            sanitation += sum(
+                [amount for effect, amount in self.effects_to_building.items() if 'sanitation_buildings' in effect])
+            squalor += sum([amount for effect, amount in self.effects_to_building.items() if "squalor" in effect])
+            return sanitation - squalor
+
+    def food(self):
+        """
+        Calculate the net food production by summing food production values
+        (adjusted for fertility where applicable) and subtracting food consumption values.
+        :return: net food production.
+        """
+
+        def calculate_food(effect_type, include_fertility=False):
+            sources = [
+                self.effects_to_faction,
+                self.effects_to_province,
+                self.effects_to_region,
+                self.effects_to_building,
+            ]
+            food_sum = sum(
+                amount
+                for source in sources
+                for effect, amount in source.items()
+                if "food" in effect and effect_type in effect and (include_fertility == ("fertility" in effect))
+            )
+            return food_sum * (Building.fertility if include_fertility else 1)
+
+        food_production = calculate_food("production") + calculate_food("production", include_fertility=True)
+        food_consumption = calculate_food("consumption")
+
+        return food_production - food_consumption

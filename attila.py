@@ -5,8 +5,13 @@ import pathlib
 # PuLP is an linear and mixed integer programming modeler written in Python.
 from pulp import *
 
-from twoptimizer import Building, Province, Region, Games, \
-    AttilaFactions, Problem, get_entry_name, EntryType
+from engines.building import Building
+from engines.enums import EntryType, AttilaFactions
+from engines.games import Games
+from engines.problem import Problem
+from engines.province import Province
+from engines.region import Region
+from engines.utils import get_entry_name
 
 """
 A province contains n regions.
@@ -96,9 +101,11 @@ if __name__ == '__main__':
         for region in province.regions:
             # Filter out city build below x (to force a city level)
             region.filter_city_level(4)
+            region.filter_building_level(4)
+            region.filter_military()
 
         # Set province wide fertility : impacts food and GDP
-        province.set_fertility(5)
+        Building.fertility = 5
 
         # Regional constraints
         for region in province.regions:
@@ -117,12 +124,12 @@ if __name__ == '__main__':
         for building in lp_problem.buildings()
     ), "Total_GDP"
 
-    # Solve the problem
-    status = Games.problem.solve()
-
     # Print number of variables, constraints, and status of the solution
     print(
         f"Number of variables: {len(Games.problem.variables())}\nNumber of constraints: {len(Games.problem.constraints)}\n")
+
+    # Solve the problem
+    status = Games.problem.solve()
 
     # Print the variables equal to 1 with their respective contribution
     for v in Games.problem.variables():
