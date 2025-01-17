@@ -11,6 +11,28 @@ from engines.region import Region
 from engines.utils import get_entry_name
 
 
+def get_dictionary_regions_to_province(file_tsv: Path):
+    """
+    Get a dictionary of regions to province from a tsv file (TW DB)
+    :param file_tsv: path to the game folder
+    :return: dictionary of regions to province (region_name: province_name)
+    """
+    path_province_region_junctions = file_tsv / "region_to_provinces_junctions_table.tsv"
+    dictionary_regions_to_province = {}
+    with open(path_province_region_junctions, 'r') as file:
+        data = file.read()
+        data = data.split('\n')
+        data = [i.split('\t') for i in data]
+    for province_name, region_name in data:
+        # Filter game
+        if Games.current_game not in province_name:
+            continue
+        pn = get_entry_name(province_name, EntryType.PROVINCE)
+        rn = get_entry_name(region_name, EntryType.REGION)
+        dictionary_regions_to_province[rn] = pn
+    return dictionary_regions_to_province
+
+
 class Problem:
     def __init__(self):
         """
@@ -20,7 +42,7 @@ class Problem:
         self.problem = LpProblem("GDP Maximization", LpMaximize)
         Games.problem = self.problem
 
-    def add_province(self, province: Province):
+    def add_province(self, province: Province) -> None:
         """
         Add a province to the problem.
         :param province:
@@ -28,26 +50,14 @@ class Problem:
         """
         self.provinces.append(province)
 
-    def add_provinces(self, file_tsv: Path):
+    def add_provinces(self, file_tsv: Path) -> None:
         """
         Add all provinces to the problem.
         :param file_tsv: file containing the provinces schema, usually start_pos_region_slot_templates_table.tsv
         :return:
         """
         # Link region name to province name
-        path_province_region_junctions = file_tsv / "region_to_provinces_junctions_table.tsv"
-        dictionary_regions_to_province = {}
-        with open(path_province_region_junctions, 'r') as file:
-            data = file.read()
-            data = data.split('\n')
-            data = [i.split('\t') for i in data]
-        for province_name, region_name in data:
-            # Filter game
-            if Games.current_game not in province_name:
-                continue
-            pn = get_entry_name(province_name, EntryType.PROVINCE)
-            rn = get_entry_name(region_name, EntryType.REGION)
-            dictionary_regions_to_province[rn] = pn
+        dictionary_regions_to_province = get_dictionary_regions_to_province(file_tsv)
         # Link province name to province object
         dictionary_provinces = {}
         for province_name in dictionary_regions_to_province.values():
@@ -104,9 +114,8 @@ class Problem:
                             dictionary_regions[region_name].set_has_ressource(resource)
         for province in dictionary_provinces.values():
             self.add_province(province)
-        self.add_buildings()
 
-    def add_buildings(self):
+    def add_buildings(self) -> None:
         for province in self.provinces:
             for region in province.regions:
                 region.add_buildings()
@@ -117,3 +126,23 @@ class Problem:
         :return:
         """
         return [building for province in self.provinces for region in province.regions for building in region.buildings]
+
+    def add_objective(self) -> None:
+        """
+        Add the objective function to the problem.
+        Objective function: Maximize GDP on LpVariables (buildings) that are remaining.
+        After this, we CANNOT change the buildings anymore, because LpVariables are already factored in the objective function.
+        :return: None
+        """
+        self.problem += sum(
+            building.gdp() * building.lp_variable
+            for building in self.buildings()
+        ), "Objective Function"
+
+    def reset_problem(self) -> None:
+        self.problem = LpProblem("GDP Maximization", LpMaximize)
+        Games.problem = self.problem
+
+    def solve(self):
+        self.problem.solve()
+        return self.problem

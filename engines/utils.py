@@ -8,6 +8,7 @@ def get_entry_name(name: str, entry_type: EntryType) -> str:
     x_y_bld_z -> bld_z
     :param name: full name
     :param entry_type: type of the entry (building, region, province)
+    :raise ValueError: if the entry type is not found in the name (e.g. bld, reg, prov not found in name)
     :return: name of the entry
     """
     split_name = name.split("_")

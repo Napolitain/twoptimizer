@@ -81,20 +81,7 @@ if __name__ == '__main__':
     # Create a gdp maximization problem
     lp_problem = Problem()
     lp_problem.add_provinces(path)
-    # lp_problem.add_province(thrace)
-    # constantinople.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MAJOR, RegionHasPort.ATTILA_REGION_PORT,
-    #                                           RegionHasRessource.ATTILA_REGION_CHURCH_ORTHODOX))
-    # marcianopolis.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT,
-    #                                          RegionHasRessource.ATTILA_REGION_NO_RESSOURCE))
-    # trimontium.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_NO_PORT,
-    #                                       RegionHasRessource.ATTILA_REGION_GOLD))
-    # lp_problem.add_province(macedonia)
-    # thessalonica.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MAJOR, RegionHasPort.ATTILA_REGION_PORT,
-    #                                         RegionHasRessource.ATTILA_REGION_NO_RESSOURCE))
-    # corinthus.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_PORT,
-    #                                      RegionHasRessource.ATTILA_REGION_NO_RESSOURCE))
-    # dyrrachium.add_buildings(RegionAttila(RegionType.ATTILA_REGION_MINOR, RegionHasPort.ATTILA_REGION_PORT,
-    #                                       RegionHasRessource.ATTILA_REGION_OLIVES))
+    lp_problem.add_buildings()
 
     for province in lp_problem.provinces:
         # Filter out all buildings
