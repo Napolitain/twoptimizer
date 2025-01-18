@@ -67,3 +67,11 @@ class Province:
         :return:
         """
         return [building for region in self.regions for building in region.buildings]
+
+    def clean(self):
+        """
+        Clean the province memory (buildings).
+        :return:
+        """
+        for region in self.regions:
+            region.buildings = []

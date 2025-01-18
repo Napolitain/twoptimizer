@@ -62,8 +62,6 @@ if __name__ == '__main__':
     lp_problem.add_provinces(path)
 
     for province in lp_problem.provinces:
-        if province.name != "prov_thracia":
-            continue
         lp_problem.reset_problem()
         # Filter out all buildings
         for region in province.regions:
@@ -95,3 +93,4 @@ if __name__ == '__main__':
 
         # Print the variables equal to 1 with their respective contribution
         lp_problem.print_problem_answers()
+        province.clean()

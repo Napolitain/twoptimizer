@@ -164,6 +164,7 @@ class Problem:
 
     def reset_problem(self) -> None:
         self.problem = LpProblem("GDP Maximization", LpMaximize)
+        self.state = ProblemState.INIT
         Games.problem = self.problem
 
     def solve(self):
@@ -174,6 +175,7 @@ class Problem:
         if self.state != ProblemState.OBJECTIVE_ADDED:
             raise ValueError("Objective must be added first.")
         self.problem.solve()
+        self.state = ProblemState.SOLVED
         return self.problem
 
     def print_problem_xy(self) -> None:
@@ -181,8 +183,6 @@ class Problem:
         Print the number of variables and constraints in the problem.
         :return: None
         """
-        if self.state != ProblemState.OBJECTIVE_ADDED:
-            raise ValueError("Objective must be added first.")
         print(
             f"Number of variables: {len(self.problem.variables())}\nNumber of constraints: {len(self.problem.constraints)}\n")
 
