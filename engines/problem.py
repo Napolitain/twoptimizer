@@ -1,3 +1,4 @@
+import enum
 from pathlib import Path
 from typing import List
 
@@ -33,6 +34,16 @@ def get_dictionary_regions_to_province(file_tsv: Path):
     return dictionary_regions_to_province
 
 
+class ProblemState(enum.Enum):
+    INIT = 0
+    PROVINCES_ADDED = 1
+    BUILDINGS_ADDED = 2
+    FILTERS_ADDED = 3
+    CONSTRAINTS_ADDED = 4
+    OBJECTIVE_ADDED = 5
+    SOLVED = 6
+
+
 class Problem:
     def __init__(self):
         """
@@ -40,6 +51,7 @@ class Problem:
         """
         self.provinces: List[Province] = []
         self.problem = LpProblem("GDP Maximization", LpMaximize)
+        self.state = ProblemState.INIT
         Games.problem = self.problem
 
     def add_province(self, province: Province) -> None:
@@ -49,6 +61,7 @@ class Problem:
         :return:
         """
         self.provinces.append(province)
+        self.state = ProblemState.PROVINCES_ADDED
 
     def add_provinces(self, file_tsv: Path) -> None:
         """
@@ -116,9 +129,16 @@ class Problem:
             self.add_province(province)
 
     def add_buildings(self) -> None:
+        """
+        Add all buildings to the problem.
+        :return: None
+        """
+        if self.state != ProblemState.PROVINCES_ADDED:
+            raise ValueError("Provinces must be added first.")
         for province in self.provinces:
             for region in province.regions:
                 region.add_buildings()
+        self.state = ProblemState.BUILDINGS_ADDED
 
     def buildings(self) -> List[Building]:
         """
@@ -134,15 +154,46 @@ class Problem:
         After this, we CANNOT change the buildings anymore, because LpVariables are already factored in the objective function.
         :return: None
         """
+        if self.state != ProblemState.CONSTRAINTS_ADDED:
+            raise ValueError("Constraints must be added first.")
         self.problem += sum(
             building.gdp() * building.lp_variable
             for building in self.buildings()
         ), "Objective Function"
+        self.state = ProblemState.OBJECTIVE_ADDED
 
     def reset_problem(self) -> None:
         self.problem = LpProblem("GDP Maximization", LpMaximize)
         Games.problem = self.problem
 
     def solve(self):
+        """
+        Solve the problem.
+        :return:
+        """
+        if self.state != ProblemState.OBJECTIVE_ADDED:
+            raise ValueError("Objective must be added first.")
         self.problem.solve()
         return self.problem
+
+    def print_problem_xy(self) -> None:
+        """
+        Print the number of variables and constraints in the problem.
+        :return: None
+        """
+        if self.state != ProblemState.OBJECTIVE_ADDED:
+            raise ValueError("Objective must be added first.")
+        print(
+            f"Number of variables: {len(self.problem.variables())}\nNumber of constraints: {len(self.problem.constraints)}\n")
+
+    def print_problem_answers(self):
+        """
+        Print the variables equal to 1 with their respective contribution.
+        :return:
+        """
+        if self.problem.status != 1:
+            raise ValueError("Problem is not solved.")
+        for v in self.problem.variables():
+            name = get_entry_name(v.name, EntryType.BUILDING)
+            if v.varValue == 1:
+                print(get_entry_name(v.name, EntryType.REGION), "=", Games.buildings["att"][name])
