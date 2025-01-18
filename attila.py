@@ -2,6 +2,8 @@
 # att_bld_roman_west_city_major_1
 import pathlib
 
+from pulp import value
+
 from engines.building import Building
 from engines.enums import EntryType, AttilaFactions
 from engines.games import Games
@@ -60,7 +62,6 @@ if __name__ == '__main__':
     # Linear programming problem
     lp_problem = Problem()
     lp_problem.add_provinces(path)
-    global_time = 0
 
     for province in lp_problem.provinces:
         lp_problem.reset_problem()
@@ -90,11 +91,11 @@ if __name__ == '__main__':
         # GDP maximization
         lp_problem.add_objective()
         # lp_problem.print_problem_xy()
-        global_time += lp_problem.solve()
-        # print(value(lp_problem.problem.objective))
+        lp_problem.solve()
+        print(f"{province.name} : {value(lp_problem.problem.objective)}")
 
         # Print the variables equal to 1 with their respective contribution
         # lp_problem.print_problem_answers()
         province.clean()
 
-    print(f"Total solving time: {global_time / 1_000_000_000} seconds")
+    print(f"Total solving time: {lp_problem.global_time / 1_000_000_000} seconds")

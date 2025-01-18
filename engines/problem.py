@@ -53,6 +53,7 @@ class Problem:
         self.provinces: List[Province] = []
         self.problem = LpProblem("GDP Maximization", LpMaximize)
         self.state = ProblemState.INIT
+        self.global_time = 0
         Games.problem = self.problem
 
     def add_province(self, province: Province) -> None:
@@ -168,10 +169,10 @@ class Problem:
         self.state = ProblemState.INIT
         Games.problem = self.problem
 
-    def solve(self, msg=False, timing=False) -> int:
+    def solve(self, msg=False, timing=False) -> None:
         """
         Solve the problem.
-        :return:
+        :return: None
         """
         if self.state != ProblemState.OBJECTIVE_ADDED:
             raise ValueError("Objective must be added first.")
@@ -182,7 +183,7 @@ class Problem:
         if timing:
             print(f"Solving time: {(end_time - start_time) / 1_000_000_000} seconds")
         self.state = ProblemState.SOLVED
-        return end_time - start_time
+        self.global_time += end_time - start_time
 
     def print_problem_xy(self) -> None:
         """

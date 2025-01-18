@@ -1,7 +1,7 @@
 from collections import defaultdict
 from typing import List
 
-from pulp import LpVariable, LpInteger, lpSum
+from pulp import LpVariable, lpSum
 
 from engines.building import Building
 from engines.enums import RegionType, RegionHasPort, RegionHasResource, RegionAttila
@@ -61,7 +61,7 @@ class Region:
                 continue
             deep_copy = building.__copy__()
             deep_copy.name = f"{self.name}_{building.name}"
-            deep_copy.lp_variable = LpVariable(deep_copy.name, 0, 1, LpInteger)
+            deep_copy.lp_variable = LpVariable(deep_copy.name, cat='Binary')
             self.buildings.append(deep_copy)
         # Filter buildings out (remove LpVariables)
         self.filter_type()
