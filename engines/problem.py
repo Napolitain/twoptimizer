@@ -1,8 +1,9 @@
 import enum
 from pathlib import Path
+from time import perf_counter_ns
 from typing import List
 
-from pulp import LpProblem, LpMaximize
+from pulp import LpProblem, LpMaximize, PULP_CBC_CMD
 
 from engines.building import Building
 from engines.enums import EntryType, RegionType, RegionHasPort, RegionHasResource
@@ -167,16 +168,21 @@ class Problem:
         self.state = ProblemState.INIT
         Games.problem = self.problem
 
-    def solve(self):
+    def solve(self, msg=False, timing=False) -> int:
         """
         Solve the problem.
         :return:
         """
         if self.state != ProblemState.OBJECTIVE_ADDED:
             raise ValueError("Objective must be added first.")
-        self.problem.solve()
+        solver = PULP_CBC_CMD(msg=msg)
+        start_time = perf_counter_ns()
+        self.problem.solve(solver)
+        end_time = perf_counter_ns()
+        if timing:
+            print(f"Solving time: {(end_time - start_time) / 1_000_000_000} seconds")
         self.state = ProblemState.SOLVED
-        return self.problem
+        return end_time - start_time
 
     def print_problem_xy(self) -> None:
         """
@@ -186,14 +192,25 @@ class Problem:
         print(
             f"Number of variables: {len(self.problem.variables())}\nNumber of constraints: {len(self.problem.constraints)}\n")
 
+    def get_problem_answers(self) -> List[tuple[str, str]]:
+        """
+        Return the variables equal to 1 with their respective contribution.
+        :return: list of tuples (region_name, building_name)
+        """
+        if self.problem.status != 1:
+            raise ValueError("Problem is not solved.")
+        answers = []
+        for v in self.problem.variables():
+            name = get_entry_name(v.name, EntryType.BUILDING)
+            if v.varValue == 1:
+                answers.append((get_entry_name(v.name, EntryType.REGION), Games.buildings["att"][name]))
+        return answers
+
     def print_problem_answers(self):
         """
         Print the variables equal to 1 with their respective contribution.
         :return:
         """
-        if self.problem.status != 1:
-            raise ValueError("Problem is not solved.")
-        for v in self.problem.variables():
-            name = get_entry_name(v.name, EntryType.BUILDING)
-            if v.varValue == 1:
-                print(get_entry_name(v.name, EntryType.REGION), "=", Games.buildings["att"][name])
+        problem_answers = self.get_problem_answers()
+        for region_name, building_name in problem_answers:
+            print(f"{region_name}: {building_name}")
