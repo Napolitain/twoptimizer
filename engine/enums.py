@@ -30,13 +30,6 @@ class AttilaFactions(enum.Enum):
     ATTILA_SASSANIDS = "eastern"
 
 
-class Scope(enum.Enum):
-    FACTION = 1
-    PROVINCE = 2
-    REGION = 3
-    BUILDING = 4
-
-
 class RegionType(enum.Enum):
     ATTILA_REGION_MAJOR = 1
     ATTILA_REGION_MINOR = 2
@@ -70,3 +63,13 @@ class RegionAttila:
     region_type: RegionType
     has_port: RegionHasPort
     has_ressource: RegionHasResource
+
+
+class Scope(enum.Enum):
+    """
+    Scope of the effect.
+    """
+    FACTION = 0
+    PROVINCE = 1
+    REGION = 2
+    BUILDING = 3

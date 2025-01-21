@@ -5,21 +5,21 @@ from typing import List
 
 from pulp import LpProblem, LpMaximize, PULP_CBC_CMD
 
-from engines.building import Building
-from engines.enums import EntryType, RegionType, RegionHasPort, RegionHasResource
-from engines.games import Games
-from engines.province import Province
-from engines.region import Region
-from engines.utils import get_entry_name
+from engine.building import Building
+from engine.enums import EntryType, RegionType, RegionHasPort, RegionHasResource
+from engine.games import Games
+from engine.province import Province
+from engine.region import Region
+from engine.utils import get_entry_name
 
 
-def get_dictionary_regions_to_province(file_tsv: Path):
+def get_dictionary_regions_to_province(game_dir: Path):
     """
     Get a dictionary of regions to province from a tsv file (TW DB)
-    :param file_tsv: path to the game folder
+    :param game_dir: path to the game folder
     :return: dictionary of regions to province (region_name: province_name)
     """
-    path_province_region_junctions = file_tsv / "region_to_provinces_junctions_table.tsv"
+    path_province_region_junctions = game_dir / "region_to_provinces_junctions_table.tsv"
     dictionary_regions_to_province = {}
     with open(path_province_region_junctions, 'r') as file:
         data = file.read()

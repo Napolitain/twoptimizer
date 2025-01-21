@@ -1,6 +1,6 @@
 from pulp import LpProblem, LpMaximize
 
-from engines.enums import AttilaFactions
+from engine.enums import AttilaFactions
 
 
 class Games:

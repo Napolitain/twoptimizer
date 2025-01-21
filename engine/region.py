@@ -3,10 +3,10 @@ from typing import List
 
 from pulp import LpVariable, lpSum
 
-from engines.building import Building
-from engines.enums import RegionType, RegionHasPort, RegionHasResource, RegionAttila
-from engines.games import Games
-from engines.utils import building_is_not_of_faction, building_is_minor, building_is_major, building_is_resource
+from engine.building import Building
+from engine.enums import RegionType, RegionHasPort, RegionHasResource, RegionAttila
+from engine.games import Games
+from engine.utils import building_is_not_of_faction, building_is_minor, building_is_major, building_is_resource
 
 
 class Region:

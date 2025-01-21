@@ -1,5 +1,5 @@
-from engines.effect import Effect
-from engines.enums import Scope
+from engine.effect import Effect
+from engine.enums import Scope
 
 
 class Building(Effect):
@@ -38,17 +38,24 @@ class Building(Effect):
     def __str__(self):
         return f"{self.name}, GDP: {self.gdp()}, Public Order: {self.public_order()}, Sanitation: {self.sanitation()}, Food: {self.food()}"
 
-    def add_effect(self, effect: str, scope: str, amount: float):
-        # if "fertility" in effect:
-        #     amount *= Province.fertility
-        if scope.startswith('faction'):
+    def add_effect(self, effect: str, scope: Scope, amount: float):
+        """
+        Add an effect to the building.
+        :param effect: the effect name
+        :param scope: the scope of the effect
+        :param amount: the amount of the effect
+        :return:
+        """
+        if scope == Scope.FACTION:
             self.effects_to_faction[effect] = amount
-        elif scope.startswith('province'):
+        elif scope == Scope.PROVINCE:
             self.effects_to_province[effect] = amount
-        elif scope.startswith('region'):
+        elif scope == Scope.REGION:
             self.effects_to_region[effect] = amount
-        elif scope.startswith('building'):
+        elif scope == Scope.BUILDING:
             self.effects_to_building[effect] = amount
+        else:
+            raise ValueError(f"Unknown scope: {scope}")
 
     def gdp(self):
         """

@@ -1,5 +1,5 @@
-from engines.enums import EntryType, AttilaFactions
-from engines.games import Games
+from engine.enums import EntryType, AttilaFactions
+from engine.games import Games
 
 
 def get_entry_name(name: str, entry_type: EntryType) -> str:

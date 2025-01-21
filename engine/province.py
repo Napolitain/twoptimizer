@@ -2,10 +2,10 @@ from typing import List
 
 from pulp import lpSum
 
-from engines.building import Building
-from engines.enums import Scope
-from engines.games import Games
-from engines.region import Region
+from engine.building import Building
+from engine.enums import Scope
+from engine.games import Games
+from engine.region import Region
 
 
 class Province:
