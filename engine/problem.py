@@ -7,12 +7,13 @@ from pulp import LpProblem, LpMaximize, PULP_CBC_CMD
 
 from engine.building import Building
 from engine.enums import EntryType
+from engine.filters.utils import get_entry_name
 from engine.games import Games
 from engine.models.model import RegionType, RegionPort
 from engine.models.model_attila import AttilaRegionResources
+from engine.parser.parser import parse_tsv
 from engine.province import Province
 from engine.region import Region
-from engine.utils import get_entry_name
 
 
 def get_dictionary_regions_to_province(game_dir: Path):
@@ -29,7 +30,7 @@ def get_dictionary_regions_to_province(game_dir: Path):
         data = [i.split('\t') for i in data]
     for province_name, region_name in data:
         # Filter game
-        if Games.instance.campaign.value not in province_name:
+        if Games.instance.campaign.value[1] not in province_name:
             continue
         pn = get_entry_name(province_name, EntryType.PROVINCE)
         rn = get_entry_name(region_name, EntryType.REGION)
@@ -45,6 +46,63 @@ class ProblemState(enum.Enum):
     CONSTRAINTS_ADDED = 4
     OBJECTIVE_ADDED = 5
     SOLVED = 6
+
+
+def parse_start_pos_tsv(file_tsv: Path) -> dict[str, Province]:
+    # Link region name to province name
+    dictionary_regions_to_province = get_dictionary_regions_to_province(file_tsv)
+    # Link province name to province object
+    dictionary_provinces = {}
+    for province_name in dictionary_regions_to_province.values():
+        if province_name not in dictionary_provinces:
+            dictionary_provinces[province_name] = Province(province_name)
+    # Read file building_effects_junction_tables.tsv (tabulated)
+    path_startpos_regions = file_tsv / "start_pos_region_slot_templates_tables.tsv"
+    data = parse_tsv(path_startpos_regions)
+    dictionary_regions = {}
+    for _, game, full_region_name, type_building, building in data:
+        # Check if it is correct game
+        if Games.instance.campaign.value[1] not in full_region_name or Games.instance.campaign.value[0] not in game:
+            continue
+        region_name = get_entry_name(full_region_name, EntryType.REGION)
+        # Province name is the regio_name mapped to the province name
+        try:
+            province_name = dictionary_regions_to_province[region_name]
+        except KeyError:
+            print(f"Region {region_name} does not have a province.")
+            continue
+        # If region not in dictionary, add it
+        if region_name not in dictionary_regions:
+            # If building contains "major", it is a major region, else minor
+            if "major" in building:
+                dictionary_regions[region_name] = Region(6, region_name)
+                dictionary_regions[region_name].set_region_type(RegionType.REGION_MAJOR)
+            else:
+                dictionary_regions[region_name] = Region(4, region_name)
+                dictionary_regions[region_name].set_region_type(RegionType.REGION_MINOR)
+            # Add region to province
+            dictionary_provinces[province_name].add_region(dictionary_regions[region_name])
+        # Add resources type / port to region
+        # 1. If type is primary, discard
+        if type_building == "primary":
+            continue
+        # 2. If type is port, add port if it is not "spice".
+        if type_building == "port":
+            if "spice" not in building:
+                dictionary_regions[region_name].set_has_port(RegionPort.REGION_PORT)
+            else:
+                dictionary_regions[region_name].set_has_ressource(AttilaRegionResources.ATTILA_REGION_SPICE)
+        # 3. If type is secondary, add resource
+        if type_building == "secondary":
+            if "city" in building:
+                dictionary_regions[region_name].set_has_ressource(
+                    AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX)
+            else:
+                # Check if building is a resource building
+                for resource in AttilaRegionResources:
+                    if resource.value in building:
+                        dictionary_regions[region_name].set_has_ressource(resource)
+    return dictionary_provinces
 
 
 class Problem:
@@ -73,62 +131,7 @@ class Problem:
         :param file_tsv: file containing the provinces schema, usually start_pos_region_slot_templates_table.tsv
         :return:
         """
-        # Link region name to province name
-        dictionary_regions_to_province = get_dictionary_regions_to_province(file_tsv)
-        # Link province name to province object
-        dictionary_provinces = {}
-        for province_name in dictionary_regions_to_province.values():
-            if province_name not in dictionary_provinces:
-                dictionary_provinces[province_name] = Province(province_name)
-        # Read file building_effects_junction_tables.tsv (tabulated)
-        path_startpos_regions = file_tsv / "start_pos_region_slot_templates_tables.tsv"
-        with open(path_startpos_regions, 'r') as file:
-            data = file.read()
-            data = data.split('\n')
-            data = [i.split('\t') for i in data]
-        dictionary_regions = {}
-        for _, game, full_region_name, type_building, building in data:
-            # Check if it is correct game
-            if Games.instance.campaign.value not in full_region_name or "main_attila" not in game:
-                continue
-            region_name = get_entry_name(full_region_name, EntryType.REGION)
-            # Province name is the regio_name mapped to the province name
-            try:
-                province_name = dictionary_regions_to_province[region_name]
-            except KeyError:
-                print(f"Region {region_name} does not have a province.")
-                continue
-            # If region not in dictionary, add it
-            if region_name not in dictionary_regions:
-                # If building contains "major", it is a major region, else minor
-                if "major" in building:
-                    dictionary_regions[region_name] = Region(6, region_name)
-                    dictionary_regions[region_name].set_region_type(RegionType.ATTILA_REGION_MAJOR)
-                else:
-                    dictionary_regions[region_name] = Region(4, region_name)
-                    dictionary_regions[region_name].set_region_type(RegionType.ATTILA_REGION_MINOR)
-                # Add region to province
-                dictionary_provinces[province_name].add_region(dictionary_regions[region_name])
-            # Add resources type / port to region
-            # 1. If type is primary, discard
-            if type_building == "primary":
-                continue
-            # 2. If type is port, add port if it is not "spice".
-            if type_building == "port":
-                if "spice" not in building:
-                    dictionary_regions[region_name].set_has_port(RegionPort.ATTILA_REGION_PORT)
-                else:
-                    dictionary_regions[region_name].set_has_ressource(AttilaRegionResources.ATTILA_REGION_SPICE)
-            # 3. If type is secondary, add resource
-            if type_building == "secondary":
-                if "city" in building:
-                    dictionary_regions[region_name].set_has_ressource(
-                        AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX)
-                else:
-                    # Check if building is a resource building
-                    for resource in AttilaRegionResources:
-                        if resource.value in building:
-                            dictionary_regions[region_name].set_has_ressource(resource)
+        dictionary_provinces = parse_start_pos_tsv(file_tsv)
         for province in dictionary_provinces.values():
             self.add_province(province)
 

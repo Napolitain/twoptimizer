@@ -1,5 +1,7 @@
 import enum
 
+from engine.models.model import GameCampaign
+
 
 class Rome2Factions(enum.Enum):
     THREE_C_ALANI = "3c_alani"
@@ -99,7 +101,7 @@ class Rome2RegionResources(enum.Enum):
     RES_ROM_WINE = "res_rom_wine"
 
 
-class Rome2Campaign(enum.Enum):
+class Rome2Campaign(GameCampaign):
     ROME = ("main_rome", "rom")
     HANNIBAL = ("main_punic", "pun")
     EMPIRE_DIVIDED = ("main_3c", "emp")

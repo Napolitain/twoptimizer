@@ -1,6 +1,6 @@
 import enum
 
-from engine.models.model import GameFactions
+from engine.models.model import GameFactions, GameCampaign
 
 
 class AttilaFactions(GameFactions):
@@ -39,11 +39,11 @@ class AttilaRegionResources(enum.Enum):
     ATTILA_REGION_SALT = "salt"
     ATTILA_REGION_LEAD = "lead"
     ATTILA_REGION_OLIVES = "olives"
-    ATTILA_REGION_CHURCH_CATHOLIC = "church_catholic"
-    ATTILA_REGION_CHURCH_ORTHODOX = "church_orthodox"
+    ATTILA_REGION_CHURCH_CATHOLIC = "religion_catholic_legendary"
+    ATTILA_REGION_CHURCH_ORTHODOX = "religion_orthodox_legendary"
 
 
-class AttilaCampaign(enum.Enum):
-    ATTILA = "att"
-    LAST_ROMAN = "bel"
-    CHARLEMAGNE = "cha"
+class AttilaCampaign(GameCampaign):
+    ATTILA = ("main_attila", "att")
+    LAST_ROMAN = ("bel_attila", "bel")
+    CHARLEMAGNE = ("cha_attila", "cha")

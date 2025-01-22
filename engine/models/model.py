@@ -5,11 +5,15 @@ class GameFactions(enum.Enum):
     pass
 
 
+class GameCampaign(enum.Enum):
+    pass
+
+
 class RegionType(enum.Enum):
-    ATTILA_REGION_MAJOR = 1
-    ATTILA_REGION_MINOR = 2
+    REGION_MAJOR = 1
+    REGION_MINOR = 2
 
 
 class RegionPort(enum.Enum):
-    ATTILA_REGION_NO_PORT = 1
-    ATTILA_REGION_PORT = 2
+    REGION_NO_PORT = 1
+    REGION_PORT = 2

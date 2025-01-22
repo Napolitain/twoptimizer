@@ -5,11 +5,13 @@ from typing import List
 
 from engine.building import Building
 from engine.enums import EntryType, Scope
-from engine.games import Games
-from engine.utils import get_entry_name
+from engine.filters.utils import get_entry_name
 
 
 class Parser(abc.ABC):
+    def __init__(self):
+        self.buildings = {}
+
     @abc.abstractmethod
     def get_scope(self, scope: str) -> enum.Enum:
         """
@@ -43,6 +45,7 @@ def parse_tsv(path_buildings: pathlib.Path) -> List[List[str]]:
 
 class ParserAttila(Parser):
     def __init__(self):
+        super().__init__()
         self.game_dir = pathlib.Path("data/attila")
         self.game_name = "att"
         self.faction = "romans"
@@ -66,8 +69,8 @@ class ParserAttila(Parser):
         # dict{game1: set{building1, building2, ...}, game2: set{building1, building2, ...}, ...}
         for name, effect, scope, amount in data:
             game = name.split("_")[0]
-            if game not in Games.buildings:
-                Games.buildings[game] = {}
+            if game not in self.buildings:
+                self.buildings[game] = {}
             # Filter for att and maximize only gdp for now
             if self.game_name in name:
                 # building name is the name split("_") from bld to end
@@ -76,13 +79,13 @@ class ParserAttila(Parser):
                 except ValueError:
                     continue
                 # Filter only for east romans for now
-                if building_name not in Games.buildings[game]:
-                    Games.buildings[game][building_name] = Building(building_name)
+                if building_name not in self.buildings[game]:
+                    self.buildings[game][building_name] = Building(building_name)
                 try:
                     scope_value = self.get_scope(scope)
                 except ValueError:
                     continue
-                Games.buildings[game][building_name].add_effect(effect, scope_value, float(amount))
+                self.buildings[game][building_name].add_effect(effect, scope_value, float(amount))
 
 
 class ParserRome2(Parser):
@@ -109,8 +112,8 @@ class ParserRome2(Parser):
         # dict{game1: set{building1, building2, ...}, game2: set{building1, building2, ...}, ...}
         for name, effect, amount, scope in data:
             game = name.split("_")[0]
-            if game not in Games.buildings:
-                Games.buildings[game] = {}
+            if game not in self.buildings:
+                self.buildings[game] = {}
             # Filter for att and maximize only gdp for now
             if "att" in name:
                 # building name is the name split("_") from bld to end
@@ -119,10 +122,10 @@ class ParserRome2(Parser):
                 except ValueError:
                     continue
                 # Filter only for east romans for now
-                if building_name not in Games.buildings[game]:
-                    Games.buildings[game][building_name] = Building(building_name)
+                if building_name not in self.buildings[game]:
+                    self.buildings[game][building_name] = Building(building_name)
                 try:
                     scope_value = self.get_scope(scope)
                 except ValueError:
                     continue
-                Games.buildings[game][building_name].add_effect(effect, scope_value, float(amount))
+                self.buildings[game][building_name].add_effect(effect, scope_value, float(amount))
