@@ -4,8 +4,9 @@ from typing import List
 from pulp import LpVariable, lpSum
 
 from engine.building import Building
-from engine.enums import RegionType, RegionHasPort, RegionHasResource, RegionAttila
 from engine.games import Games
+from engine.models.model import RegionType, RegionPort
+from engine.models.model_attila import AttilaRegionResources
 from engine.utils import building_is_not_of_faction, building_is_minor, building_is_major, building_is_resource
 
 
@@ -20,36 +21,31 @@ class Region:
         self.effects = defaultdict(list)
         self.name = name
         self.region_type = RegionType.ATTILA_REGION_MAJOR
-        self.has_port = RegionHasPort.ATTILA_REGION_NO_PORT
-        self.has_ressource = RegionHasResource.ATTILA_REGION_NO_RESSOURCE
+        self.has_port = RegionPort.ATTILA_REGION_NO_PORT
+        self.has_ressource = AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE
 
     def set_region_type(self, region_type: RegionType):
         self.region_type = region_type
 
-    def set_has_port(self, has_port: RegionHasPort):
+    def set_has_port(self, has_port: RegionPort):
         self.has_port = has_port
 
-    def set_has_ressource(self, has_ressource: RegionHasResource):
+    def set_has_ressource(self, has_ressource: AttilaRegionResources):
         self.has_ressource = has_ressource
 
-    def add_buildings(self, region: RegionAttila = None):
+    def add_buildings(self):
         """
         Add buildings to the region.
         It should filter buildings based on the region type, port, and resource.
         Adapt constraints accordingly.
         For example, number of free buildings decrease if the region has a port.
         Building must be named region_building.
-        :param region:
         :return:
         """
-        if region is not None:
-            self.region_type = region.region_type
-            self.has_port = region.has_port
-            self.has_ressource = region.has_ressource
-        elif self.region_type is None or self.has_port is None or self.has_ressource is None:
+        if self.region_type is None or self.has_port is None or self.has_ressource is None:
             raise ValueError("Region type must be set before adding buildings.")
         # Add buildings Lp variables to the region.
-        for building in Games.buildings[Games.current_game].values():
+        for building in Games.buildings[Games.instance.campaign.value].values():
             # Filter out buildings that are not of the faction to reduce the number of LpVariables.
             if building_is_not_of_faction(building.name):
                 continue
@@ -80,7 +76,7 @@ class Region:
         self.add_building_count_constraint()
 
     def filter_port(self):
-        if self.has_port != RegionHasPort.ATTILA_REGION_PORT:
+        if self.has_port != RegionPort.ATTILA_REGION_PORT:
             # Filter out all ports that are not spice if the region has no port to reduce the number of LpVariables.
             for i, building in reversed(list(enumerate(self.buildings))):
                 if "port" in building.name and "spice" not in building.name:
@@ -95,7 +91,7 @@ class Region:
         If the region has a port, then we can add a constraint that the number of buildings in the region with "port" is between 1 and 1.
         :return:
         """
-        if self.has_port == RegionHasPort.ATTILA_REGION_PORT:
+        if self.has_port == RegionPort.ATTILA_REGION_PORT:
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
@@ -108,30 +104,30 @@ class Region:
         :return:
         """
         resource_constraints = {
-            RegionHasResource.ATTILA_REGION_SPICE: ("spice", True),
-            RegionHasResource.ATTILA_REGION_FURS: ("furs", False),
-            RegionHasResource.ATTILA_REGION_IRON: ("iron", False),
-            RegionHasResource.ATTILA_REGION_WINE: ("wine", False),
-            RegionHasResource.ATTILA_REGION_WOOD: ("wood", False),
-            RegionHasResource.ATTILA_REGION_GOLD: ("gold", False),
-            RegionHasResource.ATTILA_REGION_MARBLE: ("marble", False),
-            RegionHasResource.ATTILA_REGION_GEMS: ("gems", False),
-            RegionHasResource.ATTILA_REGION_SILK: ("silk", False),
-            RegionHasResource.ATTILA_REGION_SALT: ("salt", False),
-            RegionHasResource.ATTILA_REGION_LEAD: ("lead", False),
-            RegionHasResource.ATTILA_REGION_OLIVES: ("olives", False),
-            RegionHasResource.ATTILA_REGION_CHURCH_CATHOLIC: ("religion_catholic_legendary", True),
-            RegionHasResource.ATTILA_REGION_CHURCH_ORTHODOX: ("religion_orthodox_legendary", True),
+            AttilaRegionResources.ATTILA_REGION_SPICE: ("spice", True),
+            AttilaRegionResources.ATTILA_REGION_FURS: ("furs", False),
+            AttilaRegionResources.ATTILA_REGION_IRON: ("iron", False),
+            AttilaRegionResources.ATTILA_REGION_WINE: ("wine", False),
+            AttilaRegionResources.ATTILA_REGION_WOOD: ("wood", False),
+            AttilaRegionResources.ATTILA_REGION_GOLD: ("gold", False),
+            AttilaRegionResources.ATTILA_REGION_MARBLE: ("marble", False),
+            AttilaRegionResources.ATTILA_REGION_GEMS: ("gems", False),
+            AttilaRegionResources.ATTILA_REGION_SILK: ("silk", False),
+            AttilaRegionResources.ATTILA_REGION_SALT: ("salt", False),
+            AttilaRegionResources.ATTILA_REGION_LEAD: ("lead", False),
+            AttilaRegionResources.ATTILA_REGION_OLIVES: ("olives", False),
+            AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC: ("religion_catholic_legendary", True),
+            AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX: ("religion_orthodox_legendary", True),
         }
         resources = {k: v[0] for k, v in resource_constraints.items()}
 
         # Remove buildings that are illegal
         for i, building in reversed(list(enumerate(self.buildings))):
-            if self.has_ressource != RegionHasResource.ATTILA_REGION_CHURCH_CATHOLIC and "religion_catholic_legendary" in building.name:
+            if self.has_ressource != AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC and "religion_catholic_legendary" in building.name:
                 self.buildings.pop(i)
-            elif self.has_ressource != RegionHasResource.ATTILA_REGION_CHURCH_ORTHODOX and "religion_orthodox_legendary" in building.name:
+            elif self.has_ressource != AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX and "religion_orthodox_legendary" in building.name:
                 self.buildings.pop(i)
-            elif self.has_ressource == RegionHasResource.ATTILA_REGION_NO_RESSOURCE and building_is_resource(
+            elif self.has_ressource == AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE and building_is_resource(
                     building):
                 self.buildings.pop(i)
             elif self.has_ressource in resources:
@@ -142,7 +138,7 @@ class Region:
                         and "port" not in building.name
                 ) or ("spice" in building.name and resource != "spice"):
                     self.buildings.pop(i)
-            elif self.has_ressource == RegionHasResource.ATTILA_REGION_CHURCH_ORTHODOX or self.has_ressource == RegionHasResource.ATTILA_REGION_CHURCH_CATHOLIC:
+            elif self.has_ressource == AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX or self.has_ressource == AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC:
                 if ("resource" in building.name and "port" not in building.name) or "spice" in building.name:
                     self.buildings.pop(i)
 
@@ -154,20 +150,20 @@ class Region:
         :return:
         """
         resource_constraints = {
-            RegionHasResource.ATTILA_REGION_SPICE: ("spice", True),
-            RegionHasResource.ATTILA_REGION_FURS: ("furs", False),
-            RegionHasResource.ATTILA_REGION_IRON: ("iron", False),
-            RegionHasResource.ATTILA_REGION_WINE: ("wine", False),
-            RegionHasResource.ATTILA_REGION_WOOD: ("wood", False),
-            RegionHasResource.ATTILA_REGION_GOLD: ("gold", False),
-            RegionHasResource.ATTILA_REGION_MARBLE: ("marble", False),
-            RegionHasResource.ATTILA_REGION_GEMS: ("gems", False),
-            RegionHasResource.ATTILA_REGION_SILK: ("silk", False),
-            RegionHasResource.ATTILA_REGION_SALT: ("salt", False),
-            RegionHasResource.ATTILA_REGION_LEAD: ("lead", False),
-            RegionHasResource.ATTILA_REGION_OLIVES: ("olives", False),
-            RegionHasResource.ATTILA_REGION_CHURCH_CATHOLIC: ("religion_catholic_legendary", True),
-            RegionHasResource.ATTILA_REGION_CHURCH_ORTHODOX: ("religion_orthodox_legendary", True),
+            AttilaRegionResources.ATTILA_REGION_SPICE: ("spice", True),
+            AttilaRegionResources.ATTILA_REGION_FURS: ("furs", False),
+            AttilaRegionResources.ATTILA_REGION_IRON: ("iron", False),
+            AttilaRegionResources.ATTILA_REGION_WINE: ("wine", False),
+            AttilaRegionResources.ATTILA_REGION_WOOD: ("wood", False),
+            AttilaRegionResources.ATTILA_REGION_GOLD: ("gold", False),
+            AttilaRegionResources.ATTILA_REGION_MARBLE: ("marble", False),
+            AttilaRegionResources.ATTILA_REGION_GEMS: ("gems", False),
+            AttilaRegionResources.ATTILA_REGION_SILK: ("silk", False),
+            AttilaRegionResources.ATTILA_REGION_SALT: ("salt", False),
+            AttilaRegionResources.ATTILA_REGION_LEAD: ("lead", False),
+            AttilaRegionResources.ATTILA_REGION_OLIVES: ("olives", False),
+            AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC: ("religion_catholic_legendary", True),
+            AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX: ("religion_orthodox_legendary", True),
         }
 
         # Add constraints dynamically based on the resource type

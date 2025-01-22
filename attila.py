@@ -5,11 +5,10 @@ import pathlib
 from pulp import value
 
 from engine.building import Building
-from engine.enums import EntryType, AttilaFactions
+from engine.enums import AttilaGame
 from engine.games import Games
-from engine.parser.Parser import ParserAttila, AttilaGame
+from engine.parser.Parser import ParserAttila
 from engine.problem import Problem, ProblemState
-from engine.utils import get_entry_name
 
 # PuLP is a linear and mixed integer programming modeler written in Python.
 
@@ -28,42 +27,15 @@ We need to optimize using linear programming the economy of a province, here usi
 ('cha_effect_imperium', 'faction_to_faction_own_unseen', '10.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '200.0000'), ('att_effect_public_order_base', 'province_to_province_own', '2.0000'), ('att_effect_region_resource_wine_production', 'building_to_building_own', '10.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '300.0000'), ('att_effect_public_order_base', 'province_to_province_own', '4.0000'), ('att_effect_region_resource_wine_production', 'building_to_building_own', '15.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '400.0000'), ('att_effect_public_order_base', 'province_to_province_own', '6.0000'), ('att_effect_region_resource_wine_production', 'building_to_building_own', '20.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '200.0000'), ('att_effect_province_growth_building', 'province_to_province_own', '2.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '300.0000'), ('att_effect_province_growth_building', 'province_to_province_own', '4.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '400.0000'), ('att_effect_province_growth_building', 'province_to_province_own', '6.0000'), ('att_effect_economy_gdp_mod_industry', 'province_to_region_own', '10.0000'), ('att_effect_region_resource_wood_production', 'building_to_building_own', '10.0000'), ('att_effect_economy_gdp_mod_industry', 'province_to_region_own', '20.0000'), ('att_effect_region_resource_wood_production', 'building_to_building_own', '15.0000'), ('att_effect_economy_gdp_mod_industry', 'province_to_region_own', '30.0000'), ('att_effect_region_resource_wood_production', 'building_to_building_own', '20.0000')]})
 """
 
-
-def get_building_effects_junction_tables(game_dir: pathlib.Path):
-    path_buildings = game_dir / "building_effects_junction_tables.tsv"
-    # Read file building_effects_junction_tables.tsv (tabulated)
-    with open(path_buildings, 'r') as file:
-        data = file.read()
-        data = data.split('\n')
-        data = [i.split('\t') for i in data]
-    # Create a dictionary of buildings per game / DLC
-    # dict{game1: set{building1, building2, ...}, game2: set{building1, building2, ...}, ...}
-    for name, effect, scope, amount, _, _ in data:
-        game = name.split("_")[0]
-        if game not in Games.buildings:
-            Games.buildings[game] = {}
-        # Filter for att and maximize only gdp for now
-        if "att" in name:
-            # building name is the name split("_") from bld to end
-            try:
-                building_name = get_entry_name(name, EntryType.BUILDING)
-            except ValueError:
-                continue
-            # Filter only for east romans for now
-            if building_name not in Games.buildings[game]:
-                Games.buildings[game][building_name] = Building(building_name)
-            Games.buildings[game][building_name].add_effect(effect, scope, float(amount))
-
-
 if __name__ == '__main__':
     # Attila data folder
     path = pathlib.Path(__file__).parent.absolute() / "data" / "attila"
     parser = ParserAttila()
-    parser.set_game(AttilaGame.LAST_ROMAN)
+    # parser.set_game(AttilaGame.ATTILA)
     parser.get_building_effects_junction_tables()
 
     # Create a province, with regions, and buildings constraints.
-    Games.faction = AttilaFactions.ATTILA_ROMAN_EAST
+    Games.instance = AttilaGame
 
     # Linear programming problem
     lp_problem = Problem()

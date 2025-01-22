@@ -1,5 +1,6 @@
-from engine.enums import EntryType, AttilaFactions
+from engine.enums import EntryType
 from engine.games import Games
+from engine.models.model_attila import AttilaFactions
 
 
 def get_entry_name(name: str, entry_type: EntryType) -> str:
@@ -57,22 +58,22 @@ def building_is_not_of_faction(building_name: str) -> bool:
     :return:
     """
     split_name = building_name.split("_")
-    if Games.faction == AttilaFactions.ATTILA_ROMAN_EAST:
+    if Games.instance.faction == AttilaFactions.ATTILA_ROMAN_EAST:
         if (
                 "roman" in building_name and "west" not in building_name) or ("orthodox" in building_name) or (
                 "all" in split_name and "camel" not in building_name and "pigs" not in building_name):
             return False
-    if Games.faction == AttilaFactions.ATTILA_ROMAN_WEST:
+    if Games.instance.faction == AttilaFactions.ATTILA_ROMAN_WEST:
         if (
                 "roman" in building_name and "east" not in building_name) or ("catholic" in building_name) or (
                 "all" in split_name and "camel" not in building_name and "pigs" not in building_name):
             return False
-    if Games.faction == AttilaFactions.ATTILA_FRANKS:
+    if Games.instance.faction == AttilaFactions.ATTILA_FRANKS:
         if "barbarian" in building_name or (
                 "catholic" in building_name) or (
                 "all" in split_name and "camel" not in building_name and "pigs" not in building_name):
             return False
-    if Games.faction == AttilaFactions.ATTILA_SASSANIDS:
+    if Games.instance.faction == AttilaFactions.ATTILA_SASSANIDS:
         if "eastern" in building_name or (
                 "zoro" in building_name) or (
                 "all" in split_name and "cows" not in building_name and "pigs" not in building_name):

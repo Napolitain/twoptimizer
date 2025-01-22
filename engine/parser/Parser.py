@@ -41,20 +41,11 @@ def parse_tsv(path_buildings: pathlib.Path) -> List[List[str]]:
     return data
 
 
-class AttilaGame(enum.Enum):
-    ATTILA = "att"
-    LAST_ROMAN = "bel"
-    CHARLEMAGNE = "cha"
-
-
 class ParserAttila(Parser):
     def __init__(self):
         self.game_dir = pathlib.Path("data/attila")
         self.game_name = "att"
         self.faction = "romans"
-
-    def set_game(self, game: AttilaGame):
-        self.game_name = game.value
 
     def get_scope(self, scope: str) -> Scope:
         if scope.startswith('faction'):

@@ -13,9 +13,8 @@ class Province:
     We need to create a Province class that contains a list of regions.
     """
 
-    def __init__(self, n_regions: int, name: str):
+    def __init__(self, name: str):
         self.regions = []
-        self.n_regions = n_regions
         self.name = name
 
     def add_region(self, region: Region):
