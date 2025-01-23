@@ -35,7 +35,7 @@ class ParserRome2(Parser):
             if game not in self.buildings:
                 self.buildings[game] = {}
             # Filter for att and maximize only gdp for now
-            if "att" in name:
+            if self.game_name in name:
                 # building name is the name split("_") from bld to end
                 try:
                     building_name = get_entry_name(name, EntryType.BUILDING)
