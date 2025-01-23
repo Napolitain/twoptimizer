@@ -56,13 +56,15 @@ class Region:
         if self.region_type is None or self.has_port is None or self.has_ressource is None:
             raise ValueError("Region type must be set before adding buildings.")
         # Add buildings Lp variables to the region.
-        for building in Games.buildings[Games.instance.campaign.value[1]].values():
+        for building in Games.buildings[Games.instance.get_campaign().value[1]].values():
             # Filter out buildings that are not of the faction to reduce the number of LpVariables.
-            if Games.instance.filter.building_is_not_of_faction(building.name):
+            if Games.instance.get_filter().building_is_not_of_faction(building.name):
                 continue
-            if self.region_type == RegionType.REGION_MAJOR and Games.instance.filter.building_is_minor(building.name):
+            if self.region_type == RegionType.REGION_MAJOR and Games.instance.get_filter().building_is_minor(
+                    building.name):
                 continue
-            if self.region_type == RegionType.REGION_MINOR and Games.instance.filter.building_is_major(building.name):
+            if self.region_type == RegionType.REGION_MINOR and Games.instance.get_filter().building_is_major(
+                    building.name):
                 continue
             if "ruin" in building.name:
                 continue
@@ -90,11 +92,11 @@ class Region:
         if self.has_port != RegionPort.REGION_PORT:
             # Filter out all ports that are not spice if the region has no port to reduce the number of LpVariables.
             for i, building in reversed(list(enumerate(self.buildings))):
-                if Games.instance.filter.building_is_port(building.name):
+                if Games.instance.get_filter().building_is_port(building.name):
                     self.buildings.pop(i)
         # Filter out port that do not contain "resource" because we have duplicates?
         for i, building in reversed(list(enumerate(self.buildings))):
-            if Games.instance.filter.building_is_duplicate(building.name):
+            if Games.instance.get_filter().building_is_duplicate(building.name):
                 self.buildings.pop(i)
 
     def add_port_constraint(self):
@@ -106,7 +108,7 @@ class Region:
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
-                if Games.instance.filter.building_is_port(building.name)
+                if Games.instance.get_filter().building_is_port(building.name)
             ) == 1, f"{self.name}_Port_Constraint"
 
     def filter_resource(self):
@@ -120,7 +122,7 @@ class Region:
                 self.buildings.pop(i)
             elif self.has_ressource != AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX and "religion_orthodox_legendary" in building.name:
                 self.buildings.pop(i)
-            elif self.has_ressource == AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE and Games.instance.filter.building_is_resource(
+            elif self.has_ressource == AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE and Games.instance.get_filter().building_is_resource(
                     building):
                 self.buildings.pop(i)
             elif self.has_ressource in AttilaRegionResources:
@@ -172,9 +174,11 @@ class Region:
         :return:
         """
         for i, building in reversed(list(enumerate(self.buildings))):
-            if self.region_type == RegionType.REGION_MAJOR and Games.instance.filter.building_is_minor(building.name):
+            if self.region_type == RegionType.REGION_MAJOR and Games.instance.get_filter().building_is_minor(
+                    building.name):
                 self.buildings.pop(i)
-            elif self.region_type == RegionType.REGION_MINOR and Games.instance.filter.building_is_major(building.name):
+            elif self.region_type == RegionType.REGION_MINOR and Games.instance.get_filter().building_is_major(
+                    building.name):
                 self.buildings.pop(i)
 
     def add_type_constraint(self):
@@ -187,13 +191,13 @@ class Region:
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
-                if Games.instance.filter.building_is_majorcity(building.name)
+                if Games.instance.get_filter().building_is_majorcity(building.name)
             ) == 1, f"{self.name}_Major_Constraint"
         else:
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
-                if Games.instance.filter.building_is_minorcity(building.name)
+                if Games.instance.get_filter().building_is_minorcity(building.name)
             ) == 1, f"{self.name}_Minor_Constraint"
 
     def add_chain_constraint(self):

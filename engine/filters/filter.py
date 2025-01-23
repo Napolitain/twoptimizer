@@ -57,3 +57,6 @@ class Filter(abc.ABC):
         :return:
         """
         pass
+
+    def effect_is_gdp(self, effect: str, include_fertility: bool = False) -> bool:
+        pass

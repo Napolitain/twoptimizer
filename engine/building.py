@@ -1,5 +1,6 @@
 from engine.effect import Effect
 from engine.enums import Scope
+from engine.games import Games
 
 
 class Building(Effect):
@@ -75,7 +76,7 @@ class Building(Effect):
                 amount
                 for source in sources
                 for effect, amount in source.items()
-                if "gdp" in effect and "mod" not in effect and (include_fertility == ("fertility" in effect))
+                if Games.instance.get_filter().effect_is_gdp(effect, include_fertility)
             )
             return gdp_sum * (Building.fertility if include_fertility else 1)
 

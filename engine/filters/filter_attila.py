@@ -76,3 +76,6 @@ class FilterAttila(Filter):
         if "port" in building_name and "resource" not in building_name:
             return True
         return False
+
+    def effect_is_gdp(self, effect: str, include_fertility: bool = False):
+        return "gdp" in effect and "mod" not in effect and (include_fertility == ("fertility" in effect))

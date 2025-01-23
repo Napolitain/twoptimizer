@@ -30,7 +30,7 @@ def get_dictionary_regions_to_province(game_dir: Path):
         data = [i.split('\t') for i in data]
     for province_name, region_name in data:
         # Filter game
-        if Games.instance.campaign.value[1] not in province_name:
+        if Games.instance.get_campaign().value[1] not in province_name:
             continue
         pn = get_entry_name(province_name, EntryType.PROVINCE)
         rn = get_entry_name(region_name, EntryType.REGION)
@@ -62,7 +62,8 @@ def parse_start_pos_tsv(file_tsv: Path) -> dict[str, Province]:
     dictionary_regions = {}
     for _, game, full_region_name, type_building, building in data:
         # Check if it is correct game
-        if Games.instance.campaign.value[1] not in full_region_name or Games.instance.campaign.value[0] not in game:
+        if Games.instance.get_campaign().value[1] not in full_region_name or Games.instance.get_campaign().value[
+            0] not in game:
             continue
         region_name = get_entry_name(full_region_name, EntryType.REGION)
         # Province name is the regio_name mapped to the province name
@@ -209,7 +210,8 @@ class Problem:
         for v in self.problem.variables():
             name = get_entry_name(v.name, EntryType.BUILDING)
             if v.varValue == 1:
-                answers.append((get_entry_name(v.name, EntryType.REGION), Games.buildings["att"][name]))
+                answers.append(
+                    (get_entry_name(v.name, EntryType.REGION), Games.buildings[Games.instance.get_campaign()[1]][name]))
         return answers
 
     def print_problem_answers(self):

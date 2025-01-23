@@ -29,12 +29,12 @@ We need to optimize using linear programming the economy of a province, here usi
 if __name__ == '__main__':
     # Create a province, with regions, and buildings constraints.
     Games.instance = AttilaGame(campaign=AttilaGame.Campaign.ATTILA, faction=AttilaGame.Factions.ATTILA_ROMAN_EAST)
-    Games.buildings = Games.instance.parser.buildings
+    Games.buildings = Games.instance.get_parser().buildings
     # Games.instance.campaign = AttilaGame.Campaign.CHARLEMAGNE
 
     # Attila data folder
     path = pathlib.Path(__file__).parent.absolute() / "data" / "attila"
-    Games.instance.parser.parse_building_effects_junction_tables()
+    Games.instance.get_parser().parse_building_effects_junction_tables()
 
     # Linear programming problem
     lp_problem = Problem()
