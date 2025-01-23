@@ -1,9 +1,9 @@
 import enum
 
-from engine.models.model import GameCampaign
+from engine.models.model import GameCampaign, GameFactions
 
 
-class Rome2Factions(enum.Enum):
+class Rome2Factions(GameFactions):
     THREE_C_ALANI = "3c_alani"
     THREE_C_ARMENIA = "3c_armenia"
     THREE_C_CALEDONI = "3c_caledoni"

@@ -7,7 +7,6 @@ from pulp import value
 from engine.building import Building
 from engine.games import Games
 from engine.models.game_rome2 import Rome2Game
-from engine.parser.parser import ParserRome2
 from engine.problem import Problem, ProblemState
 
 # PuLP is a linear and mixed integer programming modeler written in Python.
@@ -28,14 +27,14 @@ We need to optimize using linear programming the economy of a province, here usi
 """
 
 if __name__ == '__main__':
+    # Create a province, with regions, and buildings constraints.
+    Games.instance = Rome2Game(campaign=Rome2Game.Campaign.ROME, faction=Rome2Game.Factions.ROM_ROME)
+    Games.buildings = Games.instance.parser.buildings
+    # Games.instance.campaign = AttilaGame.Campaign.CHARLEMAGNE
+
     # Attila data folder
     path = pathlib.Path(__file__).parent.absolute() / "data" / "rome2"
-    parser = ParserRome2()
-    parser.get_building_effects_junction_tables()
-
-    # Create a province, with regions, and buildings constraints.
-    Games.instance = Rome2Game
-    Games.instance.faction = Rome2Game.Factions.ROM_ROME
+    Games.instance.parser.parse_building_effects_junction_tables()
 
     # Linear programming problem
     lp_problem = Problem()

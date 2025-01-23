@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
     # Attila data folder
     path = pathlib.Path(__file__).parent.absolute() / "data" / "attila"
-    Games.instance.parser.get_building_effects_junction_tables()
+    Games.instance.parser.parse_building_effects_junction_tables()
 
     # Linear programming problem
     lp_problem = Problem()

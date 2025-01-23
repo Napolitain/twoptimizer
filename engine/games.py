@@ -5,7 +5,7 @@ from engine.models.game import Game
 
 class Games:
     problem = LpProblem("GDP Maximization", LpMaximize)
-    instance = None
+    instance: Game = None
     buildings = None
 
     def set_game(self, game: Game) -> None:

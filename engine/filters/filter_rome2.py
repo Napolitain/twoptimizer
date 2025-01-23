@@ -2,7 +2,7 @@ from engine.filters.filter import Filter
 from engine.models.model_attila import AttilaFactions
 
 
-class FilterAttila(Filter):
+class FilterRome2(Filter):
     def building_is_not_of_faction(self, building_name: str) -> bool:
         """
         Check if a building is of the faction currently assigned in Games.

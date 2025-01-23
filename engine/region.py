@@ -5,6 +5,7 @@ from pulp import LpVariable, lpSum
 
 from engine.building import Building
 from engine.games import Games
+from engine.models.game_attila import AttilaGame
 from engine.models.model import RegionType, RegionPort
 from engine.models.model_attila import AttilaRegionResources
 
@@ -22,6 +23,17 @@ class Region:
         self.region_type = RegionType.REGION_MAJOR
         self.has_port = RegionPort.REGION_NO_PORT
         self.has_ressource = AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE
+
+    def get_n_buildings(self):
+        if type(Games.instance) == AttilaGame and self.name not in [
+            # In attila, except a few regions, we can build one more building in any case.
+            "reg_bithynia_ancyra",
+            "reg_cappadocia_caesarea_eusebia",
+            "reg_palaestinea_nova_trajana_bostra"]:  # Argentorum(town which only has 3 slots), Ancyra, Caesarea Eusebia and Nova Trajana Bostra
+            return self.n_buildings + 1
+        elif self.has_port == RegionPort.REGION_PORT:  # If the region has a port, then we can build one more building, in Rome 2.
+            return self.n_buildings + 1
+        return self.n_buildings
 
     def set_region_type(self, region_type: RegionType):
         self.region_type = region_type
@@ -78,11 +90,11 @@ class Region:
         if self.has_port != RegionPort.REGION_PORT:
             # Filter out all ports that are not spice if the region has no port to reduce the number of LpVariables.
             for i, building in reversed(list(enumerate(self.buildings))):
-                if "port" in building.name and "spice" not in building.name:
+                if Games.instance.filter.building_is_port(building.name):
                     self.buildings.pop(i)
         # Filter out port that do not contain "resource" because we have duplicates?
         for i, building in reversed(list(enumerate(self.buildings))):
-            if "port" in building.name and "resource" not in building.name:
+            if Games.instance.filter.building_is_duplicate(building.name):
                 self.buildings.pop(i)
 
     def add_port_constraint(self):
@@ -94,7 +106,7 @@ class Region:
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
-                if "port" in building.name and "spice" not in building.name
+                if Games.instance.filter.building_is_port(building.name)
             ) == 1, f"{self.name}_Port_Constraint"
 
     def filter_resource(self):
@@ -175,13 +187,13 @@ class Region:
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
-                if "city_major" in building.name
+                if Games.instance.filter.building_is_majorcity(building.name)
             ) == 1, f"{self.name}_Major_Constraint"
         else:
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
-                if "city_minor" in building.name
+                if Games.instance.filter.building_is_minorcity(building.name)
             ) == 1, f"{self.name}_Minor_Constraint"
 
     def add_chain_constraint(self):
@@ -208,7 +220,7 @@ class Region:
         """
         Games.problem += lpSum(
             building.lp_variable for building in self.buildings
-        ) <= self.n_buildings, f"Max_Buildings_{self.name}"
+        ) <= self.get_n_buildings(), f"Max_Buildings_{self.name}"
 
     def filter_city_level(self, city_level: int):
         """

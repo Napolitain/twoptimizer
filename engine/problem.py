@@ -57,7 +57,7 @@ def parse_start_pos_tsv(file_tsv: Path) -> dict[str, Province]:
         if province_name not in dictionary_provinces:
             dictionary_provinces[province_name] = Province(province_name)
     # Read file building_effects_junction_tables.tsv (tabulated)
-    path_startpos_regions = file_tsv / "start_pos_region_slot_templates_tables.tsv"
+    path_startpos_regions = file_tsv / "start_pos_region_slot_templates_table.tsv"
     data = parse_tsv(path_startpos_regions)
     dictionary_regions = {}
     for _, game, full_region_name, type_building, building in data:
@@ -75,10 +75,10 @@ def parse_start_pos_tsv(file_tsv: Path) -> dict[str, Province]:
         if region_name not in dictionary_regions:
             # If building contains "major", it is a major region, else minor
             if "major" in building:
-                dictionary_regions[region_name] = Region(6, region_name)
+                dictionary_regions[region_name] = Region(5, region_name)
                 dictionary_regions[region_name].set_region_type(RegionType.REGION_MAJOR)
             else:
-                dictionary_regions[region_name] = Region(4, region_name)
+                dictionary_regions[region_name] = Region(3, region_name)
                 dictionary_regions[region_name].set_region_type(RegionType.REGION_MINOR)
             # Add region to province
             dictionary_provinces[province_name].add_region(dictionary_regions[region_name])
