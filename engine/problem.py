@@ -7,35 +7,12 @@ from pulp import LpProblem, LpMaximize, PULP_CBC_CMD
 
 from engine.building import Building
 from engine.enums import EntryType
-from engine.filters.utils import get_entry_name
 from engine.games import Games
 from engine.models.model import RegionType, RegionPort
 from engine.models.model_attila import AttilaRegionResources
 from engine.parser.parser import parse_tsv
 from engine.province import Province
 from engine.region import Region
-
-
-def get_dictionary_regions_to_province(game_dir: Path):
-    """
-    Get a dictionary of regions to province from a tsv file (TW DB)
-    :param game_dir: path to the game folder
-    :return: dictionary of regions to province (region_name: province_name)
-    """
-    path_province_region_junctions = game_dir / "region_to_provinces_junctions_table.tsv"
-    dictionary_regions_to_province = {}
-    with open(path_province_region_junctions, 'r') as file:
-        data = file.read()
-        data = data.split('\n')
-        data = [i.split('\t') for i in data]
-    for province_name, region_name in data:
-        # Filter game
-        if Games.instance.get_campaign().value[1] not in province_name:
-            continue
-        pn = get_entry_name(province_name, EntryType.PROVINCE)
-        rn = get_entry_name(region_name, EntryType.REGION)
-        dictionary_regions_to_province[rn] = pn
-    return dictionary_regions_to_province
 
 
 class ProblemState(enum.Enum):
@@ -50,7 +27,7 @@ class ProblemState(enum.Enum):
 
 def parse_start_pos_tsv(file_tsv: Path) -> dict[str, Province]:
     # Link region name to province name
-    dictionary_regions_to_province = get_dictionary_regions_to_province(file_tsv)
+    dictionary_regions_to_province = Games.instance.get_parser().get_dictionary_regions_to_province(file_tsv)
     # Link province name to province object
     dictionary_provinces = {}
     for province_name in dictionary_regions_to_province.values():
@@ -65,7 +42,7 @@ def parse_start_pos_tsv(file_tsv: Path) -> dict[str, Province]:
         if Games.instance.get_campaign().value[1] not in full_region_name or Games.instance.get_campaign().value[
             0] not in game:
             continue
-        region_name = get_entry_name(full_region_name, EntryType.REGION)
+        region_name = Games.instance.get_parser().get_entry_name(full_region_name, EntryType.REGION)
         # Province name is the regio_name mapped to the province name
         try:
             province_name = dictionary_regions_to_province[region_name]
@@ -208,10 +185,11 @@ class Problem:
             raise ValueError("Problem is not solved.")
         answers = []
         for v in self.problem.variables():
-            name = get_entry_name(v.name, EntryType.BUILDING)
+            name = Games.instance.get_parser().get_entry_name(v.name, EntryType.BUILDING)
             if v.varValue == 1:
                 answers.append(
-                    (get_entry_name(v.name, EntryType.REGION), Games.buildings[Games.instance.get_campaign()[1]][name]))
+                    (Games.instance.get_parser().get_entry_name(v.name, EntryType.REGION),
+                     Games.buildings[Games.instance.get_campaign()[1]][name]))
         return answers
 
     def print_problem_answers(self):

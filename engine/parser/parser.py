@@ -3,6 +3,8 @@ import enum
 import pathlib
 from typing import List
 
+from engine.enums import EntryType
+
 
 class Parser(abc.ABC):
     def __init__(self):
@@ -22,6 +24,27 @@ class Parser(abc.ABC):
         """
         Get buildings effects from building_effects_junction_table.tsv
         :return:
+        """
+        pass
+
+    @abc.abstractmethod
+    def get_entry_name(self, name: str, entry_type: EntryType) -> str:
+        """
+        Get the building name from the full name.
+        x_y_bld_z -> bld_z
+        :param name: full name
+        :param entry_type: type of the entry (building, region, province)
+        :raise ValueError: if the entry type is not found in the name (e.g. bld, reg, prov not found in name)
+        :return: name of the entry
+        """
+        pass
+
+    @abc.abstractmethod
+    def get_dictionary_regions_to_province(self, game_dir: pathlib.Path):
+        """
+        Get a dictionary of regions to province from a tsv file (TW DB)
+        :param game_dir: path to the game folder
+        :return: dictionary of regions to province (region_name: province_name)
         """
         pass
 

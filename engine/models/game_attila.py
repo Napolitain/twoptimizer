@@ -18,5 +18,5 @@ class AttilaGame(Game):
         super().__init__()
         self.campaign = campaign
         self.faction = faction
-        self.parser = ParserAttila()
+        self.parser = ParserAttila(campaign, faction)
         self.filter = FilterAttila(faction)

@@ -18,5 +18,5 @@ class Rome2Game(Game):
         super().__init__()
         self.campaign = campaign
         self.faction = faction
-        self.parser = ParserRome2()
+        self.parser = ParserRome2(campaign, faction)
         self.filter = FilterRome2(faction)
