@@ -3,6 +3,7 @@ import enum
 import pathlib
 from typing import List
 
+from engine.bases import ProvinceBase
 from engine.enums import EntryType
 
 
@@ -45,6 +46,15 @@ class Parser(abc.ABC):
         Get a dictionary of regions to province from a tsv file (TW DB)
         :param game_dir: path to the game folder
         :return: dictionary of regions to province (region_name: province_name)
+        """
+        pass
+
+    @abc.abstractmethod
+    def parse_start_pos_tsv(self, file_tsv: pathlib.Path) -> dict[str, ProvinceBase]:
+        """
+        Parse the start_pos_region_slot_templates_table.tsv file.
+        :param file_tsv: path to the file
+        :return: dictionary of provinces
         """
         pass
 

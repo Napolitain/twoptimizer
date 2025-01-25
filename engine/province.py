@@ -2,13 +2,14 @@ from typing import List
 
 from pulp import lpSum
 
+from engine.bases import ProvinceBase
 from engine.building import Building
 from engine.enums import Scope
 from engine.games import Games
 from engine.region import Region
 
 
-class Province:
+class Province(ProvinceBase):
     """
     We need to create a Province class that contains a list of regions.
     """

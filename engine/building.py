@@ -8,7 +8,6 @@ class Building(Effect):
     A building contains effects that can be applied to a province, region, or building.
     We need to create a Building class that contains a list of effects.
     """
-    fertility = 3
 
     def __init__(self, name: str):
         self.lp_variable = None
@@ -78,7 +77,7 @@ class Building(Effect):
                 for effect, amount in source.items()
                 if Games.instance.get_filter().effect_is_gdp(effect, include_fertility)
             )
-            return gdp_sum * (Building.fertility if include_fertility else 1)
+            return gdp_sum * (Games.fertility if include_fertility else 1)
 
         base_gdp = calculate_gdp()
         fertility_gdp = calculate_gdp(include_fertility=True)
@@ -156,7 +155,7 @@ class Building(Effect):
                 for effect, amount in source.items()
                 if "food" in effect and effect_type in effect and (include_fertility == ("fertility" in effect))
             )
-            return food_sum * (Building.fertility if include_fertility else 1)
+            return food_sum * (Games.fertility if include_fertility else 1)
 
         food_production = calculate_food("production") + calculate_food("production", include_fertility=True)
         food_consumption = calculate_food("consumption")

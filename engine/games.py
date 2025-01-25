@@ -4,6 +4,7 @@ from engine.models.game import Game
 
 
 class Games:
+    fertility = 5
     problem = LpProblem("GDP Maximization", LpMaximize)
     instance: Game = None
     buildings = None

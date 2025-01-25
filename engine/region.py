@@ -3,6 +3,7 @@ from typing import List
 
 from pulp import LpVariable, lpSum
 
+from engine.bases import RegionBase
 from engine.building import Building
 from engine.games import Games
 from engine.models.game_attila import AttilaGame
@@ -10,7 +11,7 @@ from engine.models.model import RegionType, RegionPort
 from engine.models.model_attila import AttilaRegionResources
 
 
-class Region:
+class Region(RegionBase):
     """
     A region contains buildings.
     """
@@ -57,6 +58,9 @@ class Region:
             raise ValueError("Region type must be set before adding buildings.")
         # Add buildings Lp variables to the region.
         for building in Games.buildings[Games.instance.get_campaign().value[1]].values():
+            # Filter out buildings that are not of the campaign to reduce the number of LpVariables.
+            if Games.instance.get_filter().building_is_not_of_campaign(building.name):
+                continue
             # Filter out buildings that are not of the faction to reduce the number of LpVariables.
             if Games.instance.get_filter().building_is_not_of_faction(building.name):
                 continue

@@ -4,7 +4,6 @@ import pathlib
 
 from pulp import value
 
-from engine.building import Building
 from engine.games import Games
 from engine.models.game_rome2 import Rome2Game
 from engine.problem import Problem, ProblemState
@@ -46,13 +45,13 @@ if __name__ == '__main__':
         for region in province.regions:
             region.add_buildings()
             # Filter out city build below x (to force a city level)
-            # region.filter_city_level(4)
-            # region.filter_building_level(4)
-            # region.filter_military()
+            region.filter_city_level(4)
+            region.filter_building_level(4)
+            region.filter_military()
             lp_problem.state = ProblemState.FILTERS_ADDED
 
         # Set province wide fertility : impacts food and GDP
-        Building.fertility = 5
+        Games.fertility = 5
 
         # Regional constraints
         for region in province.regions:

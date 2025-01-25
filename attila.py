@@ -4,7 +4,6 @@ import pathlib
 
 from pulp import value
 
-from engine.building import Building
 from engine.games import Games
 from engine.models.game_attila import AttilaGame
 from engine.problem import Problem, ProblemState
@@ -52,7 +51,7 @@ if __name__ == '__main__':
             lp_problem.state = ProblemState.FILTERS_ADDED
 
         # Set province wide fertility : impacts food and GDP
-        Building.fertility = 5
+        Games.fertility = 5
 
         # Regional constraints
         for region in province.regions:

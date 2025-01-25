@@ -3,6 +3,9 @@ from engine.models.model_attila import AttilaFactions
 
 
 class FilterAttila(Filter):
+    def building_is_not_of_campaign(self, building_name: str) -> bool:
+        return False
+
     def building_is_not_of_faction(self, building_name: str) -> bool:
         """
         Check if a building is of the faction currently assigned in Games.

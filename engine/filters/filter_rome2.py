@@ -1,5 +1,5 @@
 from engine.filters.filter import Filter
-from engine.models.model_attila import AttilaFactions
+from engine.models.model_rome2 import Rome2Factions
 
 
 class FilterRome2(Filter):
@@ -9,26 +9,8 @@ class FilterRome2(Filter):
         :param building_name:
         :return:
         """
-        split_name = building_name.split("_")
-        if self.faction == AttilaFactions.ATTILA_ROMAN_EAST:
-            if (
-                    "roman" in building_name and "west" not in building_name) or ("orthodox" in building_name) or (
-                    "all" in split_name and "camel" not in building_name and "pigs" not in building_name):
-                return False
-        if self.faction == AttilaFactions.ATTILA_ROMAN_WEST:
-            if (
-                    "roman" in building_name and "east" not in building_name) or ("catholic" in building_name) or (
-                    "all" in split_name and "camel" not in building_name and "pigs" not in building_name):
-                return False
-        if self.faction == AttilaFactions.ATTILA_FRANKS:
-            if "barbarian" in building_name or (
-                    "catholic" in building_name) or (
-                    "all" in split_name and "camel" not in building_name and "pigs" not in building_name):
-                return False
-        if self.faction == AttilaFactions.ATTILA_SASSANIDS:
-            if "eastern" in building_name or (
-                    "zoro" in building_name) or (
-                    "all" in split_name and "cows" not in building_name and "pigs" not in building_name):
+        if self.faction == Rome2Factions.ROM_ROME:
+            if ("roman" in building_name and building_name.startswith("rom")) or building_name.startswith("rome"):
                 return False
         return True
 
