@@ -23,7 +23,8 @@ class Region(RegionBase):
         self.name = name
         if print_name == "":
             self.print_name = name
-        self.print_name = print_name
+        else:
+            self.print_name = print_name
         self.region_type = RegionType.REGION_MAJOR
         self.has_port = RegionPort.REGION_NO_PORT
         self.has_ressource = AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE

@@ -14,12 +14,13 @@ class Province(ProvinceBase):
     We need to create a Province class that contains a list of regions.
     """
 
-    def __init__(self, name: str, print_name: str = None):
+    def __init__(self, name: str, print_name: str = ""):
         self.regions = []
         self.name = name
-        if print_name is None:
+        if print_name == "":
             self.print_name = name
-        self.print_name = print_name
+        else:
+            self.print_name = print_name
 
     def add_region(self, region: Region):
         """

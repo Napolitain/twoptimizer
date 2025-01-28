@@ -14,7 +14,8 @@ class Building(Effect):
         self.name = name
         if print_name is None:
             self.print_name = name
-        self.print_name = print_name
+        else:
+            self.print_name = print_name
         self.effects_to_faction = {}
         self.effects_to_province = {}
         self.effects_to_region = {}

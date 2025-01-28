@@ -36,6 +36,7 @@ class ParserAttila(Parser):
                     return "_".join(split_name[i:])
             raise ValueError(f"Entry type {entry_type.value} not found in {name}.")
         else:
+            # TODO: remove that part eventually, to be replaced with full id and id to name matching, like up
             i = 0
             while i < len(split_name) and split_name[i] != entry_type.value:
                 i += 1
@@ -75,7 +76,7 @@ class ParserAttila(Parser):
             # Filter for the campaign to optimize memory usage
             if self.campaign.value[1] in building_id1:
                 # Filter for the faction to optimize memory usage
-                if self.building_is_of_faction(culture2, faction_id4, subculture3):
+                if self.building_is_of_faction(culture2, faction_id4, subculture3) or "religion" in building_id1:
                     self.buildings[campaign_name][building_id1] = Building(building_id1, building_name6)
 
     def building_is_of_faction(self, culture, faction_id, subculture) -> bool:
@@ -170,13 +171,24 @@ class ParserAttila(Parser):
         return dictionary_provinces
 
     def parse_factions_table(self) -> dict[str, Faction]:
+        subculture_to_culture = self.parse_cultures_subcultures()
         path_factions = self.game_dir / "factions_table.tsv"
         data = parse_tsv(path_factions)
         faction_to_culture = {}
-        for faction_id1, _, subculture3, _, faction_name5, _, _, _, culture9, *rest in data:
+        for faction_id1, _, subculture3, _, faction_name5, _, _, _, _, *rest in data:
             # Associate faction to culture and subculture
-            faction_to_culture[faction_id1] = Faction(faction_id1, faction_name5, culture9, subculture3)
+            faction_to_culture[faction_id1] = Faction(faction_id1, faction_name5, subculture_to_culture[subculture3],
+                                                      subculture3)
         return faction_to_culture
+
+    def parse_cultures_subcultures(self) -> dict[str, str]:
+        path_cultures = self.game_dir / "cultures_subcultures_table.tsv"
+        data = parse_tsv(path_cultures)
+        subculture_to_culture = {}
+        for subculture1, culture2, *rest in data:
+            # Associate subculture to culture
+            subculture_to_culture[subculture1] = culture2
+        return subculture_to_culture
 
     def parse_cultures_subcultures_table(self) -> None:
         pass
