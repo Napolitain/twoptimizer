@@ -1,19 +1,7 @@
 from engine.filters.filter import Filter
-from engine.models.model_rome2 import Rome2Factions
 
 
 class FilterRome2(Filter):
-    def building_is_not_of_faction(self, building_name: str) -> bool:
-        """
-        Check if a building is of the faction currently assigned in Games.
-        :param building_name:
-        :return:
-        """
-        if self.faction == Rome2Factions.ROM_ROME:
-            if ("roman" in building_name and building_name.startswith("rom")) or building_name.startswith("rome"):
-                return False
-        return True
-
     def building_is_major(self, building_name: str) -> bool:
         """
         Check if a building is major (city or town).

@@ -1,4 +1,13 @@
+import dataclasses
 import enum
+
+
+@dataclasses.dataclass
+class Faction:
+    id: str
+    name: str
+    culture: str
+    subculture: str
 
 
 class GameFactions(enum.Enum):

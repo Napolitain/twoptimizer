@@ -27,7 +27,8 @@ We need to optimize using linear programming the economy of a province, here usi
 
 if __name__ == '__main__':
     # Create a province, with regions, and buildings constraints.
-    Games.instance = AttilaGame(campaign=AttilaGame.Campaign.ATTILA, faction=AttilaGame.Factions.ATTILA_ROMAN_EAST)
+    Games.instance = AttilaGame(campaign=AttilaGame.Campaign.ATTILA,
+                                faction=AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE)
     Games.buildings = Games.instance.get_parser().buildings
     # Games.instance.campaign = AttilaGame.Campaign.CHARLEMAGNE
 

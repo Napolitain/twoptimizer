@@ -14,7 +14,7 @@ class AttilaGame(Game):
     Campaign = AttilaCampaign
 
     def __init__(self, campaign: AttilaCampaign = AttilaCampaign.ATTILA,
-                 faction: AttilaFactions = AttilaFactions.ATTILA_ROMAN_EAST):
+                 faction: AttilaFactions = AttilaFactions.ATT_FACT_WESTERN_ROMAN_EMPIRE):
         super().__init__()
         self.campaign = campaign
         self.faction = faction

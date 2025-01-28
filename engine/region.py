@@ -61,9 +61,6 @@ class Region(RegionBase):
             # Filter out buildings that are not of the campaign to reduce the number of LpVariables.
             if Games.instance.get_filter().building_is_not_of_campaign(building.name):
                 continue
-            # Filter out buildings that are not of the faction to reduce the number of LpVariables.
-            if Games.instance.get_filter().building_is_not_of_faction(building.name):
-                continue
             if self.region_type == RegionType.REGION_MAJOR and Games.instance.get_filter().building_is_minor(
                     building.name):
                 continue
@@ -258,6 +255,11 @@ class Region(RegionBase):
                     break
                 except ValueError:
                     j -= 1
+            try:
+                float(split_name[j])
+            except ValueError:
+                print(f"Building {building.name} has no level.")
+                continue
             if len(split_name) > 1 and float(split_name[j]) < level:
                 self.buildings.pop(i)
 

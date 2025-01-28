@@ -1,39 +1,9 @@
 from engine.filters.filter import Filter
-from engine.models.model_attila import AttilaFactions
 
 
 class FilterAttila(Filter):
     def building_is_not_of_campaign(self, building_name: str) -> bool:
         return False
-
-    def building_is_not_of_faction(self, building_name: str) -> bool:
-        """
-        Check if a building is of the faction currently assigned in Games.
-        :param building_name:
-        :return:
-        """
-        split_name = building_name.split("_")
-        if self.faction == AttilaFactions.ATTILA_ROMAN_EAST:
-            if (
-                    "roman" in building_name and "west" not in building_name) or ("orthodox" in building_name) or (
-                    "all" in split_name and "camel" not in building_name and "pigs" not in building_name):
-                return False
-        if self.faction == AttilaFactions.ATTILA_ROMAN_WEST:
-            if (
-                    "roman" in building_name and "east" not in building_name) or ("catholic" in building_name) or (
-                    "all" in split_name and "camel" not in building_name and "pigs" not in building_name):
-                return False
-        if self.faction == AttilaFactions.ATTILA_FRANKS:
-            if "barbarian" in building_name or (
-                    "catholic" in building_name) or (
-                    "all" in split_name and "camel" not in building_name and "pigs" not in building_name):
-                return False
-        if self.faction == AttilaFactions.ATTILA_SASSANIDS:
-            if "eastern" in building_name or (
-                    "zoro" in building_name) or (
-                    "all" in split_name and "cows" not in building_name and "pigs" not in building_name):
-                return False
-        return True
 
     def building_is_major(self, building_name: str) -> bool:
         """

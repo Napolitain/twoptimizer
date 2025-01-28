@@ -9,9 +9,12 @@ class Building(Effect):
     We need to create a Building class that contains a list of effects.
     """
 
-    def __init__(self, name: str):
+    def __init__(self, name: str, print_name: str = None):
         self.lp_variable = None
         self.name = name
+        if print_name is None:
+            self.print_name = name
+        self.print_name = print_name
         self.effects_to_faction = {}
         self.effects_to_province = {}
         self.effects_to_region = {}

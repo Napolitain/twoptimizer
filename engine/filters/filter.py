@@ -35,15 +35,6 @@ class Filter(abc.ABC):
     def building_is_not_of_campaign(self, building_name: str) -> bool:
         return False
 
-    def building_is_not_of_faction(self, building_name: str) -> bool:
-        """
-        Check if a building is of the faction currently assigned in Games.
-        If it is not of the faction, return True.
-        :param building_name:
-        :return:
-        """
-        pass
-
     def building_is_port(self, building_name: str) -> bool:
         """
         Check if a building is a port.
