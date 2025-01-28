@@ -1,0 +1,15 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "napolitain.twoptimizer"
+version = "1.0.0"
+description = "Shared library"
+authors = ["Maxime Boucher <mxboucher@gmail.com>"]
+packages = [
+    { include = "napolitain", from = "." }
+]
+
+[tool.poetry.dependencies]
+python = ">=3.12"

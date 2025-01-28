@@ -119,8 +119,8 @@ class Problem:
         Return the variables equal to 1 with their respective contribution.
         :return: list of tuples (region_name, building_name)
         """
-        if self.problem.status != 1:
-            raise ValueError("Problem is not solved.")
+        if self.state != ProblemState.SOLVED:
+            raise ValueError("Problem must be solved first.")
         answers = []
         for v in self.problem.variables():
             name = Games.instance.get_parser().get_entry_name(v.name, EntryType.BUILDING)

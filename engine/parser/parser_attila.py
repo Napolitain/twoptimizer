@@ -29,20 +29,27 @@ class ParserAttila(Parser):
 
     def get_entry_name(self, name: str, entry_type: EntryType) -> str:
         split_name = name.split("_")
-        i = 0
-        while i < len(split_name) and split_name[i] != entry_type.value:
-            i += 1
-        if i == len(split_name):
+        if entry_type == EntryType.BUILDING:
+            # Check if a_b_c, b_c, c is in buildings list, and return the name if it matches
+            for i in range(len(split_name)):
+                if "_".join(split_name[i:]) in self.buildings[self.campaign.value[1]]:
+                    return "_".join(split_name[i:])
             raise ValueError(f"Entry type {entry_type.value} not found in {name}.")
-        # Return everything after the entry type unless it matches any other entry type (e.g. reg, prov)
-        j = i + 1
-        # Matches bld, reg, if we search prov, etc...
-        entries = [entry.value for entry in EntryType if entry != entry_type]
-        while j < len(split_name) and split_name[j] not in entries:
-            j += 1
-        if j == len(split_name):
-            return "_".join(split_name[i:])
-        return "_".join(split_name[i:j])
+        else:
+            i = 0
+            while i < len(split_name) and split_name[i] != entry_type.value:
+                i += 1
+            if i == len(split_name):
+                raise ValueError(f"Entry type {entry_type.value} not found in {name}.")
+            # Return everything after the entry type unless it matches any other entry type (e.g. reg, prov)
+            j = i + 1
+            # Matches bld, reg, if we search prov, etc...
+            entries = [entry.value for entry in EntryType if entry != entry_type]
+            while j < len(split_name) and split_name[j] not in entries:
+                j += 1
+            if j == len(split_name):
+                return "_".join(split_name[i:])
+            return "_".join(split_name[i:j])
 
     def get_dictionary_regions_to_province(self, game_dir: pathlib.Path):
         path_province_region_junctions = game_dir / "region_to_provinces_junctions_table.tsv"

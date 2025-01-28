@@ -36,10 +36,10 @@ class Building(Effect):
         return self.name == other.name
 
     def __repr__(self):
-        return [self.name, self.gdp(), self.public_order(), self.sanitation(), self.food()]
+        return [self.print_name, self.gdp(), self.public_order(), self.sanitation(), self.food()]
 
     def __str__(self):
-        return f"{self.name}, GDP: {self.gdp()}, Public Order: {self.public_order()}, Sanitation: {self.sanitation()}, Food: {self.food()}"
+        return f"{self.print_name}, GDP: {self.gdp()}, Public Order: {self.public_order()}, Sanitation: {self.sanitation()}, Food: {self.food()}"
 
     def add_effect(self, effect: str, scope: Scope, amount: float):
         """

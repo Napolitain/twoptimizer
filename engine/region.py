@@ -16,11 +16,14 @@ class Region(RegionBase):
     A region contains buildings.
     """
 
-    def __init__(self, n_buildings: int, name: str):
+    def __init__(self, n_buildings: int, name: str, print_name: str = ""):
         self.n_buildings = n_buildings  # Number of buildings that can be built in the region. NOT equal to len(buildings).
         self.buildings: List[Building] = []  # List of buildings that are potentially fit for the region.
         self.effects = defaultdict(list)
         self.name = name
+        if print_name == "":
+            self.print_name = name
+        self.print_name = print_name
         self.region_type = RegionType.REGION_MAJOR
         self.has_port = RegionPort.REGION_NO_PORT
         self.has_ressource = AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE
