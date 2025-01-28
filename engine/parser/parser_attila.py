@@ -58,6 +58,7 @@ class ParserAttila(Parser):
         return dictionary_regions_to_province
 
     def parse_buildings_culture_variants_table(self) -> None:
+        # TODO: Fix religion buildings
         path_buildings_culture_variants = self.game_dir / "building_culture_variants_table.tsv"
         data = parse_tsv(path_buildings_culture_variants)
         for building_id1, culture2, subculture3, faction_id4, building_name6, *rest in data:
@@ -68,7 +69,7 @@ class ParserAttila(Parser):
             if self.campaign.value[1] in building_id1:
                 # Filter for the faction to optimize memory usage
                 if self.building_is_of_faction(culture2, faction_id4, subculture3):
-                    self.buildings[campaign_name][building_id1] = Building(self.faction.value, building_name6)
+                    self.buildings[campaign_name][building_id1] = Building(building_id1, building_name6)
 
     def building_is_of_faction(self, culture, faction_id, subculture) -> bool:
         """

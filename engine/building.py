@@ -21,7 +21,7 @@ class Building(Effect):
         self.effects_to_building = {}
 
     def __copy__(self):
-        new_building = Building(self.name)
+        new_building = Building(self.name, self.print_name)
         new_building.lp_variable = self.lp_variable
         new_building.effects_to_faction = self.effects_to_faction.copy()
         new_building.effects_to_province = self.effects_to_province.copy()
