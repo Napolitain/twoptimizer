@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import List
+from typing import List, cast
 
 from pulp import LpVariable, lpSum
 
@@ -8,7 +8,7 @@ from engine.building import Building
 from engine.games import Games
 from engine.models.game_attila import AttilaGame
 from engine.models.model import RegionType, RegionPort
-from engine.models.model_attila import AttilaRegionResources
+from engine.models.model_attila import AttilaRegionResources, AttilaReligion
 
 
 class Region(RegionBase):
@@ -154,6 +154,13 @@ class Region(RegionBase):
         resource_constraints[AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC] = True
         resource_constraints[AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX] = True
         del resource_constraints[AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE]
+        # TODO: ugly fix, should be replaced without usage of cast with dynamic check.
+        if hasattr(Games.instance, 'religion'):
+            x = cast(AttilaGame, Games.instance)
+            if x.religion != AttilaReligion.CHRIST_CATHOLIC:
+                resource_constraints[AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC] = False
+            if x.religion != AttilaReligion.CHRIST_ORTHODOX:
+                resource_constraints[AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX] = False
 
         # Add constraints dynamically based on the resource type
         if self.has_ressource in resource_constraints:

@@ -279,3 +279,20 @@ class AttilaCampaign(GameCampaign):
     ATTILA = ("main_attila", "att")
     LAST_ROMAN = ("bel_attila", "bel")
     CHARLEMAGNE = ("cha_attila", "cha")
+
+
+class AttilaReligion(enum.Enum):
+    ANY = "any"
+    CHRIST_CATHOLIC = "catholic"
+    CHRIST_ARIAN = "arian"
+    CHRIST_ORTHODOX = "orthodox"
+    CHRIST_EAST = "eastern"
+    PAGAN_GERMANIC = "germanic"
+    PAGAN_CELTIC = "celtic"
+    PAGAN_GRECO_ROMAN = "grecoroman"
+    MANICHEIST = "manichaeist"
+    ZOROASTRIAN = "zoroastrian"
+    JUDAISM = "judaism"
+    ISLAM = "islam"
+    TENGRISM = "tengris"
+    OTHER = "other"

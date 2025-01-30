@@ -3,17 +3,20 @@ import pathlib
 from engine.bases import ProvinceBase
 from engine.building import Building
 from engine.enums import Scope, EntryType
+from engine.models.game_attila import AttilaReligion
 from engine.models.model import RegionType, RegionPort
 from engine.models.model_attila import AttilaCampaign, AttilaFactions, AttilaRegionResources
 from engine.parser.parser import Parser, parse_tsv, Faction
 
 
 class ParserAttila(Parser):
-    def __init__(self, campaign: AttilaCampaign, faction: AttilaFactions):
+    def __init__(self, campaign: AttilaCampaign, faction: AttilaFactions,
+                 religion: AttilaReligion = AttilaReligion.CHRIST_ORTHODOX):
         super().__init__()
         self.game_dir = pathlib.Path("data/attila")
         self.campaign = campaign
         self.faction: AttilaFactions = faction
+        self.religion = religion
         self.faction_to_culture = self.parse_factions_table()
 
     def get_scope(self, scope: str) -> Scope:
@@ -76,8 +79,14 @@ class ParserAttila(Parser):
             # Filter for the campaign to optimize memory usage
             if self.campaign.value[1] in building_id1:
                 # Filter for the faction to optimize memory usage
-                if self.building_is_of_faction(culture2, faction_id4, subculture3) or "religion" in building_id1:
+                if self.building_is_of_faction(culture2, faction_id4, subculture3) or self.building_is_of_religion(
+                        building_id1):
                     self.buildings[campaign_name][building_id1] = Building(building_id1, building_name6)
+
+    def building_is_of_religion(self, building_id1):
+        if "religion" in building_id1:
+            return self.religion == AttilaReligion.ANY or self.religion.value in building_id1
+        return False
 
     def building_is_of_faction(self, culture, faction_id, subculture) -> bool:
         """
