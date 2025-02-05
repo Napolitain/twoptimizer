@@ -1,5 +1,6 @@
 from pulp import LpProblem, LpMaximize
 
+from engine.enums import NameType
 from engine.models.game import Game
 
 
@@ -8,6 +9,7 @@ class Games:
     problem = LpProblem("GDP Maximization", LpMaximize)
     instance: Game = None
     buildings = None
+    USE_NAME = NameType.NAME
 
     def set_game(self, game: Game) -> None:
         """

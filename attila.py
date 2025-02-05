@@ -4,6 +4,7 @@ import pathlib
 
 from pulp import value
 
+from engine.enums import NameType
 from engine.games import Games
 from engine.models.game_attila import AttilaGame
 from engine.problem import Problem, ProblemState
@@ -40,6 +41,9 @@ if __name__ == '__main__':
     # Linear programming problem
     lp_problem = Problem()
     lp_problem.add_provinces(path)
+
+    # Options
+    Games.USE_NAME = NameType.NAME
 
     for province in lp_problem.provinces:
         lp_problem.reset_problem()

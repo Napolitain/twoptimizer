@@ -1,5 +1,5 @@
 from engine.effect import Effect
-from engine.enums import Scope
+from engine.enums import Scope, NameType
 from engine.games import Games
 
 
@@ -8,10 +8,15 @@ class Building(Effect):
     A building contains effects that can be applied to a province, region, or building.
     We need to create a Building class that contains a list of effects.
     """
+    HASH_NAME = "B1"
 
-    def __init__(self, name: str, print_name: str = None):
+    def __init__(self, name: str, print_name: str = None, hash_name: str = None):
         self.lp_variable = None
         self.name = name
+        if hash_name is None:
+            self.hash_name = self.increment_hash_name()
+        else:
+            self.hash_name = hash_name
         if print_name is None:
             self.print_name = name
         else:
@@ -22,7 +27,7 @@ class Building(Effect):
         self.effects_to_building = {}
 
     def __copy__(self):
-        new_building = Building(self.name, self.print_name)
+        new_building = Building(self.name, self.print_name, self.hash_name)
         new_building.lp_variable = self.lp_variable
         new_building.effects_to_faction = self.effects_to_faction.copy()
         new_building.effects_to_province = self.effects_to_province.copy()
@@ -41,6 +46,16 @@ class Building(Effect):
 
     def __str__(self):
         return f"{self.print_name}, GDP: {self.gdp()}, Public Order: {self.public_order()}, Sanitation: {self.sanitation()}, Food: {self.food()}"
+
+    def get_name(self):
+        if Games.USE_NAME == NameType.PRINT_NAME:
+            return self.print_name
+        elif Games.USE_NAME == NameType.NAME:
+            return self.name
+        elif Games.USE_NAME == NameType.HASH_NAME:
+            return self.hash_name
+        else:
+            raise ValueError("Region name not set.")
 
     def add_effect(self, effect: str, scope: Scope, amount: float):
         """
@@ -165,3 +180,14 @@ class Building(Effect):
         food_consumption = calculate_food("consumption")
 
         return food_production - food_consumption
+
+    def increment_hash_name(self) -> str:
+        """
+        Increment the hash name of the region. Must be X1, X2... Xn.
+        :return:
+        """
+        x = Building.HASH_NAME
+        split_name = x.split("B")
+        split_name[1] = str(int(split_name[1]) + 1)
+        Building.HASH_NAME = "B".join(split_name)
+        return x

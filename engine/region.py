@@ -5,6 +5,7 @@ from pulp import LpVariable, lpSum
 
 from engine.bases import RegionBase
 from engine.building import Building
+from engine.enums import NameType
 from engine.games import Games
 from engine.models.game_attila import AttilaGame
 from engine.models.model import RegionType, RegionPort
@@ -15,8 +16,10 @@ class Region(RegionBase):
     """
     A region contains buildings.
     """
+    HASH_NAME = "R1"
 
     def __init__(self, n_buildings: int, name: str, print_name: str = ""):
+        self.hash_name = self.increment_hash_name()
         self.n_buildings = n_buildings  # Number of buildings that can be built in the region. NOT equal to len(buildings).
         self.buildings: List[Building] = []  # List of buildings that are potentially fit for the region.
         self.effects = defaultdict(list)
@@ -29,8 +32,18 @@ class Region(RegionBase):
         self.has_port = RegionPort.REGION_NO_PORT
         self.has_ressource = AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE
 
+    def get_name(self):
+        if Games.USE_NAME == NameType.PRINT_NAME:
+            return self.print_name
+        elif Games.USE_NAME == NameType.NAME:
+            return self.name
+        elif Games.USE_NAME == NameType.HASH_NAME:
+            return self.hash_name
+        else:
+            raise ValueError("Region name not set.")
+
     def get_n_buildings(self):
-        if type(Games.instance) == AttilaGame and self.name not in [
+        if type(Games.instance) == AttilaGame and self.get_name() not in [
             # In attila, except a few regions, we can build one more building in any case.
             "reg_bithynia_ancyra",
             "reg_cappadocia_caesarea_eusebia",
@@ -63,18 +76,19 @@ class Region(RegionBase):
         # Add buildings Lp variables to the region.
         for building in Games.buildings[Games.instance.get_campaign().value[1]].values():
             # Filter out buildings that are not of the campaign to reduce the number of LpVariables.
-            if Games.instance.get_filter().building_is_not_of_campaign(building.name):
+            if Games.instance.get_filter().building_is_not_of_campaign(building.get_name()):
                 continue
             if self.region_type == RegionType.REGION_MAJOR and Games.instance.get_filter().building_is_minor(
-                    building.name):
+                    building.get_name()):
                 continue
             if self.region_type == RegionType.REGION_MINOR and Games.instance.get_filter().building_is_major(
-                    building.name):
+                    building.get_name()):
                 continue
-            if "ruin" in building.name:
+            if "ruin" in building.get_name():
                 continue
             deep_copy = building.__copy__()
-            deep_copy.name = f"{self.name}_{building.name}"
+            deep_copy.name = f"{self.get_name()}_{building.get_name()}"
+            deep_copy.hash_name = f"{self.hash_name}_{building.get_name()}"
             deep_copy.lp_variable = LpVariable(deep_copy.name, cat='Binary')
             self.buildings.append(deep_copy)
         # Filter buildings out (remove LpVariables)
@@ -97,11 +111,11 @@ class Region(RegionBase):
         if self.has_port != RegionPort.REGION_PORT:
             # Filter out all ports that are not spice if the region has no port to reduce the number of LpVariables.
             for i, building in reversed(list(enumerate(self.buildings))):
-                if Games.instance.get_filter().building_is_port(building.name):
+                if Games.instance.get_filter().building_is_port(building.get_name()):
                     self.buildings.pop(i)
         # Filter out port that do not contain "resource" because we have duplicates?
         for i, building in reversed(list(enumerate(self.buildings))):
-            if Games.instance.get_filter().building_is_duplicate(building.name):
+            if Games.instance.get_filter().building_is_duplicate(building.get_name()):
                 self.buildings.pop(i)
 
     def add_port_constraint(self):
@@ -113,8 +127,8 @@ class Region(RegionBase):
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
-                if Games.instance.get_filter().building_is_port(building.name)
-            ) == 1, f"{self.name}_Port_Constraint"
+                if Games.instance.get_filter().building_is_port(building.get_name())
+            ) == 1, f"{self.get_name()}_Port_Constraint"
 
     def filter_resource(self):
         """
@@ -123,9 +137,9 @@ class Region(RegionBase):
         """
         # Remove buildings that are illegal
         for i, building in reversed(list(enumerate(self.buildings))):
-            if self.has_ressource != AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC and "religion_catholic_legendary" in building.name:
+            if self.has_ressource != AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC and "religion_catholic_legendary" in building.get_name():
                 self.buildings.pop(i)
-            elif self.has_ressource != AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX and "religion_orthodox_legendary" in building.name:
+            elif self.has_ressource != AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX and "religion_orthodox_legendary" in building.get_name():
                 self.buildings.pop(i)
             elif self.has_ressource == AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE and Games.instance.get_filter().building_is_resource(
                     building):
@@ -133,13 +147,14 @@ class Region(RegionBase):
             elif self.has_ressource in AttilaRegionResources:
                 resource = self.has_ressource.value
                 if (
-                        "resource" in building.name
-                        and resource not in building.name
-                        and "port" not in building.name
-                ) or ("spice" in building.name and resource != "spice"):
+                        "resource" in building.get_name()
+                        and resource not in building.get_name()
+                        and "port" not in building.get_name()
+                ) or ("spice" in building.get_name() and resource != "spice"):
                     self.buildings.pop(i)
             elif self.has_ressource == AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX or self.has_ressource == AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC:
-                if ("resource" in building.name and "port" not in building.name) or "spice" in building.name:
+                if (
+                        "resource" in building.get_name() and "port" not in building.get_name()) or "spice" in building.get_name():
                     self.buildings.pop(i)
 
     def add_resource_constraint(self):
@@ -170,15 +185,15 @@ class Region(RegionBase):
                 lpSum(
                     building.lp_variable
                     for building in self.buildings
-                    if chain_name in building.name and (
-                            "resource" in building.name or "religion" in chain_name
+                    if chain_name in building.get_name() and (
+                            "resource" in building.get_name() or "religion" in chain_name
                     )
                 )
             )
             if chain_is_mandatory:
-                Games.problem += constraint == 1, f"{self.name}_{chain_name.capitalize()}_Resource_Constraint"
+                Games.problem += constraint == 1, f"{self.get_name()}_{chain_name.capitalize()}_Resource_Constraint"
             else:
-                Games.problem += constraint <= 1, f"{self.name}_{chain_name.capitalize()}_Resource_Constraint"
+                Games.problem += constraint <= 1, f"{self.get_name()}_{chain_name.capitalize()}_Resource_Constraint"
 
     def filter_type(self):
         """
@@ -187,10 +202,10 @@ class Region(RegionBase):
         """
         for i, building in reversed(list(enumerate(self.buildings))):
             if self.region_type == RegionType.REGION_MAJOR and Games.instance.get_filter().building_is_minor(
-                    building.name):
+                    building.get_name()):
                 self.buildings.pop(i)
             elif self.region_type == RegionType.REGION_MINOR and Games.instance.get_filter().building_is_major(
-                    building.name):
+                    building.get_name()):
                 self.buildings.pop(i)
 
     def add_type_constraint(self):
@@ -203,14 +218,14 @@ class Region(RegionBase):
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
-                if Games.instance.get_filter().building_is_majorcity(building.name)
-            ) == 1, f"{self.name}_Major_Constraint"
+                if Games.instance.get_filter().building_is_majorcity(building.get_name())
+            ) == 1, f"{self.get_name()}_Major_Constraint"
         else:
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
-                if Games.instance.get_filter().building_is_minorcity(building.name)
-            ) == 1, f"{self.name}_Minor_Constraint"
+                if Games.instance.get_filter().building_is_minorcity(building.get_name())
+            ) == 1, f"{self.get_name()}_Minor_Constraint"
 
     def add_chain_constraint(self):
         """
@@ -221,13 +236,13 @@ class Region(RegionBase):
         dictionary = defaultdict(list[Building])
         for building in self.buildings:
             # name is everything until last underscore
-            name = building.name.split("_")[:-1]
+            name = building.get_name().split("_")[:-1]
             dictionary["_".join(name)].append(building)
         for building_chain, building_list in dictionary.items():
             Games.problem += lpSum(
                 building.lp_variable
                 for building in building_list
-            ) <= 1, f"{self.name}_Chain_Constraint_{building_chain}"
+            ) <= 1, f"{self.get_name()}_Chain_Constraint_{building_chain}"
 
     def add_building_count_constraint(self):
         """
@@ -236,7 +251,7 @@ class Region(RegionBase):
         """
         Games.problem += lpSum(
             building.lp_variable for building in self.buildings
-        ) <= self.get_n_buildings(), f"Max_Buildings_{self.name}"
+        ) <= self.get_n_buildings(), f"Max_Buildings_{self.get_name()}"
 
     def filter_city_level(self, city_level: int):
         """
@@ -245,8 +260,8 @@ class Region(RegionBase):
         :return:
         """
         for i, building in reversed(list(enumerate(self.buildings))):
-            if "_city_" in building.name:
-                split_name = building.name.split("_")
+            if "_city_" in building.get_name():
+                split_name = building.get_name().split("_")
                 if float(split_name[-1]) < city_level:
                     self.buildings.pop(i)
 
@@ -257,7 +272,7 @@ class Region(RegionBase):
         :return:
         """
         for i, building in reversed(list(enumerate(self.buildings))):
-            split_name = building.name.split("_")
+            split_name = building.get_name().split("_")
             # Find level inside the split_name, which is the last element convertable to float.
             j = len(split_name) - 1
             while j >= 0:
@@ -269,7 +284,7 @@ class Region(RegionBase):
             try:
                 float(split_name[j])
             except ValueError:
-                print(f"Building {building.name} has no level.")
+                print(f"Building {building.get_name()} has no level.")
                 continue
             if len(split_name) > 1 and float(split_name[j]) < level:
                 self.buildings.pop(i)
@@ -280,5 +295,16 @@ class Region(RegionBase):
         :return:
         """
         for i, building in reversed(list(enumerate(self.buildings))):
-            if "military" in building.name:
+            if "military" in building.get_name():
                 self.buildings.pop(i)
+
+    def increment_hash_name(self) -> str:
+        """
+        Increment the hash name of the region. Must be X1, X2... Xn.
+        :return:
+        """
+        x = Region.HASH_NAME
+        split_name = x.split("R")
+        split_name[1] = str(int(split_name[1]) + 1)
+        Region.HASH_NAME = "R".join(split_name)
+        return x
