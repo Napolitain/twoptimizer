@@ -4,7 +4,6 @@ import enum
 import pathlib
 from typing import List
 
-from engine.bases import ProvinceBase
 from engine.enums import EntryType
 
 
@@ -18,7 +17,10 @@ class Faction:
 
 class Parser(abc.ABC):
     def __init__(self):
+        # store id to object
         self.buildings = {}
+        self.regions = {}
+        self.provinces = {}
 
     @abc.abstractmethod
     def parse_building_effects_junction_tables(self) -> None:
@@ -29,7 +31,15 @@ class Parser(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def parse_start_pos_tsv(self, file_tsv: pathlib.Path) -> dict[str, ProvinceBase]:
+    def parse_provinces(self):
+        pass
+
+    @abc.abstractmethod
+    def parse_regions(self):
+        pass
+
+    @abc.abstractmethod
+    def parse_start_pos_tsv(self, file_tsv: pathlib.Path):
         """
         Parse the start_pos_region_slot_templates_table.tsv file.
         :param file_tsv: path to the file

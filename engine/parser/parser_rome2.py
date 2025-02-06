@@ -1,7 +1,6 @@
 import enum
 import pathlib
 
-from engine.bases import ProvinceBase
 from engine.building import Building
 from engine.enums import Scope, EntryType
 from engine.models.model import RegionType, RegionPort
@@ -63,7 +62,7 @@ class ParserRome2(Parser):
             dictionary_regions_to_province[region_name] = province_name
         return dictionary_regions_to_province
 
-    def parse_start_pos_tsv(self, file_tsv: pathlib.Path) -> dict[str, ProvinceBase]:
+    def parse_start_pos_tsv(self, file_tsv: pathlib.Path):
         from engine.region import Region
         from engine.province import Province
         # Link region name to province name
@@ -120,4 +119,3 @@ class ParserRome2(Parser):
                     for resource in AttilaRegionResources:
                         if resource.value in building:
                             dictionary_regions[region_name].set_has_ressource(resource)
-        return dictionary_provinces

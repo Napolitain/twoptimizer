@@ -5,22 +5,23 @@ from pulp import LpVariable, lpSum
 
 from engine.bases import RegionBase
 from engine.building import Building
-from engine.enums import NameType
+from engine.entity import Entity
 from engine.games import Games
 from engine.models.game_attila import AttilaGame
 from engine.models.model import RegionType, RegionPort
 from engine.models.model_attila import AttilaRegionResources, AttilaReligion
 
 
-class Region(RegionBase):
+class Region(RegionBase, Entity):
     """
     A region contains buildings.
     """
     HASH_NAME = "R1"
 
-    def __init__(self, n_buildings: int, name: str, print_name: str = ""):
+    def __init__(self, name: str, print_name: str = ""):
+        super().__init__()
         self.hash_name = self.increment_hash_name()
-        self.n_buildings = n_buildings  # Number of buildings that can be built in the region. NOT equal to len(buildings).
+        self.n_buildings = 0  # Number of buildings that can be built in the region. NOT equal to len(buildings).
         self.buildings: List[Building] = []  # List of buildings that are potentially fit for the region.
         self.effects = defaultdict(list)
         self.name = name
@@ -31,16 +32,6 @@ class Region(RegionBase):
         self.region_type = RegionType.REGION_MAJOR
         self.has_port = RegionPort.REGION_NO_PORT
         self.has_ressource = AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE
-
-    def get_name(self):
-        if Games.USE_NAME == NameType.PRINT_NAME:
-            return self.print_name
-        elif Games.USE_NAME == NameType.NAME:
-            return self.name
-        elif Games.USE_NAME == NameType.HASH_NAME:
-            return self.hash_name
-        else:
-            raise ValueError("Region name not set.")
 
     def get_n_buildings(self):
         if type(Games.instance) == AttilaGame and self.get_name() not in [
@@ -308,3 +299,11 @@ class Region(RegionBase):
         split_name[1] = str(int(split_name[1]) + 1)
         Region.HASH_NAME = "R".join(split_name)
         return x
+
+    def set_buildings_limit(self, limit: int) -> None:
+        """
+        Change number of buildings that can be built in the region.
+        :param limit: number of buildings that can be built in the region
+        :return:
+        """
+        self.n_buildings = limit

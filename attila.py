@@ -77,7 +77,7 @@ if __name__ == '__main__':
         print(f"{province.print_name} : {value(lp_problem.problem.objective)}")
 
         # Print the variables equal to 1 with their respective contribution
-        if province.name == "prov_thracia":
+        if province.print_name == "Thracia":
             lp_problem.print_problem_answers()
         # lp_problem.print_problem_answers()
         province.clean()

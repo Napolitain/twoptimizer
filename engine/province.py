@@ -4,18 +4,20 @@ from pulp import lpSum
 
 from engine.bases import ProvinceBase
 from engine.building import Building
-from engine.enums import Scope, NameType
+from engine.entity import Entity
+from engine.enums import Scope
 from engine.games import Games
 from engine.region import Region
 
 
-class Province(ProvinceBase):
+class Province(ProvinceBase, Entity):
     """
     We need to create a Province class that contains a list of regions.
     """
     HASH_NAME = "P1"
 
     def __init__(self, name: str, print_name: str = ""):
+        super().__init__()
         self.regions = []
         self.name = name
         self.hash_name = self.increment_hash_name()
@@ -93,13 +95,3 @@ class Province(ProvinceBase):
         split_name[1] = str(int(split_name[1]) + 1)
         Province.HASH_NAME = "P".join(split_name)
         return x
-
-    def get_name(self):
-        if Games.USE_NAME == NameType.PRINT_NAME:
-            return self.print_name
-        elif Games.USE_NAME == NameType.NAME:
-            return self.name
-        elif Games.USE_NAME == NameType.HASH_NAME:
-            return self.hash_name
-        else:
-            raise ValueError("Region name not set.")

@@ -1,9 +1,10 @@
 from engine.effect import Effect
-from engine.enums import Scope, NameType
+from engine.entity import Entity
+from engine.enums import Scope
 from engine.games import Games
 
 
-class Building(Effect):
+class Building(Effect, Entity):
     """
     A building contains effects that can be applied to a province, region, or building.
     We need to create a Building class that contains a list of effects.
@@ -11,6 +12,7 @@ class Building(Effect):
     HASH_NAME = "B1"
 
     def __init__(self, name: str, print_name: str = None, hash_name: str = None):
+        super().__init__()
         self.lp_variable = None
         self.name = name
         if hash_name is None:
@@ -46,16 +48,6 @@ class Building(Effect):
 
     def __str__(self):
         return f"{self.print_name}, GDP: {self.gdp()}, Public Order: {self.public_order()}, Sanitation: {self.sanitation()}, Food: {self.food()}"
-
-    def get_name(self):
-        if Games.USE_NAME == NameType.PRINT_NAME:
-            return self.print_name
-        elif Games.USE_NAME == NameType.NAME:
-            return self.name
-        elif Games.USE_NAME == NameType.HASH_NAME:
-            return self.hash_name
-        else:
-            raise ValueError("Region name not set.")
 
     def add_effect(self, effect: str, scope: Scope, amount: float):
         """

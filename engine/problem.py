@@ -47,8 +47,8 @@ class Problem:
         :param file_tsv: file containing the provinces schema, usually start_pos_region_slot_templates_table.tsv
         :return:
         """
-        dictionary_provinces = Games.instance.get_parser().parse_start_pos_tsv(file_tsv)
-        for province in dictionary_provinces.values():
+        Games.instance.get_parser().parse_start_pos_tsv(file_tsv)
+        for province in Games.instance.get_parser().provinces.values():
             self.add_province(province)
 
     def add_buildings(self) -> None:
