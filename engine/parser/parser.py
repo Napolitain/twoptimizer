@@ -4,8 +4,9 @@ import enum
 import pathlib
 from typing import List
 
+from engine.bases import RegionBase, ProvinceBase
 from engine.enums import EntryType
-from engine.models.model import FullEntryName, EntryName
+from engine.models.model import FullEntryName, EntryName, RegionType
 
 
 @dataclasses.dataclass
@@ -22,8 +23,8 @@ class Parser(abc.ABC):
         self.game_dir = pathlib.Path("data")
         self.campaign = None
         self.buildings = {}
-        self.regions = {}
-        self.provinces = {}
+        self.regions: dict[str, RegionBase] = {}
+        self.provinces: dict[str, ProvinceBase] = {}
 
     @abc.abstractmethod
     def parse_building_effects_junction_tables(self) -> None:
@@ -159,6 +160,55 @@ class Parser(abc.ABC):
         elif entry_type == EntryType.PROVINCE:
             return self.provinces[name.name].get_name_output()
         raise ValueError(f"Entry type {entry_type.value} not found in {name.name}.")
+
+    def process_building(self, full_region_name: str, type_building: str, building: str):
+        """
+        Processes a building entry and assigns attributes to the region.
+        :param full_region_name: the full region name
+        :param type_building: the type of building
+        :param building: the building entry
+        """
+        region = self.regions.get(full_region_name)
+        if not region:
+            return  # Skip if the region does not exist
+
+        handlers = {
+            "primary": self.process_primary_region,
+            "port": self.process_port_region,
+            "secondary": self.process_secondary_region
+        }
+
+        if type_building in handlers:
+            handlers[type_building](region, building)
+
+    def process_primary_region(self, region, building):
+        """
+        Sets building limits and region type for primary regions.
+        :param region: the region
+        :param building: the building entry
+        """
+        if "major" in building:
+            region.set_buildings_limit(5)
+            region.set_region_type(RegionType.REGION_MAJOR)
+        else:
+            region.set_buildings_limit(3)
+            region.set_region_type(RegionType.REGION_MINOR)
+
+    def process_port_region(self, region, building):
+        """
+        Handles port regions, setting port or spice resources.
+        :param region: the region
+        :param building: the building entry
+        """
+        pass
+
+    def process_secondary_region(self, region, building):
+        """
+        Assigns resources to secondary regions.
+        :param region: the region
+        :param building: the building entry
+        """
+        pass
 
 
 def parse_tsv(path_buildings: pathlib.Path) -> List[List[str]]:

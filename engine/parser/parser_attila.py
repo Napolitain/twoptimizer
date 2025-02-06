@@ -84,8 +84,8 @@ class ParserAttila(Parser):
         data = parse_tsv(path_buildings)
         if len(self.buildings) == 0:
             self.parse_buildings_culture_variants_table()
-        for buil in self.buildings[self.campaign.value[1]]:
-            print(buil)
+        # for buil in self.buildings[self.campaign.value[1]]:
+        #     print(buil)
         for building_id, effect, scope, amount in data:
             if building_id not in self.buildings[self.campaign.value[1]]:
                 continue
@@ -132,26 +132,6 @@ class ParserAttila(Parser):
 
     def parse_cultures_subcultures_table(self) -> None:
         pass
-
-    def process_building(self, full_region_name: str, type_building: str, building: str):
-        """
-        Processes a building entry and assigns attributes to the region.
-        :param full_region_name: the full region name
-        :param type_building: the type of building
-        :param building: the building entry
-        """
-        region = self.regions.get(full_region_name)
-        if not region:
-            return  # Skip if the region does not exist
-
-        handlers = {
-            "primary": self.process_primary_region,
-            "port": self.process_port_region,
-            "secondary": self.process_secondary_region
-        }
-
-        if type_building in handlers:
-            handlers[type_building](region, building)
 
     def process_primary_region(self, region, building):
         """
