@@ -80,11 +80,11 @@ class ParserAttila(Parser):
 
     def get_print_name(self, name: str, entry_type):
         if entry_type == EntryType.BUILDING:
-            return self.buildings[self.campaign.value[1]][name].print_name
+            return self.buildings[self.campaign.value[1]][name].get_name_output()
         elif entry_type == EntryType.REGION:
-            return self.regions[name].print_name
+            return self.regions[name].get_name_output()
         elif entry_type == EntryType.PROVINCE:
-            return self.provinces[name].print_name
+            return self.provinces[name].get_name_output()
         raise ValueError(f"Entry type {entry_type.value} not found in {name}.")
 
     def get_dictionary_regions_to_province(self, game_dir: pathlib.Path):

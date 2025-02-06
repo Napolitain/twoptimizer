@@ -1,4 +1,4 @@
-from engine.enums import NameType
+from engine.enums import NameType, PrintType
 from engine.games import Games
 
 
@@ -8,7 +8,7 @@ class Entity:
         self.name = "None"
         self.print_name = "None"
 
-    def get_name(self, name_type: NameType = None):
+    def get_name(self, name_type: PrintType = None):
         """
         :param name_type: the type of name to return (default use Games.USE_NAME)
         :return: either the print name, name, or hash name of the entity
@@ -24,3 +24,9 @@ class Entity:
             return self.hash_name
         else:
             raise ValueError("Region name not set.")
+
+    def get_name_output(self):
+        if Games.USE_NAME == NameType.PRINT_NAME or Games.USE_NAME == NameType.NAME:
+            return self.print_name
+        else:
+            return self.hash_name

@@ -28,7 +28,7 @@ class NameType(enum.Enum):
 
 class PrintType(enum.Enum):
     """
-    Print type, used for problem modeling output.
+    Used for problem modeling.
     """
-    PRINT_NAME = 0
-    HASH_NAME = 1
+    USE_ID = 0  # R1, or region_building
+    USE_PRINT_NAME = 1  # Region Building
