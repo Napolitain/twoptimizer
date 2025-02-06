@@ -1,8 +1,9 @@
 from engine.enums import NameType, PrintType
 from engine.games import Games
+from engine.models.entity_interface import EntityInterface
 
 
-class Entity:
+class Entity(EntityInterface):
     def __init__(self):
         self.hash_name = "None"
         self.name = "None"

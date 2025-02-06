@@ -1,5 +1,3 @@
-import pathlib
-
 from engine.building import Building
 from engine.enums import Scope
 from engine.models.game_attila import AttilaReligion
@@ -29,17 +27,6 @@ class ParserAttila(Parser):
             return Scope.BUILDING
         raise ValueError(f"Scope {scope} not found.")
 
-    def get_dictionary_regions_to_province(self, game_dir: pathlib.Path):
-        path_province_region_junctions = game_dir / "region_to_provinces_junctions_table.tsv"
-        dictionary_regions_to_province = {}
-        data = parse_tsv(path_province_region_junctions)
-        for province_name, region_name in data:
-            # Filter game
-            if self.campaign.value[1] not in province_name:
-                continue
-            dictionary_regions_to_province[region_name] = province_name
-        return dictionary_regions_to_province
-
     def parse_buildings_culture_variants_table(self) -> None:
         # TODO: Fix religion buildings
         path_buildings_culture_variants = self.game_dir / "building_culture_variants_table.tsv"
@@ -67,6 +54,7 @@ class ParserAttila(Parser):
         - faction id == self.faction.value
         - faction subculture == self.faction_to_culture[self.faction.value].subculture and faction id is none
         - faction culture == self.faction.culture and faction id and subculture are none
+        - all are none and not nomad, mig, religion, ruin
         :param culture: culture of the building
         :param faction_id: faction id of the building
         :param subculture: subculture of the building
@@ -76,7 +64,8 @@ class ParserAttila(Parser):
                 faction_id == "" and subculture == self.faction_to_culture[
             self.faction.value].subculture) or (
                 faction_id == "" and subculture == "" and culture == self.faction_to_culture[
-            self.faction.value].culture)
+            self.faction.value].culture) or (
+                faction_id == "" and subculture == "" and culture == "" and "nomad" not in culture and "mig" not in culture and "religion" not in culture and "ruin" not in culture)
 
     def parse_building_effects_junction_tables(self):
         path_buildings = self.game_dir / "building_effects_junction_table.tsv"
@@ -89,26 +78,13 @@ class ParserAttila(Parser):
         for building_id, effect, scope, amount in data:
             if building_id not in self.buildings[self.campaign.value[1]]:
                 continue
-            scope_value = self.get_scope(scope)
+            try:
+                scope_value = self.get_scope(scope)
+            except ValueError:
+                print(f"Unsupported scope {scope} for building {building_id}")
+                self.buildings[self.campaign.value[1]].pop(building_id)
+                continue
             self.buildings[self.campaign.value[1]][building_id].add_effect(effect, scope_value, float(amount))
-
-    def parse_start_pos_tsv(self, file_tsv: pathlib.Path):
-        self.parse_provinces()
-        self.parse_regions()
-        # Link region name to province name
-        dictionary_regions_to_province = self.get_dictionary_regions_to_province(file_tsv)
-        # Link province name to province object
-        for region_name, province_name in dictionary_regions_to_province.items():
-            self.provinces[province_name].add_region(self.regions[region_name])
-        # Read file building_effects_junction_tables.tsv (tabulated)
-        path_startpos_regions = file_tsv / "start_pos_region_slot_templates_table.tsv"
-        data = parse_tsv(path_startpos_regions)
-        for _, game, full_region_name, type_building, building in data:
-            if not self.filter_by_campaign(full_region_name, game):
-                self.process_building(full_region_name, type_building, building)
-
-    def filter_by_campaign(self, full_region_name, game):
-        return self.campaign.value[1] not in full_region_name or self.campaign.value[0] not in game
 
     def parse_factions_table(self) -> dict[str, Faction]:
         subculture_to_culture = self.parse_cultures_subcultures()

@@ -30,11 +30,15 @@ class Parser(abc.ABC):
     def parse_building_effects_junction_tables(self) -> None:
         """
         Get buildings effects from building_effects_junction_table.tsv
-        :return:
+        :return: None
         """
         pass
 
-    def parse_provinces(self):
+    def parse_provinces(self) -> None:
+        """
+        Map province names to province objects in self.provinces
+        :return: None
+        """
         from engine.province import Province
         data = parse_tsv(self.game_dir / "provinces.tsv")
         for name, print_name in data:
@@ -42,7 +46,11 @@ class Parser(abc.ABC):
                 continue
             self.provinces[name] = Province(name, print_name)
 
-    def parse_regions(self):
+    def parse_regions(self) -> None:
+        """
+        Map region names to region objects in self.regions
+        :return: None
+        """
         from engine.region import Region
         data = parse_tsv(self.game_dir / "regions.tsv")
         for name, print_name in data:
@@ -50,14 +58,25 @@ class Parser(abc.ABC):
                 continue
             self.regions[name] = Region(name, print_name)
 
-    @abc.abstractmethod
     def parse_start_pos_tsv(self, file_tsv: pathlib.Path):
         """
         Parse the start_pos_region_slot_templates_table.tsv file.
         :param file_tsv: path to the file
         :return: dictionary of provinces
         """
-        pass
+        self.parse_provinces()
+        self.parse_regions()
+        # Link region name to province name
+        dictionary_regions_to_province = self.get_dictionary_regions_to_province(file_tsv, True)
+        # Link province name to province object
+        for region_name, province_name in dictionary_regions_to_province.items():
+            self.provinces[province_name].add_region(self.regions[region_name])
+        # Read file building_effects_junction_tables.tsv (tabulated)
+        path_startpos_regions = file_tsv / "start_pos_region_slot_templates_table.tsv"
+        data = parse_tsv(path_startpos_regions)
+        for _, game, full_region_name, type_building, building in data:
+            if not self.filter_by_campaign(full_region_name, game):
+                self.process_building(full_region_name, type_building, building)
 
     @abc.abstractmethod
     def parse_buildings_culture_variants_table(self) -> None:
@@ -137,14 +156,28 @@ class Parser(abc.ABC):
                     return EntryName(province.name)
         raise KeyError(f"No matching region found in {entry_name.name}")  # Raise KeyError if no match is found
 
-    @abc.abstractmethod
-    def get_dictionary_regions_to_province(self, game_dir: pathlib.Path):
+    def get_dictionary_regions_to_province(self, game_dir: pathlib.Path, swap: bool = False):
         """
         Get a dictionary of regions to province from a tsv file (TW DB)
         :param game_dir: path to the game folder
+        :param swap: swap the region and province
         :return: dictionary of regions to province (region_name: province_name)
         """
-        pass
+        path_province_region_junctions = game_dir / "region_to_provinces_junctions_table.tsv"
+        dictionary_regions_to_province = {}
+        data = parse_tsv(path_province_region_junctions)
+
+        for region, province in data:
+            if swap:
+                region, province = province, region  # Swap if needed
+
+            # Filter game
+            if self.campaign.value[1] not in province:
+                continue
+
+            dictionary_regions_to_province[region] = province
+
+        return dictionary_regions_to_province
 
     def get_print_name(self, name: EntryName, entry_type: EntryType) -> str:
         """
@@ -181,6 +214,9 @@ class Parser(abc.ABC):
         if type_building in handlers:
             handlers[type_building](region, building)
 
+    def filter_by_campaign(self, full_region_name, game):
+        return self.campaign.value[1] not in full_region_name or self.campaign.value[0] not in game
+
     def process_primary_region(self, region, building):
         """
         Sets building limits and region type for primary regions.
@@ -194,6 +230,7 @@ class Parser(abc.ABC):
             region.set_buildings_limit(3)
             region.set_region_type(RegionType.REGION_MINOR)
 
+    @abc.abstractmethod
     def process_port_region(self, region, building):
         """
         Handles port regions, setting port or spice resources.
@@ -202,6 +239,7 @@ class Parser(abc.ABC):
         """
         pass
 
+    @abc.abstractmethod
     def process_secondary_region(self, region, building):
         """
         Assigns resources to secondary regions.
