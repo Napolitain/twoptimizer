@@ -123,11 +123,12 @@ class Problem:
             raise ValueError("Problem must be solved first.")
         answers = []
         for v in self.problem.variables():
-            name = Games.instance.get_parser().get_entry_name(v.name, EntryType.BUILDING)
+            building_name = Games.instance.get_parser().get_entry_name(v.name, EntryType.BUILDING)
+            region_name = Games.instance.get_parser().get_entry_name(v.name, EntryType.REGION)
+            building_print_name = Games.instance.get_parser().get_print_name(building_name, EntryType.BUILDING)
+            region_print_name = Games.instance.get_parser().get_print_name(region_name, EntryType.REGION)
             if v.varValue == 1:
-                answers.append(
-                    (Games.instance.get_parser().get_entry_name(v.name, EntryType.REGION),
-                     Games.buildings[Games.instance.get_campaign().value[1]][name]))
+                answers.append((region_print_name, building_print_name))
         return answers
 
     def print_problem_answers(self):

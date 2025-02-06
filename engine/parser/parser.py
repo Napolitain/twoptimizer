@@ -101,6 +101,16 @@ class Parser(abc.ABC):
         """
         pass
 
+    @abc.abstractmethod
+    def get_print_name(self, name: str, entry_type: EntryType) -> str:
+        """
+        Get the print name of the entry.
+        :param name: name of the entry
+        :param entry_type: type of the entry
+        :return: print name of the entry
+        """
+        pass
+
 
 def parse_tsv(path_buildings: pathlib.Path) -> List[List[str]]:
     """

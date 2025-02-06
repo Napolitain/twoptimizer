@@ -45,30 +45,35 @@ class ParserAttila(Parser):
             return Scope.BUILDING
         raise ValueError(f"Scope {scope} not found.")
 
-    def get_entry_name(self, name: str, entry_type: EntryType) -> str:
-        split_name = name.split("_")
+    def get_entry_name(self, full_name: str, entry_type: EntryType) -> str:
+        """
+        Get the entry_type name from a concatenated name.
+        :param full_name: att_prov_thracia_att_reg_thracia_constantinopolis_att_bld_all_industry_major_pewter_4
+        :param entry_type: EntryType.PROVINCE, EntryType.REGION, EntryType.BUILDING
+        :return: att_reg_thracia_constantinopolis
+        """
         if entry_type == EntryType.BUILDING:
-            # Check if a_b_c, b_c, c is in buildings list, and return the name if it matches
-            for i in range(len(split_name)):
-                if "_".join(split_name[i:]) in self.buildings[self.campaign.value[1]]:
-                    return "_".join(split_name[i:])
-            raise ValueError(f"Entry type {entry_type.value} not found in {name}.")
-        else:
-            # TODO: remove that part eventually, to be replaced with full id and id to name matching, like up
-            i = 0
-            while i < len(split_name) and split_name[i] != entry_type.value:
-                i += 1
-            if i == len(split_name):
-                raise ValueError(f"Entry type {entry_type.value} not found in {name}.")
-            # Return everything after the entry type unless it matches any other entry type (e.g. reg, prov)
-            j = i + 1
-            # Matches bld, reg, if we search prov, etc...
-            entries = [entry.value for entry in EntryType if entry != entry_type]
-            while j < len(split_name) and split_name[j] not in entries:
-                j += 1
-            if j == len(split_name):
-                return "_".join(split_name[i:])
-            return "_".join(split_name[i:j])
+            for building_name in self.buildings[self.campaign.value[1]]:
+                if building_name in full_name:
+                    return building_name
+        elif entry_type == EntryType.REGION:
+            for region_name in self.regions:
+                if region_name in full_name:
+                    return region_name
+        elif entry_type == EntryType.PROVINCE:
+            for province_name in self.provinces:
+                if province_name in full_name:
+                    return province_name
+        raise KeyError(f"No matching region found in {full_name}")  # Raise KeyError if no match is found
+
+    def get_print_name(self, name: str, entry_type):
+        if entry_type == EntryType.BUILDING:
+            return self.buildings[self.campaign.value[1]][name].print_name
+        elif entry_type == EntryType.REGION:
+            return self.regions[name].print_name
+        elif entry_type == EntryType.PROVINCE:
+            return self.provinces[name].print_name
+        raise ValueError(f"Entry type {entry_type.value} not found in {name}.")
 
     def get_dictionary_regions_to_province(self, game_dir: pathlib.Path):
         path_province_region_junctions = game_dir / "region_to_provinces_junctions_table.tsv"
@@ -145,41 +150,11 @@ class ParserAttila(Parser):
         path_startpos_regions = file_tsv / "start_pos_region_slot_templates_table.tsv"
         data = parse_tsv(path_startpos_regions)
         for _, game, full_region_name, type_building, building in data:
-            # Province name is the regio_name mapped to the province name
-            # If region not in dictionary, print
-            if full_region_name not in self.regions:
-                # print(f"Region {full_region_name} not found.")
-                continue
-            # If building contains "major", it is a major region, else minor
-            if full_region_name == "att_reg_thracia_constantinopolis":
-                print(game, full_region_name, type_building, building)
-            if type_building == "primary":
-                if "major" in building:
-                    self.regions[full_region_name].set_buildings_limit(5)
-                    self.regions[full_region_name].set_region_type(RegionType.REGION_MAJOR)
-                else:
-                    self.regions[full_region_name].set_buildings_limit(3)
-                    self.regions[full_region_name].set_region_type(
-                        RegionType.REGION_MINOR)  # Add resources type / port to region
-                continue
-            # 2. If type is port, add port if it is not "spice".
-            if type_building == "port":
-                if "spice" not in building:
-                    self.regions[full_region_name].set_has_port(RegionPort.REGION_PORT)
-                else:
-                    self.regions[full_region_name].set_has_ressource(AttilaRegionResources.ATTILA_REGION_SPICE)
-                continue
-            # 3. If type is secondary, add resource
-            if type_building == "secondary":
-                if "city" in building:
-                    self.regions[full_region_name].set_has_ressource(
-                        AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX)
-                else:
-                    # Check if building is a resource building
-                    for resource in AttilaRegionResources:
-                        if resource.value in building:
-                            self.regions[full_region_name].set_has_ressource(resource)
-                continue
+            if not self.filter_by_campaign(full_region_name, game):
+                self.process_building(full_region_name, type_building, building)
+
+    def filter_by_campaign(self, full_region_name, game):
+        return self.campaign.value[1] not in full_region_name or self.campaign.value[0] not in game
 
     def parse_factions_table(self) -> dict[str, Faction]:
         subculture_to_culture = self.parse_cultures_subcultures()
@@ -203,3 +178,60 @@ class ParserAttila(Parser):
 
     def parse_cultures_subcultures_table(self) -> None:
         pass
+
+    def process_building(self, full_region_name: str, type_building: str, building: str):
+        """
+        Processes a building entry and assigns attributes to the region.
+        :param full_region_name: the full region name
+        :param type_building: the type of building
+        :param building: the building entry
+        """
+        region = self.regions.get(full_region_name)
+        if not region:
+            return  # Skip if the region does not exist
+
+        handlers = {
+            "primary": self.process_primary_region,
+            "port": self.process_port_region,
+            "secondary": self.process_secondary_region
+        }
+
+        if type_building in handlers:
+            handlers[type_building](region, building)
+
+    def process_primary_region(self, region, building):
+        """
+        Sets building limits and region type for primary regions.
+        :param region: the region
+        :param building: the building entry
+        """
+        if "major" in building:
+            region.set_buildings_limit(5)
+            region.set_region_type(RegionType.REGION_MAJOR)
+        else:
+            region.set_buildings_limit(3)
+            region.set_region_type(RegionType.REGION_MINOR)
+
+    def process_port_region(self, region, building):
+        """
+        Handles port regions, setting port or spice resources.
+        :param region: the region
+        :param building: the building entry
+        """
+        if "spice" not in building:
+            region.set_has_port(RegionPort.REGION_PORT)
+        else:
+            region.set_has_ressource(AttilaRegionResources.ATTILA_REGION_SPICE)
+
+    def process_secondary_region(self, region, building):
+        """
+        Assigns resources to secondary regions.
+        :param region: the region
+        :param building: the building entry
+        """
+        if "city" in building:
+            region.set_has_ressource(AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX)
+        else:
+            for resource in AttilaRegionResources:
+                if resource.value in building:
+                    region.set_has_ressource(resource)
