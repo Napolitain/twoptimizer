@@ -46,25 +46,37 @@ class ParserAttila(Parser):
         raise ValueError(f"Scope {scope} not found.")
 
     def get_entry_name(self, full_name: str, entry_type: EntryType) -> str:
-        """
-        Get the entry_type name from a concatenated name.
-        :param full_name: att_prov_thracia_att_reg_thracia_constantinopolis_att_bld_all_industry_major_pewter_4
-        :param entry_type: EntryType.PROVINCE, EntryType.REGION, EntryType.BUILDING
-        :return: att_reg_thracia_constantinopolis
-        """
         if entry_type == EntryType.BUILDING:
-            for building_name in self.buildings[self.campaign.value[1]]:
+            for building in self.buildings[self.campaign.value[1]].values():
+                building_name = building.get_name()
                 if building_name in full_name:
                     return building_name
         elif entry_type == EntryType.REGION:
-            for region_name in self.regions:
+            for region in self.regions.values():
+                region_name = region.get_name()
                 if region_name in full_name:
                     return region_name
         elif entry_type == EntryType.PROVINCE:
-            for province_name in self.provinces:
+            for province in self.provinces.values():
+                province_name = province.get_name()
                 if province_name in full_name:
                     return province_name
         raise KeyError(f"No matching region found in {full_name}")  # Raise KeyError if no match is found
+
+    def get_name_from_use_name(self, entry_name: str, entry_type: EntryType) -> str:
+        if entry_type == EntryType.BUILDING:
+            for building in self.buildings[self.campaign.value[1]].values():
+                if building.get_name() == entry_name:
+                    return building.name
+        elif entry_type == EntryType.REGION:
+            for region in self.regions.values():
+                if region.get_name() == entry_name:
+                    return region.name
+        elif entry_type == EntryType.PROVINCE:
+            for province in self.provinces.values():
+                if province.get_name() == entry_name:
+                    return province.name
+        raise KeyError(f"No matching region found in {entry_name}")  # Raise KeyError if no match is found
 
     def get_print_name(self, name: str, entry_type):
         if entry_type == EntryType.BUILDING:

@@ -6,6 +6,7 @@ from pulp import LpVariable, lpSum
 from engine.bases import RegionBase
 from engine.building import Building
 from engine.entity import Entity
+from engine.enums import NameType
 from engine.games import Games
 from engine.models.game_attila import AttilaGame
 from engine.models.model import RegionType, RegionPort
@@ -78,9 +79,13 @@ class Region(RegionBase, Entity):
             if "ruin" in building.get_name():
                 continue
             deep_copy = building.__copy__()
-            deep_copy.name = f"{self.get_name()}_{building.get_name()}"
-            deep_copy.hash_name = f"{self.hash_name}_{building.get_name()}"
-            deep_copy.lp_variable = LpVariable(deep_copy.name, cat='Binary')
+            deep_copy.name = f"{self.name}_{building.name}"
+            deep_copy.hash_name = f"{self.hash_name}_{building.hash_name}"
+            deep_copy.print_name = f"{self.print_name} {building.print_name}"
+            if Games.USE_NAME == NameType.PRINT_NAME:
+                deep_copy.lp_variable = LpVariable(deep_copy.name, cat='Binary')
+            else:
+                deep_copy.lp_variable = LpVariable(deep_copy.get_name(), cat='Binary')
             self.buildings.append(deep_copy)
         # Filter buildings out (remove LpVariables)
         self.filter_type()
@@ -102,11 +107,11 @@ class Region(RegionBase, Entity):
         if self.has_port != RegionPort.REGION_PORT:
             # Filter out all ports that are not spice if the region has no port to reduce the number of LpVariables.
             for i, building in reversed(list(enumerate(self.buildings))):
-                if Games.instance.get_filter().building_is_port(building.get_name()):
+                if Games.instance.get_filter().building_is_port(building.name):
                     self.buildings.pop(i)
         # Filter out port that do not contain "resource" because we have duplicates?
         for i, building in reversed(list(enumerate(self.buildings))):
-            if Games.instance.get_filter().building_is_duplicate(building.get_name()):
+            if Games.instance.get_filter().building_is_duplicate(building.name):
                 self.buildings.pop(i)
 
     def add_port_constraint(self):
@@ -118,7 +123,7 @@ class Region(RegionBase, Entity):
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
-                if Games.instance.get_filter().building_is_port(building.get_name())
+                if Games.instance.get_filter().building_is_port(building.name)
             ) == 1, f"{self.get_name()}_Port_Constraint"
 
     def filter_resource(self):
@@ -128,9 +133,9 @@ class Region(RegionBase, Entity):
         """
         # Remove buildings that are illegal
         for i, building in reversed(list(enumerate(self.buildings))):
-            if self.has_ressource != AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC and "religion_catholic_legendary" in building.get_name():
+            if self.has_ressource != AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC and "religion_catholic_legendary" in building.name:
                 self.buildings.pop(i)
-            elif self.has_ressource != AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX and "religion_orthodox_legendary" in building.get_name():
+            elif self.has_ressource != AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX and "religion_orthodox_legendary" in building.name:
                 self.buildings.pop(i)
             elif self.has_ressource == AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE and Games.instance.get_filter().building_is_resource(
                     building):
@@ -138,14 +143,14 @@ class Region(RegionBase, Entity):
             elif self.has_ressource in AttilaRegionResources:
                 resource = self.has_ressource.value
                 if (
-                        "resource" in building.get_name()
-                        and resource not in building.get_name()
-                        and "port" not in building.get_name()
-                ) or ("spice" in building.get_name() and resource != "spice"):
+                        "resource" in building.name
+                        and resource not in building.name
+                        and "port" not in building.name
+                ) or ("spice" in building.name and resource != "spice"):
                     self.buildings.pop(i)
             elif self.has_ressource == AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX or self.has_ressource == AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC:
                 if (
-                        "resource" in building.get_name() and "port" not in building.get_name()) or "spice" in building.get_name():
+                        "resource" in building.name and "port" not in building.name) or "spice" in building.name:
                     self.buildings.pop(i)
 
     def add_resource_constraint(self):
@@ -176,8 +181,8 @@ class Region(RegionBase, Entity):
                 lpSum(
                     building.lp_variable
                     for building in self.buildings
-                    if chain_name in building.get_name() and (
-                            "resource" in building.get_name() or "religion" in chain_name
+                    if chain_name in building.name and (
+                            "resource" in building.name or "religion" in chain_name
                     )
                 )
             )
@@ -193,10 +198,10 @@ class Region(RegionBase, Entity):
         """
         for i, building in reversed(list(enumerate(self.buildings))):
             if self.region_type == RegionType.REGION_MAJOR and Games.instance.get_filter().building_is_minor(
-                    building.get_name()):
+                    building.name):
                 self.buildings.pop(i)
             elif self.region_type == RegionType.REGION_MINOR and Games.instance.get_filter().building_is_major(
-                    building.get_name()):
+                    building.name):
                 self.buildings.pop(i)
 
     def add_type_constraint(self):
@@ -209,13 +214,13 @@ class Region(RegionBase, Entity):
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
-                if Games.instance.get_filter().building_is_majorcity(building.get_name())
+                if Games.instance.get_filter().building_is_majorcity(building.name)
             ) == 1, f"{self.get_name()}_Major_Constraint"
         else:
             Games.problem += lpSum(
                 building.lp_variable
                 for building in self.buildings
-                if Games.instance.get_filter().building_is_minorcity(building.get_name())
+                if Games.instance.get_filter().building_is_minorcity(building.name)
             ) == 1, f"{self.get_name()}_Minor_Constraint"
 
     def add_chain_constraint(self):
@@ -227,7 +232,7 @@ class Region(RegionBase, Entity):
         dictionary = defaultdict(list[Building])
         for building in self.buildings:
             # name is everything until last underscore
-            name = building.get_name().split("_")[:-1]
+            name = building.name.split("_")[:-1]
             dictionary["_".join(name)].append(building)
         for building_chain, building_list in dictionary.items():
             Games.problem += lpSum(
@@ -251,8 +256,8 @@ class Region(RegionBase, Entity):
         :return:
         """
         for i, building in reversed(list(enumerate(self.buildings))):
-            if "_city_" in building.get_name():
-                split_name = building.get_name().split("_")
+            if "_city_" in building.name:
+                split_name = building.name.split("_")
                 if float(split_name[-1]) < city_level:
                     self.buildings.pop(i)
 
@@ -263,7 +268,7 @@ class Region(RegionBase, Entity):
         :return:
         """
         for i, building in reversed(list(enumerate(self.buildings))):
-            split_name = building.get_name().split("_")
+            split_name = building.name.split("_")
             # Find level inside the split_name, which is the last element convertable to float.
             j = len(split_name) - 1
             while j >= 0:
@@ -286,7 +291,7 @@ class Region(RegionBase, Entity):
         :return:
         """
         for i, building in reversed(list(enumerate(self.buildings))):
-            if "military" in building.get_name():
+            if "military" in building.name:
                 self.buildings.pop(i)
 
     def increment_hash_name(self) -> str:

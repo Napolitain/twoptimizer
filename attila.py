@@ -43,7 +43,7 @@ if __name__ == '__main__':
     lp_problem.add_provinces(path)
 
     # Options
-    Games.USE_NAME = NameType.NAME
+    Games.USE_NAME = NameType.HASH_NAME
 
     for province in lp_problem.provinces:
         lp_problem.reset_problem()

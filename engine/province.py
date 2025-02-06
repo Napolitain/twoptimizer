@@ -83,7 +83,6 @@ class Province(ProvinceBase, Entity):
         """
         for region in self.regions:
             region.buildings = []
-        Region.HASH_NAME = "R1"
 
     def increment_hash_name(self) -> str:
         """

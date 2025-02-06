@@ -81,14 +81,22 @@ class Parser(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def get_entry_name(self, name: str, entry_type: EntryType) -> str:
+    def get_entry_name(self, full_name: str, entry_type: EntryType) -> str:
         """
-        Get the building name from the full name.
-        x_y_bld_z -> bld_z
-        :param name: full name
-        :param entry_type: type of the entry (building, region, province)
-        :raise ValueError: if the entry type is not found in the name (e.g. bld, reg, prov not found in name)
-        :return: name of the entry
+        Get the entry_type name from a concatenated name.
+        :param full_name: att_prov_thracia_att_reg_thracia_constantinopolis_att_bld_all_industry_major_pewter_4
+        :param entry_type: EntryType.PROVINCE, EntryType.REGION, EntryType.BUILDING
+        :return: att_reg_thracia_constantinopolis
+        """
+        pass
+
+    @abc.abstractmethod
+    def get_name_from_use_name(self, entry_name: str, entry_type: EntryType) -> str:
+        """
+        Get the name from the use_name.
+        :param entry_name: R1
+        :param entry_type: EntryType.PROVINCE, EntryType.REGION, EntryType.BUILDING
+        :return: region_name such as att_reg_thracia_constantinopolis
         """
         pass
 

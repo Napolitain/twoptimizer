@@ -18,6 +18,17 @@ class Scope(enum.Enum):
 
 
 class NameType(enum.Enum):
-    PRINT_NAME = 0  # Region name
-    NAME = 1  # region_building
-    HASH_NAME = 2  # X1, X2, X3...
+    """
+    Name type, used for problem modeling.
+    """
+    NAME = 0  # region_building
+    HASH_NAME = 1  # X1, X2, X3...
+    PRINT_NAME = 2  # Region Building
+
+
+class PrintType(enum.Enum):
+    """
+    Print type, used for problem modeling output.
+    """
+    PRINT_NAME = 0
+    HASH_NAME = 1

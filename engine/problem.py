@@ -122,9 +122,12 @@ class Problem:
         if self.state != ProblemState.SOLVED:
             raise ValueError("Problem must be solved first.")
         answers = []
+        parser = Games.instance.get_parser()
         for v in self.problem.variables():
-            building_name = Games.instance.get_parser().get_entry_name(v.name, EntryType.BUILDING)
-            region_name = Games.instance.get_parser().get_entry_name(v.name, EntryType.REGION)
+            building_name = parser.get_name_from_use_name(parser.get_entry_name(v.name, EntryType.BUILDING),
+                                                          EntryType.BUILDING)
+            region_name = parser.get_name_from_use_name(parser.get_entry_name(v.name, EntryType.REGION),
+                                                        EntryType.REGION)
             building_print_name = Games.instance.get_parser().get_print_name(building_name, EntryType.BUILDING)
             region_print_name = Games.instance.get_parser().get_print_name(region_name, EntryType.REGION)
             if v.varValue == 1:
