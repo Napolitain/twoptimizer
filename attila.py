@@ -31,22 +31,24 @@ if __name__ == '__main__':
     Games.instance = AttilaGame(campaign=AttilaGame.Campaign.ATTILA,
                                 faction=AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
                                 religion=AttilaGame.Religion.CHRIST_ORTHODOX)
-    Games.buildings = Games.instance.get_parser().buildings
+    parser = Games.instance.get_parser()
+    Games.buildings = parser.buildings
     # Games.instance.campaign = AttilaGame.Campaign.CHARLEMAGNE
 
     # Attila data folder
     path = pathlib.Path(__file__).parent.absolute() / "data" / "attila"
-    Games.instance.get_parser().parse_building_effects_junction_tables()
+    parser.parse_building_effects_junction_tables()
+    parser.parse_start_pos_tsv(path)
 
     # Linear programming problem
     lp_problem = Problem()
-    lp_problem.add_provinces(path)
 
     # Options
-    Games.USE_NAME = NameType.HASH_NAME
+    Games.USE_NAME = NameType.NAME
 
-    for province in lp_problem.provinces:
+    for province in parser.provinces.values():
         lp_problem.reset_problem()
+        lp_problem.add_province(province)
         # Filter out all buildings
         for region in province.regions:
             region.add_buildings()

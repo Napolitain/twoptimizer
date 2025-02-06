@@ -1,5 +1,4 @@
 import enum
-from pathlib import Path
 from time import perf_counter_ns
 from typing import List
 
@@ -8,6 +7,7 @@ from pulp import LpProblem, LpMaximize, PULP_CBC_CMD
 from engine.building import Building
 from engine.enums import EntryType
 from engine.games import Games
+from engine.models.model import FullEntryName
 from engine.province import Province
 
 
@@ -41,13 +41,11 @@ class Problem:
         self.provinces.append(province)
         self.state = ProblemState.PROVINCES_ADDED
 
-    def add_provinces(self, file_tsv: Path) -> None:
+    def add_provinces(self) -> None:
         """
         Add all provinces to the problem.
-        :param file_tsv: file containing the provinces schema, usually start_pos_region_slot_templates_table.tsv
         :return:
         """
-        Games.instance.get_parser().parse_start_pos_tsv(file_tsv)
         for province in Games.instance.get_parser().provinces.values():
             self.add_province(province)
 
@@ -124,9 +122,10 @@ class Problem:
         answers = []
         parser = Games.instance.get_parser()
         for v in self.problem.variables():
-            building_name = parser.get_name_from_use_name(parser.get_entry_name(v.name, EntryType.BUILDING),
-                                                          EntryType.BUILDING)
-            region_name = parser.get_name_from_use_name(parser.get_entry_name(v.name, EntryType.REGION),
+            building_name = parser.get_name_from_use_name(
+                parser.get_entry_name(FullEntryName(v.name), EntryType.BUILDING),
+                EntryType.BUILDING)
+            region_name = parser.get_name_from_use_name(parser.get_entry_name(FullEntryName(v.name), EntryType.REGION),
                                                         EntryType.REGION)
             building_print_name = Games.instance.get_parser().get_print_name(building_name, EntryType.BUILDING)
             region_print_name = Games.instance.get_parser().get_print_name(region_name, EntryType.REGION)

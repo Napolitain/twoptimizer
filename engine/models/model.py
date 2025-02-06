@@ -26,3 +26,18 @@ class RegionType(enum.Enum):
 class RegionPort(enum.Enum):
     REGION_NO_PORT = 1
     REGION_PORT = 2
+
+
+@dataclasses.dataclass
+class EntryName:
+    name: str
+
+
+@dataclasses.dataclass
+class FullEntryName:
+    name: str
+
+
+@dataclasses.dataclass
+class PrintName:
+    name: str

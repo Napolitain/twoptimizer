@@ -5,6 +5,7 @@ import pathlib
 from typing import List
 
 from engine.enums import EntryType
+from engine.models.model import FullEntryName
 
 
 @dataclasses.dataclass
@@ -18,6 +19,8 @@ class Faction:
 class Parser(abc.ABC):
     def __init__(self):
         # store id to object
+        self.game_dir = pathlib.Path("data")
+        self.campaign = None
         self.buildings = {}
         self.regions = {}
         self.provinces = {}
@@ -30,13 +33,21 @@ class Parser(abc.ABC):
         """
         pass
 
-    @abc.abstractmethod
     def parse_provinces(self):
-        pass
+        from engine.province import Province
+        data = parse_tsv(self.game_dir / "provinces.tsv")
+        for name, print_name in data:
+            if self.campaign.value[1] not in name:
+                continue
+            self.provinces[name] = Province(name, print_name)
 
-    @abc.abstractmethod
     def parse_regions(self):
-        pass
+        from engine.region import Region
+        data = parse_tsv(self.game_dir / "regions.tsv")
+        for name, print_name in data:
+            if self.campaign.value[1] not in name:
+                continue
+            self.regions[name] = Region(name, print_name)
 
     @abc.abstractmethod
     def parse_start_pos_tsv(self, file_tsv: pathlib.Path):
@@ -80,17 +91,30 @@ class Parser(abc.ABC):
         """
         pass
 
-    @abc.abstractmethod
-    def get_entry_name(self, full_name: str, entry_type: EntryType) -> str:
+    def get_entry_name(self, full_name: FullEntryName, entry_type: EntryType) -> str:
         """
         Get the entry_type name from a concatenated name.
         :param full_name: att_prov_thracia_att_reg_thracia_constantinopolis_att_bld_all_industry_major_pewter_4
         :param entry_type: EntryType.PROVINCE, EntryType.REGION, EntryType.BUILDING
         :return: att_reg_thracia_constantinopolis
         """
-        pass
+        if entry_type == EntryType.BUILDING:
+            for building in self.buildings[self.campaign.value[1]].values():
+                building_name = building.get_name()
+                if f"_{building_name}" in full_name.name:
+                    return building_name
+        elif entry_type == EntryType.REGION:
+            for region in self.regions.values():
+                region_name = region.get_name()
+                if f"{region_name}_" in full_name.name:
+                    return region_name
+        elif entry_type == EntryType.PROVINCE:
+            for province in self.provinces.values():
+                province_name = province.get_name()
+                if f"{province_name}_" in full_name.name:
+                    return province_name
+        raise KeyError(f"No matching region found in {full_name.name}")  # Raise KeyError if no match is found
 
-    @abc.abstractmethod
     def get_name_from_use_name(self, entry_name: str, entry_type: EntryType) -> str:
         """
         Get the name from the use_name.
@@ -98,7 +122,19 @@ class Parser(abc.ABC):
         :param entry_type: EntryType.PROVINCE, EntryType.REGION, EntryType.BUILDING
         :return: region_name such as att_reg_thracia_constantinopolis
         """
-        pass
+        if entry_type == EntryType.BUILDING:
+            for building in self.buildings[self.campaign.value[1]].values():
+                if building.get_name() == entry_name:
+                    return building.name
+        elif entry_type == EntryType.REGION:
+            for region in self.regions.values():
+                if region.get_name() == entry_name:
+                    return region.name
+        elif entry_type == EntryType.PROVINCE:
+            for province in self.provinces.values():
+                if province.get_name() == entry_name:
+                    return province.name
+        raise KeyError(f"No matching region found in {entry_name}")  # Raise KeyError if no match is found
 
     @abc.abstractmethod
     def get_dictionary_regions_to_province(self, game_dir: pathlib.Path):
@@ -109,7 +145,6 @@ class Parser(abc.ABC):
         """
         pass
 
-    @abc.abstractmethod
     def get_print_name(self, name: str, entry_type: EntryType) -> str:
         """
         Get the print name of the entry.
@@ -117,7 +152,13 @@ class Parser(abc.ABC):
         :param entry_type: type of the entry
         :return: print name of the entry
         """
-        pass
+        if entry_type == EntryType.BUILDING:
+            return self.buildings[self.campaign.value[1]][name].get_name_output()
+        elif entry_type == EntryType.REGION:
+            return self.regions[name].get_name_output()
+        elif entry_type == EntryType.PROVINCE:
+            return self.provinces[name].get_name_output()
+        raise ValueError(f"Entry type {entry_type.value} not found in {name}.")
 
 
 def parse_tsv(path_buildings: pathlib.Path) -> List[List[str]]:

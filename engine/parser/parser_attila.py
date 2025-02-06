@@ -1,7 +1,7 @@
 import pathlib
 
 from engine.building import Building
-from engine.enums import Scope, EntryType
+from engine.enums import Scope
 from engine.models.game_attila import AttilaReligion
 from engine.models.model import RegionType, RegionPort
 from engine.models.model_attila import AttilaCampaign, AttilaFactions, AttilaRegionResources
@@ -12,27 +12,11 @@ class ParserAttila(Parser):
     def __init__(self, campaign: AttilaCampaign, faction: AttilaFactions,
                  religion: AttilaReligion = AttilaReligion.CHRIST_ORTHODOX):
         super().__init__()
-        self.game_dir = pathlib.Path("data/attila")
+        self.game_dir = self.game_dir / "attila"
         self.campaign = campaign
         self.faction: AttilaFactions = faction
         self.religion = religion
         self.faction_to_culture = self.parse_factions_table()
-
-    def parse_provinces(self):
-        from engine.province import Province
-        data = parse_tsv(self.game_dir / "provinces.tsv")
-        for name, print_name in data:
-            if self.campaign.value[1] not in name:
-                continue
-            self.provinces[name] = Province(name, print_name)
-
-    def parse_regions(self):
-        from engine.region import Region
-        data = parse_tsv(self.game_dir / "regions.tsv")
-        for name, print_name in data:
-            if self.campaign.value[1] not in name:
-                continue
-            self.regions[name] = Region(name, print_name)
 
     def get_scope(self, scope: str) -> Scope:
         if scope.startswith('faction'):
@@ -44,48 +28,6 @@ class ParserAttila(Parser):
         elif scope.startswith('building'):
             return Scope.BUILDING
         raise ValueError(f"Scope {scope} not found.")
-
-    def get_entry_name(self, full_name: str, entry_type: EntryType) -> str:
-        if entry_type == EntryType.BUILDING:
-            for building in self.buildings[self.campaign.value[1]].values():
-                building_name = building.get_name()
-                if building_name in full_name:
-                    return building_name
-        elif entry_type == EntryType.REGION:
-            for region in self.regions.values():
-                region_name = region.get_name()
-                if region_name in full_name:
-                    return region_name
-        elif entry_type == EntryType.PROVINCE:
-            for province in self.provinces.values():
-                province_name = province.get_name()
-                if province_name in full_name:
-                    return province_name
-        raise KeyError(f"No matching region found in {full_name}")  # Raise KeyError if no match is found
-
-    def get_name_from_use_name(self, entry_name: str, entry_type: EntryType) -> str:
-        if entry_type == EntryType.BUILDING:
-            for building in self.buildings[self.campaign.value[1]].values():
-                if building.get_name() == entry_name:
-                    return building.name
-        elif entry_type == EntryType.REGION:
-            for region in self.regions.values():
-                if region.get_name() == entry_name:
-                    return region.name
-        elif entry_type == EntryType.PROVINCE:
-            for province in self.provinces.values():
-                if province.get_name() == entry_name:
-                    return province.name
-        raise KeyError(f"No matching region found in {entry_name}")  # Raise KeyError if no match is found
-
-    def get_print_name(self, name: str, entry_type):
-        if entry_type == EntryType.BUILDING:
-            return self.buildings[self.campaign.value[1]][name].get_name_output()
-        elif entry_type == EntryType.REGION:
-            return self.regions[name].get_name_output()
-        elif entry_type == EntryType.PROVINCE:
-            return self.provinces[name].get_name_output()
-        raise ValueError(f"Entry type {entry_type.value} not found in {name}.")
 
     def get_dictionary_regions_to_province(self, game_dir: pathlib.Path):
         path_province_region_junctions = game_dir / "region_to_provinces_junctions_table.tsv"
