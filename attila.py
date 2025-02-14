@@ -7,7 +7,7 @@ from pulp import value
 from engine.enums import NameType
 from engine.games import Games
 from engine.models.game_attila import AttilaGame
-from engine.problem import Problem, ProblemState
+from engine.problem import Problem, ProblemState, SolverType
 
 # PuLP is a linear and mixed integer programming modeler written in Python.
 
@@ -41,7 +41,8 @@ if __name__ == '__main__':
     parser.parse_start_pos_tsv(path)
 
     # Linear programming problem
-    lp_problem = Problem()
+    lp_problem = Problem(solver=SolverType.PULP)
+    # lp_problem.add_provinces()
 
     # Options
     Games.USE_NAME = NameType.NAME
@@ -76,7 +77,7 @@ if __name__ == '__main__':
         lp_problem.add_objective()
         # lp_problem.print_problem_xy()
         lp_problem.solve()
-        print(f"{province.get_name_output()} : {value(lp_problem.problem.objective)}")
+        print(f"{province.get_name_output()} : {value(lp_problem.problem.objective())}")
 
         # Print the variables equal to 1 with their respective contribution
         if province.print_name == "Thracia":

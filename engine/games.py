@@ -1,12 +1,11 @@
-from pulp import LpProblem, LpMaximize
-
 from engine.enums import NameType
 from engine.models.game import Game
+from engine.solver_pulp import SolverPulp
 
 
 class Games:
     fertility = 5
-    problem = LpProblem("GDP Maximization", LpMaximize)
+    problem = SolverPulp()
     instance: Game = None
     buildings = None
     USE_NAME = NameType.NAME
@@ -19,4 +18,4 @@ class Games:
         """
         self.instance = game
         self.buildings = game.parser.buildings
-        self.problem = LpProblem("GDP Maximization", LpMaximize)
+        self.problem = SolverPulp()

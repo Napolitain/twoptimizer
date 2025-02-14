@@ -1,8 +1,6 @@
 from collections import defaultdict
 from typing import List, cast
 
-from pulp import LpVariable, lpSum
-
 from engine.bases import RegionBase
 from engine.building import Building
 from engine.entity import Entity
@@ -83,9 +81,9 @@ class Region(RegionBase, Entity):
             deep_copy.hash_name = f"{self.hash_name}_{building.hash_name}"
             deep_copy.print_name = f"{self.print_name} {building.print_name}"
             if Games.USE_NAME == NameType.PRINT_NAME:
-                deep_copy.lp_variable = LpVariable(deep_copy.name, cat='Binary')
+                deep_copy.lp_variable = Games.problem.create_variable(deep_copy.name, "Binary")
             else:
-                deep_copy.lp_variable = LpVariable(deep_copy.get_name(), cat='Binary')
+                deep_copy.lp_variable = Games.problem.create_variable(deep_copy.get_name(), "Binary")
             self.buildings.append(deep_copy)
         # Filter buildings out (remove LpVariables)
         self.filter_type()
@@ -120,11 +118,15 @@ class Region(RegionBase, Entity):
         :return:
         """
         if self.has_port == RegionPort.REGION_PORT:
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in self.buildings
-                if Games.instance.get_filter().building_is_port(building.name)
-            ) == 1, f"{self.get_name()}_Port_Constraint"
+            Games.problem.create_constraint(
+                name=f"{self.get_name()}_Port",
+                variables=[
+                    building.lp_variable
+                    for building in self.buildings
+                    if Games.instance.get_filter().building_is_port(building.name)
+                ],
+                constraint_fn=lambda expr: expr == 1
+            )
 
     def filter_resource(self):
         """
@@ -177,19 +179,19 @@ class Region(RegionBase, Entity):
         if self.has_ressource in resource_constraints:
             chain_name = self.has_ressource.value
             chain_is_mandatory = resource_constraints[self.has_ressource]
-            constraint = (
-                lpSum(
-                    building.lp_variable
-                    for building in self.buildings
-                    if chain_name in building.name and (
-                            "resource" in building.name or "religion" in chain_name
-                    )
+            constraint = [
+                building.lp_variable
+                for building in self.buildings
+                if chain_name in building.name and (
+                        "resource" in building.name or "religion" in chain_name
                 )
+            ]
+            # If the resource is mandatory, then the constraint is == 1, otherwise <= 1, because not putting it may be better.
+            Games.problem.create_constraint(
+                name=f"{self.get_name()}_{chain_name.capitalize()}_Resource",
+                variables=constraint,
+                constraint_fn=lambda expr: expr == 1 if chain_is_mandatory else expr <= 1
             )
-            if chain_is_mandatory:
-                Games.problem += constraint == 1, f"{self.get_name()}_{chain_name.capitalize()}_Resource_Constraint"
-            else:
-                Games.problem += constraint <= 1, f"{self.get_name()}_{chain_name.capitalize()}_Resource_Constraint"
 
     def filter_type(self):
         """
@@ -211,17 +213,25 @@ class Region(RegionBase, Entity):
         :return:
         """
         if self.region_type == RegionType.REGION_MAJOR:
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in self.buildings
-                if Games.instance.get_filter().building_is_majorcity(building.name)
-            ) == 1, f"{self.get_name()}_Major_Constraint"
+            Games.problem.create_constraint(
+                name=f"{self.get_name()}_Major",
+                variables=[
+                    building.lp_variable
+                    for building in self.buildings
+                    if Games.instance.get_filter().building_is_majorcity(building.name)
+                ],
+                constraint_fn=lambda expr: expr == 1
+            )
         else:
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in self.buildings
-                if Games.instance.get_filter().building_is_minorcity(building.name)
-            ) == 1, f"{self.get_name()}_Minor_Constraint"
+            Games.problem.create_constraint(
+                name=f"{self.get_name()}_Minor",
+                variables=[
+                    building.lp_variable
+                    for building in self.buildings
+                    if Games.instance.get_filter().building_is_minorcity(building.name)
+                ],
+                constraint_fn=lambda expr: expr == 1
+            )
 
     def add_chain_constraint(self):
         """
@@ -235,19 +245,28 @@ class Region(RegionBase, Entity):
             name = building.name.split("_")[:-1]
             dictionary["_".join(name)].append(building)
         for building_chain, building_list in dictionary.items():
-            Games.problem += lpSum(
-                building.lp_variable
-                for building in building_list
-            ) <= 1, f"{self.get_name()}_Chain_Constraint_{building_chain}"
+            Games.problem.create_constraint(
+                name=f"{self.get_name()}_Chain_{building_chain}",
+                variables=[
+                    building.lp_variable
+                    for building in building_list
+                ],
+                constraint_fn=lambda expr: expr <= 1
+            )
 
     def add_building_count_constraint(self):
         """
         Add building count constraint to the region. The number of buildings in the region must be less or equal to the number of buildings that can be built in the region.
         :return:
         """
-        Games.problem += lpSum(
-            building.lp_variable for building in self.buildings
-        ) <= self.get_n_buildings(), f"Max_Buildings_{self.get_name()}"
+        Games.problem.create_constraint(
+            name=f"Max_Buildings_{self.get_name()}",
+            variables=[
+                building.lp_variable
+                for building in self.buildings
+            ],
+            constraint_fn=lambda expr: expr <= self.get_n_buildings()
+        )
 
     def filter_city_level(self, city_level: int):
         """
@@ -277,12 +296,11 @@ class Region(RegionBase, Entity):
                     break
                 except ValueError:
                     j -= 1
-            try:
-                float(split_name[j])
-            except ValueError:
+            if split_name[j].isdigit():
+                if len(split_name) > 1 and float(split_name[j]) < level:
+                    self.buildings.pop(i)
+            else:
                 print(f"Building {building.get_name()} has no level.")
-                continue
-            if len(split_name) > 1 and float(split_name[j]) < level:
                 self.buildings.pop(i)
 
     def filter_military(self):

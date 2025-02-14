@@ -1,7 +1,5 @@
 from typing import List
 
-from pulp import lpSum
-
 from engine.bases import ProvinceBase
 from engine.building import Building
 from engine.entity import Entity
@@ -39,20 +37,28 @@ class Province(ProvinceBase, Entity):
         Add public order constraint to the province.
         :return:
         """
-        Games.problem += lpSum(
-            building.public_order() * building.lp_variable
-            for building in self.buildings()
-        ) >= 0, f"{self.name}_Public_Order_Constraint"
+        Games.problem.create_constraint(
+            name=f"{self.name}_Public_Order",
+            variables=[
+                building.public_order() * building.lp_variable
+                for building in self.buildings()
+            ],
+            constraint_fn=lambda expr: expr >= 0
+        )
 
     def add_food_constraint(self):
         """
         Add food constraint to the province.
         :return:
         """
-        Games.problem += lpSum(
-            building.food() * building.lp_variable
-            for building in self.buildings()
-        ) >= 0, f"{self.name}_Food_Constraint"
+        Games.problem.create_constraint(
+            name=f"{self.name}_Food",
+            variables=[
+                building.food() * building.lp_variable
+                for building in self.buildings()
+            ],
+            constraint_fn=lambda expr: expr >= 0
+        )
 
     def add_sanitation_constraint(self):
         """
@@ -61,13 +67,18 @@ class Province(ProvinceBase, Entity):
         :return:
         """
         for region in self.regions:
-            Games.problem += lpSum(
-                building.sanitation() * building.lp_variable
-                for building in region.buildings
-            ) >= 1 - lpSum(
-                building.sanitation_scope(Scope.PROVINCE) * building.lp_variable
-                for building in self.buildings()
-            ), f"{self.name}_Sanitation_Constraint_{region.name}"
+            Games.problem.create_constraint(
+                name=f"{self.name}_Sanitation_Constraint_{region.name}",
+                variables=[
+                    building.sanitation() * building.lp_variable
+                    for building in region.buildings
+                ],
+                variables2=[
+                    building.sanitation_scope(Scope.PROVINCE) * building.lp_variable
+                    for building in self.buildings()
+                ],
+                constraint_fn=lambda expr1, expr2: expr1 >= 1 - expr2
+            )
 
     def buildings(self) -> List[Building]:
         """

@@ -2,13 +2,16 @@ import enum
 from time import perf_counter_ns
 from typing import List
 
-from pulp import LpProblem, LpMaximize, PULP_CBC_CMD
+from pulp import PULP_CBC_CMD
 
 from engine.building import Building
 from engine.enums import EntryType
 from engine.games import Games
 from engine.models.model import FullEntryName
 from engine.province import Province
+from engine.solver import Solver
+from engine.solver_ortools import SolverOrTools
+from engine.solver_pulp import SolverPulp
 
 
 class ProblemState(enum.Enum):
@@ -21,16 +24,33 @@ class ProblemState(enum.Enum):
     SOLVED = 6
 
 
+class SolverType(enum.Enum):
+    PULP = 0
+    SCIP = 1
+    GOOGLE = 2
+
+
 class Problem:
-    def __init__(self):
+    def __init__(self, solver=SolverType.PULP):
         """
         Init a linear programming problem.
         """
         self.provinces: List[Province] = []
-        self.problem = LpProblem("GDP Maximization", LpMaximize)
+        self.solver_type = solver
+        self.problem = self.get_solver()
         self.state = ProblemState.INIT
         self.global_time = 0
         Games.problem = self.problem
+
+    def get_solver(self) -> Solver:
+        if self.solver_type == SolverType.PULP:
+            return SolverPulp()
+        elif self.solver_type == SolverType.SCIP:
+            return SolverPulp()
+        elif self.solver_type == SolverType.GOOGLE:
+            return SolverOrTools()
+        else:
+            raise ValueError("Unknown solver.")
 
     def add_province(self, province: Province) -> None:
         """
@@ -77,14 +97,11 @@ class Problem:
         """
         if self.state != ProblemState.CONSTRAINTS_ADDED:
             raise ValueError("Constraints must be added first.")
-        self.problem += sum(
-            building.gdp() * building.lp_variable
-            for building in self.buildings()
-        ), "Objective Function"
+        self.problem.add_objective(self.buildings())
         self.state = ProblemState.OBJECTIVE_ADDED
 
     def reset_problem(self) -> None:
-        self.problem = LpProblem("GDP Maximization", LpMaximize)
+        self.problem = self.get_solver()
         self.state = ProblemState.INIT
         Games.problem = self.problem
 
@@ -97,7 +114,10 @@ class Problem:
             raise ValueError("Objective must be added first.")
         solver = PULP_CBC_CMD(msg=verbose)
         start_time = perf_counter_ns()
-        self.problem.solve(solver)
+        if self.solver_type == SolverType.PULP:
+            self.problem.solve(solver=solver)
+        else:
+            self.problem.solve()
         end_time = perf_counter_ns()
         if timing:
             print(f"Solving time: {(end_time - start_time) / 1_000_000_000} seconds")
@@ -110,7 +130,7 @@ class Problem:
         :return: None
         """
         print(
-            f"Number of variables: {len(self.problem.variables())}\nNumber of constraints: {len(self.problem.constraints)}\n")
+            f"Number of variables: {len(self.problem.variables())}\nNumber of constraints: {len(self.problem.constraints())}\n")
 
     def get_problem_answers(self) -> List[tuple[str, str]]:
         """
