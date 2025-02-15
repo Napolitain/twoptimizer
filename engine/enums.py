@@ -32,3 +32,19 @@ class PrintType(enum.Enum):
     """
     USE_ID = 0  # R1, or region_building
     USE_PRINT_NAME = 1  # Region Building
+
+
+class ProblemState(enum.Enum):
+    INIT = 0
+    PROVINCES_ADDED = 1
+    BUILDINGS_ADDED = 2
+    FILTERS_ADDED = 3
+    CONSTRAINTS_ADDED = 4
+    OBJECTIVE_ADDED = 5
+    SOLVED = 6
+
+
+class SolverType(enum.Enum):
+    PULP = 0
+    SCIP = 1
+    GOOGLE = 2

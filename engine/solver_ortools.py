@@ -1,5 +1,8 @@
 from ortools.linear_solver import pywraplp
 
+from engine.enums import EntryType
+from engine.models.model import FullEntryName
+from engine.parser.parser import Parser
 from engine.solver import Solver
 
 
@@ -8,6 +11,7 @@ class SolverOrTools(Solver):
         self.solver = pywraplp.Solver.CreateSolver("GLOP")  # Linear solver (supports LP problems)
         self.objective = self.solver.Objective()
         self.objective.SetMaximization()
+        self.variables_list = []  # Maintain variables for retrieval
         self.constraints_list = []  # Maintain constraints for retrieval
 
     def __iadd__(self, other):
@@ -36,7 +40,7 @@ class SolverOrTools(Solver):
 
     def variables(self):
         """Returns all decision variables."""
-        return [self.solver.LookupVariable(name) for name in self.solver.variables()]
+        return [self.solver.LookupVariable(str(name)) for name in self.solver.variables()]
 
     def constraints(self):
         """Returns all added constraints."""
@@ -46,17 +50,13 @@ class SolverOrTools(Solver):
         """Solves the optimization problem."""
         return self.solver.Solve(**kwargs)
 
-    def objective(self):
+    def get_objective(self):
         """Returns the current objective function."""
         return self.solver.Objective()
 
-    def create_variable(self, name: str, cat: str) -> pywraplp.Variable:
-        if cat == "Binary":
-            return self.solver.BoolVar(name)
-        elif cat == "Continuous":
-            return self.solver.NumVar(0, self.solver.infinity(), name)
-        else:
-            raise ValueError("Unknown variable category")
+    def create_variable(self, name: str, cat: str) -> None:
+        self.variables_list.append((name, cat))
+        return None
 
     def create_constraint(self, name: str, variables: list, variables2: list = None, constraint_fn=None):
         """
@@ -96,3 +96,34 @@ class SolverOrTools(Solver):
 
         # Set the optimization direction to maximize
         self.objective.SetMaximization()
+
+    def get_problem_answers(self, parser: Parser):
+        answers = []
+        for v in self.variables():  # Ensure this returns OR-Tools decision variables
+            building_name = parser.get_name_from_use_name(
+                parser.get_entry_name(FullEntryName(v.name()), EntryType.BUILDING),
+                EntryType.BUILDING
+            )
+            region_name = parser.get_name_from_use_name(
+                parser.get_entry_name(FullEntryName(v.name()), EntryType.REGION),
+                EntryType.REGION
+            )
+            building_print_name = parser.get_print_name(building_name, EntryType.BUILDING)
+            region_print_name = parser.get_print_name(region_name, EntryType.REGION)
+
+            if v.solution_value() == 1:  # OR-Tools: Use solution_value() instead of varValue
+                answers.append((region_print_name, building_print_name))
+
+        return answers
+
+    def filter_added(self, buildings: dict[str, object]):
+        for name, cat in self.variables_list:
+            building = buildings.get(name)
+            if building is not None:
+                if cat == "Binary":
+                    building.lp_variable = self.solver.BoolVar(name)
+                elif cat == "Continuous":
+                    return self.solver.NumVar(0, self.solver.infinity(), name)
+                else:
+                    raise ValueError("Unknown variable category")
+        self.variables_list = []  # Reset the variables list to avoid duplicates

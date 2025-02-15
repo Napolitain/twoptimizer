@@ -11,6 +11,7 @@ class Filter(abc.ABC):
 
     def __init__(self, faction: GameFactions):
         self.faction = faction
+        self.compiled_filter = []
 
     def building_is_majorcity(self, building_name: str) -> bool:
         return "city_major" in building_name

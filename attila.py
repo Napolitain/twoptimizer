@@ -2,12 +2,10 @@
 # att_bld_roman_west_city_major_1
 import pathlib
 
-from pulp import value
-
-from engine.enums import NameType
+from engine.enums import NameType, ProblemState, SolverType
 from engine.games import Games
 from engine.models.game_attila import AttilaGame
-from engine.problem import Problem, ProblemState, SolverType
+from engine.problem import Problem
 
 # PuLP is a linear and mixed integer programming modeler written in Python.
 
@@ -41,7 +39,7 @@ if __name__ == '__main__':
     parser.parse_start_pos_tsv(path)
 
     # Linear programming problem
-    lp_problem = Problem(solver=SolverType.PULP)
+    lp_problem = Problem(solver=SolverType.GOOGLE)
     # lp_problem.add_provinces()
 
     # Options
@@ -57,7 +55,9 @@ if __name__ == '__main__':
             region.filter_city_level(4)
             region.filter_building_level(4)
             region.filter_military()
-            lp_problem.state = ProblemState.FILTERS_ADDED
+            # Necessary (for now) for Google OR-Tools to add the variables which were added lazily
+            lp_problem.problem.filter_added({building.name: building for building in region.buildings})
+        lp_problem.state = ProblemState.FILTERS_ADDED
 
         # Set province wide fertility : impacts food and GDP
         Games.fertility = 5
@@ -77,7 +77,7 @@ if __name__ == '__main__':
         lp_problem.add_objective()
         # lp_problem.print_problem_xy()
         lp_problem.solve()
-        print(f"{province.get_name_output()} : {value(lp_problem.problem.objective())}")
+        print(f"{province.get_name_output()} : {lp_problem.problem.get_objective()}")
 
         # Print the variables equal to 1 with their respective contribution
         if province.print_name == "Thracia":

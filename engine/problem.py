@@ -1,33 +1,15 @@
-import enum
 from time import perf_counter_ns
 from typing import List
 
 from pulp import PULP_CBC_CMD
 
 from engine.building import Building
-from engine.enums import EntryType
+from engine.enums import ProblemState, SolverType
 from engine.games import Games
-from engine.models.model import FullEntryName
 from engine.province import Province
 from engine.solver import Solver
 from engine.solver_ortools import SolverOrTools
 from engine.solver_pulp import SolverPulp
-
-
-class ProblemState(enum.Enum):
-    INIT = 0
-    PROVINCES_ADDED = 1
-    BUILDINGS_ADDED = 2
-    FILTERS_ADDED = 3
-    CONSTRAINTS_ADDED = 4
-    OBJECTIVE_ADDED = 5
-    SOLVED = 6
-
-
-class SolverType(enum.Enum):
-    PULP = 0
-    SCIP = 1
-    GOOGLE = 2
 
 
 class Problem:
@@ -139,19 +121,7 @@ class Problem:
         """
         if self.state != ProblemState.SOLVED:
             raise ValueError("Problem must be solved first.")
-        answers = []
-        parser = Games.instance.get_parser()
-        for v in self.problem.variables():
-            building_name = parser.get_name_from_use_name(
-                parser.get_entry_name(FullEntryName(v.name), EntryType.BUILDING),
-                EntryType.BUILDING)
-            region_name = parser.get_name_from_use_name(parser.get_entry_name(FullEntryName(v.name), EntryType.REGION),
-                                                        EntryType.REGION)
-            building_print_name = Games.instance.get_parser().get_print_name(building_name, EntryType.BUILDING)
-            region_print_name = Games.instance.get_parser().get_print_name(region_name, EntryType.REGION)
-            if v.varValue == 1:
-                answers.append((region_print_name, building_print_name))
-        return answers
+        return Games.problem.get_problem_answers(Games.instance.get_parser())
 
     def print_problem_answers(self):
         """

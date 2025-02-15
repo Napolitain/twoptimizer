@@ -1,5 +1,8 @@
-from pulp import LpMaximize, LpProblem, LpVariable, lpSum
+from pulp import LpMaximize, LpProblem, LpVariable, lpSum, value
 
+from engine.enums import EntryType
+from engine.models.model import FullEntryName
+from engine.parser.parser import Parser
 from engine.solver import Solver
 
 
@@ -24,8 +27,8 @@ class SolverPulp(Solver):
     def solve(self, **kwargs):
         return self.solver.solve(**kwargs)
 
-    def objective(self):
-        return self.solver.objective
+    def get_objective(self):
+        return value(self.solver.objective)
 
     def create_variable(self, name: str, cat: str) -> LpVariable:
         return LpVariable(name, cat=cat)
@@ -53,3 +56,17 @@ class SolverPulp(Solver):
             building.gdp() * building.lp_variable
             for building in buildings
         ), "Objective Function"
+
+    def get_problem_answers(self, parser: Parser) -> list[tuple[str, str]]:
+        answers = []
+        for v in self.variables():
+            building_name = parser.get_name_from_use_name(
+                parser.get_entry_name(FullEntryName(v.name), EntryType.BUILDING),
+                EntryType.BUILDING)
+            region_name = parser.get_name_from_use_name(parser.get_entry_name(FullEntryName(v.name), EntryType.REGION),
+                                                        EntryType.REGION)
+            building_print_name = parser.get_print_name(building_name, EntryType.BUILDING)
+            region_print_name = parser.get_print_name(region_name, EntryType.REGION)
+            if v.varValue == 1:
+                answers.append((region_print_name, building_print_name))
+        return answers

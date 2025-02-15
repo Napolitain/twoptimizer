@@ -1,5 +1,7 @@
 import abc
 
+from engine.parser.parser import Parser
+
 
 class Solver(abc.ABC):
     @abc.abstractmethod
@@ -27,7 +29,7 @@ class Solver(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def objective(self):
+    def get_objective(self):
         pass
 
     @abc.abstractmethod
@@ -40,4 +42,15 @@ class Solver(abc.ABC):
 
     @abc.abstractmethod
     def create_constraint(self, name: str, variables, variables2=None, constraint_fn=None):
+        pass
+
+    @abc.abstractmethod
+    def get_problem_answers(self, parser: Parser):
+        """
+        Get the answers from the solver.
+        :return: dictionary of answers
+        """
+        pass
+
+    def filter_added(self, buildings: dict[str, object]):
         pass

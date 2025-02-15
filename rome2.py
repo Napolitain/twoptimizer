@@ -4,9 +4,10 @@ import pathlib
 
 from pulp import value
 
+from engine.enums import ProblemState
 from engine.games import Games
 from engine.models.game_rome2 import Rome2Game
-from engine.problem import Problem, ProblemState
+from engine.problem import Problem
 
 # PuLP is a linear and mixed integer programming modeler written in Python.
 
