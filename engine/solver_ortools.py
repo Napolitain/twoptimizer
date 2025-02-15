@@ -8,7 +8,7 @@ from engine.solver import Solver
 
 class SolverOrTools(Solver):
     def __init__(self):
-        self.solver = pywraplp.Solver.CreateSolver("GLOP")  # Linear solver (supports LP problems)
+        self.solver = pywraplp.Solver.CreateSolver("CBC")  # Linear solver (supports LP problems)
         self.objective = self.solver.Objective()
         self.objective.SetMaximization()
         self.variables_list = []  # Maintain variables for retrieval
@@ -52,7 +52,7 @@ class SolverOrTools(Solver):
 
     def get_objective(self):
         """Returns the current objective function."""
-        return self.solver.Objective()
+        return self.solver.Objective().Value()
 
     def create_variable(self, name: str, cat: str) -> None:
         self.variables_list.append((name, cat))

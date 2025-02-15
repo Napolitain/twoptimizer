@@ -300,7 +300,7 @@ class Region(RegionBase, Entity):
                 if len(split_name) > 1 and float(split_name[j]) < level:
                     self.buildings.pop(i)
             else:
-                print(f"Building {building.get_name()} has no level.")
+                # print(f"Building {building.get_name()} has no level.")
                 self.buildings.pop(i)
 
     def filter_military(self):
