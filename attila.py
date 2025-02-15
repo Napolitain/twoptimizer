@@ -46,7 +46,7 @@ if __name__ == '__main__':
     Games.USE_NAME = NameType.NAME
 
     for province in parser.provinces.values():
-        # lp_problem.reset_problem()
+        lp_problem.reset_problem()
         lp_problem.add_province(province)
         # Filter out all buildings
         for region in province.regions:
@@ -60,7 +60,7 @@ if __name__ == '__main__':
         lp_problem.state = ProblemState.FILTERS_ADDED
 
         # Set province wide fertility : impacts food and GDP
-        Games.fertility = 5
+        Games.fertility = 0
 
         # Regional constraints
         for region in province.regions:
@@ -73,16 +73,16 @@ if __name__ == '__main__':
         province.add_public_order_constraint()
         lp_problem.state = ProblemState.CONSTRAINTS_ADDED
 
-    # GDP maximization
-    lp_problem.add_objective()
-    # lp_problem.print_problem_xy()
-    lp_problem.solve()
-    # print(f"{province.get_name_output()} : {lp_problem.problem.get_objective()}")
+        # GDP maximization
+        lp_problem.add_objective()
+        # lp_problem.print_problem_xy()
+        lp_problem.solve()
+        print(f"{province.get_name_output()} : {lp_problem.problem.get_objective()}")
 
-    # Print the variables equal to 1 with their respective contribution
-    # if province.print_name == "Thracia":
-    #     lp_problem.print_problem_answers()
-    lp_problem.print_problem_answers()
-    # province.clean()
+        # Print the variables equal to 1 with their respective contribution
+        # if province.print_name == "Thracia":
+        #     lp_problem.print_problem_answers()
+        # lp_problem.print_problem_answers()
+        province.clean()
 
     print(f"Total solving time: {lp_problem.global_time / 1_000_000_000} seconds")

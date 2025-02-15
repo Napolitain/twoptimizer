@@ -1,0 +1,62 @@
+Aegyptus : 12925.0
+Aethiopia : 9550.0
+Africa : 12175.0
+Aquitania : 11675.0
+Arabia Felix : 10000.0
+Arabia Magna : 10250.0
+Armenia : 10250.0
+Asia : 12175.0
+Asoristan : 9050.0
+Baetica : 11325.0
+Belgica : 10250.0
+Bithynia : 11325.0
+Britannia Inferior : 11325.0
+Britannia Superior : 11325.0
+Caledonia et Hibernia : 11325.0
+Cappadocia : 11325.0
+Carthaginensis : 12725.0
+Caucasia : 10250.0
+Cilicia : 13575.0
+Dacia : 11625.0
+Dalmatia : 10725.0
+Dardania : 10250.0
+Frisia : 11975.0
+Gallaecia : 11500.0
+Germania : 10250.0
+Germano-Sarmatia : 11325.0
+Gothiscandza : 12925.0
+Hercynia : 10250.0
+Hyperborea : 11225.0
+Italia : 12075.0
+Khwarasan : 10250.0
+Libya : 13575.0
+Liguria : 11325.0
+Lugdunensis : 13025.0
+Lusitania : 11325.0
+Macedonia : 15175.0
+Magna Graecia : 13275.0
+Makran : 10325.0
+Mauretania : 13275.0
+Maxima Sequanorum : 10250.0
+Media Atropatene : 10250.0
+Insulae Occidentalis : 13275.0
+Insulae Orientalis : 13275.0
+Narbonensis : 11325.0
+Osroene : 10250.0
+Palaestinea : 11000.0
+Pannonia : 11075.0
+Persis : 11325.0
+Sahara : 10250.0
+Raetia et Noricum : 10250.0
+Sarmatia Asiatica : 12325.0
+Sarmatia Europaea : 12175.0
+Scandza : 13275.0
+Scythia : 10250.0
+Spahan : 10250.0
+Syria : 11675.0
+Tarraconensis : 10725.0
+Thracia : 11675.0
+Transcarpathia : 10250.0
+Transcaspia : 10250.0
+Tripolitana : 13275.0
+Venetia : 13675.0

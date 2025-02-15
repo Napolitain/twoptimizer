@@ -1,0 +1,62 @@
+Aegyptus : 18675.0
+Aethiopia : 16880.0
+Africa : 19055.0
+Aquitania : 19375.0
+Arabia Felix : 16075.0
+Arabia Magna : 18875.0
+Armenia : 18875.0
+Asia : 19055.0
+Asoristan : 16880.0
+Baetica : 18555.0
+Belgica : 18875.0
+Bithynia : 18555.0
+Britannia Inferior : 18555.0
+Britannia Superior : 18555.0
+Caledonia et Hibernia : 18555.0
+Cappadocia : 18555.0
+Carthaginensis : 19375.0
+Caucasia : 18875.0
+Cilicia : 19055.0
+Dacia : 18875.0
+Dalmatia : 19375.0
+Dardania : 18875.0
+Frisia : 18555.0
+Gallaecia : 19055.0
+Germania : 18875.0
+Germano-Sarmatia : 18555.0
+Gothiscandza : 19055.0
+Hercynia : 18875.0
+Hyperborea : 18875.0
+Italia : 18075.0
+Khwarasan : 18875.0
+Libya : 19055.0
+Liguria : 18555.0
+Lugdunensis : 18555.0
+Lusitania : 18555.0
+Macedonia : 19000.0
+Magna Graecia : 19000.0
+Makran : 16880.0
+Mauretania : 19000.0
+Maxima Sequanorum : 18875.0
+Media Atropatene : 18875.0
+Insulae Occidentalis : 19000.0
+Insulae Orientalis : 19000.0
+Narbonensis : 18555.0
+Osroene : 18875.0
+Palaestinea : 17750.0
+Pannonia : 18875.0
+Persis : 18555.0
+Sahara : 18875.0
+Raetia et Noricum : 18875.0
+Sarmatia Asiatica : 19055.0
+Sarmatia Europaea : 19055.0
+Scandza : 19000.0
+Scythia : 18875.0
+Spahan : 19375.0
+Syria : 18575.0
+Tarraconensis : 19375.0
+Thracia : 19075.0
+Transcarpathia : 18875.0
+Transcaspia : 18875.0
+Tripolitana : 19000.0
+Venetia : 19055.0

@@ -20,7 +20,10 @@ class Faction:
 class Parser(abc.ABC):
     def __init__(self):
         # store id to object
-        self.game_dir = pathlib.Path("data")
+        self.game_dir = pathlib.Path(__file__).resolve().parent
+        while self.game_dir != self.game_dir.root and not (self.game_dir / ".git").exists():
+            self.game_dir = self.game_dir.parent
+        self.game_dir = self.game_dir / "data"
         self.campaign = None
         self.buildings = {}
         self.regions: dict[str, RegionBase] = {}
