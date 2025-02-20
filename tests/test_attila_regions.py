@@ -1,5 +1,6 @@
 # att_effect_economy_gdp_industry
 # att_bld_roman_west_city_major_1
+from pathlib import Path
 from unittest import TestCase
 
 from engine.enums import NameType, ProblemState, SolverType
@@ -14,7 +15,9 @@ from engine.problem import Problem
 class TestRegion(TestCase):
     def test_attila_regions_f5(self):
         result = {}
-        with open("result_fertility_5_ere.txt", "r") as f:
+        current_dir = Path(__file__).parent.absolute()
+        file = current_dir / "result_fertility_5_ere.txt"
+        with open(file, "r") as f:
             for line in f:
                 x = line.split(":")
                 result[x[0].strip()] = float(x[1].strip())

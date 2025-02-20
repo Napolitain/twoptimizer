@@ -23,7 +23,6 @@ class Parser(abc.ABC):
         self.game_dir = pathlib.Path(__file__).resolve().parent
         while self.game_dir != self.game_dir.root and not (self.game_dir / ".git").exists():
             self.game_dir = self.game_dir.parent
-        print(self.game_dir)
         self.game_dir = self.game_dir / "data"
         self.campaign = None
         self.buildings = {}
