@@ -39,11 +39,11 @@ if __name__ == '__main__':
     parser.parse_start_pos_tsv(path)
 
     # Linear programming problem
-    lp_problem = Problem(solver=SolverType.GOOGLE)
+    lp_problem = Problem(solver=SolverType.PULP)
     # lp_problem.add_provinces()
 
     # Options
-    Games.USE_NAME = NameType.NAME
+    Games.USE_NAME = NameType.HASH_NAME
 
     for province in parser.provinces.values():
         lp_problem.reset_problem()
@@ -80,8 +80,14 @@ if __name__ == '__main__':
         print(f"{province.get_name_output()} : {lp_problem.problem.get_objective()}")
 
         # Print the variables equal to 1 with their respective contribution
-        # if province.print_name == "Thracia":
-        #     lp_problem.print_problem_answers()
+        if province.print_name == "Thracia" and Games.USE_NAME == NameType.NAME:
+            lp_problem.print_problem_answers()
+            lp_problem.dump("attila_problem.lp")
+        if province.hash_name == "P1" and Games.USE_NAME == NameType.HASH_NAME:
+            lp_problem.print_problem_answers()
+            # write problem to file for debugging
+            lp_problem.dump("attila_problem.lp")
+            break
         # lp_problem.print_problem_answers()
         province.clean()
 

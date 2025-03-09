@@ -4,7 +4,7 @@ from typing import List, cast
 from engine.bases import RegionBase
 from engine.building import Building
 from engine.entity import Entity
-from engine.enums import NameType
+from engine.enums import NameType, get_hash_name
 from engine.games import Games
 from engine.models.game_attila import AttilaGame
 from engine.models.model import RegionType, RegionPort
@@ -15,11 +15,10 @@ class Region(RegionBase, Entity):
     """
     A region contains buildings.
     """
-    HASH_NAME = "R1"
 
     def __init__(self, name: str, print_name: str = ""):
         super().__init__()
-        self.hash_name = self.increment_hash_name()
+        self.hash_name = get_hash_name("R")
         self.n_buildings = 0  # Number of buildings that can be built in the region. NOT equal to len(buildings).
         self.buildings: List[Building] = []  # List of buildings that are potentially fit for the region.
         self.effects = defaultdict(list)
@@ -31,9 +30,10 @@ class Region(RegionBase, Entity):
         self.region_type = RegionType.REGION_MAJOR
         self.has_port = RegionPort.REGION_NO_PORT
         self.has_ressource = AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE
+        self.building_chain_to_hashname = {}
 
     def get_n_buildings(self):
-        if type(Games.instance) == AttilaGame and self.get_name() not in [
+        if type(Games.instance) == AttilaGame and self.name not in [
             # In attila, except a few regions, we can build one more building in any case.
             "reg_bithynia_ancyra",
             "reg_cappadocia_caesarea_eusebia",
@@ -66,15 +66,15 @@ class Region(RegionBase, Entity):
         # Add buildings Lp variables to the region.
         for building in Games.buildings[Games.instance.get_campaign().value[1]].values():
             # Filter out buildings that are not of the campaign to reduce the number of LpVariables.
-            if Games.instance.get_filter().building_is_not_of_campaign(building.get_name()):
+            if Games.instance.get_filter().building_is_not_of_campaign(building.name):
                 continue
             if self.region_type == RegionType.REGION_MAJOR and Games.instance.get_filter().building_is_minor(
-                    building.get_name()):
+                    building.name):
                 continue
             if self.region_type == RegionType.REGION_MINOR and Games.instance.get_filter().building_is_major(
-                    building.get_name()):
+                    building.name):
                 continue
-            if "ruin" in building.get_name():
+            if "ruin" in building.name:
                 continue
             deep_copy = building.__copy__()
             deep_copy.name = f"{self.name}_{building.name}"
@@ -239,14 +239,16 @@ class Region(RegionBase, Entity):
 
         :return:
         """
-        dictionary = defaultdict(list[Building])
+        building_name_to_building = defaultdict(list[Building])
         for building in self.buildings:
             # name is everything until last underscore
             name = building.name.split("_")[:-1]
-            dictionary["_".join(name)].append(building)
-        for building_chain, building_list in dictionary.items():
+            building_name_to_building["_".join(name)].append(building)
+        for building_chain, building_list in building_name_to_building.items():
+            if building_chain not in self.building_chain_to_hashname:
+                self.building_chain_to_hashname[building_chain] = get_hash_name("BC")
             Games.problem.create_constraint(
-                name=f"{self.get_name()}_Chain_{building_chain}",
+                name=f"{self.get_name()}_Chain_{self.get_building_chain_name(building_chain)}",
                 variables=[
                     building.lp_variable
                     for building in building_list
@@ -330,3 +332,8 @@ class Region(RegionBase, Entity):
         :return:
         """
         self.n_buildings = limit
+
+    def get_building_chain_name(self, building_chain_name: str):
+        if Games.USE_NAME == NameType.HASH_NAME:
+            return self.building_chain_to_hashname[building_chain_name]
+        return building_chain_name

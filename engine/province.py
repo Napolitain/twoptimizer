@@ -3,7 +3,7 @@ from typing import List
 from engine.bases import ProvinceBase
 from engine.building import Building
 from engine.entity import Entity
-from engine.enums import Scope
+from engine.enums import Scope, get_hash_name
 from engine.games import Games
 from engine.region import Region
 
@@ -18,7 +18,7 @@ class Province(ProvinceBase, Entity):
         super().__init__()
         self.regions = []
         self.name = name
-        self.hash_name = self.increment_hash_name()
+        self.hash_name = get_hash_name("P")
         if print_name == "":
             self.print_name = name
         else:
@@ -38,7 +38,7 @@ class Province(ProvinceBase, Entity):
         :return:
         """
         Games.problem.create_constraint(
-            name=f"{self.name}_Public_Order",
+            name=f"{self.get_name()}_Public_Order",
             variables=[
                 building.public_order() * building.lp_variable
                 for building in self.buildings()
@@ -52,7 +52,7 @@ class Province(ProvinceBase, Entity):
         :return:
         """
         Games.problem.create_constraint(
-            name=f"{self.name}_Food",
+            name=f"{self.get_name()}_Food",
             variables=[
                 building.food() * building.lp_variable
                 for building in self.buildings()
@@ -68,7 +68,7 @@ class Province(ProvinceBase, Entity):
         """
         for region in self.regions:
             Games.problem.create_constraint(
-                name=f"{self.name}_Sanitation_Constraint_{region.name}",
+                name=f"{self.get_name()}_Sanitation_Constraint_{region.name}",
                 variables=[
                     building.sanitation() * building.lp_variable
                     for building in region.buildings

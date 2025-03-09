@@ -131,3 +131,19 @@ class Problem:
         problem_answers = self.get_problem_answers()
         for region_name, building_name in problem_answers:
             print(f"{region_name}: {building_name}")
+
+    def dump(self, path: str):
+        if self.solver_type == SolverType.GOOGLE:
+            # Assuming self.problem.solver is an instance of pywraplp.Solver
+            if path.endswith('.lp'):
+                model_str = self.problem.solver.ExportModelAsLpFormat(False)
+            elif path.endswith('.mps'):
+                model_str = self.problem.solver.ExportModelAsMpsFormat(False)
+            else:
+                raise ValueError("Unsupported file format. Use '.lp' or '.mps'.")
+            with open(path, 'w') as file:
+                file.write(model_str)
+        elif self.solver_type == SolverType.PULP:
+            self.problem.solver.writeLP(path)
+        else:
+            raise ValueError("Unknown solver.")

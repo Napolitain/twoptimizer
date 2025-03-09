@@ -1,4 +1,16 @@
 import enum
+from collections import defaultdict
+
+hashes_to_names = defaultdict(int)
+
+
+def get_hash_name(hash_entry: str):
+    """
+    Increment the hash name and store it in the dictionary.
+    Each call for the same hash_entry will increase its counter.
+    """
+    hashes_to_names[hash_entry] += 1
+    return f"{hash_entry}{hashes_to_names[hash_entry]}"
 
 
 class EntryType(enum.Enum):

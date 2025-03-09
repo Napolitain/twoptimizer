@@ -1,6 +1,6 @@
 from engine.effect import Effect
 from engine.entity import Entity
-from engine.enums import Scope
+from engine.enums import Scope, get_hash_name
 from engine.games import Games
 
 
@@ -16,7 +16,7 @@ class Building(Effect, Entity):
         self.lp_variable = None
         self.name = name
         if hash_name is None:
-            self.hash_name = self.increment_hash_name()
+            self.hash_name = get_hash_name("B")
         else:
             self.hash_name = hash_name
         if print_name is None:
