@@ -1,9 +1,13 @@
 import dataclasses
 
+from games.smite.spells import Buff
+
 
 @dataclasses.dataclass
 class Item:
     name: str
+    cost: float
+    buff: Buff = None
 
 
 @dataclasses.dataclass
@@ -12,9 +16,24 @@ class Starter(Item):
 
 
 @dataclasses.dataclass
+class RatatoskrAcorn(Item):
+    pass
+
+
+@dataclasses.dataclass
 class Build:
     item1: Starter
     item2: Item
+    item3: Item
+    item4: Item
+    item5: Item
+    item6: Item
+
+
+@dataclasses.dataclass
+class RatatoskrBuild(Build):
+    item1: RatatoskrAcorn
+    item2: Starter
     item3: Item
     item4: Item
     item5: Item

@@ -1,0 +1,6 @@
+make a script to create files like
+
+sentinels_boon.py and it should contains the name and the cost
+add also a prefix starter_ to the name of the file
+
+Sentinel's Boon,1800 Sentinel's Embrace,1800 Compassion,1850 Heroism,1850 Spartan Flag,1850 War Banner,1850 Lono's Mask,1900 Bumba's Hammer,2100 Bumba's Spear,2100 Axe of Animosity,2150 Blood-soaked Shroud,2150 Bluestone Brooch,2150 Corrupted Bluestone,2150 Death's Embrace,2150 Death's Temper,2150 Diamond Arrow,2150 Hunter's Cowl,2150 Infused Sigil,2150 Leader's Cowl,2150 Manikin Hidden Blade,2150 Manikin Mace,2150 Ornate Arrow,2150 Protector of the Jungle,2150 Rangda's Mask,2150 Sacrificial Shroud,2150 Seer of the Jungle,2150 Sigil of the Old Guard,2150 Sundering Axe,2150 Archmage's Gem,2200 Gem of Focus,2200 Pendulum of Ages,2200 Tainted Amulet,2200 Tainted Breastplate,2200 The Alternate Timeline,2200
