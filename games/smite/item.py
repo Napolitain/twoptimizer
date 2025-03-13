@@ -1,13 +1,13 @@
 import dataclasses
 
-from games.smite.spells import Buff
+from games.smite.spells import Stats
 
 
 @dataclasses.dataclass
 class Item:
     name: str
     cost: float
-    buff: Buff = None
+    stats: Stats = None
 
 
 @dataclasses.dataclass
