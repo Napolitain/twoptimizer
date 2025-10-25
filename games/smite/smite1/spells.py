@@ -34,7 +34,7 @@ class Stats:
 class Buff:
     name: str = ""
     duration: float = float('inf')  # TBD
-    stats: Stats = Stats()
+    stats: Stats = dataclasses.field(default_factory=Stats)
 
 
 @dataclasses.dataclass
