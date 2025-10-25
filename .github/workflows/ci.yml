@@ -30,3 +30,7 @@ jobs:
       - name: Run tests with pytest
         run: |
           pytest
+
+      - name: Test Total War Attila main.py
+        run: |
+          python -m games.tw.attila.main
