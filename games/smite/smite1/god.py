@@ -36,7 +36,7 @@ class God:
     power_type: PowerType
     spells: Spells
     build: Build
-    limits: Limits = Limits()
+    limits: Limits = dataclasses.field(default_factory=Limits)
 
     def get_hp(self) -> float:
         total_hp = self.stats.hp
