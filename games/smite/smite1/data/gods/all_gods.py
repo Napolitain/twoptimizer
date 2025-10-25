@@ -8,14 +8,14 @@ from games.smite.smite1.god import God
 from games.smite.smite1.spells import Buff, Spell, Spells, Stats
 
 
-# Placeholder spells for gods (to be filled in with actual ability data later)
-def _create_placeholder_spells():
-    passive = Buff("Passive")
-    spell1 = Spell("Ability 1", damage=0, scaling=0, cooldown=0, mana_cost=0, range=0)
-    spell2 = Spell("Ability 2", damage=0, scaling=0, cooldown=0, mana_cost=0, range=0)
-    spell3 = Spell("Ability 3", damage=0, scaling=0, cooldown=0, mana_cost=0, range=0)
-    spell4 = Spell("Ultimate", damage=0, scaling=0, cooldown=0, mana_cost=0, range=0)
-    return Spells(passive, spell1, spell2, spell3, spell4)
+# Shared placeholder spells (to avoid creating duplicate objects for each god)
+_PLACEHOLDER_PASSIVE = Buff("Passive")
+_PLACEHOLDER_SPELL1 = Spell("Ability 1", damage=0, scaling=0, cooldown=0, mana_cost=0, range=0)
+_PLACEHOLDER_SPELL2 = Spell("Ability 2", damage=0, scaling=0, cooldown=0, mana_cost=0, range=0)
+_PLACEHOLDER_SPELL3 = Spell("Ability 3", damage=0, scaling=0, cooldown=0, mana_cost=0, range=0)
+_PLACEHOLDER_SPELL4 = Spell("Ultimate", damage=0, scaling=0, cooldown=0, mana_cost=0, range=0)
+_PLACEHOLDER_SPELLS = Spells(_PLACEHOLDER_PASSIVE, _PLACEHOLDER_SPELL1, _PLACEHOLDER_SPELL2, 
+                            _PLACEHOLDER_SPELL3, _PLACEHOLDER_SPELL4)
 
 
 # Achilles
@@ -29,10 +29,11 @@ achilles = God(
         prot_physical=77,
         prot_magical=30,
         hp5=24,
-        mp5=12.5
+        mp5=12.5,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -47,10 +48,11 @@ agni = God(
         prot_physical=63,
         prot_magical=30,
         hp5=16.4,
-        mp5=12.1
+        mp5=12.1,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -65,10 +67,11 @@ ah_muzen_cab = God(
         prot_physical=72,
         prot_magical=30,
         hp5=21.2,
-        mp5=12
+        mp5=12,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -83,10 +86,11 @@ ah_puch = God(
         prot_physical=67,
         prot_magical=30,
         hp5=15,
-        mp5=13.3
+        mp5=13.3,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -101,10 +105,11 @@ amaterasu = God(
         prot_physical=78,
         prot_magical=30,
         hp5=24,
-        mp5=12.8
+        mp5=12.8,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -119,10 +124,11 @@ anhur = God(
         prot_physical=67,
         prot_magical=30,
         hp5=21.8,
-        mp5=10.9
+        mp5=10.9,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -137,10 +143,11 @@ anubis = God(
         prot_physical=60,
         prot_magical=30,
         hp5=16,
-        mp5=12
+        mp5=12,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -155,10 +162,11 @@ ao_kuang = God(
         prot_physical=72,
         prot_magical=30,
         hp5=24,
-        mp5=13
+        mp5=13,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -173,10 +181,11 @@ aphrodite = God(
         prot_physical=63,
         prot_magical=30,
         hp5=15,
-        mp5=13
+        mp5=13,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -191,10 +200,11 @@ apollo = God(
         prot_physical=66,
         prot_magical=30,
         hp5=21.8,
-        mp5=12.6
+        mp5=12.6,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -209,10 +219,11 @@ arachne = God(
         prot_physical=73,
         prot_magical=30,
         hp5=22.4,
-        mp5=14
+        mp5=14,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -227,10 +238,11 @@ ares = God(
         prot_physical=80,
         prot_magical=30,
         hp5=21.4,
-        mp5=13
+        mp5=13,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -245,10 +257,11 @@ artemis = God(
         prot_physical=72,
         prot_magical=30,
         hp5=21.6,
-        mp5=9.4
+        mp5=9.4,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -263,10 +276,11 @@ artio = God(
         prot_physical=84,
         prot_magical=30,
         hp5=26,
-        mp5=13.2
+        mp5=13.2,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -281,10 +295,11 @@ athena = God(
         prot_physical=84,
         prot_magical=30,
         hp5=24,
-        mp5=13
+        mp5=13,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -299,10 +314,11 @@ atlas = God(
         prot_physical=88,
         prot_magical=30,
         hp5=24,
-        mp5=13
+        mp5=13,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -317,10 +333,11 @@ awilix = God(
         prot_physical=73,
         prot_magical=30,
         hp5=23.6,
-        mp5=13.1
+        mp5=13.1,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -335,10 +352,11 @@ baba_yaga = God(
         prot_physical=65,
         prot_magical=30,
         hp5=18,
-        mp5=17
+        mp5=17,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -353,10 +371,11 @@ bacchus = God(
         prot_physical=79,
         prot_magical=30,
         hp5=24,
-        mp5=12.8
+        mp5=12.8,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -371,10 +390,11 @@ bakasura = God(
         prot_physical=69,
         prot_magical=30,
         hp5=22.6,
-        mp5=14
+        mp5=14,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -389,10 +409,11 @@ bake_kujira = God(
         prot_physical=87,
         prot_magical=30,
         hp5=23,
-        mp5=13
+        mp5=13,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -407,10 +428,11 @@ baron_samedi = God(
         prot_physical=70,
         prot_magical=30,
         hp5=19,
-        mp5=14
+        mp5=14,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -425,10 +447,11 @@ bastet = God(
         prot_physical=70,
         prot_magical=30,
         hp5=23.4,
-        mp5=9.4
+        mp5=9.4,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -443,10 +466,11 @@ bellona = God(
         prot_physical=78,
         prot_magical=30,
         hp5=24,
-        mp5=12.8
+        mp5=12.8,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -461,10 +485,11 @@ cabrakan = God(
         prot_physical=93,
         prot_magical=30,
         hp5=23,
-        mp5=24
+        mp5=24,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -479,10 +504,11 @@ camazotz = God(
         prot_physical=71,
         prot_magical=30,
         hp5=21.4,
-        mp5=10.4
+        mp5=10.4,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -497,10 +523,11 @@ cerberus = God(
         prot_physical=79,
         prot_magical=30,
         hp5=22,
-        mp5=12.6
+        mp5=12.6,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -515,10 +542,11 @@ cernunnos = God(
         prot_physical=71,
         prot_magical=30,
         hp5=21.8,
-        mp5=10.9
+        mp5=10.9,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -533,10 +561,11 @@ chaac = God(
         prot_physical=78,
         prot_magical=30,
         hp5=23,
-        mp5=12.5
+        mp5=12.5,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -551,10 +580,11 @@ change = God(
         prot_physical=65,
         prot_magical=30,
         hp5=15,
-        mp5=14.3
+        mp5=14.3,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -569,10 +599,11 @@ charon = God(
         prot_physical=79,
         prot_magical=30,
         hp5=21,
-        mp5=13
+        mp5=13,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -587,10 +618,11 @@ charybdis = God(
         prot_physical=69,
         prot_magical=30,
         hp5=20.8,
-        mp5=12
+        mp5=12,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -605,10 +637,11 @@ chernobog = God(
         prot_physical=71,
         prot_magical=30,
         hp5=21.4,
-        mp5=11.4
+        mp5=11.4,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -623,10 +656,11 @@ chiron = God(
         prot_physical=68,
         prot_magical=30,
         hp5=19,
-        mp5=12
+        mp5=12,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -641,10 +675,11 @@ chronos = God(
         prot_physical=70,
         prot_magical=30,
         hp5=16.6,
-        mp5=13.2
+        mp5=13.2,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -659,10 +694,11 @@ cliodhna = God(
         prot_physical=74,
         prot_magical=30,
         hp5=26,
-        mp5=12.3
+        mp5=12.3,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -677,10 +713,11 @@ cthulhu = God(
         prot_physical=85,
         prot_magical=30,
         hp5=24,
-        mp5=13
+        mp5=13,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -695,10 +732,11 @@ cu_chulainn = God(
         prot_physical=77,
         prot_magical=30,
         hp5=22,
-        mp5=0
+        mp5=0,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -713,10 +751,11 @@ cupid = God(
         prot_physical=71,
         prot_magical=30,
         hp5=21.4,
-        mp5=11.6
+        mp5=11.6,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -731,10 +770,11 @@ da_ji = God(
         prot_physical=74,
         prot_magical=30,
         hp5=23,
-        mp5=12
+        mp5=12,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -749,10 +789,11 @@ danzaburou = God(
         prot_physical=71,
         prot_magical=30,
         hp5=20.8,
-        mp5=12
+        mp5=12,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -767,10 +808,11 @@ discordia = God(
         prot_physical=63,
         prot_magical=30,
         hp5=16,
-        mp5=13.6
+        mp5=13.6,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -785,10 +827,11 @@ erlang_shen = God(
         prot_physical=77,
         prot_magical=30,
         hp5=20,
-        mp5=10.7
+        mp5=10.7,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -803,10 +846,11 @@ eset = God(
         prot_physical=63,
         prot_magical=30,
         hp5=15,
-        mp5=13.4
+        mp5=13.4,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -821,10 +865,11 @@ fafnir = God(
         prot_physical=89,
         prot_magical=30,
         hp5=17.8,
-        mp5=13.5
+        mp5=13.5,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -839,10 +884,11 @@ fenrir = God(
         prot_physical=74,
         prot_magical=30,
         hp5=22.6,
-        mp5=9.4
+        mp5=9.4,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -857,10 +903,11 @@ freya = God(
         prot_physical=70,
         prot_magical=30,
         hp5=17.4,
-        mp5=12.3
+        mp5=12.3,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -875,10 +922,11 @@ ganesha = God(
         prot_physical=84,
         prot_magical=30,
         hp5=19.4,
-        mp5=13
+        mp5=13,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -893,10 +941,11 @@ geb = God(
         prot_physical=79,
         prot_magical=30,
         hp5=24,
-        mp5=12.6
+        mp5=12.6,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -911,10 +960,11 @@ gilgamesh = God(
         prot_physical=78,
         prot_magical=30,
         hp5=26,
-        mp5=12.1
+        mp5=12.1,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -929,10 +979,11 @@ guan_yu = God(
         prot_physical=77,
         prot_magical=30,
         hp5=20,
-        mp5=13.8
+        mp5=13.8,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -947,10 +998,11 @@ hachiman = God(
         prot_physical=67,
         prot_magical=30,
         hp5=20.8,
-        mp5=11.9
+        mp5=11.9,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -965,10 +1017,11 @@ hades = God(
         prot_physical=70,
         prot_magical=30,
         hp5=15.8,
-        mp5=12.2
+        mp5=12.2,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -983,10 +1036,11 @@ he_bo = God(
         prot_physical=61,
         prot_magical=30,
         hp5=15,
-        mp5=12.9
+        mp5=12.9,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1001,10 +1055,11 @@ heimdallr = God(
         prot_physical=76,
         prot_magical=30,
         hp5=24,
-        mp5=12.5
+        mp5=12.5,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1019,10 +1074,11 @@ hel = God(
         prot_physical=61,
         prot_magical=30,
         hp5=13.6,
-        mp5=14
+        mp5=14,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1037,10 +1093,11 @@ hera = God(
         prot_physical=63,
         prot_magical=30,
         hp5=15,
-        mp5=13
+        mp5=13,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1055,10 +1112,11 @@ hercules = God(
         prot_physical=78,
         prot_magical=30,
         hp5=19.6,
-        mp5=12.3
+        mp5=12.3,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1073,10 +1131,11 @@ horus = God(
         prot_physical=77,
         prot_magical=30,
         hp5=22,
-        mp5=13.7
+        mp5=13.7,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1091,10 +1150,11 @@ hou_yi = God(
         prot_physical=73,
         prot_magical=30,
         hp5=21.6,
-        mp5=12
+        mp5=12,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1109,10 +1169,11 @@ hun_batz = God(
         prot_physical=73,
         prot_magical=30,
         hp5=23.6,
-        mp5=12
+        mp5=12,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1127,10 +1188,11 @@ ishtar = God(
         prot_physical=71,
         prot_magical=30,
         hp5=21,
-        mp5=12.1
+        mp5=12.1,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1145,10 +1207,11 @@ ix_chel = God(
         prot_physical=68,
         prot_magical=30,
         hp5=19,
-        mp5=14
+        mp5=14,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1163,10 +1226,11 @@ izanami = God(
         prot_physical=69,
         prot_magical=30,
         hp5=20,
-        mp5=12
+        mp5=12,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1181,10 +1245,11 @@ janus = God(
         prot_physical=66,
         prot_magical=30,
         hp5=15,
-        mp5=14
+        mp5=14,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1199,10 +1264,11 @@ jing_wei = God(
         prot_physical=69,
         prot_magical=30,
         hp5=20.6,
-        mp5=10.4
+        mp5=10.4,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1217,10 +1283,11 @@ jormungandr = God(
         prot_physical=91,
         prot_magical=30,
         hp5=25,
-        mp5=13.5
+        mp5=13.5,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1235,10 +1302,11 @@ kali = God(
         prot_physical=73,
         prot_magical=30,
         hp5=22.6,
-        mp5=8.5
+        mp5=8.5,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1253,10 +1321,11 @@ khepri = God(
         prot_physical=79,
         prot_magical=30,
         hp5=24,
-        mp5=12.6
+        mp5=12.6,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1271,10 +1340,11 @@ king_arthur = God(
         prot_physical=77,
         prot_magical=30,
         hp5=25,
-        mp5=12.4
+        mp5=12.4,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1289,10 +1359,11 @@ kukulkan = God(
         prot_physical=73,
         prot_magical=30,
         hp5=16.2,
-        mp5=14
+        mp5=14,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1307,10 +1378,11 @@ kumbhakarna = God(
         prot_physical=84,
         prot_magical=30,
         hp5=23,
-        mp5=13
+        mp5=13,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1325,10 +1397,11 @@ kuzenbo = God(
         prot_physical=82,
         prot_magical=30,
         hp5=25,
-        mp5=13
+        mp5=13,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1343,10 +1416,11 @@ lancelot = God(
         prot_physical=72,
         prot_magical=30,
         hp5=23,
-        mp5=13.8
+        mp5=13.8,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1361,10 +1435,11 @@ loki = God(
         prot_physical=69,
         prot_magical=30,
         hp5=22,
-        mp5=11.2
+        mp5=11.2,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1379,10 +1454,11 @@ maman_brigitte = God(
         prot_physical=72,
         prot_magical=30,
         hp5=22,
-        mp5=12.8
+        mp5=12.8,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1397,10 +1473,11 @@ martichoras = God(
         prot_physical=78,
         prot_magical=30,
         hp5=21,
-        mp5=12.5
+        mp5=12.5,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1415,10 +1492,11 @@ maui = God(
         prot_physical=89,
         prot_magical=30,
         hp5=24,
-        mp5=12.9
+        mp5=12.9,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1433,10 +1511,11 @@ medusa = God(
         prot_physical=72,
         prot_magical=30,
         hp5=21.6,
-        mp5=9.4
+        mp5=9.4,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1451,10 +1530,11 @@ mercury = God(
         prot_physical=70,
         prot_magical=30,
         hp5=24,
-        mp5=11.4
+        mp5=11.4,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1469,10 +1549,11 @@ merlin = God(
         prot_physical=70,
         prot_magical=30,
         hp5=15.6,
-        mp5=13.6
+        mp5=13.6,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1487,10 +1568,11 @@ morgan_le_fay = God(
         prot_physical=74,
         prot_magical=30,
         hp5=17.6,
-        mp5=13.6
+        mp5=13.6,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1505,10 +1587,11 @@ mulan = God(
         prot_physical=78,
         prot_magical=30,
         hp5=23,
-        mp5=12.7
+        mp5=12.7,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1523,10 +1606,11 @@ ne_zha = God(
         prot_physical=70,
         prot_magical=30,
         hp5=24.2,
-        mp5=9.3
+        mp5=9.3,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1541,10 +1625,11 @@ neith = God(
         prot_physical=72,
         prot_magical=30,
         hp5=16.8,
-        mp5=11.4
+        mp5=11.4,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1559,10 +1644,11 @@ nemesis = God(
         prot_physical=71,
         prot_magical=30,
         hp5=22,
-        mp5=12.3
+        mp5=12.3,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1577,10 +1663,11 @@ nike = God(
         prot_physical=75,
         prot_magical=30,
         hp5=26,
-        mp5=12.4
+        mp5=12.4,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1595,10 +1682,11 @@ nox = God(
         prot_physical=70,
         prot_magical=30,
         hp5=20,
-        mp5=13
+        mp5=13,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1613,10 +1701,11 @@ nu_wa = God(
         prot_physical=63,
         prot_magical=30,
         hp5=16,
-        mp5=13.2
+        mp5=13.2,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1631,10 +1720,11 @@ nut = God(
         prot_physical=71,
         prot_magical=30,
         hp5=21.2,
-        mp5=12.5
+        mp5=12.5,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1649,10 +1739,11 @@ odin = God(
         prot_physical=76,
         prot_magical=30,
         hp5=21.6,
-        mp5=12.1
+        mp5=12.1,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1667,10 +1758,11 @@ olorun = God(
         prot_physical=73,
         prot_magical=30,
         hp5=16,
-        mp5=13
+        mp5=13,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1685,10 +1777,11 @@ osiris = God(
         prot_physical=77,
         prot_magical=30,
         hp5=25,
-        mp5=12.5
+        mp5=12.5,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1703,10 +1796,11 @@ pele = God(
         prot_physical=70,
         prot_magical=30,
         hp5=23,
-        mp5=12.3
+        mp5=12.3,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1721,10 +1815,11 @@ persephone = God(
         prot_physical=63,
         prot_magical=30,
         hp5=16,
-        mp5=13.4
+        mp5=13.4,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1739,10 +1834,11 @@ poseidon = God(
         prot_physical=60,
         prot_magical=30,
         hp5=16,
-        mp5=12.6
+        mp5=12.6,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1757,10 +1853,11 @@ ra = God(
         prot_physical=70,
         prot_magical=30,
         hp5=16.6,
-        mp5=13.6
+        mp5=13.6,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1775,10 +1872,11 @@ raijin = God(
         prot_physical=71,
         prot_magical=30,
         hp5=15,
-        mp5=13.8
+        mp5=13.8,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1793,10 +1891,11 @@ rama = God(
         prot_physical=68,
         prot_magical=30,
         hp5=21,
-        mp5=9.5
+        mp5=9.5,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1811,10 +1910,11 @@ ratatoskr = God(
         prot_physical=72,
         prot_magical=30,
         hp5=23,
-        mp5=13.8
+        mp5=13.8,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1829,10 +1929,11 @@ ravana = God(
         prot_physical=71,
         prot_magical=30,
         hp5=22,
-        mp5=11.4
+        mp5=11.4,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1847,10 +1948,11 @@ scylla = God(
         prot_physical=61,
         prot_magical=30,
         hp5=15,
-        mp5=12.9
+        mp5=12.9,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1865,10 +1967,11 @@ serqet = God(
         prot_physical=72,
         prot_magical=30,
         hp5=23,
-        mp5=10.1
+        mp5=10.1,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1883,10 +1986,11 @@ set = God(
         prot_physical=71,
         prot_magical=30,
         hp5=23,
-        mp5=11.8
+        mp5=11.8,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1901,10 +2005,11 @@ shiva = God(
         prot_physical=76,
         prot_magical=30,
         hp5=22,
-        mp5=12.3
+        mp5=12.3,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1919,10 +2024,11 @@ skadi = God(
         prot_physical=67,
         prot_magical=30,
         hp5=21.8,
-        mp5=10.9
+        mp5=10.9,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1937,10 +2043,11 @@ sobek = God(
         prot_physical=79,
         prot_magical=30,
         hp5=21,
-        mp5=13.1
+        mp5=13.1,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1955,10 +2062,11 @@ sol = God(
         prot_physical=61,
         prot_magical=30,
         hp5=15,
-        mp5=12.9
+        mp5=12.9,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1973,10 +2081,11 @@ sun_wukong = God(
         prot_physical=78,
         prot_magical=30,
         hp5=24,
-        mp5=11.9
+        mp5=11.9,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -1991,10 +2100,11 @@ surtr = God(
         prot_physical=78,
         prot_magical=30,
         hp5=25,
-        mp5=12.2
+        mp5=12.2,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2009,10 +2119,11 @@ susano = God(
         prot_physical=72,
         prot_magical=30,
         hp5=23,
-        mp5=9.6
+        mp5=9.6,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2027,10 +2138,11 @@ sylvanus = God(
         prot_physical=89,
         prot_magical=30,
         hp5=24,
-        mp5=12.6
+        mp5=12.6,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2045,10 +2157,11 @@ terra = God(
         prot_physical=84,
         prot_magical=30,
         hp5=24,
-        mp5=12.6
+        mp5=12.6,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2063,10 +2176,11 @@ thanatos = God(
         prot_physical=72,
         prot_magical=30,
         hp5=21.4,
-        mp5=12
+        mp5=12,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2081,10 +2195,11 @@ the_morrigan = God(
         prot_physical=74,
         prot_magical=30,
         hp5=24,
-        mp5=12.5
+        mp5=12.5,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2099,10 +2214,11 @@ thor = God(
         prot_physical=72,
         prot_magical=30,
         hp5=22.8,
-        mp5=10.2
+        mp5=10.2,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2117,10 +2233,11 @@ thoth = God(
         prot_physical=61,
         prot_magical=30,
         hp5=15,
-        mp5=13.4
+        mp5=13.4,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2135,10 +2252,11 @@ tiamat = God(
         prot_physical=67,
         prot_magical=30,
         hp5=17,
-        mp5=13.8
+        mp5=13.8,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2153,10 +2271,11 @@ tsukuyomi = God(
         prot_physical=69,
         prot_magical=30,
         hp5=21.6,
-        mp5=13.7
+        mp5=13.7,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2171,10 +2290,11 @@ tyr = God(
         prot_physical=78,
         prot_magical=30,
         hp5=22.4,
-        mp5=10.2
+        mp5=10.2,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2189,10 +2309,11 @@ ullr = God(
         prot_physical=73,
         prot_magical=30,
         hp5=22.2,
-        mp5=12
+        mp5=12,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2207,10 +2328,11 @@ vamana = God(
         prot_physical=76,
         prot_magical=30,
         hp5=18,
-        mp5=12.9
+        mp5=12.9,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2225,10 +2347,11 @@ vulcan = God(
         prot_physical=73,
         prot_magical=30,
         hp5=16.6,
-        mp5=13.8
+        mp5=13.8,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2243,10 +2366,11 @@ xbalanque = God(
         prot_physical=70,
         prot_magical=30,
         hp5=21.6,
-        mp5=12.4
+        mp5=12.4,
+        movement_speed=365
     ),
     power_type=PowerType.PHYSICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2261,10 +2385,11 @@ xing_tian = God(
         prot_physical=89,
         prot_magical=30,
         hp5=15.8,
-        mp5=13.5
+        mp5=13.5,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2279,10 +2404,11 @@ yemoja = God(
         prot_physical=79,
         prot_magical=30,
         hp5=20,
-        mp5=0
+        mp5=0,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2297,10 +2423,11 @@ ymir = God(
         prot_physical=89,
         prot_magical=30,
         hp5=26,
-        mp5=12.5
+        mp5=12.5,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2315,10 +2442,11 @@ yu_huang = God(
         prot_physical=72,
         prot_magical=30,
         hp5=16.4,
-        mp5=13.5
+        mp5=13.5,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2333,10 +2461,11 @@ zeus = God(
         prot_physical=62,
         prot_magical=30,
         hp5=15,
-        mp5=13.6
+        mp5=13.6,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
@@ -2351,10 +2480,11 @@ zhong_kui = God(
         prot_physical=63,
         prot_magical=30,
         hp5=14.8,
-        mp5=13.8
+        mp5=13.8,
+        movement_speed=365
     ),
     power_type=PowerType.MAGICAL,
-    spells=_create_placeholder_spells(),
+    spells=_PLACEHOLDER_SPELLS,
     build=None
 )
 
