@@ -1,3 +1,4 @@
 *.pygenerated
 *.pyc
 *.pyo
+*.lp
