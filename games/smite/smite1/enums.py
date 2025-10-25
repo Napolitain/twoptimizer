@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import dataclasses
 from enum import Enum
+from typing import TYPE_CHECKING
 
-from games.smite.smite1.god import God
+if TYPE_CHECKING:
+    from games.smite.smite1.god import God
 
 
 class PowerType(Enum):
