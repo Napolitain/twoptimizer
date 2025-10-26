@@ -1,5 +1,5 @@
 """
-Heart of Iron 4 example factions module.
+Hearts of Iron IV example factions module.
 
 Provides pre-configured factions for testing and demonstration purposes.
 """

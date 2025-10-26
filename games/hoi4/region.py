@@ -1,5 +1,5 @@
 """
-Heart of Iron 4 Region module.
+Hearts of Iron IV Region module.
 
 A region in HoI4 represents a geographical area with various attributes
 such as civilian factories, military factories, infrastructure, and defenses.

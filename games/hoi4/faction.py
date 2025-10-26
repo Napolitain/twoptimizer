@@ -1,5 +1,5 @@
 """
-Heart of Iron 4 Faction module.
+Hearts of Iron IV Faction module.
 
 A faction in HoI4 represents a nation/country with multiple regions.
 """

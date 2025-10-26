@@ -1,5 +1,5 @@
 """
-Heart of Iron 4 game module.
+Hearts of Iron IV game module.
 
 This module provides data structures and functionality for optimizing
 Hearts of Iron IV gameplay, including factory production, infrastructure,
