@@ -54,12 +54,44 @@ class God:
         return self.get_hp() * (1 + self.stats.prot_magical / 100)
 
     def get_basic_attack_damage(self) -> Damage:
-        return Damage(
-            basic_physical=min(self.stats.basic_attack_damage + self.basic_attack_scaling * self.stats.power_physical,
-                               self.limits.basic_attack_damage_limit))
+        """Calculate basic attack damage including items from build."""
+        # Add power from build items if build exists
+        total_power = self.stats.power_physical
+        if self.build:
+            for item in [self.build.item1, self.build.item2, self.build.item3, 
+                        self.build.item4, self.build.item5, self.build.item6]:
+                if item and item.stats:
+                    if self.power_type == PowerType.PHYSICAL:
+                        total_power += item.stats.power_physical
+                    else:
+                        total_power += item.stats.power_magical
+        
+        damage_value = self.stats.basic_attack_damage + (self.basic_attack_scaling / 100) * total_power
+        
+        if self.power_type == PowerType.PHYSICAL:
+            return Damage(
+                basic_physical=min(damage_value, self.limits.basic_attack_damage_limit))
+        else:
+            return Damage(
+                basic_magical=min(damage_value, self.limits.basic_attack_damage_limit))
 
     def get_dps_basic_attack(self) -> float:
-        return self.get_basic_attack_damage().basic_physical * self.stats.basic_attack_speed
+        """Calculate DPS including items from build."""
+        # Add attack speed from build items if build exists
+        total_attack_speed = self.stats.basic_attack_speed
+        if self.build:
+            for item in [self.build.item1, self.build.item2, self.build.item3, 
+                        self.build.item4, self.build.item5, self.build.item6]:
+                if item and item.stats:
+                    total_attack_speed += item.stats.basic_attack_speed / 100
+        
+        total_attack_speed = min(total_attack_speed, self.limits.basic_attack_sec_limit)
+        
+        damage = self.get_basic_attack_damage()
+        if self.power_type == PowerType.PHYSICAL:
+            return damage.basic_physical * total_attack_speed
+        else:
+            return damage.basic_magical * total_attack_speed
 
     def get_time_to_kill(self, dps_function: callable, target: God) -> float:
         return target.get_hp() / dps_function()

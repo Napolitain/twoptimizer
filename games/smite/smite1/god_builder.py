@@ -47,7 +47,7 @@ class GodBuilder:
         
         # Add base god stats
         total_power = self.god.stats.power_physical + power_physical
-        total_attack_speed = self.god.stats.basic_attack_speed + basic_attack_speed
+        total_attack_speed = self.god.stats.basic_attack_speed + basic_attack_speed / 100
         
         # Calculate basic attack damage
         # Formula: base_damage + (power * scaling)
