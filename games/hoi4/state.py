@@ -115,7 +115,7 @@ class State:
         Returns:
             Number of used building slots
         """
-        # Count factories and infrastructure as using slots
+        # Count factories (infrastructure provides slots, not consumes them)
         used = self.civilian_factories + self.military_factories
         
         # Add other buildings that use slots
