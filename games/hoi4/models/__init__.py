@@ -7,6 +7,7 @@ This package contains data models for representing HOI4 game objects.
 from .building import Building, BuildingType, BuildingCategory
 from .modifier import Modifier, ModifierScope, ModifierManager
 from .idea import Idea, IdeaCategory, IdeaSlot
+from .focus import Focus, FocusTree, FocusFilterCategory
 
 __all__ = [
     "Building",
@@ -18,4 +19,7 @@ __all__ = [
     "Idea",
     "IdeaCategory",
     "IdeaSlot",
+    "Focus",
+    "FocusTree",
+    "FocusFilterCategory",
 ]
