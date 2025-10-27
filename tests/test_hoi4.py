@@ -313,5 +313,169 @@ class TestExampleFactions(unittest.TestCase):
         self.assertEqual(france.total_military_factories(), 10)
 
 
+class TestEnhancedState(unittest.TestCase):
+    """Test cases for enhanced State class features."""
+    
+    def test_state_category(self):
+        """Test creating a state with a category."""
+        from games.hoi4.state import StateCategory
+        
+        state = State(
+            name="Test City",
+            state_category=StateCategory.CITY
+        )
+        
+        self.assertEqual(state.state_category, StateCategory.CITY)
+        self.assertEqual(state.building_slots, 8)
+    
+    def test_manpower(self):
+        """Test manpower attribute."""
+        state = State(
+            name="Test State",
+            manpower=100000
+        )
+        
+        self.assertEqual(state.manpower, 100000)
+    
+    def test_victory_points(self):
+        """Test victory points attribute."""
+        state = State(
+            name="Capital",
+            victory_points=50
+        )
+        
+        self.assertEqual(state.victory_points, 50)
+    
+    def test_negative_manpower(self):
+        """Test that negative manpower raises ValueError."""
+        with self.assertRaises(ValueError):
+            State(name="Invalid", manpower=-1000)
+    
+    def test_negative_victory_points(self):
+        """Test that negative victory points raises ValueError."""
+        with self.assertRaises(ValueError):
+            State(name="Invalid", victory_points=-10)
+    
+    def test_resources(self):
+        """Test resource management."""
+        state = State(name="Resource State")
+        
+        # Initially no resources
+        self.assertEqual(state.get_resource("oil"), 0.0)
+        
+        # Set resources
+        state.set_resource("oil", 15.0)
+        state.set_resource("steel", 25.0)
+        
+        self.assertEqual(state.get_resource("oil"), 15.0)
+        self.assertEqual(state.get_resource("steel"), 25.0)
+    
+    def test_add_resource(self):
+        """Test adding to resources."""
+        state = State(name="Resource State")
+        
+        state.set_resource("oil", 10.0)
+        state.add_resource("oil", 5.0)
+        
+        self.assertEqual(state.get_resource("oil"), 15.0)
+    
+    def test_negative_resource(self):
+        """Test that negative resources raise ValueError."""
+        state = State(name="Resource State")
+        
+        with self.assertRaises(ValueError):
+            state.set_resource("oil", -10.0)
+    
+    def test_subtract_resource_below_zero(self):
+        """Test that subtracting below zero raises ValueError."""
+        state = State(name="Resource State")
+        state.set_resource("oil", 5.0)
+        
+        with self.assertRaises(ValueError):
+            state.add_resource("oil", -10.0)
+    
+    def test_building_slots(self):
+        """Test building slot calculations."""
+        from games.hoi4.state import StateCategory
+        
+        state = State(
+            name="Test State",
+            state_category=StateCategory.CITY,
+            infrastructure=10,
+            civilian_factories=3,
+            military_factories=2
+        )
+        
+        # City has 8 base slots, infrastructure 10 adds 5 more slots
+        self.assertEqual(state.get_max_building_slots(), 13)
+        
+        # 5 factories are using slots
+        self.assertEqual(state.get_used_building_slots(), 5)
+        
+        # 8 free slots remain
+        self.assertEqual(state.get_free_building_slots(), 8)
+    
+    def test_can_build(self):
+        """Test checking if building is possible."""
+        from games.hoi4.state import StateCategory
+        
+        state = State(
+            name="Test State",
+            state_category=StateCategory.RURAL,
+            civilian_factories=2,
+            military_factories=1
+        )
+        
+        # Rural has 4 slots, infrastructure 0 adds 0
+        # Used: 3, Free: 1
+        self.assertTrue(state.can_build(1))
+        self.assertFalse(state.can_build(2))
+    
+    def test_state_modifiers(self):
+        """Test state modifier management."""
+        state = State(name="Test State")
+        
+        # Initially no modifiers
+        self.assertEqual(state.get_modifier("production_speed_buildings_factor"), 0.0)
+        
+        # Set modifiers
+        state.set_modifier("production_speed_buildings_factor", 0.1)
+        state.set_modifier("local_building_slots", 2.0)
+        
+        self.assertEqual(state.get_modifier("production_speed_buildings_factor"), 0.1)
+        self.assertEqual(state.get_modifier("local_building_slots"), 2.0)
+    
+    def test_add_modifier(self):
+        """Test adding to modifiers."""
+        state = State(name="Test State")
+        
+        state.set_modifier("production_speed_buildings_factor", 0.1)
+        state.add_modifier("production_speed_buildings_factor", 0.05)
+        
+        self.assertAlmostEqual(state.get_modifier("production_speed_buildings_factor"), 0.15)
+    
+    def test_provinces(self):
+        """Test province list attribute."""
+        state = State(
+            name="Test State",
+            provinces=[123, 456, 789]
+        )
+        
+        self.assertEqual(len(state.provinces), 3)
+        self.assertIn(123, state.provinces)
+        self.assertIn(456, state.provinces)
+        self.assertIn(789, state.provinces)
+    
+    def test_max_building_slots_with_no_category(self):
+        """Test building slots with no category set."""
+        state = State(
+            name="Test State",
+            infrastructure=4
+        )
+        
+        # No category, so base slots is 0, infrastructure adds 2
+        self.assertEqual(state.get_max_building_slots(), 2)
+
+
 if __name__ == '__main__':
     unittest.main()

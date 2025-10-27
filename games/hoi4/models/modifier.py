@@ -134,31 +134,84 @@ class ModifierManager:
     
     def __init__(self):
         self.modifiers: List[Modifier] = []
+        self._simple_modifiers: Dict[str, float] = {}  # For simple key-value modifiers
+        self._modifier_sources: Dict[str, str] = {}  # Track source of each modifier
     
-    def add_modifier(self, modifier: Modifier) -> None:
+    def add_modifier(self, modifier_name: str, value: float = 0.0, source: str = "", modifier_obj: Optional[Modifier] = None) -> None:
         """
         Add a modifier to the collection.
         
+        Can be called with either:
+        - modifier_name and value for simple modifiers
+        - modifier_obj for full Modifier objects (for backward compatibility)
+        
         Args:
-            modifier: Modifier to add
+            modifier_name: Name of the modifier (or Modifier object for backward compat)
+            value: Value of the modifier
+            source: Source identifier for tracking
+            modifier_obj: Full Modifier object (optional, for complex modifiers)
         """
-        self.modifiers.append(modifier)
+        # Backward compatibility: if first arg is a Modifier object
+        if isinstance(modifier_name, Modifier):
+            self.modifiers.append(modifier_name)
+            return
+        
+        # Simple modifier case
+        if modifier_name in self._simple_modifiers:
+            self._simple_modifiers[modifier_name] += value
+        else:
+            self._simple_modifiers[modifier_name] = value
+        
+        if source:
+            self._modifier_sources[f"{source}_{modifier_name}"] = source
     
-    def remove_modifier(self, modifier_name: str) -> bool:
+    def remove_modifier(self, modifier_name: str, source: str = "") -> bool:
         """
         Remove a modifier by name.
         
         Args:
             modifier_name: Name of modifier to remove
+            source: Source identifier for tracking
             
         Returns:
             True if modifier was found and removed
         """
+        # Try to remove from simple modifiers
+        if modifier_name in self._simple_modifiers:
+            del self._simple_modifiers[modifier_name]
+            if source:
+                key = f"{source}_{modifier_name}"
+                if key in self._modifier_sources:
+                    del self._modifier_sources[key]
+            return True
+        
+        # Try to remove from complex modifiers
         for i, modifier in enumerate(self.modifiers):
             if modifier.name == modifier_name:
                 del self.modifiers[i]
                 return True
         return False
+    
+    def get_modifier(self, modifier_name: str) -> float:
+        """
+        Get the total value of a simple modifier.
+        
+        Args:
+            modifier_name: Name of the modifier
+            
+        Returns:
+            Total value of the modifier
+        """
+        return self._simple_modifiers.get(modifier_name, 0.0)
+    
+    def get_all_modifiers(self) -> Dict[str, float]:
+        """
+        Get all simple modifiers.
+        
+        Returns:
+            Dictionary of modifier_name -> value
+        """
+        return self._simple_modifiers.copy()
     
     def get_modifiers_by_scope(self, scope: ModifierScope) -> List[Modifier]:
         """
