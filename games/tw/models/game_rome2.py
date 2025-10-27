@@ -1,8 +1,8 @@
-from engine.filters.filter_rome2 import FilterRome2
-from engine.models.game import Game
-from engine.models.model import RegionPort, RegionType
-from engine.models.model_rome2 import Rome2Factions, Rome2RegionResources, Rome2Campaign
-from engine.parser.parser_rome2 import ParserRome2
+from games.tw.filters.filter_rome2 import FilterRome2
+from games.tw.models.game import Game
+from games.tw.models.model import RegionPort, RegionType
+from games.tw.models.model_rome2 import Rome2Factions, Rome2RegionResources, Rome2Campaign
+from games.tw.parser.parser_rome2 import ParserRome2
 
 
 class Rome2Game(Game):

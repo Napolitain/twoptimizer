@@ -1,9 +1,9 @@
 from pulp import LpMaximize, LpProblem, LpVariable, lpSum, value
 
-from engine.enums import EntryType
-from engine.models.model import FullEntryName
-from engine.parser.parser import Parser
-from engine.solver import Solver
+from games.tw.enums import EntryType
+from games.tw.models.model import FullEntryName
+from games.tw.parser.parser import Parser
+from games.tw.solver import Solver
 
 
 class SolverPulp(Solver):

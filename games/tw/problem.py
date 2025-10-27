@@ -3,13 +3,13 @@ from typing import List
 
 from pulp import PULP_CBC_CMD
 
-from engine.building import Building
-from engine.enums import ProblemState, SolverType
-from engine.games import Games
-from engine.province import Province
-from engine.solver import Solver
-from engine.solver_ortools import SolverOrTools
-from engine.solver_pulp import SolverPulp
+from games.tw.building import Building
+from games.tw.enums import ProblemState, SolverType
+from games.tw.games import Games
+from games.tw.province import Province
+from games.tw.solver import Solver
+from games.tw.solver_ortools import SolverOrTools
+from games.tw.solver_pulp import SolverPulp
 
 
 class Problem:

@@ -1,6 +1,6 @@
 import abc
 
-from engine.parser.parser import Parser
+from games.tw.parser.parser import Parser
 
 
 class Solver(abc.ABC):

@@ -1,6 +1,6 @@
 import abc
 
-from engine.models.model import GameFactions
+from games.tw.models.model import GameFactions
 
 
 class Filter(abc.ABC):

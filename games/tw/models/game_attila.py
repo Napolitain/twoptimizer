@@ -1,8 +1,8 @@
-from engine.filters.filter_attila import FilterAttila
-from engine.models.game import Game
-from engine.models.model import RegionPort, RegionType
-from engine.models.model_attila import AttilaFactions, AttilaRegionResources, AttilaCampaign, AttilaReligion
-from engine.parser.parser_attila import ParserAttila
+from games.tw.filters.filter_attila import FilterAttila
+from games.tw.models.game import Game
+from games.tw.models.model import RegionPort, RegionType
+from games.tw.models.model_attila import AttilaFactions, AttilaRegionResources, AttilaCampaign, AttilaReligion
+from games.tw.parser.parser_attila import ParserAttila
 
 
 class AttilaGame(Game):

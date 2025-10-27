@@ -1,14 +1,14 @@
 from collections import defaultdict
 from typing import List, cast
 
-from engine.bases import RegionBase
-from engine.building import Building
-from engine.entity import Entity
-from engine.enums import NameType, get_hash_name
-from engine.games import Games
-from engine.models.game_attila import AttilaGame
-from engine.models.model import RegionType, RegionPort
-from engine.models.model_attila import AttilaRegionResources, AttilaReligion
+from games.tw.bases import RegionBase
+from games.tw.building import Building
+from games.tw.entity import Entity
+from games.tw.enums import NameType, get_hash_name
+from games.tw.games import Games
+from games.tw.models.game_attila import AttilaGame
+from games.tw.models.model import RegionType, RegionPort
+from games.tw.models.model_attila import AttilaRegionResources, AttilaReligion
 
 
 class Region(RegionBase, Entity):
