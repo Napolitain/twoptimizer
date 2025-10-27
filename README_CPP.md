@@ -1,10 +1,10 @@
 # TwOptimizer - C++ Edition
 
-A high-performance optimization library for game mechanics, focusing on Total War, Smite, and Hearts of Iron 4. Completely rewritten in C++23 with OR-Tools for optimization.
+A high-performance optimization library for game mechanics, focusing on Total War, Smite, and Hearts of Iron 4. Completely rewritten in C++20 with OR-Tools for optimization.
 
 ## Features
 
-- **C++23** modern C++ implementation
+- **C++20** modern C++ implementation
 - **OR-Tools** for linear programming optimization
 - **CMake** build system with CPM.cmake for dependency management
 - **Google Test** for unit testing
@@ -16,8 +16,9 @@ A high-performance optimization library for game mechanics, focusing on Total Wa
 ### Prerequisites
 
 - CMake 3.20 or higher
-- C++23 compatible compiler (GCC 13+, Clang 16+, MSVC 2022+)
+- C++20 compatible compiler (GCC 11+, Clang 14+, MSVC 2019+)
 - Internet connection (for downloading dependencies)
+- **Note**: First build downloads and compiles OR-Tools (~10-20 minutes)
 
 ### Build Instructions
 
@@ -25,14 +26,22 @@ A high-performance optimization library for game mechanics, focusing on Total Wa
 # Create build directory
 mkdir build && cd build
 
-# Configure
+# Configure (downloads OR-Tools and GoogleTest)
 cmake ..
 
-# Build
-cmake --build .
+# Build (this may take 10-20 minutes on first run)
+cmake --build . -j$(nproc)
 
 # Run tests
-ctest
+ctest --output-on-failure
+```
+
+### Quick Build Options
+
+For faster builds during development:
+```bash
+cmake .. -DCMAKE_BUILD_TYPE=Release
+cmake --build . -j$(nproc)
 ```
 
 ### WebAssembly Build

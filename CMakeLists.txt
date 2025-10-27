@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 project(twoptimizer VERSION 1.0.0 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -23,7 +23,7 @@ include(${CPM_DOWNLOAD_LOCATION})
 CPMAddPackage(
     NAME ortools
     GITHUB_REPOSITORY google/or-tools
-    VERSION 9.10.4067
+    GIT_TAG v9.9
     OPTIONS
         "BUILD_DEPS ON"
         "BUILD_SAMPLES OFF"
