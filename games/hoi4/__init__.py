@@ -8,6 +8,8 @@ and military production using OR-Tools.
 
 from games.hoi4.state import State, StateCategory
 from games.hoi4.faction import Faction
+from games.hoi4.core.country import Country
+from games.hoi4.models.idea import Idea, IdeaCategory, IdeaSlot
 from games.hoi4.examples import (
     create_france_faction,
     create_germany_faction,
@@ -18,6 +20,10 @@ __all__ = [
     "State",
     "StateCategory",
     "Faction",
+    "Country",
+    "Idea",
+    "IdeaCategory",
+    "IdeaSlot",
     "create_france_faction",
     "create_germany_faction",
     "create_soviet_union_faction",
