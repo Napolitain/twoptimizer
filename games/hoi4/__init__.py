@@ -6,7 +6,7 @@ Hearts of Iron IV gameplay, including factory production, infrastructure,
 and military production using OR-Tools.
 """
 
-from games.hoi4.state import State
+from games.hoi4.state import State, StateCategory
 from games.hoi4.faction import Faction
 from games.hoi4.examples import (
     create_france_faction,
@@ -16,6 +16,7 @@ from games.hoi4.examples import (
 
 __all__ = [
     "State",
+    "StateCategory",
     "Faction",
     "create_france_faction",
     "create_germany_faction",
