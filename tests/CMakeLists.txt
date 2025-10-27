@@ -7,7 +7,7 @@ add_executable(test_tw
 
 target_link_libraries(test_tw
     PRIVATE
-    twoptimizer_lib
+    liboptimizer
     gtest
     gtest_main
 )
@@ -21,7 +21,7 @@ add_executable(test_smite
 
 target_link_libraries(test_smite
     PRIVATE
-    twoptimizer_lib
+    liboptimizer
     gtest
     gtest_main
 )
@@ -35,7 +35,7 @@ add_executable(test_hoi4
 
 target_link_libraries(test_hoi4
     PRIVATE
-    twoptimizer_lib
+    liboptimizer
     gtest
     gtest_main
 )
@@ -49,7 +49,7 @@ add_executable(test_solver
 
 target_link_libraries(test_solver
     PRIVATE
-    twoptimizer_lib
+    liboptimizer
     gtest
     gtest_main
 )
