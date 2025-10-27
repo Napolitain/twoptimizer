@@ -1,7 +1,7 @@
 """
-Hearts of Iron IV Region module.
+Hearts of Iron IV State module.
 
-A region in HoI4 represents a geographical area with various attributes
+A state in HoI4 represents a geographical area with various attributes
 such as civilian factories, military factories, infrastructure, and defenses.
 """
 
@@ -10,14 +10,14 @@ from typing import Optional
 
 
 @dataclass
-class Region:
+class State:
     """
-    Represents a region in Hearts of Iron IV.
+    Represents a state in Hearts of Iron IV.
     
     Attributes:
-        name: The name of the region
-        civilian_factories: Number of civilian factories in the region
-        military_factories: Number of military factories in the region
+        name: The name of the state
+        civilian_factories: Number of civilian factories in the state
+        military_factories: Number of military factories in the state
         infrastructure: Infrastructure level (affects production and supply)
         bunkers: Number of bunkers/fortifications for defense
         naval_bases: Number of naval bases (optional)
@@ -32,7 +32,7 @@ class Region:
     air_bases: Optional[int] = None
     
     def __post_init__(self):
-        """Validate region attributes."""
+        """Validate state attributes."""
         if self.civilian_factories < 0:
             raise ValueError("Civilian factories cannot be negative")
         if self.military_factories < 0:
@@ -47,11 +47,11 @@ class Region:
             raise ValueError("Air bases cannot be negative")
     
     def total_factories(self) -> int:
-        """Calculate the total number of factories in the region."""
+        """Calculate the total number of factories in the state."""
         return self.civilian_factories + self.military_factories
     
     def __repr__(self) -> str:
-        return (f"Region(name='{self.name}', "
+        return (f"state(name='{self.name}', "
                 f"civilian_factories={self.civilian_factories}, "
                 f"military_factories={self.military_factories}, "
                 f"infrastructure={self.infrastructure}, "

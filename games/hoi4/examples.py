@@ -5,7 +5,7 @@ Provides pre-configured factions for testing and demonstration purposes.
 """
 
 from games.hoi4.faction import Faction
-from games.hoi4.region import Region
+from games.hoi4.state import State
 
 
 def create_france_faction() -> Faction:
@@ -21,7 +21,7 @@ def create_france_faction() -> Faction:
     france = Faction(name="France")
     
     # Paris region - capital, high industry
-    paris = Region(
+    paris = State(
         name="Paris",
         civilian_factories=8,
         military_factories=4,
@@ -31,7 +31,7 @@ def create_france_faction() -> Faction:
     )
     
     # Normandy - coastal region with naval access
-    normandy = Region(
+    normandy = State(
         name="Normandy",
         civilian_factories=3,
         military_factories=2,
@@ -42,7 +42,7 @@ def create_france_faction() -> Faction:
     )
     
     # Lorraine - industrial region near German border
-    lorraine = Region(
+    lorraine = State(
         name="Lorraine",
         civilian_factories=4,
         military_factories=2,
@@ -52,7 +52,7 @@ def create_france_faction() -> Faction:
     )
     
     # Provence - southern coastal region
-    provence = Region(
+    provence = State(
         name="Provence",
         civilian_factories=3,
         military_factories=1,
@@ -63,7 +63,7 @@ def create_france_faction() -> Faction:
     )
     
     # Brittany - western coastal region
-    brittany = Region(
+    brittany = State(
         name="Brittany",
         civilian_factories=2,
         military_factories=1,
@@ -73,11 +73,11 @@ def create_france_faction() -> Faction:
         air_bases=1
     )
     
-    france.add_region(paris)
-    france.add_region(normandy)
-    france.add_region(lorraine)
-    france.add_region(provence)
-    france.add_region(brittany)
+    france.add_state(paris)
+    france.add_state(normandy)
+    france.add_state(lorraine)
+    france.add_state(provence)
+    france.add_state(brittany)
     
     return france
 
@@ -92,7 +92,7 @@ def create_germany_faction() -> Faction:
     germany = Faction(name="Germany")
     
     # Berlin - capital
-    berlin = Region(
+    berlin = State(
         name="Berlin",
         civilian_factories=10,
         military_factories=7,
@@ -102,7 +102,7 @@ def create_germany_faction() -> Faction:
     )
     
     # Ruhr - industrial heartland
-    ruhr = Region(
+    ruhr = State(
         name="Ruhr",
         civilian_factories=8,
         military_factories=6,
@@ -112,7 +112,7 @@ def create_germany_faction() -> Faction:
     )
     
     # Bavaria - southern region
-    bavaria = Region(
+    bavaria = State(
         name="Bavaria",
         civilian_factories=5,
         military_factories=3,
@@ -121,9 +121,9 @@ def create_germany_faction() -> Faction:
         air_bases=3
     )
     
-    germany.add_region(berlin)
-    germany.add_region(ruhr)
-    germany.add_region(bavaria)
+    germany.add_state(berlin)
+    germany.add_state(ruhr)
+    germany.add_state(bavaria)
     
     return germany
 
@@ -138,7 +138,7 @@ def create_soviet_union_faction() -> Faction:
     soviet_union = Faction(name="Soviet Union")
     
     # Moscow - capital
-    moscow = Region(
+    moscow = State(
         name="Moscow",
         civilian_factories=12,
         military_factories=8,
@@ -148,7 +148,7 @@ def create_soviet_union_faction() -> Faction:
     )
     
     # Leningrad - northern industrial center
-    leningrad = Region(
+    leningrad = State(
         name="Leningrad",
         civilian_factories=7,
         military_factories=5,
@@ -159,7 +159,7 @@ def create_soviet_union_faction() -> Faction:
     )
     
     # Stalingrad - southern industrial center
-    stalingrad = Region(
+    stalingrad = State(
         name="Stalingrad",
         civilian_factories=6,
         military_factories=4,
@@ -169,7 +169,7 @@ def create_soviet_union_faction() -> Faction:
     )
     
     # Urals - eastern industrial region
-    urals = Region(
+    urals = State(
         name="Urals",
         civilian_factories=8,
         military_factories=6,
@@ -178,9 +178,9 @@ def create_soviet_union_faction() -> Faction:
         air_bases=2
     )
     
-    soviet_union.add_region(moscow)
-    soviet_union.add_region(leningrad)
-    soviet_union.add_region(stalingrad)
-    soviet_union.add_region(urals)
+    soviet_union.add_state(moscow)
+    soviet_union.add_state(leningrad)
+    soviet_union.add_state(stalingrad)
+    soviet_union.add_state(urals)
     
     return soviet_union
