@@ -19,6 +19,16 @@ endif()
 
 include(${CPM_DOWNLOAD_LOCATION})
 
+# Add GoogleTest
+CPMAddPackage(
+    NAME googletest
+    GITHUB_REPOSITORY google/googletest
+    GIT_TAG v1.17.0
+    OPTIONS
+        "INSTALL_GTEST OFF"
+        "gtest_force_shared_crt ON"
+)
+
 # Add OR-Tools
 CPMAddPackage(
     NAME ortools
@@ -28,16 +38,6 @@ CPMAddPackage(
         "BUILD_DEPS ON"
         "BUILD_SAMPLES OFF"
         "BUILD_EXAMPLES OFF"
-)
-
-# Add GoogleTest
-CPMAddPackage(
-    NAME googletest
-    GITHUB_REPOSITORY google/googletest
-    VERSION 1.17.0
-    OPTIONS
-        "INSTALL_GTEST OFF"
-        "gtest_force_shared_crt ON"
 )
 
 # Enable testing
