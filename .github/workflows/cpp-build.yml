@@ -18,9 +18,19 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y cmake g++ ninja-build
     
+    - name: Cache CMake build
+      uses: actions/cache@v4
+      with:
+        path: |
+          build
+          ~/.cache/CPM
+        key: ${{ runner.os }}-cmake-${{ hashFiles('CMakeLists.txt', 'tests/CMakeLists.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-cmake-
+    
     - name: Configure CMake
       run: |
-        mkdir build
+        mkdir -p build
         cd build
         cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release
     
@@ -38,7 +48,7 @@ jobs:
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: test-results
+        name: test-results-linux
         path: build/Testing/Temporary/LastTest.log
 
   build-macos:
@@ -51,9 +61,19 @@ jobs:
       run: |
         brew install cmake ninja
     
+    - name: Cache CMake build
+      uses: actions/cache@v4
+      with:
+        path: |
+          build
+          ~/Library/Caches/CPM
+        key: ${{ runner.os }}-cmake-${{ hashFiles('CMakeLists.txt', 'tests/CMakeLists.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-cmake-
+    
     - name: Configure CMake
       run: |
-        mkdir build
+        mkdir -p build
         cd build
         cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release
     
@@ -66,3 +86,52 @@ jobs:
       run: |
         cd build
         ctest --output-on-failure --timeout 60
+    
+    - name: Upload test results
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results-macos
+        path: build/Testing/Temporary/LastTest.log
+
+  build-windows:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup MSVC
+      uses: ilammy/msvc-dev-cmd@v1
+    
+    - name: Cache CMake build
+      uses: actions/cache@v4
+      with:
+        path: |
+          build
+          ~\AppData\Local\CPM
+        key: ${{ runner.os }}-cmake-${{ hashFiles('CMakeLists.txt', 'tests/CMakeLists.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-cmake-
+    
+    - name: Configure CMake
+      run: |
+        mkdir build
+        cd build
+        cmake .. -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release
+    
+    - name: Build
+      run: |
+        cd build
+        cmake --build . --config Release -j
+    
+    - name: Run tests
+      run: |
+        cd build
+        ctest -C Release --output-on-failure --timeout 60
+    
+    - name: Upload test results
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results-windows
+        path: build/Testing/Temporary/LastTest.log
