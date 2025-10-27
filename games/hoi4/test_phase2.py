@@ -43,7 +43,7 @@ def test_idea_model():
     print()
 
 
-def test_country_creation():
+def test_country_creation_demo():
     """Test creating a Country."""
     print("=" * 80)
     print("Test 2: Country Creation")
@@ -96,7 +96,7 @@ def test_country_creation():
     return germany
 
 
-def test_national_spirits(country: Country):
+def demo_national_spirits(country):
     """Test adding national spirits to a country."""
     print("=" * 80)
     print("Test 3: National Spirits")
@@ -123,7 +123,7 @@ def test_national_spirits(country: Country):
     print()
 
 
-def test_laws(country: Country):
+def demo_laws(country):
     """Test setting economic laws."""
     print("=" * 80)
     print("Test 4: Economic Laws")
@@ -201,9 +201,9 @@ def main():
     print()
     
     test_idea_model()
-    country = test_country_creation()
-    test_national_spirits(country)
-    test_laws(country)
+    country = test_country_creation_demo()
+    demo_national_spirits(country)
+    demo_laws(country)
     test_idea_parser()
     
     print("=" * 80)
