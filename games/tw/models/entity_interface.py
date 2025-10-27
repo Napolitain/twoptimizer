@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from engine.enums import PrintType
+from games.tw.enums import PrintType
 
 
 class EntityInterface(ABC):

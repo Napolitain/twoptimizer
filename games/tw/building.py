@@ -1,7 +1,7 @@
-from engine.effect import Effect
-from engine.entity import Entity
-from engine.enums import Scope, get_hash_name
-from engine.games import Games
+from games.tw.effect import Effect
+from games.tw.entity import Entity
+from games.tw.enums import Scope, get_hash_name
+from games.tw.games import Games
 
 
 class Building(Effect, Entity):

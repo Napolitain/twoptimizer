@@ -1,6 +1,6 @@
-from engine.filters.filter import Filter
-from engine.models.model import GameCampaign, GameFactions
-from engine.parser.parser import Parser
+from games.tw.filters.filter import Filter
+from games.tw.models.model import GameCampaign, GameFactions
+from games.tw.parser.parser import Parser
 
 
 class Game:

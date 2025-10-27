@@ -1,6 +1,6 @@
-from engine.enums import NameType, PrintType
-from engine.games import Games
-from engine.models.entity_interface import EntityInterface
+from games.tw.enums import NameType, PrintType
+from games.tw.games import Games
+from games.tw.models.entity_interface import EntityInterface
 
 
 class Entity(EntityInterface):

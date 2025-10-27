@@ -1,6 +1,6 @@
-from engine.enums import NameType
-from engine.models.game import Game
-from engine.solver_pulp import SolverPulp
+from games.tw.enums import NameType
+from games.tw.models.game import Game
+from games.tw.solver_pulp import SolverPulp
 
 
 class Games:

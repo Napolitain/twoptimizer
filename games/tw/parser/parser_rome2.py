@@ -1,7 +1,7 @@
-from engine.building import Building
-from engine.enums import Scope, EntryType
-from engine.models.model_rome2 import Rome2Campaign, Rome2Factions
-from engine.parser.parser import Parser, parse_tsv, Faction
+from games.tw.building import Building
+from games.tw.enums import Scope, EntryType
+from games.tw.models.model_rome2 import Rome2Campaign, Rome2Factions
+from games.tw.parser.parser import Parser, parse_tsv, Faction
 
 
 class ParserRome2(Parser):

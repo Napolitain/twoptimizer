@@ -1,9 +1,9 @@
-from engine.building import Building
-from engine.enums import Scope
-from engine.models.game_attila import AttilaReligion
-from engine.models.model import RegionType, RegionPort
-from engine.models.model_attila import AttilaCampaign, AttilaFactions, AttilaRegionResources
-from engine.parser.parser import Parser, parse_tsv, Faction
+from games.tw.building import Building
+from games.tw.enums import Scope
+from games.tw.models.game_attila import AttilaReligion
+from games.tw.models.model import RegionType, RegionPort
+from games.tw.models.model_attila import AttilaCampaign, AttilaFactions, AttilaRegionResources
+from games.tw.parser.parser import Parser, parse_tsv, Faction
 
 
 class ParserAttila(Parser):

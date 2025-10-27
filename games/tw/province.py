@@ -1,11 +1,11 @@
 from typing import List
 
-from engine.bases import ProvinceBase
-from engine.building import Building
-from engine.entity import Entity
-from engine.enums import Scope, get_hash_name
-from engine.games import Games
-from engine.region import Region
+from games.tw.bases import ProvinceBase
+from games.tw.building import Building
+from games.tw.entity import Entity
+from games.tw.enums import Scope, get_hash_name
+from games.tw.games import Games
+from games.tw.region import Region
 
 
 class Province(ProvinceBase, Entity):

@@ -1,6 +1,6 @@
 import enum
 
-from engine.models.model import GameCampaign, GameFactions
+from games.tw.models.model import GameCampaign, GameFactions
 
 
 class AttilaFactions(GameFactions):

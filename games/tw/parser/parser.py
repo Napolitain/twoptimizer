@@ -4,9 +4,9 @@ import enum
 import pathlib
 from typing import List
 
-from engine.bases import RegionBase, ProvinceBase
-from engine.enums import EntryType
-from engine.models.model import FullEntryName, EntryName, RegionType
+from games.tw.bases import RegionBase, ProvinceBase
+from games.tw.enums import EntryType
+from games.tw.models.model import FullEntryName, EntryName, RegionType
 
 
 @dataclasses.dataclass
@@ -42,7 +42,7 @@ class Parser(abc.ABC):
         Map province names to province objects in self.provinces
         :return: None
         """
-        from engine.province import Province
+        from games.tw.province import Province
         data = parse_tsv(self.game_dir / "provinces.tsv")
         for name, print_name in data:
             if self.campaign.value[1] not in name:
@@ -54,7 +54,7 @@ class Parser(abc.ABC):
         Map region names to region objects in self.regions
         :return: None
         """
-        from engine.region import Region
+        from games.tw.region import Region
         data = parse_tsv(self.game_dir / "regions.tsv")
         for name, print_name in data:
             if self.campaign.value[1] not in name:

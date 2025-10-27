@@ -3,10 +3,10 @@
 from pathlib import Path
 from unittest import TestCase
 
-from engine.enums import NameType, ProblemState, SolverType
-from engine.games import Games
-from engine.models.game_attila import AttilaGame
-from engine.problem import Problem
+from games.tw.enums import NameType, ProblemState, SolverType
+from games.tw.games import Games
+from games.tw.models.game_attila import AttilaGame
+from games.tw.problem import Problem
 
 
 # PuLP is a linear and mixed integer programming modeler written in Python.

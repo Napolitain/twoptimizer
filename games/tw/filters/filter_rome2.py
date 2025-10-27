@@ -1,4 +1,4 @@
-from engine.filters.filter import Filter
+from games.tw.filters.filter import Filter
 
 
 class FilterRome2(Filter):
