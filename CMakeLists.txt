@@ -47,20 +47,13 @@ include(GoogleTest)
 # Common include directory
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
-# Source files
-set(TWOPTIMIZER_SOURCES
-    src/solver/solver.cpp
-    src/solver/solver_ortools.cpp
-    src/tw/building.cpp
-    src/tw/effect.cpp
-    src/tw/entity.cpp
-    src/tw/province.cpp
-    src/tw/problem.cpp
-    src/smite/god.cpp
-    src/smite/item.cpp
-    src/smite/god_builder.cpp
-    src/hoi4/models.cpp
+# Collect all source files recursively from src directory
+# Exclude main.cpp and wasm_bindings.cpp as they are entry points
+file(GLOB_RECURSE TWOPTIMIZER_SOURCES
+    "src/*.cpp"
 )
+list(FILTER TWOPTIMIZER_SOURCES EXCLUDE REGEX "src/main\\.cpp$")
+list(FILTER TWOPTIMIZER_SOURCES EXCLUDE REGEX "src/wasm_bindings\\.cpp$")
 
 # Create static library
 add_library(twoptimizer_lib STATIC ${TWOPTIMIZER_SOURCES})

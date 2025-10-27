@@ -28,10 +28,12 @@ git clone https://github.com/Napolitain/twoptimizer.git
 cd twoptimizer
 
 # Build (downloads OR-Tools automatically)
-./build.sh
+mkdir build && cd build
+cmake ..
+cmake --build . -j$(nproc)
 
 # Run tests
-cd build && ctest
+ctest --output-on-failure
 ```
 
 ### Requirements

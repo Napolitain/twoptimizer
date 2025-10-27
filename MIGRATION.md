@@ -101,17 +101,12 @@ Enables running optimization in web browsers.
 
 ## Build Instructions
 
-### Standard Build
-```bash
-./build.sh
-```
-
-### Manual Build
+### Build
 ```bash
 mkdir build && cd build
 cmake ..
 cmake --build . -j$(nproc)
-ctest
+ctest --output-on-failure
 ```
 
 ### WebAssembly Build
@@ -135,7 +130,6 @@ C++ native implementation should provide:
 ```
 twoptimizer/
 ├── CMakeLists.txt          # Main build configuration
-├── build.sh                # Convenience build script
 ├── README_CPP.md           # C++ documentation
 │
 ├── include/                # Public headers
