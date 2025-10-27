@@ -86,8 +86,8 @@ const result = module.ccall('optimize_god_build', 'number', ['string', 'number']
 ## Dependencies
 
 All dependencies are automatically downloaded via CPM.cmake:
-- OR-Tools 9.10+
-- Google Test 1.15+
+- OR-Tools v9.9
+- Google Test 1.15.2
 
 ## Testing
 
