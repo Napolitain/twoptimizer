@@ -55,11 +55,11 @@ set(TWOPTIMIZER_SOURCES
     src/tw/effect.cpp
     src/tw/entity.cpp
     src/tw/province.cpp
-    src/tw/region.cpp
     src/tw/problem.cpp
     src/smite/god.cpp
     src/smite/item.cpp
     src/smite/god_builder.cpp
+    src/hoi4/models.cpp
 )
 
 # Create static library

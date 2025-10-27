@@ -28,6 +28,20 @@ target_link_libraries(test_smite
 
 gtest_discover_tests(test_smite)
 
+# Test executable for HOI4 module
+add_executable(test_hoi4
+    test_hoi4.cpp
+)
+
+target_link_libraries(test_hoi4
+    PRIVATE
+    twoptimizer_lib
+    gtest
+    gtest_main
+)
+
+gtest_discover_tests(test_hoi4)
+
 # Test executable for Solver module
 add_executable(test_solver
     test_solver.cpp
