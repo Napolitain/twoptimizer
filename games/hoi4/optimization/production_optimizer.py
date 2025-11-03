@@ -4,11 +4,10 @@ Production optimizer for HOI4.
 Uses OR-Tools to optimize factory allocation and production schedules.
 """
 
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 from dataclasses import dataclass, field
 from ortools.linear_solver import pywraplp
 from ..models.equipment import Equipment, EquipmentCategory
-from ..models.production import Production, ProductionLine
 from ..models.game_date import GameDate
 
 
@@ -91,6 +90,29 @@ class ProductionOptimizer:
         self.solver = None
         self.variables = {}
         self.constraints = {}
+    
+    def _calculate_average_efficiency(self, efficiency_modifiers: float = 0.0) -> float:
+        """
+        Calculate the average efficiency over a production period.
+        
+        Production efficiency grows linearly from BASE_EFFICIENCY (10%) to 
+        MAX_EFFICIENCY (100%) over 90 days. This method calculates the average
+        efficiency over that growth curve.
+        
+        Args:
+            efficiency_modifiers: Additional efficiency bonuses
+            
+        Returns:
+            Average efficiency multiplier
+        """
+        # Average of linear growth from 0.1 to 1.0 = (0.1 + 1.0) / 2 = 0.55
+        # Using constants from ProductionLine class
+        BASE_EFFICIENCY = 0.1
+        MAX_EFFICIENCY = 1.0
+        base_avg = (BASE_EFFICIENCY + MAX_EFFICIENCY) / 2
+        
+        # Apply modifiers
+        return base_avg * (1.0 + efficiency_modifiers)
     
     def optimize_production(
         self,
@@ -176,8 +198,7 @@ class ProductionOptimizer:
                 days = start_date.days_until(goal.target_date)
                 
                 # Calculate expected output per factory
-                # Simplified: assume average efficiency
-                avg_efficiency = 0.5 * (1.0 + efficiency_modifiers)  # Rough average
+                avg_efficiency = self._calculate_average_efficiency(efficiency_modifiers)
                 
                 if goal.equipment.production_cost > 0:
                     output_per_factory = (days * avg_efficiency) / goal.equipment.production_cost
@@ -195,7 +216,7 @@ class ProductionOptimizer:
                 days = start_date.days_until(goal.target_date)
                 
                 # Calculate expected output per factory
-                avg_efficiency = 0.5 * (1.0 + efficiency_modifiers)
+                avg_efficiency = self._calculate_average_efficiency(efficiency_modifiers)
                 
                 if goal.equipment.production_cost > 0:
                     output_per_factory = (days * avg_efficiency) / goal.equipment.production_cost
@@ -263,7 +284,7 @@ class ProductionOptimizer:
                     days = start_date.days_until(goal.target_date)
                     
                     # Resource consumption per factory over the period
-                    avg_efficiency = 0.5 * (1.0 + efficiency_modifiers)
+                    avg_efficiency = self._calculate_average_efficiency(efficiency_modifiers)
                     resource_per_unit = goal.equipment.resource_cost[resource]
                     
                     if goal.equipment.production_cost > 0:
@@ -320,7 +341,7 @@ class ProductionOptimizer:
                 
                 # Calculate expected output
                 days = start_date.days_until(goal.target_date)
-                avg_efficiency = 0.5 * (1.0 + efficiency_modifiers)
+                avg_efficiency = self._calculate_average_efficiency(efficiency_modifiers)
                 
                 if goal.equipment.production_cost > 0:
                     total_output = (factories * days * avg_efficiency) / goal.equipment.production_cost
@@ -367,7 +388,7 @@ class ProductionOptimizer:
             return 0.0
         
         # Average efficiency over period
-        avg_efficiency = 0.5 * (1.0 + efficiency_modifiers)
+        avg_efficiency = self._calculate_average_efficiency(efficiency_modifiers)
         
         # Total output
         total_ic = available_factories * days * avg_efficiency

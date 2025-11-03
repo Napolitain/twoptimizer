@@ -9,14 +9,13 @@ This test suite covers:
 """
 
 import unittest
-from datetime import datetime
 from games.hoi4.models.game_date import GameDate, GameClock, HISTORICAL_DATES
 from games.hoi4.models.equipment import (
     Equipment, EquipmentType, EquipmentCategory,
     create_infantry_equipment, create_artillery,
     get_equipment, get_equipment_by_type, EQUIPMENT_DATABASE
 )
-from games.hoi4.models.production import Production, ProductionLine, FactoryType
+from games.hoi4.models.production import Production, ProductionLine
 from games.hoi4.optimization import ProductionOptimizer
 from games.hoi4.optimization.production_optimizer import ProductionGoal
 
@@ -59,10 +58,10 @@ class TestGameDate(unittest.TestCase):
         """Test date comparison operators."""
         date1 = GameDate(1936, 1, 1)
         date2 = GameDate(1936, 12, 31)
-        self.assertTrue(date1 < date2)
-        self.assertTrue(date2 > date1)
-        self.assertTrue(date1 <= date2)
-        self.assertTrue(date1 == GameDate(1936, 1, 1))
+        self.assertLess(date1, date2)
+        self.assertGreater(date2, date1)
+        self.assertLessEqual(date1, date2)
+        self.assertEqual(date1, GameDate(1936, 1, 1))
     
     def test_historical_dates(self):
         """Test historical dates dictionary."""

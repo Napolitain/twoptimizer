@@ -9,9 +9,8 @@ This script demonstrates:
 """
 
 from games.hoi4 import (
-    GameDate, GameClock, HISTORICAL_DATES,
-    Equipment, EquipmentType, EquipmentCategory,
-    Production, ProductionLine,
+    GameClock, HISTORICAL_DATES,
+    Production,
     ProductionOptimizer
 )
 from games.hoi4.models.equipment import (
@@ -82,9 +81,9 @@ def demo_equipment_and_production():
     # Set up production lines
     start_date = HISTORICAL_DATES["game_start"]
     
-    line1 = production.add_production_line(infantry_eq, 10.0, start_date, priority=8)
-    line2 = production.add_production_line(artillery_eq, 5.0, start_date, priority=5)
-    line3 = production.add_production_line(tank_eq, 3.0, start_date, priority=6)
+    production.add_production_line(infantry_eq, 10.0, start_date, priority=8)
+    production.add_production_line(artillery_eq, 5.0, start_date, priority=5)
+    production.add_production_line(tank_eq, 3.0, start_date, priority=6)
     
     print(f"\n\nProduction Setup:")
     print(f"  Total military factories: {production.military_factories}")

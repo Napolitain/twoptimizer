@@ -7,7 +7,7 @@ Models factory production, efficiency, and resource consumption.
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 from enum import Enum
-from .equipment import Equipment, EquipmentType, EquipmentCategory
+from .equipment import Equipment, EquipmentCategory
 from .game_date import GameDate
 
 
