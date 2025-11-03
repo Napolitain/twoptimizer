@@ -7,7 +7,7 @@ Models factory production, efficiency, and resource consumption.
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 from enum import Enum
-from .equipment import Equipment, EquipmentType
+from .equipment import Equipment, EquipmentType, EquipmentCategory
 from .game_date import GameDate
 
 
@@ -112,11 +112,12 @@ class ProductionLine:
         # Daily IC available = factories * efficiency
         daily_ic = self.assigned_factories * eff
         
-        # Daily output = IC / production_time
-        if self.equipment.production_time == 0:
+        # Daily output = IC / production_cost
+        # (each unit costs production_cost IC to produce)
+        if self.equipment.production_cost == 0:
             return 0.0
         
-        return daily_ic * (self.equipment.production_time / self.equipment.production_cost)
+        return daily_ic / self.equipment.production_cost
     
     def get_daily_resource_consumption(self, efficiency_modifiers: float = 0.0) -> Dict[str, float]:
         """
@@ -251,7 +252,7 @@ class Production:
             Available military factories
         """
         assigned = sum(pl.assigned_factories for pl in self.production_lines 
-                      if pl.equipment.category.value != "naval")
+                      if pl.equipment.category != EquipmentCategory.NAVAL)
         return max(0.0, self.military_factories - assigned)
     
     def get_available_naval_factories(self) -> float:
@@ -262,7 +263,7 @@ class Production:
             Available naval factories
         """
         assigned = sum(pl.assigned_factories for pl in self.production_lines 
-                      if pl.equipment.category.value == "naval")
+                      if pl.equipment.category == EquipmentCategory.NAVAL)
         return max(0.0, self.naval_factories - assigned)
     
     def add_production_line(
