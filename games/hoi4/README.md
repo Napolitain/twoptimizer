@@ -15,8 +15,117 @@ The HoI4 module allows you to:
 - Manage manpower and victory points
 - Apply state modifiers for game mechanics
 - Aggregate statistics across entire factions
+- **NEW**: Simulate game time with historical dates
+- **NEW**: Model military equipment production with resource costs
+- **NEW**: Optimize factory allocation using OR-Tools
+- **NEW**: Plan production to meet targets by specific dates
+- **NEW**: Model factory efficiency growth over time
 
-This is the foundation for future optimization features using OR-Tools to determine optimal building strategies, production allocation, and resource management.
+## NEW in Phase 4: Production Optimization
+
+Phase 4 adds complete production optimization capabilities:
+
+### Quick Start - Production Optimization
+
+```python
+from games.hoi4 import ProductionOptimizer, HISTORICAL_DATES
+from games.hoi4.models.equipment import create_infantry_equipment, create_artillery
+from games.hoi4.optimization.production_optimizer import ProductionGoal
+
+# Create optimizer
+optimizer = ProductionOptimizer()
+
+# Define goals
+eq1 = create_infantry_equipment()
+eq2 = create_artillery()
+
+goals = [
+    ProductionGoal(eq1, target_amount=5000, target_date=HISTORICAL_DATES["war_start"], weight=2.0),
+    ProductionGoal(eq2, target_amount=1000, target_date=HISTORICAL_DATES["war_start"], weight=1.0),
+]
+
+# Optimize
+result = optimizer.optimize_production(
+    available_military_factories=25.0,
+    available_naval_factories=5.0,
+    goals=goals,
+    start_date=HISTORICAL_DATES["game_start"]
+)
+
+# View results
+print(f"Status: {result.status}")
+for eq_name, factories in result.factory_allocations.items():
+    output = result.expected_output[eq_name]
+    print(f"{eq_name}: {factories:.2f} factories → {output:.0f} units")
+```
+
+### Time Simulation
+
+```python
+from games.hoi4 import GameDate, GameClock, HISTORICAL_DATES
+
+# Create a clock
+clock = GameClock(start_date=HISTORICAL_DATES["game_start"])
+
+# Advance time
+clock.advance_to_date(HISTORICAL_DATES["war_start"])
+print(f"Days until war: {clock.elapsed_days()}")  # 1339 days
+
+# Historical dates available:
+# - game_start (1936.01.01)
+# - war_start (1939.09.01)
+# - barbarossa (1941.06.22)
+# - pearl_harbor (1941.12.07)
+# - d_day (1944.06.06)
+# - war_end_europe (1945.05.08)
+```
+
+### Equipment Production
+
+```python
+from games.hoi4.models.equipment import create_infantry_equipment, EQUIPMENT_DATABASE
+
+# Get equipment
+eq = create_infantry_equipment()
+print(f"{eq.display_name}")
+print(f"Cost: {eq.production_cost} IC")
+print(f"Time: {eq.production_time} days")
+print(f"Resources: {eq.resource_cost}")
+
+# Available equipment types:
+# - Infantry: infantry_equipment, artillery, anti_tank, anti_air
+# - Armor: light_tank, medium_tank, heavy_tank, modern_tank
+# - Air: fighter, cas, tactical_bomber, strategic_bomber, naval_bomber
+# - Naval: destroyer, light_cruiser, heavy_cruiser, battleship, carrier, submarine
+```
+
+### Production Lines
+
+```python
+from games.hoi4 import Production, GameDate
+from games.hoi4.models.equipment import create_infantry_equipment
+
+prod = Production(military_factories=20)
+eq = create_infantry_equipment()
+start = GameDate(1936, 1, 1)
+target = GameDate(1937, 1, 1)
+
+# Add production line
+line = prod.add_production_line(eq, 10.0, start)
+
+# Calculate output (efficiency grows from 10% to 100% over 90 days)
+total = line.calculate_output_by_date(target, start)
+print(f"Total produced: {total:.0f} units")
+
+# Resource consumption
+consumption = line.get_daily_resource_consumption()
+print(f"Steel per day: {consumption['steel']:.2f}")
+```
+
+For complete examples, see [PHASE4_SUMMARY.md](PHASE4_SUMMARY.md) and run the demonstration:
+```bash
+PYTHONPATH=/home/runner/work/twoptimizer/twoptimizer python games/hoi4/optimization_demo.py
+```
 
 ## Core Components
 
@@ -272,13 +381,20 @@ print(f"Extra building slots: {state.get_modifier('local_building_slots')}")
 ```
 ```
 
-## Running the Example
+## Running the Examples
 
-To see a comprehensive demonstration of the module's capabilities:
+To see comprehensive demonstrations of the module's capabilities:
 
+**Original examples:**
 ```bash
 cd /home/runner/work/twoptimizer/twoptimizer
 PYTHONPATH=/home/runner/work/twoptimizer/twoptimizer python games/hoi4/example_usage.py
+```
+
+**NEW - Optimization demo:**
+```bash
+cd /home/runner/work/twoptimizer/twoptimizer
+PYTHONPATH=/home/runner/work/twoptimizer/twoptimizer python games/hoi4/optimization_demo.py
 ```
 
 ## Running Tests
@@ -287,21 +403,58 @@ To run the unit tests:
 
 ```bash
 cd /home/runner/work/twoptimizer/twoptimizer
-python -m unittest tests.test_hoi4 -v
+# All tests
+python -m unittest tests.test_hoi4 tests.test_hoi4_phase2 tests.test_hoi4_phase3 tests.test_hoi4_phase4 -v
+
+# Individual phases
+python -m unittest tests.test_hoi4 -v          # Phase 1: 40 tests
+python -m unittest tests.test_hoi4_phase2 -v   # Phase 2: 20 tests
+python -m unittest tests.test_hoi4_phase3 -v   # Phase 3: 20 tests
+python -m unittest tests.test_hoi4_phase4 -v   # Phase 4: 31 tests
 ```
+
+Total: **111 tests, all passing**
+
+## Implemented Features
+
+### Phase 1: Foundation ✅
+- States with buildings, resources, manpower
+- Building slots and state categories
+- Data parsers for game files
+
+### Phase 2: Core Mechanics ✅
+- Countries with national ideas and laws
+- Resource management
+- Modifiers system
+
+### Phase 3: Advanced Mechanics ✅
+- Focus trees with prerequisites
+- Focus availability checking
+- Cost calculations
+
+### Phase 4: Optimization ✅ NEW
+- **Time simulation** with historical dates
+- **Equipment models** for all unit types
+- **Production system** with efficiency modeling
+- **OR-Tools integration** for optimization
+- **Multi-objective** factory allocation
+- **Resource-constrained** optimization
 
 ## Future Development
 
-This module lays the groundwork for future optimization features:
+### Completed
+1. ✅ **Factory Optimization**: OR-Tools determines optimal allocation
+2. ✅ **Production Scheduling**: Optimal military production by target date
+3. ✅ **Resource Management**: Resource-constrained optimization
+4. ✅ **Multi-objective Optimization**: Weighted production goals
 
-1. **Factory Optimization**: Use OR-Tools to determine optimal allocation of civilian vs military factories
-2. **Infrastructure Planning**: Optimize infrastructure construction for maximum production efficiency
-3. **Production Scheduling**: Determine optimal military production schedules
-4. **Resource Management**: Optimize resource allocation across states
-5. **Defense Planning**: Optimize bunker and fortification placement
-6. **Building Slot Optimization**: Determine optimal building construction based on available slots
-7. **Technology and Focus Trees**: Optimize research and national focus progression
-8. **Multi-objective Optimization**: Balance industrial, military, and research priorities
+### Planned
+5. **Infrastructure Planning**: Optimize infrastructure construction for maximum production
+6. **Defense Planning**: Optimize bunker and fortification placement
+7. **Building Slot Optimization**: Determine optimal building construction
+8. **Technology Trees**: Optimize research progression
+9. **Equipment Variants**: Model upgraded equipment versions
+10. **Division Templates**: Optimize army compositions
 
 ## Data Integration
 
