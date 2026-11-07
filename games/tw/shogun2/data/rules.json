@@ -1,0 +1,1047 @@
+{
+  "schema_version": 1,
+  "imported_at_utc": "2026-11-07T12:06:31.561074+00:00",
+  "provinces": {
+    "jap_aki": {
+      "id": "jap_aki",
+      "name": "Aki",
+      "fertility": "Fertile",
+      "farm_multiplier": 2,
+      "has_port": true,
+      "specialty": "holy_site",
+      "source_fields": {
+        "Clan": "Mori (Playable)",
+        "Port": "Harbour",
+        "Fertility": "Fertile",
+        "Speciality/Resource": "Hallowed Ground"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Aki-Mori-1"
+    },
+    "jap_awa": {
+      "id": "jap_awa",
+      "name": "Awa",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": false,
+      "specialty": "horses",
+      "source_fields": {
+        "Clan": "Miyoshi",
+        "Port": "No",
+        "Fertility": "Average",
+        "Speciality/Resource": "Horse (warhorses)"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Awa-Miyoshi-2"
+    },
+    "jap_awaji": {
+      "id": "jap_awaji",
+      "name": "Awaji",
+      "fertility": "Barren",
+      "farm_multiplier": 1,
+      "has_port": true,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Miyoshi",
+        "Port": "Coastal Village",
+        "Fertility": "Barren",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Awaji-Miyoshi-3"
+    },
+    "jap_bingo": {
+      "id": "jap_bingo",
+      "name": "Bingo",
+      "fertility": "Meager",
+      "farm_multiplier": 1.3,
+      "has_port": true,
+      "specialty": "naval",
+      "source_fields": {
+        "Clan": "Kikkawa",
+        "Port": "Coastal Village",
+        "Fertility": "Meager",
+        "Speciality/Resource": "Naval Tradition"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Bingo-Kikkawa-4"
+    },
+    "jap_bitchu": {
+      "id": "jap_bitchu",
+      "name": "Bitchu",
+      "fertility": "Meager",
+      "farm_multiplier": 1.3,
+      "has_port": true,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Matsuda",
+        "Port": "Coastal Village",
+        "Fertility": "Meager",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Bitchu-Matsuda-5"
+    },
+    "jap_bizen": {
+      "id": "jap_bizen",
+      "name": "Bizen",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": false,
+      "specialty": "smithing",
+      "source_fields": {
+        "Clan": "Urakami",
+        "Port": "No",
+        "Fertility": "Average",
+        "Speciality/Resource": "Smithing"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Bizen-Urakami-6"
+    },
+    "jap_bungo": {
+      "id": "jap_bungo",
+      "name": "Bungo",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": true,
+      "specialty": "naval",
+      "source_fields": {
+        "Clan": "Otomo",
+        "Port": "Namban Trade Port (Spreads Christianity)",
+        "Fertility": "Average",
+        "Speciality/Resource": "Naval Tradition"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Bungo-Otomo-7"
+    },
+    "jap_buzen": {
+      "id": "jap_buzen",
+      "name": "Buzen",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": true,
+      "specialty": "craftwork",
+      "source_fields": {
+        "Clan": "Otomo",
+        "Port": "Coastal Village",
+        "Fertility": "Average",
+        "Speciality/Resource": "Craftwork (crafts)"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Buzen-Otomo-8"
+    },
+    "jap_echigo": {
+      "id": "jap_echigo",
+      "name": "Echigo",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": true,
+      "specialty": "naval",
+      "source_fields": {
+        "Clan": "Uesugi (Playable)",
+        "Port": "Coastal Village",
+        "Fertility": "Average",
+        "Speciality/Resource": "Naval Tradition"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Echigo-Uesugi-9"
+    },
+    "jap_echizen": {
+      "id": "jap_echizen",
+      "name": "Echizen",
+      "fertility": "Fertile",
+      "farm_multiplier": 2,
+      "has_port": true,
+      "specialty": "craftwork",
+      "source_fields": {
+        "Clan": "Ikko Ikki",
+        "Port": "Coastal Village",
+        "Fertility": "Fertile",
+        "Speciality/Resource": "Craftwork (crafts)"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Echizen-IkkoIkki-10"
+    },
+    "jap_etchu": {
+      "id": "jap_etchu",
+      "name": "Etchu",
+      "fertility": "Meager",
+      "farm_multiplier": 1.3,
+      "has_port": true,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Jinbo",
+        "Port": "Coastal Village",
+        "Fertility": "Meager",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Etchu-Jinbo-11"
+    },
+    "jap_fukushima": {
+      "id": "jap_fukushima",
+      "name": "Fukushima",
+      "fertility": "Fertile",
+      "farm_multiplier": 2,
+      "has_port": true,
+      "specialty": "timber",
+      "source_fields": {
+        "Clan": "Ashina",
+        "Port": "Coastal Village",
+        "Fertility": "Fertile",
+        "Speciality/Resource": "Prime Forest (wood)"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Fukushima-Ashina-12"
+    },
+    "jap_harima": {
+      "id": "jap_harima",
+      "name": "Harima",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": false,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Bessho",
+        "Port": "No",
+        "Fertility": "Average",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Harima-Bessho-13"
+    },
+    "jap_hida": {
+      "id": "jap_hida",
+      "name": "Hida",
+      "fertility": "Barren",
+      "farm_multiplier": 1,
+      "has_port": false,
+      "specialty": "timber",
+      "source_fields": {
+        "Clan": "Anegakoji",
+        "Port": "No",
+        "Fertility": "Barren",
+        "Speciality/Resource": "Prime Forest (wood)"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Hida-Anegakoji-14"
+    },
+    "jap_higo": {
+      "id": "jap_higo",
+      "name": "Higo",
+      "fertility": "Very Fertile",
+      "farm_multiplier": 3,
+      "has_port": false,
+      "specialty": "horses",
+      "source_fields": {
+        "Clan": "Sagara",
+        "Port": "No",
+        "Fertility": "Very Fertile",
+        "Speciality/Resource": "Horse (warhorses)"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Higo-Sagara-15"
+    },
+    "jap_hitachi": {
+      "id": "jap_hitachi",
+      "name": "Hitachi",
+      "fertility": "Fertile",
+      "farm_multiplier": 2,
+      "has_port": true,
+      "specialty": "craftwork",
+      "source_fields": {
+        "Clan": "Satake",
+        "Port": "Coastal Village",
+        "Fertility": "Fertile",
+        "Speciality/Resource": "Craftwork (crafts)"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Hitachi-Satake-16"
+    },
+    "jap_hizen": {
+      "id": "jap_hizen",
+      "name": "Hizen",
+      "fertility": "Very Fertile",
+      "farm_multiplier": 3,
+      "has_port": true,
+      "specialty": "naval",
+      "source_fields": {
+        "Clan": "Shoni",
+        "Port": "Coastal Village",
+        "Fertility": "Very Fertile",
+        "Speciality/Resource": "Naval Tradition"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Hizen-Shoni-17"
+    },
+    "jap_hoki": {
+      "id": "jap_hoki",
+      "name": "Hoki",
+      "fertility": "Meager",
+      "farm_multiplier": 1.3,
+      "has_port": false,
+      "specialty": "craftwork",
+      "source_fields": {
+        "Clan": "Amako",
+        "Port": "No",
+        "Fertility": "Meager",
+        "Speciality/Resource": "Craftwork (crafts)"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Hoki-Amako-18"
+    },
+    "jap_hyuga": {
+      "id": "jap_hyuga",
+      "name": "Hyuga",
+      "fertility": "Barren",
+      "farm_multiplier": 1,
+      "has_port": false,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Ito",
+        "Port": "No",
+        "Fertility": "Barren",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Hyuga-Ito-19"
+    },
+    "jap_iga": {
+      "id": "jap_iga",
+      "name": "Iga",
+      "fertility": "Meager",
+      "farm_multiplier": 1.3,
+      "has_port": false,
+      "specialty": "ninja",
+      "source_fields": {
+        "Clan": "Hattori (Playable - Limited Edition Only)",
+        "Port": "No",
+        "Fertility": "Meager",
+        "Speciality/Resource": "Ninja"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Iga-Hattori-20"
+    },
+    "jap_inaba": {
+      "id": "jap_inaba",
+      "name": "Inaba",
+      "fertility": "Fertile",
+      "farm_multiplier": 2,
+      "has_port": true,
+      "specialty": "naval",
+      "source_fields": {
+        "Clan": "Yamana",
+        "Port": "Coastal Village",
+        "Fertility": "Fertile",
+        "Speciality/Resource": "Naval Tradition"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Inaba-Yamana-21"
+    },
+    "jap_ise": {
+      "id": "jap_ise",
+      "name": "Ise",
+      "fertility": "Fertile",
+      "farm_multiplier": 2,
+      "has_port": true,
+      "specialty": "holy_site",
+      "source_fields": {
+        "Clan": "Kitabatake",
+        "Port": "Coastal Village",
+        "Fertility": "Fertile",
+        "Speciality/Resource": "Hallowed Ground"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Ise-Kitabatake-22"
+    },
+    "jap_iwami": {
+      "id": "jap_iwami",
+      "name": "Iwami",
+      "fertility": "Meager",
+      "farm_multiplier": 1.3,
+      "has_port": true,
+      "specialty": "gold_mining",
+      "source_fields": {
+        "Clan": "Amako",
+        "Port": "Coastal Village",
+        "Fertility": "Meager",
+        "Speciality/Resource": "Gold"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Iwami-Amako-23"
+    },
+    "jap_iwate": {
+      "id": "jap_iwate",
+      "name": "Iwate",
+      "fertility": "Fertile",
+      "farm_multiplier": 2,
+      "has_port": true,
+      "specialty": "smithing",
+      "source_fields": {
+        "Clan": "Date (Playable)",
+        "Port": "Coastal Village",
+        "Fertility": "Fertile",
+        "Speciality/Resource": "Smithing"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Iwate-Date-24"
+    },
+    "jap_iyo": {
+      "id": "jap_iyo",
+      "name": "Iyo",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": true,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Kono",
+        "Port": "Coastal Village",
+        "Fertility": "Average",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Iyo-Kono-25"
+    },
+    "jap_izu": {
+      "id": "jap_izu",
+      "name": "Izu",
+      "fertility": "Barren",
+      "farm_multiplier": 1,
+      "has_port": false,
+      "specialty": "gold_mining",
+      "source_fields": {
+        "Clan": "Hojo (Playable)",
+        "Port": "No",
+        "Fertility": "Barren",
+        "Speciality/Resource": "Gold"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Izu-Hojo-26"
+    },
+    "jap_izumo": {
+      "id": "jap_izumo",
+      "name": "Izumo",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": true,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Amako",
+        "Port": "Coastal Village",
+        "Fertility": "Average",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Izumo-Amako-27"
+    },
+    "jap_kaga": {
+      "id": "jap_kaga",
+      "name": "Kaga",
+      "fertility": "Very Fertile",
+      "farm_multiplier": 3,
+      "has_port": false,
+      "specialty": "smithing",
+      "source_fields": {
+        "Clan": "Ikko Ikki",
+        "Port": "No",
+        "Fertility": "Very Fertile",
+        "Speciality/Resource": "Smithing"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Kaga-IkkoIkki-28"
+    },
+    "jap_kai": {
+      "id": "jap_kai",
+      "name": "Kai",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": false,
+      "specialty": "horses",
+      "source_fields": {
+        "Clan": "Takeda (Playable)",
+        "Port": "No",
+        "Fertility": "Average",
+        "Speciality/Resource": "Horse (warhorses)"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Kai-Takeda-29"
+    },
+    "jap_kawachi": {
+      "id": "jap_kawachi",
+      "name": "Kawachi",
+      "fertility": "Barren",
+      "farm_multiplier": 1,
+      "has_port": false,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Hatakeyama",
+        "Port": "No",
+        "Fertility": "Barren",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Kawachi-Hatakeyama-30"
+    },
+    "jap_kazusa": {
+      "id": "jap_kazusa",
+      "name": "Kazusa",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": false,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Satomi",
+        "Port": "No",
+        "Fertility": "Average",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Kazusa-Satomi-31"
+    },
+    "jap_kii": {
+      "id": "jap_kii",
+      "name": "Kii",
+      "fertility": "Very Fertile",
+      "farm_multiplier": 3,
+      "has_port": false,
+      "specialty": "ninja",
+      "source_fields": {
+        "Clan": "Hatakeyama",
+        "Port": "No",
+        "Fertility": "Very Fertile",
+        "Speciality/Resource": "Ninja"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Kii-Hatakeyama-32"
+    },
+    "jap_kozuke": {
+      "id": "jap_kozuke",
+      "name": "Kozuke",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": false,
+      "specialty": "intellectual_centre",
+      "source_fields": {
+        "Clan": "Yamanouchi",
+        "Port": "No",
+        "Fertility": "Average",
+        "Speciality/Resource": "Philosophical Tradition"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Kozuka-Yamanouchi-33"
+    },
+    "jap_mikawa": {
+      "id": "jap_mikawa",
+      "name": "Mikawa",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": true,
+      "specialty": "horses",
+      "source_fields": {
+        "Clan": "Tokugawa (Playable)",
+        "Port": "Coastal Village",
+        "Fertility": "Average",
+        "Speciality/Resource": "Horse (warhorses)"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Mikawa-Tokugawa-34"
+    },
+    "jap_mimasaka": {
+      "id": "jap_mimasaka",
+      "name": "Mimasaka",
+      "fertility": "Meager",
+      "farm_multiplier": 1.3,
+      "has_port": false,
+      "specialty": "iron_mining",
+      "source_fields": {
+        "Clan": "Urakami",
+        "Port": "No",
+        "Fertility": "Meager",
+        "Speciality/Resource": "Iron"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Mimasaka-Urakami-35"
+    },
+    "jap_mino": {
+      "id": "jap_mino",
+      "name": "Mino",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": false,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Saito",
+        "Port": "No",
+        "Fertility": "Average",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Mino-Saito-36"
+    },
+    "jap_miyagi": {
+      "id": "jap_miyagi",
+      "name": "Miyagi",
+      "fertility": "Fertile",
+      "farm_multiplier": 2,
+      "has_port": true,
+      "specialty": "iron_mining",
+      "source_fields": {
+        "Clan": "Hatakeyama",
+        "Port": "Coastal Village",
+        "Fertility": "Fertile",
+        "Speciality/Resource": "Iron"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Miyagi-Hatakeyama-37"
+    },
+    "jap_musashi": {
+      "id": "jap_musashi",
+      "name": "Musashi",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": true,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Ogigayatsu",
+        "Port": "Coastal Village",
+        "Fertility": "Average",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Musashi-Ogigayatsu-38"
+    },
+    "jap_nagato": {
+      "id": "jap_nagato",
+      "name": "Nagato",
+      "fertility": "Fertile",
+      "farm_multiplier": 2,
+      "has_port": true,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Ouchi",
+        "Port": "Coastal Village",
+        "Fertility": "Fertile",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Nagato-Ouchi-39"
+    },
+    "jap_north_shinano": {
+      "id": "jap_north_shinano",
+      "name": "North Shinano",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": false,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Murakami",
+        "Port": "No",
+        "Fertility": "Average",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#North_Shinano-Murakami-40"
+    },
+    "jap_noto": {
+      "id": "jap_noto",
+      "name": "Noto",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": true,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Hatakeyama",
+        "Port": "Coastal Village",
+        "Fertility": "Average",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Noto-Hatakeyama-41"
+    },
+    "jap_omi": {
+      "id": "jap_omi",
+      "name": "Omi",
+      "fertility": "Very Fertile",
+      "farm_multiplier": 3,
+      "has_port": false,
+      "specialty": "ninja",
+      "source_fields": {
+        "Clan": "Asai",
+        "Port": "No",
+        "Fertility": "Very Fertile",
+        "Speciality/Resource": "Ninja"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Omi-Asai-42"
+    },
+    "jap_osumi": {
+      "id": "jap_osumi",
+      "name": "Osumi",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": true,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Ito",
+        "Port": "Coastal Village",
+        "Fertility": "Average",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Osumi-Ito-43"
+    },
+    "jap_owari": {
+      "id": "jap_owari",
+      "name": "Owari",
+      "fertility": "Very Fertile",
+      "farm_multiplier": 3,
+      "has_port": true,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Oda (Playable)",
+        "Port": "Coastal Village",
+        "Fertility": "Very Fertile",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Owari-Oda-44"
+    },
+    "jap_sado": {
+      "id": "jap_sado",
+      "name": "Sado",
+      "fertility": "Barren",
+      "farm_multiplier": 1,
+      "has_port": true,
+      "specialty": "gold_mining",
+      "source_fields": {
+        "Clan": "Honma",
+        "Port": "Trading Port",
+        "Fertility": "Barren",
+        "Speciality/Resource": "Gold"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Sado-Honma-45"
+    },
+    "jap_sagami": {
+      "id": "jap_sagami",
+      "name": "Sagami",
+      "fertility": "Barren",
+      "farm_multiplier": 1,
+      "has_port": true,
+      "specialty": "smithing",
+      "source_fields": {
+        "Clan": "Hojo (Playable)",
+        "Port": "Coastal Village",
+        "Fertility": "Barren",
+        "Speciality/Resource": "Smithing"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Sagami-Hojo-46"
+    },
+    "jap_sanuki": {
+      "id": "jap_sanuki",
+      "name": "Sanuki",
+      "fertility": "Meager",
+      "farm_multiplier": 1.3,
+      "has_port": false,
+      "specialty": "stone",
+      "source_fields": {
+        "Clan": "Sogo",
+        "Port": "No",
+        "Fertility": "Meager",
+        "Speciality/Resource": "Stone"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Sanuki-Sogo-47"
+    },
+    "jap_satsuma": {
+      "id": "jap_satsuma",
+      "name": "Satsuma",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": true,
+      "specialty": "smithing",
+      "source_fields": {
+        "Clan": "Shimazu (Playable)",
+        "Port": "Coastal Village",
+        "Fertility": "Average",
+        "Speciality/Resource": "Smithing"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Satsuma-Shimazu-48"
+    },
+    "jap_settsu": {
+      "id": "jap_settsu",
+      "name": "Settsu",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": true,
+      "specialty": "intellectual_centre",
+      "source_fields": {
+        "Clan": "Miyoshi",
+        "Port": "Trading Port",
+        "Fertility": "Average",
+        "Speciality/Resource": "Philosophical Tradition"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Settsu-Miyoshi-49"
+    },
+    "jap_shimosa": {
+      "id": "jap_shimosa",
+      "name": "Shimosa",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": true,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Satomi",
+        "Port": "Coastal Village",
+        "Fertility": "Average",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Shimosa-Satomi-50"
+    },
+    "jap_shimotsuke": {
+      "id": "jap_shimotsuke",
+      "name": "Shimotsuke",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": false,
+      "specialty": "holy_site",
+      "source_fields": {
+        "Clan": "Satake",
+        "Port": "No",
+        "Fertility": "Average",
+        "Speciality/Resource": "Hallowed Ground"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Shimotsuke-Satake-51"
+    },
+    "jap_south_shinano": {
+      "id": "jap_south_shinano",
+      "name": "South Shinano",
+      "fertility": "Meager",
+      "farm_multiplier": 1.3,
+      "has_port": false,
+      "specialty": "stone",
+      "source_fields": {
+        "Clan": "Kiso",
+        "Port": "No",
+        "Fertility": "Meager",
+        "Speciality/Resource": "Stone"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#South_Shinano-Kiso-52"
+    },
+    "jap_suo": {
+      "id": "jap_suo",
+      "name": "Suo",
+      "fertility": "Barren",
+      "farm_multiplier": 1,
+      "has_port": true,
+      "specialty": "horses",
+      "source_fields": {
+        "Clan": "Ouchi",
+        "Port": "Coastal Village",
+        "Fertility": "Barren",
+        "Speciality/Resource": "Horse (warhorses)"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Suo-Ouchi-53"
+    },
+    "jap_suruga": {
+      "id": "jap_suruga",
+      "name": "Suruga",
+      "fertility": "Meager",
+      "farm_multiplier": 1.3,
+      "has_port": true,
+      "specialty": "intellectual_centre",
+      "source_fields": {
+        "Clan": "Imagawa",
+        "Port": "Coastal Village",
+        "Fertility": "Meager",
+        "Speciality/Resource": "Philosophical Tradition"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Suruga-Imagawa-54"
+    },
+    "jap_tajima": {
+      "id": "jap_tajima",
+      "name": "Tajima",
+      "fertility": "Barren",
+      "farm_multiplier": 1,
+      "has_port": true,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Yamana",
+        "Port": "Trading Port",
+        "Fertility": "Barren",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Tajima-Yamana-55"
+    },
+    "jap_tamba": {
+      "id": "jap_tamba",
+      "name": "Tamba",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": false,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Hatano",
+        "Port": "No",
+        "Fertility": "Average",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Tamba-Hatano-56"
+    },
+    "jap_tango": {
+      "id": "jap_tango",
+      "name": "Tango",
+      "fertility": "Meager",
+      "farm_multiplier": 1.3,
+      "has_port": true,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Takaoka",
+        "Port": "Coastal Village",
+        "Fertility": "Meager",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Tango-Takaoka-57"
+    },
+    "jap_tosa": {
+      "id": "jap_tosa",
+      "name": "Tosa",
+      "fertility": "Average",
+      "farm_multiplier": 1.5,
+      "has_port": true,
+      "specialty": "timber",
+      "source_fields": {
+        "Clan": "Chosokabe (Playable)",
+        "Port": "Coastal Village",
+        "Fertility": "Average",
+        "Speciality/Resource": "Prime Forest (wood)"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Tosa-Chosokabe-58"
+    },
+    "jap_totomi": {
+      "id": "jap_totomi",
+      "name": "Totomi",
+      "fertility": "Meager",
+      "farm_multiplier": 1.3,
+      "has_port": true,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Imagawa",
+        "Port": "Coastal Village",
+        "Fertility": "Meager",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Totomi-Imagawa-59"
+    },
+    "jap_tsukushi": {
+      "id": "jap_tsukushi",
+      "name": "Tsukushi",
+      "fertility": "Very Fertile",
+      "farm_multiplier": 3,
+      "has_port": false,
+      "specialty": "intellectual_centre",
+      "source_fields": {
+        "Clan": "Shoni",
+        "Port": "No",
+        "Fertility": "Very Fertile",
+        "Speciality/Resource": "Philosophical Tradition"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Tsukushi-Shoni-60"
+    },
+    "jap_ugo": {
+      "id": "jap_ugo",
+      "name": "Ugo",
+      "fertility": "Fertile",
+      "farm_multiplier": 2,
+      "has_port": true,
+      "specialty": "stone",
+      "source_fields": {
+        "Clan": "Mogami",
+        "Port": "Coastal Village",
+        "Fertility": "Fertile",
+        "Speciality/Resource": "Stone"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Ugo-Mogami-61"
+    },
+    "jap_uzen": {
+      "id": "jap_uzen",
+      "name": "Uzen",
+      "fertility": "Fertile",
+      "farm_multiplier": 2,
+      "has_port": false,
+      "specialty": "holy_site",
+      "source_fields": {
+        "Clan": "Mogami",
+        "Port": "No",
+        "Fertility": "Fertile",
+        "Speciality/Resource": "Hallowed Ground"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Uzen-Mogami-62"
+    },
+    "jap_wakasa": {
+      "id": "jap_wakasa",
+      "name": "Wakasa",
+      "fertility": "Meager",
+      "farm_multiplier": 1.3,
+      "has_port": true,
+      "specialty": null,
+      "source_fields": {
+        "Clan": "Sakai",
+        "Port": "Coastal Village",
+        "Fertility": "Meager",
+        "Speciality/Resource": "None"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Wakasa-Sakai-63"
+    },
+    "jap_yamashiro": {
+      "id": "jap_yamashiro",
+      "name": "Kyoto",
+      "fertility": "Fertile",
+      "farm_multiplier": 2,
+      "has_port": false,
+      "specialty": "intellectual_centre",
+      "source_fields": {
+        "Clan": "Ashikaga (Shogun)",
+        "Port": "No",
+        "Fertility": "Fertile",
+        "Speciality/Resource": "Philosophical Tradition"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Kyoto-Ashikaga-64"
+    },
+    "jap_yamato": {
+      "id": "jap_yamato",
+      "name": "Yamato",
+      "fertility": "Fertile",
+      "farm_multiplier": 2,
+      "has_port": false,
+      "specialty": "holy_site",
+      "source_fields": {
+        "Clan": "Tsutsui",
+        "Port": "No",
+        "Fertility": "Fertile",
+        "Speciality/Resource": "Hallowed Ground"
+      },
+      "source_url": "https://shogun2-encyclopedia.com/regions.html#Yamato-Tsutsui-65"
+    }
+  },
+  "fertility_multipliers": {
+    "Barren": 1,
+    "Meager": 1.3,
+    "Average": 1.5,
+    "Fertile": 2,
+    "Very Fertile": 3
+  },
+  "clan_farm_percent": {
+    "chosokabe": 10
+  },
+  "clan_religion": {
+    "chosokabe": "buddhist",
+    "date": "buddhist",
+    "hojo": "buddhist",
+    "iga_ninja": "buddhist",
+    "ikko_ikki": "ikko",
+    "mori": "buddhist",
+    "oda": "buddhist",
+    "otomo": "christian",
+    "shimazu": "buddhist",
+    "takeda": "buddhist",
+    "tokugawa": "buddhist",
+    "uesugi": "buddhist"
+  },
+  "castle_town_slots_by_level": {
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5
+  },
+  "shared_surplus_growth_per_province": 1,
+  "tax_bonus_semantics": "percentage points added to base tax rate; administration multiplier supplied separately",
+  "unique_building_policy": "One newly constructed legendary town building of each chain per clan; one Nanban port/quarter chain. Otomo Jesuit Colleges are not legendary. Existing conquered duplicates require separate input and are outside this benchmark.",
+  "christian_branches": "Chapel -> Hospital -> Jesuit Seminary -> Jesuit College for Otomo; Chapel -> Mission -> Church -> Cathedral for other Christian clans",
+  "sources": [
+    {
+      "url": "https://liquidwork.github.io/shogun2-encyclopedia/how_to_play/018e_enc_manual_actions_campaign_construction.html",
+      "sha256": "7fa321047149f3b54edc598722d4a593725a1fb43eb3112f54777ed48c96a4be",
+      "bytes": 12333
+    },
+    {
+      "url": "https://liquidwork.github.io/shogun2-encyclopedia/how_to_play/019b_enc_manual_food_shortages.html",
+      "sha256": "23e2201881f2cfb4b1bc84a36bfa38c9c8389c8e14012603193f314c5fbdf9d2",
+      "bytes": 4632
+    },
+    {
+      "url": "https://shogun2-encyclopedia.com/regions.html",
+      "sha256": "7b04a1c1fde4d9094d495ddad3c3a05a3b34e41f6a878681797a0d51b6011452",
+      "bytes": 107297
+    },
+    {
+      "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=2215397548",
+      "sha256": "3c7a099bc246808ef933107ac63123bf0e54e705b4ee2856ece8b597342829aa",
+      "bytes": 165579
+    }
+  ],
+  "additional_rule_references": {
+    "fertility_multipliers": "https://totalwar.fandom.com/wiki/User_blog:Brainwasher5/Shogun_2_Economy_breakdown",
+    "tax_percentage_points": "https://forums.somethingawful.com/showthread.php?noseen=0&pagenumber=20&perpage=40&threadid=3558647",
+    "unique_kabunakama": "https://totalwar.fandom.com/wiki/Kabunakama",
+    "unique_mizu_shobai": "https://steamcommunity.com/sharedfiles/filedetails/?id=2354740643",
+    "otomo_christian_branch": "https://wiki.totalwar.com/w/Otomo_Clan_Pack.html"
+  },
+  "verification": "Public references; current installed build still unverified. Province narrative wealth values are not used to overwrite structured building effects.",
+  "scope": "Static domestic tax receipts; town wealth, tax, administrative efficiency and religion/order offsets are explicit scenario inputs. Trade, army expenditure, agents, first-construction race rewards, events, capture history and construction sequencing are outside the model."
+}

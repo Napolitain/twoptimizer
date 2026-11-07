@@ -1,12 +1,13 @@
 # Additional Total War game data
 
-The public reference catalogs and installed-export ingestion path are ready for
-Shogun 2, Rome II and Three Kingdoms. The next step is to validate installed game
-tables before implementing and publishing their game-specific economy rankings.
+The public reference catalogs and installed-export ingestion path cover
+Shogun 2, Rome II and Three Kingdoms. A [Shogun 2 domestic-tax optimizer](../shogun2/README.md)
+now runs from public references with explicit scenario inputs. Rome II and
+Three Kingdoms still await game-specific models and validation.
 
 | Catalog | Buildings | Faction entries | Additional facts |
 | --- | ---: | ---: | --- |
-| Shogun 2 | 115 | 12 playable clans | 45 arts; 65 province names |
+| Shogun 2 | 115 | 12 playable clans | 45 arts; 65 province soil/port/specialty records |
 | Rome II | 813 | 207 Grand Campaign entries | Shared culture and political-party effect text |
 | Three Kingdoms | 583 | 659 reference entries | Construction costs/turns, listed upkeep and food-cost metadata |
 
@@ -32,13 +33,18 @@ food-production/consumption effects, so a later model can avoid double counting.
 
 Public page visibility is not proof of in-game building eligibility. In
 particular, Three Kingdoms lists settlement traditions under factions that
-cannot necessarily build them. Shogun 2's province pages provide names and
-descriptions rather than numerical fertility, resources or starting town wealth;
-its clan traits often describe a bonus without specifying its magnitude.
+cannot necessarily build them. The original Shogun 2 province mirror supplies
+only names; a [second index](https://shogun2-encyclopedia.com/regions.html)
+now supplies soil, ports and specialty locations. Numeric farm bonuses and
+economy rules have separate source references. Starting town wealth remains an
+explicit scenario input, rather than a guessed historical state.
 
-All three catalogs carry `ready_for_full_economy_model: false`. An optimum of a
-model built without resolving these gaps would not establish the strongest
-in-game economy. No additional-game faction rankings are published yet.
+All three catalogs retain `ready_for_full_economy_model: false`: none is a full
+campaign simulation verified against installed data. The Shogun 2 model publishes
+[controlled clan comparisons](../../../reports/shogun2-income-comparison.csv),
+including assumptions and three-solver optimality checks. Those results establish
+an optimum for domestic tax income in the declared scenario, rather than an
+unconditional strongest-campaign ranking.
 
 ## Refresh or replay the public catalogs
 
@@ -101,8 +107,9 @@ faction restrictions, numeric placeholders and game-specific mechanics, then
 compare independently evaluated layouts and in-game economy panels before
 running the faction comparisons.
 
-Shogun 2 requires shared food surplus and town-wealth growth over an explicit
-horizon. Rome II requires its own settlement/food/culture/slavery rules.
+Shogun 2 already enforces shared food and reports growth components. Extending
+the static model to future income requires validated town-wealth dynamics over
+an explicit horizon. Rome II requires its own settlement/food/culture/slavery rules.
 Three Kingdoms requires commandery/county scopes, population, city capacity,
 category income, upkeep and reform/faction modifiers. Attila's constraints will
 not be copied into these games as a substitute for those mechanics.

@@ -278,6 +278,8 @@ def enc_record(html, url):
                 result["facts"].append(node.text())
             elif current in {"Clan Effects", "Clan Traits"}:
                 result["clan_facts"].append(node.text())
+            elif current == "If you are first to construct":
+                result.setdefault("first_construct_facts", []).append(node.text())
             elif current in {"Requires", "Enables"}:
                 result[current.lower()].extend(
                     urljoin(url, a.attrs["href"])

@@ -1,0 +1,37 @@
+soil,clan,religion,domestic_tax_income,food_surplus,status,jap_sado,jap_settsu,jap_owari
+native,Chosokabe,buddhist,7948.36,0,OPTIMAL,4808.32,1414.08,1725.96
+native,Date,buddhist,7688.06,0,OPTIMAL,4724.72,1345.68,1617.66
+native,Hojo,buddhist,7688.06,0,OPTIMAL,4724.72,1345.68,1617.66
+native,Hattori,buddhist,7688.06,0,OPTIMAL,4724.72,1345.68,1617.66
+native,Ikko Ikki,ikko,6345.81,1,OPTIMAL,3382.47,1345.68,1617.66
+native,Mori,buddhist,7688.06,0,OPTIMAL,4724.72,1345.68,1617.66
+native,Oda,buddhist,7688.06,0,OPTIMAL,4724.72,1345.68,1617.66
+native,Otomo,christian,6345.81,1,OPTIMAL,3382.47,1345.68,1617.66
+native,Shimazu,buddhist,7688.06,0,OPTIMAL,4724.72,1345.68,1617.66
+native,Takeda,buddhist,7688.06,0,OPTIMAL,4724.72,1345.68,1617.66
+native,Tokugawa,buddhist,7688.06,0,OPTIMAL,4724.72,1345.68,1617.66
+native,Uesugi,buddhist,7688.06,0,OPTIMAL,4724.72,1345.68,1617.66
+barren,Chosokabe,buddhist,6884.36,0,OPTIMAL,4808.32,1158.72,917.32
+barren,Date,buddhist,6719.06,0,OPTIMAL,4724.72,1113.12,881.22
+barren,Hojo,buddhist,6719.06,0,OPTIMAL,4724.72,1113.12,881.22
+barren,Hattori,buddhist,6719.06,0,OPTIMAL,4724.72,1113.12,881.22
+barren,Ikko Ikki,ikko,5376.81,1,OPTIMAL,3382.47,1113.12,881.22
+barren,Mori,buddhist,6719.06,0,OPTIMAL,4724.72,1113.12,881.22
+barren,Oda,buddhist,6719.06,0,OPTIMAL,4724.72,1113.12,881.22
+barren,Otomo,christian,5376.81,1,OPTIMAL,3382.47,1113.12,881.22
+barren,Shimazu,buddhist,6719.06,0,OPTIMAL,4724.72,1113.12,881.22
+barren,Takeda,buddhist,6719.06,0,OPTIMAL,4724.72,1113.12,881.22
+barren,Tokugawa,buddhist,6719.06,0,OPTIMAL,4724.72,1113.12,881.22
+barren,Uesugi,buddhist,6719.06,0,OPTIMAL,4724.72,1113.12,881.22
+very_fertile,Chosokabe,buddhist,10587.08,0,OPTIMAL,6680.96,2180.16,1725.96
+very_fertile,Date,buddhist,10091.18,0,OPTIMAL,6430.16,2043.36,1617.66
+very_fertile,Hojo,buddhist,10091.18,0,OPTIMAL,6430.16,2043.36,1617.66
+very_fertile,Hattori,buddhist,10091.18,0,OPTIMAL,6430.16,2043.36,1617.66
+very_fertile,Ikko Ikki,ikko,8264.43,1,OPTIMAL,4603.41,2043.36,1617.66
+very_fertile,Mori,buddhist,10091.18,0,OPTIMAL,6430.16,2043.36,1617.66
+very_fertile,Oda,buddhist,10091.18,0,OPTIMAL,6430.16,2043.36,1617.66
+very_fertile,Otomo,christian,8264.43,1,OPTIMAL,4603.41,2043.36,1617.66
+very_fertile,Shimazu,buddhist,10091.18,0,OPTIMAL,6430.16,2043.36,1617.66
+very_fertile,Takeda,buddhist,10091.18,0,OPTIMAL,6430.16,2043.36,1617.66
+very_fertile,Tokugawa,buddhist,10091.18,0,OPTIMAL,6430.16,2043.36,1617.66
+very_fertile,Uesugi,buddhist,10091.18,0,OPTIMAL,6430.16,2043.36,1617.66

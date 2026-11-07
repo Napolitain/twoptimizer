@@ -47,10 +47,11 @@ def audit(catalog):
     gaps = {
         "shogun2": [
             "Archived encyclopedia patch is unspecified",
-            "Clan traits are descriptive; numeric magnitudes need installed effect tables",
-            "Province pages provide names, not numerical fertility/resource/starting wealth data",
-            "Food-surplus growth, town wealth and tax-state inputs need a time/scenario model",
-            "Faction/religion/unique-building legality needs installed tables",
+            "Public static domestic-tax model available in games/tw/shogun2; full campaign not modeled",
+            "Clan farm bonus and 65 province soils/ports/specialties supplemented from public references; installed-build validation remains",
+            "Starting town wealth, taxation and administration are explicit scenario inputs, not historical campaign state",
+            "Food is shared; future wealth dynamics and tax-growth feedback still need a time model",
+            "Public faction/religion/unique-building rules need validation against installed tables",
         ],
         "rome2": [
             "Public roster visibility is not proof of faction/campaign eligibility",

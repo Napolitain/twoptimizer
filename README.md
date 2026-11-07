@@ -4,8 +4,25 @@ Total War economic optimization and HoI4 experiments. Smite 1 and 2 have been
 removed. The HoI4 module is retained for a separate redesign.
 
 [Shogun 2, Rome II and Three Kingdoms data preparation](games/tw/multigame/README.md)
-now includes public reference catalogs, a coverage audit and an installed-game
-TSV ingestion command. Their economy comparisons await installed-data validation.
+includes public reference catalogs, a coverage audit and an installed-game
+TSV ingestion command. **Shogun 2 now has a public-data domestic-tax optimizer**
+and [12-clan results](reports/shogun2-income-comparison.csv).
+Rome II and Three Kingdoms still need their own validated models.
+
+## Run Shogun 2
+
+```sh
+.venv/bin/python -m games.tw.shogun2.benchmark --workers 1
+.venv/bin/python -m games.tw.shogun2.benchmark --soil native \
+  --algorithm cp-sat --algorithm cbc --algorithm scip
+```
+
+The [model and assumptions](games/tw/shogun2/README.md) cover jointly owned
+provinces, native soils and specialties, castle-dependent town slots, shared
+food, local order, religious chains, unique buildings, farm bonuses and tax
+modifiers. This is a static current-income comparison with supplied town wealth,
+not a full campaign or long-term growth forecast. Public references still need
+validation against the installed build.
 
 ## Run Attila
 

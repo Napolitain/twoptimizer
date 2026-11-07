@@ -21,6 +21,8 @@ class Sources:
             (
                 "https://www.honga.net/totalwar/",
                 "https://liquidwork.github.io/shogun2-encyclopedia/",
+                "https://shogun2-encyclopedia.com/",
+                "https://steamcommunity.com/sharedfiles/",
             )
         ):
             raise ValueError("Unrecognized reference source")

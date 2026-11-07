@@ -252,6 +252,9 @@
         "https://liquidwork.github.io/shogun2-encyclopedia/units/inf_missile_bow_ronin.html",
         "https://liquidwork.github.io/shogun2-encyclopedia/units/up1_inf_missile_bandits_hattori.html",
         "https://liquidwork.github.io/shogun2-encyclopedia/units/up1_inf_missile_daikyu_samurai_chosokabe.html"
+      ],
+      "first_construct_facts": [
+        "+10% accuracy for all bow units"
       ]
     },
     "sho_buddhist_1_temple": {
@@ -367,6 +370,9 @@
         "https://liquidwork.github.io/shogun2-encyclopedia/units/inf_heavy_naginata_warrior_monk_hero.html",
         "https://liquidwork.github.io/shogun2-encyclopedia/units/inf_heavy_warrior_nuns.html",
         "https://liquidwork.github.io/shogun2-encyclopedia/units/up1_inf_heavy_marathon_monks_uesugi.html"
+      ],
+      "first_construct_facts": [
+        "+5% to the success chance of monk actions"
       ]
     },
     "sho_buff_1_encampment": {
@@ -752,6 +758,9 @@
         "https://liquidwork.github.io/shogun2-encyclopedia/units/sh_cav_spear_yari_cavalry_hero.html",
         "https://liquidwork.github.io/shogun2-encyclopedia/units/sh_cav_sword_katana_cavalry_hero.html",
         "https://liquidwork.github.io/shogun2-encyclopedia/units/cav_missile_donderbuss_cavalry.html"
+      ],
+      "first_construct_facts": [
+        "+5 charge bonus for all cavalry units"
       ]
     },
     "sho_christian_1_chapel": {
@@ -900,7 +909,10 @@
         "https://liquidwork.github.io/shogun2-encyclopedia/techs/shogun_civil_religion_neo_confucianism.html",
         "https://liquidwork.github.io/shogun2-encyclopedia/specialities.html"
       ],
-      "enables": []
+      "enables": [],
+      "first_construct_facts": [
+        "+5% to the success chance of missionary actions"
+      ]
     },
     "sho_christian_4_jesuit_college": {
       "id": "sho_christian_4_jesuit_college",
@@ -1013,7 +1025,10 @@
         "https://liquidwork.github.io/shogun2-encyclopedia/techs/shogun_civil_province_kinza_mint.html",
         "https://liquidwork.github.io/shogun2-encyclopedia/specialities.html"
       ],
-      "enables": []
+      "enables": [],
+      "first_construct_facts": [
+        "+5% to the success chance of metsuke actions"
+      ]
     },
     "sho_farming_1_rice_paddies": {
       "id": "sho_farming_1_rice_paddies",
@@ -2321,6 +2336,9 @@
         "https://liquidwork.github.io/shogun2-encyclopedia/units/sh_inf_missile_matchlock_hero.html",
         "https://liquidwork.github.io/shogun2-encyclopedia/units/inf_missile_matchlock_ashigaru_otomo.html",
         "https://liquidwork.github.io/shogun2-encyclopedia/units/inf_missile_matchlock_samurai_otomo.html"
+      ],
+      "first_construct_facts": [
+        "10% reduction to reload time for gunpowder units"
       ]
     },
     "sho_stealth_1_sake_den": {
@@ -2411,6 +2429,9 @@
         "https://liquidwork.github.io/shogun2-encyclopedia/units/inf_special_kisho_ninjas_tokugawa.html",
         "https://liquidwork.github.io/shogun2-encyclopedia/units/inf_special_kisho_ninjas_hattori.html",
         "https://liquidwork.github.io/shogun2-encyclopedia/units/sh_inf_special_kisho_ninja_hero.html"
+      ],
+      "first_construct_facts": [
+        "+5% to the success chance of ninja actions"
       ]
     },
     "sho_sword_1_sword_school": {
@@ -2512,6 +2533,9 @@
         "https://liquidwork.github.io/shogun2-encyclopedia/units/up1_inf_sword_wako_raiders_mori.html",
         "https://liquidwork.github.io/shogun2-encyclopedia/units/sh_inf_heavy_tetsubo_hero.html",
         "https://liquidwork.github.io/shogun2-encyclopedia/units/sh_inf_sword_nodachi_hero.html"
+      ],
+      "first_construct_facts": [
+        "+2 melee attack for all sword units"
       ]
     },
     "sho_yari_1_drill_yard": {
@@ -2606,6 +2630,9 @@
         "https://liquidwork.github.io/shogun2-encyclopedia/units/up1_inf_spear_long_yari_ashigaru_oda.html",
         "https://liquidwork.github.io/shogun2-encyclopedia/units/sh_inf_heavy_naginata_hero.html",
         "https://liquidwork.github.io/shogun2-encyclopedia/units/sh_inf_heavy_naginata_heroine.html"
+      ],
+      "first_construct_facts": [
+        "+2 to melee defence for all yari units"
       ]
     }
   },
@@ -3995,7 +4022,7 @@
   },
   "verification": "Archived official encyclopedia mirror; current game patch not declared. Region pages provide names/descriptions, not numerical fertility/resource/start-position tables.",
   "schema_version": 1,
-  "imported_at_utc": "2026-11-07T11:34:25.885316+00:00",
+  "imported_at_utc": "2026-11-07T12:06:31.445561+00:00",
   "sources": [
     {
       "url": "https://liquidwork.github.io/shogun2-encyclopedia/arts.html",
