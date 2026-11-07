@@ -82,26 +82,27 @@ class ParserAttila(Parser):
             campaign_name = building_id1.split("_")[0]
             if campaign_name not in self.buildings:
                 self.buildings[campaign_name] = {}
-            # Filter for the campaign to optimize memory usage
-            if self.campaign.value[1] in building_id1:
-                # Filter for the faction to optimize memory usage
-                if self.building_is_of_faction(
-                    culture2, faction_id4, subculture3
-                ) or self.building_is_of_religion(building_id1):
-                    self.buildings[campaign_name][building_id1] = Building(
-                        building_id1, building_name6
-                    )
-                    self.buildings[campaign_name][
-                        building_id1
-                    ].metadata = self.online_data["buildings"].get(building_id1)
+            if self.campaign.value[1] in building_id1 and (
+                self.building_is_of_faction(culture2, faction_id4, subculture3)
+                or self.building_is_of_religion(building_id1)
+            ):
+                building = Building(building_id1, building_name6)
+                building.metadata = self.online_data["buildings"].get(building_id1)
+                self.buildings[campaign_name][building_id1] = building
 
     def building_is_of_religion(self, building_id1):
-        if "religion" in building_id1:
-            return (
-                self.religion == AttilaReligion.ANY
-                or self.religion.value in building_id1
-            )
-        return False
+        if "religion" not in building_id1:
+            return False
+        if self.religion == AttilaReligion.ANY:
+            return True
+        aliases = {
+            "eastern": ("eastern", "east_church"),
+            "tengris": ("tengri", "tengris"),
+        }
+        return any(
+            alias in building_id1
+            for alias in aliases.get(self.religion.value, (self.religion.value,))
+        )
 
     def building_is_of_faction(self, culture, faction_id, subculture) -> bool:
         """

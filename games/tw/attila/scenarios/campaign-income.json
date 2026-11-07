@@ -1,0 +1,26 @@
+{
+  "provinces": {
+    "att_prov_aegyptus": {
+      "corruption_percent": 40,
+      "tax_percent": 100,
+      "immigration_order": -6,
+      "public_order": 2
+    }
+  },
+  "regions": {
+    "att_reg_aegyptus_alexandria": {
+      "immigration_wealth": 100,
+      "wealth_percent": {"industry": 10}
+    }
+  },
+  "base_tariffs": 300,
+  "resource_prices": {"wood": 1, "wine": 2},
+  "resource_demand": {"wood": 100, "wine": 100},
+  "external_effects": [
+    {"effect": "att_effect_province_tax_rate", "scope": "province_to_province_own", "amount": 5, "region": "att_reg_aegyptus_alexandria"}
+  ],
+  "projects": [
+    {"name": "Future sanitation project (not part of the selected layout)", "region": "att_reg_aegyptus_alexandria", "base_cost": 1000, "sanitation": true}
+  ],
+  "project_budget": 1000
+}

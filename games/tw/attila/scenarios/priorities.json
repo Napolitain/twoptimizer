@@ -1,0 +1,10 @@
+{
+  "targets": [
+    {"metric": "research_percent", "scope": "faction", "value": 10},
+    {"metric": "growth", "scope": "province", "target": "att_prov_aegyptus", "value": 5},
+    {"metric": "religion:orthodox", "scope": "province", "target": "att_prov_aegyptus", "value": 4}
+  ],
+  "weights": [
+    {"metric": "research_percent", "scope": "faction", "value": 10}
+  ]
+}

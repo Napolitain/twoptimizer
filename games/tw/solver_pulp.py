@@ -62,7 +62,7 @@ class SolverPulp(Solver):
     def get_problem_answers(self, parser: Parser) -> list[tuple[str, str]]:
         answers = []
         for v in self.variables():
-            if v.name.startswith("__and_") or v.varValue is None or v.varValue < 0.5:
+            if v.name.startswith("__") or v.varValue is None or v.varValue < 0.5:
                 continue
             building_name = parser.get_name_from_use_name(
                 parser.get_entry_name(FullEntryName(v.name), EntryType.BUILDING),
@@ -89,3 +89,6 @@ class SolverPulp(Solver):
 
     def add_objective_terms(self, terms):
         self.solver.setObjective(lpSum(terms))
+
+    def create_auxiliary(self, name):
+        return LpVariable(name, cat="Binary")

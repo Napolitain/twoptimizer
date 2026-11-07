@@ -20,6 +20,7 @@ class Problem:
         objective=None,
         adjacency=None,
         technologies=None,
+        scenario=None,
     ):
         """
         Init a linear programming problem.
@@ -34,8 +35,11 @@ class Problem:
             )
         if objective not in ("legacy", "wealth", "income"):
             raise ValueError("Unknown objective mode")
+        if objective == "legacy" and scenario is not None:
+            raise ValueError("Scenarios require wealth or income mode")
         self.objective_mode = objective
         self.technologies = None if technologies is None else frozenset(technologies)
+        self.scenario = scenario
         self.adjacency = adjacency
         self.economy = None
         Games.legacy_effects = objective == "legacy"
@@ -116,7 +120,7 @@ class Problem:
         else:
             from games.tw.attila.economy import Economy
 
-            self.economy = Economy(self.provinces, self.adjacency)
+            self.economy = Economy(self.provinces, self.adjacency, self.scenario)
             self.economy.install_constraints(self.problem)
             self.problem.add_objective_terms(
                 self.economy.compile(

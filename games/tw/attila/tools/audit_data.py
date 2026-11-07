@@ -24,14 +24,29 @@ def audit(data_dir=DATA):
             "raw_scope": scope,
             "reach": destination.value,
             "kind": rule.kind if rule else "unmodeled",
+            "metrics": list(rule.categories) if rule and rule.kind == "metric" else [],
             "status": (
-                "requires_condition" if destination == Reach.CONDITIONAL else
                 "outside_settlement_model"
                 if destination == Reach.OTHER
+                else "requires_condition"
+                if destination == Reach.CONDITIONAL
+                or (rule and rule.kind == "conditional_fertility_food")
                 else "requires_adjacency"
                 if destination == Reach.ADJACENT
-                else "requires_scenario"
-                if rule and rule.kind.startswith("immigration_")
+                else "metric_option"
+                if rule and rule.kind == "metric"
+                else "scenario_option"
+                if rule
+                and rule.kind
+                in {
+                    "immigration_order_percent",
+                    "immigration_wealth_percent",
+                    "corruption_percent",
+                    "tariff_percent",
+                    "construction_percent",
+                    "sanitation_cost_percent",
+                    "conversion_cost_percent",
+                }
                 else "modeled"
                 if rule
                 else "unmodeled"
@@ -69,7 +84,7 @@ def audit(data_dir=DATA):
         effect_status.values(), key=lambda v: (v["effect"], v["raw_scope"])
     )
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "effect_rows": len(rows),
         "distinct_effects": len({r[1] for r in rows}),
         "effect_scope_pairs": len(details),

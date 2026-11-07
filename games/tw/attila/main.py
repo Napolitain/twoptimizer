@@ -24,11 +24,13 @@ We need to optimize using linear programming the economy of a province, here usi
 ('cha_effect_imperium', 'faction_to_faction_own_unseen', '10.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '200.0000'), ('att_effect_public_order_base', 'province_to_province_own', '2.0000'), ('att_effect_region_resource_wine_production', 'building_to_building_own', '10.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '300.0000'), ('att_effect_public_order_base', 'province_to_province_own', '4.0000'), ('att_effect_region_resource_wine_production', 'building_to_building_own', '15.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '400.0000'), ('att_effect_public_order_base', 'province_to_province_own', '6.0000'), ('att_effect_region_resource_wine_production', 'building_to_building_own', '20.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '200.0000'), ('att_effect_province_growth_building', 'province_to_province_own', '2.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '300.0000'), ('att_effect_province_growth_building', 'province_to_province_own', '4.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '400.0000'), ('att_effect_province_growth_building', 'province_to_province_own', '6.0000'), ('att_effect_economy_gdp_mod_industry', 'province_to_region_own', '10.0000'), ('att_effect_region_resource_wood_production', 'building_to_building_own', '10.0000'), ('att_effect_economy_gdp_mod_industry', 'province_to_region_own', '20.0000'), ('att_effect_region_resource_wood_production', 'building_to_building_own', '15.0000'), ('att_effect_economy_gdp_mod_industry', 'province_to_region_own', '30.0000'), ('att_effect_region_resource_wood_production', 'building_to_building_own', '20.0000')]})
 """
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Create a province, with regions, and buildings constraints.
-    Games.instance = AttilaGame(campaign=AttilaGame.Campaign.ATTILA,
-                                faction=AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
-                                religion=AttilaGame.Religion.CHRIST_ORTHODOX)
+    Games.instance = AttilaGame(
+        campaign=AttilaGame.Campaign.ATTILA,
+        faction=AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
+        religion=AttilaGame.Religion.CHRIST_ORTHODOX,
+    )
     parser = Games.instance.get_parser()
     Games.buildings = parser.buildings
     # Games.instance.campaign = AttilaGame.Campaign.CHARLEMAGNE
@@ -57,7 +59,9 @@ if __name__ == '__main__':
             region.filter_military()
             # Necessary (for now) for Google OR-Tools to add the variables which were added lazily
             region.filter_technologies()
-            lp_problem.problem.filter_added({building.name: building for building in region.buildings})
+            lp_problem.problem.filter_added(
+                {building.name: building for building in region.buildings}
+            )
         lp_problem.state = ProblemState.FILTERS_ADDED
 
         # Set province wide fertility : impacts food and GDP

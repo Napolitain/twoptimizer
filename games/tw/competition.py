@@ -19,16 +19,15 @@ class BinaryModel:
     matrix: np.ndarray
     lower: np.ndarray
     upper: np.ndarray
+    offset: float = 0
 
     @classmethod
     def from_solver(cls, solver):
         """Snapshot after filtering and objective creation, before any solve."""
         proto = linear_solver_pb2.MPModelProto()
         solver.ExportModelToProto(proto)
-        if not proto.maximize or proto.objective_offset:
-            raise ValueError(
-                "Expected a maximization model without an objective offset"
-            )
+        if not proto.maximize:
+            raise ValueError("Expected a maximization model")
         if any(
             not v.is_integer or v.lower_bound != 0 or v.upper_bound != 1
             for v in proto.variable
@@ -44,6 +43,7 @@ class BinaryModel:
             matrix,
             np.array([c.lower_bound for c in proto.constraint]),
             np.array([c.upper_bound for c in proto.constraint]),
+            proto.objective_offset,
         )
 
     def feasible(self, values, integral=True, tolerance=1e-6):
@@ -101,6 +101,7 @@ def linear_solve(model, backend, seconds):
             constraint.SetCoefficient(variables[i], float(row[i]))
     objective = solver.Objective()
     objective.SetMaximization()
+    objective.SetOffset(model.offset)
     for variable, profit in zip(variables, model.profit):
         objective.SetCoefficient(variable, float(profit))
     solver.SetTimeLimit(max(1, int((deadline - perf_counter()) * 1000)))
@@ -159,7 +160,7 @@ def sat_solve(model, seconds, seed, workers=1):
             if len(nonzero)
             else 1
         )
-        result.bound = solver.best_objective_bound * scale
+        result.bound = solver.best_objective_bound * scale + model.offset
     return result
 
 
@@ -307,6 +308,6 @@ def solve(model, algorithm, seconds=5, seed=0, width=128, restarts=16, workers=1
             )
             result.values, result.bound = None, None
         else:
-            result.objective = float(model.profit @ result.values)
+            result.objective = float(model.profit @ result.values) + model.offset
     result.seconds = perf_counter() - start
     return result

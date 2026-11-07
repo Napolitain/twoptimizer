@@ -128,7 +128,7 @@ def entries(building):
             (Reach.FACTION, building.effects_to_faction),
             (Reach.PROVINCE, building.effects_to_province),
             (Reach.LOCAL, building.effects_to_region),
-            (Reach.LOCAL, building.effects_to_building),
+            (Reach.BUILDING, building.effects_to_building),
         ):
             for key, amount in effects.items():
                 yield key, RULES.get(key, Rule("unmodeled")), scope, amount
@@ -154,3 +154,123 @@ def base_food(building, fertility):
         + fertility * amount(building, "fertility_food")
         - amount(building, "food_consumption")
     )
+
+
+# Additional economic channels. These remain separate from flat wealth/order.
+RULES.update(
+    {
+        "att_effect_building_corruption": Rule("corruption_percent"),
+        "cha_effect_building_corruption_adjacent_province": Rule("corruption_percent"),
+        "att_effect_economy_trade_tariff_mod": Rule("tariff_percent"),
+        "att_effect_building_construction_cost_mod": Rule("construction_percent"),
+        "att_effect_building_construction_cost_mod_sanitation": Rule(
+            "sanitation_cost_percent"
+        ),
+        "att_effect_building_conversion_cost_mod": Rule("conversion_cost_percent"),
+        "att_effect_province_growth_building": Rule("metric", ("growth",)),
+        "att_effect_technology_research_points": Rule("metric", ("research_percent",)),
+        "att_effect_building_road": Rule("metric", ("roads",)),
+        # The recipients of this exceptional scope must be supplied explicitly.
+        "att_effect_food_production_fertility_neighbouring": Rule(
+            "conditional_fertility_food"
+        ),
+    }
+)
+for resource in (
+    "dyes",
+    "gem",
+    "iron",
+    "lead",
+    "leather",
+    "marble",
+    "olive",
+    "salt",
+    "silk",
+    "spice",
+    "wine",
+    "wood",
+):
+    RULES[f"att_effect_region_resource_{resource}_production"] = Rule(
+        "metric", (f"resource:{resource}",)
+    )
+RULES["cha_effect_region_resource_cloth_production"] = Rule(
+    "metric", ("resource:cloth",)
+)
+for religion in (
+    "arian",
+    "catholic",
+    "celtic",
+    "church_east",
+    "germanic",
+    "grecoroman",
+    "judaism",
+    "manichaeist",
+    "orthodox",
+    "other",
+    "semitic_paganism",
+    "slavic",
+    "state",
+    "tengri",
+    "zoroastrian",
+):
+    for prefix, metric in (("conversion", "religion"), ("osmosis", "osmosis")):
+        key = f"att_effect_religion_{prefix}_{religion}"
+        if prefix != "osmosis" or religion not in ("state", "tengri"):
+            RULES[key] = Rule("metric", (f"{metric}:{religion}",))
+for religion in ("christianity", "islam", "paganism", "tengri"):
+    for prefix, metric in (("conversion", "religion"), ("osmosis", "osmosis")):
+        RULES[f"cha_effect_religion_{prefix}_{religion}"] = Rule(
+            "metric", (f"{metric}:{religion}",)
+        )
+RULES["att_effect_religion_conversion_catholic_faction"] = Rule(
+    "metric", ("religion:catholic",)
+)
+for agent in ("champion", "dignitary", "spy"):
+    RULES[f"att_effect_agent_enable_recruitment_{agent}"] = Rule(
+        "metric", (f"agent_enable:{agent}",)
+    )
+    if agent != "spy":
+        RULES[f"att_effect_agent_recruitment_cap_{agent}"] = Rule(
+            "metric", (f"agent_cap:{agent}",)
+        )
+for agent in ("all_agents", "dignitary", "spy"):
+    RULES[f"att_effect_agent_recruitment_xp_{agent}"] = Rule(
+        "metric", (f"agent_xp:{agent}",)
+    )
+for agent in ("assassin", "imam"):
+    RULES[f"cha_effect_agent_enable_recruitment_{agent}"] = Rule(
+        "metric", (f"agent_enable:{agent}",)
+    )
+RULES["att_effect_unit_recruitment_points"] = Rule("metric", ("recruitment_points",))
+RULES["att_effect_agent_action_outcome_local_province_recruitment_points"] = Rule(
+    "metric", ("agent_recruitment_points",)
+)
+for troop in ("all", "artillery", "cavalry", "infantry"):
+    key = (
+        "att_effect_force_all_campaign_experience_base_all"
+        if troop == "all"
+        else f"att_effect_force_army_campaign_experience_base_{troop}"
+    )
+    RULES[key] = Rule("metric", (f"recruitment_xp:{troop}",))
+RULES["att_effect_force_army_campaign_recruitment_cost_land"] = Rule(
+    "metric", ("land_recruitment_cost_percent",)
+)
+for equipment in ("ammo", "armour", "shields", "weapon"):
+    for tier in ("bronze", "silver", "gold"):
+        RULES[f"att_effect_unit_equipment_{equipment}_{tier}"] = Rule(
+            "metric", (f"equipment:{equipment}:{tier}",)
+        )
+for tier in ("i", "ii", "iii"):
+    RULES[f"att_effect_unit_equipment_cavalry_horse_bonus_{tier}"] = Rule(
+        "metric", (f"equipment:horse:{tier}",)
+    )
+
+METRICS = frozenset(
+    category
+    for rule in RULES.values()
+    if rule.kind == "metric"
+    for category in rule.categories
+)
+ECONOMIC_KINDS = frozenset(
+    rule.kind for rule in RULES.values() if rule.kind not in ("metric", "unmodeled")
+)

@@ -1,15 +1,16 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "effect_rows": 4184,
   "distinct_effects": 166,
   "effect_scope_pairs": 213,
   "coverage": {
-    "unmodeled": 103,
+    "metric_option": 86,
     "outside_settlement_model": 65,
+    "scenario_option": 8,
+    "unmodeled": 10,
     "modeled": 37,
     "requires_adjacency": 5,
-    "requires_scenario": 2,
-    "requires_condition": 1
+    "requires_condition": 2
   },
   "imported_buildings": 566,
   "online_numeric_matches": 6242,
@@ -4664,133 +4665,178 @@
       "effect": "att_effect_agent_action_outcome_local_province_recruitment_points",
       "raw_scope": "region_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "agent_recruitment_points"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_agent_enable_recruitment_champion",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "agent_enable:champion"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_agent_enable_recruitment_champion",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "agent_enable:champion"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_agent_enable_recruitment_dignitary",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "agent_enable:dignitary"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_agent_enable_recruitment_dignitary",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "agent_enable:dignitary"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_agent_enable_recruitment_spy",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "agent_enable:spy"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_agent_enable_recruitment_spy",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "agent_enable:spy"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_agent_recruitment_cap_champion",
       "raw_scope": "faction_to_faction_own",
       "reach": "faction",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "agent_cap:champion"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_agent_recruitment_cap_dignitary",
       "raw_scope": "faction_to_faction_own",
       "reach": "faction",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "agent_cap:dignitary"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_agent_recruitment_xp_all_agents",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "agent_xp:all_agents"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_agent_recruitment_xp_dignitary",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "agent_xp:dignitary"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_agent_recruitment_xp_spy",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "agent_xp:spy"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_building_construction_cost_mod",
       "raw_scope": "province_to_region_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "construction_percent",
+      "metrics": [],
+      "status": "scenario_option"
     },
     {
       "effect": "att_effect_building_construction_cost_mod_sanitation",
       "raw_scope": "province_to_region_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "sanitation_cost_percent",
+      "metrics": [],
+      "status": "scenario_option"
     },
     {
       "effect": "att_effect_building_conversion_cost_mod",
       "raw_scope": "faction_to_region_own",
       "reach": "faction",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "conversion_cost_percent",
+      "metrics": [],
+      "status": "scenario_option"
     },
     {
       "effect": "att_effect_building_corruption",
       "raw_scope": "building_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "corruption_percent",
+      "metrics": [],
+      "status": "scenario_option"
     },
     {
       "effect": "att_effect_building_corruption",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "corruption_percent",
+      "metrics": [],
+      "status": "scenario_option"
     },
     {
       "effect": "att_effect_building_road",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "roads"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_building_trade_routes_all_hidden",
       "raw_scope": "faction_to_faction_own",
       "reach": "faction",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "unmodeled"
     },
     {
@@ -4798,6 +4844,7 @@
       "raw_scope": "region_to_character_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -4805,6 +4852,7 @@
       "raw_scope": "building_to_building_own",
       "reach": "building",
       "kind": "wealth",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -4812,6 +4860,7 @@
       "raw_scope": "force_to_force_building",
       "reach": "other",
       "kind": "wealth",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -4819,6 +4868,7 @@
       "raw_scope": "building_to_building_own",
       "reach": "building",
       "kind": "wealth",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -4826,6 +4876,7 @@
       "raw_scope": "building_to_building_own",
       "reach": "building",
       "kind": "wealth",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -4833,6 +4884,7 @@
       "raw_scope": "force_to_force_building",
       "reach": "other",
       "kind": "wealth",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -4840,6 +4892,7 @@
       "raw_scope": "building_to_building_own",
       "reach": "building",
       "kind": "fertility_wealth",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -4847,6 +4900,7 @@
       "raw_scope": "building_to_building_own",
       "reach": "building",
       "kind": "fertility_wealth",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -4854,6 +4908,7 @@
       "raw_scope": "force_to_force_building",
       "reach": "other",
       "kind": "fertility_wealth",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -4861,6 +4916,7 @@
       "raw_scope": "building_to_building_own",
       "reach": "building",
       "kind": "wealth",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -4868,6 +4924,7 @@
       "raw_scope": "force_to_force_building",
       "reach": "other",
       "kind": "wealth",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -4875,6 +4932,7 @@
       "raw_scope": "province_to_region_own",
       "reach": "province",
       "kind": "wealth_percent",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -4882,6 +4940,7 @@
       "raw_scope": "province_to_region_own_factionwide",
       "reach": "faction",
       "kind": "wealth_percent",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -4889,6 +4948,7 @@
       "raw_scope": "province_to_region_own",
       "reach": "province",
       "kind": "wealth_percent",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -4896,6 +4956,7 @@
       "raw_scope": "province_to_region_own",
       "reach": "province",
       "kind": "wealth_percent",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -4903,6 +4964,7 @@
       "raw_scope": "province_to_regions_own_in_adjacent_province",
       "reach": "adjacent",
       "kind": "wealth_percent",
+      "metrics": [],
       "status": "requires_adjacency"
     },
     {
@@ -4910,6 +4972,7 @@
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "wealth_percent",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -4917,6 +4980,7 @@
       "raw_scope": "province_to_region_own",
       "reach": "province",
       "kind": "wealth_percent",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -4924,6 +4988,7 @@
       "raw_scope": "province_to_regions_own_in_adjacent_province",
       "reach": "adjacent",
       "kind": "wealth_percent",
+      "metrics": [],
       "status": "requires_adjacency"
     },
     {
@@ -4931,6 +4996,7 @@
       "raw_scope": "province_to_region_own",
       "reach": "province",
       "kind": "wealth_percent",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -4938,6 +5004,7 @@
       "raw_scope": "province_to_region_own",
       "reach": "province",
       "kind": "wealth_percent",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -4945,6 +5012,7 @@
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "wealth_percent",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -4952,6 +5020,7 @@
       "raw_scope": "province_to_region_own",
       "reach": "province",
       "kind": "wealth_percent",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -4959,6 +5028,7 @@
       "raw_scope": "province_to_region_own",
       "reach": "province",
       "kind": "wealth_percent",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -4966,6 +5036,7 @@
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "wealth_percent",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -4973,6 +5044,7 @@
       "raw_scope": "province_to_region_own",
       "reach": "province",
       "kind": "wealth_percent",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -4980,6 +5052,7 @@
       "raw_scope": "building_to_building_own",
       "reach": "building",
       "kind": "wealth",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -4987,6 +5060,7 @@
       "raw_scope": "force_to_force_building",
       "reach": "other",
       "kind": "wealth",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -4994,6 +5068,7 @@
       "raw_scope": "building_to_building_own",
       "reach": "building",
       "kind": "wealth",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -5001,6 +5076,7 @@
       "raw_scope": "force_to_force_building",
       "reach": "other",
       "kind": "wealth",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5008,6 +5084,7 @@
       "raw_scope": "building_to_building_own",
       "reach": "building",
       "kind": "wealth",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -5015,13 +5092,15 @@
       "raw_scope": "province_to_province_own",
       "reach": "province",
       "kind": "immigration_wealth_percent",
-      "status": "requires_scenario"
+      "metrics": [],
+      "status": "scenario_option"
     },
     {
       "effect": "att_effect_economy_tax_mod",
       "raw_scope": "force_to_faction_own_factionwide",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5029,20 +5108,23 @@
       "raw_scope": "force_to_faction_own_factionwide_expedition",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_economy_trade_tariff_mod",
       "raw_scope": "faction_to_faction_own",
       "reach": "faction",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "tariff_percent",
+      "metrics": [],
+      "status": "scenario_option"
     },
     {
       "effect": "att_effect_faction_trait_barbarian_alamanni_1",
       "raw_scope": "region_to_region_own",
       "reach": "region",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "unmodeled"
     },
     {
@@ -5050,6 +5132,7 @@
       "raw_scope": "faction_to_region_own",
       "reach": "faction",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "unmodeled"
     },
     {
@@ -5057,6 +5140,7 @@
       "raw_scope": "region_to_region_own",
       "reach": "region",
       "kind": "food",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -5064,6 +5148,7 @@
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "food_consumption",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5071,6 +5156,7 @@
       "raw_scope": "region_to_region_own",
       "reach": "region",
       "kind": "food_consumption",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -5078,6 +5164,7 @@
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "food",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5085,6 +5172,7 @@
       "raw_scope": "region_to_region_own",
       "reach": "region",
       "kind": "food",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -5092,6 +5180,7 @@
       "raw_scope": "region_to_region_own",
       "reach": "region",
       "kind": "food",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -5099,6 +5188,7 @@
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "fertility_food",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5106,20 +5196,23 @@
       "raw_scope": "region_to_region_own",
       "reach": "region",
       "kind": "fertility_food",
+      "metrics": [],
       "status": "modeled"
     },
     {
       "effect": "att_effect_food_production_fertility_neighbouring",
       "raw_scope": "region_to_province_own_factionwide",
       "reach": "faction",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "conditional_fertility_food",
+      "metrics": [],
+      "status": "requires_condition"
     },
     {
       "effect": "att_effect_food_production_fishing",
       "raw_scope": "region_to_region_own",
       "reach": "region",
       "kind": "food",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -5127,6 +5220,7 @@
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "food",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5134,6 +5228,7 @@
       "raw_scope": "region_to_region_own",
       "reach": "region",
       "kind": "food",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -5141,27 +5236,35 @@
       "raw_scope": "region_to_region_own",
       "reach": "region",
       "kind": "food",
+      "metrics": [],
       "status": "modeled"
     },
     {
       "effect": "att_effect_force_all_campaign_experience_base_all",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "recruitment_xp:all"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_force_all_campaign_experience_base_all",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "recruitment_xp:all"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_force_all_campaign_military_morale_factor_buildings",
       "raw_scope": "force_building_to_force_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5169,6 +5272,7 @@
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5176,6 +5280,7 @@
       "raw_scope": "force_to_force_own_factionwide",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5183,6 +5288,7 @@
       "raw_scope": "force_to_force_own_factionwide_expedition",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5190,6 +5296,7 @@
       "raw_scope": "force_to_force_own_factionwide_horde",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5197,6 +5304,7 @@
       "raw_scope": "province_to_force_own_in_adjacent_regions",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5204,6 +5312,7 @@
       "raw_scope": "province_to_army_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5211,6 +5320,7 @@
       "raw_scope": "force_to_general_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5218,6 +5328,7 @@
       "raw_scope": "building_to_forces_on_region_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5225,48 +5336,65 @@
       "raw_scope": "region_to_force_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_force_army_campaign_experience_base_artillery",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "recruitment_xp:artillery"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_force_army_campaign_experience_base_cavalry",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "recruitment_xp:cavalry"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_force_army_campaign_experience_base_infantry",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "recruitment_xp:infantry"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_force_army_campaign_recruitment_cost_land",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "land_recruitment_cost_percent"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_force_army_campaign_recruitment_cost_land",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "land_recruitment_cost_percent"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_force_army_campaign_upkeep_land",
       "raw_scope": "region_to_force_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5274,6 +5402,7 @@
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5281,6 +5410,7 @@
       "raw_scope": "building_to_sea_region_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5288,6 +5418,7 @@
       "raw_scope": "building_to_sea_region_own_provincewide",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5295,6 +5426,7 @@
       "raw_scope": "building_to_sea_region_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5302,6 +5434,7 @@
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5309,6 +5442,7 @@
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5316,6 +5450,7 @@
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5323,20 +5458,25 @@
       "raw_scope": "building_to_region_own",
       "reach": "region",
       "kind": "fertility",
+      "metrics": [],
       "status": "modeled"
     },
     {
       "effect": "att_effect_province_growth_building",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "growth"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_province_tax_rate",
       "raw_scope": "province_to_province_own",
       "reach": "province",
       "kind": "tax_percent",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -5344,6 +5484,7 @@
       "raw_scope": "province_to_province_own",
       "reach": "province",
       "kind": "public_order",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -5351,6 +5492,7 @@
       "raw_scope": "province_to_province_own_adjacent_food",
       "reach": "conditional",
       "kind": "public_order",
+      "metrics": [],
       "status": "requires_condition"
     },
     {
@@ -5358,6 +5500,7 @@
       "raw_scope": "faction_to_province_own",
       "reach": "faction",
       "kind": "public_order",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -5365,6 +5508,7 @@
       "raw_scope": "province_to_province_own_factionwide",
       "reach": "faction",
       "kind": "public_order",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -5372,13 +5516,15 @@
       "raw_scope": "province_to_province_own",
       "reach": "province",
       "kind": "immigration_order_percent",
-      "status": "requires_scenario"
+      "metrics": [],
+      "status": "scenario_option"
     },
     {
       "effect": "att_effect_public_order_politics",
       "raw_scope": "faction_to_province_own",
       "reach": "faction",
       "kind": "public_order",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -5386,307 +5532,435 @@
       "raw_scope": "province_to_province_own",
       "reach": "province",
       "kind": "public_order",
+      "metrics": [],
       "status": "modeled"
     },
     {
       "effect": "att_effect_region_resource_dyes_production",
       "raw_scope": "building_to_building_own",
       "reach": "building",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "resource:dyes"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_region_resource_gem_production",
       "raw_scope": "building_to_building_own",
       "reach": "building",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "resource:gem"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_region_resource_iron_production",
       "raw_scope": "building_to_building_own",
       "reach": "building",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "resource:iron"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_region_resource_lead_production",
       "raw_scope": "building_to_building_own",
       "reach": "building",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "resource:lead"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_region_resource_leather_production",
       "raw_scope": "building_to_building_own",
       "reach": "building",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "resource:leather"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_region_resource_marble_production",
       "raw_scope": "building_to_building_own",
       "reach": "building",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "resource:marble"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_region_resource_olive_production",
       "raw_scope": "building_to_building_own",
       "reach": "building",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "resource:olive"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_region_resource_salt_production",
       "raw_scope": "building_to_building_own",
       "reach": "building",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "resource:salt"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_region_resource_silk_production",
       "raw_scope": "building_to_building_own",
       "reach": "building",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "resource:silk"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_region_resource_spice_production",
       "raw_scope": "building_to_building_own",
       "reach": "building",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "resource:spice"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_region_resource_wine_production",
       "raw_scope": "building_to_building_own",
       "reach": "building",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "resource:wine"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_region_resource_wood_production",
       "raw_scope": "building_to_building_own",
       "reach": "building",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "resource:wood"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_conversion_arian",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:arian"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_conversion_catholic",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:catholic"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_conversion_catholic_faction",
       "raw_scope": "faction_to_region_own",
       "reach": "faction",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:catholic"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_conversion_celtic",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:celtic"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_conversion_church_east",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:church_east"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_conversion_germanic",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:germanic"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_conversion_grecoroman",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:grecoroman"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_conversion_judaism",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:judaism"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_conversion_manichaeist",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:manichaeist"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_conversion_orthodox",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:orthodox"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_conversion_other",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:other"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_conversion_semitic_paganism",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:semitic_paganism"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_conversion_slavic",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:slavic"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_conversion_state",
       "raw_scope": "faction_to_region_own",
       "reach": "faction",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:state"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_conversion_state",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:state"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_conversion_tengri",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:tengri"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_conversion_zoroastrian",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:zoroastrian"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_osmosis_arian",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "osmosis:arian"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_osmosis_catholic",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "osmosis:catholic"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_osmosis_celtic",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "osmosis:celtic"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_osmosis_church_east",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "osmosis:church_east"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_osmosis_germanic",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "osmosis:germanic"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_osmosis_grecoroman",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "osmosis:grecoroman"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_osmosis_judaism",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "osmosis:judaism"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_osmosis_manichaeist",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "osmosis:manichaeist"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_osmosis_orthodox",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "osmosis:orthodox"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_osmosis_other",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "osmosis:other"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_osmosis_semitic_paganism",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "osmosis:semitic_paganism"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_osmosis_slavic",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "osmosis:slavic"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_religion_osmosis_zoroastrian",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "osmosis:zoroastrian"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_sanitation_buildings",
       "raw_scope": "region_to_region_own",
       "reach": "region",
       "kind": "sanitation",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -5694,6 +5968,7 @@
       "raw_scope": "province_to_region_own",
       "reach": "province",
       "kind": "sanitation",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -5701,6 +5976,7 @@
       "raw_scope": "region_to_region_own",
       "reach": "region",
       "kind": "squalor",
+      "metrics": [],
       "status": "modeled"
     },
     {
@@ -5708,6 +5984,7 @@
       "raw_scope": "region_to_region_own",
       "reach": "region",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "unmodeled"
     },
     {
@@ -5715,244 +5992,345 @@
       "raw_scope": "region_to_region_own",
       "reach": "region",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "unmodeled"
     },
     {
       "effect": "att_effect_technology_research_points",
       "raw_scope": "faction_to_faction_own",
       "reach": "faction",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "research_percent"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_unit_equipment_ammo_bronze",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "equipment:ammo:bronze"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_unit_equipment_ammo_bronze",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "equipment:ammo:bronze"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_unit_equipment_ammo_gold",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "equipment:ammo:gold"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_unit_equipment_ammo_gold",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "equipment:ammo:gold"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_unit_equipment_ammo_silver",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "equipment:ammo:silver"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_unit_equipment_ammo_silver",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "equipment:ammo:silver"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_unit_equipment_armour_bronze",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "equipment:armour:bronze"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_unit_equipment_armour_bronze",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "equipment:armour:bronze"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_unit_equipment_armour_gold",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "equipment:armour:gold"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_unit_equipment_armour_gold",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "equipment:armour:gold"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_unit_equipment_armour_silver",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "equipment:armour:silver"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_unit_equipment_armour_silver",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "equipment:armour:silver"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_unit_equipment_cavalry_horse_bonus_i",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "equipment:horse:i"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_unit_equipment_cavalry_horse_bonus_i",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "equipment:horse:i"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_unit_equipment_cavalry_horse_bonus_ii",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "equipment:horse:ii"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_unit_equipment_cavalry_horse_bonus_ii",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "equipment:horse:ii"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_unit_equipment_cavalry_horse_bonus_iii",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "equipment:horse:iii"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_unit_equipment_cavalry_horse_bonus_iii",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "equipment:horse:iii"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_unit_equipment_shields_bronze",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "equipment:shields:bronze"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_unit_equipment_shields_bronze",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "equipment:shields:bronze"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_unit_equipment_shields_gold",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "equipment:shields:gold"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_unit_equipment_shields_gold",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "equipment:shields:gold"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_unit_equipment_shields_silver",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "equipment:shields:silver"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_unit_equipment_shields_silver",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "equipment:shields:silver"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_unit_equipment_weapon_bronze",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "equipment:weapon:bronze"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_unit_equipment_weapon_bronze",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "equipment:weapon:bronze"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_unit_equipment_weapon_gold",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "equipment:weapon:gold"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_unit_equipment_weapon_gold",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "equipment:weapon:gold"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_unit_equipment_weapon_silver",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "equipment:weapon:silver"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_unit_equipment_weapon_silver",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "equipment:weapon:silver"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_unit_recruitment_points",
       "raw_scope": "force_to_force_own",
       "reach": "other",
-      "kind": "unmodeled",
+      "kind": "metric",
+      "metrics": [
+        "recruitment_points"
+      ],
       "status": "outside_settlement_model"
     },
     {
       "effect": "att_effect_unit_recruitment_points",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "recruitment_points"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "att_effect_unit_training_morale_all",
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5960,6 +6338,7 @@
       "raw_scope": "force_building_to_force_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5967,6 +6346,7 @@
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5974,6 +6354,7 @@
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5981,6 +6362,7 @@
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5988,6 +6370,7 @@
       "raw_scope": "building_to_forces_on_province_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -5995,6 +6378,7 @@
       "raw_scope": "building_to_forces_factionwide",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -6002,6 +6386,7 @@
       "raw_scope": "building_to_forces_factionwide",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -6009,6 +6394,7 @@
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
@@ -6016,27 +6402,35 @@
       "raw_scope": "force_to_force_own",
       "reach": "other",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "outside_settlement_model"
     },
     {
       "effect": "cha_effect_agent_enable_recruitment_assassin",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "agent_enable:assassin"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "cha_effect_agent_enable_recruitment_imam",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "agent_enable:imam"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "cha_effect_building_corruption_adjacent_province",
       "raw_scope": "province_to_province_own_adjacent",
       "reach": "adjacent",
-      "kind": "unmodeled",
+      "kind": "corruption_percent",
+      "metrics": [],
       "status": "requires_adjacency"
     },
     {
@@ -6044,6 +6438,7 @@
       "raw_scope": "province_to_regions_own_in_adjacent_province",
       "reach": "adjacent",
       "kind": "wealth_percent",
+      "metrics": [],
       "status": "requires_adjacency"
     },
     {
@@ -6051,6 +6446,7 @@
       "raw_scope": "building_to_building_own",
       "reach": "building",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "unmodeled"
     },
     {
@@ -6058,6 +6454,7 @@
       "raw_scope": "faction_to_faction_own_unseen",
       "reach": "faction",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "unmodeled"
     },
     {
@@ -6065,6 +6462,7 @@
       "raw_scope": "province_to_province_own",
       "reach": "province",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "unmodeled"
     },
     {
@@ -6072,76 +6470,105 @@
       "raw_scope": "province_to_province_own",
       "reach": "province",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "unmodeled"
     },
     {
       "effect": "cha_effect_region_resource_cloth_production",
       "raw_scope": "building_to_building_own",
       "reach": "building",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "resource:cloth"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "cha_effect_religion_conversion_christianity",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:christianity"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "cha_effect_religion_conversion_islam",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:islam"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "cha_effect_religion_conversion_paganism",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:paganism"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "cha_effect_religion_conversion_tengri",
       "raw_scope": "region_to_region_own",
       "reach": "region",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "religion:tengri"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "cha_effect_religion_osmosis_christianity",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "osmosis:christianity"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "cha_effect_religion_osmosis_islam",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "osmosis:islam"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "cha_effect_religion_osmosis_paganism",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "osmosis:paganism"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "cha_effect_religion_osmosis_tengri",
       "raw_scope": "province_to_province_own",
       "reach": "province",
-      "kind": "unmodeled",
-      "status": "unmodeled"
+      "kind": "metric",
+      "metrics": [
+        "osmosis:tengri"
+      ],
+      "status": "metric_option"
     },
     {
       "effect": "cha_effect_sanitation_buildings_adjacent_province",
       "raw_scope": "province_to_regions_own_in_adjacent_province",
       "reach": "adjacent",
       "kind": "sanitation",
+      "metrics": [],
       "status": "requires_adjacency"
     },
     {
@@ -6149,6 +6576,7 @@
       "raw_scope": "region_to_region_own",
       "reach": "region",
       "kind": "unmodeled",
+      "metrics": [],
       "status": "unmodeled"
     }
   ],

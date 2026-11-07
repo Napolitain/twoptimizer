@@ -58,10 +58,13 @@ class SolverOrTools(Solver):
 
     def create_variable(self, name: str, cat: str) -> None:
         self.variables_list.append((name, cat))
-        return None
 
     def create_constraint(
-        self, name: str, variables: list, variables2: list = None, constraint_fn=None
+        self,
+        name: str,
+        variables: list,
+        variables2: list | None = None,
+        constraint_fn=None,
     ):
         """
         Handles summation and constraint creation using pywraplp.LinearExpr.
@@ -104,7 +107,7 @@ class SolverOrTools(Solver):
     def get_problem_answers(self, parser: Parser):
         answers = []
         for v in self.variables():  # Ensure this returns OR-Tools decision variables
-            if v.name().startswith("__and_") or v.solution_value() < 0.5:
+            if v.name().startswith("__") or v.solution_value() < 0.5:
                 continue
             building_name = parser.get_name_from_use_name(
                 parser.get_entry_name(FullEntryName(v.name()), EntryType.BUILDING),
@@ -148,3 +151,6 @@ class SolverOrTools(Solver):
 
     def add_objective_terms(self, terms):
         self.solver.Maximize(self.solver.Sum(terms))
+
+    def create_auxiliary(self, name):
+        return self.solver.BoolVar(name)

@@ -40,16 +40,23 @@ def snapshot(
     objective="wealth",
     retain_economy=False,
     technologies=None,
+    scenario=None,
 ):
     """Use the existing engine, including its cross-region sanitation effects."""
     start = perf_counter()
     problem = Problem(
-        solver=SolverType.GOOGLE, objective=objective, technologies=technologies
+        solver=SolverType.GOOGLE,
+        objective=objective,
+        technologies=technologies,
+        scenario=scenario,
     )
-    problem.add_province(province)
+    provinces = province if isinstance(province, list) else [province]
+    for selected_province in provinces:
+        problem.add_province(selected_province)
     Games.fertility = fertility
     try:
-        for region in province.regions:
+        regions = [r for p in provinces for r in p.regions]
+        for region in regions:
             region.buildings = []
             region.add_buildings()
             region.filter_city_level(city_level)
@@ -58,11 +65,12 @@ def snapshot(
                 region.filter_military()
             region.filter_technologies()
             problem.problem.filter_added({b.name: b for b in region.buildings})
-        for region in province.regions:
+        for region in regions:
             region.add_constraints()
-        province.add_sanitation_constraint()
-        province.add_food_constraint()
-        province.add_public_order_constraint()
+        for selected_province in provinces:
+            selected_province.add_sanitation_constraint()
+            selected_province.add_food_constraint()
+            selected_province.add_public_order_constraint()
         problem.state = ProblemState.CONSTRAINTS_ADDED
         problem.add_objective()
         result = (
@@ -71,7 +79,8 @@ def snapshot(
         )
         return (*result, problem.economy) if retain_economy else result
     finally:
-        province.clean()
+        for selected_province in provinces:
+            selected_province.clean()
 
 
 def compare(
@@ -107,7 +116,7 @@ def compare(
             [
                 model.names[i]
                 for i, value in enumerate(values)
-                if value > 0.5 and not model.names[i].startswith("__and_")
+                if value > 0.5 and not model.names[i].startswith("__")
             ]
             if values is not None and not result.relaxation
             else None
@@ -155,6 +164,12 @@ def main(argv=None):
         "--seconds", type=float, default=5, help="Per-algorithm solve budget per case"
     )
     cli.add_argument("--seed", type=int, default=0)
+    cli.add_argument(
+        "--scenario", type=Path, help="Campaign inputs, targets and weights as JSON"
+    )
+    cli.add_argument(
+        "--joint", action="store_true", help="Optimize selected provinces together"
+    )
     cli.add_argument(
         "--workers", type=int, default=1, help="CP-SAT workers; other solvers unchanged"
     )
@@ -208,6 +223,15 @@ def main(argv=None):
         cli.error(
             "Budgets/counts must be positive and fertility must be finite and nonnegative"
         )
+    try:
+        scenario = json.loads(args.scenario.read_text()) if args.scenario else None
+        from games.tw.attila.scenario import Scenario
+
+        Scenario(scenario)
+    except (OSError, ValueError, TypeError) as error:
+        cli.error(f"Invalid scenario: {error}")
+    if args.objective == "legacy" and scenario:
+        cli.error("Campaign scenarios require wealth or income mode")
     parser = load_attila(
         AttilaGame.Factions[args.faction],
         AttilaGame.Religion[args.religion],
@@ -249,6 +273,7 @@ def main(argv=None):
         digest.update(path.read_bytes())
     settings = vars(args).copy()
     settings.pop("output")
+    settings["scenario"] = scenario
     report = {
         "settings": settings,
         "ortools_version": ortools.__version__,
@@ -256,27 +281,32 @@ def main(argv=None):
         "cases": [],
     }
     print(
-        f"{'Province':24} {'Fert':>5} {'Algorithm':12} {'Status':18} {'GDP':>10} {'Seconds':>8} {'Gap/bound':>10}"
+        f"{'Province':24} {'Fert':>5} {'Algorithm':12} {'Status':18} {'Objective':>10} {'Seconds':>8} {'Gap/bound':>10}"
     )
     for fertility in args.fertility:
-        for province in provinces:
-            model, build_seconds, economy = snapshot(
-                province,
-                fertility,
-                args.city_level,
-                args.building_level,
-                args.military,
-                args.objective,
-                retain_economy=True,
-                technologies=set()
-                if args.no_technologies
-                else None
-                if args.technology is None
-                else set(args.technology),
-            )
+        for group in [provinces] if args.joint else [[p] for p in provinces]:
+            province = group[0]
+            try:
+                model, build_seconds, economy = snapshot(
+                    group,
+                    fertility,
+                    args.city_level,
+                    args.building_level,
+                    args.military,
+                    args.objective,
+                    retain_economy=True,
+                    scenario=scenario,
+                    technologies=set()
+                    if args.no_technologies
+                    else None
+                    if args.technology is None
+                    else set(args.technology),
+                )
+            except (ValueError, TypeError) as error:
+                cli.error(str(error))
             case = {
-                "province": province.name,
-                "province_name": province.print_name,
+                "province": "joint" if args.joint else province.name,
+                "province_name": ", ".join(p.print_name for p in group),
                 "fertility": fertility,
                 "variables": len(model.names),
                 "constraints": len(model.lower),
@@ -309,7 +339,7 @@ def main(argv=None):
                     else f"{result['gap_to_bound_percent']:.2f}%"
                 )
                 print(
-                    f"{province.print_name[:24]:24} {fertility:5g} {result['algorithm']:12} "
+                    f"{case['province_name'][:24]:24} {fertility:5g} {result['algorithm']:12} "
                     f"{result['status']:18} {gdp:>10} {result['seconds']:8.3f} {gap:>10}"
                 )
     if args.output:

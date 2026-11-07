@@ -1,0 +1,12 @@
+{
+  "adjacency": {
+    "att_prov_aegyptus": ["att_prov_aethiopia"],
+    "att_prov_aethiopia": ["att_prov_aegyptus"]
+  },
+  "targets": [
+    {"metric": "research_percent", "scope": "faction", "value": 10}
+  ],
+  "external_effects": [
+    {"effect": "att_effect_economy_gdp_mod_industry", "scope": "province_to_regions_own_in_adjacent_province", "amount": 10, "region": "att_reg_aegyptus_alexandria"}
+  ]
+}

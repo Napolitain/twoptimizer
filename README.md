@@ -34,10 +34,11 @@ matches another algorithm's score.
 
 * `--objective wealth` (default): maximize building-generated wealth, including
   additive category and all-wealth percentage bonuses.
-* `--objective income`: apply building tax-rate modifiers at a neutral baseline
-  tax multiplier of 1, then subtract imported building upkeep. This is a static
-  building-income proxy, not a complete treasury forecast. It creates a larger
-  model; allow more time than for wealth.
+* `--objective income`: apply tax/corruption assumptions and building modifiers,
+  subtract imported upkeep, and add any supplied tariff/export revenue. Defaults
+  use a neutral tax multiplier of 1, zero corruption and no external revenue.
+  This is a static income proxy, not a complete treasury forecast. Allow more
+  time than for wealth.
 * `--objective legacy --building-level 4`: reproduce the historical base-GDP
   benchmark with its old effect interpretation and eligibility assumptions.
 
@@ -81,8 +82,8 @@ Unsupported military effects no longer cause an entire building to be deleted.
   rather than once per region. Immigration penalty percentages are not treated
   as flat public-order losses.
 * Faction bonuses can affect all owned provinces passed to one `Problem`.
-  Adjacent-province effects require an explicit adjacency mapping; conditional
-  food-sharing effects remain unmodeled until their condition is supplied.
+  Adjacent-province effects use the supplied adjacency mapping in a joint problem.
+  Conditional food-sharing effects use explicit recipient maps rather than an invented food-import rule.
 * Horde structures are excluded from settlement slots. Religious building
   eligibility follows the selected faith.
 
@@ -174,15 +175,15 @@ under the git-ignored `benchmark-results/` directory.
 ## Scope and validation
 
 This is a static settlement-building optimizer. It enforces nonnegative building
-food and public order and at least one net sanitation point per region. It does
-not simulate construction queues, upgrade histories, treasury budgets, growth,
-religious unrest, governors, external technologies' economic bonuses, corruption,
-trade agreements or campaign food imports. Imported construction costs/times are
-catalog facts, not a construction schedule. City capacity still follows the
-existing level-4 slot assumptions; lower-city scenarios need further validation.
-Immigration-related modifiers and conditional food-sharing effects are reported
-rather than assigned invented inputs. Additional campaign mechanics and data
-validation are still necessary before calling this a full game simulation.
+food and public order and at least one net sanitation point per region unless
+scenario thresholds specify otherwise. Growth, research, religious influence,
+resources and recruitment capabilities can now be targets or weighted preferences;
+the model does not simulate their evolution over time. It does not simulate
+construction queues, upgrade histories, battles, population conversion, trade
+diplomacy or the full campaign economy. Imported construction times remain catalog
+facts. City capacity still follows the existing level-4 slot assumptions;
+lower-city scenarios need further validation. Script-driven unlocks and several
+hidden flags remain unmodeled. The effect audit identifies these explicitly.
 
 The tests cover independently calculated scope examples, stacked sanitation,
 category modifiers, fertility interactions, exact Boolean products, exhaustive
@@ -217,3 +218,117 @@ A separate fresh six-case comparison used one worker and five seconds per solver
 These are single-run measurements. CP-SAT remains the default. `--workers 8`
 enables its parallel portfolio when useful; other solvers' thread settings are
 unchanged. The default remains one worker for reproducible comparisons.
+
+
+## Campaign options and priorities
+
+Pass `--scenario path.json` to use campaign inputs. The repository contains three
+illustrative scenarios; their numbers are example assumptions, not imported
+historical starting conditions:
+
+```sh
+.venv/bin/python -m games.tw.benchmark --province Aegyptus --fertility 5 \
+  --objective income --scenario games/tw/attila/scenarios/campaign-income.json \
+  --workers 8 --seconds 60 --output benchmark-results/campaign-income.json
+.venv/bin/python -m games.tw.benchmark --province Aegyptus --fertility 5 \
+  --scenario games/tw/attila/scenarios/priorities.json --workers 8 --seconds 60
+.venv/bin/python -m games.tw.benchmark --joint --province Aegyptus --province Aethiopia \
+  --fertility 5 --scenario games/tw/attila/scenarios/joint.json --workers 8 --seconds 120
+```
+
+`--joint` puts all selected provinces in one optimization problem. Faction bonuses,
+research targets, export revenue and adjacency are then coupled. Faction tariffs
+are counted once, not once per province. Without `--joint`, each province is an
+independent scenario; inputs that refer to unselected places are rejected.
+The API equivalent is `Problem(scenario=...)` with all participating provinces.
+
+The JSON keys are:
+
+| Key | Meaning |
+| --- | --- |
+| `provinces` | Province IDs mapped to base `corruption_percent` (0–100), baseline `tax_percent` (default 100), nonpositive `immigration_order`, fixed `public_order`/`food`, and `minimum_food`/`minimum_public_order` |
+| `regions` | Region IDs mapped to category/all `wealth_percent` bonuses, baseline `immigration_wealth`, fixed `food`/`sanitation`, and `minimum_sanitation` |
+| `external_effects` | Fixed governor/edict/technology effects: recognized `effect` ID, raw `scope`, `amount`, and source `region`; these are constants, not selectable buildings |
+| `base_tariffs` | Baseline faction tariff revenue, before building tariff modifiers |
+| `resource_prices` | Revenue per exported resource unit; used only for the income objective |
+| `resource_demand` | Optional export-volume caps; surplus units have no export value |
+| `adjacency` | Source province IDs mapped to adjacent selected province IDs; lists are explicit and directed |
+| `conditional_targets` | Effect IDs mapped to source-province/recipient-province lists for exceptional food-sharing/neighbor effects |
+| `targets` | Minimum required scoped effects: `metric`, `scope`, `target`, `value` |
+| `weights` | Optional GDP-equivalent preference coefficients with the same fields; changes the objective to a weighted score |
+| `projects` | Fixed future project quotes: `region`, `base_cost`, optional `name`, `sanitation`, `conversion` |
+| `project_budget` | Maximum total quoted cost of those future projects under the selected operating layout |
+
+Resource names include wood, wine, iron, lead, leather, marble, olive, salt, silk,
+spice, dyes, gem and cloth. Prices and demand are supplied by the scenario; the
+optimizer does not invent world-market prices or trade partners.
+
+Corruption modifiers are relative reductions of the supplied base corruption,
+not percentage-point deductions: 50% corruption with a -20% modifier becomes 40%.
+Relative modifiers stack additively before application to the base value.
+Effective corruption is clamped to [0,100]. Tax multipliers cannot become negative.
+Immigration order modifiers scale the supplied negative penalty and cannot turn
+it into a bonus; immigration wealth modifiers scale the supplied wealth input.
+The scenario must supply these baselines because they cannot be derived from
+building data alone. Category wealth bonuses from external effects are scoped
+through the same evaluator as building bonuses.
+
+Construction projects use general construction discounts plus sanitation discounts
+when applicable. Conversion projects use conversion discounts. Costs cannot go
+negative. These are quotes for **future projects under a selected operating
+layout**. They do not establish that the layout could finance or build itself,
+and do not simulate a construction order or treasury cash flow.
+
+Examples of metric names are `growth`, `research_percent`, `resource:wood`,
+`religion:orthodox`, `osmosis:orthodox`, `agent_enable:spy`, `agent_cap:dignitary`,
+`agent_xp:spy`, `recruitment_points`, `recruitment_xp:infantry`, and
+`equipment:armour:gold`. The complete set is `METRICS` in `effects.py`.
+`scope` is `region`, `province` or `faction`; the `target` is its exact ID
+(or `faction`, which may be omitted). Regional effects aggregate over recipient
+regions, provincial capabilities over recipient provinces, and global research
+and agent caps once per contributing source. Agent recruitment enablement is
+Boolean, so two spy-enabling buildings do not enable two distinct spy types.
+State-religion influence joins the selected faith; `religion:state` and the
+selected faith's specific metric are aliases. Do not weight both unless that
+double preference is intentional.
+
+These metrics measure effect totals/capabilities, not time forecasts or battle
+outcomes. A research-rate target does not guarantee that a technology finishes
+by a date. Religious influence/osmosis targets do not predict future population
+shares or unrest. Weighted objectives are labeled `weighted_wealth` or
+`weighted_income` in JSON; their scores must not be reported as pure GDP.
+
+Conditional recipients currently support
+`att_effect_public_order_base_neighbouring` and
+`att_effect_food_production_fertility_neighbouring`. The input declares where the
+condition holds; the model does not infer campaign food-routing conditions.
+Unknown keys, nonfinite numbers, invalid IDs and unsupported metrics are rejected.
+JSON reports include achieved metric targets, corruption, export revenue, project
+cost, and the active scenario inputs, alongside the existing regional breakdown.
+
+### Coverage after adding options
+
+The audit distinguishes options from automatically modeled quantities:
+
+| Status | Effect/scope combinations |
+| --- | ---: |
+| Core modeled economy | 37 |
+| Economic scenario options | 8 |
+| Scoped metric targets/preferences | 86 |
+| Supported with adjacency input | 5 |
+| Supported with explicit conditional recipients | 2 |
+| Still unmodeled | 10 |
+| Outside the settlement model (mostly army/horde) | 65 |
+
+The unmodeled settlement combinations fell from 103 to 10. The remaining entries
+include hidden trade-route flags, faction/script mechanics, wall/artillery flags,
+imperium and agent-defense mechanics. This expansion does not claim to simulate
+those or the 65 army/horde combinations. Run the audit to inspect each exact ID.
+
+The corruption interpretation is corroborated by the [in-game effect tooltip for
+Aksumite Monks’ Quarters](https://www.honga.net/totalwar/attila/building.php?b=att_bld_eos_religion_east_church_major_faction_1&f=att_fact_axum&l=en&v=attila), which describes a percentage of the current value.
+
+The three checked-in scenario examples were exercised end-to-end and proved
+optimal in this workspace. The default Aegyptus/fertility-5 wealth result remains
+18,675 without a scenario. These checks validate the model and its supplied
+inputs, not complete in-game fidelity.
