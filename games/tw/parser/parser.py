@@ -124,12 +124,12 @@ class Parser(abc.ABC):
         if entry_type == EntryType.BUILDING:
             for building in self.buildings[self.campaign.value[1]].values():
                 building_name = building.get_name()
-                if f"_{building_name}" in full_name.name:
+                if full_name.name.endswith(f"_{building_name}"):
                     return EntryName(building_name)
         elif entry_type == EntryType.REGION:
             for region in self.regions.values():
                 region_name = region.get_name()
-                if f"{region_name}_" in full_name.name:
+                if full_name.name.startswith(f"{region_name}_"):
                     return EntryName(region_name)
         elif entry_type == EntryType.PROVINCE:
             for province in self.provinces.values():

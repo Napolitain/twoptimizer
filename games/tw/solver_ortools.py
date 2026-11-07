@@ -7,8 +7,10 @@ from games.tw.solver import Solver
 
 
 class SolverOrTools(Solver):
-    def __init__(self):
-        self.solver = pywraplp.Solver.CreateSolver("CBC")  # Linear solver (supports LP problems)
+    def __init__(self, backend="CBC"):
+        self.solver = pywraplp.Solver.CreateSolver(backend)
+        if self.solver is None:
+            raise ValueError(f"OR-Tools backend {backend} is unavailable")
         self.objective = self.solver.Objective()
         self.objective.SetMaximization()
         self.variables_list = []  # Maintain variables for retrieval
@@ -40,7 +42,7 @@ class SolverOrTools(Solver):
 
     def variables(self):
         """Returns all decision variables."""
-        return [self.solver.LookupVariable(str(name)) for name in self.solver.variables()]
+        return self.solver.variables()
 
     def constraints(self):
         """Returns all added constraints."""
@@ -117,6 +119,8 @@ class SolverOrTools(Solver):
         return answers
 
     def filter_added(self, buildings: dict[str, object]):
+        # Variables may use hash names while callers key buildings by full name.
+        buildings = {building.get_name(): building for building in buildings.values()}
         for name, cat in self.variables_list:
             building = buildings.get(name)
             if building is not None:

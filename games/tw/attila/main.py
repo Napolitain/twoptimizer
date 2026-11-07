@@ -2,7 +2,7 @@
 # att_bld_roman_west_city_major_1
 import pathlib
 
-from games.tw.enums import NameType, ProblemState, SolverType
+from games.tw.enums import NameType, ProblemState
 from games.tw.games import Games
 from games.tw.models.game_attila import AttilaGame
 from games.tw.problem import Problem
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     parser.parse_start_pos_tsv(path)
 
     # Linear programming problem
-    lp_problem = Problem(solver=SolverType.PULP)
+    lp_problem = Problem()
     # lp_problem.add_provinces()
 
     # Options

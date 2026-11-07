@@ -8,12 +8,13 @@ from games.tw.enums import ProblemState, SolverType
 from games.tw.games import Games
 from games.tw.province import Province
 from games.tw.solver import Solver
+from games.tw.solver_cpsat import SolverCpSat
 from games.tw.solver_ortools import SolverOrTools
 from games.tw.solver_pulp import SolverPulp
 
 
 class Problem:
-    def __init__(self, solver=SolverType.PULP):
+    def __init__(self, solver=SolverType.CP_SAT):
         """
         Init a linear programming problem.
         """
@@ -28,9 +29,11 @@ class Problem:
         if self.solver_type == SolverType.PULP:
             return SolverPulp()
         elif self.solver_type == SolverType.SCIP:
-            return SolverPulp()
+            return SolverOrTools("SCIP")
         elif self.solver_type == SolverType.GOOGLE:
             return SolverOrTools()
+        elif self.solver_type == SolverType.CP_SAT:
+            return SolverCpSat()
         else:
             raise ValueError("Unknown solver.")
 
@@ -61,6 +64,7 @@ class Problem:
         for province in self.provinces:
             for region in province.regions:
                 region.add_buildings()
+                self.problem.filter_added({building.name: building for building in region.buildings})
         self.state = ProblemState.BUILDINGS_ADDED
 
     def buildings(self) -> List[Building]:
@@ -94,10 +98,9 @@ class Problem:
         """
         if self.state != ProblemState.OBJECTIVE_ADDED:
             raise ValueError("Objective must be added first.")
-        solver = PULP_CBC_CMD(msg=verbose)
         start_time = perf_counter_ns()
         if self.solver_type == SolverType.PULP:
-            self.problem.solve(solver=solver)
+            self.problem.solve(solver=PULP_CBC_CMD(msg=verbose))
         else:
             self.problem.solve()
         end_time = perf_counter_ns()
@@ -133,7 +136,7 @@ class Problem:
             print(f"{region_name}: {building_name}")
 
     def dump(self, path: str):
-        if self.solver_type == SolverType.GOOGLE:
+        if self.solver_type in (SolverType.GOOGLE, SolverType.SCIP, SolverType.CP_SAT):
             # Assuming self.problem.solver is an instance of pywraplp.Solver
             if path.endswith('.lp'):
                 model_str = self.problem.solver.ExportModelAsLpFormat(False)

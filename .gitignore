@@ -2,3 +2,6 @@
 *.pyc
 *.pyo
 *.lp
+
+.venv/
+benchmark-results/
