@@ -14,7 +14,8 @@ python -m venv .venv
 
 The default solver is native CP-SAT. The default scenario uses Eastern Roman
 Empire buildings, Orthodox religion, level-4 cities, all available nonmilitary
-building levels, and all technologies unlocked. Without `--province`, the runner
+building levels, all technology effects, and the **income** objective. Technologies
+that disable legacy unlocks are respected. Without `--province`, the runner
 covers all 62 map provinces at fertility 0 and 5; these are hypothetical owned
 provinces, not the faction's starting territory.
 
@@ -23,6 +24,10 @@ fertility; province public order; solver status, objective and bound; data
 fingerprint; and an explicit list of unmodeled effects. Auxiliary product variables
 are excluded from the building list. Every candidate layout is checked against
 the compiled constraints and the separate layout evaluator.
+`layout.finances` separates gross wealth, tax bonuses, corruption losses,
+building upkeep, trade, tribute/subsidies and recurring net income.
+`faction_traits`, `imported_modifiers` and `catalogue_exclusions` expose the
+active facts, conditional inputs and missing building metadata.
 
 `OPTIMAL` means the solver proved the optimum of this stated model. `FEASIBLE`
 means an incumbent was found with a remaining bound; `INFEASIBLE` is a proof that
@@ -32,12 +37,14 @@ matches another algorithm's score.
 
 ### Objectives and scenarios
 
-* `--objective wealth` (default): maximize building-generated wealth, including
+* `--objective wealth`: maximize building-generated wealth, including
   additive category and all-wealth percentage bonuses.
-* `--objective income`: apply tax/corruption assumptions and building modifiers,
-  subtract imported upkeep, and add any supplied tariff/export revenue. Defaults
+* `--objective income` (default): apply tax/corruption assumptions and building modifiers,
+  subtract imported upkeep, and add supplied trade, tribute and subsidies. Defaults
   use a neutral tax multiplier of 1, zero corruption and no external revenue.
-  This is a static income proxy, not a complete treasury forecast. Allow more
+  This is a static income proxy, not a complete treasury forecast. ERE's +8%
+  provincial governor tax bonus counts here. Treasury interest is deliberately
+  excluded from this objective. Allow more
   time than for wealth.
 * `--objective legacy --building-level 4`: reproduce the historical base-GDP
   benchmark with its old effect interpretation and eligibility assumptions.
@@ -53,9 +60,15 @@ matches another algorithm's score.
 
 Technology arguments use the imported display names. Repeated `--technology`
 arguments define the researched set; `--no-technologies` defines an empty set.
-No technology arguments means all technologies are available. Requirements stay
+No technology arguments means all imported technologies are researched, except
+legacy technologies disabled by subsequent research. Imported tax, wealth,
+corruption and public-order technology effects apply automatically. Requirements stay
 specific to the culture. Missing metadata raises an error when a requested
 restriction cannot be checked; it is never interpreted as a free building.
+In income mode, buildings without imported upkeep/availability metadata are
+excluded and listed by name in `catalogue_exclusions`. This is a known coverage
+gap, not a claim that those buildings are unavailable in the game. Wealth mode
+can still inspect the older, wider roster. The original tables are retained.
 Fertility is an explicit scenario input; historical regional fertility has not
 been imported or inferred from a modern map.
 
@@ -107,6 +120,8 @@ No installed game is needed for the checked-in snapshot or the online importer.
 
 ```sh
 .venv/bin/python -m games.tw.attila.tools.import_online
+.venv/bin/python -m games.tw.attila.tools.import_factions
+.venv/bin/python -m games.tw.attila.tools.import_modifiers
 .venv/bin/python -m games.tw.attila.tools.audit_data
 ```
 
@@ -131,6 +146,15 @@ cross-check has 6,242 matching numeric observations, including percentage bonuse
 and no disagreements for the Eastern Roman culture. Other reported differences
 include horde/migration scope contexts; the original effect table is never
 silently overwritten.
+
+`online_factions.json` adds 140 Grand Campaign faction entries from
+[Honga](https://www.honga.net/totalwar/attila/faction.php?f=att_fact_eastern_roman_empire&l=en).
+Ruling-party and shared culture effects are retained separately from opposition
+party effects. `online_modifiers.json` adds all 29 playable faction technology
+trees and all 14 state religions from [TW Database](https://twdatabase.com/attila/religions).
+Those pages declare the same Steam build as the building snapshot; Honga does
+not declare a patch version. Their facts are references, not in-game validation.
+Both importers cache responses and support `--offline`; unexpected formats fail.
 
 Responses are cached in `.cache/attila-online/` (git-ignored). Replay without
 network access with `--offline`. To fetch a fresh source snapshot, choose a new
@@ -198,6 +222,10 @@ parser still lacks checked-in province and region name tables.
 
 ### Verified run in this workspace
 
+The wealth measurements below predate automatic technology/faction/religion
+modifiers and the change to income as the default. They are historical results
+for the narrower model, not measurements of the new default.
+
 The revised wealth model was checked over all 124 default cases. The initial
 five-second run proved 113 optimal; the remaining 11 were resolved with a
 60-second budget. All 124 layouts were validated against the current model.
@@ -258,6 +286,8 @@ The JSON keys are:
 | `weights` | Optional GDP-equivalent preference coefficients with the same fields; changes the objective to a weighted score |
 | `projects` | Fixed future project quotes: `region`, `base_cost`, optional `name`, `sanitation`, `conversion` |
 | `project_budget` | Maximum total quoted cost of those future projects under the selected operating layout |
+| `campaign` | Optional `province_capitals_held`, `active_trade_routes`, `base_tribute`, `at_peace_with_sassanids`, and explicit `poor_fertility_regions` |
+| `faction_traits`, `technology_effects`, `religion_traits` | Booleans, default true; disable individual imported modifier sources for controlled comparisons |
 
 Resource names include wood, wine, iron, lead, leather, marble, olive, salt, silk,
 spice, dyes, gem and cloth. Prices and demand are supplied by the scenario; the
@@ -272,6 +302,11 @@ it into a bonus; immigration wealth modifiers scale the supplied wealth input.
 The scenario must supply these baselines because they cannot be derived from
 building data alone. Category wealth bonuses from external effects are scoped
 through the same evaluator as building bonuses.
+`provinces.*.religious_order` supplies a nonpositive religious-unrest baseline;
+researched reductions scale that penalty, rather than becoming flat public order.
+Project quotes can specify `main_settlement: true` or a `category` of `main`,
+`civic`, `agriculture`, `industry`, `religious` or `military`, so imported
+construction discounts affect the appropriate future project only.
 
 Construction projects use general construction discounts plus sanitation discounts
 when applicable. Conversion projects use conversion discounts. Costs cannot go
@@ -329,6 +364,52 @@ The corruption interpretation is corroborated by the [in-game effect tooltip for
 Aksumite Monks’ Quarters](https://www.honga.net/totalwar/attila/building.php?b=att_bld_eos_religion_east_church_major_faction_1&f=att_fact_axum&l=en&v=attila), which describes a percentage of the current value.
 
 The three checked-in scenario examples were exercised end-to-end and proved
-optimal in this workspace. The default Aegyptus/fertility-5 wealth result remains
-18,675 without a scenario. These checks validate the model and its supplied
+optimal before automatic campaign modifiers were enabled. The earlier
+Aegyptus/fertility-5 wealth result was 18,675 without a scenario. These checks validate the model and its supplied
 inputs, not complete in-game fidelity.
+
+## Compare civilizations by recurring income
+
+```sh
+.venv/bin/python -m games.tw.faction_comparison --seconds 15 --workers 8
+.venv/bin/python -m games.tw.faction_comparison --resume --seconds 60 --workers 8
+```
+
+The default comparison covers all 27 settled playable factions in Aegyptus,
+Thracia and Germania, with fertility 5, common Orthodox religion, level-4 cities
+and researched technology effects. Huns and White Huns are explicitly excluded
+because settlement slots cannot represent a horde economy. Migratory factions
+are compared after settlement. Each province is an independent hypothetical
+holding: the default capital count is the number of selected capitals, not the
+faction's historical holdings. `--all-factions` also includes NPC aliases; their
+technology profile uses a labeled culture representative when an individual tree
+was not imported. Repeated `--province` and `--religion` change the scenario.
+
+The report writes an income table as CSV and JSON with layouts, income breakdowns,
+bounds, source hashes, exclusions and unsupported effects. Identical compiled
+models can share an optimality proof; every reused layout is validated against
+the receiving model. `--resume` reruns unfinished proofs without repeating proved
+cases. These are optimums of the declared model, not full campaign rankings.
+
+The checked-in [income table](reports/attila-income-comparison.csv) and
+[assumptions and bounds](reports/attila-income-comparison.json) record this run:
+81 optimal province/faction cases, with 27 unpriced building variants disclosed.
+The full generated layouts are in `benchmark-results/factions/income.json`.
+
+Automatically applied economic traits include ERE tariffs, Garamantian fertility,
+desert sanitation, Venedian farming bonuses, removal of farm order/squalor
+penalties, other wealth penalties, and
+Eastern sanitation per owned province capital. Aksum's trade income modifier is
+applied after tariff/export income. Its food bonus needs `active_trade_routes`;
+Sassanid tribute needs `base_tribute`; Lakhmid peace income needs an explicit peace
+state. Poor-fertility food recipients are explicit because the source does not
+give a numeric fertility threshold. Religious unrest and public-order bonuses
+depending on religious presence are not inferred from influence points.
+
+Important gaps remain: some unique/legacy buildings lack imported metadata;
+some faction scripts and religious-presence effects are unmodeled; starting
+territories, governors, edicts, difficulty, trade partners, military expenses,
+construction sequences and cash flow require further campaign inputs/modeling.
+The audit now includes faction, technology and religion fact coverage alongside
+the original building-effect coverage. The solver does not assert exhaustive
+Attila simulation.

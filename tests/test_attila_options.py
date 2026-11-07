@@ -216,7 +216,7 @@ def test_metric_weight_can_change_choice_and_external_wealth_is_constant():
     )
     assert (
         problem.economy.evaluate_layout({"library"})["objective_kind"]
-        == "weighted_wealth"
+        == "weighted_income"
     )
 
 

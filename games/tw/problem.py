@@ -29,7 +29,7 @@ class Problem:
         if objective is None:
             campaign = getattr(Games.instance, "campaign", None)
             objective = (
-                "wealth"
+                "income"
                 if campaign is None or isinstance(campaign, AttilaCampaign)
                 else "legacy"
             )
@@ -39,6 +39,24 @@ class Problem:
             raise ValueError("Scenarios require wealth or income mode")
         self.objective_mode = objective
         self.technologies = None if technologies is None else frozenset(technologies)
+        self.technology_profile = None
+        if (
+            objective != "legacy"
+            and getattr(Games.instance, "faction", None) is not None
+        ):
+            from games.tw.attila.modifiers import technology_profile
+            from games.tw.attila.scenario import Scenario
+
+            scenario_data = (
+                scenario.data if isinstance(scenario, Scenario) else scenario or {}
+            )
+            self.technology_profile = technology_profile(
+                Games.instance,
+                technologies,
+                scenario_data.get("technology_effects", True),
+            )
+            if self.technology_profile is not None and technologies is not None:
+                self.technologies = frozenset(self.technology_profile["active"])
         self.scenario = scenario
         self.adjacency = adjacency
         self.economy = None
@@ -46,6 +64,13 @@ class Problem:
         self.solver_type = solver
         self.problem = self.get_solver()
         self.problem.technologies = self.technologies
+        self.problem.disabled_technologies = (
+            set(self.technology_profile["disabled_legacy"])
+            if self.technology_profile
+            else set()
+        )
+        self.problem.require_income_metadata = objective == "income"
+        self.problem.catalogue_exclusions = []
         self.state = ProblemState.INIT
         self.global_time = 0
         Games.problem = self.problem
@@ -120,7 +145,10 @@ class Problem:
         else:
             from games.tw.attila.economy import Economy
 
-            self.economy = Economy(self.provinces, self.adjacency, self.scenario)
+            self.economy = Economy(
+                self.provinces, self.adjacency, self.scenario, self.technology_profile
+            )
+            self.economy.catalogue_exclusions = self.problem.catalogue_exclusions
             self.economy.install_constraints(self.problem)
             self.problem.add_objective_terms(
                 self.economy.compile(
@@ -132,6 +160,13 @@ class Problem:
     def reset_problem(self) -> None:
         self.problem = self.get_solver()
         self.problem.technologies = self.technologies
+        self.problem.disabled_technologies = (
+            set(self.technology_profile["disabled_legacy"])
+            if self.technology_profile
+            else set()
+        )
+        self.problem.require_income_metadata = self.objective_mode == "income"
+        self.problem.catalogue_exclusions = []
         self.provinces = []
         self.economy = None
         self.state = ProblemState.INIT

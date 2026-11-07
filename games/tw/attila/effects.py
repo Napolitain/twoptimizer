@@ -119,6 +119,9 @@ def reach(scope):
 
 
 def entries(building):
+    if hasattr(building, "semantic_effects"):
+        yield from building.semantic_effects
+        return
     if building.raw_effects:
         for (key, scope), amount in building.raw_effects.items():
             yield key, RULES.get(key, Rule("unmodeled")), reach(scope), amount
@@ -169,6 +172,9 @@ RULES.update(
         "att_effect_building_conversion_cost_mod": Rule("conversion_cost_percent"),
         "att_effect_province_growth_building": Rule("metric", ("growth",)),
         "att_effect_technology_research_points": Rule("metric", ("research_percent",)),
+        "att_effect_technology_research_civil_points": Rule(
+            "metric", ("research_civil_percent",)
+        ),
         "att_effect_building_road": Rule("metric", ("roads",)),
         # The recipients of this exceptional scope must be supplied explicitly.
         "att_effect_food_production_fertility_neighbouring": Rule(

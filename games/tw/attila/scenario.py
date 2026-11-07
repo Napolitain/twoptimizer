@@ -22,8 +22,44 @@ class Scenario:
             "weights",
             "projects",
             "project_budget",
+            "campaign",
+            "faction_traits",
+            "technology_effects",
+            "religion_traits",
         }
         self.keys(self.data, allowed, "scenario")
+        for key in ("faction_traits", "technology_effects", "religion_traits"):
+            if key in self.data and not isinstance(self.data[key], bool):
+                raise ValueError(f"{key} must be Boolean")
+        campaign = self.data.get("campaign", {})
+        self.keys(
+            campaign,
+            {
+                "province_capitals_held",
+                "active_trade_routes",
+                "base_tribute",
+                "at_peace_with_sassanids",
+                "poor_fertility_regions",
+            },
+            "campaign",
+        )
+        for key in ("province_capitals_held", "active_trade_routes"):
+            if key in campaign and (
+                isinstance(campaign[key], bool)
+                or not isinstance(campaign[key], int)
+                or campaign[key] < 0
+            ):
+                raise ValueError(f"{key} must be a nonnegative integer")
+        self.number(campaign.get("base_tribute", 0), nonnegative=True)
+        if "at_peace_with_sassanids" in campaign and not isinstance(
+            campaign["at_peace_with_sassanids"], bool
+        ):
+            raise ValueError("at_peace_with_sassanids must be Boolean")
+        if "poor_fertility_regions" in campaign and (
+            not isinstance(campaign["poor_fertility_regions"], list)
+            or not all(isinstance(r, str) for r in campaign["poor_fertility_regions"])
+        ):
+            raise ValueError("poor_fertility_regions must be a list of region IDs")
         for key in (
             "provinces",
             "regions",
@@ -44,6 +80,7 @@ class Scenario:
                     "corruption_percent",
                     "tax_percent",
                     "immigration_order",
+                    "religious_order",
                     "public_order",
                     "food",
                     "minimum_food",
@@ -87,7 +124,10 @@ class Scenario:
                             raise ValueError("Corruption must be in [0,100]")
                         if key in ("tax_percent", "immigration_wealth") and value < 0:
                             raise ValueError(f"{key} must be nonnegative")
-                        if key == "immigration_order" and value > 0:
+                        if (
+                            key in ("immigration_order", "religious_order")
+                            and value > 0
+                        ):
                             raise ValueError(
                                 "immigration_order is a nonpositive base penalty"
                             )
@@ -140,11 +180,28 @@ class Scenario:
                 raise ValueError("Missing required project fields")
             self.keys(
                 project,
-                {"name", "region", "base_cost", "sanitation", "conversion"},
+                {
+                    "name",
+                    "region",
+                    "base_cost",
+                    "sanitation",
+                    "conversion",
+                    "main_settlement",
+                    "category",
+                },
                 "project",
             )
             self.number(project["base_cost"], nonnegative=True)
-            for key in ("sanitation", "conversion"):
+            if "category" in project and project["category"] not in {
+                "main",
+                "civic",
+                "agriculture",
+                "industry",
+                "religious",
+                "military",
+            }:
+                raise ValueError("Invalid construction project category")
+            for key in ("sanitation", "conversion", "main_settlement"):
                 if key in project and not isinstance(project[key], bool):
                     raise ValueError(f"{key} must be Boolean")
         if "project_budget" in self.data:
@@ -174,6 +231,11 @@ class Scenario:
     def bind(self, provinces):
         province_ids = {p.name for p in provinces}
         region_ids = {r.name for p in provinces for r in p.regions}
+        if (
+            set(self.data.get("campaign", {}).get("poor_fertility_regions", []))
+            - region_ids
+        ):
+            raise ValueError("Unknown poor fertility regions")
         for key, known in (("provinces", province_ids), ("regions", region_ids)):
             if set(self.data.get(key, {})) - known:
                 raise ValueError(f"Unknown or unselected {key} in scenario")

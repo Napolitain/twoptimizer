@@ -1,0 +1,28 @@
+faction_id,civilization,Aegyptus,Thracia,Germania,status
+att_fact_garamantes,Garamantians,25993.465,26700.715,29174.215,OPTIMAL
+att_fact_western_roman_empire,Western Roman Empire,24581.0,24691.0,26236.025,OPTIMAL
+att_fact_axum,Aksum,23547.61,24586.96,26977.72,OPTIMAL
+att_fact_himyar,Himyar,23547.61,24586.96,26977.72,OPTIMAL
+att_fact_lakhmids,Lakhmids,23547.61,24586.96,26977.72,OPTIMAL
+att_fact_tanukhids,Tanukhids,23547.61,24586.96,26977.72,OPTIMAL
+att_fact_eastern_roman_empire,Eastern Roman Empire,23778.125,24140.375,25696.5625,OPTIMAL
+att_fact_sassanid_empire,Sassanid Empire,23245.645000000004,23768.395000000004,25526.690000000002,OPTIMAL
+att_fact_votadini,Caledonians,17437.21,16737.1,18487.98,OPTIMAL
+att_fact_ebdani,Ebdanians,17437.21,16737.1,18487.98,OPTIMAL
+att_fact_picti,Picts,17437.21,16737.1,18487.98,OPTIMAL
+att_fact_venedi,Venedians,17050.75,16739.725,18796.525,OPTIMAL
+att_fact_antes,Anteans,17627.15,16602.225,17725.4,OPTIMAL
+att_fact_sclaveni,Sclavenians,17627.15,16602.225,17725.4,OPTIMAL
+att_fact_alamanni,Alamans,16874.8,15589.6,17151.75,OPTIMAL
+att_fact_alani,Alans,16874.8,15589.6,17151.75,OPTIMAL
+att_fact_burgundii,Burgundians,16874.8,15589.6,17151.75,OPTIMAL
+att_fact_dani,Danes,16874.8,15589.6,17151.75,OPTIMAL
+att_fact_franci,Franks,16874.8,15589.6,17151.75,OPTIMAL
+att_fact_gauti,Geats,16874.8,15589.6,17151.75,OPTIMAL
+att_fact_iuti,Jutes,16874.8,15589.6,17151.75,OPTIMAL
+att_fact_langobardi,Langobards,16874.8,15589.6,17151.75,OPTIMAL
+att_fact_ostrogothi,Ostrogoths,16874.8,15589.6,17151.75,OPTIMAL
+att_fact_saxones,Saxons,16874.8,15589.6,17151.75,OPTIMAL
+att_fact_suebi,Suebians,16874.8,15589.6,17151.75,OPTIMAL
+att_fact_vandali,Vandals,16874.8,15589.6,17151.75,OPTIMAL
+att_fact_visigothi,Visigoths,16874.8,15589.6,17151.75,OPTIMAL

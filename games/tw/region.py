@@ -84,7 +84,8 @@ class Region(RegionBase, Entity):
             Games.instance.get_campaign().value[1]
         ].values():
             if not Games.legacy_effects and any(
-                marker in building.name for marker in ("_barbmigs_", "_nomad_")
+                marker in building.name
+                for marker in ("_barbmigs_", "_nomad_", "_eastmig_")
             ):
                 continue  # Horde structures are not province building slots.
             # Filter out buildings that are not of the campaign to reduce the number of LpVariables.
@@ -136,6 +137,36 @@ class Region(RegionBase, Entity):
 
     def filter_technologies(self):
         researched = getattr(Games.problem, "technologies", None)
+        if not Games.legacy_effects and getattr(
+            Games.problem, "require_income_metadata", False
+        ):
+            for i, building in reversed(list(enumerate(self.buildings))):
+                if building.metadata is None:
+                    Games.problem.catalogue_exclusions.append(
+                        {
+                            "building": building.name,
+                            "reason": "Missing imported upkeep/availability metadata; not assumed free",
+                        }
+                    )
+                    self.buildings.pop(i)
+        disabled = getattr(Games.problem, "disabled_technologies", set())
+        if not Games.legacy_effects and researched is None and disabled:
+            from games.tw.attila.catalogue import CULTURE_SLUGS
+
+            parser = Games.instance.get_parser()
+            culture = CULTURE_SLUGS[
+                parser.faction_to_culture[parser.faction.value].subculture
+            ]
+            for i, building in reversed(list(enumerate(self.buildings))):
+                if building.metadata is not None:
+                    requirements = building.metadata["requirements_by_culture"].get(
+                        culture, []
+                    )
+                    if any(
+                        alternatives and set(alternatives) <= disabled
+                        for alternatives in requirements
+                    ):
+                        self.buildings.pop(i)
         if not Games.legacy_effects and researched is not None:
             from games.tw.attila.catalogue import CULTURE_SLUGS, technology_available
 

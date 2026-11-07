@@ -98,6 +98,8 @@ class ParserAttila(Parser):
         aliases = {
             "eastern": ("eastern", "east_church"),
             "tengris": ("tengri", "tengris"),
+            "slavic": ("slav",),
+            "semitic_paganism": ("semitic",),
         }
         return any(
             alias in building_id1

@@ -5,9 +5,61 @@ import csv
 import json
 from collections import Counter, defaultdict
 from pathlib import Path
+from types import SimpleNamespace
 
 from games.tw.attila.effects import RULES, Reach, reach
 from games.tw.attila.tools.import_online import DATA
+
+
+def audit_campaign_modifiers():
+    from games.tw.attila.modifiers import catalog, modifier_profile
+    from games.tw.attila.traits import profile
+
+    data = catalog()
+    factions = json.loads((DATA / "online_factions.json").read_text())["factions"]
+    faction_facts = [
+        {"faction": f, **record} for f in factions for record in profile(f)["traits"]
+    ]
+    technology_facts = []
+    for faction, slug in data["faction_slugs"].items():
+        if (
+            "separatist" in faction
+            or "rebel" in faction
+            or not profile(faction)["ruling_party_identified"]
+        ):
+            continue
+        game = SimpleNamespace(faction=SimpleNamespace(value=faction), religion=None)
+        report, _ = modifier_profile(game)
+        technology_facts.extend({"tree": slug, **fact} for fact in report["facts"])
+    religion_facts = []
+    from games.tw.attila.modifiers import RELIGION_KEYS
+
+    for faith in RELIGION_KEYS:
+        game = SimpleNamespace(
+            faction=SimpleNamespace(value="att_fact_eastern_roman_empire"),
+            religion=SimpleNamespace(value=faith),
+        )
+        report, _ = modifier_profile(game, scenario={"technology_effects": False})
+        religion_facts.extend({"religion": faith, **fact} for fact in report["facts"])
+    return {
+        "faction_entries": len(factions),
+        "technology_trees": len(data["technologies"]),
+        "religions": len(data["religions"]["records"]),
+        "coverage": {
+            name: dict(Counter(f["status"] for f in facts))
+            for name, facts in (
+                ("faction_traits", faction_facts),
+                ("active_technology_facts", technology_facts),
+                ("state_religion_facts", religion_facts),
+            )
+        },
+        "unmodeled": [
+            f
+            for f in faction_facts + technology_facts + religion_facts
+            if f["status"] == "unmodeled"
+        ],
+        "note": "Supported conditional faction traits still need campaign inputs. Interest is excluded by the requested objective. Missing building metadata is reported separately in each layout's catalogue_exclusions.",
+    }
 
 
 def audit(data_dir=DATA):
@@ -93,6 +145,7 @@ def audit(data_dir=DATA):
         "online_numeric_matches": matches,
         "online_numeric_differences": differences,
         "effects": details,
+        "campaign_modifiers": audit_campaign_modifiers(),
         "note": "Third-party cross-check, not proof of in-game fidelity. Contextual/horde differences are retained; original effects are not overwritten.",
     }
 

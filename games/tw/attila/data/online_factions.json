@@ -1,0 +1,2340 @@
+{
+  "schema_version": 1,
+  "imported_at_utc": "2026-11-07T10:25:40.015678+00:00",
+  "verification": "third_party_reference_not_in_game_validation; source patch unspecified",
+  "factions": {
+    "att_fact_abarshahr": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_abarshahr",
+      "sha256": "196bf4c5a535b30e523f8569b8e25c69851b09137641ae95d927e7fcd33f4178",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_abasgia": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_abasgia",
+      "sha256": "3b5941b178367b545bd4f4b556a4ef0cf19d22b53e7dab07eb64b08bdbb7b7b2",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_aegyptus": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_aegyptus",
+      "sha256": "25b88cf64a2a843235bd95ca9c070098349262edf89466f32fa0b0e430fe62c4",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_africa": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_africa",
+      "sha256": "a71f7a3cce97126b2b152d18c3cd44f10169413bb7485b066dd0cbcff8b28c9b",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_afrighids": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_afrighids",
+      "sha256": "e23bec45be5cb95ab705e9633ac0ba52757db395215f95d0958b1883a07b3b66",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_alamanni": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_alamanni",
+      "sha256": "9b63e5e30d5def294bd90644d5d62a7b6edceee46c3a507d4563187169a74ba6",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Royal Splendour: +50% to general's radius of influence.",
+        "Frontiersmen: +15 melee attack versus Romans.",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_alani": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_alani",
+      "sha256": "a9589b6de397ec34f856f5be21b09ea17bad4f59e139b4fdfad8fa185fc7480f",
+      "culture_traits": [
+        "+250% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Growth: +250 when initiating a migration or resettling",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Battle experience gain rate: +100% for cavalry units",
+        "No post-battle casualties for cavalry units which have routed or withdrawn from battle",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_anatolia": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_anatolia",
+      "sha256": "ff6b68a389938000be162a67b80a1dc93d73ae01692b13cbc176b75b713c3d8d",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_angli": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_angli",
+      "sha256": "0c16f6c6e98cda71731059ec55e8910fb9c62fd7c446b2bc17f3ef181ce25bf5",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_antes": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_antes",
+      "sha256": "1e65f92795ac735b1694a82e9bdb0d343d706dbff754f5f4fc33ff1f926ed8f8",
+      "culture_traits": [
+        "Attrition: Immune to snow attrition",
+        "No colonisation cost",
+        "Construction cost: -50% for main settlement buildings"
+      ],
+      "faction_traits": [
+        "Morale: +20 when fighting in a forest",
+        "Morale: -10 when fighting on grassland or desert plains",
+        "Morale: +20 when fighting a river battle",
+        "Melee Attack: +20 when fighting in a forest",
+        "Melee Attack: -10 when fighting on grassland or desert plains",
+        "Melee Attack: +20 when fighting a river battle",
+        "Melee Defence: +20 when fighting in a forest",
+        "Melee Attack: -10 when fighting on grassland or desert plains",
+        "Melee Defence: +20 when fighting a river battle",
+        "Morale, Melee Defence, Melee Attack: +20 and Melee Damage: +20% when fighting in a forest",
+        "Morale, Melee Defence, Melee Attack: -10 and Melee Damage: -10% when fighting on grassland or open fields",
+        "Melee Damage: +20 when fighting in a forest",
+        "Melee Damage: -10 when fighting on grassland or desert plains",
+        "Morale: +20 when fighting a river battle",
+        "Morale, Melee Defence, Melee Attack: +20 and Melee Damage: +20% when fighting a river battle"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_aria": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_aria",
+      "sha256": "d8047946d129b67125408ac680b226738b0a171b80ca73c3fbc4ba7ac47ca215",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_armenia": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_armenia",
+      "sha256": "3c369b94b654939497ed17b3dfb56588d0106fb9fc57236a407c8af5d9bbc107",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_arran": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_arran",
+      "sha256": "4deada58d09efdb8a9cba3bb22f5d2fd5f3a1b8b9f7c989171a1b90aee62c8ca",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_asia": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_asia",
+      "sha256": "e6479452a021d6a36fbf46eb3cace567d64572f5e634c7d6a325e5e1ee072b22",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_aturpatakan": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_aturpatakan",
+      "sha256": "8a537dbd2c5fae22bcca18815c7bf984450ccebb60b10be73860c0aad35e4008",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_axum": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_axum",
+      "sha256": "3a93483a712765296d69577a868e039561565e00cfa3cafbe168c8b89e48f3d2",
+      "culture_traits": [
+        "Scourge of the Desert: +15 melee attack during desert battles",
+        "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "Attrition: Immune to desert attrition",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents",
+        "Sunscorched: +2 sanitation"
+      ],
+      "faction_traits": [
+        "Supply Network: +30 food from each active trade route (Maximum: 150)",
+        "Merchant Guards: +100% to mercenary pool replenishment rate",
+        "Commercial Mastery: +10% from trade income"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_bastarnae": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_bastarnae",
+      "sha256": "908cfb150dcc3055902aaaa776bac0bc8bd35d87ba7ab1eff8afe0ad6565a067",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_blue": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_blue",
+      "sha256": "2f621f87ee10803c0c99d7bd77c8675642380e9c66a6ea9e3d9507bd9c9919d3",
+      "culture_traits": [],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_britannia": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_britannia",
+      "sha256": "7f07acfe2aabeaa6546eefc9fffcb47a46de77aed512c04dc04ed377a3b0580a",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_budini": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_budini",
+      "sha256": "1772e84a6092e571b188fa3ed9683791ea20715de52811475cb11fece774bb41",
+      "culture_traits": [
+        "Enemy morale: -10 when fighting Christian factions",
+        "[Not displayed] Building set used when a new hunnic horde spawns"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_burgundii": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_burgundii",
+      "sha256": "c0952ce62288245a04ba36e86fc159f4c813b932855efc2aac8b20566ee5a20e",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Icy Determination: +10% unit replenishment",
+        "Harsh Sustenance: +15 food for every region with poor fertility.",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_dacia": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_dacia",
+      "sha256": "b8fa7c7cc26abaf26c2e6e68ca56cf6a9a07677fa5d69c4665d48181f18fe5d2",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_dani": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_dani",
+      "sha256": "f1163ce3df4997b223d7e542d5dd7aa5b1101d591b3e9b2b7f5a462019a4f243",
+      "culture_traits": [
+        "+250% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Income: +75% from sacking, looting and raiding",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Immune to seasickness",
+        "Immune to high-seas attrition",
+        "[NOT DISPLAYED] Provincial security: +3 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_eastern_roman_empire": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_eastern_roman_empire",
+      "sha256": "3826242317f3193f115f81bce0428e2fed41b50a92409f26f113390dff23db7b",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Income: +5% interest on treasury at end of turn",
+        "Trade tariffs: +50%",
+        "[NOT DISPLAYED] Provincial security: +3 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_ebdani": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_ebdani",
+      "sha256": "2786c5333486cae95af6e8a7c81c2e40eb6accb5ad371868b76c0253f368685d",
+      "culture_traits": [
+        "+250% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "All units have guerrilla deployment.",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents",
+        "-15% movement speed reduction in raiding stance .",
+        "Raiding income in neutral territory: +200%",
+        "Raiding income in enemy territory: +200%"
+      ],
+      "faction_traits": [
+        "Income: +100 for every 10% damage caused to settlements during a battle.",
+        "[NOT DISPLAYED] Provincial security: +3 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents",
+        "Sacking and Looting income: +75%"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_franci": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_franci",
+      "sha256": "5c1b5e91b824428ac461065d904b6cdd99b0195bac6277dfa7fdfc095255502f",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Integrity: -50% penalty from casualties suffered",
+        "Melee damage: +10% for every 25% casualties suffered by a unit",
+        "[NOT DISPLAYED] Provincial security: +3 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_gaetuli": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_gaetuli",
+      "sha256": "7a844bbfc2e162d38a3374ae631f966c8586165941e4350fede232862061524f",
+      "culture_traits": [
+        "Scourge of the Desert: +15 melee attack during desert battles",
+        "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "Attrition: Immune to desert attrition",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents",
+        "Sunscorched: +2 sanitation"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_gallia": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_gallia",
+      "sha256": "2dcb6717473b44c5f4a3a5fc8283e589062bd48a74d91ef1ed074d6ad0b9c0de",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_garamantes": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_garamantes",
+      "sha256": "8c8346a9ea0dc8ee0fd66843c589606781cd1025d5b42fc95f6866b3ce418f84",
+      "culture_traits": [
+        "Scourge of the Desert: +15 melee attack during desert battles",
+        "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "Attrition: Immune to desert attrition",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents",
+        "Sunscorched: +2 sanitation"
+      ],
+      "faction_traits": [
+        "Morale: +15 when in own or allied territory",
+        "Irrigation: +1 fertility bonus in all provinces",
+        "-50% conversion time of the main building chain"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_gauti": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_gauti",
+      "sha256": "40fd8a74382ab5149e2a418372b0eef10646592aab01aee0b78d39aca82e84e5",
+      "culture_traits": [
+        "+250% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Income: +75% from sacking, looting and raiding",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Morale: +10 when fighting during the winter",
+        "Immune to snow attrition",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_gepidae": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_gepidae",
+      "sha256": "ac9daeb418a00668601d31552cb36ebd6ee5ca68219d18239fcd40ee1f983d04",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_ghassanids": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_ghassanids",
+      "sha256": "ae9e7d4df888f4a51eaf68951ae8ebeda232b76f0a0403ef7d41848b0b7f4de9",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_greuthingi": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_greuthingi",
+      "sha256": "a5e8ac587be131d336baa01622a4d3e7bdb7203838f56878e6f8e3f028d8d95c",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_himyar": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_himyar",
+      "sha256": "dc2d63dd67a50d708424122bfcc25c789d1c4ab2f07b3aa65e6c3dea0d87cca1",
+      "culture_traits": [
+        "Scourge of the Desert: +15 melee attack during desert battles",
+        "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "Attrition: Immune to desert attrition",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents",
+        "Sunscorched: +2 sanitation"
+      ],
+      "faction_traits": [
+        "Fatigue rate: -15% for all units",
+        "Ma'rib Dam: Unique fertility-boosting building at the capital.",
+        "Desert Saboteurs: Stops foreign replenishment in regions where armies are present."
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_hispania": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_hispania",
+      "sha256": "7ba37bc41241c9dd2dee43cc72b97aa373e3e5f725eb6afe1a5515cde33ac01d",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_hunni": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_hunni",
+      "sha256": "99faccc01e92912c7f7aa8b43ba3507ee0ef20af87e94a6c8c2bb90892fdbbb8",
+      "culture_traits": [
+        "Enemy morale: -10 when fighting Christian factions",
+        "[Not displayed] Building set used when a new hunnic horde spawns"
+      ],
+      "faction_traits": [
+        "Conquest: +25 growth from razing settlements",
+        "War: +1 Integrity for every war being prosecuted",
+        "Famine: +20 food consumption in provinces where the horde is present",
+        "Death: Stops foreign replenishment (and just about everything else) in regions where the horde is present."
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_iazyges": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_iazyges",
+      "sha256": "2fd7a24a97f1a5d67e1b5e0facab684284f67d03b35801106469e6a3e95434b6",
+      "culture_traits": [
+        "Enemy morale: -10 when fighting Christian factions",
+        "[Not displayed] Building set used when a new hunnic horde spawns"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_illyricum": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_illyricum",
+      "sha256": "aae22871274afc1916a8cd9cb15af3684eba53aa1d995278c5ca18ffe051d0ec",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_italia": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_italia",
+      "sha256": "9ec268721ad8120ffac5644239b4ce5958fadbca4027ab33421c0694159fccd6",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_iuti": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_iuti",
+      "sha256": "02cf6ff1b7286dc3f5d0d94b0d9452e47780b9373de5a1f930c780fa7829b5db",
+      "culture_traits": [
+        "+250% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Income: +75% from sacking, looting and raiding",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Extra income for every enemy unit destroyed.",
+        "Income: +200% from razing settlements",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_judea": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_judea",
+      "sha256": "50fa010192cbbdfa41d46c049583e26f30d01cb28ea05539ddd0b68a4510c6f4",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_kartli": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_kartli",
+      "sha256": "c70d3ca59dad5f08a1ccb5037a176608801277ae2f32c2823ca00e6fc74eec0e",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_lakhmids": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_lakhmids",
+      "sha256": "f5f2b343ad1c49a2c2027d4c6fa7a71507a84c0a65886378f19fe69b6edf8379",
+      "culture_traits": [
+        "Scourge of the Desert: +15 melee attack during desert battles",
+        "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "Attrition: Immune to desert attrition",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents",
+        "Sunscorched: +2 sanitation"
+      ],
+      "faction_traits": [
+        "Subsidised Peace: +500 wealth per turn while at peace with the Sassanids",
+        "Heavenly Cities: +25% increased replenishment inside a settlement"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_langobardi": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_langobardi",
+      "sha256": "99f56b81751c82b9858fc864745f3e07956b2fbdeae43d45d218e2269d64fa33",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Emancipators: Doubled unit replenishment when taking on defeated troops post-battle.",
+        "The Fury of Our Maker's Hand: +10 unit morale when fighting against armies of other religions.",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_lazica": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_lazica",
+      "sha256": "e03a4fd7d8695f89232e1b03a3af663d95bed4d4e094f60e6935bd24d50f169e",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_lugii": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_lugii",
+      "sha256": "a243f427f79dd94ae8715159a7c53a180b624b0b62d91b4673cc54d9fa53738d",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_macedonia": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_macedonia",
+      "sha256": "8315f2290dea6adee50e9de5a2831a3e054653dd96a15c370810a24d4c4a7714",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_magyars": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_magyars",
+      "sha256": "3d2360cc08dcc85c354de3e10a02d276875e2881219f26fa55eefdb4f3407239",
+      "culture_traits": [
+        "Enemy morale: -10 when fighting Christian factions",
+        "[Not displayed] Building set used when a new hunnic horde spawns"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_makran": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_makran",
+      "sha256": "9416453ef4243cc4a52b71af3c4bfd58ae656acd1bd6771c9377de7266b2c79c",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_marcomanni": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_marcomanni",
+      "sha256": "dc822746c070272f3d0c957920c3639a9fdf0501b756f490ad79a61cba901356",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_mauri": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_mauri",
+      "sha256": "d28bac9cff44bc5cbc863bddec18be438cfa28db0e9b9f18e0bad6aa83aa03d2",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_mazun": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_mazun",
+      "sha256": "b1a9fa47bf68043d5c3d607f13a2e781a1e8a59e99871486ec46cc4cff5bc272",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_nobatia": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_nobatia",
+      "sha256": "f8a31480fa77db2b76a450681fdc2b8002b94c19f604aa66ecb18a6020c15642",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_oriens": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_oriens",
+      "sha256": "89cf3b5330f361cca773581f8004949995feb5245e042dfb270503d010a4e913",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_ostrogothi": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_ostrogothi",
+      "sha256": "134df5eece83c2d10b0c6581ab37b6d9bf50ec9bfb7647be1fc846c03fd278e9",
+      "culture_traits": [
+        "+250% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Growth: +250 when initiating a migration or resettling",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "No instability when occupying settlements from Roman factions",
+        "Can recruit Roman units in settlements with Roman military buildings",
+        "[NOT DISPLAYED] Provincial security: +3 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_palmyra": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_palmyra",
+      "sha256": "961212dd57e41f863ae7a41bf558ccf4d7e5dc01ad25ead039f75eefbfc5bb0a",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_parthia": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_parthia",
+      "sha256": "95fc94a088c4106405c3f22332f6bf57549859ff24010676139fdba7a572bfc3",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_persis": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_persis",
+      "sha256": "1716c52ffdadc44b1af8241aaaaa658d2fca7f84caecfa0ac220736454e280cf",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_picti": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_picti",
+      "sha256": "8d0ffd601f4a46688c6636b45d23b95c96fd7a3c99bc079007aaaec6895e948d",
+      "culture_traits": [
+        "+250% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "All units have guerrilla deployment.",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents",
+        "-15% movement speed reduction in raiding stance .",
+        "Raiding income in neutral territory: +200%",
+        "Raiding income in enemy territory: +200%"
+      ],
+      "faction_traits": [
+        "Enables night battles on land and at sea",
+        "Morale: +9 during night battles",
+        "[NOT DISPLAYED] Provincial security: +3 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_pontus": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_pontus",
+      "sha256": "f839f80b737aa0f3a857d636e430cee60a364b9fd2550132adf78e91c19dc434",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_quadi": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_quadi",
+      "sha256": "33c659c23f085d032a43c9a995f5b3436814bce7c9e2f60369f457ba1cfe25ec",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_rebel_aethiopian": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_rebel_aethiopian",
+      "sha256": "5266cd7fa78d3b8076f6c7045f65bdde5e0df2c4be670700c5392f10554d27dc",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_rebel_african": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_rebel_african",
+      "sha256": "672c5fc24109bc1451a61ef778359ef8ad87d532fc0b6ec624d9c1f6ea459ac5",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_rebel_arabian": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_rebel_arabian",
+      "sha256": "40b68e3b2c4a7298b73121b2678c8e2863fe003ea7a150150d0a131f341b8c93",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_rebel_caucasian": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_rebel_caucasian",
+      "sha256": "7e7b77e6f10fab41b5fff3e68418327cb6969bd4c12cd60c560c140248921568",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_rebel_celtic": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_rebel_celtic",
+      "sha256": "a97702a322a4a3253debe57fb56b9c3b833b0424fba647fa1488606ed249f4fc",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_rebel_eastern": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_rebel_eastern",
+      "sha256": "2d0c9b56043942aec33186d0254966a0bb0e4142a9b2ff3e0a305d4cfa4ef6a7",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_rebel_eastern_roman": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_rebel_eastern_roman",
+      "sha256": "3fa18c272f912bee31f274cd1ddce8c97a88c213b076ca94575f6bea27df3c55",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_rebel_germanic_east": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_rebel_germanic_east",
+      "sha256": "f1492008a25d6ccddfd65b954c28dd9e42406b46996f2ce6eefbb8b32e9a36c8",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_rebel_germanic_north": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_rebel_germanic_north",
+      "sha256": "218584e3c1d8394fb4ff1b47fc54a72fb38a2c324931adae7c6291443844a86b",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_rebel_germanic_west": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_rebel_germanic_west",
+      "sha256": "744b1a45f6aaf335d6bd269297eb4d2531851090d618b423e834ed0461125555",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_rebel_hunnic": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_rebel_hunnic",
+      "sha256": "b7d41bf616d80ff13f6def52a16456591aa742e15a497410bfa5ecd2d64886ef",
+      "culture_traits": [
+        "Enemy morale: -10 when fighting Christian factions",
+        "[Not displayed] Building set used when a new hunnic horde spawns"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_rebel_nordic": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_rebel_nordic",
+      "sha256": "20f94cbf14f3b81ce5995235052d35ab9281d50ae7868555c3705dc9c686dc52",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_rebel_sarmatian": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_rebel_sarmatian",
+      "sha256": "93ecf663e815e0011cd5cf2292013511f597ea727f54d466eb1552ad3d0e9b55",
+      "culture_traits": [
+        "Enemy morale: -10 when fighting Christian factions",
+        "[Not displayed] Building set used when a new hunnic horde spawns"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_rebel_slavs": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_rebel_slavs",
+      "sha256": "4436aee956f84cb13004348daee42294d0c276582f083630f022a6c3d5a6b618",
+      "culture_traits": [
+        "Attrition: Immune to snow attrition",
+        "No colonisation cost",
+        "Construction cost: -50% for main settlement buildings"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_rebel_western_roman": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_rebel_western_roman",
+      "sha256": "ca4e81dfc358ae3878301f53b6b2d64e7871de994c9a1132aeb88a670a080b9e",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_rebel_white_huns": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_rebel_white_huns",
+      "sha256": "fe026cf067ddceaf8c66077cc705dd323f282c518e9c25e7552d577ed62b9367",
+      "culture_traits": [],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_red": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_red",
+      "sha256": "cf0d80f58d956cba2daec0252da38420bfe0aec612aec5e5b16eb5b5f107d06a",
+      "culture_traits": [],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_roxolani": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_roxolani",
+      "sha256": "d3aef252faaf3c0efa3ac8468fff1370dc17dfb7fbd60d74453a9aa351df6565",
+      "culture_traits": [
+        "Enemy morale: -10 when fighting Christian factions",
+        "[Not displayed] Building set used when a new hunnic horde spawns"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_rugii": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_rugii",
+      "sha256": "094846efcd58be267dc61974020d6fe59ef51152fc727acbd9beb71bf8577540",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_sabirs": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_sabirs",
+      "sha256": "ada1fcafa433ac1811b04114202798d73838ddb527ac938d5beb2fc803170d59",
+      "culture_traits": [
+        "Enemy morale: -10 when fighting Christian factions",
+        "[Not displayed] Building set used when a new hunnic horde spawns"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_sassanid_empire": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_sassanid_empire",
+      "sha256": "0b70dcd046df13924e4e331324c58179802f9bb9540c3ce65f4555ab39dd729e",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Income: +100% tribute from puppet states",
+        "Puppet state levies: +3 of each type of levy unit",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_saxones": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_saxones",
+      "sha256": "79e900c03528e0d1f3e8fcacec29ebaed08d1309c0f5ec8fefcea4e4bd0f3803",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Income: +100 for every 10% damage caused to settlements during a battle.",
+        "Integrity: +4 when raiding",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_sclaveni": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_sclaveni",
+      "sha256": "d9c4d0f1afb88155142fd6fd2cbc9e8a2073067546b2deddb16d0f6b8386d064",
+      "culture_traits": [
+        "Attrition: Immune to snow attrition",
+        "No colonisation cost",
+        "Construction cost: -50% for main settlement buildings"
+      ],
+      "faction_traits": [
+        "Extra income for every enemy unit destroyed.",
+        "Public order: +5 from military presence",
+        "Morale, Melee Defence, Melee Attack: +10 and Melee Damage: +20% when fighting Nomadic factions",
+        "Melee Attack: +10 when fighting Nomadic factions",
+        "Melee Damage: +20 when fighting Nomadic factions",
+        "Melee Defence: +10 when fighting Nomadic factions",
+        "Morale: +10 when fighting Nomadic factions"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_aethiopian": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_aethiopian",
+      "sha256": "abac23a32a8dba38652ed009624e6c4ca7df0162c56092e7e27653ecbf641127",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_african": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_african",
+      "sha256": "3d01be6a8f707ab7d17ba43c228ea30346c76806d30c79e91016bc6ffcdfc3d2",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_alamanni": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_alamanni",
+      "sha256": "fa802adf300394f96285e3953c16dfb3f01c4a204695d4ea34ac35c3cce48915",
+      "culture_traits": [],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_alanic": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_alanic",
+      "sha256": "98427e5e05d3b3abc85a46792b2501dc773876b0e1b44c30d027af729de2a325",
+      "culture_traits": [
+        "+250% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Growth: +250 when initiating a migration or resettling",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Battle experience gain rate: +100% for cavalry units",
+        "No post-battle casualties for cavalry units which have routed or withdrawn from battle",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_antes": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_antes",
+      "sha256": "b58193ff8aab865e1e6d4f16e297037ae030a7e8806aa15cc11cc05e7a20fe83",
+      "culture_traits": [],
+      "faction_traits": [
+        "Morale: +20 when fighting in a forest",
+        "Morale: -10 when fighting on grassland or desert plains",
+        "Morale: +20 when fighting a river battle",
+        "Melee Attack: +20 when fighting in a forest",
+        "Melee Attack: -10 when fighting on grassland or desert plains",
+        "Melee Attack: +20 when fighting a river battle",
+        "Melee Defence: +20 when fighting in a forest",
+        "Melee Attack: -10 when fighting on grassland or desert plains",
+        "Melee Defence: +20 when fighting a river battle",
+        "Morale, Melee Defence, Melee Attack: +20 and Melee Damage: +20% when fighting in a forest",
+        "Morale, Melee Defence, Melee Attack: -10 and Melee Damage: -10% when fighting on grassland or open fields",
+        "Melee Damage: +20 when fighting in a forest",
+        "Melee Damage: -10 when fighting on grassland or desert plains",
+        "Morale: +20 when fighting a river battle",
+        "Morale, Melee Defence, Melee Attack: +20 and Melee Damage: +20% when fighting a river battle"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_arabian": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_arabian",
+      "sha256": "d9ccf7144a683ac79460fc7d1655f0f1d666b11ea8081838789d1fe397c349d8",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_axum": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_axum",
+      "sha256": "2745270523f0a7c715013842f8bfe58efc6707d785e92726cf9e5a122f3a1727",
+      "culture_traits": [
+        "Scourge of the Desert: +15 melee attack during desert battles",
+        "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "Attrition: Immune to desert attrition",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents",
+        "Sunscorched: +2 sanitation"
+      ],
+      "faction_traits": [
+        "Supply Network: +30 food from each active trade route (Maximum: 150)",
+        "Merchant Guards: +100% to mercenary pool replenishment rate",
+        "Commercial Mastery: +10% from trade income"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_burgundii": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_burgundii",
+      "sha256": "b0923e58af82ad1dc03c5d9c489da6fbccaf9e10f7cddc5b6978a4df35025b8f",
+      "culture_traits": [],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_caucasian": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_caucasian",
+      "sha256": "7ffb0a71f9116aa3bdc388f6a0b871c484f3faf77968b211c4dd5d935f386a43",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_celtic": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_celtic",
+      "sha256": "d02f81ccfdf329fb271621aab09f775d084d6caf2cfe5966ce31e76a296ec310",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_dani": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_dani",
+      "sha256": "8429bef9e18d1366f60ca3f976af976609e7acf3d264da03a83984e65c76997c",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Immune to seasickness",
+        "Immune to high-seas attrition",
+        "[NOT DISPLAYED] Provincial security: +3 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_eastern": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_eastern",
+      "sha256": "1855a469e861861e7a16368ecf63e82142a67ef330204fdfbd85e23cc6b4c8a9",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_eastern_roman": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_eastern_roman",
+      "sha256": "a2cc2793c6bb8d0a9ea3208a6139e9cfa85a1a7cf33e4e656420b3e0146b02e2",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Income: +5% interest on treasury at end of turn",
+        "Trade tariffs: +50%",
+        "[NOT DISPLAYED] Provincial security: +3 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_eastern_roman_npc": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_eastern_roman_npc",
+      "sha256": "c5ee3ae534c9993f564e161f6c8dcd670d7701b729536ddf307b6c1b1317c156",
+      "culture_traits": [],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_ebdani": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_ebdani",
+      "sha256": "68a0afb35d43fcadca432cfe15f12c63a2c5205c636d57adf9fb74ee7be09893",
+      "culture_traits": [
+        "+250% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "All units have guerrilla deployment.",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents",
+        "-15% movement speed reduction in raiding stance .",
+        "Raiding income in neutral territory: +200%",
+        "Raiding income in enemy territory: +200%"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_frankish": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_frankish",
+      "sha256": "ee3eab3639f6512b46c2efd9ac0b70c9a2315a773f7308a498132ed001c71225",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Integrity: -50% penalty from casualties suffered",
+        "Melee damage: +10% for every 25% casualties suffered by a unit",
+        "[NOT DISPLAYED] Provincial security: +3 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_garamantes": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_garamantes",
+      "sha256": "4b3e11122c0cdc374738c62b43437ce6f4fd414989ef473134dcd78b0ff7e422",
+      "culture_traits": [],
+      "faction_traits": [
+        "Morale: +15 when in own or allied territory",
+        "Irrigation: +1 fertility bonus in all provinces",
+        "-50% conversion time of the main building chain"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_gaut": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_gaut",
+      "sha256": "0b276e048cbbda0601cea18cb5696f512c716c1f574a57072ab94271a3aa5557",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Morale: +10 when fighting during the winter",
+        "Immune to snow attrition",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_germanic_east": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_germanic_east",
+      "sha256": "525fb56cc30bc839a3916959c793d48afb6c653fd26b7b0851b5e74152482634",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_germanic_north": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_germanic_north",
+      "sha256": "0f89dd7361f946449820c861dabcc380a9b1c3195b1d5e338887c7a1c1b9d8a3",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_germanic_west": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_germanic_west",
+      "sha256": "3ab098c1d33f1e9536e89b9db9a0f5f81976a713d986ea2e092ecad22dee962a",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_himyar": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_himyar",
+      "sha256": "ed3d062cf52911dd2b14647d1858a3bf6b9eb445ba63e7908461b5086b6a6811",
+      "culture_traits": [
+        "Scourge of the Desert: +15 melee attack during desert battles",
+        "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "Attrition: Immune to desert attrition",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents",
+        "Sunscorched: +2 sanitation"
+      ],
+      "faction_traits": [
+        "Fatigue rate: -15% for all units",
+        "Ma'rib Dam: Unique fertility-boosting building at the capital.",
+        "Desert Saboteurs: Stops foreign replenishment in regions where armies are present."
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_hunnic": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_hunnic",
+      "sha256": "4ea3961a2887a70944737bee728f669e1d6799369533cee816734bc273d36aaa",
+      "culture_traits": [
+        "Enemy morale: -10 when fighting Christian factions",
+        "[Not displayed] Building set used when a new hunnic horde spawns"
+      ],
+      "faction_traits": [
+        "Conquest: +25 growth from razing settlements",
+        "War: +1 Integrity for every war being prosecuted",
+        "Famine: +20 food consumption in provinces where the horde is present",
+        "Death: Stops foreign replenishment (and just about everything else) in regions where the horde is present."
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_iuti": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_iuti",
+      "sha256": "bc35586bd498233fa8200ff6b5be0deedb838b21794ff7a8a59e5e8decc42ad9",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Extra income for every enemy unit destroyed.",
+        "Income: +200% from razing settlements",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_lakhmids": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_lakhmids",
+      "sha256": "ce4efce3cb66b51c377ef890a90cf8c0b9e573eb6fb752c5f89c26ce837ae4c8",
+      "culture_traits": [
+        "Scourge of the Desert: +15 melee attack during desert battles",
+        "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "Attrition: Immune to desert attrition",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents",
+        "Sunscorched: +2 sanitation"
+      ],
+      "faction_traits": [
+        "Subsidised Peace: +500 wealth per turn while at peace with the Sassanids",
+        "Heavenly Cities: +25% increased replenishment inside a settlement"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_langobardi": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_langobardi",
+      "sha256": "e74456632d665f85c94161258b26eeb51500b90a5c41274bd664f426227bdfa6",
+      "culture_traits": [],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_nordic": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_nordic",
+      "sha256": "cad07a3637273a556910c80ecfc10b1bbb9c9cefbd7b7dec2acfea3f614693e5",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_ostrogothic": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_ostrogothic",
+      "sha256": "9dc1ae26da9e074bd0be375a912604affa577ac28f735938b9deb84ae2cde455",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "No instability when occupying settlements from Roman factions",
+        "Can recruit Roman units in settlements with Roman military buildings",
+        "[NOT DISPLAYED] Provincial security: +3 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_picti": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_picti",
+      "sha256": "7137974ce8023de0469c153bd78f0e8deaa9914d549b1ee9e7d2ba2b9c45258d",
+      "culture_traits": [
+        "+250% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "All units have guerrilla deployment.",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents",
+        "-15% movement speed reduction in raiding stance .",
+        "Raiding income in neutral territory: +200%",
+        "Raiding income in enemy territory: +200%"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_sarmatian": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_sarmatian",
+      "sha256": "00d668985defd9503ae80dc40932f52c59d111b4fc59f6a31b67bbe3953e0c66",
+      "culture_traits": [
+        "Enemy morale: -10 when fighting Christian factions",
+        "[Not displayed] Building set used when a new hunnic horde spawns"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_sassanid": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_sassanid",
+      "sha256": "8c988dcc56fb7aa2efd2801dfd89344565b0da4a86ce678da1dbe57ec187ad55",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Income: +100% tribute from puppet states",
+        "Puppet state levies: +3 of each type of levy unit",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_saxon": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_saxon",
+      "sha256": "53afc7a4145d34db5e91575c2cec1e588eecf292c6f260dc81c1d2af0eef49a2",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Income: +100 for every 10% damage caused to settlements during a battle.",
+        "Integrity: +4 when raiding",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_sclaveni": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_sclaveni",
+      "sha256": "f4598e04fb3a1f3241a1dca3ac92df1008ff8039f94f4384f45d074fca16b49a",
+      "culture_traits": [],
+      "faction_traits": [
+        "Extra income for every enemy unit destroyed.",
+        "Public order: +5 from military presence",
+        "Morale, Melee Defence, Melee Attack: +10 and Melee Damage: +20% when fighting Nomadic factions",
+        "Melee Attack: +10 when fighting Nomadic factions",
+        "Melee Damage: +20 when fighting Nomadic factions",
+        "Melee Defence: +10 when fighting Nomadic factions",
+        "Morale: +10 when fighting Nomadic factions"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_suebi": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_suebi",
+      "sha256": "b4e4391226a4c2161252a5c4ec685207abfa585d2833c0034d308460325b2649",
+      "culture_traits": [
+        "+250% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Growth: +250 when initiating a migration or resettling",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Horde buildings construction cost: -35%",
+        "-35% upkeep for 10 turns for any army that loots or sacks a settlement."
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_tanukhid": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_tanukhid",
+      "sha256": "572d05c00f177e09507d49d3abbcee7804edc612098216c411492e8e57c6542a",
+      "culture_traits": [
+        "Scourge of the Desert: +15 melee attack during desert battles",
+        "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "Attrition: Immune to desert attrition",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents",
+        "Sunscorched: +2 sanitation"
+      ],
+      "faction_traits": [
+        "Rapacious Horde: Food obtained only through settlement battles when horde",
+        "Victory Rallies: Additional horde growth gained through successful battles",
+        "Swelling Ranks: Raiding stance provides free Rebellion Militia unit"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_vandalic": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_vandalic",
+      "sha256": "ab887b654848540190a0ba0fa2949cb134c345d4d827bf4a4ba6883f252db0ed",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Can recruit superior-quality naval units",
+        "Income: +150% from raiding and sacking",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_venedi": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_venedi",
+      "sha256": "2f44118e4ebdb125acdc051a1fc5c281477f013a0631bee032f8ff827f46de51",
+      "culture_traits": [],
+      "faction_traits": [
+        "Income: +100% from farms",
+        "Venedi Farms : Farms do not have any negative effects (squalor or public order).",
+        "Income: -50% from commerce, industry & culture"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_visigothic": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_visigothic",
+      "sha256": "f8838b17ed549c0270a22503041370e49d27adadb574ed56e000ea03cbcfad07",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Food: +10 when migrating through Roman territory",
+        "Income: +500 from the formation of tributary states",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_votadini": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_votadini",
+      "sha256": "7ed4f183d8d5ebd3864fbe302db14c35c5bdd88b9e09e1478e000a71b4a1a16f",
+      "culture_traits": [
+        "+250% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "All units have guerrilla deployment.",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents",
+        "-15% movement speed reduction in raiding stance .",
+        "Raiding income in neutral territory: +200%",
+        "Raiding income in enemy territory: +200%"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_western_roman": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_western_roman",
+      "sha256": "26ff8370f9e727466f62536269bf9230ce5fbb23f243f30f30a23c8099783a4b",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Upkeep cost: -2% per non-Roman unit in a military force",
+        "Constant immigration",
+        "Upkeep cost: -50% for land units",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents",
+        "Immigration public order penalties: -50%"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_separatist_western_roman_npc": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_western_roman_npc",
+      "sha256": "5886ccbf5a4b3cbc2b35b8af5367e27ddba3ce38ea9c272536b2c249ea44293e",
+      "culture_traits": [],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_separatist_white_huns": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_separatist_white_huns",
+      "sha256": "cbf493593dd4944d28d46c94ebf7d0c9e58136ff7de17ebc14ffd00c07d5066c",
+      "culture_traits": [
+        "Enemy morale: -10 when fighting Christian factions",
+        "[Not displayed] Building set used when a new hunnic horde spawns"
+      ],
+      "faction_traits": [
+        "Integrity: +1 Integrity for every war being prosecuted",
+        "Income: +100% from sacking, looting and raiding",
+        "Attrition: Immune to desert attrition",
+        "Morale: +20 versus eastern empires"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_septem_provinciem": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_septem_provinciem",
+      "sha256": "344ef4dadb431c5e4ca9dfae2eeed1f7e6209cd7074ae2576790308088be862c",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_soissons": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_soissons",
+      "sha256": "86867a67148e3f2d27895f8cd027a79f9307fb7505171971e8056f89425002ec",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_spahan": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_spahan",
+      "sha256": "09d0046d1e1d54bbd49ee6e5e5f05829bdd379b9af88b1e73f13a110ad95da41",
+      "culture_traits": [
+        "Sanitation: +1 for every province capital held",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_suebi": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_suebi",
+      "sha256": "4b98b0fafb050c346e9f120127adb48f9318350ed10dc30d8a013d79f2206d37",
+      "culture_traits": [
+        "+250% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Growth: +250 when initiating a migration or resettling",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Horde buildings construction cost: -35%",
+        "-35% upkeep for 10 turns for any army that loots or sacks a settlement."
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_tanukhids": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_tanukhids",
+      "sha256": "5fae6b579586118edb2ff31765646021ee1e66b0f68cf5adb75c8ab28b5e2e61",
+      "culture_traits": [
+        "Scourge of the Desert: +15 melee attack during desert battles",
+        "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "Attrition: Immune to desert attrition",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents",
+        "Sunscorched: +2 sanitation"
+      ],
+      "faction_traits": [
+        "Rapacious Horde: Food obtained only through settlement battles when horde",
+        "Victory Rallies: Additional horde growth gained through successful battles",
+        "Swelling Ranks: Raiding stance provides free Rebellion Militia unit"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_thuringi": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_thuringi",
+      "sha256": "4c075ff44ffdfdd4377b929a594faaf8ef45dccfb4bd1f9be688ee7e8ffe5c8f",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_vandali": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_vandali",
+      "sha256": "e5037a60a2d32864a15e8b819858e853c3192dd78201ae4fb42ea7b7b1d6b465",
+      "culture_traits": [
+        "+250% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Growth: +250 when initiating a migration or resettling",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Can recruit superior-quality naval units",
+        "Income: +150% from raiding and sacking",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_varini": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_varini",
+      "sha256": "4aff4fad76e9f7f3821b8d3b048d211f944c30b25726541875b8f9d60cdc8790",
+      "culture_traits": [
+        "+200% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Building conversion rate: -50%",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    },
+    "att_fact_venedi": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_venedi",
+      "sha256": "dcb9ac1dbbbc61c36d3100407268b232e4994a4a8d8103d8ddaffb39a5a46c33",
+      "culture_traits": [
+        "Attrition: Immune to snow attrition",
+        "No colonisation cost",
+        "Construction cost: -50% for main settlement buildings"
+      ],
+      "faction_traits": [
+        "Income: +100% from farms",
+        "Venedi Farms : Farms do not have any negative effects (squalor or public order).",
+        "Income: -50% from commerce, industry & culture"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_visigothi": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_visigothi",
+      "sha256": "d5f4f2a5ecab17f93368a30b34d8d3f41c67fe4941be1858513458e5f896ba4e",
+      "culture_traits": [
+        "+250% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "Growth: +250 when initiating a migration or resettling",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Food: +10 when migrating through Roman territory",
+        "Income: +500 from the formation of tributary states",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_votadini": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_votadini",
+      "sha256": "594af1fe38c022b9000c9d85eba808771e524fb65e4001925f99068ee73fd089",
+      "culture_traits": [
+        "+250% conversion cost of the main chain",
+        "+200% conversion time of the main chain",
+        "All units have guerrilla deployment.",
+        "[Not displayed] Building set used when a new barbarian horde spawns",
+        "[NOT DISPLAYED] Provincial security: +1 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against champion-type agents",
+        "-15% movement speed reduction in raiding stance .",
+        "Raiding income in neutral territory: +200%",
+        "Raiding income in enemy territory: +200%"
+      ],
+      "faction_traits": [
+        "Agent action cost: -20%",
+        "Success chance: +25%",
+        "Agent recruitment cost: -30%",
+        "[NOT DISPLAYED] Provincial security: +3 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_western_roman_empire": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_western_roman_empire",
+      "sha256": "f38c5bb542e4fe75284b7cf8be6286fafae9c5e26899395a987f45910210c84a",
+      "culture_traits": [
+        "Can levy units from friendly hordes passing through Roman territory",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +2 against champion-type agents"
+      ],
+      "faction_traits": [
+        "Upkeep cost: -2% per non-Roman unit in a military force",
+        "Constant immigration",
+        "[NOT DISPLAYED] Provincial security: +2 against priest-type agents",
+        "[NOT DISPLAYED] Provincial security: +3 against spy-type agents",
+        "[NOT DISPLAYED] Provincial security: +1 against champion-type agents",
+        "Immigration public order penalties: -50%"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_white_huns": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_white_huns",
+      "sha256": "f72210d2070f31946bae46a72764da1882e60bc86b28b343c85e757c8c4dca3e",
+      "culture_traits": [
+        "Enemy morale: -10 when fighting Christian factions",
+        "[Not displayed] Building set used when a new hunnic horde spawns"
+      ],
+      "faction_traits": [
+        "Integrity: +1 Integrity for every war being prosecuted",
+        "Income: +100% from sacking, looting and raiding",
+        "Attrition: Immune to desert attrition",
+        "Morale: +20 versus eastern empires"
+      ],
+      "other_party_traits": [
+        []
+      ],
+      "ruling_party_identified": true
+    },
+    "att_fact_yellow": {
+      "source_url": "https://www.honga.net/totalwar/attila/faction.php?l=en&f=att_fact_yellow",
+      "sha256": "8bcb037785f8d7e47ba2578e0f7ad5e2592da26082fea0ac633e9dbfcd039a7b",
+      "culture_traits": [],
+      "faction_traits": [],
+      "other_party_traits": [],
+      "ruling_party_identified": false
+    }
+  }
+}

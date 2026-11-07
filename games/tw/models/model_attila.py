@@ -290,6 +290,8 @@ class AttilaReligion(enum.Enum):
     PAGAN_GERMANIC = "germanic"
     PAGAN_CELTIC = "celtic"
     PAGAN_GRECO_ROMAN = "grecoroman"
+    PAGAN_SLAVIC = "slavic"
+    PAGAN_SEMITIC = "semitic_paganism"
     MANICHEIST = "manichaeist"
     ZOROASTRIAN = "zoroastrian"
     JUDAISM = "judaism"

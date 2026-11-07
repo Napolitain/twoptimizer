@@ -1,0 +1,1623 @@
+{
+  "date_utc": "2026-11-07",
+  "objective": "recurring_net_income",
+  "settings": {
+    "province": null,
+    "fertility": 5,
+    "religion": "CHRIST_ORTHODOX",
+    "seconds": 60.0,
+    "workers": 8,
+    "resume": true,
+    "all_factions": false,
+    "output": "benchmark-results/factions/income.json"
+  },
+  "scope": "Independent hypothetical ownership of each province; common religion, no treasury interest, zero unsupplied trade/tribute/corruption/army costs. Technology effects and legacy disables included. Not starting-position or full-campaign comparisons.",
+  "assumptions": {
+    "province_scenarios": "independent, one owned capital each",
+    "base_tax_percent": 100,
+    "base_corruption_percent": 0,
+    "fertility": 5,
+    "religion": "Orthodox for every faction",
+    "technologies": "all imported, minus disabled legacy technologies",
+    "military_buildings": false,
+    "treasury_interest": "excluded by user request",
+    "unsupplied_trade_tribute_and_subsidies": 0,
+    "not_a_full_campaign_ranking": true
+  },
+  "unique_models": 28,
+  "source_sha256": {
+    "building_culture_variants_table.tsv": "6438a7e52babe196cfae1b52e4330159f48f119c5abd00a5b8d4d488e94a544c",
+    "building_effects_junction_table.tsv": "dd95c690b7f7ac4e05106ebcf309628ca15aa5a1056f85507ec258ec115e55a9",
+    "cultures_subcultures_table.tsv": "4e27ebec6dbd3c86f93f0b272602b0876333454b372a28925b3a51c604680cc7",
+    "factions_table.tsv": "623b48208dee338dd563f5b32a49d85bd929105e72caadb56518a6575b0644a0",
+    "online_buildings.json": "7958b74651ad52bb442e737f435079948103412f4770a818e68619fef654ac6e",
+    "online_factions.json": "a087b6305d9bd5a3ca831a84f3261ed16ae1dd9a283169a553ef145a7adbaffe",
+    "online_modifiers.json": "1b96106a9fbbfd616fdcf200bfecdc0772c48452eaf93bb06863ee2b22e0075e",
+    "provinces.tsv": "fa9b36e5ddda75fb6fa31b96218a555406d4b0047c2bf93ea0fcbbe1fa159905",
+    "region_to_provinces_junctions_table.tsv": "f11adfa9d715e7048f1bbf3a74a6c9f64b4292ebf40075f841d9ade0bfb21770",
+    "regions.tsv": "3bc3556d1ec349e22bf75b7ff928a1b597e77e40b6b85a3f02b84418b304d6b4",
+    "start_pos_region_slot_templates_table.tsv": "12f34565345c74b4c432d71da7f4f8586c52c0f51723f31aa8f2efba0cbbf4d6"
+  },
+  "excluded_factions": [
+    {
+      "id": "att_fact_hunni",
+      "name": "Huns",
+      "reason": "Nomadic/horde income requires a different model"
+    },
+    {
+      "id": "att_fact_white_huns",
+      "name": "White Huns",
+      "reason": "Nomadic/horde income requires a different model"
+    }
+  ],
+  "excluded_unpriced_building_variants": [
+    "att_bld_barbarian_civic_market_free_3",
+    "att_bld_barbarian_civic_market_free_4",
+    "att_bld_barbarian_civic_storyteller_5",
+    "att_bld_barbarian_farm_curing_1",
+    "att_bld_barbarian_farm_curing_2",
+    "att_bld_barbarian_farm_curing_3",
+    "att_bld_barbarian_slav_farm_1",
+    "att_bld_barbarian_slav_farm_agriculture_2",
+    "att_bld_barbarian_slav_farm_agriculture_3",
+    "att_bld_barbarian_slav_farm_agriculture_4",
+    "att_bld_barbarian_slav_farm_chickens_2",
+    "att_bld_barbarian_slav_farm_chickens_3",
+    "att_bld_barbarian_slav_farm_chickens_4",
+    "att_bld_barbarian_slav_farm_livestock_2",
+    "att_bld_barbarian_slav_farm_livestock_3",
+    "att_bld_barbarian_slav_farm_livestock_4",
+    "att_bld_eos_pleasure_major_1",
+    "att_bld_eos_pleasure_major_2",
+    "att_bld_eos_pleasure_major_3",
+    "att_bld_eos_pleasure_major_4",
+    "att_slav_wonder_1",
+    "att_slav_wonder_civic_2",
+    "att_slav_wonder_civic_3",
+    "att_slav_zadruga_1",
+    "att_slav_zadruga_2",
+    "att_slav_zadruga_3",
+    "att_slav_zadruga_4"
+  ],
+  "cases": [
+    {
+      "faction_id": "att_fact_garamantes",
+      "civilization": "Garamantians",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 25993.465,
+          "bound": 25993.465,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "464415f28bc4b003ac012aa8618f2653394d8ee01e5ad270da0118dd8ab4722d",
+          "finances": {
+            "wealth": 21295.5,
+            "tax_bonus_income": 4897.965,
+            "corruption_loss": 0.0,
+            "tax_income": 26193.465,
+            "building_upkeep": 200.0,
+            "net_income": 25993.465,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 26700.715,
+          "bound": 26700.715,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "90eddb0b47567ccf17a9b99ff2237c913d1fd74953b0cfe7fcb60f04eef199dd",
+          "finances": {
+            "wealth": 21870.5,
+            "tax_bonus_income": 5030.215,
+            "corruption_loss": 0.0,
+            "tax_income": 26900.715,
+            "building_upkeep": 200.0,
+            "net_income": 26700.715,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 29174.215,
+          "bound": 29174.215,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "5e1900bb140bf377d2320de2cf6263fb27fb79c64797d1e3624e9dcceab6c831",
+          "finances": {
+            "wealth": 21935.5,
+            "tax_bonus_income": 7238.715,
+            "corruption_loss": 0.0,
+            "tax_income": 29174.215,
+            "building_upkeep": 0.0,
+            "net_income": 29174.215,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_western_roman_empire",
+      "civilization": "Western Roman Empire",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 24581.0,
+          "bound": 24581.0,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "e07241ce3b85996b15f76eaae04065a9fb636efa726ea0e15e3f32d3b56a50d8",
+          "finances": {
+            "wealth": 22710.0,
+            "tax_bonus_income": 2271.0,
+            "corruption_loss": 0.0,
+            "tax_income": 24981.0,
+            "building_upkeep": 400.0,
+            "net_income": 24581.0,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 24691.0,
+          "bound": 24691.0,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "515bb752b6f4f439c0bb57587b465ed9927652fba8728140f57f369c64dd8bc8",
+          "finances": {
+            "wealth": 22810.0,
+            "tax_bonus_income": 2281.0,
+            "corruption_loss": 0.0,
+            "tax_income": 25091.0,
+            "building_upkeep": 400.0,
+            "net_income": 24691.0,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 26236.025,
+          "bound": 26236.025,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "5700ecbaff79d8c03c0e7347f5fd66f4adced8fe4f5a6746c07876610146774d",
+          "finances": {
+            "wealth": 24032.75,
+            "tax_bonus_income": 2403.2750000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 26436.025,
+            "building_upkeep": 200.0,
+            "net_income": 26236.025,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_axum",
+      "civilization": "Aksum",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 23547.61,
+          "bound": 23547.61,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "a97fd32539d7e9c5ec7de58f933d910efba42451280721898840448ba4503120",
+          "finances": {
+            "wealth": 19307.0,
+            "tax_bonus_income": 4440.61,
+            "corruption_loss": 0.0,
+            "tax_income": 23747.61,
+            "building_upkeep": 200.0,
+            "net_income": 23547.61,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 24586.96,
+          "bound": 24586.96,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "0bf9d6afdbcab0dc4c7b5f024583c01585cf14b70a30ee02fcadb3b266385243",
+          "finances": {
+            "wealth": 20152.0,
+            "tax_bonus_income": 4634.96,
+            "corruption_loss": 0.0,
+            "tax_income": 24786.96,
+            "building_upkeep": 200.0,
+            "net_income": 24586.96,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 26977.72,
+          "bound": 26977.72,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "9d634051575b1061fe61b6d64fe29b28a63290b343d62893845dafb14cdd75bc",
+          "finances": {
+            "wealth": 20284.0,
+            "tax_bonus_income": 6693.72,
+            "corruption_loss": 0.0,
+            "tax_income": 26977.72,
+            "building_upkeep": 0.0,
+            "net_income": 26977.72,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_himyar",
+      "civilization": "Himyar",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 23547.61,
+          "bound": 23547.61,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "a97fd32539d7e9c5ec7de58f933d910efba42451280721898840448ba4503120",
+          "finances": {
+            "wealth": 19307.0,
+            "tax_bonus_income": 4440.61,
+            "corruption_loss": 0.0,
+            "tax_income": 23747.61,
+            "building_upkeep": 200.0,
+            "net_income": 23547.61,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 24586.96,
+          "bound": 24586.96,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "0bf9d6afdbcab0dc4c7b5f024583c01585cf14b70a30ee02fcadb3b266385243",
+          "finances": {
+            "wealth": 20152.0,
+            "tax_bonus_income": 4634.96,
+            "corruption_loss": 0.0,
+            "tax_income": 24786.96,
+            "building_upkeep": 200.0,
+            "net_income": 24586.96,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 26977.72,
+          "bound": 26977.72,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "9d634051575b1061fe61b6d64fe29b28a63290b343d62893845dafb14cdd75bc",
+          "finances": {
+            "wealth": 20284.0,
+            "tax_bonus_income": 6693.72,
+            "corruption_loss": 0.0,
+            "tax_income": 26977.72,
+            "building_upkeep": 0.0,
+            "net_income": 26977.72,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_lakhmids",
+      "civilization": "Lakhmids",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 23547.61,
+          "bound": 23547.61,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "a97fd32539d7e9c5ec7de58f933d910efba42451280721898840448ba4503120",
+          "finances": {
+            "wealth": 19307.0,
+            "tax_bonus_income": 4440.61,
+            "corruption_loss": 0.0,
+            "tax_income": 23747.61,
+            "building_upkeep": 200.0,
+            "net_income": 23547.61,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 24586.96,
+          "bound": 24586.96,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "0bf9d6afdbcab0dc4c7b5f024583c01585cf14b70a30ee02fcadb3b266385243",
+          "finances": {
+            "wealth": 20152.0,
+            "tax_bonus_income": 4634.96,
+            "corruption_loss": 0.0,
+            "tax_income": 24786.96,
+            "building_upkeep": 200.0,
+            "net_income": 24586.96,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 26977.72,
+          "bound": 26977.72,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "9d634051575b1061fe61b6d64fe29b28a63290b343d62893845dafb14cdd75bc",
+          "finances": {
+            "wealth": 20284.0,
+            "tax_bonus_income": 6693.72,
+            "corruption_loss": 0.0,
+            "tax_income": 26977.72,
+            "building_upkeep": 0.0,
+            "net_income": 26977.72,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_tanukhids",
+      "civilization": "Tanukhids",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 23547.61,
+          "bound": 23547.61,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "a97fd32539d7e9c5ec7de58f933d910efba42451280721898840448ba4503120",
+          "finances": {
+            "wealth": 19307.0,
+            "tax_bonus_income": 4440.61,
+            "corruption_loss": 0.0,
+            "tax_income": 23747.61,
+            "building_upkeep": 200.0,
+            "net_income": 23547.61,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 24586.96,
+          "bound": 24586.96,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "0bf9d6afdbcab0dc4c7b5f024583c01585cf14b70a30ee02fcadb3b266385243",
+          "finances": {
+            "wealth": 20152.0,
+            "tax_bonus_income": 4634.96,
+            "corruption_loss": 0.0,
+            "tax_income": 24786.96,
+            "building_upkeep": 200.0,
+            "net_income": 24586.96,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 26977.72,
+          "bound": 26977.72,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "9d634051575b1061fe61b6d64fe29b28a63290b343d62893845dafb14cdd75bc",
+          "finances": {
+            "wealth": 20284.0,
+            "tax_bonus_income": 6693.72,
+            "corruption_loss": 0.0,
+            "tax_income": 26977.72,
+            "building_upkeep": 0.0,
+            "net_income": 26977.72,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_eastern_roman_empire",
+      "civilization": "Eastern Roman Empire",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 23778.125,
+          "bound": 23778.125,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "92f3ce1d054b005019581f40457d9f6e91f719c3dc7265d4adabdfb5908dd8a0",
+          "finances": {
+            "wealth": 20937.5,
+            "tax_bonus_income": 3140.625,
+            "corruption_loss": 0.0,
+            "tax_income": 24078.125,
+            "building_upkeep": 300.0,
+            "net_income": 23778.125,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 24140.375,
+          "bound": 24140.375,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "a440009ae4eb1f1b612337cb10b235bab3a3c6020863cb504090927ffeab74ee",
+          "finances": {
+            "wealth": 21252.5,
+            "tax_bonus_income": 3187.875,
+            "corruption_loss": 0.0,
+            "tax_income": 24440.375,
+            "building_upkeep": 300.0,
+            "net_income": 24140.375,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 25696.5625,
+          "bound": 25696.5625,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "7a9f798ef7b8561b62ec7a90915219671831336768eb15c7eb41b4880e7ebe3d",
+          "finances": {
+            "wealth": 22518.75,
+            "tax_bonus_income": 3377.8125,
+            "corruption_loss": 0.0,
+            "tax_income": 25896.5625,
+            "building_upkeep": 200.0,
+            "net_income": 25696.5625,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_sassanid_empire",
+      "civilization": "Sassanid Empire",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 23245.645000000004,
+          "bound": 23245.645,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "eaceb6dcf9d5e06bd51899cb4ad0d3cc7ab1927c0ea9563fd65c735d28724b83",
+          "finances": {
+            "wealth": 19061.5,
+            "tax_bonus_income": 4384.145,
+            "corruption_loss": 0.0,
+            "tax_income": 23445.645,
+            "building_upkeep": 200.0,
+            "net_income": 23245.645,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 23768.395000000004,
+          "bound": 23768.395,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "3a1a1fbcbb954be84f415a150a1a5be1210d5429f992c502b581463418082467",
+          "finances": {
+            "wealth": 19486.5,
+            "tax_bonus_income": 4481.895,
+            "corruption_loss": 0.0,
+            "tax_income": 23968.395,
+            "building_upkeep": 200.0,
+            "net_income": 23768.395,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 25526.690000000002,
+          "bound": 25526.690000000002,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "f3a6bbe9daa1cf376fe68736cffe5982d5a75c1e61efa855109ce17b2341f92c",
+          "finances": {
+            "wealth": 19193.0,
+            "tax_bonus_income": 6333.6900000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 25526.690000000002,
+            "building_upkeep": 0.0,
+            "net_income": 25526.690000000002,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_votadini",
+      "civilization": "Caledonians",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 17437.21,
+          "bound": 17437.21,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "10949d379dc1605e9b83a92aeaafa769dd91aac534eab9e2aad174b04a33400a",
+          "finances": {
+            "wealth": 16330.75,
+            "tax_bonus_income": 1306.4600000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 17637.21,
+            "building_upkeep": 200.0,
+            "net_income": 17437.21,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 16737.1,
+          "bound": 16737.1,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "e2fe0def8726ea0c6ab33035c19ed4f6822b45c4e51797068e42b0a2df492570",
+          "finances": {
+            "wealth": 15682.5,
+            "tax_bonus_income": 1254.6,
+            "corruption_loss": 0.0,
+            "tax_income": 16937.1,
+            "building_upkeep": 200.0,
+            "net_income": 16737.1,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 18487.98,
+          "bound": 18487.98,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "f3efeb32d01946e74d4a6e4e6f029b835a9bee62bfaab5e7dfdfb40a219bf6f5",
+          "finances": {
+            "wealth": 17118.5,
+            "tax_bonus_income": 1369.4799999999996,
+            "corruption_loss": 0.0,
+            "tax_income": 18487.98,
+            "building_upkeep": 0.0,
+            "net_income": 18487.98,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_ebdani",
+      "civilization": "Ebdanians",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 17437.21,
+          "bound": 17437.21,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "10949d379dc1605e9b83a92aeaafa769dd91aac534eab9e2aad174b04a33400a",
+          "finances": {
+            "wealth": 16330.75,
+            "tax_bonus_income": 1306.4600000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 17637.21,
+            "building_upkeep": 200.0,
+            "net_income": 17437.21,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 16737.1,
+          "bound": 16737.1,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "e2fe0def8726ea0c6ab33035c19ed4f6822b45c4e51797068e42b0a2df492570",
+          "finances": {
+            "wealth": 15682.5,
+            "tax_bonus_income": 1254.6,
+            "corruption_loss": 0.0,
+            "tax_income": 16937.1,
+            "building_upkeep": 200.0,
+            "net_income": 16737.1,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 18487.98,
+          "bound": 18487.98,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "f3efeb32d01946e74d4a6e4e6f029b835a9bee62bfaab5e7dfdfb40a219bf6f5",
+          "finances": {
+            "wealth": 17118.5,
+            "tax_bonus_income": 1369.4799999999996,
+            "corruption_loss": 0.0,
+            "tax_income": 18487.98,
+            "building_upkeep": 0.0,
+            "net_income": 18487.98,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_picti",
+      "civilization": "Picts",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 17437.21,
+          "bound": 17437.21,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "10949d379dc1605e9b83a92aeaafa769dd91aac534eab9e2aad174b04a33400a",
+          "finances": {
+            "wealth": 16330.75,
+            "tax_bonus_income": 1306.4600000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 17637.21,
+            "building_upkeep": 200.0,
+            "net_income": 17437.21,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 16737.1,
+          "bound": 16737.1,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "e2fe0def8726ea0c6ab33035c19ed4f6822b45c4e51797068e42b0a2df492570",
+          "finances": {
+            "wealth": 15682.5,
+            "tax_bonus_income": 1254.6,
+            "corruption_loss": 0.0,
+            "tax_income": 16937.1,
+            "building_upkeep": 200.0,
+            "net_income": 16737.1,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 18487.98,
+          "bound": 18487.98,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "f3efeb32d01946e74d4a6e4e6f029b835a9bee62bfaab5e7dfdfb40a219bf6f5",
+          "finances": {
+            "wealth": 17118.5,
+            "tax_bonus_income": 1369.4799999999996,
+            "corruption_loss": 0.0,
+            "tax_income": 18487.98,
+            "building_upkeep": 0.0,
+            "net_income": 18487.98,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_venedi",
+      "civilization": "Venedians",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 17050.75,
+          "bound": 17050.75,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "dcbc8329d76b1b79e4aaf745e81628fcc1e43a23e39008222d22b83864cfb187",
+          "finances": {
+            "wealth": 15682.5,
+            "tax_bonus_income": 1568.25,
+            "corruption_loss": 0.0,
+            "tax_income": 17250.75,
+            "building_upkeep": 200.0,
+            "net_income": 17050.75,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 16739.725,
+          "bound": 16739.725000000002,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "8a3b14022d163c09408cf9b5047820a8508607c74d13d412b33924ec3e6e0a90",
+          "finances": {
+            "wealth": 15399.75,
+            "tax_bonus_income": 1539.9750000000004,
+            "corruption_loss": 0.0,
+            "tax_income": 16939.725,
+            "building_upkeep": 200.0,
+            "net_income": 16739.725,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 18796.525,
+          "bound": 18796.525,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "a0e92a36d0d1fd81bb94dd93c0ad53826a8a346a4486ada6e34ba08e016e2005",
+          "finances": {
+            "wealth": 17087.75,
+            "tax_bonus_income": 1708.7749999999996,
+            "corruption_loss": 0.0,
+            "tax_income": 18796.525,
+            "building_upkeep": 0.0,
+            "net_income": 18796.525,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_antes",
+      "civilization": "Anteans",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 17627.15,
+          "bound": 17627.15,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "84e718ce75493e18381afbf0a00dea0ec7dfcfd0d96fe885cf6173173ea016e6",
+          "finances": {
+            "wealth": 16206.5,
+            "tax_bonus_income": 1620.6499999999996,
+            "corruption_loss": 0.0,
+            "tax_income": 17827.15,
+            "building_upkeep": 200.0,
+            "net_income": 17627.15,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 16602.225,
+          "bound": 16602.225000000002,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "e9873b2c49f3c9695268d77384dc74ee8d96bfca423dd72b56703226f4810e03",
+          "finances": {
+            "wealth": 15274.75,
+            "tax_bonus_income": 1527.475,
+            "corruption_loss": 0.0,
+            "tax_income": 16802.225,
+            "building_upkeep": 200.0,
+            "net_income": 16602.225,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 17725.4,
+          "bound": 17725.4,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "1780d5c7f20cfbb686fcc5f5f1bd4ed3f886605e01e36832c86e2367f63ef21d",
+          "finances": {
+            "wealth": 16114.0,
+            "tax_bonus_income": 1611.4,
+            "corruption_loss": 0.0,
+            "tax_income": 17725.4,
+            "building_upkeep": 0.0,
+            "net_income": 17725.4,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_sclaveni",
+      "civilization": "Sclavenians",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 17627.15,
+          "bound": 17627.15,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "84e718ce75493e18381afbf0a00dea0ec7dfcfd0d96fe885cf6173173ea016e6",
+          "finances": {
+            "wealth": 16206.5,
+            "tax_bonus_income": 1620.6499999999996,
+            "corruption_loss": 0.0,
+            "tax_income": 17827.15,
+            "building_upkeep": 200.0,
+            "net_income": 17627.15,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 16602.225,
+          "bound": 16602.225000000002,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "e9873b2c49f3c9695268d77384dc74ee8d96bfca423dd72b56703226f4810e03",
+          "finances": {
+            "wealth": 15274.75,
+            "tax_bonus_income": 1527.475,
+            "corruption_loss": 0.0,
+            "tax_income": 16802.225,
+            "building_upkeep": 200.0,
+            "net_income": 16602.225,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 17725.4,
+          "bound": 17725.4,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "1780d5c7f20cfbb686fcc5f5f1bd4ed3f886605e01e36832c86e2367f63ef21d",
+          "finances": {
+            "wealth": 16114.0,
+            "tax_bonus_income": 1611.4,
+            "corruption_loss": 0.0,
+            "tax_income": 17725.4,
+            "building_upkeep": 0.0,
+            "net_income": 17725.4,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_alamanni",
+      "civilization": "Alamans",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 16874.8,
+          "bound": 16874.8,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "ba4220f87886a6e1515e6244dc9244f598a29c6d04e10f72b3212adf36f93244",
+          "finances": {
+            "wealth": 15810.0,
+            "tax_bonus_income": 1264.8000000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 17074.8,
+            "building_upkeep": 200.0,
+            "net_income": 16874.8,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 15589.6,
+          "bound": 15589.6,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "78e73a0af5600bc5be1d1f904e937d74acb083bc9649abe504a636c55eba73d1",
+          "finances": {
+            "wealth": 14620.0,
+            "tax_bonus_income": 1169.6,
+            "corruption_loss": 0.0,
+            "tax_income": 15789.6,
+            "building_upkeep": 200.0,
+            "net_income": 15589.6,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 17151.75,
+          "bound": 17151.75,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "90b5ee0abe8a4c1435d527a07221b02e0a6fe79a1cf66c03fe318dfbbbeee722",
+          "finances": {
+            "wealth": 15881.25,
+            "tax_bonus_income": 1270.4999999999995,
+            "corruption_loss": 0.0,
+            "tax_income": 17151.75,
+            "building_upkeep": 0.0,
+            "net_income": 17151.75,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_alani",
+      "civilization": "Alans",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 16874.8,
+          "bound": 16874.8,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "ba4220f87886a6e1515e6244dc9244f598a29c6d04e10f72b3212adf36f93244",
+          "finances": {
+            "wealth": 15810.0,
+            "tax_bonus_income": 1264.8000000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 17074.8,
+            "building_upkeep": 200.0,
+            "net_income": 16874.8,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 15589.6,
+          "bound": 15589.6,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "78e73a0af5600bc5be1d1f904e937d74acb083bc9649abe504a636c55eba73d1",
+          "finances": {
+            "wealth": 14620.0,
+            "tax_bonus_income": 1169.6,
+            "corruption_loss": 0.0,
+            "tax_income": 15789.6,
+            "building_upkeep": 200.0,
+            "net_income": 15589.6,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 17151.75,
+          "bound": 17151.75,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "2fefcc6dbfe8e7b4a08ba3ecc6ed66d6280d1feaf9fd646fc1dd572162aeddf1",
+          "finances": {
+            "wealth": 15881.25,
+            "tax_bonus_income": 1270.4999999999995,
+            "corruption_loss": 0.0,
+            "tax_income": 17151.75,
+            "building_upkeep": 0.0,
+            "net_income": 17151.75,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_burgundii",
+      "civilization": "Burgundians",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 16874.8,
+          "bound": 16874.8,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "ba4220f87886a6e1515e6244dc9244f598a29c6d04e10f72b3212adf36f93244",
+          "finances": {
+            "wealth": 15810.0,
+            "tax_bonus_income": 1264.8000000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 17074.8,
+            "building_upkeep": 200.0,
+            "net_income": 16874.8,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 15589.6,
+          "bound": 15589.6,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "78e73a0af5600bc5be1d1f904e937d74acb083bc9649abe504a636c55eba73d1",
+          "finances": {
+            "wealth": 14620.0,
+            "tax_bonus_income": 1169.6,
+            "corruption_loss": 0.0,
+            "tax_income": 15789.6,
+            "building_upkeep": 200.0,
+            "net_income": 15589.6,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 17151.75,
+          "bound": 17151.75,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "90b5ee0abe8a4c1435d527a07221b02e0a6fe79a1cf66c03fe318dfbbbeee722",
+          "finances": {
+            "wealth": 15881.25,
+            "tax_bonus_income": 1270.4999999999995,
+            "corruption_loss": 0.0,
+            "tax_income": 17151.75,
+            "building_upkeep": 0.0,
+            "net_income": 17151.75,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_dani",
+      "civilization": "Danes",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 16874.8,
+          "bound": 16874.8,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "ba4220f87886a6e1515e6244dc9244f598a29c6d04e10f72b3212adf36f93244",
+          "finances": {
+            "wealth": 15810.0,
+            "tax_bonus_income": 1264.8000000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 17074.8,
+            "building_upkeep": 200.0,
+            "net_income": 16874.8,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 15589.6,
+          "bound": 15589.6,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "78e73a0af5600bc5be1d1f904e937d74acb083bc9649abe504a636c55eba73d1",
+          "finances": {
+            "wealth": 14620.0,
+            "tax_bonus_income": 1169.6,
+            "corruption_loss": 0.0,
+            "tax_income": 15789.6,
+            "building_upkeep": 200.0,
+            "net_income": 15589.6,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 17151.75,
+          "bound": 17151.75,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "2fefcc6dbfe8e7b4a08ba3ecc6ed66d6280d1feaf9fd646fc1dd572162aeddf1",
+          "finances": {
+            "wealth": 15881.25,
+            "tax_bonus_income": 1270.4999999999995,
+            "corruption_loss": 0.0,
+            "tax_income": 17151.75,
+            "building_upkeep": 0.0,
+            "net_income": 17151.75,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_franci",
+      "civilization": "Franks",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 16874.8,
+          "bound": 16874.8,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "ba4220f87886a6e1515e6244dc9244f598a29c6d04e10f72b3212adf36f93244",
+          "finances": {
+            "wealth": 15810.0,
+            "tax_bonus_income": 1264.8000000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 17074.8,
+            "building_upkeep": 200.0,
+            "net_income": 16874.8,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 15589.6,
+          "bound": 15589.6,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "78e73a0af5600bc5be1d1f904e937d74acb083bc9649abe504a636c55eba73d1",
+          "finances": {
+            "wealth": 14620.0,
+            "tax_bonus_income": 1169.6,
+            "corruption_loss": 0.0,
+            "tax_income": 15789.6,
+            "building_upkeep": 200.0,
+            "net_income": 15589.6,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 17151.75,
+          "bound": 17151.75,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "90b5ee0abe8a4c1435d527a07221b02e0a6fe79a1cf66c03fe318dfbbbeee722",
+          "finances": {
+            "wealth": 15881.25,
+            "tax_bonus_income": 1270.4999999999995,
+            "corruption_loss": 0.0,
+            "tax_income": 17151.75,
+            "building_upkeep": 0.0,
+            "net_income": 17151.75,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_gauti",
+      "civilization": "Geats",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 16874.8,
+          "bound": 16874.8,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "ba4220f87886a6e1515e6244dc9244f598a29c6d04e10f72b3212adf36f93244",
+          "finances": {
+            "wealth": 15810.0,
+            "tax_bonus_income": 1264.8000000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 17074.8,
+            "building_upkeep": 200.0,
+            "net_income": 16874.8,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 15589.6,
+          "bound": 15589.6,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "78e73a0af5600bc5be1d1f904e937d74acb083bc9649abe504a636c55eba73d1",
+          "finances": {
+            "wealth": 14620.0,
+            "tax_bonus_income": 1169.6,
+            "corruption_loss": 0.0,
+            "tax_income": 15789.6,
+            "building_upkeep": 200.0,
+            "net_income": 15589.6,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 17151.75,
+          "bound": 17151.75,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "2fefcc6dbfe8e7b4a08ba3ecc6ed66d6280d1feaf9fd646fc1dd572162aeddf1",
+          "finances": {
+            "wealth": 15881.25,
+            "tax_bonus_income": 1270.4999999999995,
+            "corruption_loss": 0.0,
+            "tax_income": 17151.75,
+            "building_upkeep": 0.0,
+            "net_income": 17151.75,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_iuti",
+      "civilization": "Jutes",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 16874.8,
+          "bound": 16874.8,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "ba4220f87886a6e1515e6244dc9244f598a29c6d04e10f72b3212adf36f93244",
+          "finances": {
+            "wealth": 15810.0,
+            "tax_bonus_income": 1264.8000000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 17074.8,
+            "building_upkeep": 200.0,
+            "net_income": 16874.8,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 15589.6,
+          "bound": 15589.6,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "78e73a0af5600bc5be1d1f904e937d74acb083bc9649abe504a636c55eba73d1",
+          "finances": {
+            "wealth": 14620.0,
+            "tax_bonus_income": 1169.6,
+            "corruption_loss": 0.0,
+            "tax_income": 15789.6,
+            "building_upkeep": 200.0,
+            "net_income": 15589.6,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 17151.75,
+          "bound": 17151.75,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "2fefcc6dbfe8e7b4a08ba3ecc6ed66d6280d1feaf9fd646fc1dd572162aeddf1",
+          "finances": {
+            "wealth": 15881.25,
+            "tax_bonus_income": 1270.4999999999995,
+            "corruption_loss": 0.0,
+            "tax_income": 17151.75,
+            "building_upkeep": 0.0,
+            "net_income": 17151.75,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_langobardi",
+      "civilization": "Langobards",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 16874.8,
+          "bound": 16874.8,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "ba4220f87886a6e1515e6244dc9244f598a29c6d04e10f72b3212adf36f93244",
+          "finances": {
+            "wealth": 15810.0,
+            "tax_bonus_income": 1264.8000000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 17074.8,
+            "building_upkeep": 200.0,
+            "net_income": 16874.8,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 15589.6,
+          "bound": 15589.6,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "78e73a0af5600bc5be1d1f904e937d74acb083bc9649abe504a636c55eba73d1",
+          "finances": {
+            "wealth": 14620.0,
+            "tax_bonus_income": 1169.6,
+            "corruption_loss": 0.0,
+            "tax_income": 15789.6,
+            "building_upkeep": 200.0,
+            "net_income": 15589.6,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 17151.75,
+          "bound": 17151.75,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "90b5ee0abe8a4c1435d527a07221b02e0a6fe79a1cf66c03fe318dfbbbeee722",
+          "finances": {
+            "wealth": 15881.25,
+            "tax_bonus_income": 1270.4999999999995,
+            "corruption_loss": 0.0,
+            "tax_income": 17151.75,
+            "building_upkeep": 0.0,
+            "net_income": 17151.75,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_ostrogothi",
+      "civilization": "Ostrogoths",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 16874.8,
+          "bound": 16874.8,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "ba4220f87886a6e1515e6244dc9244f598a29c6d04e10f72b3212adf36f93244",
+          "finances": {
+            "wealth": 15810.0,
+            "tax_bonus_income": 1264.8000000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 17074.8,
+            "building_upkeep": 200.0,
+            "net_income": 16874.8,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 15589.6,
+          "bound": 15589.6,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "78e73a0af5600bc5be1d1f904e937d74acb083bc9649abe504a636c55eba73d1",
+          "finances": {
+            "wealth": 14620.0,
+            "tax_bonus_income": 1169.6,
+            "corruption_loss": 0.0,
+            "tax_income": 15789.6,
+            "building_upkeep": 200.0,
+            "net_income": 15589.6,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 17151.75,
+          "bound": 17151.75,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "2fefcc6dbfe8e7b4a08ba3ecc6ed66d6280d1feaf9fd646fc1dd572162aeddf1",
+          "finances": {
+            "wealth": 15881.25,
+            "tax_bonus_income": 1270.4999999999995,
+            "corruption_loss": 0.0,
+            "tax_income": 17151.75,
+            "building_upkeep": 0.0,
+            "net_income": 17151.75,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_saxones",
+      "civilization": "Saxons",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 16874.8,
+          "bound": 16874.8,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "ba4220f87886a6e1515e6244dc9244f598a29c6d04e10f72b3212adf36f93244",
+          "finances": {
+            "wealth": 15810.0,
+            "tax_bonus_income": 1264.8000000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 17074.8,
+            "building_upkeep": 200.0,
+            "net_income": 16874.8,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 15589.6,
+          "bound": 15589.6,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "78e73a0af5600bc5be1d1f904e937d74acb083bc9649abe504a636c55eba73d1",
+          "finances": {
+            "wealth": 14620.0,
+            "tax_bonus_income": 1169.6,
+            "corruption_loss": 0.0,
+            "tax_income": 15789.6,
+            "building_upkeep": 200.0,
+            "net_income": 15589.6,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 17151.75,
+          "bound": 17151.75,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "2fefcc6dbfe8e7b4a08ba3ecc6ed66d6280d1feaf9fd646fc1dd572162aeddf1",
+          "finances": {
+            "wealth": 15881.25,
+            "tax_bonus_income": 1270.4999999999995,
+            "corruption_loss": 0.0,
+            "tax_income": 17151.75,
+            "building_upkeep": 0.0,
+            "net_income": 17151.75,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_suebi",
+      "civilization": "Suebians",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 16874.8,
+          "bound": 16874.8,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "ba4220f87886a6e1515e6244dc9244f598a29c6d04e10f72b3212adf36f93244",
+          "finances": {
+            "wealth": 15810.0,
+            "tax_bonus_income": 1264.8000000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 17074.8,
+            "building_upkeep": 200.0,
+            "net_income": 16874.8,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 15589.6,
+          "bound": 15589.6,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "78e73a0af5600bc5be1d1f904e937d74acb083bc9649abe504a636c55eba73d1",
+          "finances": {
+            "wealth": 14620.0,
+            "tax_bonus_income": 1169.6,
+            "corruption_loss": 0.0,
+            "tax_income": 15789.6,
+            "building_upkeep": 200.0,
+            "net_income": 15589.6,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 17151.75,
+          "bound": 17151.75,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "90b5ee0abe8a4c1435d527a07221b02e0a6fe79a1cf66c03fe318dfbbbeee722",
+          "finances": {
+            "wealth": 15881.25,
+            "tax_bonus_income": 1270.4999999999995,
+            "corruption_loss": 0.0,
+            "tax_income": 17151.75,
+            "building_upkeep": 0.0,
+            "net_income": 17151.75,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_vandali",
+      "civilization": "Vandals",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 16874.8,
+          "bound": 16874.8,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "ba4220f87886a6e1515e6244dc9244f598a29c6d04e10f72b3212adf36f93244",
+          "finances": {
+            "wealth": 15810.0,
+            "tax_bonus_income": 1264.8000000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 17074.8,
+            "building_upkeep": 200.0,
+            "net_income": 16874.8,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 15589.6,
+          "bound": 15589.6,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "78e73a0af5600bc5be1d1f904e937d74acb083bc9649abe504a636c55eba73d1",
+          "finances": {
+            "wealth": 14620.0,
+            "tax_bonus_income": 1169.6,
+            "corruption_loss": 0.0,
+            "tax_income": 15789.6,
+            "building_upkeep": 200.0,
+            "net_income": 15589.6,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 17151.75,
+          "bound": 17151.75,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "2fefcc6dbfe8e7b4a08ba3ecc6ed66d6280d1feaf9fd646fc1dd572162aeddf1",
+          "finances": {
+            "wealth": 15881.25,
+            "tax_bonus_income": 1270.4999999999995,
+            "corruption_loss": 0.0,
+            "tax_income": 17151.75,
+            "building_upkeep": 0.0,
+            "net_income": 17151.75,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "faction_id": "att_fact_visigothi",
+      "civilization": "Visigoths",
+      "provinces": [
+        {
+          "province": "Aegyptus",
+          "income": 16874.8,
+          "bound": 16874.8,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "ba4220f87886a6e1515e6244dc9244f598a29c6d04e10f72b3212adf36f93244",
+          "finances": {
+            "wealth": 15810.0,
+            "tax_bonus_income": 1264.8000000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 17074.8,
+            "building_upkeep": 200.0,
+            "net_income": 16874.8,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 15589.6,
+          "bound": 15589.6,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "78e73a0af5600bc5be1d1f904e937d74acb083bc9649abe504a636c55eba73d1",
+          "finances": {
+            "wealth": 14620.0,
+            "tax_bonus_income": 1169.6,
+            "corruption_loss": 0.0,
+            "tax_income": 15789.6,
+            "building_upkeep": 200.0,
+            "net_income": 15589.6,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 17151.75,
+          "bound": 17151.75,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "2fefcc6dbfe8e7b4a08ba3ecc6ed66d6280d1feaf9fd646fc1dd572162aeddf1",
+          "finances": {
+            "wealth": 15881.25,
+            "tax_bonus_income": 1270.4999999999995,
+            "corruption_loss": 0.0,
+            "tax_income": 17151.75,
+            "building_upkeep": 0.0,
+            "net_income": 17151.75,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          }
+        }
+      ]
+    }
+  ]
+}

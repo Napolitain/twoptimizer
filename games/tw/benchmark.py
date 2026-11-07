@@ -37,7 +37,7 @@ def snapshot(
     city_level=4,
     building_level=1,
     military=False,
-    objective="wealth",
+    objective="income",
     retain_economy=False,
     technologies=None,
     scenario=None,
@@ -91,7 +91,7 @@ def compare(
     width,
     restarts,
     economy=None,
-    objective="wealth",
+    objective="income",
     workers=1,
 ):
     results = [
@@ -174,7 +174,10 @@ def main(argv=None):
         "--workers", type=int, default=1, help="CP-SAT workers; other solvers unchanged"
     )
     cli.add_argument(
-        "--objective", choices=("wealth", "income", "legacy"), default="wealth"
+        "--objective",
+        choices=("wealth", "income", "legacy"),
+        default="income",
+        help="Maximize recurring income (default), gross building wealth, or legacy GDP",
     )
     techs = cli.add_mutually_exclusive_group()
     techs.add_argument(
@@ -267,7 +270,12 @@ def main(argv=None):
         provinces = provinces[: args.limit]
     digest = hashlib.sha256()
     for path in sorted(
-        [*parser.game_dir.glob("*.tsv"), parser.game_dir / "online_buildings.json"]
+        [
+            *parser.game_dir.glob("*.tsv"),
+            parser.game_dir / "online_buildings.json",
+            parser.game_dir / "online_factions.json",
+            parser.game_dir / "online_modifiers.json",
+        ]
     ):
         digest.update(path.name.encode())
         digest.update(path.read_bytes())

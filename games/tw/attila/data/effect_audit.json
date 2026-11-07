@@ -6580,5 +6580,2571 @@
       "status": "unmodeled"
     }
   ],
+  "campaign_modifiers": {
+    "faction_entries": 140,
+    "technology_trees": 29,
+    "religions": 14,
+    "coverage": {
+      "faction_traits": {
+        "supported": 115,
+        "outside_settlement_income": 705,
+        "unmodeled": 110
+      },
+      "active_technology_facts": {
+        "unmodeled": 292,
+        "modeled": 797,
+        "outside_settlement_income": 971,
+        "availability_rule": 8
+      },
+      "state_religion_facts": {
+        "modeled": 7,
+        "unmodeled": 3,
+        "outside_settlement_income": 4
+      }
+    },
+    "unmodeled": [
+      {
+        "faction": "att_fact_alamanni",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_alamanni",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_alamanni",
+        "origin": "faction",
+        "text": "Royal Splendour: +50% to general's radius of influence.",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_alani",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_angli",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_angli",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_axum",
+        "origin": "culture",
+        "text": "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_bastarnae",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_bastarnae",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_burgundii",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_burgundii",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_dacia",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_dacia",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_dani",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_ebdani",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_franci",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_franci",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_gaetuli",
+        "origin": "culture",
+        "text": "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_garamantes",
+        "origin": "culture",
+        "text": "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_garamantes",
+        "origin": "faction",
+        "text": "-50% conversion time of the main building chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_gauti",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_gepidae",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_gepidae",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_greuthingi",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_greuthingi",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_himyar",
+        "origin": "culture",
+        "text": "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_himyar",
+        "origin": "faction",
+        "text": "Ma'rib Dam: Unique fertility-boosting building at the capital.",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_iuti",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_iuti",
+        "origin": "faction",
+        "text": "Extra income for every enemy unit destroyed.",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_lakhmids",
+        "origin": "culture",
+        "text": "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_langobardi",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_langobardi",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_lugii",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_lugii",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_marcomanni",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_marcomanni",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_ostrogothi",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_picti",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_quadi",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_quadi",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_rebel_celtic",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_rebel_celtic",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_rebel_germanic_east",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_rebel_germanic_east",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_rebel_germanic_north",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_rebel_germanic_north",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_rebel_germanic_west",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_rebel_germanic_west",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_rebel_nordic",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_rebel_nordic",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_rugii",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_rugii",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_saxones",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_saxones",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_sclaveni",
+        "origin": "faction",
+        "text": "Extra income for every enemy unit destroyed.",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_sclaveni",
+        "origin": "faction",
+        "text": "Public order: +5 from military presence",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_alanic",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_axum",
+        "origin": "culture",
+        "text": "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_celtic",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_celtic",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_dani",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_dani",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_ebdani",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_frankish",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_frankish",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_garamantes",
+        "origin": "faction",
+        "text": "-50% conversion time of the main building chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_gaut",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_gaut",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_germanic_east",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_germanic_east",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_germanic_north",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_germanic_north",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_germanic_west",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_germanic_west",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_himyar",
+        "origin": "culture",
+        "text": "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_himyar",
+        "origin": "faction",
+        "text": "Ma'rib Dam: Unique fertility-boosting building at the capital.",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_iuti",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_iuti",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_iuti",
+        "origin": "faction",
+        "text": "Extra income for every enemy unit destroyed.",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_lakhmids",
+        "origin": "culture",
+        "text": "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_nordic",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_nordic",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_ostrogothic",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_ostrogothic",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_picti",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_saxon",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_saxon",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_sclaveni",
+        "origin": "faction",
+        "text": "Extra income for every enemy unit destroyed.",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_sclaveni",
+        "origin": "faction",
+        "text": "Public order: +5 from military presence",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_suebi",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_tanukhid",
+        "origin": "culture",
+        "text": "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_vandalic",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_vandalic",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_visigothic",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_visigothic",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_visigothic",
+        "origin": "faction",
+        "text": "Income: +500 from the formation of tributary states",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_votadini",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_separatist_western_roman",
+        "origin": "faction",
+        "text": "Upkeep cost: -2% per non-Roman unit in a military force",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_suebi",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_tanukhids",
+        "origin": "culture",
+        "text": "Fractured Faiths: Increased public order penalty for religious differences between new religions",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_thuringi",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_thuringi",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_vandali",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_varini",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_varini",
+        "origin": "culture",
+        "text": "Building conversion rate: -50%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_visigothi",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_visigothi",
+        "origin": "faction",
+        "text": "Income: +500 from the formation of tributary states",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_votadini",
+        "origin": "culture",
+        "text": "+200% conversion time of the main chain",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_votadini",
+        "origin": "faction",
+        "text": "Success chance: +25%",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "faction": "att_fact_western_roman_empire",
+        "origin": "faction",
+        "text": "Upkeep cost: -2% per non-Roman unit in a military force",
+        "rule": null,
+        "status": "unmodeled"
+      },
+      {
+        "tree": "aksum",
+        "source": "Advanced Archery Training",
+        "text": "Missile damage: +10%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "aksum",
+        "source": "Combined Force Tactics",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "aksum",
+        "source": "Legal Practice",
+        "text": "Political incidents: -20% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "aksum",
+        "source": "Religious Council",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "aksum",
+        "source": "Religious Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "aksum",
+        "source": "Universal Combat Training",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alamans",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alamans",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alamans",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alamans",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alamans",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alamans",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alamans",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alamans",
+        "source": "Martial Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alamans",
+        "source": "Military Manoeuvres",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alamans",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alamans",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alans",
+        "source": "Alani Martial Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alans",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alans",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alans",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alans",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alans",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alans",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alans",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alans",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "alans",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "anteans",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "anteans",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "anteans",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "anteans",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "anteans",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "anteans",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "anteans",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "anteans",
+        "source": "Military Manoeuvres",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "anteans",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "anteans",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "anteans",
+        "source": "Slavic Martial Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "burgundians",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "burgundians",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "burgundians",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "burgundians",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "burgundians",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "burgundians",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "burgundians",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "burgundians",
+        "source": "Martial Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "burgundians",
+        "source": "Military Manoeuvres",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "burgundians",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "burgundians",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "caledonians",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "caledonians",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "caledonians",
+        "source": "Celtic Warrior Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "caledonians",
+        "source": "Celtic Warrior Culture",
+        "text": "Looting income: +10%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "caledonians",
+        "source": "Celtic Warrior Culture",
+        "text": "Growth: +15 growth from razing settlements when hording.",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "caledonians",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "caledonians",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "caledonians",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "caledonians",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "caledonians",
+        "source": "Horns & Pipes",
+        "text": "Income: +100 for every 10% damage caused to settlements during a battle.",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "caledonians",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "caledonians",
+        "source": "Military Manoeuvres",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "caledonians",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "caledonians",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "danes",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "danes",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "danes",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "danes",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "danes",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "danes",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "danes",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "danes",
+        "source": "Martial Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "danes",
+        "source": "Military Manoeuvres",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "danes",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "danes",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "eastern-roman-empire",
+        "source": "Divine Right",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "eastern-roman-empire",
+        "source": "Language of Comradeship",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "eastern-roman-empire",
+        "source": "New Tactics",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "eastern-roman-empire",
+        "source": "State Construction Programme",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ebdanians",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ebdanians",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ebdanians",
+        "source": "Celtic Warrior Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ebdanians",
+        "source": "Celtic Warrior Culture",
+        "text": "Looting income: +10%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ebdanians",
+        "source": "Celtic Warrior Culture",
+        "text": "Growth: +15 growth from razing settlements when hording.",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ebdanians",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ebdanians",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ebdanians",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ebdanians",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ebdanians",
+        "source": "Horns & Pipes",
+        "text": "Income: +100 for every 10% damage caused to settlements during a battle.",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ebdanians",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ebdanians",
+        "source": "Military Manoeuvres",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ebdanians",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ebdanians",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "franks",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "franks",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "franks",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "franks",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "franks",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "franks",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "franks",
+        "source": "Frankish Martial Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "franks",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "franks",
+        "source": "Military Manoeuvres",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "franks",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "franks",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "garamantians",
+        "source": "Advanced Archery Training",
+        "text": "Missile damage: +10%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "garamantians",
+        "source": "Combined Force Tactics",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "garamantians",
+        "source": "Legal Practice",
+        "text": "Political incidents: -20% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "garamantians",
+        "source": "Religious Council",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "garamantians",
+        "source": "Religious Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "garamantians",
+        "source": "Universal Combat Training",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "geats",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "geats",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "geats",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "geats",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "geats",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "geats",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "geats",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "geats",
+        "source": "Martial Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "geats",
+        "source": "Military Manoeuvres",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "geats",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "geats",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "himyar",
+        "source": "Advanced Archery Training",
+        "text": "Missile damage: +10%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "himyar",
+        "source": "Combined Force Tactics",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "himyar",
+        "source": "Legal Practice",
+        "text": "Political incidents: -20% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "himyar",
+        "source": "Religious Council",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "himyar",
+        "source": "Religious Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "himyar",
+        "source": "Universal Combat Training",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "huns",
+        "source": "Acculturation of the Conquered",
+        "text": "Horde Growth: +2",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "huns",
+        "source": "Broad Scouting Initiative",
+        "text": "Campaign line of sight: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "huns",
+        "source": "Broad Scouting Initiative",
+        "text": "Sacking income: +35%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "huns",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "huns",
+        "source": "Hunnic Storm",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "huns",
+        "source": "Methodical Oppression",
+        "text": "Horde Growth: +1",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "huns",
+        "source": "Network of Informants",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "huns",
+        "source": "Organised Extortion",
+        "text": "Raiding income: +20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "huns",
+        "source": "Speed of Attack",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "huns",
+        "source": "Systematic Ransacking",
+        "text": "Horde Growth: +1",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "huns",
+        "source": "Tribe of Tribes",
+        "text": "Horde Growth: +3",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "huns",
+        "source": "Tribe of Tribes",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "huns",
+        "source": "Undisputed Superiority",
+        "text": "Horde building construction cost: -10%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "huns",
+        "source": "Undisputed Superiority",
+        "text": "Horde Growth: +3",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "huns",
+        "source": "Wagon Laager",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "huns",
+        "source": "Wagon Rafts & Pontoons",
+        "text": "Sacking income: +15%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "jutes",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "jutes",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "jutes",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "jutes",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "jutes",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "jutes",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "jutes",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "jutes",
+        "source": "Martial Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "jutes",
+        "source": "Military Manoeuvres",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "jutes",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "jutes",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "lakhmids",
+        "source": "Advanced Archery Training",
+        "text": "Missile damage: +10%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "lakhmids",
+        "source": "Combined Force Tactics",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "lakhmids",
+        "source": "Legal Practice",
+        "text": "Political incidents: -20% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "lakhmids",
+        "source": "Religious Council",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "lakhmids",
+        "source": "Religious Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "lakhmids",
+        "source": "Universal Combat Training",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "langobards",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "langobards",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "langobards",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "langobards",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "langobards",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "langobards",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "langobards",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "langobards",
+        "source": "Martial Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "langobards",
+        "source": "Military Manoeuvres",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "langobards",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "langobards",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ostrogoths",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ostrogoths",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ostrogoths",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ostrogoths",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ostrogoths",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ostrogoths",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ostrogoths",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ostrogoths",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ostrogoths",
+        "source": "Ostrogothic Martial Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "ostrogoths",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "picts",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "picts",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "picts",
+        "source": "Celtic Warrior Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "picts",
+        "source": "Celtic Warrior Culture",
+        "text": "Looting income: +10%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "picts",
+        "source": "Celtic Warrior Culture",
+        "text": "Growth: +15 growth from razing settlements when hording.",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "picts",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "picts",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "picts",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "picts",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "picts",
+        "source": "Horns & Pipes",
+        "text": "Income: +100 for every 10% damage caused to settlements during a battle.",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "picts",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "picts",
+        "source": "Military Manoeuvres",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "picts",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "picts",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "sassanid-empire",
+        "source": "Advanced Archery Training",
+        "text": "Missile damage: +10%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "sassanid-empire",
+        "source": "Combined Force Tactics",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "sassanid-empire",
+        "source": "Duty of Conquest",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "sassanid-empire",
+        "source": "Duty of Conquest",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "sassanid-empire",
+        "source": "Legal Theory & Practice",
+        "text": "Political incidents: -20% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "sassanid-empire",
+        "source": "Universal Combat Training",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "saxons",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "saxons",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "saxons",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "saxons",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "saxons",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "saxons",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "saxons",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "saxons",
+        "source": "Martial Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "saxons",
+        "source": "Military Manoeuvres",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "saxons",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "saxons",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "sclavenians",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "sclavenians",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "sclavenians",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "sclavenians",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "sclavenians",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "sclavenians",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "sclavenians",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "sclavenians",
+        "source": "Military Manoeuvres",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "sclavenians",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "sclavenians",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "sclavenians",
+        "source": "Slavic Martial Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "suebians",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "suebians",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "suebians",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "suebians",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "suebians",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "suebians",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "suebians",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "suebians",
+        "source": "Martial Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "suebians",
+        "source": "Military Manoeuvres",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "suebians",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "suebians",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "tanukhids",
+        "source": "Advanced Archery Training",
+        "text": "Missile damage: +10%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "tanukhids",
+        "source": "Combined Force Tactics",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "tanukhids",
+        "source": "Legal Practice",
+        "text": "Political incidents: -20% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "tanukhids",
+        "source": "Religious Council",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "tanukhids",
+        "source": "Religious Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "tanukhids",
+        "source": "Universal Combat Training",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "vandals",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "vandals",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "vandals",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "vandals",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "vandals",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "vandals",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "vandals",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "vandals",
+        "source": "Military Manoeuvres",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "vandals",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "vandals",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "vandals",
+        "source": "Vandal Martial Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "venedians",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "venedians",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "venedians",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "venedians",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "venedians",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "venedians",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "venedians",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "venedians",
+        "source": "Military Manoeuvres",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "venedians",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "venedians",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "venedians",
+        "source": "Slavic Martial Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "visigoths",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "visigoths",
+        "source": "Army Drills",
+        "text": "Unit experience: +1 for spear infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "visigoths",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "visigoths",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for axe infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "visigoths",
+        "source": "Elite Military Class",
+        "text": "Unit experience +1 experience for sword infantry recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "visigoths",
+        "source": "Elite Military Class",
+        "text": "Unit experience: +1 for cavalry unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "visigoths",
+        "source": "King's Court",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "visigoths",
+        "source": "New Aristocracy",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "visigoths",
+        "source": "Royal Council",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "visigoths",
+        "source": "Visigothic Martial Culture",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "western-roman-empire",
+        "source": "Barbarian Enclaves",
+        "text": "Construction time: -1 for main settlement buildings",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "western-roman-empire",
+        "source": "Divine Right",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "western-roman-empire",
+        "source": "Language of Comradeship",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "western-roman-empire",
+        "source": "New Aristocracy",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "western-roman-empire",
+        "source": "New Tactics",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "white-huns",
+        "source": "Acculturation of the Conquered",
+        "text": "Horde Growth: +2",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "white-huns",
+        "source": "Broad Scouting Initiative",
+        "text": "Campaign line of sight: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "white-huns",
+        "source": "Broad Scouting Initiative",
+        "text": "Sacking income: +35%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "white-huns",
+        "source": "Combat at Distance",
+        "text": "Missile damage: +5%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "white-huns",
+        "source": "Hunnic Storm",
+        "text": "Unit experience: +1 for all recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "white-huns",
+        "source": "Methodical Oppression",
+        "text": "Horde Growth: +1",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "white-huns",
+        "source": "Network of Informants",
+        "text": "Political action cost: -25% personal influence (all characters)",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "white-huns",
+        "source": "Organised Extortion",
+        "text": "Raiding income: +20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "white-huns",
+        "source": "Speed of Attack",
+        "text": "Fatigue rate: -20%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "white-huns",
+        "source": "Systematic Ransacking",
+        "text": "Horde Growth: +1",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "white-huns",
+        "source": "Tribe of Tribes",
+        "text": "Horde Growth: +3",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "white-huns",
+        "source": "Tribe of Tribes",
+        "text": "Political incidents: -25% chance of occuring",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "white-huns",
+        "source": "Undisputed Superiority",
+        "text": "Horde building construction cost: -10%",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "white-huns",
+        "source": "Undisputed Superiority",
+        "text": "Horde Growth: +3",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "white-huns",
+        "source": "Wagon Laager",
+        "text": "Unit experience: +1 for missile unit recruits",
+        "status": "unmodeled"
+      },
+      {
+        "tree": "white-huns",
+        "source": "Wagon Rafts & Pontoons",
+        "text": "Sacking income: +15%",
+        "status": "unmodeled"
+      },
+      {
+        "religion": "catholic",
+        "source": "att_rel_chr_catholic",
+        "text": "Religious influence: +1 Latin Christianity (in neighbouring provinces) (all provinces)",
+        "status": "unmodeled"
+      },
+      {
+        "religion": "manichaeist",
+        "source": "att_rel_east_manichaeism",
+        "text": "Public order: Up to +1 bonus from presence of Manichaeism (all provinces)",
+        "status": "unmodeled"
+      },
+      {
+        "religion": "slavic",
+        "source": "att_rel_pag_slavic",
+        "text": "Public order: Up to +1 bonus from presence of Slavic paganism (all provinces)",
+        "status": "unmodeled"
+      }
+    ],
+    "note": "Supported conditional faction traits still need campaign inputs. Interest is excluded by the requested objective. Missing building metadata is reported separately in each layout's catalogue_exclusions."
+  },
   "note": "Third-party cross-check, not proof of in-game fidelity. Contextual/horde differences are retained; original effects are not overwritten."
 }
