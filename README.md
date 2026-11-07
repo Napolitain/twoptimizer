@@ -7,7 +7,25 @@ removed. The HoI4 module is retained for a separate redesign.
 includes public reference catalogs, a coverage audit and an installed-game
 TSV ingestion command. **Shogun 2 now has a public-data domestic-tax optimizer**
 and [12-clan results](reports/shogun2-income-comparison.csv).
-Rome II and Three Kingdoms still need their own validated models.
+**Rome II also has a working public-reference optimizer** and
+[32-faction comparison with rank bounds](reports/rome2-ranking.csv).
+Three Kingdoms still needs its own model. Neither new model is a complete
+installed-build-verified campaign simulation.
+
+## Run Rome II
+
+```sh
+.venv/bin/python -m games.tw.rome2.benchmark --layout coastal --seconds 15
+.venv/bin/python -m games.tw.rome2.benchmark --faction rom_rome \
+  --layout coastal --algorithm cp-sat --algorithm scip --algorithm cbc
+```
+
+The [Rome II model](games/tw/rome2/README.md) uses raw repository effects and
+online building/research references. It handles shared food, province-wide
+wealth bonuses, public order, distinct primary/port/ordinary plots, resource
+cores, faction traits and one political profile. Solver bounds accompany
+unfinished proofs. Its reference holdings have explicitly supplied resources
+and slots; historical starting worlds and current patch fidelity are not assumed.
 
 ## Run Shogun 2
 

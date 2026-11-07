@@ -2,13 +2,17 @@
 
 The public reference catalogs and installed-export ingestion path cover
 Shogun 2, Rome II and Three Kingdoms. A [Shogun 2 domestic-tax optimizer](../shogun2/README.md)
-now runs from public references with explicit scenario inputs. Rome II and
-Three Kingdoms still await game-specific models and validation.
+now runs from public references with explicit scenario inputs. A
+[Rome II model](../rome2/README.md) also combines the repository's raw effects
+with official building eligibility, faction-specific research and public traits.
+Three Kingdoms still awaits a game-specific model. Installed-build validation
+remains outstanding for all three games.
 
 | Catalog | Buildings | Faction entries | Additional facts |
 | --- | ---: | ---: | --- |
 | Shogun 2 | 115 | 12 playable clans | 45 arts; 65 province soil/port/specialty records |
-| Rome II | 813 | 207 Grand Campaign entries | Shared culture and political-party effect text |
+| Rome II shared catalog | 813 | 207 Grand Campaign entries | Shared culture and political-party effect text |
+| Rome II economy supplement | 894 | 32 playable faction trees | 2,077 faction/technology records; 173 regions and 57 provinces |
 | Three Kingdoms | 583 | 659 reference entries | Construction costs/turns, listed upkeep and food-cost metadata |
 
 Faction entries include NPCs, separatists and different start dates where the
@@ -44,7 +48,10 @@ campaign simulation verified against installed data. The Shogun 2 model publishe
 [controlled clan comparisons](../../../reports/shogun2-income-comparison.csv),
 including assumptions and three-solver optimality checks. Those results establish
 an optimum for domestic tax income in the declared scenario, rather than an
-unconditional strongest-campaign ranking.
+unconditional strongest-campaign ranking. The Rome II model publishes
+[bounded comparisons](../../../reports/rome2-income-comparison.csv) on explicit
+reference holdings. Its source combination and reconstructed placement rules
+are disclosed; old official references are not represented as a current patch.
 
 ## Refresh or replay the public catalogs
 

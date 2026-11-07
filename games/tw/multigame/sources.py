@@ -23,6 +23,8 @@ class Sources:
                 "https://liquidwork.github.io/shogun2-encyclopedia/",
                 "https://shogun2-encyclopedia.com/",
                 "https://steamcommunity.com/sharedfiles/",
+                "https://r2encv2.totalwar.com/",
+                "https://r2enc.totalwar.com/",
             )
         ):
             raise ValueError("Unrecognized reference source")

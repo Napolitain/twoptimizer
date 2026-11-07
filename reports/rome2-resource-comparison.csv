@@ -1,0 +1,3 @@
+layout,faction,algorithm,status,income,upper_bound,food,public_order,seconds
+grain,Rome,cp-sat,OPTIMAL,10793.115,10793.115,3,3,0.6848356000009517
+grain,Carthage,cp-sat,OPTIMAL,8498.42,8498.42,0,5,0.4470619430012448

@@ -1,0 +1,35 @@
+layout,faction_id,faction,best_income,upper_bound,status,rank_min,rank_max,incumbent_solver,proof_solvers
+coastal,rom_rome,Rome,9973.165,9973.165,OPTIMAL,1,1,cp-sat,cp-sat;scip;scip-nonlinear
+coastal,rom_carthage,Carthage,7337.4,7337.4,OPTIMAL,2,2,cp-sat,cp-sat;scip;scip-nonlinear
+coastal,rom_suebi,Suebi,6403.68,6403.68,OPTIMAL,3,11,cp-sat,scip-nonlinear
+coastal,rom_arverni,Arverni,6233.16,6793.193484187973,FEASIBLE,3,16,scip-nonlinear,
+coastal,rom_nervii,Nervii,5945.16,6648.541888778564,FEASIBLE,3,18,scip-nonlinear,
+coastal,rom_massagetae,Massagetae,5613.38,6722.21,FEASIBLE,3,18,cp-sat,
+coastal,rom_armenia,Armenia,5470.435,5470.435,OPTIMAL,7,19,cp-sat,cp-sat
+coastal,rom_parthia,Parthia,5470.435,5470.435,OPTIMAL,7,19,cp-sat,cp-sat
+coastal,rom_epirus,Epirus,5378.55,5378.55,OPTIMAL,9,21,cp-sat,cp-sat
+coastal,rom_baktria,Baktria,5329.445,5329.445,OPTIMAL,10,22,cp-sat,cp-sat
+coastal,rom_roxolani,Roxolani,5258.145,6666.8375,FEASIBLE,3,22,cp-sat,
+coastal,rom_getae,Getae,5204.9,6718.76,FEASIBLE,3,22,cp-sat,
+coastal,rom_cimmeria,Cimmeria,5191.445,5191.445,OPTIMAL,13,23,cp-sat,cp-sat
+coastal,rom_scythia,Royal Scythia,5181.67,6683.6275,FEASIBLE,3,23,cp-sat,
+coastal,rom_seleucid,Seleucid,5171.32,5171.32,OPTIMAL,15,24,cp-sat,cp-sat
+coastal,rom_ardiaei,Ardiaei,5151.195,6489.91,FEASIBLE,3,24,cp-sat,
+coastal,rom_athens,Athens,5136.82,5136.82,OPTIMAL,17,25,cp-sat,cp-sat
+coastal,rom_iceni,Iceni,5123.595,6375.025,FEASIBLE,4,25,cp-sat,
+coastal,rom_colchis,Colchis,5090.82,5090.82,OPTIMAL,19,26,cp-sat,cp-sat
+coastal,rom_ptolemaics,Egypt,5090.82,6006.5075,FEASIBLE,5,25,cp-sat,
+coastal,rom_macedon,Macedon,5090.82,5090.82,OPTIMAL,19,26,cp-sat,cp-sat
+coastal,rom_massilia,Massilia,5090.82,5090.82,OPTIMAL,19,26,cp-sat,cp-sat
+coastal,rom_pergamon,Pergamon,5090.82,5090.82,OPTIMAL,19,26,cp-sat,cp-sat
+coastal,rom_pontus,Pontus,5090.82,5090.82,OPTIMAL,19,26,cp-sat,cp-sat
+coastal,rom_sparta,Sparta,5090.82,5090.82,OPTIMAL,19,26,cp-sat,cp-sat
+coastal,rom_syracuse,Syracuse,5063.795,5063.795,OPTIMAL,26,32,cp-sat,cp-sat
+coastal,rom_arevaci,Arevaci,5013.77,6333.51,FEASIBLE,4,32,cp-sat,
+coastal,rom_boii,Boii,5013.77,6379.165,FEASIBLE,4,32,cp-sat,
+coastal,rom_galatia,Galatia,5013.77,6225.3525,FEASIBLE,5,32,cp-sat,
+coastal,rom_lusitani,Lusitani,5013.77,6382.6725,FEASIBLE,4,32,cp-sat,
+coastal,rom_odryssia,Odrysian Kingdom,5013.77,6517.7975,FEASIBLE,3,32,cp-sat,
+coastal,rom_tylis,Tylis,5013.77,6361.9725,FEASIBLE,4,32,cp-sat,
+grain,rom_rome,Rome,10793.115,10793.115,OPTIMAL,1,1,cp-sat,cp-sat
+grain,rom_carthage,Carthage,8498.42,8498.42,OPTIMAL,2,2,cp-sat,cp-sat

@@ -54,10 +54,12 @@ def audit(catalog):
             "Public faction/religion/unique-building rules need validation against installed tables",
         ],
         "rome2": [
+            "A static reference optimizer is available in games/tw/rome2, with explicit scenarios and optimality bounds",
             "Public roster visibility is not proof of faction/campaign eligibility",
             "No separate upkeep column; maintenance effects must be interpreted",
             "Technology, edict, family, slavery and campaign inputs need validated tables",
             "Settlement capacities, food sharing and province scopes need game-specific validation",
+            "The separate economy supplement reconstructs 32 official faction trees; four later playable factions and current patch differences remain unverified",
         ],
         "three_kingdoms": [
             "Numeric placeholders include building-slot values",
