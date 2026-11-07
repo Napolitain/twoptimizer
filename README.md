@@ -3,6 +3,10 @@
 Total War economic optimization and HoI4 experiments. Smite 1 and 2 have been
 removed. The HoI4 module is retained for a separate redesign.
 
+[Shogun 2, Rome II and Three Kingdoms data preparation](games/tw/multigame/README.md)
+now includes public reference catalogs, a coverage audit and an installed-game
+TSV ingestion command. Their economy comparisons await installed-data validation.
+
 ## Run Attila
 
 ```sh

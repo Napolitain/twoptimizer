@@ -1,0 +1,104 @@
+{
+  "catalogs": [
+    {
+      "game": "shogun2",
+      "faction_entries": 12,
+      "building_records": 115,
+      "distinct_public_rosters": 0,
+      "technology_records": 45,
+      "province_names": 65,
+      "source_responses": 241,
+      "numeric_placeholder_count": 0,
+      "numeric_placeholders": [],
+      "missing_separate_upkeep_values": 115,
+      "identity_conflicts": [],
+      "integrity_errors": [],
+      "ready_for_full_economy_model": false,
+      "required_validation": [
+        "Archived encyclopedia patch is unspecified",
+        "Clan traits are descriptive; numeric magnitudes need installed effect tables",
+        "Province pages provide names, not numerical fertility/resource/starting wealth data",
+        "Food-surplus growth, town wealth and tax-state inputs need a time/scenario model",
+        "Faction/religion/unique-building legality needs installed tables"
+      ],
+      "note": "Counts measure imported reference facts, not modeled mechanics or completeness. Missing numbers are not substituted with zero."
+    },
+    {
+      "game": "rome2",
+      "faction_entries": 207,
+      "building_records": 813,
+      "distinct_public_rosters": 10,
+      "technology_records": 0,
+      "province_names": 0,
+      "source_responses": 552,
+      "numeric_placeholder_count": 3,
+      "numeric_placeholders": [
+        {
+          "building": "3c_barbarian_cult_christ_2",
+          "fact": "%-n public order for each non-Christian temple or cult in this province. (this_building)",
+          "source_url": "https://www.honga.net/totalwar/rome2/building.php?l=en&f=rom_eravisci&chain=3c_barbarian_cults"
+        },
+        {
+          "building": "3c_barbarian_cult_christ_3",
+          "fact": "%-n public order for each non-Christian temple or cult in this province. (this_building)",
+          "source_url": "https://www.honga.net/totalwar/rome2/building.php?l=en&f=rom_eravisci&chain=3c_barbarian_cults"
+        },
+        {
+          "building": "3c_barbarian_cult_christ_4",
+          "fact": "%-n public order for each non-Christian temple or cult in this province. (this_building)",
+          "source_url": "https://www.honga.net/totalwar/rome2/building.php?l=en&f=rom_eravisci&chain=3c_barbarian_cults"
+        }
+      ],
+      "missing_separate_upkeep_values": 813,
+      "identity_conflicts": [],
+      "integrity_errors": [],
+      "ready_for_full_economy_model": false,
+      "required_validation": [
+        "Public roster visibility is not proof of faction/campaign eligibility",
+        "No separate upkeep column; maintenance effects must be interpreted",
+        "Technology, edict, family, slavery and campaign inputs need validated tables",
+        "Settlement capacities, food sharing and province scopes need game-specific validation"
+      ],
+      "note": "Counts measure imported reference facts, not modeled mechanics or completeness. Missing numbers are not substituted with zero."
+    },
+    {
+      "game": "three_kingdoms",
+      "faction_entries": 659,
+      "building_records": 583,
+      "distinct_public_rosters": 21,
+      "technology_records": 0,
+      "province_names": 0,
+      "source_responses": 770,
+      "numeric_placeholder_count": 3,
+      "numeric_placeholders": [
+        {
+          "building": "3k_city_8",
+          "fact": "Building slots: %n (local commandery)",
+          "source_url": "https://www.honga.net/totalwar/three_kingdoms/building.php?l=en&f=3k_main_faction_liu_bei&chain=3k_city"
+        },
+        {
+          "building": "3k_city_10",
+          "fact": "Building slots: %n (local commandery)",
+          "source_url": "https://www.honga.net/totalwar/three_kingdoms/building.php?l=en&f=3k_main_faction_liu_bei&chain=3k_city"
+        },
+        {
+          "building": "3k_dlc06_city_7",
+          "fact": "Building slots: %n (local commandery)",
+          "source_url": "https://www.honga.net/totalwar/three_kingdoms/building.php?l=en&f=3k_main_faction_liu_bei&chain=3k_dlc06_city"
+        }
+      ],
+      "missing_separate_upkeep_values": 0,
+      "identity_conflicts": [],
+      "integrity_errors": [],
+      "ready_for_full_economy_model": false,
+      "required_validation": [
+        "Numeric placeholders include building-slot values",
+        "Public rosters mix settlement traditions; faction restrictions are not certified",
+        "Faction/leader/reform/population effects have not been imported from installed tables",
+        "The food-cost metadata column must not be confused with recurring food effects",
+        "Commandery/county slot and resource rules need installed tables"
+      ],
+      "note": "Counts measure imported reference facts, not modeled mechanics or completeness. Missing numbers are not substituted with zero."
+    }
+  ]
+}

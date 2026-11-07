@@ -6,3 +6,4 @@
 .venv/
 benchmark-results/
 .cache/
+installed-game-data/
