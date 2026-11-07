@@ -1,137 +1,149 @@
 # Rome II reference income optimizer
 
-This optimizer runs without installed files, combining the repository's raw
-Rome II effects and slot tables with online building eligibility, faction-specific
-technology trees and faction traits. It maximizes **current domestic provincial
-tax receipts**, not treasury growth or complete campaign profit.
+Runs without installed game files. Maximizes **current domestic tax receipts less
+modeled building maintenance** for all 36 playable Grand Campaign factions,
+including Kush, Masaesyli, Nabataea and Saba.
 
 ```sh
-.venv/bin/python -m games.tw.rome2.benchmark --layout coastal --seconds 15
-.venv/bin/python -m games.tw.rome2.benchmark --layout coastal --seconds 60 --resume
-.venv/bin/python -m games.tw.rome2.benchmark --faction rom_rome \
-  --layout coastal --algorithm cp-sat --algorithm cbc --algorithm scip
-.venv/bin/python -m games.tw.rome2.benchmark --faction rom_arverni \
-  --layout coastal --algorithm scip-nonlinear --seconds 30
-```
-
-`python -m games.tw.rome2.main` now routes here, replacing the unfinished prototype.
-`pyscipopt` supplies the native nonlinear SCIP formulation.
-
-## Imported data and limits
-
-The [supplement](data/economy_catalog.json) includes 894 buildings, 32 playable
-Grand Campaign faction trees, 2,077 faction/technology records, 173 region
-identities with port/capital/slot metadata, and 57 provinces. Source URLs, hashes,
-original effect IDs/scopes, culture-specific names and costs remain inspectable.
-
-The importer filters Grand Campaign occurrences before merging building IDs.
-This avoids the mixed-campaign religious rosters in the shared public catalog.
-It preserves faction-specific temples, rejects conflicting official numeric
-records, decodes map JSON without executing scripts, and joins exact region IDs
-to the raw slot templates. Missing raw economic rows cause a failure.
-
-The repository dump lacks an installed-build manifest. The official encyclopedia
-is an older Emperor Edition snapshot; Honga faction traits can reflect later
-patches. **Their combination is not certified as a uniform/current patch.**
-New Pantheon/Jupiter campaign changes are outside scope. Four later playable
-faction trees absent from the official source are explicitly excluded.
-
-Complete resource-to-region assignments, numeric natural-wonder bonuses and
-historical campaign state remain unverified. The benchmark uses explicit
-controlled holdings instead of inventing those inputs:
-
-| Layout | Provincial capital | Minor settlement |
-| --- | --- | --- |
-| Inland | Four ordinary plots, no port | Two ordinary plots, no resource, no port |
-| Coastal | Four ordinary plots, port | Two ordinary plots, no resource, port |
-| Grain | Four ordinary plots, port | Two ordinary plots, grain core, port |
-
-Each site also has a separate compulsory primary; coastal sites have a separate
-compulsory port. These are independent hypothetical realms, not simultaneous
-holdings or historical starting provinces. The `Scenario`/`Site` Python API accepts
-other site counts, slot capacities, port sites and resource assignments. Imported
-geography can support later validated historical scenarios; an omitted resource
-assignment is not evidence that a historical region has no resource.
-
-## Enforced economics
-
-- Nine wealth categories distinguish farming, livestock, manufacturing, mining,
-  entertainment, learning, local commerce, maritime commerce and subsistence.
-  Applicable province/global/category bonuses add to 100%, then multiply base
-  category wealth. Epirus' displayed minor-settlement modifier applies only to
-  wealth originating at minor sites; its exact effect definition needs validation.
-- Normal taxation turns 100% of modified wealth into income. Tax bonuses and
-  supplied corruption deductions change that factor by percentage points.
-- Food is shared. Local output counts once; effects delivered to every owned
-  region count once per recipient. Adjacent-province effects have no recipients
-  in a single-province realm. Food must be nonnegative.
-- Squalor and sanitation happiness directly affect provincial public order,
-  which must be nonnegative. Attila's sanitation constraint and Shogun 2's
-  food-growth rule are not copied into this model.
-- One primary per site, one port per coastal site, and ordinary slot capacities
-  are enforced. Placement distinguishes city/town centres, major-only sanitation,
-  tax and industry, and minor civil agriculture/mining. Those reconstructed rules
-  still need installed `building_sets` validation. Different upgraded branches
-  may coexist; repeated levels of the same branch may not.
-- Exactly one playable political profile is selected. Families are not stacked.
-  The default chooses the best profile for this objective; safely dominated
-  profiles can be removed. Reports preserve source indices and facts because
-  reliable party-name IDs are absent. This represents choosing a campaign profile.
-
-The benchmark assumes all imported technology effects, accessible construction
-resources/unlocks, level-4 primaries and ordinary levels 1–4. `--no-technologies`
-removes research effects while retaining the declared mature/unlocked scenario.
-Level-5 special monuments and their location/uniqueness conditions are excluded.
-
-Default corruption and slaves are zero; own culture is 100%. Culture-order
-bonuses use the displayed maximum. There are no armies, garrisons, neighboring
-wars, edicts, difficulty/imperium/character offsets, natural-wonder bonuses or
-faction-capital-only subsistence. External trade/export/tariff receipts, military
-and agent expenses, construction spending, treasury interest and events are
-excluded. Growth is reported but no future wealth, queue or cash-flow timeline
-is simulated. Conditional edict/slave facts remain visible in the audit.
-
-## Solver evidence
-
-CP-SAT uses exact integer products. CBC and OR-Tools SCIP use exact mixed-integer
-linearization; native SCIP uses nonlinear constraints. Currency is calculated
-in 1/10,000 units, without coefficient rounding. Each returned layout is separately
-evaluated against original economics, placement, slots, food, order and party choice.
-All four formulations are checked against exhaustive enumeration in a small model.
-
-The [combined ranking](../../../reports/rome2-ranking.csv) uses each solver's
-best incumbent and tightest upper bound. Rank intervals preserve uncertainty.
-In the coastal reference holding Rome's 9,973.165 and Carthage's 7,337.4 are
-proved optima and their first/second ranks are certified against all other
-imported factions' bounds. With a grain core, their proved income becomes
-10,793.115 and 8,498.42; only those two factions are compared in that sensitivity.
-These are results of the declared reference model, not current campaign rankings.
-
-```sh
+.venv/bin/python -m games.tw.rome2.benchmark --layout coastal --seconds 12
+.venv/bin/python -m games.tw.rome2.benchmark --province Italia --province Africa \
+  --province Aegyptus --seconds 15
+.venv/bin/python -m games.tw.rome2.benchmark --faction rom_rome --layout coastal \
+  --algorithm cp-sat --algorithm cbc --algorithm scip --algorithm scip-nonlinear
+.venv/bin/python -m games.tw.rome2.benchmark --layout coastal --all-technologies
 .venv/bin/python -m games.tw.rome2.summarize
 ```
 
-The [income report](../../../reports/rome2-income-comparison.json) and
-[CSV](../../../reports/rome2-income-comparison.csv) preserve layouts, category
-breakdowns, bounds, times, source/model hashes and an effect audit. `OPTIMAL`
-means a proof for this reference model; `FEASIBLE` retains a gap. Agreement
-between solvers alone is not an optimality proof. The
-[solver comparison](../../../reports/rome2-solver-comparison.csv) covers
-representative Roman, Punic and barbarian cases; no backend universally wins.
+The default portfolio spends 35% of its budget in CP-SAT, then passes an independently
+validated layout to native nonlinear SCIP. It keeps the best income and tightest
+valid bound. `OPTIMAL` requires a solver proof; agreement alone is insufficient.
+CBC and OR-Tools SCIP use exact integer linearization. CP-SAT and native SCIP
+use integer products. Currency uses 1/10,000 units. Safe bounds and symmetry
+constraints reduce searches over interchangeable sites.
 
-Identical compiled CP-SAT models may reuse an optimum. Hashing removes variable
-names while retaining domains, constraints and objective coefficients. Receiving
-layouts are independently evaluated and reuse is disclosed. Resume checks both
-data and model-source hashes before accepting old proofs.
+## Sources and corrections
+
+[The catalog](data/economy_catalog.json) includes 1,140 buildings, 36 faction trees,
+original raw effect IDs/scopes, traits, research, costs, URLs and response hashes.
+The original 32 placement trees use the official archive; four later factions use
+Honga rosters. Sixty additional faction-specific raw variants recover temples
+and other Desert Kingdoms buildings omitted by the public index; individual pages
+provide their displayed effects and costs. Sixteen later spice settlements also
+supplement the older archive. Other-campaign prefixes are filtered before merging.
+
+All 1,140 buildings were compared with individual Honga pages in the
+[source audit](../../../reports/rome2-source-audit.json). There are 118 catalog
+display mismatches and six current displayed-fact mismatches: three Melqart
+industry bonuses are conditional edict effects in the raw tables; three Marib
+Dam displays say agriculture while the raw ID specifically targets farming.
+Raw IDs/scopes remain authoritative for this declared model. Matching displayed
+numbers does not prove matching recipient scopes.
+
+**A previous model error was corrected:** `rom_building_food_reserves` is displayed
+as food production, not storage. It now contributes to food. Checked-in comparisons
+have been rerun; old Rome II results in Git history are superseded. Older official
+grain-settlement displays also conflict with raw per-region food; raw scopes stay.
+Later imports retain earlier results only when both compiled models are identical
+and the stored layout passes evaluation against the new data; report migration
+metadata records these checks. Changed problems are solved again.
+
+The raw dump has no installed-build manifest. Archived official pages, public pages
+and community references are **not certified as a single current patch**. New
+Pantheon/Jupiter rules are outside this profile. An anonymous official Assembly Kit
+download was attempted; Steam denied access to Rome II app 267180.
+
+## Research
+
+Research bonuses are disabled by default. Buildings remain mature/unlocked; this
+is a controlled comparison, not a historical zero-research campaign. Explicit
+`--all-technologies` compares 29 factions with no detected public tree gaps.
+
+Public trees are incomplete for Armenia, Parthia, Rome and the four Desert Kingdoms
+factions. Roman Seed Selection's detail page is unavailable; the other six have
+visible empty research branches. Explicitly requesting their full public research
+fails. `--technology-profile archived` deliberately selects an older profile for
+the original 32 factions, never an automatic fallback. Coverage and scoped facts
+remain inspectable. `--no-technologies` explicitly selects the default baseline.
+
+## Provinces and regional bonuses
+
+[world.json](data/world.json) assigns resources to all 173 regions in 57 provinces.
+The community source declares patch 18. Every identity and capital flag matches
+repository tables. Three port conflicts (Apollonia, Larissa, Hecatompylos) retain
+repository templates. The reader extract records source lines and capture method;
+its hash is not presented as an HTTP response hash.
+
+[world_modifiers.json](data/world_modifiers.json) records 14 economic bonuses,
+including Roma, Carthago, Pergamon, Antioch and natural wonders. Province bonuses
+stay local; faction bonuses require ownership of their source region. Each named
+province comparison owns that province alone. Conditional Bread and Games effects
+stay inactive. Conflicting older 2013 wonder values remain visible.
+
+Roma's all-income bonus is interpreted as additive all-source wealth; Pharos'
+sea-trade bonus as maritime wealth. These two interpretations still need effect
+definitions. `--no-world-bonuses` gives a resource-only sensitivity. Named holdings
+are counterfactual equal-holding comparisons, not historical starts or empire totals.
+
+## Enforced rules and remaining scope
+
+- Nine wealth categories distinguish farming, livestock, entertainment, learning,
+  manufacturing, mining, local commerce, maritime commerce and subsistence.
+  Wealth modifiers add before tax multiplies modified wealth. Epirus' minor-site
+  bonus applies only to wealth originating in minor settlements.
+- Tax modifiers/corruption deductions are percentage points. Corruption reductions
+  cannot make corruption negative. Food and province public order must be nonnegative.
+  Per-region food counts once per owned recipient; adjacent provinces are unowned.
+- One primary per site, one port where coastal, four ordinary capital plots and
+  two ordinary town plots. Mature primaries up to level four and ordinary levels
+  1–4 are used; shorter resource chains stop at their actual maximum (e.g. iron).
+  Public placement rules distinguish city/town, major-only sanitation and industry,
+  and minor civil agriculture/mining. Installed `building_sets` validation remains.
+  Duplicate stages of a branch cannot coexist; distinct upgraded branches may.
+- One playable political profile is selected; family effects are not stacked.
+  Safely dominated profiles can be pruned for this objective.
+- Marib Dam is restricted to Marib. Its raw farming modifier is retained and
+  maintenance is deducted once, outside the tax multiplier.
+
+Hypothetical inland/coastal/grain layouts each contain one capital and one town;
+grain changes the minor primary. `Scenario`/`Site` accepts custom slot capacities,
+tax, corruption, public order, external food and explicit sourced modifiers.
+
+Default corruption/slaves are zero; own culture is 100%. Construction resources
+and unlocks are available independently of research bonuses. There are no active
+edicts, faction-capital-only subsistence, external trade/export/tariff receipts,
+armies, agents, construction spending, treasury interest, difficulty, imperium,
+character/event modifiers or future cash-flow timeline. Growth is reported without
+future value. Level-5 special monuments are excluded. This is a static domestic
+income model, not exhaustive campaign economics.
+
+## Results and replay
+
+[Rankings](../../../reports/rome2-ranking.csv) combine incumbents and upper bounds,
+keeping scenarios and research modes separate. Rank intervals preserve uncertainty.
+Reports contain original layouts, categories, food/order, maintenance, hashes and
+timing. Identical compiled CP-SAT models may reuse an optimum; receiving layouts
+are independently checked. Resume rejects different data/model snapshots.
+
+The checked-in coastal benchmark proves all 36 cases without research bonuses:
+Nabataea and Saba tie at 4,477.248. All 29 supported public research cases are also
+proved; Carthage leads that subset at 7,312.68 (Rome and six other incomplete
+research profiles are excluded). Named provinces provide 108 feasible layouts,
+with three proved optima; their faction rankings retain intervals. These are
+model results, not installed-game certification. All 188 saved layouts across
+the comparison reports passed independent replay. The regression suite has
+251 passing tests.
 
 ```sh
 .venv/bin/python -m games.tw.rome2.import_data
-.venv/bin/python -m games.tw.rome2.import_data --offline
+.venv/bin/python -m games.tw.rome2.import_public
+.venv/bin/python -m games.tw.rome2.world
+.venv/bin/python -m games.tw.rome2.audit_sources --download
+.venv/bin/python -m games.tw.rome2.verify
 ```
 
-Sources: [official building trees](https://r2encv2.totalwar.com/en/buildings/),
-[technologies](https://r2encv2.totalwar.com/en/technologies/),
-[region map](https://r2encv2.totalwar.com/en/regions/),
-[wealth rules](https://r2enc.totalwar.com/en/manual/single-player/0044a_enc_page_campaign_play_province_wealth/),
-and [Honga factions](https://www.honga.net/totalwar/rome2/faction.php?l=en).
-Installed exports will let us verify patch, availability, scope and world-state gaps.
+Importers/audit support cached `--offline` replay; the world join uses its checked-in
+factual extract. Re-run benchmarks after data/model changes. All five solver modes
+are tested against exhaustive small-layout enumeration. Regression checks cover
+food, corruption, maintenance, warm starts, source parsing and geography joins.
+`--resume --fill-missing` continues interrupted batches without spending another
+budget on already feasible cases. Plain `--resume` improves unresolved cases.

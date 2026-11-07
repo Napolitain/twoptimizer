@@ -1,0 +1,6 @@
+{
+  "province_faction_combinations_checked": 2052,
+  "errors": [],
+  "catalog_sha256": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+  "scope": "Constructor checks availability of mature primary and required port choices for all 57 provinces and 36 factions. These are not optimized layouts or food/order feasibility proofs."
+}

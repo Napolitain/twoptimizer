@@ -12,7 +12,7 @@ remains outstanding for all three games.
 | --- | ---: | ---: | --- |
 | Shogun 2 | 115 | 12 playable clans | 45 arts; 65 province soil/port/specialty records |
 | Rome II shared catalog | 813 | 207 Grand Campaign entries | Shared culture and political-party effect text |
-| Rome II economy supplement | 894 | 32 playable faction trees | 2,077 faction/technology records; 173 regions and 57 provinces |
+| Rome II economy supplement | 1,140 | 36 playable faction trees | Current public research audited; all 173 regions' resources; 57 provinces; 14 economic regional bonuses |
 | Three Kingdoms | 583 | 659 reference entries | Construction costs/turns, listed upkeep and food-cost metadata |
 
 Faction entries include NPCs, separatists and different start dates where the
@@ -27,6 +27,14 @@ Rome II and Three Kingdoms facts come from
 Every response has a URL, byte count and SHA-256 hash. No source JavaScript is
 executed. Only factual fields, names, IDs and effect statements are retained.
 These references do not identify an installed patch version.
+
+All 583 Three Kingdoms building detail pages have also been fetched into
+[a source-hashed supplement](data/three_kingdoms_details.json). Four pages recover
+facts absent from the chain catalog, but 174 explicitly display "No Effect",
+including core settlement and mint buildings. Published slot placeholders,
+population rules, eligibility and conditional faction effects still prevent
+a faithful complete optimizer. The [readiness audit](../../../reports/three-kingdoms-readiness.json)
+lists concrete blockers; missing effects are never assigned zero.
 
 The checked-in [coverage audit](data/coverage.json) records integrity checks and
 specific blockers. Some Three Kingdoms slot values and Rome II conditional

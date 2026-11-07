@@ -21,14 +21,14 @@ def summarize(paths):
         raise ValueError("Cannot combine different model/data snapshots")
     rows = []
     for cases in grouped.values():
-        usable = [c for c in cases if c.get("domestic_tax_income") is not None]
+        usable = [c for c in cases if c.get("domestic_net_income") is not None]
         if not usable:
             raise ValueError("Every ranked faction needs a feasible incumbent")
-        best = max(usable, key=lambda c: c["domestic_tax_income"])
+        best = max(usable, key=lambda c: c["domestic_net_income"])
         upper = min(
             c["solver"]["bound"] for c in usable if c["solver"]["bound"] is not None
         )
-        if upper < best["domestic_tax_income"] - 1e-5:
+        if upper < best["domestic_net_income"] - 1e-5:
             raise ValueError("An incumbent exceeds another solver's upper bound")
         proofs = sorted(
             {
@@ -40,9 +40,13 @@ def summarize(paths):
         rows.append(
             {
                 "layout": best["layout"],
+                "research": best["scenario"].get("technology_profile", "archived")
+                if best["scenario"]["all_technologies"]
+                else "disabled",
+                "world_profile": best["scenario"].get("world_profile"),
                 "faction_id": best["scenario"]["faction"],
                 "faction": best["faction_name"],
-                "best_income": best["domestic_tax_income"],
+                "best_income": best["domestic_net_income"],
                 "upper_bound": upper,
                 "status": "OPTIMAL" if proofs else "FEASIBLE",
                 "rank_min": 0,
@@ -65,7 +69,9 @@ def summarize(paths):
         row["rank_max"] = 1 + sum(
             r["upper_bound"] > row["best_income"] + 1e-5 for r in others
         )
-    rows.sort(key=lambda r: (r["layout"], -r["best_income"], r["faction"]))
+    rows.sort(
+        key=lambda r: (r["layout"], r["research"], -r["best_income"], r["faction"])
+    )
     for row in rows:
         del row["scenario_key"]
     return {
@@ -88,6 +94,8 @@ def main(argv=None):
             "rome2-income-comparison",
             "rome2-solver-comparison",
             "rome2-resource-comparison",
+            "rome2-province-comparison",
+            "rome2-research-comparison",
         )
     ]
     payload = summarize(paths)

@@ -8,8 +8,10 @@ includes public reference catalogs, a coverage audit and an installed-game
 TSV ingestion command. **Shogun 2 now has a public-data domestic-tax optimizer**
 and [12-clan results](reports/shogun2-income-comparison.csv).
 **Rome II also has a working public-reference optimizer** and
-[32-faction comparison with rank bounds](reports/rome2-ranking.csv).
-Three Kingdoms still needs its own model. Neither new model is a complete
+[36-faction comparisons with rank bounds](reports/rome2-ranking.csv), including
+named provinces with sourced resources and regional bonuses.
+Three Kingdoms has [583 audited building detail pages](reports/three-kingdoms-readiness.json)
+but still lacks essential rules for a trustworthy optimizer. Neither new model is a complete
 installed-build-verified campaign simulation.
 
 ## Run Rome II

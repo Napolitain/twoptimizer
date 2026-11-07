@@ -1,0 +1,15 @@
+{
+  "verified_feasible_layouts": 188,
+  "optimal_solver_results": 73,
+  "catalog_sha256": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+  "model_sha256": "86bae4bc7e289456812bd1cf6424b79cfe18df51a070dd2d7fe0d0b132255897",
+  "source_reports": {
+    "reports/rome2-income-comparison.json": "32fae8b5b97b072fe6509b9c908590d1250f91ba697f6cc96f8b513266d33359",
+    "reports/rome2-research-comparison.json": "4d6cf21d3046286af7d2a91f71da4ad099de77942fe99488c641377fe475bf65",
+    "reports/rome2-province-comparison.json": "e6d61d9a1a337e91bf4b58bbe92cbc2b5831d8747cb6f759b02904031cfd513e",
+    "reports/rome2-solver-comparison.json": "c58fe5f7a7477a84e0e113976fb96750bd9278a0447a438778e755036619f8a7",
+    "reports/rome2-resource-comparison.json": "717b670358c50e722147c5c9dd01998c60129051c2e584f25129e7b70985eeab",
+    "reports/rome2-marib-comparison.json": "13bbb2b01ddf8bcae14c867abdbb9828849dc49fdc5e34b344dacb0e32bbe5e0"
+  },
+  "scope": "Replays eligibility, slots, branches, parties, economics, food/order, objective, upper-bound consistency and portable proof metadata. Does not independently reproduce solver proofs or validate against the installed game."
+}

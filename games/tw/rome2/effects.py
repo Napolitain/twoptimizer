@@ -61,6 +61,12 @@ class Effect:
 
 
 def raw_effect(key, value):
+    if key == "rom_character_faction_leader_global_gdp_mod_agriculture_farming":
+        return Effect("wealth_percent", value, TARGETS["agriculture_farming"])
+    if key == "rom_tech_civil_economy_growth_mod":
+        return Effect("growth", value)
+    if key == "dk_building_gdp_maintenance":
+        return Effect("income_flat", value)
     if key.startswith("rom_province_initiative_"):
         return Effect("edict_conditional", value)
     if key.startswith("rom_building_slave_"):
@@ -75,7 +81,9 @@ def raw_effect(key, value):
             return Effect("wealth", value, (suffix,))
     if key == "rom_building_food_consumption":
         return Effect("food", -value)
-    if key.startswith("rom_building_food_") and "reserves" not in key:
+    # Despite its ID, food_reserves is displayed as flat food production by
+    # both the official encyclopedia and current Honga detail pages.
+    if key.startswith("rom_building_food_"):
         return Effect("food", value)
     if key.startswith("rom_building_public_order_"):
         return Effect("order", value)
@@ -87,6 +95,8 @@ def raw_effect(key, value):
 
 
 def fact_effect(text):
+    if re.search(r"edict:", text, re.IGNORECASE):
+        return None
     text = text.split(": ", 1)[-1]
     if match := re.fullmatch(r"([+-]?\d+)% wealth from minor settlements", text):
         return Effect("minor_wealth_percent", int(match[1]), CATEGORIES)
@@ -105,6 +115,8 @@ def fact_effect(text):
         return Effect("wealth_percent", int(match[1]), TARGETS["culture_all"])
     if match := re.fullmatch(r"([+-]?\d+)% tax rate", text):
         return Effect("tax_percent", int(match[1]))
+    if match := re.fullmatch(r"([+-]?\d+)% corruption in your provinces", text):
+        return Effect("corruption_percent", int(match[1]))
     if match := re.fullmatch(r"([+-]?\d+) food in all (provinces|regions)", text):
         return Effect("food_per_" + match[2], int(match[1]))
     if match := re.fullmatch(r"([+-]?\d+) (?:food|food production)", text):

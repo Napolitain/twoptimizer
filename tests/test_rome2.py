@@ -106,7 +106,9 @@ def tiny_scenario(**kwargs):
     )
 
 
-@pytest.mark.parametrize("algorithm", ["cp-sat", "cbc", "scip", "scip-nonlinear"])
+@pytest.mark.parametrize(
+    "algorithm", ["cp-sat", "cbc", "scip", "scip-nonlinear", "portfolio"]
+)
 def test_all_exact_solvers_match_exhaustive_original_economics(tiny, algorithm):
     economy = Economy(tiny_scenario(), tiny)
     best = 0
@@ -234,7 +236,7 @@ def test_imported_geography_and_faction_specific_temples():
     data = load_data()
     assert len(data["regions"]) == 173
     assert len(data["provinces"]) == 57
-    assert len(data["factions"]) == 32
+    assert len(data["factions"]) == 36
     assert not data["regions"]["rom_italia_latium"]["has_port"]
     assert data["regions"]["rom_italia_samnium"]["has_port"]
     for province in data["provinces"].values():
@@ -255,6 +257,13 @@ def test_imported_geography_and_faction_specific_temples():
 
 def test_money_facts_and_raw_effects_are_never_silently_lost():
     data = load_data()
+    for building in data["buildings"].values():
+        for row in building["effects"]:
+            if any(
+                term in row["id"]
+                for term in ("gdp", "food", "tax_level", "public_order")
+            ):
+                assert raw_effect(row["id"], row["value"]) is not None, row
     for faction in data["factions"].values():
         facts = faction["traits"]["culture_facts"] + [
             t for p in faction["traits"]["parties"] if p["playable"] for t in p["facts"]
@@ -320,3 +329,110 @@ def test_reuse_requires_identical_compiled_model_and_rechecks_economics(tiny):
     assert reused["solver"]["proof_reused_from"] == "rom_rome"
     with pytest.raises(ValueError, match="compiled model"):
         Economy(replace(scenario, tax_points=10), tiny).reuse_optimum(reference)
+
+
+def test_food_reserves_is_food_and_edicts_remain_conditional(tiny):
+    assert raw_effect("rom_building_food_reserves", 9).kind == "food"
+    assert fact_effect("Bread and Games Edict: +10 public order") is None
+    tiny["buildings"]["rome_city_4"]["effects"].append(
+        effect("rom_building_food_reserves", 9)
+    )
+    economy = Economy(replace(tiny_scenario(party=0), external_food=0), tiny)
+    assert (
+        economy.evaluate({"capital": ["rome_city_4"], "town": ["rome_town_4"]}, 0)[
+            "food_surplus"
+        ]
+        == 9
+    )
+
+
+@pytest.mark.parametrize(
+    "algorithm", ["cp-sat", "cbc", "scip", "scip-nonlinear", "portfolio"]
+)
+def test_maintenance_is_deducted_once_after_tax(tiny, algorithm):
+    tiny["buildings"]["rome_city_4"]["effects"].append(
+        effect("dk_building_gdp_maintenance", -20, "this_faction")
+    )
+    report = Economy(tiny_scenario(party=0), tiny).optimize(algorithm, seconds=5)
+    assert report["solver"]["status"] == "OPTIMAL"
+    assert report["domestic_net_income"] == pytest.approx(
+        report["domestic_tax_income"] - 20
+    )
+    assert report["solver"]["objective"] == pytest.approx(report["domestic_net_income"])
+
+
+def test_validated_warm_start_and_corruption_floor(tiny):
+    tiny["factions"]["rom_rome"]["traits"]["culture_facts"] = [
+        "-20% corruption in your provinces"
+    ]
+    scenario = replace(tiny_scenario(party=0), corruption_points=5)
+    first = Economy(scenario, tiny).optimize()
+    assert first["effective_corruption_points"] == 0
+    second = Economy(scenario, tiny).optimize("scip-nonlinear", incumbent=first)
+    assert second["domestic_net_income"] == first["domestic_net_income"]
+    bad = copy.deepcopy(first)
+    bad["domestic_net_income"] += 10
+    with pytest.raises(ValueError, match="Warm start"):
+        Economy(scenario, tiny).optimize("scip-nonlinear", incumbent=bad)
+
+
+def test_real_provinces_join_resources_and_scoped_modifiers():
+    from games.tw.rome2.world import province_scenario
+
+    italy = province_scenario("Italia", "rom_rome")
+    assert len(italy.sites) == 4
+    assert {s.resource for s in italy.sites} == {None, "wine", "olive"}
+    assert sum(s.port for s in italy.sites) == 2
+    assert {r["name"] for r in italy.modifiers} == {"Roma", "Mount Vesuvius"}
+    africa = province_scenario("Africa", "rom_saba")
+    assert len(africa.sites) == 4 and sum(s.port for s in africa.sites) == 4
+    economy = Economy(africa)
+    assert not any(
+        "marib_dam" in key for options in economy.candidates.values() for key in options
+    )
+    assert not province_scenario("Italia", "rom_rome", world_bonuses=False).modifiers
+
+
+def test_missing_public_research_is_explicitly_blocked():
+    from games.tw.rome2.world import province_scenario
+
+    with pytest.raises(ValueError, match="research tree is incomplete"):
+        Economy(province_scenario("Italia", "rom_rome", all_technologies=True))
+    # The legacy profile remains an explicit choice, never a silent fallback.
+    Economy(
+        province_scenario(
+            "Italia", "rom_rome", all_technologies=True, technology_profile="archived"
+        )
+    )
+
+
+def test_named_provinces_support_all_factions_and_short_resource_chains():
+    from games.tw.rome2.world import province_scenario
+
+    data = load_data()
+    for province in ("Italia", "Africa", "Aegyptus", "Arabia Felix"):
+        for faction in data["factions"]:
+            economy = Economy(province_scenario(province, faction), data)
+            if province == "Aegyptus" and faction == "rom_ardiaei":
+                iron = "rom_aegyptos_ta_shemau"
+                primaries = [
+                    b
+                    for key, b in economy.candidates[iron].items()
+                    if economy.roles[(iron, key)] == "primary"
+                ]
+                assert primaries and {b["level"] for b in primaries} == {3}
+
+
+def test_dlc_temples_missing_from_public_index_are_recovered():
+    from games.tw.rome2.world import province_scenario
+
+    economy = Economy(province_scenario("Italia", "rom_kush"))
+    assert "dk_kush_religious_amani_4" in economy.candidates["rom_italia_latium"]
+    assert any(
+        row["id"] == "rom_building_gdp_mod_all"
+        for row in economy.candidates["rom_italia_latium"]["dk_kush_religious_amani_4"][
+            "effects"
+        ]
+    )
+    saba = Economy(province_scenario("Arabia Felix", "rom_saba"))
+    assert "dk_saba_marib_dam_3" in saba.candidates["rom_arabia_felix_saba"]

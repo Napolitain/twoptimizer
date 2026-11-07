@@ -1,0 +1,30 @@
+layout,faction,algorithm,status,income,upper_bound,food,public_order,seconds
+coastal,Ardiaei,portfolio,OPTIMAL,6219.315,6219.315,5,2,6.2605417409977235
+coastal,Arevaci,portfolio,OPTIMAL,6163.77,6163.77,5,4,7.1049934290022065
+coastal,Arverni,portfolio,OPTIMAL,6601.69,6601.69,5,0,6.895530170000711
+coastal,Athens,portfolio,OPTIMAL,6813.635,6813.635,6,0,8.311397084999044
+coastal,Baktria,portfolio,OPTIMAL,7120.455,7120.455,1,0,6.736079979000351
+coastal,Boii,portfolio,OPTIMAL,6229.09,6229.09,5,0,13.2280158700014
+coastal,Carthage,portfolio,OPTIMAL,7312.68,7312.68,5,2,7.922585328997229
+coastal,Cimmeria,portfolio,OPTIMAL,6830.31,6830.31,6,0,8.50097583400202
+coastal,Colchis,portfolio,OPTIMAL,6758.435,6758.435,6,0,7.087636469001154
+coastal,Epirus,portfolio,OPTIMAL,7166.685,7166.685,5,1,9.03503717700005
+coastal,Galatia,portfolio,OPTIMAL,6229.09,6229.09,5,0,8.603768640001363
+coastal,Getae,portfolio,OPTIMAL,6347.77,6347.77,5,10,7.8544113479983935
+coastal,Iceni,portfolio,OPTIMAL,6210.46,6210.46,5,0,8.687036547999014
+coastal,Lusitani,portfolio,OPTIMAL,6163.77,6163.77,5,4,0
+coastal,Macedon,portfolio,OPTIMAL,6758.435,6758.435,6,0,0
+coastal,Massagetae,portfolio,OPTIMAL,6587.315,6587.315,5,2,7.657001834999392
+coastal,Massilia,portfolio,OPTIMAL,6758.435,6758.435,6,0,0
+coastal,Nervii,portfolio,OPTIMAL,6229.09,6229.09,5,0,0
+coastal,Odrysian Kingdom,portfolio,OPTIMAL,6229.09,6229.09,5,0,9.67595347599854
+coastal,Pergamon,portfolio,OPTIMAL,6758.435,6758.435,6,0,5.748011706997204
+coastal,Pontus,portfolio,OPTIMAL,6758.435,6758.435,6,0,0
+coastal,Egypt,portfolio,OPTIMAL,6777.985,6777.985,7,1,7.900452227000642
+coastal,Roxolani,portfolio,OPTIMAL,6280.265,6280.265,5,2,17.19696636899971
+coastal,Royal Scythia,portfolio,OPTIMAL,6601.69,6601.69,5,0,13.647342394000589
+coastal,Seleucid,portfolio,OPTIMAL,6815.935,6815.935,6,0,5.03819336000015
+coastal,Sparta,portfolio,OPTIMAL,6758.435,6758.435,6,0,0
+coastal,Suebi,portfolio,OPTIMAL,6229.09,6229.09,13,0,7.1030337259981025
+coastal,Syracuse,portfolio,OPTIMAL,6680.58,6680.58,6,0,7.2818836539991025
+coastal,Tylis,portfolio,OPTIMAL,6229.09,6229.09,5,0,0

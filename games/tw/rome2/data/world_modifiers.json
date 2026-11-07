@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "profile": "community_patch18",
+  "source_url": "https://seore.org/w/%ED%86%A0%ED%83%88%20%EC%9B%8C:%20%EB%A1%9C%EB%A7%882/%EC%A7%80%EC%97%AD",
+  "modifiers": [
+    {
+      "region": "rom_italia_latium",
+      "name": "Roma",
+      "kind": "wealth_percent",
+      "target": "all",
+      "value": 15,
+      "scope": "province",
+      "source_line": 330,
+      "interpretation": "Displayed all-income bonus interpreted as additive all-source wealth; installed effect definition still needed"
+    },
+    {
+      "region": "rom_italia_samnium",
+      "name": "Mount Vesuvius",
+      "kind": "wealth_percent",
+      "target": "agriculture_all",
+      "value": 5,
+      "scope": "faction",
+      "source_line": 338,
+      "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+    },
+    {
+      "region": "rom_magna_graecia_sirako",
+      "name": "Mount Etna",
+      "kind": "wealth_percent",
+      "target": "agriculture_all",
+      "value": 10,
+      "scope": "faction",
+      "source_line": 357,
+      "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+    },
+    {
+      "region": "rom_macedonia_makedonia",
+      "name": "Pella",
+      "kind": "wealth_percent",
+      "target": "industry",
+      "value": 25,
+      "scope": "province",
+      "source_line": 408,
+      "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+    },
+    {
+      "region": "rom_dacia_dacia_superior",
+      "name": "Kogaionon",
+      "kind": "wealth_percent",
+      "target": "culture_all",
+      "value": 5,
+      "scope": "faction",
+      "source_line": 487,
+      "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+    },
+    {
+      "region": "rom_hellas_peloponnesos",
+      "name": "Statue of Zeus",
+      "kind": "wealth_percent",
+      "target": "culture_all",
+      "value": 10,
+      "scope": "faction",
+      "source_line": 449,
+      "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+    },
+    {
+      "region": "rom_asia_lydia",
+      "name": "Mausoleum of Mausollus",
+      "kind": "tax_percent",
+      "target": null,
+      "value": 10,
+      "scope": "faction",
+      "source_line": 559,
+      "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+    },
+    {
+      "region": "rom_asia_mysia",
+      "name": "Pergamon",
+      "kind": "wealth_percent",
+      "target": "industry_manufacturing",
+      "value": 10,
+      "scope": "province",
+      "source_line": 562,
+      "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+    },
+    {
+      "region": "rom_syria_syria",
+      "name": "Antioch",
+      "kind": "order",
+      "target": null,
+      "value": 6,
+      "scope": "province",
+      "source_line": 654,
+      "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+    },
+    {
+      "region": "rom_parthia_hyrcania",
+      "name": "Mount Davamand",
+      "kind": "order",
+      "target": null,
+      "value": 5,
+      "scope": "faction",
+      "source_line": 778,
+      "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+    },
+    {
+      "region": "rom_africa_zeugitana",
+      "name": "Carthago",
+      "kind": "wealth_percent",
+      "target": "trade_all",
+      "value": 25,
+      "scope": "province",
+      "source_line": 912,
+      "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+    },
+    {
+      "region": "rom_libue_siwa",
+      "name": "Oracle of Amun-Ra",
+      "kind": "order",
+      "target": null,
+      "value": 4,
+      "scope": "faction",
+      "source_line": 944,
+      "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+    },
+    {
+      "region": "rom_aegyptos_ta_mehu",
+      "name": "Pharos of Alexandria",
+      "kind": "wealth_percent",
+      "target": "trade_sea",
+      "value": 15,
+      "scope": "faction",
+      "source_line": 959,
+      "interpretation": "Sea-trade bonus interpreted as maritime-commerce wealth, distinct from external tariff receipts"
+    },
+    {
+      "region": "rom_aegyptos_ta_ament",
+      "name": "Necropolis of Giza",
+      "kind": "wealth_percent",
+      "target": "culture_all",
+      "value": 5,
+      "scope": "faction",
+      "source_line": 963,
+      "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+    }
+  ],
+  "conditional_or_outside_scope": [
+    {
+      "region": "rom_hellas_peloponnesos",
+      "name": "Statue of Zeus",
+      "fact": "Bread and Games Edict: +10 public order",
+      "scope": "faction",
+      "source_line": 450
+    },
+    {
+      "region": "rom_macedonia_thessalia",
+      "name": "Mount Olympus",
+      "fact": "Bread and Games Edict: +25% cultural income",
+      "scope": "faction",
+      "source_line": 414
+    }
+  ],
+  "version_conflicts": [
+    {
+      "name": "Mount Vesuvius",
+      "community_patch18": 5,
+      "early_2013_guide": 2,
+      "category": "agricultural wealth"
+    },
+    {
+      "name": "Mount Etna",
+      "community_patch18": 10,
+      "early_2013_guide": 2,
+      "category": "agricultural wealth"
+    },
+    {
+      "name": "Pharos of Alexandria",
+      "community_patch18": 15,
+      "early_2013_guide": 5,
+      "category": "maritime-commerce wealth"
+    },
+    {
+      "name": "Necropolis of Giza",
+      "community_patch18": 5,
+      "early_2013_guide": 2,
+      "category": "culture wealth"
+    }
+  ],
+  "earlier_reference": "https://steamcommunity.com/sharedfiles/filedetails/?id=190168390",
+  "policy": "Use the explicitly declared community patch-18 profile for named-province scenarios; retain conflicting earlier magnitudes. These references and interpretation choices are not installed-patch validation. Non-economic wonder effects and inactive edict modifiers are not valued."
+}
