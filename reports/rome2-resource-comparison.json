@@ -2,7 +2,7 @@
   "schema_version": 1,
   "created_at_utc": "2026-11-07T13:49:02.363294+00:00",
   "catalog_sha256": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
-  "model_sha256": "86bae4bc7e289456812bd1cf6424b79cfe18df51a070dd2d7fe0d0b132255897",
+  "model_sha256": "4c1672311dd89f15ccbed536e13b23bcd015338b6833b58f046aa5c1015beb0d",
   "assumptions": {
     "objective": "Current domestic provincial tax receipts less modeled building maintenance, excluding external trade, armies, agents and construction spending.",
     "reference_holdings": "Controlled two-settlement provinces: inland, coastal, and coastal with a grain-producing minor core. These are explicit layouts, not historical starting provinces.",
@@ -12814,5 +12814,11 @@
     "retained_compiled_identical_cases": 2,
     "removed_changed_cases": [],
     "method": "Both old/new models were compiled to CP-SAT. Cases retained only when full compiled constraints/domains/objective hashes (ignoring variable names) are identical, then stored layouts independently re-evaluated. Changed problems require new solves."
+  },
+  "execution_defaults_update": {
+    "previous_model_sha256": "86bae4bc7e289456812bd1cf6424b79cfe18df51a070dd2d7fe0d0b132255897",
+    "previous_report_sha256": "717b670358c50e722147c5c9dd01998c60129051c2e584f25129e7b70985eeab",
+    "compiled_identical_cases": 2,
+    "reason": "Execution defaults changed to no time limit and automatic CPU allocation. Every old/new compiled CP-SAT model was compared and stored layouts re-evaluated; economic constraints/objectives are identical. These stored cases retain their historical time limits, elapsed times and proof statuses; no new proof is claimed. MIP searches now explicitly require a zero relative optimality gap."
   }
 }

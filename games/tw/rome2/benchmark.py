@@ -6,6 +6,7 @@ import hashlib
 import json
 from dataclasses import asdict
 from datetime import UTC, datetime
+from math import isfinite
 from pathlib import Path
 
 from games.tw.models.model_rome2 import Rome2Factions
@@ -100,8 +101,18 @@ def main(argv=None):
         action="append",
         choices=["cp-sat", "cbc", "scip", "scip-nonlinear", "portfolio"],
     )
-    parser.add_argument("--seconds", type=float, default=10)
-    parser.add_argument("--workers", type=int, default=8)
+    parser.add_argument(
+        "--seconds",
+        type=float,
+        default=None,
+        help="Optional time limit per case; default runs to completion",
+    )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=None,
+        help="Optional CPU worker override; default automatic",
+    )
     parser.add_argument("--resume", action="store_true")
     parser.add_argument(
         "--fill-missing",
@@ -118,6 +129,8 @@ def main(argv=None):
         "--output", type=Path, default=Path("benchmark-results/rome2/income")
     )
     args = parser.parse_args(argv)
+    if args.seconds is not None and (not isfinite(args.seconds) or args.seconds <= 0):
+        parser.error("--seconds must be positive; omit it to run to completion")
     if args.fill_missing and not args.resume:
         parser.error("--fill-missing requires --resume")
     data = load_data()

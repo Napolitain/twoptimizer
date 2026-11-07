@@ -32,7 +32,7 @@ class SolverCpSat(SolverOrTools):
         super().__init__()
         self.result = None
 
-    def solve(self, seconds=60, seed=0, workers=1):
+    def solve(self, seconds=None, seed=0, workers=None):
         model = BinaryModel.from_solver(self.solver)
         self.result = solve(
             model, "cp-sat", seconds=seconds, seed=seed, workers=workers

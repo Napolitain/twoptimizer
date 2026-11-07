@@ -7,7 +7,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
-from textual.widgets import Button, DataTable, Input, Select, TabbedContent
+from textual.widgets import Button, Checkbox, DataTable, Input, Select, TabbedContent
 
 from twoptimizer.catalog import choices
 from twoptimizer.runner import CaseRunner
@@ -44,8 +44,10 @@ class QuickRunner:
     def __init__(self):
         self.cancelled = False
 
-    async def run(self, config, on_log):
+    async def run(self, config, on_log, on_progress=None):
         await asyncio.sleep(0.02)
+        if on_progress:
+            on_progress("Solving and validating")
         on_log("Validated test layout")
         return result(config)
 
@@ -102,6 +104,10 @@ def test_keyboard_mouse_game_changes_run_layout_and_export(tmp_path):
         async with app.run_test(size=(120, 42)) as pilot:
             await pilot.pause()
             assert app.query_one("#algorithm", Select).value == "portfolio"
+            assert app._config().seconds is None
+            assert app._config().workers is None
+            assert not app.query("#workers")
+            assert not app.query_one("#time-options").display
             # A Select opens on click and navigates with arrow keys.
             await pilot.click("#game")
             await pilot.press("down", "enter")
@@ -150,6 +156,8 @@ def test_small_terminal_and_invalid_input_keep_actions_accessible():
         app = OptimizerApp(runner_factory=QuickRunner)
         async with app.run_test(size=(80, 24)) as pilot:
             await pilot.pause()
+            app.query_one("#time-limit", Checkbox).value = True
+            await pilot.pause()
             app.query_one("#seconds", Input).value = "0"
             await pilot.pause()
             assert app.query_one("#run", Button).disabled
@@ -165,7 +173,7 @@ def test_small_terminal_and_invalid_input_keep_actions_accessible():
 
 def test_cancelling_batch_preserves_completed_cases():
     class BlockingRunner(QuickRunner):
-        async def run(self, config, on_log):
+        async def run(self, config, on_log, on_progress=None):
             if config.algorithm == "cp-sat":
                 return result(config)
             while not self.cancelled:
@@ -212,6 +220,9 @@ def test_real_engine_worker(game):
         }
         assert output["request"] == asdict(config)
         assert output["source_files"]
+        assert output["timings"]["worker_wall_seconds"] > 0
+        assert output["timings"]["worker_startup_seconds"] >= 0
+        assert output["solver"]["workers"] >= 1
         if output["income"] is not None:
             assert output["buildings"] and output["metrics"]["food_surplus"] >= 0
         assert runner.process.returncode == 0
@@ -250,7 +261,7 @@ def test_cancel_terminates_real_solver_process():
 
 def test_quit_stops_an_active_batch():
     class BlockingRunner(QuickRunner):
-        async def run(self, config, on_log):
+        async def run(self, config, on_log, on_progress=None):
             while not self.cancelled:
                 await asyncio.sleep(0.01)
 

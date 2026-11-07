@@ -37,6 +37,21 @@ def money(value):
     return "—" if value is None else f"{value:,.3f}"
 
 
+def timing_summary(result):
+    times = result.get("timings", {})
+    return " · ".join(
+        f"{label} {times[key]:.2f}s"
+        for key, label in (
+            ("worker_startup_seconds", "Start"),
+            ("load_engine_seconds", "Load"),
+            ("build_model_seconds", "Build"),
+            ("solve_and_check_seconds", "Solve/check"),
+            ("worker_wall_seconds", "Total"),
+        )
+        if key in times
+    )
+
+
 class HelpScreen(ModalScreen):
     BINDINGS: ClassVar = [("escape", "close", "Close")]
 
@@ -57,7 +72,10 @@ layout; click column headings to sort.
 **F1** Help · **Ctrl+Q** Quit
 
 Cancellation stops the active solver process and preserves completed cases.
-Budgets apply per solver case; loading/building models adds overhead. Exported
+Runs have no time limit by default: they continue to an optimality or infeasibility
+proof. Enable the optional time limit to allow an earlier, unfinished result.
+CPU parallelism is selected automatically for supported backends.
+The status line shows startup, model building, solving and validation. Exported
 JSON includes settings, source hashes and original engine details. CSV is a summary.
 
 **OPTIMAL** is a solver proof for the stated model. **FEASIBLE** is a valid layout
@@ -183,6 +201,7 @@ class OptimizerApp(App):
         self._loading_settings = True
         self.started = None
         self.current_case = "Ready"
+        self.current_phase = ""
         self.sort_column, self.sort_reverse = "income", True
 
     def compose(self) -> ComposeResult:
@@ -244,10 +263,12 @@ class OptimizerApp(App):
                     yield Select(
                         [("Loading…", "loading")], allow_blank=False, id="algorithm"
                     )
-                    yield Label("Seconds per solver case", classes="field-label")
-                    yield Input("10", id="seconds", type="number")
-                    yield Label("CP-SAT workers", classes="field-label")
-                    yield Input("4", id="workers", type="integer")
+                    yield Checkbox("Use a time limit", value=False, id="time-limit")
+                    with Vertical(classes="option-group", id="time-options"):
+                        yield Label(
+                            "Solver time limit (seconds)", classes="field-label"
+                        )
+                        yield Input("10", id="seconds", type="number")
                 yield Static("", id="preview", markup=False)
                 with Horizontal(id="buttons"):
                     yield Button("Run", id="run", variant="primary")
@@ -318,7 +339,7 @@ class OptimizerApp(App):
             ("gap", "Gap %", 9),
             ("solver", "Solver", 16),
             ("province", "Province", 20),
-            ("seconds", "Seconds", 10),
+            ("seconds", "Total s", 10),
         ]:
             table.add_column(label, key=key, width=width)
         table.fixed_columns = 1
@@ -402,8 +423,10 @@ class OptimizerApp(App):
                 province=selected("province"),
                 algorithm=selected("algorithm"),
                 research=selected("research"),
-                seconds=float(self.query_one("#seconds", Input).value),
-                workers=int(self.query_one("#workers", Input).value),
+                seconds=float(self.query_one("#seconds", Input).value)
+                if self.query_one("#time-limit", Checkbox).value
+                else None,
+                workers=None,
                 fertility=float(self.query_one("#fertility", Input).value)
                 if game == "attila"
                 else 5,
@@ -419,7 +442,7 @@ class OptimizerApp(App):
             )
         except ValueError as error:
             raise ValueError(
-                "Enter numeric settings; workers must be a whole number."
+                "Enter numeric values for the selected settings."
             ) from error
 
     @on(Select.Changed)
@@ -430,6 +453,9 @@ class OptimizerApp(App):
             self._refresh_preview()
 
     def _refresh_preview(self):
+        self.query_one("#time-options").display = self.query_one(
+            "#time-limit", Checkbox
+        ).value
         try:
             config = self._config()
             self.query_one("#world-bonuses", Checkbox).disabled = (
@@ -442,7 +468,12 @@ class OptimizerApp(App):
             self.query_one("#run", Button).disabled = True
         else:
             self.query_one("#preview", Static).update(
-                f"{len(jobs)} case{'s' if len(jobs) != 1 else ''} · {config.seconds:g}s budget each"
+                f"{len(jobs)} case{'s' if len(jobs) != 1 else ''} · "
+                + (
+                    "until proved / cancelled"
+                    if config.seconds is None
+                    else f"{config.seconds:g}s limit each"
+                )
                 + (f"\n{len(skipped)} incomplete profiles excluded" if skipped else "")
             )
             self.query_one("#run", Button).disabled = False
@@ -488,10 +519,15 @@ class OptimizerApp(App):
                 if self.runner.cancelled:
                     break
                 self.current_case = f"Case {i}/{len(jobs)} · {faction_name(job.game, job.faction)} · {job.algorithm}"
+                self.current_phase = "Starting engine"
                 self._tick()
                 log.write(self.current_case)
                 try:
-                    result = await self.runner.run(job, lambda line: log.write(line))
+                    result = await self.runner.run(
+                        job,
+                        lambda line: log.write(line),
+                        on_progress=self._phase_changed,
+                    )
                 except (RuntimeError, OSError, ValueError) as error:
                     errors += 1
                     log.write(f"ERROR: {error}")
@@ -517,6 +553,10 @@ class OptimizerApp(App):
                 if result is None:
                     break
                 self.results.append(result)
+                if result.get("timings"):
+                    log.write("Timing: " + timing_summary(result))
+                if result["solver"].get("timings"):
+                    log.write("Solver timing: " + str(result["solver"]["timings"]))
                 self._add_result(result)
                 self.query_one("#progress", ProgressBar).update(progress=i)
             label = "Cancelled" if self.runner.cancelled else "Finished"
@@ -533,8 +573,12 @@ class OptimizerApp(App):
     def _tick(self):
         if self.busy and self.started is not None:
             self.query_one("#run-status", Static).update(
-                f"{self.current_case} · {perf_counter() - self.started:.1f}s elapsed"
+                f"{self.current_case} · {self.current_phase} · {perf_counter() - self.started:.1f}s elapsed"
             )
+
+    def _phase_changed(self, phase):
+        self.current_phase = phase
+        self._tick()
 
     def _add_result(self, result):
         table = self.query_one("#results", DataTable)
@@ -546,7 +590,7 @@ class OptimizerApp(App):
             "—" if gap is None else f"{gap:.2f}",
             result["solver"]["algorithm"],
             result["province"],
-            f"{result['solver']['seconds']:.2f}",
+            f"{result.get('timings', {}).get('worker_wall_seconds', result['solver']['seconds']):.2f}",
             key=str(len(self.results) - 1),
         )
         self._sort_results()
@@ -600,6 +644,7 @@ class OptimizerApp(App):
         self.query_one("#selection", Static).update(
             label
             + "\nArrow keys browse · Enter opens buildings · click headings to sort"
+            + ("\n" + timing_summary(result) if result.get("timings") else "")
         )
         metrics = result["metrics"]
         food, order = metrics.get("food_surplus"), metrics.get("public_order")
@@ -612,7 +657,7 @@ class OptimizerApp(App):
                 "error",
                 {
                     "INFEASIBLE": "The solver proved that these requirements cannot all be satisfied.",
-                    "UNKNOWN": "No usable layout returned within the solve budget; try more time.",
+                    "UNKNOWN": "No usable layout returned. Disable the optional time limit to continue until proved.",
                 }.get(
                     result["solver"]["status"],
                     "No validated layout was returned. See the log for details.",

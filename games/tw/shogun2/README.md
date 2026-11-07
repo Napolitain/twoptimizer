@@ -17,7 +17,8 @@ The default compares all 12 playable clans with joint ownership of Sado,
 Settsu and Owari. Sado has barren soil and gold; Settsu has average soil and
 philosophical tradition; Owari has very fertile soil. Two sensitivity cases
 replace every province's soil multiplier with barren (1) or very fertile (3).
-The default solver is CP-SAT. `--seconds` sets each solve's time limit.
+The default solver is CP-SAT and runs to completion without a time cap.
+`--seconds` explicitly enables an optional per-case time limit.
 
 ## Enforced mechanics
 

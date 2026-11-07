@@ -92,7 +92,7 @@ def compare(
     restarts,
     economy=None,
     objective="income",
-    workers=1,
+    workers=None,
 ):
     results = [
         solve(model, name, seconds, seed, width, restarts, workers=workers)
@@ -161,7 +161,10 @@ def main(argv=None):
         "--limit", type=int, help="First N selected provinces (default: all)"
     )
     cli.add_argument(
-        "--seconds", type=float, default=5, help="Per-algorithm solve budget per case"
+        "--seconds",
+        type=float,
+        default=None,
+        help="Optional time limit per algorithm/case; default runs to completion",
     )
     cli.add_argument("--seed", type=int, default=0)
     cli.add_argument(
@@ -171,7 +174,10 @@ def main(argv=None):
         "--joint", action="store_true", help="Optimize selected provinces together"
     )
     cli.add_argument(
-        "--workers", type=int, default=1, help="CP-SAT workers; other solvers unchanged"
+        "--workers",
+        type=int,
+        default=None,
+        help="Optional CPU worker override; default automatic",
     )
     cli.add_argument(
         "--objective",
@@ -215,11 +221,10 @@ def main(argv=None):
     )
     args = cli.parse_args(argv)
     if (
-        not isfinite(args.seconds)
-        or args.seconds <= 0
+        (args.seconds is not None and (not isfinite(args.seconds) or args.seconds <= 0))
         or args.beam_width < 1
         or args.restarts < 1
-        or args.workers < 1
+        or (args.workers is not None and args.workers < 1)
         or (args.limit is not None and args.limit < 1)
         or any(not isfinite(f) or f < 0 for f in args.fertility)
     ):

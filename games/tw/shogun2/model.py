@@ -346,7 +346,7 @@ class Economy:
             "provinces": report,
         }
 
-    def optimize(self, algorithm="cp-sat", seconds=15, workers=1):
+    def optimize(self, algorithm="cp-sat", seconds=None, workers=None):
         result = solve(self.compile(), algorithm, seconds=seconds, workers=workers)
         report = {
             "scenario": asdict(self.scenario),

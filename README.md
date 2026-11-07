@@ -30,10 +30,17 @@ installing `requirements.txt`. The existing CLI commands below remain available.
 ![Interactive terminal workbench](docs/tui.png)
 
 The Textual interface supports Attila, Rome II and Shogun 2. Choose a faction or
-all factions, a province, research profile, solver and time budget with clickable,
+all factions, a province, research profile and solver with clickable,
 searchable dropdowns. Attila adds fertility/religion; Shogun 2 adds soil, town
 wealth and tax; Rome II offers regional bonuses and explicit research profiles.
 The default is a Rome II coastal reference case using the CP-SAT/SCIP portfolio.
+Runs have **no time limit by default**: they continue until the solver proves
+optimality or infeasibility. Cancel remains available. The optional **Use a time
+limit** checkbox enables early termination when explicitly requested.
+CPU parallelism is automatic: CP-SAT and supported SCIP interfaces use available
+CPUs while respecting process affinity and container quotas. Backends without
+supported parallel search remain serial. No worker count is required in the TUI;
+`--workers` remains an optional CLI override.
 Three Kingdoms and HoI4 show their current readiness rather than starting an
 unsupported optimization.
 
@@ -53,6 +60,12 @@ existing JSON/CSV files unless replacement is explicitly selected. Model notes
 state each game's income definition and remaining data gaps. Values from different
 games are not a common GDP ranking.
 
+The status line shows engine startup, data loading, model building, solving and
+validation. Finished rows include phase timings; JSON exports also retain solver
+conversion/search/validation times. Attila and Shogun 2 exact solvers use sparse
+constraints, avoiding a large mostly empty matrix (the ERE/Thracia case drops
+from 153.5 MB to 0.49 MB of constraint storage).
+
 The TUI currently configures one province/holding per run. The CLI retains joint
 province optimization, campaign JSON inputs and the other existing advanced options.
 Installed wheels include the game data; a Git checkout is not required to run them.
@@ -65,6 +78,9 @@ The new launcher also forwards CLI arguments unchanged:
 .venv/bin/twoptimizer attila --province Thracia --fertility 5 --seconds 15
 .venv/bin/twoptimizer attila-factions --help
 ```
+
+All optimizer CLIs also run without a time cap by default. Omit `--seconds` to
+run to completion; specify it only when you want an optional per-case time limit.
 
 ## Run Rome II
 
@@ -84,7 +100,7 @@ and slots; historical starting worlds and current patch fidelity are not assumed
 ## Run Shogun 2
 
 ```sh
-.venv/bin/python -m games.tw.shogun2.benchmark --workers 1
+.venv/bin/python -m games.tw.shogun2.benchmark
 .venv/bin/python -m games.tw.shogun2.benchmark --soil native \
   --algorithm cp-sat --algorithm cbc --algorithm scip
 ```
@@ -205,7 +221,8 @@ The API defaults to CP-SAT through `Problem()`. Use
 `Problem(adjacency={province_id: [neighbor_id, ...]})` supplies neighboring owned
 provinces; include their decision variables in the same problem. The CP-SAT
 adapter exposes its status and bound through `problem.problem.result`; its default
-solve budget is 60 seconds with one worker. LP/MPS exports remain available.
+search has no time cap and selects CPU parallelism automatically. Explicit limits remain available
+through the backend API. LP/MPS exports remain available.
 
 ## Refresh the online data
 
@@ -338,7 +355,8 @@ A separate fresh six-case comparison used one worker and five seconds per solver
 
 These are single-run measurements. CP-SAT remains the default. `--workers 8`
 enables its parallel portfolio when useful; other solvers' thread settings are
-unchanged. The default remains one worker for reproducible comparisons.
+unchanged. Those benchmarks used one worker for reproducibility; normal runs now
+select CPU parallelism automatically, with `--workers` available as an override.
 
 
 ## Campaign options and priorities
