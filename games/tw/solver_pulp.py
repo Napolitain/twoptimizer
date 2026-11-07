@@ -33,7 +33,9 @@ class SolverPulp(Solver):
     def create_variable(self, name: str, cat: str) -> LpVariable:
         return LpVariable(name, cat=cat)
 
-    def create_constraint(self, name: str, variables, variables2=None, constraint_fn=None):
+    def create_constraint(
+        self, name: str, variables, variables2=None, constraint_fn=None
+    ):
         """Handles summation internally using lpSum"""
         # Sum up the variables
         expr1 = lpSum(variables)
@@ -52,21 +54,38 @@ class SolverPulp(Solver):
                 self.solver += constraint_fn(expr1), f"{name}_Constraint"
 
     def add_objective(self, buildings):
-        self.solver += sum(
-            building.gdp() * building.lp_variable
-            for building in buildings
-        ), "Objective Function"
+        self.solver += (
+            sum(building.gdp() * building.lp_variable for building in buildings),
+            "Objective Function",
+        )
 
     def get_problem_answers(self, parser: Parser) -> list[tuple[str, str]]:
         answers = []
         for v in self.variables():
+            if v.name.startswith("__and_") or v.varValue is None or v.varValue < 0.5:
+                continue
             building_name = parser.get_name_from_use_name(
                 parser.get_entry_name(FullEntryName(v.name), EntryType.BUILDING),
-                EntryType.BUILDING)
-            region_name = parser.get_name_from_use_name(parser.get_entry_name(FullEntryName(v.name), EntryType.REGION),
-                                                        EntryType.REGION)
-            building_print_name = parser.get_print_name(building_name, EntryType.BUILDING)
+                EntryType.BUILDING,
+            )
+            region_name = parser.get_name_from_use_name(
+                parser.get_entry_name(FullEntryName(v.name), EntryType.REGION),
+                EntryType.REGION,
+            )
+            building_print_name = parser.get_print_name(
+                building_name, EntryType.BUILDING
+            )
             region_print_name = parser.get_print_name(region_name, EntryType.REGION)
             if v.varValue == 1:
                 answers.append((region_print_name, building_print_name))
         return answers
+
+    def create_product(self, left, right, name):
+        result = LpVariable(name, cat="Binary")
+        self.solver += result <= left
+        self.solver += result <= right
+        self.solver += result >= left + right - 1
+        return result
+
+    def add_objective_terms(self, terms):
+        self.solver.setObjective(lpSum(terms))

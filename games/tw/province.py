@@ -12,6 +12,7 @@ class Province(ProvinceBase, Entity):
     """
     We need to create a Province class that contains a list of regions.
     """
+
     HASH_NAME = "P1"
 
     def __init__(self, name: str, print_name: str = ""):
@@ -33,6 +34,8 @@ class Province(ProvinceBase, Entity):
         self.regions.append(region)
 
     def add_public_order_constraint(self):
+        if not Games.legacy_effects:
+            return  # Scoped constraints are installed together by Problem.
         """
         Add public order constraint to the province.
         :return:
@@ -43,10 +46,12 @@ class Province(ProvinceBase, Entity):
                 building.public_order() * building.lp_variable
                 for building in self.buildings()
             ],
-            constraint_fn=lambda expr: expr >= 0
+            constraint_fn=lambda expr: expr >= 0,
         )
 
     def add_food_constraint(self):
+        if not Games.legacy_effects:
+            return
         """
         Add food constraint to the province.
         :return:
@@ -54,13 +59,14 @@ class Province(ProvinceBase, Entity):
         Games.problem.create_constraint(
             name=f"{self.get_name()}_Food",
             variables=[
-                building.food() * building.lp_variable
-                for building in self.buildings()
+                building.food() * building.lp_variable for building in self.buildings()
             ],
-            constraint_fn=lambda expr: expr >= 0
+            constraint_fn=lambda expr: expr >= 0,
         )
 
     def add_sanitation_constraint(self):
+        if not Games.legacy_effects:
+            return
         """
         Add sanitation constraint to each region in the province, using the sanitation method from the building class + global effects.
         Sum of each buildings sanitation must be greater or equal to 1, per region, including global effects. We can thus substract the global effects from 1.
@@ -77,7 +83,7 @@ class Province(ProvinceBase, Entity):
                     building.sanitation_scope(Scope.PROVINCE) * building.lp_variable
                     for building in self.buildings()
                 ],
-                constraint_fn=lambda expr1, expr2: expr1 >= 1 - expr2
+                constraint_fn=lambda expr1, expr2: expr1 >= 1 - expr2,
             )
 
     def buildings(self) -> List[Building]:

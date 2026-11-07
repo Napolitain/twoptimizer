@@ -20,7 +20,8 @@ from games.tw.models.game_attila import AttilaGame
 from games.tw.problem import Problem
 
 
-def load_attila(faction, religion):
+def load_attila(faction, religion, legacy=False):
+    Games.legacy_effects = legacy
     Games.instance = AttilaGame(faction=faction, religion=religion)
     Games.USE_NAME = NameType.NAME
     parser = Games.instance.get_parser()
@@ -30,10 +31,21 @@ def load_attila(faction, religion):
     return parser
 
 
-def snapshot(province, fertility, city_level=4, building_level=4, military=False):
+def snapshot(
+    province,
+    fertility,
+    city_level=4,
+    building_level=1,
+    military=False,
+    objective="wealth",
+    retain_economy=False,
+    technologies=None,
+):
     """Use the existing engine, including its cross-region sanitation effects."""
     start = perf_counter()
-    problem = Problem(solver=SolverType.GOOGLE)
+    problem = Problem(
+        solver=SolverType.GOOGLE, objective=objective, technologies=technologies
+    )
     problem.add_province(province)
     Games.fertility = fertility
     try:
@@ -44,6 +56,7 @@ def snapshot(province, fertility, city_level=4, building_level=4, military=False
             region.filter_building_level(building_level)
             if not military:
                 region.filter_military()
+            region.filter_technologies()
             problem.problem.filter_added({b.name: b for b in region.buildings})
         for region in province.regions:
             region.add_constraints()
@@ -52,14 +65,29 @@ def snapshot(province, fertility, city_level=4, building_level=4, military=False
         province.add_public_order_constraint()
         problem.state = ProblemState.CONSTRAINTS_ADDED
         problem.add_objective()
-        return BinaryModel.from_solver(problem.problem.solver), perf_counter() - start
+        result = (
+            BinaryModel.from_solver(problem.problem.solver),
+            perf_counter() - start,
+        )
+        return (*result, problem.economy) if retain_economy else result
     finally:
         province.clean()
 
 
-def compare(model, algorithms, seconds, seed, width, restarts):
+def compare(
+    model,
+    algorithms,
+    seconds,
+    seed,
+    width,
+    restarts,
+    economy=None,
+    objective="wealth",
+    workers=1,
+):
     results = [
-        solve(model, name, seconds, seed, width, restarts) for name in algorithms
+        solve(model, name, seconds, seed, width, restarts, workers=workers)
+        for name in algorithms
     ]
     feasible = [
         r.objective for r in results if not r.relaxation and r.objective is not None
@@ -76,7 +104,11 @@ def compare(model, algorithms, seconds, seed, width, restarts):
         row = asdict(result)
         values = row.pop("values")
         row["selected"] = (
-            [model.names[i] for i, value in enumerate(values) if value > 0.5]
+            [
+                model.names[i]
+                for i, value in enumerate(values)
+                if value > 0.5 and not model.names[i].startswith("__and_")
+            ]
             if values is not None and not result.relaxation
             else None
         )
@@ -99,15 +131,19 @@ def compare(model, algorithms, seconds, seed, width, restarts):
             and not result.relaxation
             else None
         )
+        if economy is not None and row["selected"] is not None:
+            row["layout"] = economy.evaluate_layout(set(row["selected"]), objective)
+            if abs(row["layout"]["objective"] - result.objective) > 1e-5:
+                raise RuntimeError(
+                    "Layout evaluator disagrees with the compiled objective"
+                )
         rows.append(row)
     return {"best_feasible": best, "upper_bound": upper, "results": rows}
 
 
 def main(argv=None):
     cli = argparse.ArgumentParser(description=__doc__)
-    cli.add_argument(
-        "--algorithms", nargs="+", choices=ALGORITHMS, default=list(ALGORITHMS)
-    )
+    cli.add_argument("--algorithms", nargs="+", choices=ALGORITHMS, default=["cp-sat"])
     cli.add_argument("--fertility", type=float, nargs="+", default=[0, 5])
     cli.add_argument(
         "--province", action="append", help="Province ID or display name; repeatable"
@@ -119,10 +155,30 @@ def main(argv=None):
         "--seconds", type=float, default=5, help="Per-algorithm solve budget per case"
     )
     cli.add_argument("--seed", type=int, default=0)
+    cli.add_argument(
+        "--workers", type=int, default=1, help="CP-SAT workers; other solvers unchanged"
+    )
+    cli.add_argument(
+        "--objective", choices=("wealth", "income", "legacy"), default="wealth"
+    )
+    techs = cli.add_mutually_exclusive_group()
+    techs.add_argument(
+        "--technology",
+        action="append",
+        help="Researched technology display name; repeat for multiple",
+    )
+    techs.add_argument(
+        "--no-technologies",
+        action="store_true",
+        help="No researched technologies (default: all available)",
+    )
+    cli.add_argument(
+        "--region-fertility", action="append", default=[], metavar="REGION=VALUE"
+    )
     cli.add_argument("--beam-width", type=int, default=128)
     cli.add_argument("--restarts", type=int, default=16)
     cli.add_argument("--city-level", type=int, choices=range(1, 5), default=4)
-    cli.add_argument("--building-level", type=int, choices=range(1, 5), default=4)
+    cli.add_argument("--building-level", type=int, choices=range(1, 5), default=1)
     cli.add_argument(
         "--military", action="store_true", help="Include military buildings"
     )
@@ -145,6 +201,7 @@ def main(argv=None):
         or args.seconds <= 0
         or args.beam_width < 1
         or args.restarts < 1
+        or args.workers < 1
         or (args.limit is not None and args.limit < 1)
         or any(not isfinite(f) or f < 0 for f in args.fertility)
     ):
@@ -152,8 +209,24 @@ def main(argv=None):
             "Budgets/counts must be positive and fertility must be finite and nonnegative"
         )
     parser = load_attila(
-        AttilaGame.Factions[args.faction], AttilaGame.Religion[args.religion]
+        AttilaGame.Factions[args.faction],
+        AttilaGame.Religion[args.religion],
+        legacy=args.objective == "legacy",
     )
+    for assignment in args.region_fertility:
+        try:
+            name, value = assignment.rsplit("=", 1)
+            value = float(value)
+            if not isfinite(value) or value < 0:
+                raise ValueError()
+            matches = [
+                r for r in parser.regions.values() if name in (r.name, r.print_name)
+            ]
+            if len(matches) != 1:
+                raise ValueError()
+            matches[0].fertility = value
+        except ValueError:
+            cli.error(f"Invalid or unknown region fertility assignment: {assignment}")
     provinces = list(parser.provinces.values())
     if args.province:
         missing = set(args.province) - {
@@ -169,7 +242,9 @@ def main(argv=None):
     if args.limit:
         provinces = provinces[: args.limit]
     digest = hashlib.sha256()
-    for path in sorted(parser.game_dir.glob("*.tsv")):
+    for path in sorted(
+        [*parser.game_dir.glob("*.tsv"), parser.game_dir / "online_buildings.json"]
+    ):
         digest.update(path.name.encode())
         digest.update(path.read_bytes())
     settings = vars(args).copy()
@@ -185,8 +260,19 @@ def main(argv=None):
     )
     for fertility in args.fertility:
         for province in provinces:
-            model, build_seconds = snapshot(
-                province, fertility, args.city_level, args.building_level, args.military
+            model, build_seconds, economy = snapshot(
+                province,
+                fertility,
+                args.city_level,
+                args.building_level,
+                args.military,
+                args.objective,
+                retain_economy=True,
+                technologies=set()
+                if args.no_technologies
+                else None
+                if args.technology is None
+                else set(args.technology),
             )
             case = {
                 "province": province.name,
@@ -195,6 +281,9 @@ def main(argv=None):
                 "variables": len(model.names),
                 "constraints": len(model.lower),
                 "build_seconds": build_seconds,
+                "omitted_effects": sorted(set(economy.omitted))
+                if economy is not None
+                else [],
             }
             case.update(
                 compare(
@@ -204,6 +293,9 @@ def main(argv=None):
                     args.seed,
                     args.beam_width,
                     args.restarts,
+                    economy=economy,
+                    objective=args.objective,
+                    workers=args.workers,
                 )
             )
             report["cases"].append(case)

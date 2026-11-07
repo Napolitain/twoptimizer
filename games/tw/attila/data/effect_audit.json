@@ -1,0 +1,6156 @@
+{
+  "schema_version": 1,
+  "effect_rows": 4184,
+  "distinct_effects": 166,
+  "effect_scope_pairs": 213,
+  "coverage": {
+    "unmodeled": 103,
+    "outside_settlement_model": 65,
+    "modeled": 37,
+    "requires_adjacency": 5,
+    "requires_scenario": 2,
+    "requires_condition": 1
+  },
+  "imported_buildings": 566,
+  "online_numeric_matches": 6242,
+  "online_numeric_differences": [
+    {
+      "building": "att_bld_barbmigs_city_1",
+      "culture": "celtic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_1",
+      "culture": "eastern-germanic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_1",
+      "culture": "northern-germanic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_1",
+      "culture": "western-germanic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_2",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 450.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_2",
+      "culture": "celtic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_2",
+      "culture": "celtic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_2",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 450.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_2",
+      "culture": "eastern-germanic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_2",
+      "culture": "eastern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_2",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 450.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_2",
+      "culture": "northern-germanic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_2",
+      "culture": "northern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_2",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 450.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_2",
+      "culture": "western-germanic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_2",
+      "culture": "western-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_3",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 750.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_3",
+      "culture": "celtic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_3",
+      "culture": "celtic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_3",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 750.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_3",
+      "culture": "eastern-germanic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_3",
+      "culture": "eastern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_3",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 750.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_3",
+      "culture": "northern-germanic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_3",
+      "culture": "northern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_3",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 750.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_3",
+      "culture": "western-germanic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_3",
+      "culture": "western-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_4",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 1000.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_4",
+      "culture": "celtic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_4",
+      "culture": "celtic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 130.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_4",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 1000.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_4",
+      "culture": "eastern-germanic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_4",
+      "culture": "eastern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 130.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_4",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 1000.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_4",
+      "culture": "northern-germanic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_4",
+      "culture": "northern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 130.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_4",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 1000.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_4",
+      "culture": "western-germanic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_barbmigs_city_4",
+      "culture": "western-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 130.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_market_2",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 400.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_market_2",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 400.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_market_2",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 400.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_market_2",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 400.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_market_3",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 700.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_market_3",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 700.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_market_3",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 700.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_market_3",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 700.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_market_4",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 1100.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_market_4",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 1100.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_market_4",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 1100.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_market_4",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 1100.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_2",
+      "culture": "celtic",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_2",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_2",
+      "culture": "eastern-germanic",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_2",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_2",
+      "culture": "northern-germanic",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_2",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_2",
+      "culture": "western-germanic",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_2",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_3",
+      "culture": "celtic",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_3",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 525.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_3",
+      "culture": "eastern-germanic",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_3",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 525.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_3",
+      "culture": "northern-germanic",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_3",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 525.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_3",
+      "culture": "western-germanic",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_3",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 525.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_4",
+      "culture": "celtic",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 15.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_4",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_4",
+      "culture": "eastern-germanic",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 15.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_4",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_4",
+      "culture": "northern-germanic",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 15.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_4",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_4",
+      "culture": "western-germanic",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 15.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_slaves_4",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_2",
+      "culture": "celtic",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_2",
+      "culture": "celtic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_2",
+      "culture": "eastern-germanic",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_2",
+      "culture": "eastern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_2",
+      "culture": "northern-germanic",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_2",
+      "culture": "northern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_2",
+      "culture": "western-germanic",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_2",
+      "culture": "western-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_3",
+      "culture": "celtic",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_3",
+      "culture": "celtic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_3",
+      "culture": "eastern-germanic",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_3",
+      "culture": "eastern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_3",
+      "culture": "northern-germanic",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_3",
+      "culture": "northern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_3",
+      "culture": "western-germanic",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_3",
+      "culture": "western-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_4",
+      "culture": "celtic",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 15.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_4",
+      "culture": "celtic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_4",
+      "culture": "eastern-germanic",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 15.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_4",
+      "culture": "eastern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_4",
+      "culture": "northern-germanic",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 15.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_4",
+      "culture": "northern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_4",
+      "culture": "western-germanic",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 15.0
+    },
+    {
+      "building": "att_bld_barbmigs_community_storage_4",
+      "culture": "western-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_1",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 100.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_1",
+      "culture": "celtic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_1",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 100.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_1",
+      "culture": "eastern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_1",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 100.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_1",
+      "culture": "northern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_1",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 100.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_1",
+      "culture": "western-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_2",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 120.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_2",
+      "culture": "celtic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 18.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_2",
+      "culture": "celtic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 55.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_2",
+      "culture": "celtic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_2",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 120.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_2",
+      "culture": "eastern-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 18.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_2",
+      "culture": "eastern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 55.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_2",
+      "culture": "eastern-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_2",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 120.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_2",
+      "culture": "northern-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 18.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_2",
+      "culture": "northern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 55.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_2",
+      "culture": "northern-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_2",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 120.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_2",
+      "culture": "western-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 18.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_2",
+      "culture": "western-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 55.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_2",
+      "culture": "western-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_3",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 200.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_3",
+      "culture": "celtic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_3",
+      "culture": "celtic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 75.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_3",
+      "culture": "celtic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_3",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 200.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_3",
+      "culture": "eastern-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_3",
+      "culture": "eastern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 75.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_3",
+      "culture": "eastern-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_3",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 200.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_3",
+      "culture": "northern-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_3",
+      "culture": "northern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 75.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_3",
+      "culture": "northern-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_3",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 200.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_3",
+      "culture": "western-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_3",
+      "culture": "western-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 75.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_3",
+      "culture": "western-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_4",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_4",
+      "culture": "celtic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_4",
+      "culture": "celtic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 100.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_4",
+      "culture": "celtic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_4",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_4",
+      "culture": "eastern-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_4",
+      "culture": "eastern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 100.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_4",
+      "culture": "eastern-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_4",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_4",
+      "culture": "northern-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_4",
+      "culture": "northern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 100.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_4",
+      "culture": "northern-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_4",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_4",
+      "culture": "western-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_4",
+      "culture": "western-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 100.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_chicken_4",
+      "culture": "western-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_2",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 200.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_2",
+      "culture": "celtic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_2",
+      "culture": "celtic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_2",
+      "culture": "celtic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_2",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 200.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_2",
+      "culture": "eastern-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_2",
+      "culture": "eastern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_2",
+      "culture": "eastern-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_2",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 200.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_2",
+      "culture": "northern-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_2",
+      "culture": "northern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_2",
+      "culture": "northern-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_2",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 200.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_2",
+      "culture": "western-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_2",
+      "culture": "western-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_2",
+      "culture": "western-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_3",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 350.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_3",
+      "culture": "celtic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 70.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_3",
+      "culture": "celtic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_3",
+      "culture": "celtic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 6.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_3",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 350.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_3",
+      "culture": "eastern-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 70.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_3",
+      "culture": "eastern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_3",
+      "culture": "eastern-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 6.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_3",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 350.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_3",
+      "culture": "northern-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 70.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_3",
+      "culture": "northern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_3",
+      "culture": "northern-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 6.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_3",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 350.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_3",
+      "culture": "western-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 70.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_3",
+      "culture": "western-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_3",
+      "culture": "western-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 6.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_4",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 550.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_4",
+      "culture": "celtic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 110.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_4",
+      "culture": "celtic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_4",
+      "culture": "celtic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_4",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 550.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_4",
+      "culture": "eastern-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 110.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_4",
+      "culture": "eastern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_4",
+      "culture": "eastern-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_4",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 550.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_4",
+      "culture": "northern-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 110.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_4",
+      "culture": "northern-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_4",
+      "culture": "northern-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_4",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 550.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_4",
+      "culture": "western-germanic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 110.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_4",
+      "culture": "western-germanic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_barbmigs_herding_sheep_4",
+      "culture": "western-germanic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_1",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 250.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_1",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 250.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_1",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 250.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_1",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 250.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_boneworker_2",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 500.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_boneworker_2",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 500.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_boneworker_2",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 500.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_boneworker_2",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 500.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_boneworker_3",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_boneworker_3",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_boneworker_3",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_boneworker_3",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_boneworker_4",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 1350.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_boneworker_4",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 1350.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_boneworker_4",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 1350.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_boneworker_4",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 1350.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_2",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_2",
+      "culture": "celtic",
+      "kind": "wealth_percent",
+      "category": "commerce",
+      "reach": "region",
+      "local": 0,
+      "online": 4.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_2",
+      "culture": "celtic",
+      "kind": "wealth_percent",
+      "category": "maritime",
+      "reach": "region",
+      "local": 0,
+      "online": 4.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_2",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_2",
+      "culture": "eastern-germanic",
+      "kind": "wealth_percent",
+      "category": "commerce",
+      "reach": "region",
+      "local": 0,
+      "online": 4.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_2",
+      "culture": "eastern-germanic",
+      "kind": "wealth_percent",
+      "category": "maritime",
+      "reach": "region",
+      "local": 0,
+      "online": 4.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_2",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_2",
+      "culture": "northern-germanic",
+      "kind": "wealth_percent",
+      "category": "commerce",
+      "reach": "region",
+      "local": 0,
+      "online": 4.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_2",
+      "culture": "northern-germanic",
+      "kind": "wealth_percent",
+      "category": "maritime",
+      "reach": "region",
+      "local": 0,
+      "online": 4.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_2",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_2",
+      "culture": "western-germanic",
+      "kind": "wealth_percent",
+      "category": "commerce",
+      "reach": "region",
+      "local": 0,
+      "online": 4.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_2",
+      "culture": "western-germanic",
+      "kind": "wealth_percent",
+      "category": "maritime",
+      "reach": "region",
+      "local": 0,
+      "online": 4.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_3",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 525.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_3",
+      "culture": "celtic",
+      "kind": "wealth_percent",
+      "category": "commerce",
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_3",
+      "culture": "celtic",
+      "kind": "wealth_percent",
+      "category": "maritime",
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_3",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 525.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_3",
+      "culture": "eastern-germanic",
+      "kind": "wealth_percent",
+      "category": "commerce",
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_3",
+      "culture": "eastern-germanic",
+      "kind": "wealth_percent",
+      "category": "maritime",
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_3",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 525.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_3",
+      "culture": "northern-germanic",
+      "kind": "wealth_percent",
+      "category": "commerce",
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_3",
+      "culture": "northern-germanic",
+      "kind": "wealth_percent",
+      "category": "maritime",
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_3",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 525.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_3",
+      "culture": "western-germanic",
+      "kind": "wealth_percent",
+      "category": "commerce",
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_3",
+      "culture": "western-germanic",
+      "kind": "wealth_percent",
+      "category": "maritime",
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_4",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_4",
+      "culture": "celtic",
+      "kind": "wealth_percent",
+      "category": "commerce",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_4",
+      "culture": "celtic",
+      "kind": "wealth_percent",
+      "category": "maritime",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_4",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_4",
+      "culture": "eastern-germanic",
+      "kind": "wealth_percent",
+      "category": "commerce",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_4",
+      "culture": "eastern-germanic",
+      "kind": "wealth_percent",
+      "category": "maritime",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_4",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_4",
+      "culture": "northern-germanic",
+      "kind": "wealth_percent",
+      "category": "commerce",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_4",
+      "culture": "northern-germanic",
+      "kind": "wealth_percent",
+      "category": "maritime",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_4",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_4",
+      "culture": "western-germanic",
+      "kind": "wealth_percent",
+      "category": "commerce",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_industry_reedgatherer_4",
+      "culture": "western-germanic",
+      "kind": "wealth_percent",
+      "category": "maritime",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_1",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 150.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_1",
+      "culture": "celtic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_1",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 150.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_1",
+      "culture": "eastern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_1",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 150.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_1",
+      "culture": "northern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_1",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 150.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_1",
+      "culture": "western-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_2",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_2",
+      "culture": "celtic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 20.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_2",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_2",
+      "culture": "eastern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 20.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_2",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_2",
+      "culture": "northern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 20.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_2",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_2",
+      "culture": "western-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 20.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_3",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 525.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_3",
+      "culture": "celtic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_3",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 525.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_3",
+      "culture": "eastern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_3",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 525.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_3",
+      "culture": "northern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_3",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 525.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_3",
+      "culture": "western-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_4",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_4",
+      "culture": "celtic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_4",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_4",
+      "culture": "eastern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_4",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_4",
+      "culture": "northern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_4",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_elders_4",
+      "culture": "western-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_nobles_3",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 525.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_nobles_3",
+      "culture": "celtic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_nobles_3",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 525.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_nobles_3",
+      "culture": "eastern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_nobles_3",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 525.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_nobles_3",
+      "culture": "northern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_nobles_3",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 525.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_nobles_3",
+      "culture": "western-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_nobles_4",
+      "culture": "celtic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_nobles_4",
+      "culture": "celtic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_nobles_4",
+      "culture": "eastern-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_nobles_4",
+      "culture": "eastern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_nobles_4",
+      "culture": "northern-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_nobles_4",
+      "culture": "northern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_nobles_4",
+      "culture": "western-germanic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_barbmigs_leadership_nobles_4",
+      "culture": "western-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_barbmigs_military_2",
+      "culture": "celtic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_military_2",
+      "culture": "eastern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_military_2",
+      "culture": "northern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_military_2",
+      "culture": "western-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_barbmigs_military_archers_4",
+      "culture": "celtic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 60.0
+    },
+    {
+      "building": "att_bld_barbmigs_military_archers_4",
+      "culture": "eastern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 60.0
+    },
+    {
+      "building": "att_bld_barbmigs_military_archers_4",
+      "culture": "northern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 60.0
+    },
+    {
+      "building": "att_bld_barbmigs_military_archers_4",
+      "culture": "western-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 60.0
+    },
+    {
+      "building": "att_bld_barbmigs_military_warriors_3",
+      "culture": "celtic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_barbmigs_military_warriors_3",
+      "culture": "eastern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_barbmigs_military_warriors_3",
+      "culture": "northern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_barbmigs_military_warriors_3",
+      "culture": "western-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_barbmigs_military_warriors_4",
+      "culture": "celtic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 60.0
+    },
+    {
+      "building": "att_bld_barbmigs_military_warriors_4",
+      "culture": "eastern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 60.0
+    },
+    {
+      "building": "att_bld_barbmigs_military_warriors_4",
+      "culture": "northern-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 60.0
+    },
+    {
+      "building": "att_bld_barbmigs_military_warriors_4",
+      "culture": "western-germanic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 60.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_1",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 200.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_1",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 200.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_carpenter_2",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_carpenter_2",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_carpenter_3",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 350.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_carpenter_3",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 350.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_carpenter_4",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 550.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_carpenter_4",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 550.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_forge_2",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_forge_2",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_forge_3",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 350.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_forge_3",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 350.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_forge_4",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 550.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_forge_4",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 550.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_weaver_2",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 600.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_weaver_2",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 600.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_weaver_3",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 1000.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_weaver_3",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 1000.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_weaver_4",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 1650.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_weaver_4",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 1650.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_yurthmaker_2",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 400.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_yurthmaker_2",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 400.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_yurthmaker_3",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 700.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_yurthmaker_3",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 700.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_yurthmaker_4",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 1100.0
+    },
+    {
+      "building": "att_bld_nomad_artisan_yurthmaker_4",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "industry",
+      "reach": "building",
+      "local": 0,
+      "online": 1100.0
+    },
+    {
+      "building": "att_bld_nomad_city_0",
+      "culture": "hunnic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_nomad_city_0",
+      "culture": "sarmatian",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_nomad_city_1",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 475.0
+    },
+    {
+      "building": "att_bld_nomad_city_1",
+      "culture": "hunnic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_nomad_city_1",
+      "culture": "hunnic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_city_1",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 475.0
+    },
+    {
+      "building": "att_bld_nomad_city_1",
+      "culture": "sarmatian",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_nomad_city_1",
+      "culture": "sarmatian",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_city_2",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 750.0
+    },
+    {
+      "building": "att_bld_nomad_city_2",
+      "culture": "hunnic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_nomad_city_2",
+      "culture": "hunnic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_nomad_city_2",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 750.0
+    },
+    {
+      "building": "att_bld_nomad_city_2",
+      "culture": "sarmatian",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_nomad_city_2",
+      "culture": "sarmatian",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_nomad_city_3",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 1000.0
+    },
+    {
+      "building": "att_bld_nomad_city_3",
+      "culture": "hunnic",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_nomad_city_3",
+      "culture": "hunnic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 130.0
+    },
+    {
+      "building": "att_bld_nomad_city_3",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "subsistence",
+      "reach": "building",
+      "local": 0,
+      "online": 1000.0
+    },
+    {
+      "building": "att_bld_nomad_city_3",
+      "culture": "sarmatian",
+      "kind": "tax_percent",
+      "category": null,
+      "reach": "province",
+      "local": 0,
+      "online": -5.0
+    },
+    {
+      "building": "att_bld_nomad_city_3",
+      "culture": "sarmatian",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 130.0
+    },
+    {
+      "building": "att_bld_nomad_community_cooking_2",
+      "culture": "hunnic",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_nomad_community_cooking_2",
+      "culture": "hunnic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_nomad_community_cooking_2",
+      "culture": "sarmatian",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_nomad_community_cooking_2",
+      "culture": "sarmatian",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_nomad_community_cooking_3",
+      "culture": "hunnic",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_nomad_community_cooking_3",
+      "culture": "hunnic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_community_cooking_3",
+      "culture": "sarmatian",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_nomad_community_cooking_3",
+      "culture": "sarmatian",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_community_cooking_4",
+      "culture": "hunnic",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 15.0
+    },
+    {
+      "building": "att_bld_nomad_community_cooking_4",
+      "culture": "hunnic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_nomad_community_cooking_4",
+      "culture": "sarmatian",
+      "kind": "wealth_percent",
+      "category": "livestock",
+      "reach": "region",
+      "local": 0,
+      "online": 15.0
+    },
+    {
+      "building": "att_bld_nomad_community_cooking_4",
+      "culture": "sarmatian",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_nomad_community_market_2",
+      "culture": "hunnic",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_nomad_community_market_2",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 400.0
+    },
+    {
+      "building": "att_bld_nomad_community_market_2",
+      "culture": "sarmatian",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_nomad_community_market_2",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 400.0
+    },
+    {
+      "building": "att_bld_nomad_community_market_3",
+      "culture": "hunnic",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_nomad_community_market_3",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 700.0
+    },
+    {
+      "building": "att_bld_nomad_community_market_3",
+      "culture": "sarmatian",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_nomad_community_market_3",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 700.0
+    },
+    {
+      "building": "att_bld_nomad_community_market_4",
+      "culture": "hunnic",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 15.0
+    },
+    {
+      "building": "att_bld_nomad_community_market_4",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 1100.0
+    },
+    {
+      "building": "att_bld_nomad_community_market_4",
+      "culture": "sarmatian",
+      "kind": "wealth_percent",
+      "category": "industry",
+      "reach": "region",
+      "local": 0,
+      "online": 15.0
+    },
+    {
+      "building": "att_bld_nomad_community_market_4",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 1100.0
+    },
+    {
+      "building": "att_bld_nomad_community_wine_2",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 275.0
+    },
+    {
+      "building": "att_bld_nomad_community_wine_2",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 275.0
+    },
+    {
+      "building": "att_bld_nomad_community_wine_3",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 400.0
+    },
+    {
+      "building": "att_bld_nomad_community_wine_3",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 400.0
+    },
+    {
+      "building": "att_bld_nomad_community_wine_4",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 650.0
+    },
+    {
+      "building": "att_bld_nomad_community_wine_4",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "commerce",
+      "reach": "building",
+      "local": 0,
+      "online": 650.0
+    },
+    {
+      "building": "att_bld_nomad_herders_1",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 100.0
+    },
+    {
+      "building": "att_bld_nomad_herders_1",
+      "culture": "hunnic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_herders_1",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 100.0
+    },
+    {
+      "building": "att_bld_nomad_herders_1",
+      "culture": "sarmatian",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_2",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 120.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_2",
+      "culture": "hunnic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 36.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_2",
+      "culture": "hunnic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 20.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_2",
+      "culture": "hunnic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 9.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_2",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 120.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_2",
+      "culture": "sarmatian",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 36.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_2",
+      "culture": "sarmatian",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 20.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_2",
+      "culture": "sarmatian",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 9.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_3",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 214.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_3",
+      "culture": "hunnic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 64.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_3",
+      "culture": "hunnic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_3",
+      "culture": "hunnic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 11.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_3",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 214.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_3",
+      "culture": "sarmatian",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 64.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_3",
+      "culture": "sarmatian",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_3",
+      "culture": "sarmatian",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 11.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_4",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 350.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_4",
+      "culture": "hunnic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 100.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_4",
+      "culture": "hunnic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_4",
+      "culture": "hunnic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 14.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_4",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 350.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_4",
+      "culture": "sarmatian",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 100.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_4",
+      "culture": "sarmatian",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_herders_cattle_4",
+      "culture": "sarmatian",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 14.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_2",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 120.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_2",
+      "culture": "hunnic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 18.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_2",
+      "culture": "hunnic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 55.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_2",
+      "culture": "hunnic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_2",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 120.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_2",
+      "culture": "sarmatian",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 18.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_2",
+      "culture": "sarmatian",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 55.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_2",
+      "culture": "sarmatian",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_3",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 200.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_3",
+      "culture": "hunnic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_3",
+      "culture": "hunnic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 75.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_3",
+      "culture": "hunnic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_3",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 200.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_3",
+      "culture": "sarmatian",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_3",
+      "culture": "sarmatian",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 75.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_3",
+      "culture": "sarmatian",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_4",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_4",
+      "culture": "hunnic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_4",
+      "culture": "hunnic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 100.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_4",
+      "culture": "hunnic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_4",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_4",
+      "culture": "sarmatian",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_4",
+      "culture": "sarmatian",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 100.0
+    },
+    {
+      "building": "att_bld_nomad_herders_goats_4",
+      "culture": "sarmatian",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_2",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 200.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_2",
+      "culture": "hunnic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_2",
+      "culture": "hunnic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_2",
+      "culture": "hunnic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_2",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 200.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_2",
+      "culture": "sarmatian",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_2",
+      "culture": "sarmatian",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_2",
+      "culture": "sarmatian",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 5.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_3",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 350.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_3",
+      "culture": "hunnic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 70.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_3",
+      "culture": "hunnic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_3",
+      "culture": "hunnic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 6.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_3",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 350.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_3",
+      "culture": "sarmatian",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 70.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_3",
+      "culture": "sarmatian",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_3",
+      "culture": "sarmatian",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 6.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_4",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 550.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_4",
+      "culture": "hunnic",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 110.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_4",
+      "culture": "hunnic",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_4",
+      "culture": "hunnic",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_4",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 550.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_4",
+      "culture": "sarmatian",
+      "kind": "fertility_wealth",
+      "category": "livestock",
+      "reach": "building",
+      "local": 0,
+      "online": 110.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_4",
+      "culture": "sarmatian",
+      "kind": "food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 50.0
+    },
+    {
+      "building": "att_bld_nomad_herders_sheep_4",
+      "culture": "sarmatian",
+      "kind": "fertility_food",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 7.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_1",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 150.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_1",
+      "culture": "hunnic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_1",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 150.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_1",
+      "culture": "sarmatian",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 10.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_noblemen_administrator_3",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 550.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_noblemen_administrator_3",
+      "culture": "hunnic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_noblemen_administrator_3",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 550.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_noblemen_administrator_3",
+      "culture": "sarmatian",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_noblemen_administrator_4",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_noblemen_administrator_4",
+      "culture": "hunnic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_noblemen_administrator_4",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_noblemen_administrator_4",
+      "culture": "sarmatian",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_noblemen_warlord_3",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 700.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_noblemen_warlord_3",
+      "culture": "hunnic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_noblemen_warlord_3",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 700.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_noblemen_warlord_3",
+      "culture": "sarmatian",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_noblemen_warlord_4",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 1100.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_noblemen_warlord_4",
+      "culture": "hunnic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_noblemen_warlord_4",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 1100.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_noblemen_warlord_4",
+      "culture": "sarmatian",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_shaman_2",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_shaman_2",
+      "culture": "hunnic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 20.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_shaman_2",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 300.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_shaman_2",
+      "culture": "sarmatian",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 20.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_shaman_3",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 825.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_shaman_3",
+      "culture": "hunnic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_shaman_3",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 825.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_shaman_3",
+      "culture": "sarmatian",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_shaman_4",
+      "culture": "hunnic",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_shaman_4",
+      "culture": "hunnic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_shaman_4",
+      "culture": "sarmatian",
+      "kind": "wealth",
+      "category": "culture",
+      "reach": "building",
+      "local": 0,
+      "online": 850.0
+    },
+    {
+      "building": "att_bld_nomad_nobility_shaman_4",
+      "culture": "sarmatian",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_nomad_warriors_2",
+      "culture": "hunnic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 20.0
+    },
+    {
+      "building": "att_bld_nomad_warriors_2",
+      "culture": "sarmatian",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 20.0
+    },
+    {
+      "building": "att_bld_nomad_warriors_archers_4",
+      "culture": "hunnic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_nomad_warriors_archers_4",
+      "culture": "sarmatian",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_nomad_warriors_cavalry_3",
+      "culture": "hunnic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_warriors_cavalry_3",
+      "culture": "sarmatian",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 40.0
+    },
+    {
+      "building": "att_bld_nomad_warriors_cavalry_4",
+      "culture": "hunnic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_nomad_warriors_cavalry_4",
+      "culture": "sarmatian",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 80.0
+    },
+    {
+      "building": "att_bld_nomad_warriors_infantry_3",
+      "culture": "hunnic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_nomad_warriors_infantry_3",
+      "culture": "sarmatian",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 30.0
+    },
+    {
+      "building": "att_bld_nomad_warriors_infantry_4",
+      "culture": "hunnic",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 60.0
+    },
+    {
+      "building": "att_bld_nomad_warriors_infantry_4",
+      "culture": "sarmatian",
+      "kind": "food_consumption",
+      "category": null,
+      "reach": "region",
+      "local": 0,
+      "online": 60.0
+    }
+  ],
+  "effects": [
+    {
+      "effect": "att_effect_agent_action_outcome_local_province_recruitment_points",
+      "raw_scope": "region_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_agent_enable_recruitment_champion",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_agent_enable_recruitment_champion",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_agent_enable_recruitment_dignitary",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_agent_enable_recruitment_dignitary",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_agent_enable_recruitment_spy",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_agent_enable_recruitment_spy",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_agent_recruitment_cap_champion",
+      "raw_scope": "faction_to_faction_own",
+      "reach": "faction",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_agent_recruitment_cap_dignitary",
+      "raw_scope": "faction_to_faction_own",
+      "reach": "faction",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_agent_recruitment_xp_all_agents",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_agent_recruitment_xp_dignitary",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_agent_recruitment_xp_spy",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_building_construction_cost_mod",
+      "raw_scope": "province_to_region_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_building_construction_cost_mod_sanitation",
+      "raw_scope": "province_to_region_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_building_conversion_cost_mod",
+      "raw_scope": "faction_to_region_own",
+      "reach": "faction",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_building_corruption",
+      "raw_scope": "building_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_building_corruption",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_building_road",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_building_trade_routes_all_hidden",
+      "raw_scope": "faction_to_faction_own",
+      "reach": "faction",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_character_gravitas_per_turn",
+      "raw_scope": "region_to_character_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_economy_gdp_agriculture_animal_husbandry",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "wealth",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_agriculture_animal_husbandry",
+      "raw_scope": "force_to_force_building",
+      "reach": "other",
+      "kind": "wealth",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_economy_gdp_agriculture_farming",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "wealth",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_culture",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "wealth",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_culture",
+      "raw_scope": "force_to_force_building",
+      "reach": "other",
+      "kind": "wealth",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_economy_gdp_fertility_agriculture",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "fertility_wealth",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_fertility_livestock",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "fertility_wealth",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_fertility_livestock",
+      "raw_scope": "force_to_force_building",
+      "reach": "other",
+      "kind": "fertility_wealth",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_economy_gdp_industry",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "wealth",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_industry",
+      "raw_scope": "force_to_force_building",
+      "reach": "other",
+      "kind": "wealth",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_economy_gdp_mod_agriculture_and_livestock",
+      "raw_scope": "province_to_region_own",
+      "reach": "province",
+      "kind": "wealth_percent",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_mod_agriculture_and_livestock",
+      "raw_scope": "province_to_region_own_factionwide",
+      "reach": "faction",
+      "kind": "wealth_percent",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_mod_agriculture_farming",
+      "raw_scope": "province_to_region_own",
+      "reach": "province",
+      "kind": "wealth_percent",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_mod_all",
+      "raw_scope": "province_to_region_own",
+      "reach": "province",
+      "kind": "wealth_percent",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_mod_all",
+      "raw_scope": "province_to_regions_own_in_adjacent_province",
+      "reach": "adjacent",
+      "kind": "wealth_percent",
+      "status": "requires_adjacency"
+    },
+    {
+      "effect": "att_effect_economy_gdp_mod_commerce_all",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "wealth_percent",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_economy_gdp_mod_commerce_all",
+      "raw_scope": "province_to_region_own",
+      "reach": "province",
+      "kind": "wealth_percent",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_mod_commerce_all",
+      "raw_scope": "province_to_regions_own_in_adjacent_province",
+      "reach": "adjacent",
+      "kind": "wealth_percent",
+      "status": "requires_adjacency"
+    },
+    {
+      "effect": "att_effect_economy_gdp_mod_commerce_land",
+      "raw_scope": "province_to_region_own",
+      "reach": "province",
+      "kind": "wealth_percent",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_mod_culture",
+      "raw_scope": "province_to_region_own",
+      "reach": "province",
+      "kind": "wealth_percent",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_mod_industry",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "wealth_percent",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_economy_gdp_mod_industry",
+      "raw_scope": "province_to_region_own",
+      "reach": "province",
+      "kind": "wealth_percent",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_mod_industry_and_agriculture",
+      "raw_scope": "province_to_region_own",
+      "reach": "province",
+      "kind": "wealth_percent",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_mod_livestock",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "wealth_percent",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_economy_gdp_mod_livestock",
+      "raw_scope": "province_to_region_own",
+      "reach": "province",
+      "kind": "wealth_percent",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_subsistance",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "wealth",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_subsistance",
+      "raw_scope": "force_to_force_building",
+      "reach": "other",
+      "kind": "wealth",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_economy_gdp_trade_local",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "wealth",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gdp_trade_local",
+      "raw_scope": "force_to_force_building",
+      "reach": "other",
+      "kind": "wealth",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_economy_gdp_trade_sea",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "wealth",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_economy_gpd_mod_immigration",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "immigration_wealth_percent",
+      "status": "requires_scenario"
+    },
+    {
+      "effect": "att_effect_economy_tax_mod",
+      "raw_scope": "force_to_faction_own_factionwide",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_economy_tax_mod",
+      "raw_scope": "force_to_faction_own_factionwide_expedition",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_economy_trade_tariff_mod",
+      "raw_scope": "faction_to_faction_own",
+      "reach": "faction",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_faction_trait_barbarian_alamanni_1",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_faction_trait_barbarian_new_kingdoms_building_conversion",
+      "raw_scope": "faction_to_region_own",
+      "reach": "faction",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_food_base_production",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "food",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_food_consumption",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "food_consumption",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_food_consumption",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "food_consumption",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_food_production_farming_animal_husbandry",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "food",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_food_production_farming_animal_husbandry",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "food",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_food_production_farming_grain",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "food",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_food_production_fertility",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "fertility_food",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_food_production_fertility",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "fertility_food",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_food_production_fertility_neighbouring",
+      "raw_scope": "region_to_province_own_factionwide",
+      "reach": "faction",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_food_production_fishing",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "food",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_food_production_reserves",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "food",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_food_production_reserves",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "food",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_food_production_trade",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "food",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_force_all_campaign_experience_base_all",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_force_all_campaign_experience_base_all",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_force_all_campaign_military_morale_factor_buildings",
+      "raw_scope": "force_building_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_force_all_campaign_military_morale_factor_buildings",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_force_all_campaign_military_morale_factor_buildings",
+      "raw_scope": "force_to_force_own_factionwide",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_force_all_campaign_military_morale_factor_buildings",
+      "raw_scope": "force_to_force_own_factionwide_expedition",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_force_all_campaign_military_morale_factor_buildings",
+      "raw_scope": "force_to_force_own_factionwide_horde",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_force_all_campaign_raid_income",
+      "raw_scope": "province_to_force_own_in_adjacent_regions",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_force_all_campaign_replenishment_rate",
+      "raw_scope": "province_to_army_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_force_all_campaign_sacking_income",
+      "raw_scope": "force_to_general_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_force_all_campaign_upkeep_region",
+      "raw_scope": "building_to_forces_on_region_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_force_all_campaign_upkeep_region",
+      "raw_scope": "region_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_force_army_campaign_experience_base_artillery",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_force_army_campaign_experience_base_cavalry",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_force_army_campaign_experience_base_infantry",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_force_army_campaign_recruitment_cost_land",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_force_army_campaign_recruitment_cost_land",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_force_army_campaign_upkeep_land",
+      "raw_scope": "region_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_force_building_cost_mod",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_force_navy_battle_hull_armour",
+      "raw_scope": "building_to_sea_region_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_force_navy_campaign_experience_base_ships_all",
+      "raw_scope": "building_to_sea_region_own_provincewide",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_force_navy_campaign_recruitment_points",
+      "raw_scope": "building_to_sea_region_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_horde_building_gdp_mod_all",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_hordebuilding_growth_core",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_hordebuilding_growth_if_settled",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_province_fertility_buildings",
+      "raw_scope": "building_to_region_own",
+      "reach": "region",
+      "kind": "fertility",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_province_growth_building",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_province_tax_rate",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "tax_percent",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_public_order_base",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "public_order",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_public_order_base_neighbouring",
+      "raw_scope": "province_to_province_own_adjacent_food",
+      "reach": "conditional",
+      "kind": "public_order",
+      "status": "requires_condition"
+    },
+    {
+      "effect": "att_effect_public_order_global",
+      "raw_scope": "faction_to_province_own",
+      "reach": "faction",
+      "kind": "public_order",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_public_order_global",
+      "raw_scope": "province_to_province_own_factionwide",
+      "reach": "faction",
+      "kind": "public_order",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_public_order_immigration",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "immigration_order_percent",
+      "status": "requires_scenario"
+    },
+    {
+      "effect": "att_effect_public_order_politics",
+      "raw_scope": "faction_to_province_own",
+      "reach": "faction",
+      "kind": "public_order",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_public_order_sanitation",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "public_order",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_region_resource_dyes_production",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_region_resource_gem_production",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_region_resource_iron_production",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_region_resource_lead_production",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_region_resource_leather_production",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_region_resource_marble_production",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_region_resource_olive_production",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_region_resource_salt_production",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_region_resource_silk_production",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_region_resource_spice_production",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_region_resource_wine_production",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_region_resource_wood_production",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_conversion_arian",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_conversion_catholic",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_conversion_catholic_faction",
+      "raw_scope": "faction_to_region_own",
+      "reach": "faction",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_conversion_celtic",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_conversion_church_east",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_conversion_germanic",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_conversion_grecoroman",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_conversion_judaism",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_conversion_manichaeist",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_conversion_orthodox",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_conversion_other",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_conversion_semitic_paganism",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_conversion_slavic",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_conversion_state",
+      "raw_scope": "faction_to_region_own",
+      "reach": "faction",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_conversion_state",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_conversion_tengri",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_conversion_zoroastrian",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_osmosis_arian",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_osmosis_catholic",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_osmosis_celtic",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_osmosis_church_east",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_osmosis_germanic",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_osmosis_grecoroman",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_osmosis_judaism",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_osmosis_manichaeist",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_osmosis_orthodox",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_osmosis_other",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_osmosis_semitic_paganism",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_osmosis_slavic",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_religion_osmosis_zoroastrian",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_sanitation_buildings",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "sanitation",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_sanitation_buildings_region",
+      "raw_scope": "province_to_region_own",
+      "reach": "province",
+      "kind": "sanitation",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_sanitation_squalor_buildings",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "squalor",
+      "status": "modeled"
+    },
+    {
+      "effect": "att_effect_settlement_walls_15m_hidden",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_settlement_walls_8m_hidden",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_technology_research_points",
+      "raw_scope": "faction_to_faction_own",
+      "reach": "faction",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_unit_equipment_ammo_bronze",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_unit_equipment_ammo_bronze",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_unit_equipment_ammo_gold",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_unit_equipment_ammo_gold",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_unit_equipment_ammo_silver",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_unit_equipment_ammo_silver",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_unit_equipment_armour_bronze",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_unit_equipment_armour_bronze",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_unit_equipment_armour_gold",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_unit_equipment_armour_gold",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_unit_equipment_armour_silver",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_unit_equipment_armour_silver",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_unit_equipment_cavalry_horse_bonus_i",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_unit_equipment_cavalry_horse_bonus_i",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_unit_equipment_cavalry_horse_bonus_ii",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_unit_equipment_cavalry_horse_bonus_ii",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_unit_equipment_cavalry_horse_bonus_iii",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_unit_equipment_cavalry_horse_bonus_iii",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_unit_equipment_shields_bronze",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_unit_equipment_shields_bronze",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_unit_equipment_shields_gold",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_unit_equipment_shields_gold",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_unit_equipment_shields_silver",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_unit_equipment_shields_silver",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_unit_equipment_weapon_bronze",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_unit_equipment_weapon_bronze",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_unit_equipment_weapon_gold",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_unit_equipment_weapon_gold",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_unit_equipment_weapon_silver",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_unit_equipment_weapon_silver",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_unit_recruitment_points",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_effect_unit_recruitment_points",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "att_effect_unit_training_morale_all",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_sands_occupation_options_bonus",
+      "raw_scope": "force_building_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_sands_raid_stance_extra_troop_tanukhid_dummy_1",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_sands_raid_stance_extra_troop_tanukhid_dummy_2",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_sands_raid_stance_extra_troop_tanukhid_dummy_3",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_slavs_add_last_stand_ability",
+      "raw_scope": "building_to_forces_on_province_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_slavs_add_offensive_abiltiy",
+      "raw_scope": "building_to_forces_factionwide",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "att_slavs_add_passive_ability_wonder_3",
+      "raw_scope": "building_to_forces_factionwide",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "bel_effect_expeditionbuilding_growth_core",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "bel_effect_horde_building_gdp_mod_all",
+      "raw_scope": "force_to_force_own",
+      "reach": "other",
+      "kind": "unmodeled",
+      "status": "outside_settlement_model"
+    },
+    {
+      "effect": "cha_effect_agent_enable_recruitment_assassin",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "cha_effect_agent_enable_recruitment_imam",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "cha_effect_building_corruption_adjacent_province",
+      "raw_scope": "province_to_province_own_adjacent",
+      "reach": "adjacent",
+      "kind": "unmodeled",
+      "status": "requires_adjacency"
+    },
+    {
+      "effect": "cha_effect_economy_gdp_mod_all_adjacent_province",
+      "raw_scope": "province_to_regions_own_in_adjacent_province",
+      "reach": "adjacent",
+      "kind": "wealth_percent",
+      "status": "requires_adjacency"
+    },
+    {
+      "effect": "cha_effect_imperium",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "cha_effect_imperium",
+      "raw_scope": "faction_to_faction_own_unseen",
+      "reach": "faction",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "cha_effect_irminsul_warning",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "cha_effect_province_defence_v_agents",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "cha_effect_region_resource_cloth_production",
+      "raw_scope": "building_to_building_own",
+      "reach": "building",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "cha_effect_religion_conversion_christianity",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "cha_effect_religion_conversion_islam",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "cha_effect_religion_conversion_paganism",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "cha_effect_religion_conversion_tengri",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "cha_effect_religion_osmosis_christianity",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "cha_effect_religion_osmosis_islam",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "cha_effect_religion_osmosis_paganism",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "cha_effect_religion_osmosis_tengri",
+      "raw_scope": "province_to_province_own",
+      "reach": "province",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    },
+    {
+      "effect": "cha_effect_sanitation_buildings_adjacent_province",
+      "raw_scope": "province_to_regions_own_in_adjacent_province",
+      "reach": "adjacent",
+      "kind": "sanitation",
+      "status": "requires_adjacency"
+    },
+    {
+      "effect": "num_wall_mounted_artillery_picks",
+      "raw_scope": "region_to_region_own",
+      "reach": "region",
+      "kind": "unmodeled",
+      "status": "unmodeled"
+    }
+  ],
+  "note": "Third-party cross-check, not proof of in-game fidelity. Contextual/horde differences are retained; original effects are not overwritten."
+}

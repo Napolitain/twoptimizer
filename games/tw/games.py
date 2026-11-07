@@ -4,6 +4,7 @@ from games.tw.solver_pulp import SolverPulp
 
 
 class Games:
+    legacy_effects = False
     fertility = 5
     problem = SolverPulp()
     instance: Game = None

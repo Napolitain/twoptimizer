@@ -128,7 +128,7 @@ def linear_solve(model, backend, seconds):
     return result
 
 
-def sat_solve(model, seconds, seed):
+def sat_solve(model, seconds, seed, workers=1):
     deadline = perf_counter() + seconds
     problem = cp_model.CpModel()
     variables = [problem.new_bool_var(name) for name in model.names]
@@ -147,7 +147,7 @@ def sat_solve(model, seconds, seed):
     problem.maximize(sum(c * x for c, x in zip(coefficients, variables)))
     solver = cp_model.CpSolver()
     solver.parameters.max_time_in_seconds = max(0.001, deadline - perf_counter())
-    solver.parameters.num_search_workers = 1
+    solver.parameters.num_search_workers = workers
     solver.parameters.random_seed = seed
     status = solver.solve(problem)
     result = Result("cp-sat", solver.status_name(status))
@@ -247,10 +247,16 @@ def improve(model, values, deadline):
 ALGORITHMS = ("cbc", "scip", "cp-sat", "greedy", "beam", "multistart", "glop")
 
 
-def solve(model, algorithm, seconds=5, seed=0, width=128, restarts=16):
+def solve(model, algorithm, seconds=5, seed=0, width=128, restarts=16, workers=1):
     if algorithm not in ALGORITHMS:
         raise ValueError(f"Unknown algorithm: {algorithm}")
-    if seconds <= 0 or not isfinite(seconds) or width < 1 or restarts < 1:
+    if (
+        seconds <= 0
+        or not isfinite(seconds)
+        or width < 1
+        or restarts < 1
+        or workers < 1
+    ):
         raise ValueError("Time limit, beam width and restart count must be positive")
     start = perf_counter()
     deadline = start + seconds
@@ -258,7 +264,9 @@ def solve(model, algorithm, seconds=5, seed=0, width=128, restarts=16):
         result = linear_solve(model, algorithm, max(0.001, deadline - perf_counter()))
     elif algorithm == "cp-sat":
         try:
-            result = sat_solve(model, max(0.001, deadline - perf_counter()), seed)
+            result = sat_solve(
+                model, max(0.001, deadline - perf_counter()), seed, workers
+            )
         except ValueError as exc:
             result = Result(algorithm, "MODEL_INVALID", detail=str(exc))
     else:

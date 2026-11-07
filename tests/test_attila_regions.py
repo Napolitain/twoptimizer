@@ -14,6 +14,7 @@ from games.tw.problem import Problem
 
 class TestRegion(TestCase):
     def test_attila_regions_f5(self):
+        Games.legacy_effects = True  # Historical base-GDP fixture.
         result = {}
         current_dir = Path(__file__).parent.absolute()
         file = current_dir / "result_fertility_5_ere.txt"
@@ -36,7 +37,7 @@ class TestRegion(TestCase):
         parser.parse_start_pos_tsv(path)
 
         # Linear programming problem
-        lp_problem = Problem(solver=SolverType.GOOGLE)
+        lp_problem = Problem(solver=SolverType.GOOGLE, objective="legacy")
 
         # Options
         Games.USE_NAME = NameType.NAME

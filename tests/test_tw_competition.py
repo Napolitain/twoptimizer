@@ -105,6 +105,7 @@ def test_attila_snapshot_matches_saved_engine_result():
         parser = load_attila(
             AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
             AttilaGame.Religion.CHRIST_ORTHODOX,
+            legacy=True,
         )
         province = next(iter(parser.provinces.values()))
         for fertility in (0, 5):
@@ -116,7 +117,7 @@ def test_attila_snapshot_matches_saved_engine_result():
                 .read_text()
                 .splitlines()
             )
-            problem, _ = snapshot(province, fertility)
+            problem, _ = snapshot(province, fertility, building_level=4, objective="legacy")
             result = solve(problem, "cp-sat")
             assert result.status == "OPTIMAL"
             assert result.objective == pytest.approx(
@@ -150,6 +151,7 @@ def test_default_cpsat_engine_all_provinces(fertility, use_hash, tmp_path):
         parser = load_attila(
             AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
             AttilaGame.Religion.CHRIST_ORTHODOX,
+            legacy=True,
         )
         Games.USE_NAME = NameType.HASH_NAME if use_hash else NameType.NAME
         Games.fertility = fertility
@@ -162,7 +164,7 @@ def test_default_cpsat_engine_all_provinces(fertility, use_hash, tmp_path):
             .splitlines()
         )
         expected = {k.strip(): float(v) for k, v in expected.items()}
-        problem = Problem()
+        problem = Problem(objective="legacy")
         assert problem.solver_type == SolverType.CP_SAT
         assert isinstance(problem.problem, SolverCpSat)
         with pytest.raises(RuntimeError, match="No feasible"):

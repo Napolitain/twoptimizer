@@ -53,9 +53,10 @@ if __name__ == '__main__':
             region.add_buildings()
             # Filter out city build below x (to force a city level)
             region.filter_city_level(4)
-            region.filter_building_level(4)
+            region.filter_building_level(1)
             region.filter_military()
             # Necessary (for now) for Google OR-Tools to add the variables which were added lazily
+            region.filter_technologies()
             lp_problem.problem.filter_added({building.name: building for building in region.buildings})
         lp_problem.state = ProblemState.FILTERS_ADDED
 

@@ -60,7 +60,9 @@ class SolverOrTools(Solver):
         self.variables_list.append((name, cat))
         return None
 
-    def create_constraint(self, name: str, variables: list, variables2: list = None, constraint_fn=None):
+    def create_constraint(
+        self, name: str, variables: list, variables2: list = None, constraint_fn=None
+    ):
         """
         Handles summation and constraint creation using pywraplp.LinearExpr.
         """
@@ -102,18 +104,24 @@ class SolverOrTools(Solver):
     def get_problem_answers(self, parser: Parser):
         answers = []
         for v in self.variables():  # Ensure this returns OR-Tools decision variables
+            if v.name().startswith("__and_") or v.solution_value() < 0.5:
+                continue
             building_name = parser.get_name_from_use_name(
                 parser.get_entry_name(FullEntryName(v.name()), EntryType.BUILDING),
-                EntryType.BUILDING
+                EntryType.BUILDING,
             )
             region_name = parser.get_name_from_use_name(
                 parser.get_entry_name(FullEntryName(v.name()), EntryType.REGION),
-                EntryType.REGION
+                EntryType.REGION,
             )
-            building_print_name = parser.get_print_name(building_name, EntryType.BUILDING)
+            building_print_name = parser.get_print_name(
+                building_name, EntryType.BUILDING
+            )
             region_print_name = parser.get_print_name(region_name, EntryType.REGION)
 
-            if v.solution_value() == 1:  # OR-Tools: Use solution_value() instead of varValue
+            if (
+                v.solution_value() == 1
+            ):  # OR-Tools: Use solution_value() instead of varValue
                 answers.append((region_print_name, building_print_name))
 
         return answers
@@ -131,3 +139,12 @@ class SolverOrTools(Solver):
                 else:
                     raise ValueError("Unknown variable category")
         self.variables_list = []  # Reset the variables list to avoid duplicates
+
+    def create_product(self, left, right, name):
+        result = self.solver.BoolVar(name)
+        for expression in (result <= left, result <= right, result >= left + right - 1):
+            self.constraints_list.append(self.solver.Add(expression))
+        return result
+
+    def add_objective_terms(self, terms):
+        self.solver.Maximize(self.solver.Sum(terms))

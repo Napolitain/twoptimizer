@@ -32,9 +32,11 @@ class SolverCpSat(SolverOrTools):
         super().__init__()
         self.result = None
 
-    def solve(self, seconds=60, seed=0):
+    def solve(self, seconds=60, seed=0, workers=1):
         model = BinaryModel.from_solver(self.solver)
-        self.result = solve(model, "cp-sat", seconds=seconds, seed=seed)
+        self.result = solve(
+            model, "cp-sat", seconds=seconds, seed=seed, workers=workers
+        )
         if self.result.values is None:
             raise RuntimeError(
                 f"CP-SAT returned {self.result.status}: "

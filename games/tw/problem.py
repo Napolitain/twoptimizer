@@ -1,11 +1,11 @@
 from time import perf_counter_ns
-from typing import List
 
 from pulp import PULP_CBC_CMD
 
 from games.tw.building import Building
 from games.tw.enums import ProblemState, SolverType
 from games.tw.games import Games
+from games.tw.models.model_attila import AttilaCampaign
 from games.tw.province import Province
 from games.tw.solver import Solver
 from games.tw.solver_cpsat import SolverCpSat
@@ -14,13 +14,34 @@ from games.tw.solver_pulp import SolverPulp
 
 
 class Problem:
-    def __init__(self, solver=SolverType.CP_SAT):
+    def __init__(
+        self,
+        solver=SolverType.CP_SAT,
+        objective=None,
+        adjacency=None,
+        technologies=None,
+    ):
         """
         Init a linear programming problem.
         """
-        self.provinces: List[Province] = []
+        self.provinces: list[Province] = []
+        if objective is None:
+            campaign = getattr(Games.instance, "campaign", None)
+            objective = (
+                "wealth"
+                if campaign is None or isinstance(campaign, AttilaCampaign)
+                else "legacy"
+            )
+        if objective not in ("legacy", "wealth", "income"):
+            raise ValueError("Unknown objective mode")
+        self.objective_mode = objective
+        self.technologies = None if technologies is None else frozenset(technologies)
+        self.adjacency = adjacency
+        self.economy = None
+        Games.legacy_effects = objective == "legacy"
         self.solver_type = solver
         self.problem = self.get_solver()
+        self.problem.technologies = self.technologies
         self.state = ProblemState.INIT
         self.global_time = 0
         Games.problem = self.problem
@@ -64,15 +85,22 @@ class Problem:
         for province in self.provinces:
             for region in province.regions:
                 region.add_buildings()
-                self.problem.filter_added({building.name: building for building in region.buildings})
+                self.problem.filter_added(
+                    {building.name: building for building in region.buildings}
+                )
         self.state = ProblemState.BUILDINGS_ADDED
 
-    def buildings(self) -> List[Building]:
+    def buildings(self) -> list[Building]:
         """
         Return all buildings in the problem that are potentially built. Basically, will be all our LpVariables.
         :return:
         """
-        return [building for province in self.provinces for region in province.regions for building in region.buildings]
+        return [
+            building
+            for province in self.provinces
+            for region in province.regions
+            for building in region.buildings
+        ]
 
     def add_objective(self) -> None:
         """
@@ -83,11 +111,25 @@ class Problem:
         """
         if self.state != ProblemState.CONSTRAINTS_ADDED:
             raise ValueError("Constraints must be added first.")
-        self.problem.add_objective(self.buildings())
+        if self.objective_mode == "legacy":
+            self.problem.add_objective(self.buildings())
+        else:
+            from games.tw.attila.economy import Economy
+
+            self.economy = Economy(self.provinces, self.adjacency)
+            self.economy.install_constraints(self.problem)
+            self.problem.add_objective_terms(
+                self.economy.compile(
+                    self.economy.objective(self.objective_mode), self.problem
+                )
+            )
         self.state = ProblemState.OBJECTIVE_ADDED
 
     def reset_problem(self) -> None:
         self.problem = self.get_solver()
+        self.problem.technologies = self.technologies
+        self.provinces = []
+        self.economy = None
         self.state = ProblemState.INIT
         Games.problem = self.problem
 
@@ -115,16 +157,17 @@ class Problem:
         :return: None
         """
         print(
-            f"Number of variables: {len(self.problem.variables())}\nNumber of constraints: {len(self.problem.constraints())}\n")
+            f"Number of variables: {len(self.problem.variables())}\nNumber of constraints: {len(self.problem.constraints())}\n"
+        )
 
-    def get_problem_answers(self) -> List[tuple[str, str]]:
+    def get_problem_answers(self) -> list[tuple[str, str]]:
         """
         Return the variables equal to 1 with their respective contribution.
         :return: list of tuples (region_name, building_name)
         """
         if self.state != ProblemState.SOLVED:
             raise ValueError("Problem must be solved first.")
-        return Games.problem.get_problem_answers(Games.instance.get_parser())
+        return self.problem.get_problem_answers(Games.instance.get_parser())
 
     def print_problem_answers(self):
         """
@@ -138,13 +181,13 @@ class Problem:
     def dump(self, path: str):
         if self.solver_type in (SolverType.GOOGLE, SolverType.SCIP, SolverType.CP_SAT):
             # Assuming self.problem.solver is an instance of pywraplp.Solver
-            if path.endswith('.lp'):
+            if path.endswith(".lp"):
                 model_str = self.problem.solver.ExportModelAsLpFormat(False)
-            elif path.endswith('.mps'):
+            elif path.endswith(".mps"):
                 model_str = self.problem.solver.ExportModelAsMpsFormat(False)
             else:
                 raise ValueError("Unsupported file format. Use '.lp' or '.mps'.")
-            with open(path, 'w') as file:
+            with open(path, "w") as file:
                 file.write(model_str)
         elif self.solver_type == SolverType.PULP:
             self.problem.solver.writeLP(path)
