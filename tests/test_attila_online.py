@@ -20,9 +20,7 @@ def page(technology="Tech A", build="123"):
     payload = {
         "icons": ["/game/attila/ui/buildings/icons/test_icon.webp"],
         "fx": [["Needs technology: " + technology, -1, 1]],
-        "chains": [
-            ["test_chain", "Test", [["Test Building", 0, 1, 1200, 3, 100, [0], [], 0]]]
-        ],
+        "chains": [["test_chain", "Test", [["Test Building", 0, 1, 1200, 3, 100, [0], [], 0]]]],
         "landmarks": [],
     }
     tree = ["$", "component", None, payload]

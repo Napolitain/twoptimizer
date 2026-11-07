@@ -21,23 +21,20 @@ def test_idea_model():
     print("=" * 80)
     print("Test 1: Idea Model")
     print("=" * 80)
-    
+
     # Create a test idea
     economy_idea = Idea(
         name="civilian_economy",
         category=IdeaCategory.ECONOMY,
         cost=150,
-        modifier={
-            "consumer_goods_factor": 0.30,
-            "production_speed_buildings_factor": -0.10
-        }
+        modifier={"consumer_goods_factor": 0.30, "production_speed_buildings_factor": -0.10},
     )
-    
+
     print(f"Created idea: {economy_idea.name}")
     print(f"  Category: {economy_idea.category.value}")
     print(f"  Cost: {economy_idea.cost} PP")
     print(f"  Is law: {economy_idea.is_law()}")
-    print(f"  Modifiers:")
+    print("  Modifiers:")
     for mod_name, value in economy_idea.modifier.items():
         print(f"    {mod_name}: {value:+.2f}")
     print()
@@ -48,16 +45,12 @@ def test_country_creation_demo():
     print("=" * 80)
     print("Test 2: Country Creation")
     print("=" * 80)
-    
+
     # Create a country
     germany = Country(
-        name="Germany",
-        tag="GER",
-        political_power=100.0,
-        stability=0.7,
-        war_support=0.6
+        name="Germany", tag="GER", political_power=100.0, stability=0.7, war_support=0.6
     )
-    
+
     # Add some states
     berlin = State(
         name="Berlin",
@@ -65,23 +58,23 @@ def test_country_creation_demo():
         civilian_factories=12,
         military_factories=8,
         manpower=3000000,
-        victory_points=30
+        victory_points=30,
     )
-    
+
     ruhr = State(
         name="Ruhr",
         state_category=StateCategory.LARGE_CITY,
         civilian_factories=10,
         military_factories=6,
-        manpower=2500000
+        manpower=2500000,
     )
-    
+
     ruhr.set_resource("steel", 35.0)
     ruhr.set_resource("coal", 50.0)
-    
+
     germany.add_state(berlin)
     germany.add_state(ruhr)
-    
+
     print(f"Country: {germany.name} ({germany.tag})")
     print(f"  Political Power: {germany.political_power}")
     print(f"  Stability: {germany.stability:.1%}")
@@ -92,7 +85,7 @@ def test_country_creation_demo():
     print(f"  Total Victory Points: {germany.total_victory_points()}")
     print(f"  Total Steel: {germany.get_resource('steel')}")
     print()
-    
+
     return germany
 
 
@@ -101,7 +94,7 @@ def demo_national_spirits(country):
     print("=" * 80)
     print("Test 3: National Spirits")
     print("=" * 80)
-    
+
     # Create a national spirit
     militarism = Idea(
         name="militarism",
@@ -109,15 +102,15 @@ def demo_national_spirits(country):
         modifier={
             "army_org_factor": 0.05,
             "land_reinforce_rate": 0.02,
-            "training_time_factor": -0.10
-        }
+            "training_time_factor": -0.10,
+        },
     )
-    
+
     country.add_national_spirit(militarism)
-    
+
     print(f"Added national spirit: {militarism.name}")
     print(f"  Active spirits: {len(country.national_spirits)}")
-    print(f"  Spirit modifiers:")
+    print("  Spirit modifiers:")
     for mod_name, value in militarism.modifier.items():
         print(f"    {mod_name}: {value:+.2%}")
     print()
@@ -128,7 +121,7 @@ def demo_laws(country):
     print("=" * 80)
     print("Test 4: Economic Laws")
     print("=" * 80)
-    
+
     # Create an economic law
     early_mobilization = Idea(
         name="early_mobilization",
@@ -137,24 +130,24 @@ def demo_laws(country):
         modifier={
             "consumer_goods_factor": 0.25,
             "production_speed_industrial_complex_factor": -0.10,
-            "conversion_cost_civ_to_mil_factor": -0.10
-        }
+            "conversion_cost_civ_to_mil_factor": -0.10,
+        },
     )
-    
+
     print(f"Setting economic law: {early_mobilization.name}")
     print(f"  Cost: {early_mobilization.cost} PP")
     print(f"  Current PP: {country.political_power}")
-    
+
     success = country.set_law(early_mobilization)
-    
+
     if success:
-        print(f"  Law set successfully!")
+        print("  Law set successfully!")
         print(f"  Remaining PP: {country.political_power}")
-        print(f"  Law modifiers:")
+        print("  Law modifiers:")
         for mod_name, value in early_mobilization.modifier.items():
             print(f"    {mod_name}: {value:+.2%}")
     else:
-        print(f"  Failed to set law (insufficient PP)")
+        print("  Failed to set law (insufficient PP)")
     print()
 
 
@@ -163,23 +156,23 @@ def test_idea_parser():
     print("=" * 80)
     print("Test 5: Idea Parser")
     print("=" * 80)
-    
+
     parser = IdeaParser()
-    
+
     # Parse economic ideas
     data_dir = Path("games/hoi4/data/ideas")
     economic_file = data_dir / "_economic.txt"
-    
+
     if economic_file.exists():
         print(f"Parsing {economic_file.name}...")
         ideas = parser.parse_file(economic_file)
-        
+
         print(f"  Parsed {len(ideas)} ideas")
-        
+
         # Show some economy laws
         economy_laws = parser.get_ideas_by_category(IdeaCategory.ECONOMY)
         print(f"  Found {len(economy_laws)} economy laws:")
-        
+
         for i, (name, idea) in enumerate(economy_laws.items()):
             if i >= 3:  # Show first 3
                 break
@@ -199,13 +192,13 @@ def main():
     print("PHASE 2: Country and National Ideas System Tests")
     print("=" * 80)
     print()
-    
+
     test_idea_model()
     country = test_country_creation_demo()
     demo_national_spirits(country)
     demo_laws(country)
     test_idea_parser()
-    
+
     print("=" * 80)
     print("All Phase 2 tests completed successfully!")
     print("=" * 80)

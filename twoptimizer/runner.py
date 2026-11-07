@@ -35,7 +35,7 @@ class CaseRunner:
                 Path(directory) / "result.json",
             )
             request_path.write_text(json.dumps(asdict(config)))
-            self.process = await asyncio.create_subprocess_exec(
+            process = self.process = await asyncio.create_subprocess_exec(
                 sys.executable,
                 "-m",
                 "twoptimizer.worker",
@@ -46,25 +46,25 @@ class CaseRunner:
                 env={**os.environ, "PYTHONUNBUFFERED": "1"},
             )
             try:
+                if process.stdout is None:
+                    raise RuntimeError("Solver worker output pipe is unavailable")
                 if self.cancelled:
                     await self.stop()
-                async for line in self.process.stdout:
+                async for line in process.stdout:
                     on_log(line.decode(errors="replace").rstrip()[:1000])
-                await self.process.wait()
+                await process.wait()
                 if self.cancelled:
                     return None
                 if not result_path.exists():
                     raise RuntimeError(
-                        f"Solver worker exited with code {self.process.returncode}; see the log."
+                        f"Solver worker exited with code {process.returncode}; see the log."
                     )
                 result = json.loads(result_path.read_text())
                 if "error" in result:
                     raise RuntimeError(result["error"])
-                if self.process.returncode:
-                    raise RuntimeError(
-                        f"Solver worker exited with code {self.process.returncode}."
-                    )
+                if process.returncode:
+                    raise RuntimeError(f"Solver worker exited with code {process.returncode}.")
                 return result
             finally:
-                if self.process.returncode is None:
+                if process.returncode is None:
                     await self.stop()

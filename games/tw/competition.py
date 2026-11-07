@@ -29,13 +29,12 @@ class BinaryModel:
         if not proto.maximize:
             raise ValueError("Expected a maximization model")
         if any(
-            not v.is_integer or v.lower_bound != 0 or v.upper_bound != 1
-            for v in proto.variable
+            not v.is_integer or v.lower_bound != 0 or v.upper_bound != 1 for v in proto.variable
         ):
             raise ValueError("All decisions must be binary")
         matrix = np.zeros((len(proto.constraint), len(proto.variable)))
         for row, constraint in enumerate(proto.constraint):
-            for index, value in zip(constraint.var_index, constraint.coefficient):
+            for index, value in zip(constraint.var_index, constraint.coefficient, strict=False):
                 matrix[row, index] += value
         return cls(
             tuple(v.name for v in proto.variable),
@@ -56,8 +55,7 @@ class BinaryModel:
             return False
         totals = self.matrix @ x
         return bool(
-            np.all(totals >= self.lower - tolerance)
-            and np.all(totals <= self.upper + tolerance)
+            np.all(totals >= self.lower - tolerance) and np.all(totals <= self.upper + tolerance)
         )
 
 
@@ -92,17 +90,16 @@ def linear_solve(model, backend, seconds):
     if solver is None:
         return Result(backend, "UNAVAILABLE", relaxation=relaxation)
     variables = [
-        (solver.NumVar(0, 1, name) if relaxation else solver.BoolVar(name))
-        for name in model.names
+        (solver.NumVar(0, 1, name) if relaxation else solver.BoolVar(name)) for name in model.names
     ]
-    for row, lo, hi in zip(model.matrix, model.lower, model.upper):
+    for row, lo, hi in zip(model.matrix, model.lower, model.upper, strict=False):
         constraint = solver.RowConstraint(float(lo), float(hi), "")
         for i in np.flatnonzero(row):
             constraint.SetCoefficient(variables[i], float(row[i]))
     objective = solver.Objective()
     objective.SetMaximization()
     objective.SetOffset(model.offset)
-    for variable, profit in zip(variables, model.profit):
+    for variable, profit in zip(variables, model.profit, strict=False):
         objective.SetCoefficient(variable, float(profit))
     solver.SetTimeLimit(max(1, int((deadline - perf_counter()) * 1000)))
     status = solver.Solve()
@@ -133,11 +130,11 @@ def sat_solve(model, seconds, seed, workers=1):
     deadline = perf_counter() + seconds
     problem = cp_model.CpModel()
     variables = [problem.new_bool_var(name) for name in model.names]
-    for row, lo, hi in zip(model.matrix, model.lower, model.upper):
+    for row, lo, hi in zip(model.matrix, model.lower, model.upper, strict=False):
         indices = np.flatnonzero(row)
         bounds = [v for v in (lo, hi) if isfinite(v)]
         integers = integer_row([row[i] for i in indices] + bounds)
-        expression = sum(value * variables[i] for i, value in zip(indices, integers))
+        expression = sum(value * variables[i] for i, value in zip(indices, integers, strict=False))
         offset = len(indices)
         if isfinite(lo):
             problem.add(expression >= integers[offset])
@@ -145,7 +142,7 @@ def sat_solve(model, seconds, seed, workers=1):
         if isfinite(hi):
             problem.add(expression <= integers[offset])
     coefficients = integer_row(model.profit)
-    problem.maximize(sum(c * x for c, x in zip(coefficients, variables)))
+    problem.maximize(sum(c * x for c, x in zip(coefficients, variables, strict=False)))
     solver = cp_model.CpSolver()
     solver.parameters.max_time_in_seconds = max(0.001, deadline - perf_counter())
     solver.parameters.num_search_workers = workers
@@ -155,11 +152,7 @@ def sat_solve(model, seconds, seed, workers=1):
     if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
         result.values = [solver.value(v) for v in variables]
         nonzero = np.flatnonzero(coefficients)
-        scale = (
-            float(model.profit[nonzero[0]] / coefficients[nonzero[0]])
-            if len(nonzero)
-            else 1
-        )
+        scale = float(model.profit[nonzero[0]] / coefficients[nonzero[0]]) if len(nonzero) else 1
         result.bound = solver.best_objective_bound * scale + model.offset
     return result
 
@@ -188,9 +181,9 @@ def beam_search(model, width, deadline, order):
         candidate_choices = np.concatenate((choices, choices.copy()))
         candidate_choices[len(choices) :, index] = 1
         candidate_scores = np.concatenate((scores, scores + model.profit[index]))
-        possible = np.all(
-            candidates + remaining_max >= model.lower - 1e-6, axis=1
-        ) & np.all(candidates + remaining_min <= model.upper + 1e-6, axis=1)
+        possible = np.all(candidates + remaining_max >= model.lower - 1e-6, axis=1) & np.all(
+            candidates + remaining_min <= model.upper + 1e-6, axis=1
+        )
         keep = np.flatnonzero(possible)
         if not len(keep):
             return None
@@ -229,20 +222,23 @@ def improve(model, values, deadline):
                 best_gain, best_move = gain, (i,)
             if x[i] != 1:
                 continue
-            for j in np.flatnonzero(x == 0):
-                gain = model.profit[j] - model.profit[i]
-                if gain <= best_gain:
-                    continue
-                swapped = changed + model.matrix[:, j]
-                if np.all(swapped >= model.lower - 1e-6) and np.all(
-                    swapped <= model.upper + 1e-6
-                ):
-                    best_gain, best_move = gain, (i, j)
+            best_gain, best_move = _best_exchange(x, model, i, best_gain, changed, best_move)
         if best_move is None:
             break
         for i in best_move:
             x[i] = 1 - x[i]
     return x
+
+
+def _best_exchange(x, model, i, best_gain, changed, best_move):
+    for j in np.flatnonzero(x == 0):
+        gain = model.profit[j] - model.profit[i]
+        if gain <= best_gain:
+            continue
+        swapped = changed + model.matrix[:, j]
+        if np.all(swapped >= model.lower - 1e-6) and np.all(swapped <= model.upper + 1e-6):
+            best_gain, best_move = gain, (i, j)
+    return best_gain, best_move
 
 
 ALGORITHMS = ("cbc", "scip", "cp-sat", "greedy", "beam", "multistart", "glop")
@@ -251,13 +247,7 @@ ALGORITHMS = ("cbc", "scip", "cp-sat", "greedy", "beam", "multistart", "glop")
 def solve(model, algorithm, seconds=5, seed=0, width=128, restarts=16, workers=1):
     if algorithm not in ALGORITHMS:
         raise ValueError(f"Unknown algorithm: {algorithm}")
-    if (
-        seconds <= 0
-        or not isfinite(seconds)
-        or width < 1
-        or restarts < 1
-        or workers < 1
-    ):
+    if seconds <= 0 or not isfinite(seconds) or width < 1 or restarts < 1 or workers < 1:
         raise ValueError("Time limit, beam width and restart count must be positive")
     start = perf_counter()
     deadline = start + seconds
@@ -265,41 +255,13 @@ def solve(model, algorithm, seconds=5, seed=0, width=128, restarts=16, workers=1
         result = linear_solve(model, algorithm, max(0.001, deadline - perf_counter()))
     elif algorithm == "cp-sat":
         try:
-            result = sat_solve(
-                model, max(0.001, deadline - perf_counter()), seed, workers
-            )
+            result = sat_solve(model, max(0.001, deadline - perf_counter()), seed, workers)
         except ValueError as exc:
             result = Result(algorithm, "MODEL_INVALID", detail=str(exc))
     else:
         # The LP supplies a promising construction order, not decisions forced
         # into the integer model. Its cost is included in heuristic timing.
-        guide = linear_solve(model, "glop", max(0.001, deadline - perf_counter()))
-        preferred = (
-            guide.values if guide.values is not None else np.zeros(len(model.names))
-        )
-        order = sorted(
-            range(len(model.names)),
-            key=lambda i: (-preferred[i], -model.profit[i], model.names[i]),
-        )
-        random = Random(seed)
-        best = None
-        for attempt in range(restarts if algorithm == "multistart" else 1):
-            if attempt:
-                random.shuffle(order)
-            candidate = beam_search(
-                model, 1 if algorithm == "greedy" else width, deadline, order
-            )
-            if candidate is not None and (
-                best is None or model.profit @ candidate > model.profit @ best
-            ):
-                best = candidate
-        if best is not None and algorithm == "multistart":
-            best = improve(model, best, deadline)
-        result = Result(
-            algorithm,
-            "FEASIBLE" if best is not None else "NO_SOLUTION_FOUND",
-            values=None if best is None else best.tolist(),
-        )
+        result = _solve_heuristic(model, deadline, seed, algorithm, restarts, width)
     if result.values is not None:
         if not model.feasible(result.values, integral=not result.relaxation):
             result.status, result.detail = (
@@ -310,4 +272,31 @@ def solve(model, algorithm, seconds=5, seed=0, width=128, restarts=16, workers=1
         else:
             result.objective = float(model.profit @ result.values) + model.offset
     result.seconds = perf_counter() - start
+    return result
+
+
+def _solve_heuristic(model, deadline, seed, algorithm, restarts, width):
+    guide = linear_solve(model, "glop", max(0.001, deadline - perf_counter()))
+    preferred = guide.values if guide.values is not None else np.zeros(len(model.names))
+    order = sorted(
+        range(len(model.names)),
+        key=lambda i: (-preferred[i], -model.profit[i], model.names[i]),
+    )
+    random = Random(seed)
+    best = None
+    for attempt in range(restarts if algorithm == "multistart" else 1):
+        if attempt:
+            random.shuffle(order)
+        candidate = beam_search(model, 1 if algorithm == "greedy" else width, deadline, order)
+        if candidate is not None and (
+            best is None or model.profit @ candidate > model.profit @ best
+        ):
+            best = candidate
+    if best is not None and algorithm == "multistart":
+        best = improve(model, best, deadline)
+    result = Result(
+        algorithm,
+        "FEASIBLE" if best is not None else "NO_SOLUTION_FOUND",
+        values=None if best is None else best.tolist(),
+    )
     return result

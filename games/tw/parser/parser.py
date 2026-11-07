@@ -2,11 +2,16 @@ import abc
 import dataclasses
 import enum
 import pathlib
-from typing import List
+from typing import TYPE_CHECKING
 
-from games.tw.bases import RegionBase, ProvinceBase
+if TYPE_CHECKING:
+    from games.tw.province import Province
+    from games.tw.region import Region
+
 from games.tw.enums import EntryType
-from games.tw.models.model import FullEntryName, EntryName, RegionType
+from games.tw.models.model import EntryName, FullEntryName, RegionType
+from games.tw.models.model_attila import AttilaCampaign, AttilaFactions
+from games.tw.models.model_rome2 import Rome2Campaign, Rome2Factions
 
 
 @dataclasses.dataclass
@@ -21,10 +26,12 @@ class Parser(abc.ABC):
     def __init__(self):
         # store id to object
         self.game_dir = pathlib.Path(__file__).resolve().parents[1] / "data"
-        self.campaign = None
+        self.campaign: AttilaCampaign | Rome2Campaign
         self.buildings = {}
-        self.regions: dict[str, RegionBase] = {}
-        self.provinces: dict[str, ProvinceBase] = {}
+        self.faction_to_culture: dict[str, Faction] = {}
+        self.faction: AttilaFactions | Rome2Factions
+        self.regions: dict[str, Region] = {}
+        self.provinces: dict[str, Province] = {}
 
     @abc.abstractmethod
     def parse_building_effects_junction_tables(self) -> None:
@@ -40,6 +47,7 @@ class Parser(abc.ABC):
         :return: None
         """
         from games.tw.province import Province
+
         data = parse_tsv(self.game_dir / "provinces.tsv")
         for name, print_name in data:
             if self.campaign.value[1] not in name:
@@ -52,6 +60,7 @@ class Parser(abc.ABC):
         :return: None
         """
         from games.tw.region import Region
+
         data = parse_tsv(self.game_dir / "regions.tsv")
         for name, print_name in data:
             if self.campaign.value[1] not in name:
@@ -103,7 +112,7 @@ class Parser(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def get_scope(self, scope: str) -> enum.Enum:
+    def get_scope(self, scope: str) -> enum.Enum | None:
         """
         Classify the scope of the effect.
         :param scope: scope of the effect
@@ -114,7 +123,8 @@ class Parser(abc.ABC):
     def get_entry_name(self, full_name: FullEntryName, entry_type: EntryType) -> EntryName:
         """
         Get the entry_type name from a concatenated name.
-        :param full_name: att_prov_thracia_att_reg_thracia_constantinopolis_att_bld_all_industry_major_pewter_4
+        :param full_name:
+        att_prov_thracia_att_reg_thracia_constantinopolis_att_bld_all_industry_major_pewter_4
         :param entry_type: EntryType.PROVINCE, EntryType.REGION, EntryType.BUILDING
         :return: att_reg_thracia_constantinopolis
         """
@@ -133,7 +143,9 @@ class Parser(abc.ABC):
                 province_name = province.get_name()
                 if f"{province_name}_" in full_name.name:
                     return EntryName(province_name)
-        raise KeyError(f"No matching region found in {full_name.name}")  # Raise KeyError if no match is found
+        raise KeyError(
+            f"No matching region found in {full_name.name}"
+        )  # Raise KeyError if no match is found
 
     def get_name_from_use_name(self, entry_name: EntryName, entry_type: EntryType) -> EntryName:
         """
@@ -154,7 +166,9 @@ class Parser(abc.ABC):
             for province in self.provinces.values():
                 if province.get_name() == entry_name.name:
                     return EntryName(province.name)
-        raise KeyError(f"No matching region found in {entry_name.name}")  # Raise KeyError if no match is found
+        raise KeyError(
+            f"No matching region found in {entry_name.name}"
+        )  # Raise KeyError if no match is found
 
     def get_dictionary_regions_to_province(self, game_dir: pathlib.Path, swap: bool = False):
         """
@@ -208,7 +222,7 @@ class Parser(abc.ABC):
         handlers = {
             "primary": self.process_primary_region,
             "port": self.process_port_region,
-            "secondary": self.process_secondary_region
+            "secondary": self.process_secondary_region,
         }
 
         if type_building in handlers:
@@ -249,14 +263,14 @@ class Parser(abc.ABC):
         pass
 
 
-def parse_tsv(path_buildings: pathlib.Path) -> List[List[str]]:
+def parse_tsv(path_buildings: pathlib.Path) -> list[list[str]]:
     """
     Parse a tsv file.
     :param path_buildings: path to the file
     :return: data as a list of lists
     """
-    with open(path_buildings, 'r') as file:
+    with open(path_buildings) as file:
         data = file.read()
-        data = data.split('\n')
-        data = [i.split('\t') for i in data]
+        data = data.split("\n")
+        data = [i.split("\t") for i in data]
     return data

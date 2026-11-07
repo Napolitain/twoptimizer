@@ -28,7 +28,10 @@ def parse(text):
             "farm_percent",
         ),
         (
-            r"([+-][0-9]+) per turn to town growth from (?:commerce|ports|infrastructure) within this province",
+            (
+                "([+-][0-9]+) per turn to town growth from "
+                "(?:commerce|ports|infrastructure) within this province"
+            ),
             "building_growth",
         ),
         (
@@ -37,7 +40,10 @@ def parse(text):
         ),
         (r"([+-][0-9]+)% to town growth from all buildings", "growth_percent"),
         (
-            r"([+-][0-9]+) to (?:provincial happiness|repression in this province|clan-wide happiness|clan-wide repression)",
+            (
+                "([+-][0-9]+) to (?:provincial happiness|repression in this "
+                "province|clan-wide happiness|clan-wide repression)"
+            ),
             "order",
         ),
         (r"([+-][0-9]+) happiness", "order"),
@@ -76,10 +82,16 @@ def values(building, kind, category=None):
     return sum(
         e.value
         for text in building["facts"] + building.get("clan_facts", [])
-        if (e := parse(text))
-        and e.kind == kind
-        and (category is None or category == e.category)
+        if (e := parse(text)) and e.kind == kind and (category is None or category == e.category)
     )
+
+
+def _nanban_reason(nanban_contact, religion, key):
+    if not nanban_contact or religion == "ikko":
+        return "nanban_contact_or_religion"
+    if key.endswith("nanban_quarter") and religion != "christian":
+        return "nanban_quarter_requires_christianity"
+    return None
 
 
 def unavailable_reason(building, province, religion, *, nanban_contact=True, clan=None):
@@ -97,10 +109,7 @@ def unavailable_reason(building, province, religion, *, nanban_contact=True, cla
         if otomo_branch != (clan == "otomo"):
             return "different_clan_christian_branch"
     if group == "port" and "nanban" in key:
-        if not nanban_contact or religion == "ikko":
-            return "nanban_contact_or_religion"
-        if key.endswith("nanban_quarter") and religion != "christian":
-            return "nanban_quarter_requires_christianity"
+        return _nanban_reason(nanban_contact, religion, key)
     if group == "portuguese":
         return "one_off_land_sale_not_recurring_tax_wealth"
     return None

@@ -21,11 +21,45 @@ EXACT = {
     "attila": ("cp-sat", "cbc", "scip"),
 }
 NOTES = {
-    "rome2": "Static domestic income after modeled maintenance. Food and public order are enforced. Research bonuses default off; mature buildings remain unlocked. Public full-research mode excludes seven incomplete trees, including Rome. Named provinces include the declared community patch-18 regional bonus profile unless disabled. Each holding is independent. Public references are not installed-patch certification. No external trade, treasury interest or campaign timeline.",
-    "attila": "Recurring settlement income, including modeled tax and maintenance. Food, sanitation and public order are enforced. Factions are compared after settlement, with the selected common religion and explicit fertility. Hordes are excluded. Technologies default researched; missing building metadata can exclude variants. No treasury interest or unsupplied trade/tribute/campaign inputs. Public references still need installed-build validation.",
-    "shogun2": "Domestic tax income in koku per turn. Food and public order are enforced. Soil uses the selected province's source profile by default; town wealth is supplied explicitly. All arts default researched, native clan faith, no Nanban contact. No external trade, construction timeline or future growth valuation. Public references still need installed-build validation.",
-    "three_kingdoms": "583 public building pages are audited, but 174 explicitly say No Effect, including important economic buildings. Slot placeholders and population/eligibility rules remain unresolved. No complete optimizer is available yet.",
-    "hoi4": "The existing experiments remain available in the repository. A faithful time-based economy optimizer is pending redesign; they are not presented here as a finished solver.",
+    "rome2": (
+        "Static domestic income after modeled maintenance. Food and public"
+        " order are enforced. Research bonuses default off; mature "
+        "buildings remain unlocked. Public full-research mode excludes "
+        "seven incomplete trees, including Rome. Named provinces include "
+        "the declared community patch-18 regional bonus profile unless "
+        "disabled. Each holding is independent. Public references are not "
+        "installed-patch certification. No external trade, treasury "
+        "interest or campaign timeline."
+    ),
+    "attila": (
+        "Recurring settlement income, including modeled tax and "
+        "maintenance. Food, sanitation and public order are enforced. "
+        "Factions are compared after settlement, with the selected common "
+        "religion and explicit fertility. Hordes are excluded. "
+        "Technologies default researched; missing building metadata can "
+        "exclude variants. No treasury interest or unsupplied "
+        "trade/tribute/campaign inputs. Public references still need "
+        "installed-build validation."
+    ),
+    "shogun2": (
+        "Domestic tax income in koku per turn. Food and public order are "
+        "enforced. Soil uses the selected province's source profile by "
+        "default; town wealth is supplied explicitly. All arts default "
+        "researched, native clan faith, no Nanban contact. No external "
+        "trade, construction timeline or future growth valuation. Public "
+        "references still need installed-build validation."
+    ),
+    "three_kingdoms": (
+        "583 public building pages are audited, but 174 explicitly say No "
+        "Effect, including important economic buildings. Slot placeholders"
+        " and population/eligibility rules remain unresolved. No complete "
+        "optimizer is available yet."
+    ),
+    "hoi4": (
+        "The existing experiments remain available in the repository. A "
+        "faithful time-based economy optimizer is pending redesign; they "
+        "are not presented here as a finished solver."
+    ),
 }
 
 

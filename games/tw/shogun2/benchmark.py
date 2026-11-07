@@ -20,16 +20,57 @@ from games.tw.shogun2.model import (
 
 def assumptions():
     return {
-        "objective": "Current domestic provincial tax receipts in koku per turn; not GDP, total campaign income or treasury profit.",
-        "ownership": "The selected provinces are jointly owned; food and unique-building limits are faction-wide.",
-        "town_wealth": "Explicit, fixed scenario input. Default zero isolates income from chosen buildings; it is not a historical start state.",
-        "tax_and_order": "Common base tax rate 30%, administration multiplier 1, normal-tax unrest -4, minimum public order 0 unless overridden. No governors, agents, garrisons, honour or difficulty bonuses.",
-        "religion": "Each clan's native faith, 100% local adherence. No conversion timeline or religious unrest at this snapshot.",
-        "research_and_resources": "All imported arts researched, all prerequisite construction resources accessible; no construction budget or sequencing. Arts food is counted once per faction.",
-        "eligibility": "Native religious chains, Otomo-specific Christian branch, location-specific specialty and port plots, one chain per town slot, castle-level slot capacity, one new legendary town building of each chain per faction, one new Nanban chain. No captured unique duplicates; Jesuit Colleges are not legendary.",
-        "growth": "Building, arts and shared-food growth components are reported, not valued in the current-income objective. Tax-induced growth penalties and future wealth dynamics are not simulated. Tied layouts can have different growth.",
-        "excluded_income_and_costs": "Trade/export/tribute income, the common clan stipend, military/agent expenses, first-construction race rewards and campaign bonuses excluded. Uesugi's trade trait therefore has no contribution. One-off Portuguese land sale excluded. Military-only buildings cannot improve this objective and are omitted.",
-        "validation_limit": "Optimality applies to this public-reference static model, not an exhaustive or installed-build-verified campaign simulation. Province prose yields do not override structured building effects.",
+        "objective": (
+            "Current domestic provincial tax receipts in koku per turn; not GDP, "
+            "total campaign income or treasury profit."
+        ),
+        "ownership": (
+            "The selected provinces are jointly owned; food and unique-building "
+            "limits are faction-wide."
+        ),
+        "town_wealth": (
+            "Explicit, fixed scenario input. Default zero isolates income from "
+            "chosen buildings; it is not a historical start state."
+        ),
+        "tax_and_order": (
+            "Common base tax rate 30%, administration multiplier 1, normal-tax "
+            "unrest -4, minimum public order 0 unless overridden. No governors, "
+            "agents, garrisons, honour or difficulty bonuses."
+        ),
+        "religion": (
+            "Each clan's native faith, 100% local adherence. No conversion "
+            "timeline or religious unrest at this snapshot."
+        ),
+        "research_and_resources": (
+            "All imported arts researched, all prerequisite construction "
+            "resources accessible; no construction budget or sequencing. Arts "
+            "food is counted once per faction."
+        ),
+        "eligibility": (
+            "Native religious chains, Otomo-specific Christian branch, "
+            "location-specific specialty and port plots, one chain per town slot,"
+            " castle-level slot capacity, one new legendary town building of each"
+            " chain per faction, one new Nanban chain. No captured unique "
+            "duplicates; Jesuit Colleges are not legendary."
+        ),
+        "growth": (
+            "Building, arts and shared-food growth components are reported, not "
+            "valued in the current-income objective. Tax-induced growth penalties"
+            " and future wealth dynamics are not simulated. Tied layouts can have"
+            " different growth."
+        ),
+        "excluded_income_and_costs": (
+            "Trade/export/tribute income, the common clan stipend, military/agent"
+            " expenses, first-construction race rewards and campaign bonuses "
+            "excluded. Uesugi's trade trait therefore has no contribution. "
+            "One-off Portuguese land sale excluded. Military-only buildings "
+            "cannot improve this objective and are omitted."
+        ),
+        "validation_limit": (
+            "Optimality applies to this public-reference static model, not an "
+            "exhaustive or installed-build-verified campaign simulation. Province"
+            " prose yields do not override structured building effects."
+        ),
     }
 
 
@@ -67,7 +108,10 @@ def coverage(catalog):
                 "fact": text,
                 "disposition": "Applied: +10% farm wealth"
                 if text == "Increased income from farms"
-                else "Outside domestic taxation; no trade, armies, agent actions or construction budget modeled",
+                else (
+                    "Outside domestic taxation; no trade, armies, agent actions or "
+                    "construction budget modeled"
+                ),
             }
             for clan in catalog["factions"].values()
             for text in clan.get("clan_facts", [])
@@ -88,25 +132,19 @@ def main(argv=None):
     parser.add_argument(
         "--province", action="append", help="Province ID, repeat for joint ownership"
     )
-    parser.add_argument(
-        "--clan", action="append", help="Default: all 12 imported playable clans"
-    )
+    parser.add_argument("--clan", action="append", help="Default: all 12 imported playable clans")
     parser.add_argument(
         "--algorithm",
         action="append",
         choices=["cp-sat", "cbc", "scip"],
         help="Repeat to cross-check exact solvers",
     )
-    parser.add_argument(
-        "--soil", action="append", choices=["native", "barren", "very_fertile"]
-    )
+    parser.add_argument("--soil", action="append", choices=["native", "barren", "very_fertile"])
     parser.add_argument("--town-wealth", type=float, default=0)
     parser.add_argument("--tax", type=float, default=30)
     parser.add_argument("--seconds", type=float, default=15)
     parser.add_argument("--workers", type=int, default=1)
-    parser.add_argument(
-        "--output", type=Path, default=Path("benchmark-results/shogun2/income")
-    )
+    parser.add_argument("--output", type=Path, default=Path("benchmark-results/shogun2/income"))
     args = parser.parse_args(argv)
     catalog, rules = load_data()
     clans = args.clan or sorted(catalog["factions"])
@@ -142,13 +180,24 @@ def main(argv=None):
                 )
                 results.append(result)
                 print(
-                    f"{soil:13} {clan:12} {algorithm:6} {result['solver']['status']:9} {result.get('domestic_tax_income')} ({result['solver']['seconds']:.3f}s)",
+                    (
+                        f"{soil:13}"
+                        " "
+                        f"{clan:12}"
+                        " "
+                        f"{algorithm:6}"
+                        " "
+                        f"{result['solver']['status']:9}"
+                        " "
+                        f"{result.get('domestic_tax_income')}"
+                        " ("
+                        f"{result['solver']['seconds']:.3f}"
+                        "s)"
+                    ),
                     flush=True,
                 )
             proven = [
-                r["domestic_tax_income"]
-                for r in results
-                if r["solver"]["status"] == "OPTIMAL"
+                r["domestic_tax_income"] for r in results if r["solver"]["status"] == "OPTIMAL"
             ]
             if proven and max(proven) - min(proven) > 1e-5:
                 raise AssertionError("Exact solvers disagree on a proved optimum")

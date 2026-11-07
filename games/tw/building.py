@@ -1,3 +1,6 @@
+from ortools.linear_solver import pywraplp
+from pulp import LpVariable
+
 from games.tw.effect import Effect
 from games.tw.entity import Entity
 from games.tw.enums import Scope, get_hash_name
@@ -13,11 +16,9 @@ class Building(Effect, Entity):
 
     HASH_NAME = "B1"
 
-    def __init__(
-        self, name: str, print_name: str | None = None, hash_name: str | None = None
-    ):
+    def __init__(self, name: str, print_name: str | None = None, hash_name: str | None = None):
         super().__init__()
-        self.lp_variable = None
+        self.lp_variable: pywraplp.Variable | LpVariable | None = None
         self.name = name
         if hash_name is None:
             self.hash_name = get_hash_name("B")
@@ -34,6 +35,12 @@ class Building(Effect, Entity):
         self.effects_to_province = {}
         self.effects_to_region = {}
         self.effects_to_building = {}
+
+    @property
+    def variable(self):
+        if self.lp_variable is None:
+            raise ValueError("Assign a solver variable before compiling constraints")
+        return self.lp_variable
 
     def __copy__(self):
         new_building = Building(self.name, self.print_name, self.hash_name)
@@ -56,7 +63,17 @@ class Building(Effect, Entity):
         return str(self)
 
     def __str__(self):
-        return f"{self.print_name}, GDP: {self.gdp()}, Public Order: {self.public_order()}, Sanitation: {self.sanitation()}, Food: {self.food()}"
+        return (
+            f"{self.print_name}"
+            ", GDP: "
+            f"{self.gdp()}"
+            ", Public Order: "
+            f"{self.public_order()}"
+            ", Sanitation: "
+            f"{self.sanitation()}"
+            ", Food: "
+            f"{self.food()}"
+        )
 
     def add_effect(
         self,
@@ -123,7 +140,7 @@ class Building(Effect, Entity):
                 amount
                 for source in sources
                 for effect, amount in source.items()
-                if Games.instance.get_filter().effect_is_gdp(effect, include_fertility)
+                if Games.current().get_filter().effect_is_gdp(effect, include_fertility)
             )
             return gdp_sum * (Games.fertility if include_fertility else 1)
 
@@ -205,18 +222,10 @@ class Building(Effect, Entity):
         )
         sanitation = etr + etb
         etr = sum(
-            [
-                amount
-                for effect, amount in self.effects_to_region.items()
-                if "squalor" in effect
-            ]
+            [amount for effect, amount in self.effects_to_region.items() if "squalor" in effect]
         )
         etb = sum(
-            [
-                amount
-                for effect, amount in self.effects_to_building.items()
-                if "squalor" in effect
-            ]
+            [amount for effect, amount in self.effects_to_building.items() if "squalor" in effect]
         )
         squalor = etr + etb
         # Province scope will be handled in province class.
@@ -233,9 +242,7 @@ class Building(Effect, Entity):
                 if scope == Scope.FACTION
                 else (Reach.BUILDING, Reach.LOCAL)
             )
-            return amount(self, "sanitation", reaches) - amount(
-                self, "squalor", reaches
-            )
+            return amount(self, "sanitation", reaches) - amount(self, "squalor", reaches)
         return self._legacy_sanitation_scope(scope)
 
     def _legacy_sanitation_scope(self, scope: Scope) -> float:
@@ -285,11 +292,7 @@ class Building(Effect, Entity):
                 ]
             )
             squalor = sum(
-                [
-                    amount
-                    for effect, amount in self.effects_to_region.items()
-                    if "squalor" in effect
-                ]
+                [amount for effect, amount in self.effects_to_region.items() if "squalor" in effect]
             )
             sanitation += sum(
                 [

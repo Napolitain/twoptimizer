@@ -80,9 +80,7 @@ RELIGION_KEYS = dict(
 
 @lru_cache(maxsize=1)
 def catalog():
-    return json.loads(
-        (Path(__file__).parent / "data/online_modifiers.json").read_text()
-    )
+    return json.loads((Path(__file__).parent / "data/online_modifiers.json").read_text())
 
 
 def technology_profile(game, researched=None, enabled=True):
@@ -93,9 +91,7 @@ def technology_profile(game, researched=None, enabled=True):
     slug = data["faction_slugs"].get(faction)
     inferred = slug is None
     if inferred:
-        culture = game.parser.faction_to_culture[faction].subculture.removeprefix(
-            "att_sub_cult_"
-        )
+        culture = game.parser.faction_to_culture[faction].subculture.removeprefix("att_sub_cult_")
         slug = CULTURE_TREES.get(culture)
     if slug is None:
         raise ValueError(f"Missing technology tree for {faction}")
@@ -128,9 +124,7 @@ def technology_profile(game, researched=None, enabled=True):
 def semantics(text):
     if match := re.fullmatch(r"Wealth: ([+-]?[0-9]+)% from subsistence", text):
         return [(Rule("wealth_percent", ("subsistence",)), int(match[1]))]
-    if match := re.fullmatch(
-        r"Trade income: ([+-]?[0-9]+)% trade agreement tariffs", text
-    ):
+    if match := re.fullmatch(r"Trade income: ([+-]?[0-9]+)% trade agreement tariffs", text):
         return [(Rule("tariff_percent"), int(match[1]))]
     if match := re.fullmatch(
         r"Public order: ([+-]?[0-9]+)% penalty due to presence of other religions", text
@@ -139,8 +133,7 @@ def semantics(text):
     facts = economic_observations([text])
     if facts:
         return [
-            (Rule(f["kind"], (f["category"],) if f["category"] else ()), f["value"])
-            for f in facts
+            (Rule(f["kind"], (f["category"],) if f["category"] else ()), f["value"]) for f in facts
         ]
     for pattern, kind in (
         (r"Corruption: ([+-]?[0-9]+)% of current value", "corruption_percent"),
@@ -162,9 +155,7 @@ def semantics(text):
             return [(rule, int(match[1]))]
     if text == "Religious influence: +1 Arian Christianity":
         return [(Rule("metric", ("religion:arian",)), 1)]
-    if match := re.fullmatch(
-        r"Construction cost: ([+-]?[0-9]+)% for (.+) buildings", text
-    ):
+    if match := re.fullmatch(r"Construction cost: ([+-]?[0-9]+)% for (.+) buildings", text):
         categories = {
             "main settlement": "main",
             "civic": "civic",
@@ -176,9 +167,7 @@ def semantics(text):
             "military": "military",
         }
         if match[2] in categories:
-            return [
-                (Rule("project_cost_percent", (categories[match[2]],)), int(match[1]))
-            ]
+            return [(Rule("project_cost_percent", (categories[match[2]],)), int(match[1]))]
     return []
 
 
@@ -187,9 +176,7 @@ def modifier_profile(game, technology=None, scenario=None):
     if getattr(game, "faction", None) is None:
         return {"technologies": None, "religion": None, "facts": []}, []
     if technology is None:
-        technology = technology_profile(
-            game, enabled=scenario.get("technology_effects", True)
-        )
+        technology = technology_profile(game, enabled=scenario.get("technology_effects", True))
     facts = list(technology["facts"]) if technology else []
     faith = getattr(getattr(game, "religion", None), "value", None)
     religion = None
@@ -204,9 +191,7 @@ def modifier_profile(game, technology=None, scenario=None):
         facts.extend({"source": key, "text": text} for text in source["records"][key])
     effects = []
     for fact in facts:
-        text = re.sub(
-            r" \((?:all regions|all provinces|factionwide)\)$", "", fact["text"]
-        )
+        text = re.sub(r" \((?:all regions|all provinces|factionwide)\)$", "", fact["text"])
         translated = semantics(text)
         fact["status"] = (
             "modeled"
@@ -236,7 +221,5 @@ def modifier_profile(game, technology=None, scenario=None):
             else "unmodeled"
         )
         for rule, value in translated:
-            effects.append(
-                (fact["source"] + ": " + fact["text"], rule, Reach.FACTION, value)
-            )
+            effects.append((fact["source"] + ": " + fact["text"], rule, Reach.FACTION, value))
     return {"technologies": technology, "religion": religion, "facts": facts}, effects

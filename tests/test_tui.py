@@ -4,7 +4,6 @@ import asyncio
 import json
 from dataclasses import asdict, replace
 from pathlib import Path
-from types import SimpleNamespace
 
 import pytest
 from textual.widgets import Button, DataTable, Input, Select, TabbedContent
@@ -31,9 +30,7 @@ def result(config=None):
         "income": 4182.7,
         "gap_percent": 0,
         "metrics": {"food_surplus": 2, "public_order": 1},
-        "buildings": [
-            {"region": "Capital", "building": "Test Market", "id": "market_4"}
-        ],
+        "buildings": [{"region": "Capital", "building": "Test Market", "id": "market_4"}],
         "assumptions": "Explicit test scenario",
         "source_files": {},
         "raw": {},
@@ -82,9 +79,7 @@ def test_invalid_requests_are_rejected_before_spawning(config):
 
 def test_export_roundtrip_and_existing_csv_is_protected(tmp_path):
     path = tmp_path / "run.json"
-    json_path, csv_path = export_session(
-        path, [result()], skipped=["Incomplete research"]
-    )
+    json_path, csv_path = export_session(path, [result()], skipped=["Incomplete research"])
     saved = json.loads(json_path.read_text())
     assert saved["cases"][0]["income"] == 4182.7
     assert saved["skipped"] == ["Incomplete research"]
@@ -132,9 +127,7 @@ def test_keyboard_mouse_game_changes_run_layout_and_export(tmp_path):
             await pilot.press("ctrl+s")
             await pilot.pause()
             assert isinstance(app.screen, ExportScreen)
-            app.screen.query_one("#export-path", Input).value = str(
-                tmp_path / "interactive.json"
-            )
+            app.screen.query_one("#export-path", Input).value = str(tmp_path / "interactive.json")
             await pilot.click("#save-file")
             await pilot.pause()
             assert (tmp_path / "interactive.json").exists()
@@ -214,6 +207,7 @@ def test_real_engine_worker(game):
         assert output["source_files"]
         if output["income"] is not None:
             assert output["buildings"] and output["metrics"]["food_surplus"] >= 0
+        assert runner.process is not None
         assert runner.process.returncode == 0
 
     asyncio.run(exercise())
@@ -225,7 +219,9 @@ def test_parser_data_discovery_does_not_search_for_a_git_checkout(monkeypatch):
     def no_git_search(path):
         raise AssertionError(f"Parser must use packaged paths, not inspect {path}")
 
-    target = SimpleNamespace()
+    from games.tw.parser.parser_attila import ParserAttila
+
+    target = object.__new__(ParserAttila)
     with monkeypatch.context() as scoped:
         scoped.setattr(Path, "exists", no_git_search)
         Parser.__init__(target)
@@ -236,13 +232,12 @@ def test_parser_data_discovery_does_not_search_for_a_git_checkout(monkeypatch):
 def test_cancel_terminates_real_solver_process():
     async def exercise():
         runner = CaseRunner()
-        task = asyncio.create_task(
-            runner.run(replace(RunConfig(), seconds=60), lambda _: None)
-        )
+        task = asyncio.create_task(runner.run(replace(RunConfig(), seconds=60), lambda _: None))
         while runner.process is None:
             await asyncio.sleep(0.01)
         await runner.stop()
         assert await asyncio.wait_for(task, 5) is None
+        assert runner.process is not None
         assert runner.process.returncode is not None
 
     asyncio.run(exercise())
@@ -261,6 +256,7 @@ def test_quit_stops_an_active_batch():
             await pilot.pause()
             assert app.busy
             await pilot.press("ctrl+q")
+        assert app.runner is not None
         assert app.runner.cancelled
 
     asyncio.run(exercise())

@@ -5,10 +5,10 @@ flat resource merely because their identifier contains 'food' or 'public_order'.
 """
 
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 
 
-class Reach(str, Enum):
+class Reach(StrEnum):
     BUILDING = "building"
     LOCAL = "region"
     PROVINCE = "province"
@@ -35,15 +35,9 @@ CATEGORIES = (
 )
 RULES = {
     "att_effect_economy_gdp_agriculture_farming": Rule("wealth", ("agriculture",)),
-    "att_effect_economy_gdp_agriculture_animal_husbandry": Rule(
-        "wealth", ("livestock",)
-    ),
-    "att_effect_economy_gdp_fertility_agriculture": Rule(
-        "fertility_wealth", ("agriculture",)
-    ),
-    "att_effect_economy_gdp_fertility_livestock": Rule(
-        "fertility_wealth", ("livestock",)
-    ),
+    "att_effect_economy_gdp_agriculture_animal_husbandry": Rule("wealth", ("livestock",)),
+    "att_effect_economy_gdp_fertility_agriculture": Rule("fertility_wealth", ("agriculture",)),
+    "att_effect_economy_gdp_fertility_livestock": Rule("fertility_wealth", ("livestock",)),
     "att_effect_economy_gdp_industry": Rule("wealth", ("industry",)),
     "att_effect_economy_gdp_culture": Rule("wealth", ("culture",)),
     "att_effect_economy_gdp_trade_local": Rule("wealth", ("commerce",)),
@@ -65,9 +59,7 @@ RULES = {
     "att_effect_economy_gpd_mod_immigration": Rule("immigration_wealth_percent"),
     "att_effect_public_order_base_neighbouring": Rule("public_order"),
     "cha_effect_sanitation_buildings_adjacent_province": Rule("sanitation"),
-    "cha_effect_economy_gdp_mod_all_adjacent_province": Rule(
-        "wealth_percent", CATEGORIES
-    ),
+    "cha_effect_economy_gdp_mod_all_adjacent_province": Rule("wealth_percent", CATEGORIES),
 }
 for suffix in (
     "farming_animal_husbandry",
@@ -93,10 +85,7 @@ for suffix, categories in {
 
 def reach(scope):
     # Order matters: 'factionwide armies' does not mean all owned regions.
-    if any(
-        word in scope
-        for word in ("force", "army", "general", "character", "sea_region")
-    ):
+    if any(word in scope for word in ("force", "army", "general", "character", "sea_region")):
         return Reach.OTHER
     if "adjacent_food" in scope:
         return Reach.CONDITIONAL
@@ -137,9 +126,7 @@ def entries(building):
                 yield key, RULES.get(key, Rule("unmodeled")), scope, amount
 
 
-def amount(
-    building, kind, reaches=(Reach.BUILDING, Reach.LOCAL, Reach.PROVINCE, Reach.FACTION)
-):
+def amount(building, kind, reaches=(Reach.BUILDING, Reach.LOCAL, Reach.PROVINCE, Reach.FACTION)):
     return sum(
         value
         for _, rule, scope, value in entries(building)
@@ -166,20 +153,14 @@ RULES.update(
         "cha_effect_building_corruption_adjacent_province": Rule("corruption_percent"),
         "att_effect_economy_trade_tariff_mod": Rule("tariff_percent"),
         "att_effect_building_construction_cost_mod": Rule("construction_percent"),
-        "att_effect_building_construction_cost_mod_sanitation": Rule(
-            "sanitation_cost_percent"
-        ),
+        "att_effect_building_construction_cost_mod_sanitation": Rule("sanitation_cost_percent"),
         "att_effect_building_conversion_cost_mod": Rule("conversion_cost_percent"),
         "att_effect_province_growth_building": Rule("metric", ("growth",)),
         "att_effect_technology_research_points": Rule("metric", ("research_percent",)),
-        "att_effect_technology_research_civil_points": Rule(
-            "metric", ("research_civil_percent",)
-        ),
+        "att_effect_technology_research_civil_points": Rule("metric", ("research_civil_percent",)),
         "att_effect_building_road": Rule("metric", ("roads",)),
         # The recipients of this exceptional scope must be supplied explicitly.
-        "att_effect_food_production_fertility_neighbouring": Rule(
-            "conditional_fertility_food"
-        ),
+        "att_effect_food_production_fertility_neighbouring": Rule("conditional_fertility_food"),
     }
 )
 for resource in (
@@ -199,9 +180,7 @@ for resource in (
     RULES[f"att_effect_region_resource_{resource}_production"] = Rule(
         "metric", (f"resource:{resource}",)
     )
-RULES["cha_effect_region_resource_cloth_production"] = Rule(
-    "metric", ("resource:cloth",)
-)
+RULES["cha_effect_region_resource_cloth_production"] = Rule("metric", ("resource:cloth",))
 for religion in (
     "arian",
     "catholic",
@@ -228,21 +207,15 @@ for religion in ("christianity", "islam", "paganism", "tengri"):
         RULES[f"cha_effect_religion_{prefix}_{religion}"] = Rule(
             "metric", (f"{metric}:{religion}",)
         )
-RULES["att_effect_religion_conversion_catholic_faction"] = Rule(
-    "metric", ("religion:catholic",)
-)
+RULES["att_effect_religion_conversion_catholic_faction"] = Rule("metric", ("religion:catholic",))
 for agent in ("champion", "dignitary", "spy"):
     RULES[f"att_effect_agent_enable_recruitment_{agent}"] = Rule(
         "metric", (f"agent_enable:{agent}",)
     )
     if agent != "spy":
-        RULES[f"att_effect_agent_recruitment_cap_{agent}"] = Rule(
-            "metric", (f"agent_cap:{agent}",)
-        )
+        RULES[f"att_effect_agent_recruitment_cap_{agent}"] = Rule("metric", (f"agent_cap:{agent}",))
 for agent in ("all_agents", "dignitary", "spy"):
-    RULES[f"att_effect_agent_recruitment_xp_{agent}"] = Rule(
-        "metric", (f"agent_xp:{agent}",)
-    )
+    RULES[f"att_effect_agent_recruitment_xp_{agent}"] = Rule("metric", (f"agent_xp:{agent}",))
 for agent in ("assassin", "imam"):
     RULES[f"cha_effect_agent_enable_recruitment_{agent}"] = Rule(
         "metric", (f"agent_enable:{agent}",)
@@ -272,10 +245,7 @@ for tier in ("i", "ii", "iii"):
     )
 
 METRICS = frozenset(
-    category
-    for rule in RULES.values()
-    if rule.kind == "metric"
-    for category in rule.categories
+    category for rule in RULES.values() if rule.kind == "metric" for category in rule.categories
 )
 ECONOMIC_KINDS = frozenset(
     rule.kind for rule in RULES.values() if rule.kind not in ("metric", "unmodeled")

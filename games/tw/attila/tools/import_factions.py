@@ -41,9 +41,7 @@ class Lines(HTMLParser):
 def lines(html):
     parser = Lines()
     parser.feed(html)
-    return [
-        " ".join(s.split()) for s in "".join(parser.parts).splitlines() if s.strip()
-    ]
+    return [" ".join(s.split()) for s in "".join(parser.parts).splitlines() if s.strip()]
 
 
 def parse_faction(html):
@@ -65,11 +63,7 @@ def parse_faction(html):
         facts = lines(block)
         if not facts or facts[0] not in {"Playable: True", "Playable: False"}:
             raise ValueError("Political party source format changed")
-        effects = [
-            s
-            for s in facts[1:]
-            if not s.startswith("Initial Power:") and s != "No Effect"
-        ]
+        effects = [s for s in facts[1:] if not s.startswith("Initial Power:") and s != "No Effect"]
         (active if facts[0] == "Playable: True" else inactive).append(effects)
     if len(active) > 1:
         raise ValueError("More than one ruling party")
@@ -97,9 +91,7 @@ def import_data(cache, output, offline=False, factions=None):
         if not path.exists():
             if offline:
                 raise FileNotFoundError(path)
-            request = Request(
-                url, headers={"User-Agent": "twoptimizer-data-import/1.0"}
-            )
+            request = Request(url, headers={"User-Agent": "twoptimizer-data-import/1.0"})
             with urlopen(request, timeout=45) as response:
                 raw = response.read(4 * 1024 * 1024 + 1)
             if len(raw) > 4 * 1024 * 1024:

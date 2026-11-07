@@ -56,9 +56,7 @@ def main(argv=None):
         action="store_true",
         help="Include NPC/rebel/separatist entries",
     )
-    cli.add_argument(
-        "--output", type=Path, default=Path("benchmark-results/factions/income.json")
-    )
+    cli.add_argument("--output", type=Path, default=Path("benchmark-results/factions/income.json"))
     args = cli.parse_args(argv)
     if args.seconds <= 0 or args.workers < 1 or args.fertility < 0:
         cli.error("Invalid budget, workers or fertility")
@@ -73,20 +71,19 @@ def main(argv=None):
     report = {
         "settings": settings,
         "objective": "income",
-        "scope": "Independent hypothetical ownership of each province; common religion, no treasury interest, zero unsupplied trade/tribute/corruption/army costs. Technology effects and legacy disables included. Not starting-position or full-campaign comparisons.",
+        "scope": (
+            "Independent hypothetical ownership of each province; common "
+            "religion, no treasury interest, zero unsupplied "
+            "trade/tribute/corruption/army costs. Technology effects and legacy "
+            "disables included. Not starting-position or full-campaign "
+            "comparisons."
+        ),
         "factions": [],
         "excluded": [],
     }
     cache = {}
     prior = {}
-    if args.resume and args.output.exists():
-        old = json.loads(args.output.read_text())
-        prior = {
-            c["signature"]: c
-            for f in old["factions"]
-            for c in f["cases"]
-            if c["status"] == "OPTIMAL" and c["selected"] is not None
-        }
+    prior = _read_prior_cases(args, prior)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     for faction in factions:
         parser = load_attila(faction, AttilaGame.Religion[args.religion])
@@ -102,9 +99,7 @@ def main(argv=None):
             continue
         row = {"id": faction.value, "name": info.name, "cases": []}
         for name in provinces:
-            matches = [
-                p for p in parser.provinces.values() if name in (p.name, p.print_name)
-            ]
+            matches = [p for p in parser.provinces.values() if name in (p.name, p.print_name)]
             if len(matches) != 1:
                 cli.error(f"Unknown or ambiguous province: {name}")
             model, build_seconds, economy = snapshot(
@@ -117,8 +112,7 @@ def main(argv=None):
                 previous = prior[key]
                 selected = set(previous["selected"])
                 auxiliary = {
-                    variable.name(): monomial
-                    for monomial, variable in economy.products.items()
+                    variable.name(): monomial for monomial, variable in economy.products.items()
                 }
                 values = [
                     economy.evaluate({auxiliary.get(name, (name,)): 1}, selected)
@@ -142,25 +136,19 @@ def main(argv=None):
                     cache[key] = result
                     reused = True
             if result is None:
-                result = solve(
-                    model, "cp-sat", seconds=args.seconds, workers=args.workers
-                )
+                result = solve(model, "cp-sat", seconds=args.seconds, workers=args.workers)
                 cache[key] = result
             selected = (
                 None
                 if result.values is None
                 else {
                     n
-                    for n, value in zip(model.names, result.values)
+                    for n, value in zip(model.names, result.values, strict=False)
                     if value > 0.5 and not n.startswith("__")
                 }
             )
             layout = None if selected is None else economy.evaluate_layout(selected)
-            if selected is not None and (
-                not model.feasible(result.values)
-                or abs(layout["objective"] - result.objective) > 1e-5
-            ):
-                raise RuntimeError("Comparison result did not validate")
+            _validate_comparison(layout, model, result)
             case = {
                 "province": matches[0].print_name,
                 "signature": key,
@@ -176,7 +164,17 @@ def main(argv=None):
             }
             row["cases"].append(case)
             print(
-                f"{info.name:24} {name:12} {result.status:12} {result.objective!s:12} {'reused' if reused else 'solved'}",
+                (
+                    f"{info.name:24}"
+                    " "
+                    f"{name:12}"
+                    " "
+                    f"{result.status:12}"
+                    " "
+                    f"{result.objective!s:12}"
+                    " "
+                    f"{('reused' if reused else 'solved')}"
+                ),
                 flush=True,
             )
         report["factions"].append(row)
@@ -202,6 +200,25 @@ def main(argv=None):
                 ]
             )
     return report
+
+
+def _validate_comparison(layout, model, result):
+    if layout is not None and (
+        not model.feasible(result.values) or abs(layout["objective"] - result.objective) > 1e-5
+    ):
+        raise RuntimeError("Comparison result did not validate")
+
+
+def _read_prior_cases(args, prior):
+    if args.resume and args.output.exists():
+        old = json.loads(args.output.read_text())
+        prior = {
+            c["signature"]: c
+            for f in old["factions"]
+            for c in f["cases"]
+            if c["status"] == "OPTIMAL" and c["selected"] is not None
+        }
+    return prior
 
 
 if __name__ == "__main__":

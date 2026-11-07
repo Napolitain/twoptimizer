@@ -7,6 +7,7 @@ from dataclasses import asdict, dataclass, replace
 from datetime import datetime
 from math import isfinite
 from pathlib import Path
+from typing import Any
 
 from twoptimizer.catalog import EXACT, NOTES, ROOT, choices, faction_name, read
 
@@ -45,21 +46,37 @@ def make_jobs(config):
     if config.research not in {key for _, key in options["research"]}:
         raise ValueError("Choose an available research profile.")
     factions = (
-        [key for _, key in options["factions"]]
-        if config.faction == "all"
-        else [config.faction]
+        [key for _, key in options["factions"]] if config.faction == "all" else [config.faction]
     )
     if any(key not in {key for _, key in options["factions"]} for key in factions):
         raise ValueError("Unknown faction or clan.")
-    algorithms = (
-        EXACT[config.game] if config.algorithm == "compare" else (config.algorithm,)
-    )
+    algorithms = EXACT[config.game] if config.algorithm == "compare" else (config.algorithm,)
     if any(
-        a not in EXACT[config.game]
-        and not (config.game == "rome2" and a == "portfolio")
+        a not in EXACT[config.game] and not (config.game == "rome2" and a == "portfolio")
         for a in algorithms
     ):
         raise ValueError("Choose an available solver.")
+    skipped = _research_factions(config, factions)
+    _validate_game_settings(config)
+    return [replace(config, faction=f, algorithm=a) for f in factions for a in algorithms], skipped
+
+
+def _validate_game_settings(config):
+    if config.game == "shogun2":
+        if config.soil not in {"native", "barren", "very_fertile"}:
+            raise ValueError("Choose a listed soil profile.")
+        if not 0 <= config.tax <= 100 or not isfinite(config.town_wealth) or config.town_wealth < 0:
+            raise ValueError("Tax must be 0-100%; town wealth must be nonnegative.")
+    if config.game == "attila":
+        from games.tw.models.model_attila import AttilaReligion
+
+        if not isfinite(config.fertility) or config.fertility < 0:
+            raise ValueError("Fertility must be finite and nonnegative.")
+        if config.religion not in AttilaReligion.__members__:
+            raise ValueError("Choose an available religion.")
+
+
+def _research_factions(config, factions):
     skipped = []
     if config.game == "rome2" and config.research != "none":
         data = read("rome2/data/economy_catalog.json")
@@ -70,31 +87,18 @@ def make_jobs(config):
                 else faction in data["technologies_archived"]
             )
             if not available:
-                message = f"{faction_name(config.game, faction)}: {config.research} research data is incomplete. Choose research bonuses disabled or another available profile."
+                message = (
+                    f"{faction_name(config.game, faction)}"
+                    ": "
+                    f"{config.research}"
+                    " research data is incomplete. Choose research bonuses "
+                    "disabled or another available profile."
+                )
                 if config.faction != "all":
                     raise ValueError(message)
                 factions.remove(faction)
                 skipped.append(message)
-    if config.game == "shogun2":
-        if config.soil not in {"native", "barren", "very_fertile"}:
-            raise ValueError("Choose a listed soil profile.")
-        if (
-            not isfinite(config.tax)
-            or not 0 <= config.tax <= 100
-            or not isfinite(config.town_wealth)
-            or config.town_wealth < 0
-        ):
-            raise ValueError("Tax must be 0–100%; town wealth must be nonnegative.")
-    if config.game == "attila":
-        from games.tw.models.model_attila import AttilaReligion
-
-        if not isfinite(config.fertility) or config.fertility < 0:
-            raise ValueError("Fertility must be finite and nonnegative.")
-        if config.religion not in AttilaReligion.__members__:
-            raise ValueError("Choose an available religion.")
-    return [
-        replace(config, faction=f, algorithm=a) for f in factions for a in algorithms
-    ], skipped
+    return skipped
 
 
 def source_files(game):
@@ -112,8 +116,7 @@ def source_files(game):
         ]
     elif game == "shogun2":
         paths = [
-            ROOT / "shogun2" / name
-            for name in ("model.py", "effects.py", "data/rules.json")
+            ROOT / "shogun2" / name for name in ("model.py", "effects.py", "data/rules.json")
         ] + [ROOT / "multigame/data/shogun2.json"]
     else:
         paths = [
@@ -129,144 +132,143 @@ def source_files(game):
             ROOT / "attila/economy.py",
             ROOT / "competition.py",
         ]
-    return {
-        str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
-        for p in paths
+    return {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
+
+
+def _solve_rome(config):
+    buildings, metrics = [], {}
+    from games.tw.rome2.benchmark import presets
+    from games.tw.rome2.model import Economy, Scenario, load_data
+    from games.tw.rome2.world import province_scenario
+
+    data = load_data()
+    scenario = (
+        Scenario(
+            config.faction,
+            presets(config.province),
+            name=config.province,
+            all_technologies=config.research != "none",
+            technology_profile="archived" if config.research == "archived" else "public",
+        )
+        if config.province in {"coastal", "inland", "grain"}
+        else province_scenario(
+            config.province,
+            config.faction,
+            world_bonuses=config.world_bonuses,
+            all_technologies=config.research != "none",
+            technology_profile="archived" if config.research == "archived" else "public",
+        )
+    )
+    raw = Economy(scenario, data).optimize(config.algorithm, config.seconds, config.workers)
+    income = raw.get("domestic_net_income")
+    world = read("rome2/data/world.json")["regions"]
+    for site, row in raw.get("sites", {}).items():
+        for key in row["buildings"]:
+            buildings.append(
+                {
+                    "region": world.get(site, {}).get("name", site.title()),
+                    "building": data["buildings"][key]["name"],
+                    "id": key,
+                }
+            )
+    metrics = {
+        k: raw.get(k)
+        for k in (
+            "food_surplus",
+            "public_order",
+            "modified_wealth",
+            "domestic_tax_income",
+            "building_maintenance",
+        )
     }
+    return raw, income, buildings, metrics
+
+
+def _solve_shogun(config):
+    buildings, metrics = [], {}
+    from games.tw.shogun2.model import Economy, Province, Scenario, load_data
+
+    data, rules = load_data()
+    province = Province(
+        config.province,
+        town_wealth=config.town_wealth,
+        base_tax_percent=config.tax,
+        farm_multiplier={"native": None, "barren": 1, "very_fertile": 3}[config.soil],
+    )
+    raw = Economy(
+        Scenario(config.faction, (province,), all_arts=config.research == "all"),
+        data,
+        rules,
+    ).optimize(config.algorithm, config.seconds, config.workers)
+    income = raw.get("domestic_tax_income")
+    for key, row in raw.get("provinces", {}).items():
+        for building in row["buildings"]:
+            buildings.append(
+                {
+                    "region": rules["provinces"][key]["name"],
+                    "building": data["buildings"][building]["name"],
+                    "id": building,
+                }
+            )
+        metrics["public_order"] = row["public_order"]
+    metrics["food_surplus"] = raw.get("food_surplus")
+    return raw, income, buildings, metrics
+
+
+def _solve_attila(config):
+    buildings, metrics = [], {}
+    from games.tw.benchmark import compare, load_attila, snapshot
+    from games.tw.models.game_attila import AttilaGame
+
+    parser = load_attila(AttilaGame.Factions(config.faction), AttilaGame.Religion[config.religion])
+    province = parser.provinces[config.province]
+    model, build_seconds, economy = snapshot(
+        province,
+        config.fertility,
+        retain_economy=True,
+        technologies=set() if config.research == "none" else None,
+    )
+    assert economy is not None
+    result: dict[str, Any] = compare(
+        model,
+        [config.algorithm],
+        config.seconds,
+        0,
+        128,
+        16,
+        economy=economy,
+        workers=config.workers,
+    )["results"][0]
+    raw = {
+        **result,
+        "build_seconds": build_seconds,
+        "omitted_effects": sorted(set(economy.omitted)),
+    }
+    raw["solver"] = {k: result[k] for k in ("algorithm", "status", "seconds", "objective", "bound")}
+    income = result["objective"]
+    for key in result.get("selected") or []:
+        building = economy.by_id[key]
+        buildings.append(
+            {
+                "region": building.region.print_name,
+                "building": building.print_name,
+                "id": building.name,
+            }
+        )
+    layout = result.get("layout") or {}
+    metrics = {
+        "food_surplus": sum(layout.get("province_food", {}).values()) if layout else None,
+        "public_order": min(layout.get("public_order", {}).values(), default=None),
+    }
+    return raw, income, buildings, metrics
 
 
 def solve_case(config):
     jobs, _ = make_jobs(config)
     if len(jobs) != 1:
         raise ValueError("A worker must receive exactly one faction and solver.")
-    buildings, metrics = [], {}
-    if config.game == "rome2":
-        from games.tw.rome2.benchmark import presets
-        from games.tw.rome2.model import Economy, Scenario, load_data
-        from games.tw.rome2.world import province_scenario
-
-        data = load_data()
-        kwargs = {
-            "all_technologies": config.research != "none",
-            "technology_profile": "archived"
-            if config.research == "archived"
-            else "public",
-        }
-        scenario = (
-            Scenario(
-                config.faction, presets(config.province), name=config.province, **kwargs
-            )
-            if config.province in {"coastal", "inland", "grain"}
-            else province_scenario(
-                config.province,
-                config.faction,
-                world_bonuses=config.world_bonuses,
-                **kwargs,
-            )
-        )
-        raw = Economy(scenario, data).optimize(
-            config.algorithm, config.seconds, config.workers
-        )
-        income = raw.get("domestic_net_income")
-        world = read("rome2/data/world.json")["regions"]
-        for site, row in raw.get("sites", {}).items():
-            for key in row["buildings"]:
-                buildings.append(
-                    {
-                        "region": world.get(site, {}).get("name", site.title()),
-                        "building": data["buildings"][key]["name"],
-                        "id": key,
-                    }
-                )
-        metrics = {
-            k: raw.get(k)
-            for k in (
-                "food_surplus",
-                "public_order",
-                "modified_wealth",
-                "domestic_tax_income",
-                "building_maintenance",
-            )
-        }
-    elif config.game == "shogun2":
-        from games.tw.shogun2.model import Economy, Province, Scenario, load_data
-
-        data, rules = load_data()
-        province = Province(
-            config.province,
-            town_wealth=config.town_wealth,
-            base_tax_percent=config.tax,
-            farm_multiplier={"native": None, "barren": 1, "very_fertile": 3}[
-                config.soil
-            ],
-        )
-        raw = Economy(
-            Scenario(config.faction, (province,), all_arts=config.research == "all"),
-            data,
-            rules,
-        ).optimize(config.algorithm, config.seconds, config.workers)
-        income = raw.get("domestic_tax_income")
-        for key, row in raw.get("provinces", {}).items():
-            for building in row["buildings"]:
-                buildings.append(
-                    {
-                        "region": rules["provinces"][key]["name"],
-                        "building": data["buildings"][building]["name"],
-                        "id": building,
-                    }
-                )
-            metrics["public_order"] = row["public_order"]
-        metrics["food_surplus"] = raw.get("food_surplus")
-    else:
-        from games.tw.benchmark import compare, load_attila, snapshot
-        from games.tw.models.game_attila import AttilaGame
-
-        parser = load_attila(
-            AttilaGame.Factions(config.faction), AttilaGame.Religion[config.religion]
-        )
-        province = parser.provinces[config.province]
-        model, build_seconds, economy = snapshot(
-            province,
-            config.fertility,
-            retain_economy=True,
-            technologies=set() if config.research == "none" else None,
-        )
-        result = compare(
-            model,
-            [config.algorithm],
-            config.seconds,
-            0,
-            128,
-            16,
-            economy=economy,
-            workers=config.workers,
-        )["results"][0]
-        raw = {
-            **result,
-            "build_seconds": build_seconds,
-            "omitted_effects": sorted(set(economy.omitted)),
-        }
-        raw["solver"] = {
-            k: result[k]
-            for k in ("algorithm", "status", "seconds", "objective", "bound")
-        }
-        income = result["objective"]
-        for key in result.get("selected") or []:
-            building = economy.by_id[key]
-            buildings.append(
-                {
-                    "region": building.region.print_name,
-                    "building": building.print_name,
-                    "id": building.name,
-                }
-            )
-        layout = result.get("layout") or {}
-        metrics = {
-            "food_surplus": sum(layout.get("province_food", {}).values())
-            if layout
-            else None,
-            "public_order": min(layout.get("public_order", {}).values(), default=None),
-        }
+    adapter = {"rome2": _solve_rome, "shogun2": _solve_shogun, "attila": _solve_attila}[config.game]
+    raw, income, buildings, metrics = adapter(config)
     solver = raw["solver"]
     bound = solver.get("bound")
     gap = (
@@ -294,9 +296,7 @@ def solve_case(config):
 def export_session(path, results, *, skipped=(), overwrite=False):
     path = Path(path).expanduser()
     if path.suffix.lower() not in {"", ".json"}:
-        raise ValueError(
-            "Choose a JSON filename; a matching CSV is saved alongside it."
-        )
+        raise ValueError("Choose a JSON filename; a matching CSV is saved alongside it.")
     path = path.with_suffix(".json")
     csv_path = path.with_suffix(".csv")
     if not results:
@@ -308,7 +308,11 @@ def export_session(path, results, *, skipped=(), overwrite=False):
     payload = {
         "schema_version": 1,
         "created_at": datetime.now().astimezone().isoformat(),
-        "scope": "Independent province cases; no cross-game ranking. OPTIMAL is a solver proof for the stated model. FEASIBLE keeps an unresolved bound. Cancelled batches may contain fewer cases than requested.",
+        "scope": (
+            "Independent province cases; no cross-game ranking. OPTIMAL is a "
+            "solver proof for the stated model. FEASIBLE keeps an unresolved "
+            "bound. Cancelled batches may contain fewer cases than requested."
+        ),
         "skipped": list(skipped),
         "cases": results,
     }

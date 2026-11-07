@@ -9,6 +9,7 @@ import json
 from datetime import UTC, datetime
 from hashlib import sha256
 from pathlib import Path
+from typing import Any
 from urllib.parse import parse_qs, urlencode, urljoin, urlparse
 
 from games.tw.multigame.html import Document, number
@@ -36,9 +37,7 @@ def faction_index(html):
         values = query(href)
         if "f" not in values:
             continue
-        name = anchor.text() or next(
-            (i.attrs.get("alt", "") for i in anchor.nodes("img")), ""
-        )
+        name = anchor.text() or next((i.attrs.get("alt", "") for i in anchor.nodes("img")), "")
         if name:
             factions[values["f"]] = {"id": values["f"], "name": name}
     if not factions:
@@ -47,7 +46,7 @@ def faction_index(html):
 
 
 def chains(html, faction):
-    result = {}
+    result: dict[str, Any] = {}
     for anchor in Document(html).root.nodes("a"):
         href = anchor.attrs.get("href", "")
         if not href.startswith("building.php?"):
@@ -60,21 +59,8 @@ def chains(html, faction):
 
 def parse_chain(html, game, chain):
     records = {}
-    tables = []
-    for table in Document(html).root.nodes("table"):
-        rows = [
-            r
-            for r in table.nodes("tr")
-            if r.parent is table
-            or (r.parent.tag in {"tbody", "thead"} and r.parent.parent is table)
-        ]
-        if any("Create Time" in r.text() for r in rows):
-            tables.append(rows)
-    if len(tables) != 1:
-        raise ValueError(
-            f"Expected exactly one building table for {game}/{chain}, got {len(tables)}"
-        )
-    pending = None
+    tables = _chain_tables(html, game, chain)
+    pending: dict[str, Any] | None = None
     for row in tables[0]:
         cells = row.cells()
         ids = [
@@ -97,22 +83,22 @@ def parse_chain(html, game, chain):
             }
         elif pending is not None:
             if len(cells) != 5:
-                raise ValueError(
-                    f"Building metadata row format changed for {pending['id']}"
-                )
+                raise ValueError(f"Building metadata row format changed for {pending['id']}")
             pending["construction_turns"] = number(cells[0].text())
             pending["construction_cost"] = number(cells[1].text())
             pending["facts"] = cells[4 if game == "three_kingdoms" else 2].lines()
-            pending["upkeep"] = (
-                number(cells[2].text()) if game == "three_kingdoms" else None
-            )
-            pending["food_cost"] = (
-                number(cells[3].text()) if game == "three_kingdoms" else None
-            )
+            pending["upkeep"] = number(cells[2].text()) if game == "three_kingdoms" else None
+            pending["food_cost"] = number(cells[3].text()) if game == "three_kingdoms" else None
             pending["upkeep_semantics"] = (
-                "source_column; food_cost is separate source metadata, not automatically recurring consumption"
+                (
+                    "source_column; food_cost is separate source metadata, "
+                    "not automatically recurring consumption"
+                )
                 if game == "three_kingdoms"
-                else "No separate upkeep column; explicit maintenance effects are retained in facts, not assumed zero"
+                else (
+                    "No separate upkeep column; explicit maintenance effects"
+                    " are retained in facts, not assumed zero"
+                )
             )
             if any(
                 pending[k] is not None and pending[k] < 0
@@ -124,6 +110,24 @@ def parse_chain(html, game, chain):
     if pending is not None or not records:
         raise ValueError("Incomplete building table")
     return records
+
+
+def _chain_tables(html, game, chain):
+    tables = []
+    for table in Document(html).root.nodes("table"):
+        rows = [
+            r
+            for r in table.nodes("tr")
+            if r.parent is table
+            or (r.parent.tag in {"tbody", "thead"} and r.parent.parent is table)
+        ]
+        if any("Create Time" in r.text() for r in rows):
+            tables.append(rows)
+    if len(tables) != 1:
+        raise ValueError(
+            f"Expected exactly one building table for {game}/{chain}, got {len(tables)}"
+        )
+    return tables
 
 
 def faction_traits(html):
@@ -151,6 +155,63 @@ def faction_traits(html):
 def import_honga(game, sources, native_only=False):
     index_url = honga_url(game, "faction")
     factions = faction_index(sources.get(index_url))
+    factions = _select_factions(game, factions, native_only)
+    pages = sources.many(honga_url(game, "building", f=f) for f in factions)
+    wanted = {}
+    for url, html in pages.items():
+        faction = query(url)["f"]
+        roster = chains(html, faction)
+        factions[faction]["chains"] = sorted(roster)
+        factions[faction]["source_url"] = url
+        for chain, name in roster.items():
+            wanted.setdefault(chain, {"faction": faction, "name": name})
+    print(
+        f"{game}: {len(factions)} faction rosters, {len(wanted)} distinct building chains",
+        flush=True,
+    )
+    chain_pages = sources.many(
+        honga_url(game, "building", f=r["faction"], chain=chain) for chain, r in wanted.items()
+    )
+    buildings, conflicts = {}, []
+    for url, html in chain_pages.items():
+        chain = query(url)["chain"]
+        for key, record in parse_chain(html, game, chain).items():
+            record["source_url"] = url
+            if key in buildings and {
+                k: v for k, v in buildings[key].items() if k not in {"source_url", "chain"}
+            } != {k: v for k, v in record.items() if k not in {"source_url", "chain"}}:
+                conflicts.append({"building": key, "sources": [buildings[key]["source_url"], url]})
+            else:
+                buildings[key] = record
+    for conflict in conflicts:
+        buildings.pop(conflict["building"], None)
+    if game == "rome2":
+        trait_pages = sources.many(honga_url(game, "faction", f=f) for f in factions)
+        for url, html in trait_pages.items():
+            factions[query(url)["f"]]["traits"] = faction_traits(html)
+    for faction in factions.values():
+        faction["buildings"] = sorted(
+            b["id"] for b in buildings.values() if b["chain"] in faction["chains"]
+        )
+    return {
+        "game": game,
+        "campaign_scope": "Grand Campaign faction IDs"
+        if game == "rome2"
+        else "Reference faction rosters across source start dates; no inferred 190-CE eligibility",
+        "roster_semantics": (
+            "Public source visibility only; not proof of in-game culture/faction/script eligibility"
+        ),
+        "factions": factions,
+        "buildings": buildings,
+        "conflicts": conflicts,
+        "model_readiness": (
+            "Reference catalog only; installed data required to validate economy "
+            "semantics and eligibility"
+        ),
+    }
+
+
+def _select_factions(game, factions, native_only):
     if game == "rome2":
         factions = {k: v for k, v in factions.items() if k.startswith("rom_")}
         if native_only:
@@ -190,59 +251,7 @@ def import_honga(game, sources, native_only=False):
             if k.startswith("3k_dlc") and "separatist" not in k and "nanman" in k
         )
         factions = {k: v for k, v in factions.items() if k in ids}
-    pages = sources.many(honga_url(game, "building", f=f) for f in factions)
-    wanted = {}
-    for url, html in pages.items():
-        faction = query(url)["f"]
-        roster = chains(html, faction)
-        factions[faction]["chains"] = sorted(roster)
-        factions[faction]["source_url"] = url
-        for chain, name in roster.items():
-            wanted.setdefault(chain, {"faction": faction, "name": name})
-    print(
-        f"{game}: {len(factions)} faction rosters, {len(wanted)} distinct building chains",
-        flush=True,
-    )
-    chain_pages = sources.many(
-        honga_url(game, "building", f=r["faction"], chain=chain)
-        for chain, r in wanted.items()
-    )
-    buildings, conflicts = {}, []
-    for url, html in chain_pages.items():
-        chain = query(url)["chain"]
-        for key, record in parse_chain(html, game, chain).items():
-            record["source_url"] = url
-            if key in buildings and {
-                k: v
-                for k, v in buildings[key].items()
-                if k not in {"source_url", "chain"}
-            } != {k: v for k, v in record.items() if k not in {"source_url", "chain"}}:
-                conflicts.append(
-                    {"building": key, "sources": [buildings[key]["source_url"], url]}
-                )
-            else:
-                buildings[key] = record
-    for conflict in conflicts:
-        buildings.pop(conflict["building"], None)
-    if game == "rome2":
-        trait_pages = sources.many(honga_url(game, "faction", f=f) for f in factions)
-        for url, html in trait_pages.items():
-            factions[query(url)["f"]]["traits"] = faction_traits(html)
-    for faction in factions.values():
-        faction["buildings"] = sorted(
-            b["id"] for b in buildings.values() if b["chain"] in faction["chains"]
-        )
-    return {
-        "game": game,
-        "campaign_scope": "Grand Campaign faction IDs"
-        if game == "rome2"
-        else "Reference faction rosters across source start dates; no inferred 190-CE eligibility",
-        "roster_semantics": "Public source visibility only; not proof of in-game culture/faction/script eligibility",
-        "factions": factions,
-        "buildings": buildings,
-        "conflicts": conflicts,
-        "model_readiness": "Reference catalog only; installed data required to validate economy semantics and eligibility",
-    }
+    return factions
 
 
 def enc_links(html, folder):
@@ -260,7 +269,7 @@ def enc_record(html, url):
     page = next(d.nodes("div", id="page"), None)
     if page is None or not list(page.nodes("h2")):
         raise ValueError("Encyclopedia page format changed")
-    result = {
+    result: dict[str, Any] = {
         "id": Path(urlparse(url).path).stem,
         "name": next(page.nodes("h2")).text(),
         "source_url": url,
@@ -282,17 +291,14 @@ def enc_record(html, url):
                 result.setdefault("first_construct_facts", []).append(node.text())
             elif current in {"Requires", "Enables"}:
                 result[current.lower()].extend(
-                    urljoin(url, a.attrs["href"])
-                    for a in node.nodes("a")
-                    if "href" in a.attrs
+                    urljoin(url, a.attrs["href"]) for a in node.nodes("a") if "href" in a.attrs
                 )
     return result
 
 
 def import_shogun(sources):
     indices = sources.many(
-        ENC + file
-        for file in ("buildings.html", "arts.html", "clans.html", "regions.html")
+        ENC + file for file in ("buildings.html", "arts.html", "clans.html", "regions.html")
     )
     folders = {
         "buildings": "buildings.html",
@@ -302,9 +308,7 @@ def import_shogun(sources):
     }
     records = {}
     for folder, file in folders.items():
-        pages = sources.many(
-            ENC + path for path in enc_links(indices[ENC + file], folder)
-        )
+        pages = sources.many(ENC + path for path in enc_links(indices[ENC + file], folder))
         records[folder] = {
             r["id"]: r for url, html in pages.items() if (r := enc_record(html, url))
         }
@@ -315,7 +319,11 @@ def import_shogun(sources):
         "buildings": records["buildings"],
         "technologies": records["techs"],
         "regions": records["regions"],
-        "verification": "Archived official encyclopedia mirror; current game patch not declared. Region pages provide names/descriptions, not numerical fertility/resource/start-position tables.",
+        "verification": (
+            "Archived official encyclopedia mirror; current game patch not "
+            "declared. Region pages provide names/descriptions, not numerical "
+            "fertility/resource/start-position tables."
+        ),
     }
 
 
@@ -333,9 +341,7 @@ def share_rosters(report):
         rosters.setdefault(key, roster)
         faction["roster_id"] = key
         faction["roster_visibility_status"] = (
-            "public_chains_present"
-            if roster["chains"]
-            else "no_public_chains; eligibility unknown"
+            "public_chains_present" if roster["chains"] else "no_public_chains; eligibility unknown"
         )
     if rosters:
         report["rosters"] = rosters
@@ -378,13 +384,23 @@ def main(argv=None):
                 "sources": sorted(sources.records.values(), key=lambda r: r["url"]),
                 "native_only": args.native_only,
                 "ready_for_full_economy_model": False,
-                "scope_note": "Reference catalog, not a completeness claim or a faction economy ranking; validate against installed game data",
+                "scope_note": (
+                    "Reference catalog, not a completeness claim or a faction economy "
+                    "ranking; validate against installed game data"
+                ),
             }
         )
         path = args.output / (game + ".json")
         path.write_text(json.dumps(report, indent=2) + "\n")
         print(
-            f"{game}: imported {len(report['buildings'])} buildings, {len(report['factions'])} factions",
+            (
+                f"{game}"
+                ": imported "
+                f"{len(report['buildings'])}"
+                " buildings, "
+                f"{len(report['factions'])}"
+                " factions"
+            ),
             flush=True,
         )
 

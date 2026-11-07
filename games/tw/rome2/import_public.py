@@ -30,30 +30,26 @@ def url(page, **kwargs):
 
 
 def dlc_role(chain):
-    if chain == "dk_all_city":
-        return "Provincial Capital", "Province Capital"
-    if chain == "dk_all_minor_settlement":
-        return "Minor Settlement", "Minor Settlement"
+    exact = {
+        "dk_all_city": ("Provincial Capital", "Province Capital"),
+        "dk_all_minor_settlement": ("Minor Settlement", "Minor Settlement"),
+        "dk_all_industry": ("Industrial", "Industrial"),
+        "dk_kush_industry": ("Industrial", "Industrial"),
+        "all_mine": ("Industrial", "Minor Settlement"),
+        "east_tax": ("City Centre", "Tax"),
+        "east_agriculture": ("Agricultural", "Agriculture"),
+        "east_port": ("Port", "Port"),
+        "dk_gen_sanitation": ("Sanitation", "Sanitation"),
+        "dk_saba_marib_dam": ("Sanitation", "Marib Dam"),
+    }
+    if chain in exact:
+        return exact[chain]
     if chain.startswith("dk_minor_"):
         return "Minor Settlement", chain.removeprefix("dk_minor_")
     if chain.endswith("city_centre"):
         return "City Centre", "City Centre"
     if chain.endswith("town_centre"):
         return "City Centre", "Town Centre"
-    if chain in {"dk_all_industry", "dk_kush_industry"}:
-        return "Industrial", "Industrial"
-    if chain == "all_mine":
-        return "Industrial", "Minor Settlement"
-    if chain == "east_tax":
-        return "City Centre", "Tax"
-    if chain == "east_agriculture":
-        return "Agricultural", "Agriculture"
-    if chain == "east_port":
-        return "Port", "Port"
-    if chain == "dk_gen_sanitation":
-        return "Sanitation", "Sanitation"
-    if chain == "dk_saba_marib_dam":
-        return "Sanitation", "Marib Dam"
     if "military" in chain:
         return "Military", "Training" if "training" in chain else "Recruitment"
     raise ValueError(f"Unclassified Desert Kingdoms chain: {chain}")
@@ -65,7 +61,10 @@ def strip_scope(text):
     if re.fullmatch(r"[+-]?\d+ food \(all provinces\)", text):
         return text.removesuffix(" (all provinces)") + " in all provinces"
     return re.sub(
-        r" \((?:this_|regions_|in_all_|all provinces|all regions|all characters|factionwide)[^)]*\)$",
+        (
+            " \\((?:this_|regions_|in_all_|all provinces|all "
+            "regions|all characters|factionwide)[^)]*\\)$"
+        ),
         "",
         text,
     )
@@ -103,185 +102,17 @@ def main(argv=None):
     effects = defaultdict(list)
     for key, effect, amount, scope in read_table("building_effects_junction_table.tsv"):
         effects[key].append({"id": effect, "value": int(amount), "scope": scope})
-    excluded = []
-    for faction in DLC:
-        data["factions"][faction] = public["factions"][faction]
-        for key in public["rosters"][public["factions"][faction]["roster_id"]][
-            "buildings"
-        ]:
-            b = public["buildings"][key]
-            if key.startswith(("3c_", "inv_", "rom_slum")):
-                excluded.append(
-                    {
-                        "faction": faction,
-                        "building": key,
-                        "reason": "other_campaign_or_slum_not_a_fresh_economic_build_option",
-                    }
-                )
-                continue
-            category, title = dlc_role(b["chain"])
-            match = re.search(r"_(\d+)(?:_[a-z]+)?$", key)
-            if not match or (
-                not effects[key]
-                and any(
-                    re.search(r"wealth|food|public order|tax rate", s)
-                    for s in b["facts"]
-                )
-            ):
-                raise ValueError(
-                    f"Missing numeric level/effects for DLC building: {key}"
-                )
-            occurrence = {
-                "culture": "rom_Eastern",
-                "name": b["name"],
-                "category": category,
-                "chain_title": title,
-                "factions": [faction],
-                "source_url": b["source_url"],
-                "eligibility_evidence": "Honga faction-specific roster, excluding other-campaign prefixes; installed building_sets validation remains",
-            }
-            if b["chain"] == "dk_saba_marib_dam":
-                occurrence["allowed_regions"] = [
-                    k for k, r in data["regions"].items() if r["name"] == "Marib"
-                ]
-            if key not in data["buildings"]:
-                data["buildings"][key] = {
-                    "id": key,
-                    "name": b["name"],
-                    "level": int(match[1]),
-                    "construction_cost": b["construction_cost"],
-                    "facts": b["facts"],
-                    "effects": effects[key],
-                    "has_raw_effect_rows": True,
-                    "occurrences": [],
-                    "display_source": "honga_public",
-                }
-            occurrences = data["buildings"][key]["occurrences"]
-            existing = next((o for o in occurrences if faction in o["factions"]), None)
-            if existing is not None:
-                existing.update(occurrence)
-            else:
-                occurrences.append(occurrence)
+    excluded = _import_dlc_buildings(public, data, effects)
     # Spice settlements were introduced after the archived official trees.
-    for key, building in public["buildings"].items():
-        if not re.fullmatch(r"(?:barb|greek|east|rome)_spice_[1-4]", key):
-            continue
-        variants_for_key = [
-            r for r in read_table("building_culture_variants_table.tsv") if r[0] == key
-        ]
-        if not variants_for_key:
-            raise ValueError(f"Missing raw spice culture variant: {key}")
-        eligible = [
-            f
-            for f in data["factions"]
-            if key in public["rosters"][public["factions"][f]["roster_id"]]["buildings"]
-        ]
-        data["buildings"][key] = {
-            "id": key,
-            "name": building["name"],
-            "level": int(key[-1]),
-            "construction_cost": building["construction_cost"],
-            "facts": building["facts"],
-            "effects": effects[key],
-            "has_raw_effect_rows": bool(effects[key]),
-            "display_source": "honga_public",
-            "occurrences": [
-                {
-                    "culture": variants_for_key[0][1],
-                    "name": building["name"],
-                    "category": "Minor Settlement",
-                    "chain_title": "Spice",
-                    "factions": eligible,
-                    "source_url": building["source_url"],
-                    "eligibility_evidence": "Honga faction-specific rosters plus raw culture variant; later resource absent from official archive",
-                }
-            ],
-        }
+    _import_spice_buildings(public, data, effects)
     sources = Sources(args.cache, args.offline)
     # Honga's index has broken DK religious junctions, although individual
     # building pages and explicit faction-specific raw variants are available.
     detail_sources = Sources(Path(".cache/rome2-detail"), args.offline)
-    variants = {
-        r[0]: r
-        for r in read_table("building_culture_variants_table.tsv")
-        if r[3] in DLC and r[0] not in public["buildings"]
-    }
-    wanted_buildings = {
-        url("building", f=r[3], b=key): key for key, r in variants.items()
-    }
-    for source_url, html in detail_sources.many(wanted_buildings).items():
-        key = wanted_buildings[source_url]
-        row = variants[key]
-        detail = detail_record(html)
-        if not detail["name"] or detail["metadata"].get("Level Name") != key:
-            raise ValueError(f"Missing explicit variant detail: {key}")
-        if "_religious" in key:
-            category, title = "Religious", "Religious"
-        elif "_military" in key or "_stables" in key:
-            category, title = "Military", "Recruitment"
-        elif key == "dk_all_city_5":
-            category, title = "Provincial Capital", "Province Capital"
-        else:
-            raise ValueError(f"Unclassified explicit faction variant: {key}")
-        data["buildings"][key] = {
-            "id": key,
-            "name": detail["name"],
-            "level": int(detail["metadata"]["Building Level"]),
-            "construction_cost": int(detail["metadata"]["Create Cost"]),
-            "facts": detail["facts"],
-            "effects": effects[key],
-            "has_raw_effect_rows": bool(effects[key]),
-            "display_source": "honga_public_detail",
-            "occurrences": [
-                {
-                    "culture": row[1],
-                    "name": row[4],
-                    "category": category,
-                    "chain_title": title,
-                    "factions": [row[3]],
-                    "source_url": source_url,
-                    "eligibility_evidence": "Explicit faction-specific row in repository building_culture_variants table; missing from Honga index; installed building_sets still need validation",
-                }
-            ],
-        }
-    data["raw_variant_supplement"] = {
-        "buildings": sorted(variants),
-        "source_records": sorted(
-            detail_sources.records.values(), key=lambda r: r["url"]
-        ),
-        "reason": "Public DK index omits these faction-specific raw variants, including temples; detail pages remain available",
-    }
+    _import_variant_details(public, detail_sources, effects, data)
     index_urls = {url("technology", f=f): f for f in data["factions"]}
-    trees, coverage, tech_owners = {}, {}, defaultdict(list)
-    for source_url, html in sources.many(index_urls).items():
-        faction = index_urls[source_url]
-        ids, nodes = tree_links(html, faction)
-        trees[faction] = ids
-        for key in ids:
-            tech_owners[key].append(faction)
-        # Zero-count DK branches are visible in Honga's navigation but have no
-        # leaf data. Do not call that a complete researched economy profile.
-        detail_text = Document(html).root.text()
-        missing = [
-            key
-            for key, label in nodes.items()
-            if key.startswith("dk_")
-            and not key.endswith("_top")
-            and re.search(re.escape(label) + r" \(0\)", detail_text)
-        ]
-        coverage[faction] = {
-            "source_url": source_url,
-            "visible_technologies": len(ids),
-            "missing_branch_nodes": missing,
-            "complete_public_tree": not missing,
-            "archived_ids_not_in_current_tree": sorted(
-                set(data["technologies_archived"].get(faction, {})) - set(ids)
-            ),
-        }
-    wanted = {
-        url("technology", f=owners[0], t=key): key
-        for key, owners in tech_owners.items()
-    }
+    tech_owners, trees, coverage = _technology_indices(sources, index_urls, data)
+    wanted = {url("technology", f=owners[0], t=key): key for key, owners in tech_owners.items()}
     technologies, unresolved = {}, []
     print(
         f"Fetching {len(wanted)} unique technology detail pages for {len(trees)} factions",
@@ -325,28 +156,225 @@ def main(argv=None):
         }
     data["technology_coverage"] = coverage
     data["technology_fetch_errors"] = errors
-    data["public_source_records"] = sorted(
-        sources.records.values(), key=lambda r: r["url"]
-    )
+    data["public_source_records"] = sorted(sources.records.values(), key=lambda r: r["url"])
     data["dlc_exclusions"] = excluded
     data["schema_version"] = 2
-    data["faction_trait_catalog_sha256"] = hashlib.sha256(
-        public_path.read_bytes()
-    ).hexdigest()
+    data["faction_trait_catalog_sha256"] = hashlib.sha256(public_path.read_bytes()).hexdigest()
     data["verification"] = (
-        "Raw repository building effect IDs/scopes; Honga public faction traits and current visible technology facts; official archive supplies placement trees for original 32 factions, Honga supplies four Desert Kingdoms rosters. Public data consistency is audited separately. No installed patch certificate; incomplete research trees are explicitly blocked in all-research mode."
+        "Raw repository building effect IDs/scopes; Honga public faction "
+        "traits and current visible technology facts; official archive "
+        "supplies placement trees for original 32 factions, Honga supplies "
+        "four Desert Kingdoms rosters. Public data consistency is audited "
+        "separately. No installed patch certificate; incomplete research "
+        "trees are explicitly blocked in all-research mode."
     )
     data["missing"] = [
         "Installed patch and building_sets validation",
-        "Honga omits some Desert Kingdoms research branches; all-research comparison unavailable for incomplete trees",
+        (
+            "Honga omits some Desert Kingdoms research branches; all-research "
+            "comparison unavailable for incomplete trees"
+        ),
         "World resource/wonder references are separately versioned in world.json",
     ]
     CATALOG.write_text(json.dumps(data, indent=2) + "\n")
     print(
-        f"Imported {len(data['buildings'])} buildings and {len(data['factions'])} factions; complete visible research profiles: {sum(c['complete_public_tree'] for c in coverage.values())}",
+        (
+            "Imported "
+            f"{len(data['buildings'])}"
+            " buildings and "
+            f"{len(data['factions'])}"
+            " factions; complete visible research profiles: "
+            f"{sum((c['complete_public_tree'] for c in coverage.values()))}"
+        ),
         flush=True,
     )
     return data
+
+
+def _technology_indices(sources, index_urls, data):
+    trees, coverage, tech_owners = {}, {}, defaultdict(list)
+    for source_url, html in sources.many(index_urls).items():
+        faction = index_urls[source_url]
+        ids, nodes = tree_links(html, faction)
+        trees[faction] = ids
+        for key in ids:
+            tech_owners[key].append(faction)
+        # Zero-count DK branches are visible in Honga's navigation but have no
+        # leaf data. Do not call that a complete researched economy profile.
+        detail_text = Document(html).root.text()
+        missing = [
+            key
+            for key, label in nodes.items()
+            if key.startswith("dk_")
+            and not key.endswith("_top")
+            and re.search(re.escape(label) + r" \(0\)", detail_text)
+        ]
+        coverage[faction] = {
+            "source_url": source_url,
+            "visible_technologies": len(ids),
+            "missing_branch_nodes": missing,
+            "complete_public_tree": not missing,
+            "archived_ids_not_in_current_tree": sorted(
+                set(data["technologies_archived"].get(faction, {})) - set(ids)
+            ),
+        }
+    return tech_owners, trees, coverage
+
+
+def _import_variant_details(public, detail_sources, effects, data):
+    variants = {
+        r[0]: r
+        for r in read_table("building_culture_variants_table.tsv")
+        if r[3] in DLC and r[0] not in public["buildings"]
+    }
+    wanted_buildings = {url("building", f=r[3], b=key): key for key, r in variants.items()}
+    for source_url, html in detail_sources.many(wanted_buildings).items():
+        key = wanted_buildings[source_url]
+        row = variants[key]
+        detail = detail_record(html)
+        if not detail["name"] or detail["metadata"].get("Level Name") != key:
+            raise ValueError(f"Missing explicit variant detail: {key}")
+        if "_religious" in key:
+            category, title = "Religious", "Religious"
+        elif "_military" in key or "_stables" in key:
+            category, title = "Military", "Recruitment"
+        elif key == "dk_all_city_5":
+            category, title = "Provincial Capital", "Province Capital"
+        else:
+            raise ValueError(f"Unclassified explicit faction variant: {key}")
+        data["buildings"][key] = {
+            "id": key,
+            "name": detail["name"],
+            "level": int(detail["metadata"]["Building Level"]),
+            "construction_cost": int(detail["metadata"]["Create Cost"]),
+            "facts": detail["facts"],
+            "effects": effects[key],
+            "has_raw_effect_rows": bool(effects[key]),
+            "display_source": "honga_public_detail",
+            "occurrences": [
+                {
+                    "culture": row[1],
+                    "name": row[4],
+                    "category": category,
+                    "chain_title": title,
+                    "factions": [row[3]],
+                    "source_url": source_url,
+                    "eligibility_evidence": (
+                        "Explicit faction-specific row in repository "
+                        "building_culture_variants table; missing from Honga "
+                        "index; installed building_sets still need validation"
+                    ),
+                }
+            ],
+        }
+    data["raw_variant_supplement"] = {
+        "buildings": sorted(variants),
+        "source_records": sorted(detail_sources.records.values(), key=lambda r: r["url"]),
+        "reason": (
+            "Public DK index omits these faction-specific raw "
+            "variants, including temples; detail pages remain "
+            "available"
+        ),
+    }
+
+
+def _import_spice_buildings(public, data, effects):
+    for key, building in public["buildings"].items():
+        if not re.fullmatch(r"(?:barb|greek|east|rome)_spice_[1-4]", key):
+            continue
+        variants_for_key = [
+            r for r in read_table("building_culture_variants_table.tsv") if r[0] == key
+        ]
+        if not variants_for_key:
+            raise ValueError(f"Missing raw spice culture variant: {key}")
+        eligible = [
+            f
+            for f in data["factions"]
+            if key in public["rosters"][public["factions"][f]["roster_id"]]["buildings"]
+        ]
+        data["buildings"][key] = {
+            "id": key,
+            "name": building["name"],
+            "level": int(key[-1]),
+            "construction_cost": building["construction_cost"],
+            "facts": building["facts"],
+            "effects": effects[key],
+            "has_raw_effect_rows": bool(effects[key]),
+            "display_source": "honga_public",
+            "occurrences": [
+                {
+                    "culture": variants_for_key[0][1],
+                    "name": building["name"],
+                    "category": "Minor Settlement",
+                    "chain_title": "Spice",
+                    "factions": eligible,
+                    "source_url": building["source_url"],
+                    "eligibility_evidence": (
+                        "Honga faction-specific rosters plus raw culture "
+                        "variant; later resource absent from official archive"
+                    ),
+                }
+            ],
+        }
+
+
+def _import_dlc_buildings(public, data, effects):
+    excluded = []
+    for faction in DLC:
+        data["factions"][faction] = public["factions"][faction]
+        for key in public["rosters"][public["factions"][faction]["roster_id"]]["buildings"]:
+            b = public["buildings"][key]
+            if key.startswith(("3c_", "inv_", "rom_slum")):
+                excluded.append(
+                    {
+                        "faction": faction,
+                        "building": key,
+                        "reason": "other_campaign_or_slum_not_a_fresh_economic_build_option",
+                    }
+                )
+                continue
+            category, title = dlc_role(b["chain"])
+            match = re.search(r"_(\d+)(?:_[a-z]+)?$", key)
+            if not match or (
+                not effects[key]
+                and any(re.search(r"wealth|food|public order|tax rate", s) for s in b["facts"])
+            ):
+                raise ValueError(f"Missing numeric level/effects for DLC building: {key}")
+            occurrence = {
+                "culture": "rom_Eastern",
+                "name": b["name"],
+                "category": category,
+                "chain_title": title,
+                "factions": [faction],
+                "source_url": b["source_url"],
+                "eligibility_evidence": (
+                    "Honga faction-specific roster, excluding other-campaign"
+                    " prefixes; installed building_sets validation remains"
+                ),
+            }
+            if b["chain"] == "dk_saba_marib_dam":
+                occurrence["allowed_regions"] = [
+                    k for k, r in data["regions"].items() if r["name"] == "Marib"
+                ]
+            if key not in data["buildings"]:
+                data["buildings"][key] = {
+                    "id": key,
+                    "name": b["name"],
+                    "level": int(match[1]),
+                    "construction_cost": b["construction_cost"],
+                    "facts": b["facts"],
+                    "effects": effects[key],
+                    "has_raw_effect_rows": True,
+                    "occurrences": [],
+                    "display_source": "honga_public",
+                }
+            occurrences = data["buildings"][key]["occurrences"]
+            existing = next((o for o in occurrences if faction in o["factions"]), None)
+            if existing is not None:
+                existing.update(occurrence)
+            else:
+                occurrences.append(occurrence)
+    return excluded
 
 
 if __name__ == "__main__":

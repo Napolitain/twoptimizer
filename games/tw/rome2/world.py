@@ -54,17 +54,7 @@ def import_world(catalog, extract):
         key = by_name[normalized(name)]
         if key in regions:
             raise ValueError("Duplicate world region")
-        icon = re.findall(r"([^/\s†]+\.png)", cells[1])
-        if len(icon) > 1 or any(i not in ICONS for i in icon):
-            raise ValueError(f"Unknown resource icon: {icon}")
-        if icon:
-            resource = ICONS[icon[0]]
-        elif not cells[1].strip():
-            resource = None  # Source explicitly declares an empty resource cell.
-        elif cells[1].strip() == "향신료":
-            resource = "spice"
-        else:
-            raise ValueError(f"Unrecognized resource description: {cells[1]}")
+        resource = _resource_cell(cells)
         source_port = bool(cells[2].strip())
         region = catalog["regions"][key]
         if source_port != region["has_port"]:
@@ -74,7 +64,9 @@ def import_world(catalog, extract):
                     "field": "has_port",
                     "repository": region["has_port"],
                     "public_table": source_port,
-                    "resolution": "Keep explicit repository port template; public conflict remains visible",
+                    "resolution": (
+                        "Keep explicit repository port template; public conflict remains visible"
+                    ),
                 }
             )
         if row["source_capital_marker"] != region["major"]:
@@ -98,21 +90,41 @@ def import_world(catalog, extract):
         "capture_method": extract["capture_method"],
         "regions": regions,
         "conflicts": conflicts,
-        "verification": "Community table declares patch 18. All 173 identities and capital flags match repository tables. Resource assignments are public references, not an installed-build certification; three conflicting port flags retain repository templates.",
+        "verification": (
+            "Community table declares patch 18. All 173 identities and capital "
+            "flags match repository tables. Resource assignments are public "
+            "references, not an installed-build certification; three conflicting "
+            "port flags retain repository templates."
+        ),
     }
+
+
+def _resource_cell(cells):
+    icon = re.findall(r"([^/\s†]+\.png)", cells[1])
+    if len(icon) > 1 or any(i not in ICONS for i in icon):
+        raise ValueError(f"Unknown resource icon: {icon}")
+    if icon:
+        resource = ICONS[icon[0]]
+    elif not cells[1].strip():
+        resource = None  # Source explicitly declares an empty resource cell.
+    elif cells[1].strip() == "향신료":
+        resource = "spice"
+    else:
+        raise ValueError(f"Unrecognized resource description: {cells[1]}")
+    return resource
 
 
 def main():
     extract_path = DATA / "world_source_extract.json"
-    result = import_world(
-        json.loads(CATALOG.read_text()), json.loads(extract_path.read_text())
-    )
-    result["source_extract_sha256"] = hashlib.sha256(
-        extract_path.read_bytes()
-    ).hexdigest()
+    result = import_world(json.loads(CATALOG.read_text()), json.loads(extract_path.read_text()))
+    result["source_extract_sha256"] = hashlib.sha256(extract_path.read_bytes()).hexdigest()
     (DATA / "world.json").write_text(json.dumps(result, indent=2) + "\n")
     print(
-        f"Joined {len(result['regions'])} resource assignments; {len(result['conflicts'])} port conflicts disclosed"
+        "Joined "
+        f"{len(result['regions'])}"
+        " resource assignments; "
+        f"{len(result['conflicts'])}"
+        " port conflicts disclosed"
     )
     return result
 
@@ -133,16 +145,13 @@ def province_scenario(
     matches = {
         r["province"]
         for r in world["regions"].values()
-        if normalized(province)
-        in {normalized(r["province"]), normalized(r["province_name"])}
+        if normalized(province) in {normalized(r["province"]), normalized(r["province_name"])}
     }
     if len(matches) != 1:
         raise ValueError("Unknown or ambiguous province name/ID")
     key = matches.pop()
     regions = [r for r in world["regions"].values() if r["province"] == key]
-    owned = (
-        set(owned_regions) if owned_regions is not None else {r["id"] for r in regions}
-    )
+    owned = set(owned_regions) if owned_regions is not None else {r["id"] for r in regions}
     if owned - world["regions"].keys():
         raise ValueError("Unknown owned region")
     applied = []
@@ -150,10 +159,7 @@ def province_scenario(
         for row in modifiers["modifiers"]:
             if row["region"] not in owned:
                 continue
-            if (
-                row["scope"] == "province"
-                and world["regions"][row["region"]]["province"] != key
-            ):
+            if row["scope"] == "province" and world["regions"][row["region"]]["province"] != key:
                 continue
             applied.append(
                 {

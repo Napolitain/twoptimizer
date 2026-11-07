@@ -44,7 +44,7 @@ def test_exact_methods_against_enumeration(seed):
         rng.integers(-2, 20, size=7) / 4,
         matrix,
         totals - [0, 1, 2, 0],
-        totals + [0, 1, 2, 0],
+        np.add(totals, [0, 1, 2, 0]),
     )
     expected = enumerate_optimum(problem)
     for algorithm in ("cbc", "scip", "cp-sat", "beam"):
@@ -111,9 +111,7 @@ def test_attila_snapshot_matches_saved_engine_result():
         for fertility in (0, 5):
             expected = dict(
                 line.split(":")
-                for line in (
-                    Path(__file__).parent / f"result_fertility_{fertility}_ere.txt"
-                )
+                for line in (Path(__file__).parent / f"result_fertility_{fertility}_ere.txt")
                 .read_text()
                 .splitlines()
             )
@@ -157,9 +155,7 @@ def test_default_cpsat_engine_all_provinces(fertility, use_hash, tmp_path):
         Games.fertility = fertility
         expected = dict(
             line.split(":")
-            for line in (
-                Path(__file__).parent / f"result_fertility_{fertility}_ere.txt"
-            )
+            for line in (Path(__file__).parent / f"result_fertility_{fertility}_ere.txt")
             .read_text()
             .splitlines()
         )
@@ -187,14 +183,13 @@ def test_default_cpsat_engine_all_provinces(fertility, use_hash, tmp_path):
                 problem.state = ProblemState.CONSTRAINTS_ADDED
                 problem.add_objective()
                 problem.solve()
+                assert problem.problem.result is not None
                 assert problem.problem.result.status == "OPTIMAL"
                 assert problem.problem.get_objective() == pytest.approx(
                     expected[province.print_name]
                 )
                 answers = problem.get_problem_answers()
-                selected = [
-                    v for v in problem.problem.variables() if v.solution_value() > 0.5
-                ]
+                selected = [v for v in problem.problem.variables() if v.solution_value() > 0.5]
                 assert len(answers) == len(selected) > 0
                 expected_answers = {}
                 for region in province.regions:

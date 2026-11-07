@@ -1,14 +1,16 @@
 from pathlib import Path
 
 from games.tw.building import Building
-from games.tw.enums import Scope, EntryType
+from games.tw.enums import EntryType, Scope
+from games.tw.models.model import EntryName, FullEntryName
 from games.tw.models.model_rome2 import Rome2Campaign, Rome2Factions
-from games.tw.parser.parser import Parser, parse_tsv, Faction
+from games.tw.parser.parser import Faction, Parser, parse_tsv
 
 
 class ParserRome2(Parser):
     def __init__(self, campaign: Rome2Campaign, faction: Rome2Factions):
         super().__init__()
+        # Resolve bundled data relative to the package for installed-wheel support.
         self.game_dir = Path(__file__).resolve().parents[1] / "rome2" / "data"
         self.campaign = campaign
         self.faction = faction
@@ -32,7 +34,7 @@ class ParserRome2(Parser):
         pass
 
     def parse_factions_table(self) -> dict[str, Faction]:
-        pass
+        return {}
 
     def process_port_region(self, region, building):
         pass
@@ -61,5 +63,5 @@ class ParserRome2(Parser):
                     continue
                 self.buildings[game][building_name].add_effect(effect, scope_value, float(amount))
 
-    def get_entry_name(self, name: str, entry_type: EntryType) -> str:
+    def get_entry_name(self, full_name: FullEntryName, entry_type: EntryType) -> EntryName:
         raise NotImplementedError

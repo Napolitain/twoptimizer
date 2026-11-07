@@ -17,9 +17,7 @@ def audit_campaign_modifiers():
 
     data = catalog()
     factions = json.loads((DATA / "online_factions.json").read_text())["factions"]
-    faction_facts = [
-        {"faction": f, **record} for f in factions for record in profile(f)["traits"]
-    ]
+    faction_facts = [{"faction": f, **record} for f in factions for record in profile(f)["traits"]]
     technology_facts = []
     for faction, slug in data["faction_slugs"].items():
         if (
@@ -58,7 +56,12 @@ def audit_campaign_modifiers():
             for f in faction_facts + technology_facts + religion_facts
             if f["status"] == "unmodeled"
         ],
-        "note": "Supported conditional faction traits still need campaign inputs. Interest is excluded by the requested objective. Missing building metadata is reported separately in each layout's catalogue_exclusions.",
+        "note": (
+            "Supported conditional faction traits still need campaign inputs. "
+            "Interest is excluded by the requested objective. Missing building "
+            "metadata is reported separately in each layout's "
+            "catalogue_exclusions."
+        ),
     }
 
 
@@ -113,9 +116,7 @@ def audit(data_dir=DATA):
         for culture, observations in record["observations_by_culture"].items():
             expected = defaultdict(float)
             for fact in observations:
-                expected[(fact["kind"], fact["category"], fact["reach"])] += fact[
-                    "value"
-                ]
+                expected[(fact["kind"], fact["category"], fact["reach"])] += fact["value"]
             for key, value in expected.items():
                 actual = local[building].get(key, 0)
                 if abs(actual - value) <= 1e-6:
@@ -132,9 +133,7 @@ def audit(data_dir=DATA):
                             "online": value,
                         }
                     )
-    details = sorted(
-        effect_status.values(), key=lambda v: (v["effect"], v["raw_scope"])
-    )
+    details = sorted(effect_status.values(), key=lambda v: (v["effect"], v["raw_scope"]))
     return {
         "schema_version": 2,
         "effect_rows": len(rows),
@@ -146,7 +145,11 @@ def audit(data_dir=DATA):
         "online_numeric_differences": differences,
         "effects": details,
         "campaign_modifiers": audit_campaign_modifiers(),
-        "note": "Third-party cross-check, not proof of in-game fidelity. Contextual/horde differences are retained; original effects are not overwritten.",
+        "note": (
+            "Third-party cross-check, not proof of in-game fidelity. "
+            "Contextual/horde differences are retained; original effects are not "
+            "overwritten."
+        ),
     }
 
 
@@ -158,11 +161,7 @@ def main():
     args.output.write_text(json.dumps(report, indent=2) + "\n")
     print(
         json.dumps(
-            {
-                k: v
-                for k, v in report.items()
-                if k not in ("effects", "online_numeric_differences")
-            },
+            {k: v for k, v in report.items() if k not in ("effects", "online_numeric_differences")},
             indent=2,
         )
     )

@@ -78,13 +78,7 @@ class SolverOrTools(Solver):
 
         # Apply the constraint function
         if constraint_fn:
-            constraint = None
-            if variables2:
-                # Use the constraint function with both expressions
-                constraint = constraint_fn(expr1, expr2)
-            else:
-                # Use the constraint function with only the first expression
-                constraint = constraint_fn(expr1)
+            constraint = constraint_fn(expr1, expr2) if variables2 else constraint_fn(expr1)
 
             # Add the constraint to the solver
             self.solver.Add(constraint)  # Corrected to Add instead of AddConstraint
@@ -117,19 +111,15 @@ class SolverOrTools(Solver):
                 parser.get_entry_name(FullEntryName(v.name()), EntryType.REGION),
                 EntryType.REGION,
             )
-            building_print_name = parser.get_print_name(
-                building_name, EntryType.BUILDING
-            )
+            building_print_name = parser.get_print_name(building_name, EntryType.BUILDING)
             region_print_name = parser.get_print_name(region_name, EntryType.REGION)
 
-            if (
-                v.solution_value() == 1
-            ):  # OR-Tools: Use solution_value() instead of varValue
+            if v.solution_value() == 1:  # OR-Tools: Use solution_value() instead of varValue
                 answers.append((region_print_name, building_print_name))
 
         return answers
 
-    def filter_added(self, buildings: dict[str, object]):
+    def filter_added(self, buildings):
         # Variables may use hash names while callers key buildings by full name.
         buildings = {building.get_name(): building for building in buildings.values()}
         for name, cat in self.variables_list:

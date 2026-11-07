@@ -8,9 +8,13 @@ class FilterRome2(Filter):
         :param building_name:
         :return:
         """
-        if "major" in building_name or "civic" in building_name or "military_upgrade" in building_name or "aqueducts" in building_name or "sewers" in building_name:
-            return True
-        return False
+        return bool(
+            "major" in building_name
+            or "civic" in building_name
+            or "military_upgrade" in building_name
+            or "aqueducts" in building_name
+            or "sewers" in building_name
+        )
 
     def building_is_minor(self, building_name: str) -> bool:
         """
@@ -18,9 +22,11 @@ class FilterRome2(Filter):
         :param building_name:
         :return:
         """
-        if "minor" in building_name or "agriculture" in building_name or "livestock" in building_name:
-            return True
-        return False
+        return bool(
+            "minor" in building_name
+            or "agriculture" in building_name
+            or "livestock" in building_name
+        )
 
     def building_is_resource(self, building):
         """
@@ -30,12 +36,12 @@ class FilterRome2(Filter):
         :param building:
         :return:
         """
-        return ("resource" in building.name and "port" not in building.name) or "spice" in building.name
+        return (
+            "resource" in building.name and "port" not in building.name
+        ) or "spice" in building.name
 
     def building_is_port(self, building_name: str) -> bool:
-        if "port" in building_name and "spice" not in building_name:
-            return True
-        return False
+        return bool("port" in building_name and "spice" not in building_name)
 
     def building_is_duplicate(self, building_name: str) -> bool:
         """
@@ -43,6 +49,4 @@ class FilterRome2(Filter):
         :param building_name:
         :return:
         """
-        if "port" in building_name and "resource" not in building_name:
-            return True
-        return False
+        return bool("port" in building_name and "resource" not in building_name)

@@ -3,12 +3,12 @@ from pathlib import Path
 
 from games.tw.building import Building
 from games.tw.enums import Scope
-from games.tw.models.game_attila import AttilaReligion
 from games.tw.models.model import RegionPort, RegionType
 from games.tw.models.model_attila import (
     AttilaCampaign,
     AttilaFactions,
     AttilaRegionResources,
+    AttilaReligion,
 )
 from games.tw.parser.parser import Faction, Parser, parse_tsv
 
@@ -21,20 +21,19 @@ class ParserAttila(Parser):
         religion: AttilaReligion = AttilaReligion.CHRIST_ORTHODOX,
     ):
         super().__init__()
+        # Resolve bundled data relative to the package for installed-wheel support.
         self.game_dir = Path(__file__).resolve().parents[1] / "attila" / "data"
         self.campaign = campaign
-        self.faction: AttilaFactions = faction
+        self.faction = faction
         self.religion = religion
         self.faction_to_culture = self.parse_factions_table()
         metadata_path = self.game_dir / "online_buildings.json"
         self.online_data = (
-            json.loads(metadata_path.read_text())
-            if metadata_path.exists()
-            else {"buildings": {}}
+            json.loads(metadata_path.read_text()) if metadata_path.exists() else {"buildings": {}}
         )
         self.unsupported_effects = []
 
-    def get_scope(self, scope: str) -> Scope:
+    def get_scope(self, scope: str) -> Scope | None:
         from games.tw.games import Games
 
         if not Games.legacy_effects:
@@ -60,9 +59,7 @@ class ParserAttila(Parser):
         from games.tw.games import Games
 
         # TODO: Fix religion buildings
-        path_buildings_culture_variants = (
-            self.game_dir / "building_culture_variants_table.tsv"
-        )
+        path_buildings_culture_variants = self.game_dir / "building_culture_variants_table.tsv"
         data = parse_tsv(path_buildings_culture_variants)
         for (
             building_id1,
@@ -70,7 +67,7 @@ class ParserAttila(Parser):
             subculture3,
             faction_id4,
             building_name6,
-            *rest,
+            *_rest,
         ) in data:
             if (
                 not Games.legacy_effects
@@ -110,7 +107,8 @@ class ParserAttila(Parser):
         Check if the building is of the faction.
         Building is added if :
         - faction id == self.faction.value
-        - faction subculture == self.faction_to_culture[self.faction.value].subculture and faction id is none
+        - faction subculture == self.faction_to_culture[self.faction.value].subculture and
+        faction id is none
         - faction culture == self.faction.culture and faction id and subculture are none
         - all are none and not nomad, mig, religion, ruin
         :param culture: culture of the building
@@ -168,7 +166,7 @@ class ParserAttila(Parser):
         path_factions = self.game_dir / "factions_table.tsv"
         data = parse_tsv(path_factions)
         faction_to_culture = {}
-        for faction_id1, _, subculture3, _, faction_name5, _, _, _, _, *rest in data:
+        for faction_id1, _, subculture3, _, faction_name5, _, _, _, _, *_rest in data:
             # Associate faction to culture and subculture
             faction_to_culture[faction_id1] = Faction(
                 faction_id1,
@@ -182,7 +180,7 @@ class ParserAttila(Parser):
         path_cultures = self.game_dir / "cultures_subcultures_table.tsv"
         data = parse_tsv(path_cultures)
         subculture_to_culture = {}
-        for subculture1, culture2, *rest in data:
+        for subculture1, culture2, *_rest in data:
             # Associate subculture to culture
             subculture_to_culture[subculture1] = culture2
         return subculture_to_culture
@@ -221,9 +219,7 @@ class ParserAttila(Parser):
         :param building: the building entry
         """
         if "city" in building:
-            region.set_has_ressource(
-                AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX
-            )
+            region.set_has_ressource(AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX)
         else:
             for resource in AttilaRegionResources:
                 if resource.value in building:

@@ -49,7 +49,7 @@ result = optimizer.optimize_production(
     available_military_factories=25.0,
     available_naval_factories=5.0,
     goals=goals,
-    start_date=HISTORICAL_DATES["game_start"]
+    start_date=HISTORICAL_DATES["game_start"],
 )
 
 # View results
@@ -143,12 +143,12 @@ state = State(
     infrastructure=7,
     bunkers=0,
     naval_bases=None,  # Optional
-    air_bases=5,       # Optional
+    air_bases=5,  # Optional
     state_category=StateCategory.METROPOLIS,
     manpower=5000000,
     victory_points=50,
     resources={"steel": 20.0, "aluminum": 5.0},
-    provinces=[16, 17, 18]
+    provinces=[16, 17, 18],
 )
 ```
 
@@ -191,18 +191,18 @@ Enum defining state categories and their building slot capacities:
 from games.hoi4 import StateCategory
 
 # Available categories:
-StateCategory.WASTELAND        # 0 building slots
-StateCategory.ENCLAVE          # 1 building slot
-StateCategory.TINY_ISLAND      # 1 building slot
-StateCategory.SMALL_ISLAND     # 2 building slots
-StateCategory.PASTORAL         # 2 building slots
-StateCategory.RURAL            # 4 building slots
-StateCategory.TOWN             # 5 building slots
-StateCategory.LARGE_TOWN       # 6 building slots
-StateCategory.CITY             # 8 building slots
-StateCategory.LARGE_CITY       # 10 building slots
-StateCategory.METROPOLIS       # 11 building slots
-StateCategory.MEGALOPOLIS      # 12 building slots
+StateCategory.WASTELAND  # 0 building slots
+StateCategory.ENCLAVE  # 1 building slot
+StateCategory.TINY_ISLAND  # 1 building slot
+StateCategory.SMALL_ISLAND  # 2 building slots
+StateCategory.PASTORAL  # 2 building slots
+StateCategory.RURAL  # 4 building slots
+StateCategory.TOWN  # 5 building slots
+StateCategory.LARGE_TOWN  # 6 building slots
+StateCategory.CITY  # 8 building slots
+StateCategory.LARGE_CITY  # 10 building slots
+StateCategory.METROPOLIS  # 11 building slots
+StateCategory.MEGALOPOLIS  # 12 building slots
 ```
 
 ### Faction
@@ -272,7 +272,7 @@ capital = State(
     state_category=StateCategory.METROPOLIS,
     manpower=2000000,
     victory_points=30,
-    resources={"steel": 15.0, "aluminum": 5.0}
+    resources={"steel": 15.0, "aluminum": 5.0},
 )
 
 industrial_hub = State(
@@ -283,7 +283,7 @@ industrial_hub = State(
     bunkers=1,
     state_category=StateCategory.LARGE_CITY,
     manpower=1500000,
-    resources={"oil": 10.0, "steel": 20.0}
+    resources={"oil": 10.0, "steel": 20.0},
 )
 
 my_nation.add_state(capital)
@@ -338,10 +338,7 @@ from games.hoi4 import State, StateCategory
 
 # Create a resource-rich state
 state = State(
-    name="Oil Region",
-    state_category=StateCategory.RURAL,
-    infrastructure=4,
-    civilian_factories=2
+    name="Oil Region", state_category=StateCategory.RURAL, infrastructure=4, civilian_factories=2
 )
 
 # Add resources
@@ -356,7 +353,7 @@ print(f"Free slots: {state.get_free_building_slots()}")  # 4 remaining
 # Check if we can build
 if state.can_build(3):
     print("Can build 3 more factories")
-    
+
 # Extract resources
 oil_amount = state.get_resource("oil")
 print(f"Oil production: {oil_amount}")

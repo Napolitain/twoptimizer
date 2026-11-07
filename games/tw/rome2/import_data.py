@@ -8,6 +8,7 @@ import re
 from collections import defaultdict
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Any
 from urllib.parse import urljoin, urlparse
 
 from games.tw.multigame.html import Document
@@ -27,7 +28,7 @@ def entity(href, kind, base):
 
 
 def building_records(html, url, culture):
-    records = {}
+    records: dict[str, Any] = {}
     for table in Document(html).root.nodes("table"):
         if "building-chain" not in table.attrs.get("class", "").split():
             continue
@@ -51,57 +52,56 @@ def building_records(html, url, culture):
         factions = [f for f in factions if f.startswith("rom_")]
         if not factions:
             continue  # Other campaigns have different facts for shared IDs.
-        for anchor in table.nodes("a"):
-            if "/building/" not in anchor.attrs.get("href", ""):
-                continue
-            source_id = entity(anchor.attrs["href"], "building", url)
-            key, separator, _ = source_id.partition(culture)
-            if not separator:
-                raise ValueError("Building/culture identity changed")
-            icon = next(anchor.nodes("img"), None)
-            if icon is None or "data-object" not in icon.attrs:
-                raise ValueError(f"Building facts missing: {key}")
-            facts = json.loads(icon.attrs["data-object"])
-            if not {"name", "create_cost", "effects"} <= facts.keys():
-                raise ValueError(f"Incomplete building facts: {key}")
-            match = re.search(
-                r"(?:^| )level([1-5])(?: |$)", anchor.parent.attrs.get("class", "")
-            )
-            if match is None:
-                raise ValueError("Building tier missing")
-            occurrence = {
-                "culture": culture,
-                "name": facts["name"],
-                "category": category,
-                "chain_title": title.text(),
-                "factions": factions,
-                "source_url": urljoin(url, anchor.attrs["href"]),
-            }
-            record = {
-                "id": key,
-                "name": facts["name"],
-                "level": int(match[1]),
-                "construction_cost": int(facts["create_cost"]),
-                "facts": facts["effects"],
-                "occurrences": [occurrence],
-            }
-            if key in records:
-                previous = records[key]
-                if any(
-                    previous[k] != record[k]
-                    for k in ("level", "construction_cost", "facts")
-                ):
-                    raise ValueError(f"Conflicting official building records: {key}")
-                previous["occurrences"].append(occurrence)
-            else:
-                records[key] = record
+        _culture_buildings(table, url, culture, category, title, factions, records)
     if len(records) < 100:
         raise ValueError("Incomplete official culture roster")
     return records
 
 
+def _culture_buildings(table, url, culture, category, title, factions, records):
+    for anchor in table.nodes("a"):
+        if "/building/" not in anchor.attrs.get("href", ""):
+            continue
+        source_id = entity(anchor.attrs["href"], "building", url)
+        key, separator, _ = source_id.partition(culture)
+        if not separator:
+            raise ValueError("Building/culture identity changed")
+        icon = next(anchor.nodes("img"), None)
+        if icon is None or "data-object" not in icon.attrs:
+            raise ValueError(f"Building facts missing: {key}")
+        facts = json.loads(icon.attrs["data-object"])
+        if not {"name", "create_cost", "effects"} <= facts.keys():
+            raise ValueError(f"Incomplete building facts: {key}")
+        match = re.search(r"(?:^| )level([1-5])(?: |$)", anchor.parent.attrs.get("class", ""))
+        if match is None:
+            raise ValueError("Building tier missing")
+        occurrence = {
+            "culture": culture,
+            "name": facts["name"],
+            "category": category,
+            "chain_title": title.text(),
+            "factions": factions,
+            "source_url": urljoin(url, anchor.attrs["href"]),
+        }
+        record: dict[str, Any] = {
+            "id": key,
+            "name": facts["name"],
+            "level": int(match[1]),
+            "construction_cost": int(facts["create_cost"]),
+            "facts": facts["effects"],
+            "occurrences": [occurrence],
+        }
+        if key in records:
+            previous = records[key]
+            if any(previous[k] != record[k] for k in ("level", "construction_cost", "facts")):
+                raise ValueError(f"Conflicting official building records: {key}")
+            previous["occurrences"].append(occurrence)
+        else:
+            records[key] = record
+
+
 def technology_records(html, url):
-    records = {}
+    records: dict[str, Any] = {}
     for anchor in Document(html).root.nodes("a"):
         if "/tech/" not in anchor.attrs.get("href", ""):
             continue
@@ -139,10 +139,7 @@ def named_regions(html):
             label, sep, value = paragraph.text().partition(":")
             if sep:
                 fields[label] = value.strip()
-        if (
-            not {"Settlement Name", "Belongs to Province", "Provincial Capital"}
-            <= fields.keys()
-        ):
+        if not {"Settlement Name", "Belongs to Province", "Provincial Capital"} <= fields.keys():
             raise ValueError(f"Incomplete region identity: {key}")
         result[key] = {
             "id": key,
@@ -168,13 +165,11 @@ def main(argv=None):
     urls = [BASE + "en/buildings/" + c + "/" for c in CULTURES]
     pages = sources.many(urls)
     buildings = {}
-    for culture, url in zip(CULTURES, urls):
+    for culture, url in zip(CULTURES, urls, strict=False):
         for key, record in building_records(pages[url], url, culture).items():
             if key in buildings:
                 old = buildings[key]
-                if any(
-                    old[k] != record[k] for k in ("level", "construction_cost", "facts")
-                ):
+                if any(old[k] != record[k] for k in ("level", "construction_cost", "facts")):
                     raise ValueError(f"Conflicting cross-culture building: {key}")
                 old["occurrences"].extend(record["occurrences"])
             else:
@@ -193,51 +188,16 @@ def main(argv=None):
     tech_urls = [BASE + "en/technologies/" + f + "/" for f in ids]
     tech_pages = sources.many(tech_urls)
     technologies = {
-        f: technology_records(tech_pages[url], url) for f, url in zip(ids, tech_urls)
+        f: technology_records(tech_pages[url], url) for f, url in zip(ids, tech_urls, strict=False)
     }
     regions = named_regions(sources.get(BASE + "en/regions/"))
-    slot_templates = defaultdict(dict)
-    for _, campaign, key, slot, template in read_table(
-        "start_pos_region_slot_templates_table.tsv"
-    ):
-        if campaign == "main_rome":
-            if slot in slot_templates[key]:
-                raise ValueError("Duplicate region slot template")
-            slot_templates[key][slot] = template
-    for key, templates in slot_templates.items():
-        if (
-            key not in regions
-            or "primary" not in templates
-            or "secondary" not in templates
-        ):
-            raise ValueError("Region/slot identity mismatch")
-        regions[key].update(
-            major=templates["primary"] == "major_primary",
-            has_port="port" in templates,
-            ordinary_slots=4 if templates["primary"] == "major_primary" else 2,
-        )
-    if regions.keys() != slot_templates.keys():
-        raise ValueError("Grand Campaign region coverage mismatch")
+    _join_slot_templates(regions)
     provinces = defaultdict(list)
     for region, province in read_table("region_to_provinces_junctions_table.tsv"):
         if region in regions:
             regions[region]["province"] = province
             provinces[province].append(region)
-    effects = defaultdict(list)
-    for building, effect, amount, scope in read_table(
-        "building_effects_junction_table.tsv"
-    ):
-        if building in buildings:
-            effects[building].append(
-                {"id": effect, "value": int(amount), "scope": scope}
-            )
-    for key, record in buildings.items():
-        if key not in effects and any(
-            re.search(r"wealth|food|tax rate|public order", f) for f in record["facts"]
-        ):
-            raise ValueError(f"Building has no raw effects: {key}")
-        record["effects"] = effects[key]
-        record["has_raw_effect_rows"] = bool(effects[key])
+    _join_building_effects(buildings)
     files = [
         "building_effects_junction_table.tsv",
         "start_pos_region_slot_templates_table.tsv",
@@ -253,26 +213,79 @@ def main(argv=None):
         "provinces": dict(provinces),
         "sources": sorted(sources.records.values(), key=lambda r: r["url"]),
         "repository_inputs": {
-            name: hashlib.sha256((DATA / name).read_bytes()).hexdigest()
-            for name in files
+            name: hashlib.sha256((DATA / name).read_bytes()).hexdigest() for name in files
         },
         "faction_trait_catalog_sha256": hashlib.sha256(
             (DATA.parents[1] / "multigame/data/rome2.json").read_bytes()
         ).hexdigest(),
-        "verification": "Raw repository effects and slot templates, official Emperor Edition building eligibility and technology references, Honga faction traits. Installed patch unknown; no assertion of a uniform or current patch snapshot. New Pantheon/Jupiter campaign changes are not imported.",
+        "verification": (
+            "Raw repository effects and slot templates, official Emperor Edition "
+            "building eligibility and technology references, Honga faction "
+            "traits. Installed patch unknown; no assertion of a uniform or "
+            "current patch snapshot. New Pantheon/Jupiter campaign changes are "
+            "not imported."
+        ),
         "missing": [
             "Complete region resource assignments and natural-wonder numeric effects",
             "Campaign starting state and characters",
             "Installed patch validation",
-            "Four later playable faction rosters absent from the official encyclopedia: Kush, Masaesyli, Nabataea and Saba",
+            (
+                "Four later playable faction rosters absent from the official "
+                "encyclopedia: Kush, Masaesyli, Nabataea and Saba"
+            ),
         ],
     }
     args.output.write_text(json.dumps(payload, indent=2) + "\n")
     print(
-        f"Imported {len(buildings)} buildings, {len(factions)} playable Grand Campaign factions, {len(regions)} regions, {len(provinces)} provinces and {sum(map(len, technologies.values()))} faction/technology records",
+        (
+            "Imported "
+            f"{len(buildings)}"
+            " buildings, "
+            f"{len(factions)}"
+            " playable Grand Campaign factions, "
+            f"{len(regions)}"
+            " regions, "
+            f"{len(provinces)}"
+            " provinces and "
+            f"{sum(map(len, technologies.values()))}"
+            " faction/technology records"
+        ),
         flush=True,
     )
     return payload
+
+
+def _join_building_effects(buildings):
+    effects = defaultdict(list)
+    for building, effect, amount, scope in read_table("building_effects_junction_table.tsv"):
+        if building in buildings:
+            effects[building].append({"id": effect, "value": int(amount), "scope": scope})
+    for key, record in buildings.items():
+        if key not in effects and any(
+            re.search(r"wealth|food|tax rate|public order", f) for f in record["facts"]
+        ):
+            raise ValueError(f"Building has no raw effects: {key}")
+        record["effects"] = effects[key]
+        record["has_raw_effect_rows"] = bool(effects[key])
+
+
+def _join_slot_templates(regions):
+    slot_templates = defaultdict(dict)
+    for _, campaign, key, slot, template in read_table("start_pos_region_slot_templates_table.tsv"):
+        if campaign == "main_rome":
+            if slot in slot_templates[key]:
+                raise ValueError("Duplicate region slot template")
+            slot_templates[key][slot] = template
+    for key, templates in slot_templates.items():
+        if key not in regions or "primary" not in templates or "secondary" not in templates:
+            raise ValueError("Region/slot identity mismatch")
+        regions[key].update(
+            major=templates["primary"] == "major_primary",
+            has_port="port" in templates,
+            ordinary_slots=4 if templates["primary"] == "major_primary" else 2,
+        )
+    if regions.keys() != slot_templates.keys():
+        raise ValueError("Grand Campaign region coverage mismatch")
 
 
 if __name__ == "__main__":

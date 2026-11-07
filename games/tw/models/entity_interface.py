@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
 
-from games.tw.enums import PrintType
+from games.tw.enums import NameType
 
 
 class EntityInterface(ABC):
     @abstractmethod
-    def get_name(self, name_type: PrintType = None):
+    def get_name(self, name_type: NameType | None = None):
         """
         :param name_type: the type of name to return (default use Games.USE_NAME)
         :return: either the print name, name, or hash name of the entity

@@ -1,0 +1,70 @@
+minimum_prek_version = "0.5.0"
+default_install_hook_types = ["pre-commit", "pre-push"]
+
+[[repos]]
+repo = "builtin"
+hooks = [
+    { id = "trailing-whitespace", exclude = "^(games/.*/data/|reports/|tests/result_)" },
+    { id = "end-of-file-fixer", exclude = "^(games/.*/data/|reports/|tests/result_)" },
+    { id = "mixed-line-ending", exclude = "^(games/.*/data/|reports/|tests/result_)", args = ["--fix=lf"] },
+    { id = "fix-byte-order-marker", exclude = "^(games/.*/data/|reports/|tests/result_)" },
+    { id = "check-toml" },
+    { id = "check-yaml" },
+    { id = "check-merge-conflict" },
+    { id = "check-added-large-files" },
+    { id = "detect-private-key" },
+]
+
+[[repos]]
+repo = "local"
+
+[[repos.hooks]]
+id = "ruff-format"
+name = "ruff format"
+language = "system"
+entry = "uv run --frozen ruff format"
+types = ["python"]
+stages = ["pre-commit"]
+priority = 10
+
+[[repos.hooks]]
+id = "ruff-check"
+name = "ruff check"
+language = "system"
+entry = "uv run --frozen ruff check --fix --exit-non-zero-on-fix"
+types = ["python"]
+stages = ["pre-commit"]
+priority = 20
+
+[[repos.hooks]]
+id = "ty"
+name = "ty check"
+language = "system"
+entry = "uv run --frozen ty check"
+types = ["python"]
+pass_filenames = false
+stages = ["pre-commit", "pre-push"]
+priority = 30
+
+# pre-push
+
+[[repos.hooks]]
+id = "pytest"
+name = "pytest + coverage (min 80%)"
+language = "system"
+entry = "uv run --frozen pytest -q"
+types = ["python"]
+pass_filenames = false
+stages = ["pre-push"]
+priority = 40
+
+# manual: prek run --hook-stage manual mutmut --all-files
+
+[[repos.hooks]]
+id = "mutmut"
+name = "mutmut (mutation testing)"
+language = "system"
+entry = "uv run --frozen python tools/mutation.py"
+types = ["python"]
+pass_filenames = false
+stages = ["manual"]

@@ -17,9 +17,7 @@ from games.tw.rome2.model import CATALOG
 def observation(text):
     if "Edict:" in text or "edict:" in text:
         return None
-    body = re.sub(
-        r" \((?:this_|regions_|in_all_|all regions|all provinces)[^)]*\)$", "", text
-    )
+    body = re.sub(r" \((?:this_|regions_|in_all_|all regions|all provinces)[^)]*\)$", "", text)
     if match := re.fullmatch(r"([+-]?\d+) wealth from (.+)", body):
         label = match[2]
         if label in LABELS:
@@ -73,9 +71,7 @@ def main(argv=None):
         action="store_true",
         help="Also cross-check current Honga detail pages",
     )
-    parser.add_argument(
-        "--output", type=Path, default=Path("reports/rome2-source-audit.json")
-    )
+    parser.add_argument("--output", type=Path, default=Path("reports/rome2-source-audit.json"))
     args = parser.parse_args(argv)
     data = json.loads(CATALOG.read_text())
     sources = Sources(args.cache, args.offline)
@@ -96,29 +92,36 @@ def main(argv=None):
         for url, html in sources.many(wanted).items():
             key = wanted[url]
             detail = detail_record(html)
-            checks[key]["honga_vs_raw"] = compare(
-                data["buildings"][key], detail["facts"]
-            )
+            checks[key]["honga_vs_raw"] = compare(data["buildings"][key], detail["facts"])
             checks[key]["current_public_detail"] = {**detail, "source_url": url}
     payload = {
         "schema_version": 1,
         "catalog_sha256": hashlib.sha256(CATALOG.read_bytes()).hexdigest(),
         "building_checks": checks,
         "sources": sorted(sources.records.values(), key=lambda r: r["url"]),
-        "interpretation": "Matches compare displayed numeric facts, not proof of equivalent recipient scopes or installed patch. Missing/changed display facts remain visible; no raw numbers are silently replaced.",
+        "interpretation": (
+            "Matches compare displayed numeric facts, not proof of equivalent "
+            "recipient scopes or installed patch. Missing/changed display facts "
+            "remain visible; no raw numbers are silently replaced."
+        ),
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2) + "\n")
     archived = sum(
-        bool(r["catalog_display_vs_raw"]["displayed_not_matched"])
-        for r in checks.values()
+        bool(r["catalog_display_vs_raw"]["displayed_not_matched"]) for r in checks.values()
     )
     current = sum(
-        bool(r.get("honga_vs_raw", {}).get("displayed_not_matched"))
-        for r in checks.values()
+        bool(r.get("honga_vs_raw", {}).get("displayed_not_matched")) for r in checks.values()
     )
     print(
-        f"Checked {len(checks)} buildings; archived display mismatches={archived}; current Honga display mismatches={current}",
+        (
+            "Checked "
+            f"{len(checks)}"
+            " buildings; archived display mismatches="
+            f"{archived}"
+            "; current Honga display mismatches="
+            f"{current}"
+        ),
         flush=True,
     )
     return payload

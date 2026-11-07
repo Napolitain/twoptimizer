@@ -163,13 +163,13 @@ October 27, 2025 (Core Implementation)
 ### Sample Parsed Focus
 ```python
 Focus(
-    id='PRC_strengthen_the_central_secretariat',
-    icon='GFX_goal_generic_intelligence_exchange',
+    id="PRC_strengthen_the_central_secretariat",
+    icon="GFX_goal_generic_intelligence_exchange",
     x=2,
     y=0,
     cost=10,  # 70 days
-    completion_reward={'add_political_power': 120},
-    search_filters=[FocusFilterCategory.POLITICAL]
+    completion_reward={"add_political_power": 120},
+    search_filters=[FocusFilterCategory.POLITICAL],
 )
 ```
 
@@ -180,18 +180,14 @@ Focus(
 from games.hoi4 import Focus, FocusTree
 
 # Create tree
-tree = FocusTree(
-    id="germany_focus",
-    country_tags=["GER"],
-    default=True
-)
+tree = FocusTree(id="germany_focus", country_tags=["GER"], default=True)
 
 # Add focuses
 start = Focus(
     id="rhineland",
     icon="GFX_focus_ger_rhineland",
     cost=10,
-    completion_reward={"add_political_power": 50}
+    completion_reward={"add_political_power": 50},
 )
 tree.add_focus(start)
 
@@ -199,7 +195,7 @@ industry = Focus(
     id="four_year_plan",
     prerequisites=["rhineland"],
     cost=10,
-    search_filters=[FocusFilterCategory.INDUSTRY]
+    search_filters=[FocusFilterCategory.INDUSTRY],
 )
 tree.add_focus(industry)
 ```
@@ -254,13 +250,13 @@ if not errors:
 democratic = Focus(
     id="democratic_path",
     prerequisites=["start"],
-    mutually_exclusive=["fascist_path", "communist_path"]
+    mutually_exclusive=["fascist_path", "communist_path"],
 )
 
 fascist = Focus(
     id="fascist_path",
     prerequisites=["start"],
-    mutually_exclusive=["democratic_path", "communist_path"]
+    mutually_exclusive=["democratic_path", "communist_path"],
 )
 
 tree.add_focus(democratic)
@@ -337,14 +333,14 @@ For each focus in tree:
 def get_total_cost(focus_id):
     focus = get_focus(focus_id)
     total = focus.cost_in_days
-    
+
     if focus.has_prerequisites():
         max_prereq_cost = 0
         for prereq in focus.prerequisites:
             prereq_cost = get_total_cost(prereq)
             max_prereq_cost = max(max_prereq_cost, prereq_cost)
         total += max_prereq_cost
-    
+
     return total
 ```
 

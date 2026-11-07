@@ -25,17 +25,11 @@ TRAITS = {
     ),
     "Income: -50% from commerce, industry & culture": ("venedian_penalty",),
     "Sanitation: +1 for every province capital held": ("capital_sanitation",),
-    "Harsh Sustenance: +15 food for every region with poor fertility.": (
-        "poor_fertility_food",
-    ),
+    "Harsh Sustenance: +15 food for every region with poor fertility.": ("poor_fertility_food",),
     "Commercial Mastery: +10% from trade income": ("trade_income_percent", 10),
     "Income: +100% tribute from puppet states": ("tribute_percent", 100),
-    "Subsidised Peace: +500 wealth per turn while at peace with the Sassanids": (
-        "peace_subsidy",
-    ),
-    "Supply Network: +30 food from each active trade route (Maximum: 150)": (
-        "trade_food",
-    ),
+    "Subsidised Peace: +500 wealth per turn while at peace with the Sassanids": ("peace_subsidy",),
+    "Supply Network: +30 food from each active trade route (Maximum: 150)": ("trade_food",),
     "Construction cost: -50% for main settlement buildings": ("main_construction", -50),
     "+200% conversion cost of the main chain": ("main_conversion", 200),
     "+250% conversion cost of the main chain": ("main_conversion", 250),

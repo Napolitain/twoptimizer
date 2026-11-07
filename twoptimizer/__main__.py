@@ -29,7 +29,12 @@ def main(argv=None):
         return 0
     if args in (["--help"], ["-h"]):
         print(
-            "Usage: twoptimizer [tui | GAME [options]]\n\nNo arguments opens the interactive terminal UI.\n\nCLI commands:\n  rome2             Rome II comparisons\n  shogun2           Shogun 2 comparisons\n  attila            Attila province optimization\n  attila-factions   Attila faction comparisons\n\nUse twoptimizer GAME --help for existing CLI options."
+            "Usage: twoptimizer [tui | GAME [options]]\n\nNo arguments opens the"
+            " interactive terminal UI.\n\nCLI commands:\n  rome2             Rome"
+            " II comparisons\n  shogun2           Shogun 2 comparisons\n  attila"
+            "            Attila province optimization\n  attila-factions   "
+            "Attila faction comparisons\n\nUse twoptimizer GAME --help for "
+            "existing CLI options."
         )
         return 0
     print(f"Unknown command: {args[0]}. Use twoptimizer --help.", file=sys.stderr)

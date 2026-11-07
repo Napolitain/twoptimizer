@@ -1,14 +1,3 @@
-# att_effect_economy_gdp_industry
-# att_bld_roman_west_city_major_1
-import pathlib
-
-from games.tw.enums import NameType, ProblemState
-from games.tw.games import Games
-from games.tw.models.game_attila import AttilaGame
-from games.tw.problem import Problem
-
-# PuLP is a linear and mixed integer programming modeler written in Python.
-
 """
 A province contains n regions.
 A capital and smaller settlements are regions part of a province.
@@ -20,20 +9,29 @@ A region has sanitation, public order, economy, religion, and food.
 We need to optimize using linear programming the economy of a province, here using PuLP.
 """
 
-"""
-('cha_effect_imperium', 'faction_to_faction_own_unseen', '10.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '200.0000'), ('att_effect_public_order_base', 'province_to_province_own', '2.0000'), ('att_effect_region_resource_wine_production', 'building_to_building_own', '10.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '300.0000'), ('att_effect_public_order_base', 'province_to_province_own', '4.0000'), ('att_effect_region_resource_wine_production', 'building_to_building_own', '15.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '400.0000'), ('att_effect_public_order_base', 'province_to_province_own', '6.0000'), ('att_effect_region_resource_wine_production', 'building_to_building_own', '20.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '200.0000'), ('att_effect_province_growth_building', 'province_to_province_own', '2.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '300.0000'), ('att_effect_province_growth_building', 'province_to_province_own', '4.0000'), ('att_effect_economy_gdp_trade_local', 'building_to_building_own', '400.0000'), ('att_effect_province_growth_building', 'province_to_province_own', '6.0000'), ('att_effect_economy_gdp_mod_industry', 'province_to_region_own', '10.0000'), ('att_effect_region_resource_wood_production', 'building_to_building_own', '10.0000'), ('att_effect_economy_gdp_mod_industry', 'province_to_region_own', '20.0000'), ('att_effect_region_resource_wood_production', 'building_to_building_own', '15.0000'), ('att_effect_economy_gdp_mod_industry', 'province_to_region_own', '30.0000'), ('att_effect_region_resource_wood_production', 'building_to_building_own', '20.0000')]})
-"""
+# att_effect_economy_gdp_industry
+# att_bld_roman_west_city_major_1
+import pathlib
 
-if __name__ == "__main__":
+from games.tw.enums import NameType, ProblemState
+from games.tw.games import Games
+from games.tw.models.game_attila import AttilaGame
+from games.tw.problem import Problem
+
+# PuLP is a linear and mixed integer programming modeler written in Python.
+
+
+def main():
+    Games.legacy_effects = False
     # Create a province, with regions, and buildings constraints.
     Games.instance = AttilaGame(
         campaign=AttilaGame.Campaign.ATTILA,
         faction=AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
         religion=AttilaGame.Religion.CHRIST_ORTHODOX,
     )
-    parser = Games.instance.get_parser()
+    parser = Games.current().get_parser()
     Games.buildings = parser.buildings
-    # Games.instance.campaign = AttilaGame.Campaign.CHARLEMAGNE
+    # Games.current().campaign = AttilaGame.Campaign.CHARLEMAGNE
 
     # Attila data folder
     path = pathlib.Path(__file__).parent.absolute() / "data"
@@ -47,7 +45,7 @@ if __name__ == "__main__":
     # Options
     Games.USE_NAME = NameType.HASH_NAME
 
-    for province in parser.provinces.values():
+    for index, province in enumerate(parser.provinces.values()):
         lp_problem.reset_problem()
         lp_problem.add_province(province)
         # Filter out all buildings
@@ -88,7 +86,7 @@ if __name__ == "__main__":
         if province.print_name == "Thracia" and Games.USE_NAME == NameType.NAME:
             lp_problem.print_problem_answers()
             lp_problem.dump("attila_problem.lp")
-        if province.hash_name == "P1" and Games.USE_NAME == NameType.HASH_NAME:
+        if index == 0 and Games.USE_NAME == NameType.HASH_NAME:
             lp_problem.print_problem_answers()
             # write problem to file for debugging
             lp_problem.dump("attila_problem.lp")
@@ -97,3 +95,7 @@ if __name__ == "__main__":
         province.clean()
 
     print(f"Total solving time: {lp_problem.global_time / 1_000_000_000} seconds")
+
+
+if __name__ == "__main__":
+    main()

@@ -66,9 +66,7 @@ def tiny():
             "Religious",
             [
                 effect("rom_building_gdp_industry_manufacture", 80),
-                effect(
-                    "rom_building_public_order_attitude_squalor", -2, "this_province"
-                ),
+                effect("rom_building_public_order_attitude_squalor", -2, "this_province"),
                 effect("rom_building_food_consumption", 2, "this_region"),
             ],
         ),
@@ -106,9 +104,7 @@ def tiny_scenario(**kwargs):
     )
 
 
-@pytest.mark.parametrize(
-    "algorithm", ["cp-sat", "cbc", "scip", "scip-nonlinear", "portfolio"]
-)
+@pytest.mark.parametrize("algorithm", ["cp-sat", "cbc", "scip", "scip-nonlinear", "portfolio"])
 def test_all_exact_solvers_match_exhaustive_original_economics(tiny, algorithm):
     economy = Economy(tiny_scenario(), tiny)
     best = 0
@@ -188,9 +184,7 @@ def test_rome_squalor_is_provincial_order_not_attila_sanitation(tiny):
         economy.evaluate(bad, 0)
     bad["town"].append("rome_religious_alpha_4")
     assert economy.evaluate(bad, 0)["public_order"] == 0
-    assert (
-        raw_effect("rom_building_public_order_happiness_sanitation", 3).kind == "order"
-    )
+    assert raw_effect("rom_building_public_order_happiness_sanitation", 3).kind == "order"
 
 
 def test_political_profiles_are_not_stacked_and_dominance_is_safe(tiny):
@@ -201,9 +195,7 @@ def test_political_profiles_are_not_stacked_and_dominance_is_safe(tiny):
     assert report["party_index"] in (0, 1)
     assert (
         report["party_facts"]
-        == tiny["factions"]["rom_rome"]["traits"]["parties"][report["party_index"]][
-            "facts"
-        ]
+        == tiny["factions"]["rom_rome"]["traits"]["parties"][report["party_index"]]["facts"]
     )
 
 
@@ -259,10 +251,7 @@ def test_money_facts_and_raw_effects_are_never_silently_lost():
     data = load_data()
     for building in data["buildings"].values():
         for row in building["effects"]:
-            if any(
-                term in row["id"]
-                for term in ("gdp", "food", "tax_level", "public_order")
-            ):
+            if any(term in row["id"] for term in ("gdp", "food", "tax_level", "public_order")):
                 assert raw_effect(row["id"], row["value"]) is not None, row
     for faction in data["factions"].values():
         facts = faction["traits"]["culture_facts"] + [
@@ -271,20 +260,21 @@ def test_money_facts_and_raw_effects_are_never_silently_lost():
         for text in facts:
             if "wealth from" in text or "% tax rate" in text:
                 assert fact_effect(text) is not None, text
-    for tree in data["technologies"].values():
-        for technology in tree.values():
-            for text in technology["facts"]:
-                if any(t in text for t in ("wealth from", "tax rate", "public order")):
-                    assert fact_effect(text) is not None, text
+    _assert_technology_money_facts(data)
     assert (
         raw_effect("rom_province_initiative_non_barbarian_taxes_mod_taxrate", 6).kind
         == "edict_conditional"
     )
     assert raw_effect("rom_building_slave_gpd_mod", 25).kind == "slaves_conditional"
-    assert (
-        fact_effect("+20% wealth from all industrial buildings").targets
-        == CATEGORIES[4:6]
-    )
+    assert fact_effect("+20% wealth from all industrial buildings").targets == CATEGORIES[4:6]
+
+
+def _assert_technology_money_facts(data):
+    for tree in data["technologies"].values():
+        for technology in tree.values():
+            for text in technology["facts"]:
+                if any(t in text for t in ("wealth from", "tax rate", "public order")):
+                    assert fact_effect(text) is not None, text
 
 
 def test_changed_or_unsafe_source_structure_fails():
@@ -298,7 +288,9 @@ def test_changed_or_unsafe_source_structure_fails():
         named_regions("<script>malicious()</script>")
     assert (
         named_regions(
-            'var settlement_info={"rom_test":"<p>Settlement Name: Town</p><p>Belongs to Province: Province</p><p>Provincial Capital: Town</p>"};'
+            'var settlement_info={"rom_test":"<p>Settlement Name: '
+            "Town</p><p>Belongs to Province: Province</p><p>Provincial Capital: "
+            'Town</p>"};'
         )["rom_test"]["name"]
         == "Town"
     )
@@ -334,37 +326,27 @@ def test_reuse_requires_identical_compiled_model_and_rechecks_economics(tiny):
 def test_food_reserves_is_food_and_edicts_remain_conditional(tiny):
     assert raw_effect("rom_building_food_reserves", 9).kind == "food"
     assert fact_effect("Bread and Games Edict: +10 public order") is None
-    tiny["buildings"]["rome_city_4"]["effects"].append(
-        effect("rom_building_food_reserves", 9)
-    )
+    tiny["buildings"]["rome_city_4"]["effects"].append(effect("rom_building_food_reserves", 9))
     economy = Economy(replace(tiny_scenario(party=0), external_food=0), tiny)
     assert (
-        economy.evaluate({"capital": ["rome_city_4"], "town": ["rome_town_4"]}, 0)[
-            "food_surplus"
-        ]
+        economy.evaluate({"capital": ["rome_city_4"], "town": ["rome_town_4"]}, 0)["food_surplus"]
         == 9
     )
 
 
-@pytest.mark.parametrize(
-    "algorithm", ["cp-sat", "cbc", "scip", "scip-nonlinear", "portfolio"]
-)
+@pytest.mark.parametrize("algorithm", ["cp-sat", "cbc", "scip", "scip-nonlinear", "portfolio"])
 def test_maintenance_is_deducted_once_after_tax(tiny, algorithm):
     tiny["buildings"]["rome_city_4"]["effects"].append(
         effect("dk_building_gdp_maintenance", -20, "this_faction")
     )
     report = Economy(tiny_scenario(party=0), tiny).optimize(algorithm, seconds=5)
     assert report["solver"]["status"] == "OPTIMAL"
-    assert report["domestic_net_income"] == pytest.approx(
-        report["domestic_tax_income"] - 20
-    )
+    assert report["domestic_net_income"] == pytest.approx(report["domestic_tax_income"] - 20)
     assert report["solver"]["objective"] == pytest.approx(report["domestic_net_income"])
 
 
 def test_validated_warm_start_and_corruption_floor(tiny):
-    tiny["factions"]["rom_rome"]["traits"]["culture_facts"] = [
-        "-20% corruption in your provinces"
-    ]
+    tiny["factions"]["rom_rome"]["traits"]["culture_facts"] = ["-20% corruption in your provinces"]
     scenario = replace(tiny_scenario(party=0), corruption_points=5)
     first = Economy(scenario, tiny).optimize()
     assert first["effective_corruption_points"] == 0
@@ -387,9 +369,7 @@ def test_real_provinces_join_resources_and_scoped_modifiers():
     africa = province_scenario("Africa", "rom_saba")
     assert len(africa.sites) == 4 and sum(s.port for s in africa.sites) == 4
     economy = Economy(africa)
-    assert not any(
-        "marib_dam" in key for options in economy.candidates.values() for key in options
-    )
+    assert not any("marib_dam" in key for options in economy.candidates.values() for key in options)
     assert not province_scenario("Italia", "rom_rome", world_bonuses=False).modifiers
 
 
@@ -430,9 +410,7 @@ def test_dlc_temples_missing_from_public_index_are_recovered():
     assert "dk_kush_religious_amani_4" in economy.candidates["rom_italia_latium"]
     assert any(
         row["id"] == "rom_building_gdp_mod_all"
-        for row in economy.candidates["rom_italia_latium"]["dk_kush_religious_amani_4"][
-            "effects"
-        ]
+        for row in economy.candidates["rom_italia_latium"]["dk_kush_religious_amani_4"]["effects"]
     )
     saba = Economy(province_scenario("Arabia Felix", "rom_saba"))
     assert "dk_saba_marib_dam_3" in saba.candidates["rom_arabia_felix_saba"]

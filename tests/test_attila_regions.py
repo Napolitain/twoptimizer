@@ -8,7 +8,6 @@ from games.tw.games import Games
 from games.tw.models.game_attila import AttilaGame
 from games.tw.problem import Problem
 
-
 # PuLP is a linear and mixed integer programming modeler written in Python.
 
 
@@ -18,15 +17,17 @@ class TestRegion(TestCase):
         result = {}
         current_dir = Path(__file__).parent.absolute()
         file = current_dir / "result_fertility_5_ere.txt"
-        with open(file, "r") as f:
+        with open(file) as f:
             for line in f:
                 x = line.split(":")
                 result[x[0].strip()] = float(x[1].strip())
 
         # Create a province, with regions, and buildings constraints.
-        Games.instance = AttilaGame(campaign=AttilaGame.Campaign.ATTILA,
-                                    faction=AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
-                                    religion=AttilaGame.Religion.CHRIST_ORTHODOX)
+        Games.instance = AttilaGame(
+            campaign=AttilaGame.Campaign.ATTILA,
+            faction=AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
+            religion=AttilaGame.Religion.CHRIST_ORTHODOX,
+        )
         parser = Games.instance.get_parser()
         Games.buildings = parser.buildings
         # Games.instance.campaign = AttilaGame.Campaign.CHARLEMAGNE
@@ -52,8 +53,11 @@ class TestRegion(TestCase):
                 region.filter_city_level(4)
                 region.filter_building_level(4)
                 region.filter_military()
-                # Necessary (for now) for Google OR-Tools to add the variables which were added lazily
-                lp_problem.problem.filter_added({building.name: building for building in region.buildings})
+                # Necessary (for now) for Google OR-Tools to add the variables which were added
+                # lazily
+                lp_problem.problem.filter_added(
+                    {building.name: building for building in region.buildings}
+                )
             lp_problem.state = ProblemState.FILTERS_ADDED
 
             # Set province wide fertility : impacts food and GDP
@@ -62,7 +66,8 @@ class TestRegion(TestCase):
             # Regional constraints
             for region in province.regions:
                 region.add_constraints()
-            # Sanitation is regional, but requires province wide view to look at province wide effects
+            # Sanitation is regional, but requires province wide view to look at province wide
+            # effects
             province.add_sanitation_constraint()
 
             # Province constraints

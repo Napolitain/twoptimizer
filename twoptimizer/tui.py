@@ -165,7 +165,10 @@ class OptimizerApp(App):
     #log { height: 1fr; }
     #notes-scroll { height: 1fr; padding: 0 1; }
     HelpScreen, ExportScreen { align: center middle; background: #020814 75%; }
-    #dialog { width: 76; max-width: 96%; height: auto; max-height: 90%; background: #14243a; border: round #68dfcb; padding: 1 2; }
+    #dialog {
+        width: 76; max-width: 96%; height: auto; max-height: 90%;
+        background: #14243a; border: round #68dfcb; padding: 1 2;
+    }
     HelpScreen #dialog { height: 28; }
     HelpScreen VerticalScroll { height: 1fr; }
     .dialog-title { text-style: bold; color: #68dfcb; margin-bottom: 1; }
@@ -176,6 +179,7 @@ class OptimizerApp(App):
 
     def __init__(self, runner_factory=CaseRunner):
         super().__init__()
+        self._ui_ready = False
         self.runner_factory = runner_factory
         self.runner = None
         self.results, self.skipped = [], []
@@ -194,21 +198,13 @@ class OptimizerApp(App):
                     yield Label("Game", classes="field-label")
                     yield Select(GAMES, value="rome2", allow_blank=False, id="game")
                     yield Label("Faction / clan", classes="field-label")
-                    yield Select(
-                        [("Loading…", "loading")], allow_blank=False, id="faction"
-                    )
+                    yield Select([("Loading…", "loading")], allow_blank=False, id="faction")
                     yield Label("Province / holding", classes="field-label")
-                    yield Select(
-                        [("Loading…", "loading")], allow_blank=False, id="province"
-                    )
+                    yield Select([("Loading…", "loading")], allow_blank=False, id="province")
                     yield Label("Research", classes="field-label")
-                    yield Select(
-                        [("Loading…", "loading")], allow_blank=False, id="research"
-                    )
+                    yield Select([("Loading…", "loading")], allow_blank=False, id="research")
                     with Vertical(classes="option-group", id="rome-options"):
-                        yield Checkbox(
-                            "Regional / wonder bonuses", value=True, id="world-bonuses"
-                        )
+                        yield Checkbox("Regional / wonder bonuses", value=True, id="world-bonuses")
                     with Vertical(classes="option-group", id="attila-options"):
                         yield Label("Fertility", classes="field-label")
                         yield Input("5", id="fertility", type="number")
@@ -216,10 +212,7 @@ class OptimizerApp(App):
                         from games.tw.models.model_attila import AttilaReligion
 
                         yield Select(
-                            [
-                                (r.name.replace("_", " ").title(), r.name)
-                                for r in AttilaReligion
-                            ],
+                            [(r.name.replace("_", " ").title(), r.name) for r in AttilaReligion],
                             value="CHRIST_ORTHODOX",
                             allow_blank=False,
                             id="religion",
@@ -241,9 +234,7 @@ class OptimizerApp(App):
                         yield Label("Starting town wealth", classes="field-label")
                         yield Input("0", id="town-wealth", type="number")
                     yield Label("SOLVER", classes="section-title")
-                    yield Select(
-                        [("Loading…", "loading")], allow_blank=False, id="algorithm"
-                    )
+                    yield Select([("Loading…", "loading")], allow_blank=False, id="algorithm")
                     yield Label("Seconds per solver case", classes="field-label")
                     yield Input("10", id="seconds", type="number")
                     yield Label("CP-SAT workers", classes="field-label")
@@ -275,18 +266,14 @@ class OptimizerApp(App):
                             id="selection",
                             markup=False,
                         )
-                        yield DataTable(
-                            id="results", cursor_type="row", zebra_stripes=True
-                        )
+                        yield DataTable(id="results", cursor_type="row", zebra_stripes=True)
                     with TabPane("Buildings", id="buildings-pane"):
                         yield Static(
                             "Select a result to inspect its layout.",
                             id="layout-summary",
                             markup=False,
                         )
-                        yield DataTable(
-                            id="buildings", cursor_type="row", zebra_stripes=True
-                        )
+                        yield DataTable(id="buildings", cursor_type="row", zebra_stripes=True)
                     with (
                         TabPane("Model notes", id="notes-pane"),
                         VerticalScroll(id="notes-scroll"),
@@ -301,15 +288,14 @@ class OptimizerApp(App):
                         id="run-status",
                         markup=False,
                     )
-                yield ProgressBar(
-                    total=1, show_eta=False, show_percentage=False, id="progress"
-                )
+                yield ProgressBar(total=1, show_eta=False, show_percentage=False, id="progress")
                 with Horizontal(id="table-actions"):
                     yield Button("Export JSON + CSV", id="export", disabled=True)
                     yield Button("Clear results", id="clear", disabled=True)
         yield Footer()
 
     def on_mount(self):
+        self._ui_ready = True
         table = self.query_one("#results", DataTable)
         for key, label, width in [
             ("faction", "Faction / clan", 20),
@@ -322,9 +308,7 @@ class OptimizerApp(App):
         ]:
             table.add_column(label, key=key, width=width)
         table.fixed_columns = 1
-        self.query_one("#buildings", DataTable).add_columns(
-            "Region", "Building", "Source ID"
-        )
+        self.query_one("#buildings", DataTable).add_columns("Region", "Building", "Source ID")
         self.query_one("#spinner").display = False
         self._configure_game()
         self.set_interval(0.5, self._tick)
@@ -335,7 +319,7 @@ class OptimizerApp(App):
 
     @on(Select.Changed, "#game")
     def game_changed(self):
-        if self.is_mounted:
+        if self._ui_ready:
             self._configure_game()
 
     def _configure_game(self):
@@ -363,18 +347,16 @@ class OptimizerApp(App):
                     else options["research"]
                 )
                 widget.set_options(
-                    ([("All factions / clans", "all")] + values)
-                    if field == "faction"
-                    else values
+                    ([("All factions / clans", "all"), *values]) if field == "faction" else values
                 )
                 widget.value = options["default_" + field]
             solvers = [("CP-SAT", "cp-sat"), ("CBC", "cbc"), ("SCIP · MILP", "scip")]
             if game == "rome2":
-                solvers = (
-                    [("Portfolio · CP-SAT + SCIP", "portfolio")]
-                    + solvers
-                    + [("SCIP · nonlinear", "scip-nonlinear")]
-                )
+                solvers = [
+                    ("Portfolio · CP-SAT + SCIP", "portfolio"),
+                    *solvers,
+                    ("SCIP · nonlinear", "scip-nonlinear"),
+                ]
             solvers.append(("Compare exact solvers", "compare"))
             self.query_one("#algorithm", Select).set_options(solvers)
             self.query_one("#algorithm", Select).value = (
@@ -385,7 +367,12 @@ class OptimizerApp(App):
             + {key: label for label, key in GAMES}[game]
             + "\n\n"
             + NOTES[game]
-            + "\n\nSelects support typing to search. Each run uses the existing game engine and independently checks returned layouts. Export preserves source hashes and the full engine result. CLI commands remain available for advanced campaign inputs."
+            + (
+                "\n\nSelects support typing to search. Each run uses the existing "
+                "game engine and independently checks returned layouts. Export "
+                "preserves source hashes and the full engine result. CLI commands "
+                "remain available for advanced campaign inputs."
+            )
         )
         self._loading_settings = False
         self._refresh_preview()
@@ -409,32 +396,27 @@ class OptimizerApp(App):
                 else 5,
                 religion=selected("religion"),
                 soil=selected("soil"),
-                tax=float(self.query_one("#tax", Input).value)
-                if game == "shogun2"
-                else 30,
+                tax=float(self.query_one("#tax", Input).value) if game == "shogun2" else 30,
                 town_wealth=float(self.query_one("#town-wealth", Input).value)
                 if game == "shogun2"
                 else 0,
                 world_bonuses=self.query_one("#world-bonuses", Checkbox).value,
             )
         except ValueError as error:
-            raise ValueError(
-                "Enter numeric settings; workers must be a whole number."
-            ) from error
+            raise ValueError("Enter numeric settings; workers must be a whole number.") from error
 
     @on(Select.Changed)
     @on(Input.Changed)
     @on(Checkbox.Changed)
     def settings_changed(self):
-        if self.is_mounted and not self._loading_settings and not self.busy:
+        if self._ui_ready and not self._loading_settings and not self.busy:
             self._refresh_preview()
 
     def _refresh_preview(self):
         try:
             config = self._config()
             self.query_one("#world-bonuses", Checkbox).disabled = (
-                config.game == "rome2"
-                and config.province in {"coastal", "inland", "grain"}
+                config.game == "rome2" and config.province in {"coastal", "inland", "grain"}
             )
             jobs, skipped = make_jobs(config)
         except ValueError as error:
@@ -481,26 +463,38 @@ class OptimizerApp(App):
 
     @work(exclusive=True, group="solve")
     async def _solve(self, jobs):
+        runner, started = self.runner, self.started
+        if runner is None or started is None:
+            raise RuntimeError("Start a run before processing solver jobs")
         log = self.query_one("#log", RichLog)
         errors = 0
         try:
             for i, job in enumerate(jobs, 1):
-                if self.runner.cancelled:
+                if runner.cancelled:
                     break
-                self.current_case = f"Case {i}/{len(jobs)} · {faction_name(job.game, job.faction)} · {job.algorithm}"
+                self.current_case = (
+                    "Case "
+                    f"{i}"
+                    "/"
+                    f"{len(jobs)}"
+                    " · "
+                    f"{faction_name(job.game, job.faction)}"
+                    " · "
+                    f"{job.algorithm}"
+                )
                 self._tick()
                 log.write(self.current_case)
                 try:
-                    result = await self.runner.run(job, lambda line: log.write(line))
+                    result = await runner.run(job, lambda line: log.write(line))
                 except (RuntimeError, OSError, ValueError) as error:
                     errors += 1
                     log.write(f"ERROR: {error}")
                     result = {
                         "request": asdict(job),
                         "faction": faction_name(job.game, job.faction),
-                        "province": {
-                            key: label for label, key in choices(job.game)["provinces"]
-                        }[job.province],
+                        "province": {key: label for label, key in choices(job.game)["provinces"]}[
+                            job.province
+                        ],
                         "solver": {
                             "algorithm": job.algorithm,
                             "status": "ERROR",
@@ -519,15 +513,13 @@ class OptimizerApp(App):
                 self.results.append(result)
                 self._add_result(result)
                 self.query_one("#progress", ProgressBar).update(progress=i)
-            label = "Cancelled" if self.runner.cancelled else "Finished"
-            self.current_case = (
-                f"{label} · {len(self.results)}/{len(jobs)} cases · {errors} errors"
-            )
+            label = "Cancelled" if runner.cancelled else "Finished"
+            self.current_case = f"{label} · {len(self.results)}/{len(jobs)} cases · {errors} errors"
         finally:
-            await self.runner.stop()
+            await runner.stop()
             self._set_busy(False)
             self.query_one("#run-status", Static).update(
-                self.current_case + f" · {perf_counter() - self.started:.1f}s elapsed"
+                self.current_case + f" · {perf_counter() - started:.1f}s elapsed"
             )
 
     def _tick(self):
@@ -558,11 +550,7 @@ class OptimizerApp(App):
         def key(value):
             if not numeric:
                 return str(value).casefold()
-            return (
-                float(str(value).replace(",", ""))
-                if str(value) != "—"
-                else float("-inf")
-            )
+            return float(str(value).replace(",", "")) if str(value) != "—" else float("-inf")
 
         self.query_one("#results", DataTable).sort(
             self.sort_column, key=key, reverse=self.sort_reverse
@@ -596,22 +584,36 @@ class OptimizerApp(App):
         ):
             self.query_one("#" + key, Static).update(value)
         settings = result["request"]
-        label = f"{result['faction']} · {result['province']} · {settings['game']} · research: {settings['research']}"
+        label = (
+            f"{result['faction']}"
+            " · "
+            f"{result['province']}"
+            " · "
+            f"{settings['game']}"
+            " · research: "
+            f"{settings['research']}"
+        )
         self.query_one("#selection", Static).update(
-            label
-            + "\nArrow keys browse · Enter opens buildings · click headings to sort"
+            label + "\nArrow keys browse · Enter opens buildings · click headings to sort"
         )
         metrics = result["metrics"]
         food, order = metrics.get("food_surplus"), metrics.get("public_order")
-        message = (
-            label
-            + f"\nFood: {money(food)} · Public order: {money(order)} · {len(result['buildings'])} buildings"
+        message = label + (
+            "\nFood: "
+            f"{money(food)}"
+            " · Public order: "
+            f"{money(order)}"
+            " · "
+            f"{len(result['buildings'])}"
+            " buildings"
         )
         if result["income"] is None:
             message += "\n" + result["raw"].get(
                 "error",
                 {
-                    "INFEASIBLE": "The solver proved that these requirements cannot all be satisfied.",
+                    "INFEASIBLE": (
+                        "The solver proved that these requirements cannot all be satisfied."
+                    ),
                     "UNKNOWN": "No usable layout returned within the solve budget; try more time.",
                 }.get(
                     result["solver"]["status"],
@@ -660,12 +662,8 @@ class OptimizerApp(App):
         self.query_one("#buildings", DataTable).clear()
         for key in ("income", "bound", "status"):
             self.query_one("#" + key, Static).update("—")
-        self.query_one("#selection", Static).update(
-            "No results yet. Choose settings and Run."
-        )
-        self.query_one("#layout-summary", Static).update(
-            "Select a result to inspect its layout."
-        )
+        self.query_one("#selection", Static).update("No results yet. Choose settings and Run.")
+        self.query_one("#layout-summary", Static).update("Select a result to inspect its layout.")
         self.query_one("#progress", ProgressBar).update(total=1, progress=0)
         self.query_one("#export", Button).disabled = True
         self.query_one("#clear", Button).disabled = True

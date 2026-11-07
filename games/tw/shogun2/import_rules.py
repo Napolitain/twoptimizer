@@ -12,8 +12,15 @@ from games.tw.multigame.sources import Sources
 ROOT = Path(__file__).parents[1]
 DATA = Path(__file__).parent / "data"
 PROVINCES = "https://shogun2-encyclopedia.com/regions.html"
-FOOD = "https://liquidwork.github.io/shogun2-encyclopedia/how_to_play/019b_enc_manual_food_shortages.html"
-SLOTS = "https://liquidwork.github.io/shogun2-encyclopedia/how_to_play/018e_enc_manual_actions_campaign_construction.html"
+FOOD = (
+    "https://liquidwork.github.io/shogun2-encyclopedia/how_t"
+    "o_play/019b_enc_manual_food_shortages.html"
+)
+SLOTS = (
+    "https://liquidwork.github.io/shogun2-encyclopedia/how_t"
+    "o_play/018e_enc_manual_actions_campaign_construction.ht"
+    "ml"
+)
 CLAN = "https://steamcommunity.com/sharedfiles/filedetails/?id=2215397548"
 FERTILITY = {
     "Barren": 1,
@@ -63,17 +70,7 @@ def province_records(html, names):
         if normalized(lookup_name) not in by_name:
             raise ValueError(f"Unmatched province identity: {name}")
         reference = by_name[normalized(lookup_name)]
-        fields = {}
-        for paragraph in node.nodes("p"):
-            key, sep, value = paragraph.text().partition(": ")
-            if sep and key in {"Clan", "Port", "Fertility", "Speciality/Resource"}:
-                fields[key] = value
-        if (
-            set(fields) != {"Clan", "Port", "Fertility", "Speciality/Resource"}
-            or fields["Fertility"] not in FERTILITY
-            or fields["Port"] not in PORTS
-        ):
-            raise ValueError(f"Incomplete province fields: {name}")
+        fields = _province_fields(node, name)
         classes = set(node.attrs.get("class", "").split()) - {"playable", "playble"}
         if len(classes) > 1 or classes - SPECIALTIES.keys():
             raise ValueError(f"Unrecognized province specialty: {classes}")
@@ -95,6 +92,21 @@ def province_records(html, names):
     return records
 
 
+def _province_fields(node, name):
+    fields = {}
+    for paragraph in node.nodes("p"):
+        key, sep, value = paragraph.text().partition(": ")
+        if sep and key in {"Clan", "Port", "Fertility", "Speciality/Resource"}:
+            fields[key] = value
+    if (
+        set(fields) != {"Clan", "Port", "Fertility", "Speciality/Resource"}
+        or fields["Fertility"] not in FERTILITY
+        or fields["Port"] not in PORTS
+    ):
+        raise ValueError(f"Incomplete province fields: {name}")
+    return fields
+
+
 def main(argv=None):
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument("--cache", type=Path, default=Path(".cache/shogun2-rules"))
@@ -114,33 +126,60 @@ def main(argv=None):
         "fertility_multipliers": FERTILITY,
         "clan_farm_percent": {"chosokabe": 10},
         "clan_religion": {
-            f: "christian"
-            if f == "otomo"
-            else "ikko"
-            if f == "ikko_ikki"
-            else "buddhist"
+            f: "christian" if f == "otomo" else "ikko" if f == "ikko_ikki" else "buddhist"
             for f in catalog["factions"]
         },
         "castle_town_slots_by_level": {str(i): i for i in range(1, 6)},
         "shared_surplus_growth_per_province": 1,
-        "tax_bonus_semantics": "percentage points added to base tax rate; administration multiplier supplied separately",
-        "unique_building_policy": "One newly constructed legendary town building of each chain per clan; one Nanban port/quarter chain. Otomo Jesuit Colleges are not legendary. Existing conquered duplicates require separate input and are outside this benchmark.",
-        "christian_branches": "Chapel -> Hospital -> Jesuit Seminary -> Jesuit College for Otomo; Chapel -> Mission -> Church -> Cathedral for other Christian clans",
+        "tax_bonus_semantics": (
+            "percentage points added to base tax rate; administration multiplier "
+            "supplied separately"
+        ),
+        "unique_building_policy": (
+            "One newly constructed legendary town building of each chain per "
+            "clan; one Nanban port/quarter chain. Otomo Jesuit Colleges are not "
+            "legendary. Existing conquered duplicates require separate input and "
+            "are outside this benchmark."
+        ),
+        "christian_branches": (
+            "Chapel -> Hospital -> Jesuit Seminary -> Jesuit College for Otomo; "
+            "Chapel -> Mission -> Church -> Cathedral for other Christian clans"
+        ),
         "sources": sorted(sources.records.values(), key=lambda r: r["url"]),
         "additional_rule_references": {
-            "fertility_multipliers": "https://totalwar.fandom.com/wiki/User_blog:Brainwasher5/Shogun_2_Economy_breakdown",
-            "tax_percentage_points": "https://forums.somethingawful.com/showthread.php?noseen=0&pagenumber=20&perpage=40&threadid=3558647",
+            "fertility_multipliers": (
+                "https://totalwar.fandom.com/wiki/User_blog:Brainwasher5/Shogun_2_Economy_breakdown"
+            ),
+            "tax_percentage_points": (
+                "https://forums.somethingawful.com/showthread.php?noseen"
+                "=0&pagenumber=20&perpage=40&threadid=3558647"
+            ),
             "unique_kabunakama": "https://totalwar.fandom.com/wiki/Kabunakama",
-            "unique_mizu_shobai": "https://steamcommunity.com/sharedfiles/filedetails/?id=2354740643",
+            "unique_mizu_shobai": (
+                "https://steamcommunity.com/sharedfiles/filedetails/?id=2354740643"
+            ),
             "otomo_christian_branch": "https://wiki.totalwar.com/w/Otomo_Clan_Pack.html",
         },
-        "verification": "Public references; current installed build still unverified. Province narrative wealth values are not used to overwrite structured building effects.",
-        "scope": "Static domestic tax receipts; town wealth, tax, administrative efficiency and religion/order offsets are explicit scenario inputs. Trade, army expenditure, agents, first-construction race rewards, events, capture history and construction sequencing are outside the model.",
+        "verification": (
+            "Public references; current installed build still unverified. "
+            "Province narrative wealth values are not used to overwrite "
+            "structured building effects."
+        ),
+        "scope": (
+            "Static domestic tax receipts; town wealth, tax, administrative "
+            "efficiency and religion/order offsets are explicit scenario inputs. "
+            "Trade, army expenditure, agents, first-construction race rewards, "
+            "events, capture history and construction sequencing are outside the "
+            "model."
+        ),
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2) + "\n")
     print(
-        f"Imported {len(report['provinces'])} province soil/port/specialty records and numeric economy rules"
+        "Imported "
+        f"{len(report['provinces'])}"
+        " province soil/port/specialty records and numeric "
+        "economy rules"
     )
     return report
 

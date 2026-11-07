@@ -14,7 +14,7 @@ def main():
         result = solve_case(RunConfig(**json.loads(request_path.read_text())))
         output_path.write_text(json.dumps(result, allow_nan=False))
         return 0
-    except Exception as error:  # noqa: BLE001 -- report any engine failure across the process boundary
+    except Exception as error:
         output_path.write_text(json.dumps({"error": str(error)}))
         traceback.print_exc()
         return 1

@@ -32,11 +32,11 @@ class SolverCpSat(SolverOrTools):
         super().__init__()
         self.result = None
 
-    def solve(self, seconds=60, seed=0, workers=1):
+    def solve(self, seconds=60, seed=0, workers=1, **kwargs):
+        if kwargs:
+            raise TypeError(f"Unsupported CP-SAT options: {sorted(kwargs)}")
         model = BinaryModel.from_solver(self.solver)
-        self.result = solve(
-            model, "cp-sat", seconds=seconds, seed=seed, workers=workers
-        )
+        self.result = solve(model, "cp-sat", seconds=seconds, seed=seed, workers=workers)
         if self.result.values is None:
             raise RuntimeError(
                 f"CP-SAT returned {self.result.status}: "
