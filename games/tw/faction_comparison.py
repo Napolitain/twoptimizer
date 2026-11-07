@@ -7,6 +7,7 @@ import argparse
 import csv
 import hashlib
 import json
+from math import isfinite
 from pathlib import Path
 
 from games.tw.attila.modifiers import catalog
@@ -21,7 +22,10 @@ def signature(model):
     digest = hashlib.sha256(json.dumps(model.names).encode())
     for array in (model.profit, model.matrix, model.lower, model.upper):
         digest.update(str(array.shape).encode())
-        digest.update(array.tobytes())
+        if hasattr(array, "update_hash"):
+            array.update_hash(digest)
+        else:
+            digest.update(array.tobytes())
     digest.update(str(model.offset).encode())
     return digest.hexdigest()
 
@@ -44,8 +48,18 @@ def main(argv=None):
         choices=[r.name for r in AttilaGame.Religion],
         default="CHRIST_ORTHODOX",
     )
-    cli.add_argument("--seconds", type=float, default=15)
-    cli.add_argument("--workers", type=int, default=8)
+    cli.add_argument(
+        "--seconds",
+        type=float,
+        default=None,
+        help="Optional time limit per case; default runs to completion",
+    )
+    cli.add_argument(
+        "--workers",
+        type=int,
+        default=None,
+        help="Optional CPU worker override; default automatic",
+    )
     cli.add_argument(
         "--resume",
         action="store_true",
@@ -58,7 +72,11 @@ def main(argv=None):
     )
     cli.add_argument("--output", type=Path, default=Path("benchmark-results/factions/income.json"))
     args = cli.parse_args(argv)
-    if args.seconds <= 0 or args.workers < 1 or args.fertility < 0:
+    if (
+        (args.seconds is not None and (not isfinite(args.seconds) or args.seconds <= 0))
+        or (args.workers is not None and args.workers < 1)
+        or args.fertility < 0
+    ):
         cli.error("Invalid budget, workers or fertility")
     provinces = args.province or ["Aegyptus", "Thracia", "Germania"]
     factions = (

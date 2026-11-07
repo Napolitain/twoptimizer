@@ -32,7 +32,7 @@ class SolverCpSat(SolverOrTools):
         super().__init__()
         self.result = None
 
-    def solve(self, seconds=60, seed=0, workers=1, **kwargs):
+    def solve(self, seconds=None, seed=0, workers=None, **kwargs):
         if kwargs:
             raise TypeError(f"Unsupported CP-SAT options: {sorted(kwargs)}")
         model = BinaryModel.from_solver(self.solver)

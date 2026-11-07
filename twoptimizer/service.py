@@ -7,6 +7,7 @@ from dataclasses import asdict, dataclass, replace
 from datetime import datetime
 from math import isfinite
 from pathlib import Path
+from time import perf_counter
 from typing import Any
 
 from twoptimizer.catalog import EXACT, NOTES, ROOT, choices, faction_name, read
@@ -18,8 +19,8 @@ class RunConfig:
     faction: str = "rom_rome"
     province: str = "coastal"
     algorithm: str = "portfolio"
-    seconds: float = 10
-    workers: int = 4
+    seconds: float | None = None
+    workers: int | None = None
     research: str = "none"
     fertility: float = 5
     religion: str = "CHRIST_ORTHODOX"
@@ -32,9 +33,9 @@ class RunConfig:
 def make_jobs(config):
     if config.game not in EXACT:
         raise ValueError("This game does not yet have a complete optimizer.")
-    if not isfinite(config.seconds) or config.seconds <= 0:
-        raise ValueError("Solve budget must be a positive number of seconds.")
-    if (
+    if config.seconds is not None and (not isfinite(config.seconds) or config.seconds <= 0):
+        raise ValueError("Time limit must be positive, or disabled to run to completion.")
+    if config.workers is not None and (
         isinstance(config.workers, bool)
         or not isinstance(config.workers, int)
         or config.workers < 1
@@ -117,7 +118,12 @@ def source_files(game):
     elif game == "shogun2":
         paths = [
             ROOT / "shogun2" / name for name in ("model.py", "effects.py", "data/rules.json")
-        ] + [ROOT / "multigame/data/shogun2.json"]
+        ] + [
+            ROOT / "multigame/data/shogun2.json",
+            ROOT / "competition.py",
+            ROOT / "sparse.py",
+            ROOT / "resources.py",
+        ]
     else:
         paths = [
             *sorted((ROOT / "attila/data").glob("*.tsv")),
@@ -131,17 +137,20 @@ def source_files(game):
             ],
             ROOT / "attila/economy.py",
             ROOT / "competition.py",
+            ROOT / "sparse.py",
+            ROOT / "resources.py",
         ]
     return {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
 
 
-def _solve_rome(config):
+def _solve_rome(config, phase):
     buildings, metrics = [], {}
     from games.tw.rome2.benchmark import presets
     from games.tw.rome2.model import Economy, Scenario, load_data
     from games.tw.rome2.world import province_scenario
 
     data = load_data()
+    phase("build_model_seconds", "Preparing province model")
     scenario = (
         Scenario(
             config.faction,
@@ -159,7 +168,10 @@ def _solve_rome(config):
             technology_profile="archived" if config.research == "archived" else "public",
         )
     )
-    raw = Economy(scenario, data).optimize(config.algorithm, config.seconds, config.workers)
+    economy = Economy(scenario, data)
+    phase("solve_and_check_seconds", "Solving and validating")
+    raw = economy.optimize(config.algorithm, config.seconds, config.workers)
+    phase("prepare_result_seconds", "Preparing result")
     income = raw.get("domestic_net_income")
     world = read("rome2/data/world.json")["regions"]
     for site, row in raw.get("sites", {}).items():
@@ -184,22 +196,26 @@ def _solve_rome(config):
     return raw, income, buildings, metrics
 
 
-def _solve_shogun(config):
+def _solve_shogun(config, phase):
     buildings, metrics = [], {}
     from games.tw.shogun2.model import Economy, Province, Scenario, load_data
 
     data, rules = load_data()
+    phase("build_model_seconds", "Preparing province model")
     province = Province(
         config.province,
         town_wealth=config.town_wealth,
         base_tax_percent=config.tax,
         farm_multiplier={"native": None, "barren": 1, "very_fertile": 3}[config.soil],
     )
-    raw = Economy(
+    economy = Economy(
         Scenario(config.faction, (province,), all_arts=config.research == "all"),
         data,
         rules,
-    ).optimize(config.algorithm, config.seconds, config.workers)
+    )
+    phase("solve_and_check_seconds", "Solving and validating")
+    raw = economy.optimize(config.algorithm, config.seconds, config.workers)
+    phase("prepare_result_seconds", "Preparing result")
     income = raw.get("domestic_tax_income")
     for key, row in raw.get("provinces", {}).items():
         for building in row["buildings"]:
@@ -215,13 +231,14 @@ def _solve_shogun(config):
     return raw, income, buildings, metrics
 
 
-def _solve_attila(config):
+def _solve_attila(config, phase):
     buildings, metrics = [], {}
     from games.tw.benchmark import compare, load_attila, snapshot
     from games.tw.models.game_attila import AttilaGame
 
     parser = load_attila(AttilaGame.Factions(config.faction), AttilaGame.Religion[config.religion])
     province = parser.provinces[config.province]
+    phase("build_model_seconds", "Building income model")
     model, build_seconds, economy = snapshot(
         province,
         config.fertility,
@@ -229,6 +246,7 @@ def _solve_attila(config):
         technologies=set() if config.research == "none" else None,
     )
     assert economy is not None
+    phase("solve_and_check_seconds", "Solving and validating")
     result: dict[str, Any] = compare(
         model,
         [config.algorithm],
@@ -239,12 +257,21 @@ def _solve_attila(config):
         economy=economy,
         workers=config.workers,
     )["results"][0]
+    phase("prepare_result_seconds", "Preparing result")
     raw = {
         **result,
         "build_seconds": build_seconds,
         "omitted_effects": sorted(set(economy.omitted)),
     }
-    raw["solver"] = {k: result[k] for k in ("algorithm", "status", "seconds", "objective", "bound")}
+    raw["solver"] = {
+        k: result[k]
+        for k in ("algorithm", "status", "seconds", "objective", "bound", "timings", "workers")
+    }
+    raw["model_size"] = {
+        "variables": len(model.names),
+        "constraints": model.matrix.shape[0],
+        "constraint_storage_bytes": model.matrix.nbytes,
+    }
     income = result["objective"]
     for key in result.get("selected") or []:
         building = economy.by_id[key]
@@ -263,12 +290,26 @@ def _solve_attila(config):
     return raw, income, buildings, metrics
 
 
-def solve_case(config):
+def solve_case(config, progress=None):
+    timings = {}
+    stage, stage_start = None, perf_counter()
+
+    def phase(key=None, label=None):
+        nonlocal stage, stage_start
+        now = perf_counter()
+        if stage is not None:
+            timings[stage] = now - stage_start
+        stage, stage_start = key, now
+        if progress is not None and label is not None:
+            progress(label)
+
+    phase("request_seconds", "Validating request")
     jobs, _ = make_jobs(config)
     if len(jobs) != 1:
         raise ValueError("A worker must receive exactly one faction and solver.")
+    phase("load_engine_seconds", "Loading engine and game data")
     adapter = {"rome2": _solve_rome, "shogun2": _solve_shogun, "attila": _solve_attila}[config.game]
-    raw, income, buildings, metrics = adapter(config)
+    raw, income, buildings, metrics = adapter(config, phase)
     solver = raw["solver"]
     bound = solver.get("bound")
     gap = (
@@ -276,7 +317,7 @@ def solve_case(config):
         if income is not None and bound is not None and isfinite(bound)
         else None
     )
-    return {
+    output = {
         "request": asdict(config),
         "faction": faction_name(config.game, config.faction),
         "province": {key: label for label, key in choices(config.game)["provinces"]}[
@@ -290,7 +331,10 @@ def solve_case(config):
         "assumptions": NOTES[config.game],
         "source_files": source_files(config.game),
         "raw": raw,
+        "timings": timings,
     }
+    phase()
+    return output
 
 
 def export_session(path, results, *, skipped=(), overwrite=False):
@@ -334,6 +378,11 @@ def export_session(path, results, *, skipped=(), overwrite=False):
         "soil",
         "tax",
         "town_wealth",
+        "time_limit_seconds",
+        "workers",
+        "elapsed_seconds",
+        "build_seconds",
+        "search_seconds",
     )
     with csv_path.open("w", newline="") as stream:
         writer = csv.DictWriter(stream, fieldnames=fields)
@@ -360,6 +409,11 @@ def export_session(path, results, *, skipped=(), overwrite=False):
                     "bound": row["solver"].get("bound"),
                     "gap_percent": row["gap_percent"],
                     "seconds": row["solver"]["seconds"],
+                    "time_limit_seconds": row["request"]["seconds"],
+                    "workers": row["solver"].get("workers"),
+                    "elapsed_seconds": row.get("timings", {}).get("worker_wall_seconds"),
+                    "build_seconds": row.get("timings", {}).get("build_model_seconds"),
+                    "search_seconds": row["solver"].get("timings", {}).get("search_seconds"),
                 }
             )
     return path, csv_path

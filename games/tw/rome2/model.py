@@ -14,6 +14,7 @@ from typing import Any
 from ortools.linear_solver import linear_solver_pb2, pywraplp
 from ortools.sat.python import cp_model
 
+from games.tw.resources import resolve_workers
 from games.tw.rome2.effects import CATEGORIES, Effect, fact_effect, raw_effect
 
 CATALOG = Path(__file__).parent / "data/economy_catalog.json"
@@ -908,7 +909,29 @@ class Economy:
         values["income_ten_thousandths"] = total * values["tax_factor"]
         return values
 
-    def optimize(self, algorithm="cp-sat", seconds=10, workers=1, incumbent=None):
+    def _linear_backend(self, proto, algorithm, seconds, workers):
+        solver = pywraplp.Solver.CreateSolver(
+            {"cp-sat": "SAT", "cbc": "CBC", "scip": "SCIP"}[algorithm]
+        )
+        error = solver.LoadModelFromProtoKeepNames(proto)
+        if error:
+            raise ValueError(error)
+        if seconds is not None:
+            solver.SetTimeLimit(max(1, int(seconds * 1000)))
+        effective_workers = 1
+        if algorithm == "scip" and solver.SetNumThreads(workers):
+            effective_workers = workers
+        if algorithm == "cp-sat":
+            solver.SetSolverSpecificParametersAsString(
+                f"num_search_workers: {workers}\nrandom_seed: 0"
+            )
+        parameters = pywraplp.MPSolverParameters()
+        parameters.SetDoubleParam(parameters.RELATIVE_MIP_GAP, 0.0)
+        status = solver.Solve(parameters)
+        return solver, status, effective_workers
+
+    def optimize(self, algorithm="cp-sat", seconds=None, workers=None, incumbent=None):
+        workers = resolve_workers(workers)
         start = perf_counter()
         if algorithm == "portfolio":
             return self._optimize_portfolio(seconds, workers, incumbent, start)
@@ -919,18 +942,7 @@ class Economy:
         proto = self.build()
         if algorithm not in {"cp-sat", "cbc", "scip"}:
             raise ValueError("Choose cp-sat, cbc or scip")
-        solver = pywraplp.Solver.CreateSolver(
-            {"cp-sat": "SAT", "cbc": "CBC", "scip": "SCIP"}[algorithm]
-        )
-        error = solver.LoadModelFromProtoKeepNames(proto)
-        if error:
-            raise ValueError(error)
-        solver.SetTimeLimit(max(1, int(seconds * 1000)))
-        if algorithm == "cp-sat":
-            solver.SetSolverSpecificParametersAsString(
-                f"num_search_workers: {workers}\nrandom_seed: 0"
-            )
-        status = solver.Solve()
+        solver, status, effective_workers = self._linear_backend(proto, algorithm, seconds, workers)
         label = {
             solver.OPTIMAL: "OPTIMAL",
             solver.FEASIBLE: "FEASIBLE",
@@ -949,6 +961,7 @@ class Economy:
                 "bound": None,
                 "variables": len(proto.variable),
                 "constraints": len(proto.constraint),
+                "workers": effective_workers,
             },
             "exclusions": dict(self.exclusions),
         }
@@ -979,7 +992,9 @@ class Economy:
         return layout, selected_party
 
     def _optimize_portfolio(self, seconds, workers, incumbent, start):
-        first = self.optimize("cp-sat", seconds * 0.35, workers, incumbent)
+        first = self.optimize(
+            "cp-sat", 5 if seconds is None else seconds * 0.35, workers, incumbent
+        )
         if first["solver"]["status"] == "OPTIMAL":
             first["solver"]["algorithm"] = "portfolio"
             first["solver"]["proof_backend"] = "cp-sat"
@@ -987,7 +1002,7 @@ class Economy:
         seed = first if "sites" in first else incumbent
         second = self.optimize(
             "scip-nonlinear",
-            max(0.01, seconds - (perf_counter() - start)),
+            None if seconds is None else max(0.01, seconds - (perf_counter() - start)),
             workers,
             seed,
         )
@@ -1007,12 +1022,7 @@ class Economy:
         )
         return result
 
-    def _optimize_scip(self, seconds, workers, incumbent, start):
-        algorithm = "scip-nonlinear"
-        problem = self.build(native="scip-nonlinear")
-        solver = problem.model
-        solver.setParam("limits/time", seconds)
-        solver.setParam("numerics/feastol", 1e-9)
+    def _add_scip_incumbent(self, incumbent, solver, problem):
         if incumbent is not None:
             values = self.warm_values(incumbent)
             solution = solver.createSol()
@@ -1020,6 +1030,15 @@ class Economy:
                 solver.setSolVal(solution, variable, values[variable.name])
             if not solver.addSol(solution):
                 raise ValueError("SCIP rejected independently validated warm start")
+
+    def _optimize_scip(self, seconds, workers, incumbent, start):
+        algorithm = "scip-nonlinear"
+        problem = self.build(native="scip-nonlinear")
+        solver = problem.model
+        if seconds is not None:
+            solver.setParam("limits/time", seconds)
+        solver.setParam("numerics/feastol", 1e-9)
+        self._add_scip_incumbent(incumbent, solver, problem)
         solver.optimize()
         status = str(solver.getStatus()).upper()
         label = (
@@ -1041,6 +1060,7 @@ class Economy:
                 "bound": None,
                 "variables": len(problem.variables),
                 "constraints": solver.getNConss(),
+                "workers": 1,
             },
             "exclusions": dict(self.exclusions),
         }
@@ -1072,7 +1092,8 @@ class Economy:
         if error:
             raise ValueError(error)
         solver = cp_model.CpSolver()
-        solver.parameters.max_time_in_seconds = seconds
+        if seconds is not None:
+            solver.parameters.max_time_in_seconds = seconds
         solver.parameters.num_search_workers = workers
         solver.parameters.random_seed = 0
         status = solver.solve(problem.model)
@@ -1086,6 +1107,7 @@ class Economy:
                 "bound": None,
                 "variables": len(problem.model.proto.variables),
                 "constraints": len(problem.model.proto.constraints),
+                "workers": workers,
             },
             "exclusions": dict(self.exclusions),
         }

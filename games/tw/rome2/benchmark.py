@@ -6,6 +6,7 @@ import hashlib
 import json
 from dataclasses import asdict
 from datetime import UTC, datetime
+from math import isfinite
 from pathlib import Path
 
 from games.tw.models.model_rome2 import Rome2Factions
@@ -171,6 +172,13 @@ def _merge_incumbent(old, result):
     return best
 
 
+def _validate_run_options(args, parser):
+    if args.seconds is not None and (not isfinite(args.seconds) or args.seconds <= 0):
+        parser.error("--seconds must be positive; omit it to run to completion")
+    if args.fill_missing and not args.resume:
+        parser.error("--fill-missing requires --resume")
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--faction", action="append")
@@ -182,8 +190,18 @@ def main(argv=None):
         action="append",
         choices=["cp-sat", "cbc", "scip", "scip-nonlinear", "portfolio"],
     )
-    parser.add_argument("--seconds", type=float, default=10)
-    parser.add_argument("--workers", type=int, default=8)
+    parser.add_argument(
+        "--seconds",
+        type=float,
+        default=None,
+        help="Optional time limit per case; default runs to completion",
+    )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=None,
+        help="Optional CPU worker override; default automatic",
+    )
     parser.add_argument("--resume", action="store_true")
     parser.add_argument(
         "--fill-missing",
@@ -196,8 +214,7 @@ def main(argv=None):
     parser.add_argument("--technology-profile", choices=["public", "archived"], default="public")
     parser.add_argument("--output", type=Path, default=Path("benchmark-results/rome2/income"))
     args = parser.parse_args(argv)
-    if args.fill_missing and not args.resume:
-        parser.error("--fill-missing requires --resume")
+    _validate_run_options(args, parser)
     data = load_data()
     source_hash = hashlib.sha256(CATALOG.read_bytes()).hexdigest()
     model_hash = hashlib.sha256(

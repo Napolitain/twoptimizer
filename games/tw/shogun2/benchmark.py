@@ -5,6 +5,7 @@ import csv
 import hashlib
 import json
 from datetime import UTC, datetime
+from math import isfinite
 from pathlib import Path
 
 from games.tw.shogun2.effects import family, parse
@@ -142,10 +143,22 @@ def main(argv=None):
     parser.add_argument("--soil", action="append", choices=["native", "barren", "very_fertile"])
     parser.add_argument("--town-wealth", type=float, default=0)
     parser.add_argument("--tax", type=float, default=30)
-    parser.add_argument("--seconds", type=float, default=15)
-    parser.add_argument("--workers", type=int, default=1)
+    parser.add_argument(
+        "--seconds",
+        type=float,
+        default=None,
+        help="Optional time limit per case; default runs to completion",
+    )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=None,
+        help="Optional CPU worker override; default automatic",
+    )
     parser.add_argument("--output", type=Path, default=Path("benchmark-results/shogun2/income"))
     args = parser.parse_args(argv)
+    if args.seconds is not None and (not isfinite(args.seconds) or args.seconds <= 0):
+        parser.error("--seconds must be positive; omit it to run to completion")
     catalog, rules = load_data()
     clans = args.clan or sorted(catalog["factions"])
     algorithms = args.algorithm or ["cp-sat"]

@@ -14,8 +14,11 @@ including Kush, Masaesyli, Nabataea and Saba.
 .venv/bin/python -m games.tw.rome2.summarize
 ```
 
-The default portfolio spends 35% of its budget in CP-SAT, then passes an independently
-validated layout to native nonlinear SCIP. It keeps the best income and tightest
+By default the optimizer runs to an optimality/infeasibility proof with no time
+cap. `--seconds` enables an optional per-case limit. The portfolio starts with a
+short CP-SAT search, then passes an independently validated layout to native
+nonlinear SCIP for an uncapped proof search. With an explicit limit it allocates
+35% to the first stage. It keeps the best income and tightest
 valid bound. `OPTIMAL` requires a solver proof; agreement alone is insufficient.
 CBC and OR-Tools SCIP use exact integer linearization. CP-SAT and native SCIP
 use integer products. Currency uses 1/10,000 units. Safe bounds and symmetry
