@@ -396,6 +396,13 @@ The checked-in [income table](reports/attila-income-comparison.csv) and
 81 optimal province/faction cases, with 27 unpriced building variants disclosed.
 The full generated layouts are in `benchmark-results/factions/income.json`.
 
+The [fertility comparison](reports/attila-fertility-comparison.csv) reoptimizes
+these factions at fertility 5 and 1 and ranks their mean income across the same
+three provinces. Its [inputs and proofs](reports/attila-fertility-comparison.json)
+record 162 optimal model cases. The fertility-1 Burgundian scenarios explicitly
+enable Harsh Sustenance (+15 food per qualifying region); their missing curing
+building metadata remains a limitation. Ties share rank, with gaps afterward.
+
 Automatically applied economic traits include ERE tariffs, Garamantian fertility,
 desert sanitation, Venedian farming bonuses, removal of farm order/squalor
 penalties, other wealth penalties, and

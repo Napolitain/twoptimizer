@@ -1,0 +1,3422 @@
+{
+  "source_code_commit": "9aa0efa4cdf1fe0afa4a6344c372a0344fcd9abc",
+  "source_sha256": {
+    "building_culture_variants_table.tsv": "6438a7e52babe196cfae1b52e4330159f48f119c5abd00a5b8d4d488e94a544c",
+    "building_effects_junction_table.tsv": "dd95c690b7f7ac4e05106ebcf309628ca15aa5a1056f85507ec258ec115e55a9",
+    "cultures_subcultures_table.tsv": "4e27ebec6dbd3c86f93f0b272602b0876333454b372a28925b3a51c604680cc7",
+    "factions_table.tsv": "623b48208dee338dd563f5b32a49d85bd929105e72caadb56518a6575b0644a0",
+    "online_buildings.json": "7958b74651ad52bb442e737f435079948103412f4770a818e68619fef654ac6e",
+    "online_factions.json": "a087b6305d9bd5a3ca831a84f3261ed16ae1dd9a283169a553ef145a7adbaffe",
+    "online_modifiers.json": "1b96106a9fbbfd616fdcf200bfecdc0772c48452eaf93bb06863ee2b22e0075e",
+    "provinces.tsv": "fa9b36e5ddda75fb6fa31b96218a555406d4b0047c2bf93ea0fcbbe1fa159905",
+    "region_to_provinces_junctions_table.tsv": "f11adfa9d715e7048f1bbf3a74a6c9f64b4292ebf40075f841d9ade0bfb21770",
+    "regions.tsv": "3bc3556d1ec349e22bf75b7ff928a1b597e77e40b6b85a3f02b84418b304d6b4",
+    "start_pos_region_slot_templates_table.tsv": "12f34565345c74b4c432d71da7f4f8586c52c0f51723f31aa8f2efba0cbbf4d6"
+  },
+  "objective": "recurring_net_income",
+  "rank_method": "Competition ranking by equally weighted mean across Aegyptus, Thracia, Germania; ties within 0.000001 share rank, subsequent ranks have gaps.",
+  "settings": {
+    "fertilities": [
+      5,
+      1
+    ],
+    "religion": "CHRIST_ORTHODOX",
+    "city_level": 4,
+    "military_buildings": false,
+    "technologies": "all imported minus disabled legacy technologies",
+    "baseline_tax_percent": 100,
+    "corruption_percent": 0,
+    "external_trade_and_tribute": 0,
+    "treasury_interest": "excluded",
+    "provinces": "independent scenarios with one owned capital each"
+  },
+  "burgundian_condition": {
+    "description": "Harsh Sustenance enabled at fertility 1 (Meagre, below Poor=2)",
+    "sources": [
+      "https://twdatabase.com/attila/climate-change",
+      "https://steamcommunity.com/sharedfiles/filedetails/?id=669004766"
+    ],
+    "base_model_food_bonus_per_region": 15,
+    "enabled_at_fertility_1": true,
+    "enabled_at_fertility_5": false,
+    "unconditional_low_mean": 14233.276666666667
+  },
+  "limitations": "Same incomplete verified building catalog as the fertility-5 benchmark; no full-campaign ranking. Huns and White Huns excluded. Burgundian curing buildings remain outside the priced catalog.",
+  "status": "All 162 compared faction/province/level cases have model optimality proofs; 3 additional Burgundian baseline cases are retained in the source artifacts.",
+  "rows": [
+    {
+      "faction_id": "att_fact_garamantes",
+      "civilization": "Garamantians",
+      "mean_income_fertility_5": 27289.465,
+      "mean_income_fertility_1": 20642.001667,
+      "decline_percent": 24.3591,
+      "rank_fertility_5": 1,
+      "Aegyptus_fertility_5": 25993.465,
+      "Thracia_fertility_5": 26700.715,
+      "Germania_fertility_5": 29174.215,
+      "rank_fertility_1": 1,
+      "Aegyptus_fertility_1": 19843.465,
+      "Thracia_fertility_1": 19933.315000000002,
+      "Germania_fertility_1": 22149.225,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_axum",
+      "civilization": "Aksum",
+      "mean_income_fertility_5": 25037.43,
+      "mean_income_fertility_1": 20526.9375,
+      "decline_percent": 18.015,
+      "rank_fertility_5": 3,
+      "Aegyptus_fertility_5": 23547.61,
+      "Thracia_fertility_5": 24586.96,
+      "Germania_fertility_5": 26977.72,
+      "rank_fertility_1": 2,
+      "Aegyptus_fertility_1": 19793.225,
+      "Thracia_fertility_1": 19638.362500000003,
+      "Germania_fertility_1": 22149.225,
+      "rank_improvement_at_fertility_1": 1
+    },
+    {
+      "faction_id": "att_fact_himyar",
+      "civilization": "Himyar",
+      "mean_income_fertility_5": 25037.43,
+      "mean_income_fertility_1": 20526.9375,
+      "decline_percent": 18.015,
+      "rank_fertility_5": 3,
+      "Aegyptus_fertility_5": 23547.61,
+      "Thracia_fertility_5": 24586.96,
+      "Germania_fertility_5": 26977.72,
+      "rank_fertility_1": 2,
+      "Aegyptus_fertility_1": 19793.225,
+      "Thracia_fertility_1": 19638.362500000003,
+      "Germania_fertility_1": 22149.225,
+      "rank_improvement_at_fertility_1": 1
+    },
+    {
+      "faction_id": "att_fact_lakhmids",
+      "civilization": "Lakhmids",
+      "mean_income_fertility_5": 25037.43,
+      "mean_income_fertility_1": 20526.9375,
+      "decline_percent": 18.015,
+      "rank_fertility_5": 3,
+      "Aegyptus_fertility_5": 23547.61,
+      "Thracia_fertility_5": 24586.96,
+      "Germania_fertility_5": 26977.72,
+      "rank_fertility_1": 2,
+      "Aegyptus_fertility_1": 19793.225,
+      "Thracia_fertility_1": 19638.362500000003,
+      "Germania_fertility_1": 22149.225,
+      "rank_improvement_at_fertility_1": 1
+    },
+    {
+      "faction_id": "att_fact_tanukhids",
+      "civilization": "Tanukhids",
+      "mean_income_fertility_5": 25037.43,
+      "mean_income_fertility_1": 20526.9375,
+      "decline_percent": 18.015,
+      "rank_fertility_5": 3,
+      "Aegyptus_fertility_5": 23547.61,
+      "Thracia_fertility_5": 24586.96,
+      "Germania_fertility_5": 26977.72,
+      "rank_fertility_1": 2,
+      "Aegyptus_fertility_1": 19793.225,
+      "Thracia_fertility_1": 19638.362500000003,
+      "Germania_fertility_1": 22149.225,
+      "rank_improvement_at_fertility_1": 1
+    },
+    {
+      "faction_id": "att_fact_sassanid_empire",
+      "civilization": "Sassanid Empire",
+      "mean_income_fertility_5": 24180.243333,
+      "mean_income_fertility_1": 19710.296667,
+      "decline_percent": 18.4859,
+      "rank_fertility_5": 8,
+      "Aegyptus_fertility_5": 23245.645000000004,
+      "Thracia_fertility_5": 23768.395000000004,
+      "Germania_fertility_5": 25526.690000000002,
+      "rank_fertility_1": 6,
+      "Aegyptus_fertility_1": 19271.575,
+      "Thracia_fertility_1": 18993.595,
+      "Germania_fertility_1": 20865.72,
+      "rank_improvement_at_fertility_1": 2
+    },
+    {
+      "faction_id": "att_fact_western_roman_empire",
+      "civilization": "Western Roman Empire",
+      "mean_income_fertility_5": 25169.341667,
+      "mean_income_fertility_1": 17906.1,
+      "decline_percent": 28.8575,
+      "rank_fertility_5": 2,
+      "Aegyptus_fertility_5": 24581.0,
+      "Thracia_fertility_5": 24691.0,
+      "Germania_fertility_5": 26236.025,
+      "rank_fertility_1": 7,
+      "Aegyptus_fertility_1": 18514.675,
+      "Thracia_fertility_1": 17661.175,
+      "Germania_fertility_1": 17542.45,
+      "rank_improvement_at_fertility_1": -5
+    },
+    {
+      "faction_id": "att_fact_eastern_roman_empire",
+      "civilization": "Eastern Roman Empire",
+      "mean_income_fertility_5": 24538.354167,
+      "mean_income_fertility_1": 17606.25,
+      "decline_percent": 28.2501,
+      "rank_fertility_5": 7,
+      "Aegyptus_fertility_5": 23778.125,
+      "Thracia_fertility_5": 24140.375,
+      "Germania_fertility_5": 25696.5625,
+      "rank_fertility_1": 8,
+      "Aegyptus_fertility_1": 17908.8125,
+      "Thracia_fertility_1": 17190.0625,
+      "Germania_fertility_1": 17719.875,
+      "rank_improvement_at_fertility_1": -1
+    },
+    {
+      "faction_id": "att_fact_votadini",
+      "civilization": "Caledonians",
+      "mean_income_fertility_5": 17554.096667,
+      "mean_income_fertility_1": 15428.314667,
+      "decline_percent": 12.1099,
+      "rank_fertility_5": 9,
+      "Aegyptus_fertility_5": 17437.21,
+      "Thracia_fertility_5": 16737.1,
+      "Germania_fertility_5": 18487.98,
+      "rank_fertility_1": 9,
+      "Aegyptus_fertility_1": 15311.824,
+      "Thracia_fertility_1": 14521.48,
+      "Germania_fertility_1": 16451.64,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_ebdani",
+      "civilization": "Ebdanians",
+      "mean_income_fertility_5": 17554.096667,
+      "mean_income_fertility_1": 15428.314667,
+      "decline_percent": 12.1099,
+      "rank_fertility_5": 9,
+      "Aegyptus_fertility_5": 17437.21,
+      "Thracia_fertility_5": 16737.1,
+      "Germania_fertility_5": 18487.98,
+      "rank_fertility_1": 9,
+      "Aegyptus_fertility_1": 15311.824,
+      "Thracia_fertility_1": 14521.48,
+      "Germania_fertility_1": 16451.64,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_picti",
+      "civilization": "Picts",
+      "mean_income_fertility_5": 17554.096667,
+      "mean_income_fertility_1": 15428.314667,
+      "decline_percent": 12.1099,
+      "rank_fertility_5": 9,
+      "Aegyptus_fertility_5": 17437.21,
+      "Thracia_fertility_5": 16737.1,
+      "Germania_fertility_5": 18487.98,
+      "rank_fertility_1": 9,
+      "Aegyptus_fertility_1": 15311.824,
+      "Thracia_fertility_1": 14521.48,
+      "Germania_fertility_1": 16451.64,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_burgundii",
+      "civilization": "Burgundians",
+      "mean_income_fertility_5": 16538.716667,
+      "mean_income_fertility_1": 15110.596667,
+      "decline_percent": 8.635,
+      "rank_fertility_5": 15,
+      "Aegyptus_fertility_5": 16874.8,
+      "Thracia_fertility_5": 15589.6,
+      "Germania_fertility_5": 17151.75,
+      "rank_fertility_1": 12,
+      "Aegyptus_fertility_1": 15773.2,
+      "Thracia_fertility_1": 14392.42,
+      "Germania_fertility_1": 15166.17,
+      "rank_improvement_at_fertility_1": 3
+    },
+    {
+      "faction_id": "att_fact_antes",
+      "civilization": "Anteans",
+      "mean_income_fertility_5": 17318.258333,
+      "mean_income_fertility_1": 14773.675,
+      "decline_percent": 14.6931,
+      "rank_fertility_5": 13,
+      "Aegyptus_fertility_5": 17627.15,
+      "Thracia_fertility_5": 16602.225,
+      "Germania_fertility_5": 17725.4,
+      "rank_fertility_1": 13,
+      "Aegyptus_fertility_1": 15552.550000000001,
+      "Thracia_fertility_1": 14010.050000000001,
+      "Germania_fertility_1": 14758.425,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_sclaveni",
+      "civilization": "Sclavenians",
+      "mean_income_fertility_5": 17318.258333,
+      "mean_income_fertility_1": 14773.675,
+      "decline_percent": 14.6931,
+      "rank_fertility_5": 13,
+      "Aegyptus_fertility_5": 17627.15,
+      "Thracia_fertility_5": 16602.225,
+      "Germania_fertility_5": 17725.4,
+      "rank_fertility_1": 13,
+      "Aegyptus_fertility_1": 15552.550000000001,
+      "Thracia_fertility_1": 14010.050000000001,
+      "Germania_fertility_1": 14758.425,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_alamanni",
+      "civilization": "Alamans",
+      "mean_income_fertility_5": 16538.716667,
+      "mean_income_fertility_1": 14233.276667,
+      "decline_percent": 13.9397,
+      "rank_fertility_5": 15,
+      "Aegyptus_fertility_5": 16874.8,
+      "Thracia_fertility_5": 15589.6,
+      "Germania_fertility_5": 17151.75,
+      "rank_fertility_1": 15,
+      "Aegyptus_fertility_1": 14682.399999999998,
+      "Thracia_fertility_1": 13596.460000000001,
+      "Germania_fertility_1": 14420.970000000001,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_alani",
+      "civilization": "Alans",
+      "mean_income_fertility_5": 16538.716667,
+      "mean_income_fertility_1": 14233.276667,
+      "decline_percent": 13.9397,
+      "rank_fertility_5": 15,
+      "Aegyptus_fertility_5": 16874.8,
+      "Thracia_fertility_5": 15589.6,
+      "Germania_fertility_5": 17151.75,
+      "rank_fertility_1": 15,
+      "Aegyptus_fertility_1": 14682.399999999998,
+      "Thracia_fertility_1": 13596.460000000001,
+      "Germania_fertility_1": 14420.97,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_dani",
+      "civilization": "Danes",
+      "mean_income_fertility_5": 16538.716667,
+      "mean_income_fertility_1": 14233.276667,
+      "decline_percent": 13.9397,
+      "rank_fertility_5": 15,
+      "Aegyptus_fertility_5": 16874.8,
+      "Thracia_fertility_5": 15589.6,
+      "Germania_fertility_5": 17151.75,
+      "rank_fertility_1": 15,
+      "Aegyptus_fertility_1": 14682.399999999998,
+      "Thracia_fertility_1": 13596.460000000001,
+      "Germania_fertility_1": 14420.97,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_franci",
+      "civilization": "Franks",
+      "mean_income_fertility_5": 16538.716667,
+      "mean_income_fertility_1": 14233.276667,
+      "decline_percent": 13.9397,
+      "rank_fertility_5": 15,
+      "Aegyptus_fertility_5": 16874.8,
+      "Thracia_fertility_5": 15589.6,
+      "Germania_fertility_5": 17151.75,
+      "rank_fertility_1": 15,
+      "Aegyptus_fertility_1": 14682.399999999998,
+      "Thracia_fertility_1": 13596.460000000001,
+      "Germania_fertility_1": 14420.970000000001,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_gauti",
+      "civilization": "Geats",
+      "mean_income_fertility_5": 16538.716667,
+      "mean_income_fertility_1": 14233.276667,
+      "decline_percent": 13.9397,
+      "rank_fertility_5": 15,
+      "Aegyptus_fertility_5": 16874.8,
+      "Thracia_fertility_5": 15589.6,
+      "Germania_fertility_5": 17151.75,
+      "rank_fertility_1": 15,
+      "Aegyptus_fertility_1": 14682.399999999998,
+      "Thracia_fertility_1": 13596.460000000001,
+      "Germania_fertility_1": 14420.97,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_iuti",
+      "civilization": "Jutes",
+      "mean_income_fertility_5": 16538.716667,
+      "mean_income_fertility_1": 14233.276667,
+      "decline_percent": 13.9397,
+      "rank_fertility_5": 15,
+      "Aegyptus_fertility_5": 16874.8,
+      "Thracia_fertility_5": 15589.6,
+      "Germania_fertility_5": 17151.75,
+      "rank_fertility_1": 15,
+      "Aegyptus_fertility_1": 14682.399999999998,
+      "Thracia_fertility_1": 13596.460000000001,
+      "Germania_fertility_1": 14420.97,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_langobardi",
+      "civilization": "Langobards",
+      "mean_income_fertility_5": 16538.716667,
+      "mean_income_fertility_1": 14233.276667,
+      "decline_percent": 13.9397,
+      "rank_fertility_5": 15,
+      "Aegyptus_fertility_5": 16874.8,
+      "Thracia_fertility_5": 15589.6,
+      "Germania_fertility_5": 17151.75,
+      "rank_fertility_1": 15,
+      "Aegyptus_fertility_1": 14682.399999999998,
+      "Thracia_fertility_1": 13596.460000000001,
+      "Germania_fertility_1": 14420.970000000001,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_ostrogothi",
+      "civilization": "Ostrogoths",
+      "mean_income_fertility_5": 16538.716667,
+      "mean_income_fertility_1": 14233.276667,
+      "decline_percent": 13.9397,
+      "rank_fertility_5": 15,
+      "Aegyptus_fertility_5": 16874.8,
+      "Thracia_fertility_5": 15589.6,
+      "Germania_fertility_5": 17151.75,
+      "rank_fertility_1": 15,
+      "Aegyptus_fertility_1": 14682.399999999998,
+      "Thracia_fertility_1": 13596.460000000001,
+      "Germania_fertility_1": 14420.97,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_saxones",
+      "civilization": "Saxons",
+      "mean_income_fertility_5": 16538.716667,
+      "mean_income_fertility_1": 14233.276667,
+      "decline_percent": 13.9397,
+      "rank_fertility_5": 15,
+      "Aegyptus_fertility_5": 16874.8,
+      "Thracia_fertility_5": 15589.6,
+      "Germania_fertility_5": 17151.75,
+      "rank_fertility_1": 15,
+      "Aegyptus_fertility_1": 14682.399999999998,
+      "Thracia_fertility_1": 13596.460000000001,
+      "Germania_fertility_1": 14420.97,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_suebi",
+      "civilization": "Suebians",
+      "mean_income_fertility_5": 16538.716667,
+      "mean_income_fertility_1": 14233.276667,
+      "decline_percent": 13.9397,
+      "rank_fertility_5": 15,
+      "Aegyptus_fertility_5": 16874.8,
+      "Thracia_fertility_5": 15589.6,
+      "Germania_fertility_5": 17151.75,
+      "rank_fertility_1": 15,
+      "Aegyptus_fertility_1": 14682.399999999998,
+      "Thracia_fertility_1": 13596.460000000001,
+      "Germania_fertility_1": 14420.970000000001,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_vandali",
+      "civilization": "Vandals",
+      "mean_income_fertility_5": 16538.716667,
+      "mean_income_fertility_1": 14233.276667,
+      "decline_percent": 13.9397,
+      "rank_fertility_5": 15,
+      "Aegyptus_fertility_5": 16874.8,
+      "Thracia_fertility_5": 15589.6,
+      "Germania_fertility_5": 17151.75,
+      "rank_fertility_1": 15,
+      "Aegyptus_fertility_1": 14682.399999999998,
+      "Thracia_fertility_1": 13596.460000000001,
+      "Germania_fertility_1": 14420.97,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_visigothi",
+      "civilization": "Visigoths",
+      "mean_income_fertility_5": 16538.716667,
+      "mean_income_fertility_1": 14233.276667,
+      "decline_percent": 13.9397,
+      "rank_fertility_5": 15,
+      "Aegyptus_fertility_5": 16874.8,
+      "Thracia_fertility_5": 15589.6,
+      "Germania_fertility_5": 17151.75,
+      "rank_fertility_1": 15,
+      "Aegyptus_fertility_1": 14682.399999999998,
+      "Thracia_fertility_1": 13596.460000000001,
+      "Germania_fertility_1": 14420.97,
+      "rank_improvement_at_fertility_1": 0
+    },
+    {
+      "faction_id": "att_fact_venedi",
+      "civilization": "Venedians",
+      "mean_income_fertility_5": 17529.0,
+      "mean_income_fertility_1": 13050.166667,
+      "decline_percent": 25.551,
+      "rank_fertility_5": 12,
+      "Aegyptus_fertility_5": 17050.75,
+      "Thracia_fertility_5": 16739.725,
+      "Germania_fertility_5": 18796.525,
+      "rank_fertility_1": 27,
+      "Aegyptus_fertility_1": 12991.75,
+      "Thracia_fertility_1": 12466.5,
+      "Germania_fertility_1": 13692.25,
+      "rank_improvement_at_fertility_1": -15
+    }
+  ],
+  "low_fertility_cases": [
+    {
+      "id": "att_fact_axum",
+      "civilization": "Aksum",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 19793.225,
+          "bound": 19793.225000000002,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "db3d5e2e086e64632d07bcbf8170bb7b60ea94227a71d994f16dfc0b0f1e3f4e",
+          "finances": {
+            "wealth": 15032.5,
+            "tax_bonus_income": 4960.725,
+            "corruption_loss": 0.0,
+            "tax_income": 19993.225,
+            "building_upkeep": 200.0,
+            "net_income": 19793.225,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_fish_4",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_civic_court_palace_4",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_livestock_camels_4",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_fish_4",
+            "att_reg_aegyptus_berenice_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_eastern_sassanid_water_baths_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_livestock_camels_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_eastern_sassanid_water_storage_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 19638.362500000003,
+          "bound": 19638.3625,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "3b3719fe3c033f48a6f898629078dbd75b1394d70759b1c397a7b4e04de99ef5",
+          "finances": {
+            "wealth": 16128.75,
+            "tax_bonus_income": 3709.6124999999993,
+            "corruption_loss": 0.0,
+            "tax_income": 19838.3625,
+            "building_upkeep": 200.0,
+            "net_income": 19638.3625,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_trade_4",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_civic_market_food_4",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_all_livestock_camels_4",
+            "att_reg_thracia_marcianopolis_att_bld_all_livestock_sheep_4",
+            "att_reg_thracia_marcianopolis_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_eastern_sassanid_water_baths_4",
+            "att_reg_thracia_trimontium_att_bld_all_livestock_camels_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_eastern_sassanid_water_storage_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 22149.225,
+          "bound": 22149.225000000002,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "208ebf1e7988b5e8c9faf9ad98e7e611f4fbdb52b669a2363f76ca586a2b92ca",
+          "finances": {
+            "wealth": 18007.5,
+            "tax_bonus_income": 4141.725,
+            "corruption_loss": 0.0,
+            "tax_income": 22149.225,
+            "building_upkeep": 0.0,
+            "net_income": 22149.225,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_all_industry_minor_weavery_4",
+            "att_reg_germania_aregelia_att_bld_all_livestock_camels_4",
+            "att_reg_germania_aregelia_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_germania_lupfurdum_att_bld_all_industry_minor_weavery_4",
+            "att_reg_germania_lupfurdum_att_bld_all_livestock_camels_4",
+            "att_reg_germania_lupfurdum_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_germania_uburzis_att_bld_all_industry_major_mosaic_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_civic_market_slave_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_water_baths_3",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_water_storage_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_alamanni",
+      "civilization": "Alamans",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 14682.399999999998,
+          "bound": 14682.4,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "663553c6879acd67f5872128142fcf0daf9dc7cabbc92e8437212047039ddb81",
+          "finances": {
+            "wealth": 13780.0,
+            "tax_bonus_income": 1102.4000000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 14882.400000000001,
+            "building_upkeep": 200.0,
+            "net_income": 14682.400000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 13596.460000000001,
+          "bound": 13596.460000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "c6ee663bb077a9f7c2d205c722c4f9ff8d61dcb09ee70a06a803f8a3ee71c2e3",
+          "finances": {
+            "wealth": 12774.5,
+            "tax_bonus_income": 1021.9600000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 13796.460000000001,
+            "building_upkeep": 200.0,
+            "net_income": 13596.460000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_fish_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_3",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_2",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 14420.970000000001,
+          "bound": 14420.970000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "5b30abaacb449742f30075bad240446005f0f7ac7521f58dde9084490c00a7ed",
+          "finances": {
+            "wealth": 13352.75,
+            "tax_bonus_income": 1068.2200000000003,
+            "corruption_loss": 0.0,
+            "tax_income": 14420.970000000001,
+            "building_upkeep": 0.0,
+            "net_income": 14420.970000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_farm_chickens_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_bonecarver_3",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_farm_chickens_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_slaves_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_alani",
+      "civilization": "Alans",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 14682.399999999998,
+          "bound": 14682.4,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "663553c6879acd67f5872128142fcf0daf9dc7cabbc92e8437212047039ddb81",
+          "finances": {
+            "wealth": 13780.0,
+            "tax_bonus_income": 1102.4000000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 14882.400000000001,
+            "building_upkeep": 200.0,
+            "net_income": 14682.400000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 13596.460000000001,
+          "bound": 13596.460000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "c6ee663bb077a9f7c2d205c722c4f9ff8d61dcb09ee70a06a803f8a3ee71c2e3",
+          "finances": {
+            "wealth": 12774.5,
+            "tax_bonus_income": 1021.9600000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 13796.460000000001,
+            "building_upkeep": 200.0,
+            "net_income": 13596.460000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_fish_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_3",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_2",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 14420.97,
+          "bound": 14420.970000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "e13c2191395b725dfee1930658385cef36ab1127816b2c161b132117a015f5b1",
+          "finances": {
+            "wealth": 13352.75,
+            "tax_bonus_income": 1068.2200000000003,
+            "corruption_loss": 0.0,
+            "tax_income": 14420.970000000001,
+            "building_upkeep": 0.0,
+            "net_income": 14420.970000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_farm_chickens_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_bonecarver_3",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_farm_chickens_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_slaves_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_antes",
+      "civilization": "Anteans",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 15552.550000000001,
+          "bound": 15552.550000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "34c52f9b04c71658aa1f6e1f263f30b289bd5e52f140d311bd1403b5670ca880",
+          "finances": {
+            "wealth": 14320.5,
+            "tax_bonus_income": 1432.0500000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 15752.55,
+            "building_upkeep": 200.0,
+            "net_income": 15552.55,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_farm_chickens_3",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 14010.050000000001,
+          "bound": 14010.050000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "2106be77c22ab72bed2020a4f20b26fdb35630b569c2e6c5c800ba8ce918daf9",
+          "finances": {
+            "wealth": 13645.5,
+            "tax_bonus_income": 1364.5500000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 15010.05,
+            "building_upkeep": 1000.0,
+            "net_income": 14010.05,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_trade_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_3",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_3",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_industry_bonecarver_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 14758.425,
+          "bound": 14758.425000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "cd6dfbeb5e988d3b63852f1e18f5ade34a1f6ba4de9bdfdf5a73a44b283ad37c",
+          "finances": {
+            "wealth": 13416.75,
+            "tax_bonus_income": 1341.6750000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 14758.425,
+            "building_upkeep": 0.0,
+            "net_income": 14758.425,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_farm_chickens_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_farm_chickens_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_slaves_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_burgundii",
+      "civilization": "Burgundians",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 15773.2,
+          "bound": 15773.2,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "1a5ee8b8178fc7d209ee084f16007580aea28bb942a5138e713b3bbbd2a47846",
+          "finances": {
+            "wealth": 14790.0,
+            "tax_bonus_income": 1183.2000000000007,
+            "corruption_loss": 0.0,
+            "tax_income": 15973.2,
+            "building_upkeep": 200.0,
+            "net_income": 15773.2,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_farm_livestock_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_chickens_2",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {
+            "campaign": {
+              "poor_fertility_regions": [
+                "att_reg_aegyptus_alexandria",
+                "att_reg_aegyptus_berenice",
+                "att_reg_aegyptus_oxyrhynchus"
+              ]
+            }
+          }
+        },
+        {
+          "province": "Thracia",
+          "income": 14392.42,
+          "bound": 14392.42,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "746f9a23bea05675814a947c309477511683912f6ae224945f9d6b2f8ae401e8",
+          "finances": {
+            "wealth": 13511.5,
+            "tax_bonus_income": 1080.9200000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 14592.42,
+            "building_upkeep": 200.0,
+            "net_income": 14392.42,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_trade_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_3",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_2",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {
+            "campaign": {
+              "poor_fertility_regions": [
+                "att_reg_thracia_constantinopolis",
+                "att_reg_thracia_marcianopolis",
+                "att_reg_thracia_trimontium"
+              ]
+            }
+          }
+        },
+        {
+          "province": "Germania",
+          "income": 15166.17,
+          "bound": 15166.17,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "a19eb545e716e4c592ec29b414b4352d0c17c974de5485a5f65f5f2e4850c4fd",
+          "finances": {
+            "wealth": 14042.75,
+            "tax_bonus_income": 1123.42,
+            "corruption_loss": 0.0,
+            "tax_income": 15166.17,
+            "building_upkeep": 0.0,
+            "net_income": 15166.17,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_farm_chickens_2",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_bonecarver_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_farm_chickens_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_slaves_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {
+            "campaign": {
+              "poor_fertility_regions": [
+                "att_reg_germania_aregelia",
+                "att_reg_germania_lupfurdum",
+                "att_reg_germania_uburzis"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "att_fact_votadini",
+      "civilization": "Caledonians",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 15311.824,
+          "bound": 15311.824,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "cba0210cdcd9e39812fd0ec2afa897eeec7964196c9e8a923f02f6ad2032c673",
+          "finances": {
+            "wealth": 14362.8,
+            "tax_bonus_income": 1149.024,
+            "corruption_loss": 0.0,
+            "tax_income": 15511.824,
+            "building_upkeep": 200.0,
+            "net_income": 15311.824,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_berenice_att_bld_celtic_farm_livestock_3",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_livestock_2",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 14521.48,
+          "bound": 14521.48,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "b2c8243d0365579fd942be9460ef9a91274342c78429be4b892c4dfb85a23d22",
+          "finances": {
+            "wealth": 13631.0,
+            "tax_bonus_income": 1090.4799999999998,
+            "corruption_loss": 0.0,
+            "tax_income": 14721.48,
+            "building_upkeep": 200.0,
+            "net_income": 14521.48,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_trade_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_general_5_legendary_celts",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_5_legendary_celts",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_marcianopolis_att_bld_celtic_farm_livestock_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 16451.64,
+          "bound": 16451.64,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "95afa932df286f17eb7663b9f4f54745389f4d53deb7662e1f237bfd8b535542",
+          "finances": {
+            "wealth": 15233.0,
+            "tax_bonus_income": 1218.6399999999994,
+            "corruption_loss": 0.0,
+            "tax_income": 16451.64,
+            "building_upkeep": 0.0,
+            "net_income": 16451.64,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_aregelia_att_bld_celtic_farm_livestock_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_celtic_farm_livestock_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_5_legendary_celts",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_5_legendary_celts",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_dani",
+      "civilization": "Danes",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 14682.399999999998,
+          "bound": 14682.4,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "663553c6879acd67f5872128142fcf0daf9dc7cabbc92e8437212047039ddb81",
+          "finances": {
+            "wealth": 13780.0,
+            "tax_bonus_income": 1102.4000000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 14882.400000000001,
+            "building_upkeep": 200.0,
+            "net_income": 14682.400000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 13596.460000000001,
+          "bound": 13596.460000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "c6ee663bb077a9f7c2d205c722c4f9ff8d61dcb09ee70a06a803f8a3ee71c2e3",
+          "finances": {
+            "wealth": 12774.5,
+            "tax_bonus_income": 1021.9600000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 13796.460000000001,
+            "building_upkeep": 200.0,
+            "net_income": 13596.460000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_fish_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_3",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_2",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 14420.97,
+          "bound": 14420.970000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "e13c2191395b725dfee1930658385cef36ab1127816b2c161b132117a015f5b1",
+          "finances": {
+            "wealth": 13352.75,
+            "tax_bonus_income": 1068.2200000000003,
+            "corruption_loss": 0.0,
+            "tax_income": 14420.970000000001,
+            "building_upkeep": 0.0,
+            "net_income": 14420.970000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_farm_chickens_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_bonecarver_3",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_farm_chickens_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_slaves_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_eastern_roman_empire",
+      "civilization": "Eastern Roman Empire",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 17908.8125,
+          "bound": 17908.8125,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "57e9976a4a3ee667a1d6cc19990070c31caa67600940280bc0bf94f358f1d461",
+          "finances": {
+            "wealth": 15833.75,
+            "tax_bonus_income": 2375.0625,
+            "corruption_loss": 0.0,
+            "tax_income": 18208.8125,
+            "building_upkeep": 300.0,
+            "net_income": 17908.8125,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_fish_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_alexandria_att_bld_roman_civic_market_food_4",
+            "att_reg_aegyptus_alexandria_att_bld_roman_east_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_roman_east_civic_governor_5_legendary",
+            "att_reg_aegyptus_alexandria_att_bld_roman_water_aqueducts_3",
+            "att_reg_aegyptus_berenice_att_bld_all_livestock_horses_4",
+            "att_reg_aegyptus_berenice_att_bld_all_livestock_sheep_4",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_fish_4",
+            "att_reg_aegyptus_berenice_att_bld_roman_east_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_livestock_sheep_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_roman_east_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_roman_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 17190.0625,
+          "bound": 17190.0625,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "8dfccb861daaea37d57262f14a7ec09644961016ff53d646914a167ea9c22627",
+          "finances": {
+            "wealth": 15208.75,
+            "tax_bonus_income": 2281.3125,
+            "corruption_loss": 0.0,
+            "tax_income": 17490.0625,
+            "building_upkeep": 300.0,
+            "net_income": 17190.0625,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_fish_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_constantinopolis_att_bld_roman_civic_market_food_4",
+            "att_reg_thracia_constantinopolis_att_bld_roman_east_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_roman_east_civic_governor_5_legendary",
+            "att_reg_thracia_constantinopolis_att_bld_roman_water_aqueducts_3",
+            "att_reg_thracia_marcianopolis_att_bld_all_livestock_cows_4",
+            "att_reg_thracia_marcianopolis_att_bld_all_livestock_horses_4",
+            "att_reg_thracia_marcianopolis_att_bld_all_livestock_sheep_4",
+            "att_reg_thracia_marcianopolis_att_bld_roman_east_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_all_livestock_sheep_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_roman_east_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_roman_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 17719.875,
+          "bound": 17719.875,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "1f3e1e3d7cb06f86f639c4d81481505326ea451167887630311ca3c90a8dca54",
+          "finances": {
+            "wealth": 15582.5,
+            "tax_bonus_income": 2337.375,
+            "corruption_loss": 0.0,
+            "tax_income": 17919.875,
+            "building_upkeep": 200.0,
+            "net_income": 17719.875,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_all_livestock_cows_4",
+            "att_reg_germania_aregelia_att_bld_all_livestock_sheep_4",
+            "att_reg_germania_aregelia_att_bld_roman_east_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_roman_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_all_livestock_cows_4",
+            "att_reg_germania_lupfurdum_att_bld_all_livestock_horses_4",
+            "att_reg_germania_lupfurdum_att_bld_all_livestock_sheep_4",
+            "att_reg_germania_lupfurdum_att_bld_roman_east_city_minor_generic_4",
+            "att_reg_germania_uburzis_att_bld_all_industry_major_pottery_3",
+            "att_reg_germania_uburzis_att_bld_roman_civic_market_food_4",
+            "att_reg_germania_uburzis_att_bld_roman_civic_market_wine_4",
+            "att_reg_germania_uburzis_att_bld_roman_east_city_major_4",
+            "att_reg_germania_uburzis_att_bld_roman_east_civic_governor_5_legendary",
+            "att_reg_germania_uburzis_att_bld_roman_water_aqueducts_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_ebdani",
+      "civilization": "Ebdanians",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 15311.824,
+          "bound": 15311.824,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "cba0210cdcd9e39812fd0ec2afa897eeec7964196c9e8a923f02f6ad2032c673",
+          "finances": {
+            "wealth": 14362.8,
+            "tax_bonus_income": 1149.024,
+            "corruption_loss": 0.0,
+            "tax_income": 15511.824,
+            "building_upkeep": 200.0,
+            "net_income": 15311.824,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_berenice_att_bld_celtic_farm_livestock_3",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_livestock_2",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 14521.48,
+          "bound": 14521.48,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "b2c8243d0365579fd942be9460ef9a91274342c78429be4b892c4dfb85a23d22",
+          "finances": {
+            "wealth": 13631.0,
+            "tax_bonus_income": 1090.4799999999998,
+            "corruption_loss": 0.0,
+            "tax_income": 14721.48,
+            "building_upkeep": 200.0,
+            "net_income": 14521.48,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_trade_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_general_5_legendary_celts",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_5_legendary_celts",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_marcianopolis_att_bld_celtic_farm_livestock_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 16451.64,
+          "bound": 16451.64,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "95afa932df286f17eb7663b9f4f54745389f4d53deb7662e1f237bfd8b535542",
+          "finances": {
+            "wealth": 15233.0,
+            "tax_bonus_income": 1218.6399999999994,
+            "corruption_loss": 0.0,
+            "tax_income": 16451.64,
+            "building_upkeep": 0.0,
+            "net_income": 16451.64,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_aregelia_att_bld_celtic_farm_livestock_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_celtic_farm_livestock_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_5_legendary_celts",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_5_legendary_celts",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_franci",
+      "civilization": "Franks",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 14682.399999999998,
+          "bound": 14682.4,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "663553c6879acd67f5872128142fcf0daf9dc7cabbc92e8437212047039ddb81",
+          "finances": {
+            "wealth": 13780.0,
+            "tax_bonus_income": 1102.4000000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 14882.400000000001,
+            "building_upkeep": 200.0,
+            "net_income": 14682.400000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 13596.460000000001,
+          "bound": 13596.460000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "c6ee663bb077a9f7c2d205c722c4f9ff8d61dcb09ee70a06a803f8a3ee71c2e3",
+          "finances": {
+            "wealth": 12774.5,
+            "tax_bonus_income": 1021.9600000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 13796.460000000001,
+            "building_upkeep": 200.0,
+            "net_income": 13596.460000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_fish_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_3",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_2",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 14420.970000000001,
+          "bound": 14420.970000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "5b30abaacb449742f30075bad240446005f0f7ac7521f58dde9084490c00a7ed",
+          "finances": {
+            "wealth": 13352.75,
+            "tax_bonus_income": 1068.2200000000003,
+            "corruption_loss": 0.0,
+            "tax_income": 14420.970000000001,
+            "building_upkeep": 0.0,
+            "net_income": 14420.970000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_farm_chickens_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_bonecarver_3",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_farm_chickens_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_slaves_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_garamantes",
+      "civilization": "Garamantians",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 19843.465,
+          "bound": 19843.465,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "e4f57b306d9ea4e86abd67662d76019e462dcad50cac30728c121f2979fefa0a",
+          "finances": {
+            "wealth": 16295.5,
+            "tax_bonus_income": 3747.965,
+            "corruption_loss": 0.0,
+            "tax_income": 20043.465,
+            "building_upkeep": 200.0,
+            "net_income": 19843.465,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_industry_major_mosaic_3",
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_fish_4",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_livestock_sheep_4",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_fish_4",
+            "att_reg_aegyptus_berenice_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_eastern_sassanid_water_baths_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_livestock_camels_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_eastern_sassanid_water_storage_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 19933.315000000002,
+          "bound": 19933.315,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "cb5a07dcf1512849c0b47a0f9bc111d55b851c86085e9c0df8eeece45eb676a9",
+          "finances": {
+            "wealth": 16490.5,
+            "tax_bonus_income": 3792.8150000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 20283.315000000002,
+            "building_upkeep": 350.0,
+            "net_income": 19933.315000000002,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_trade_4",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_civic_caravans_4",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_all_livestock_camels_4",
+            "att_reg_thracia_marcianopolis_att_bld_all_livestock_sheep_4",
+            "att_reg_thracia_marcianopolis_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_eastern_sassanid_water_minor_4",
+            "att_reg_thracia_trimontium_att_bld_all_livestock_camels_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_eastern_sassanid_water_storage_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 22149.225,
+          "bound": 22149.225000000002,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "fe4331788aa7d4933d72c3064098b6e98afa6c544d20a27b27cb71aba7f60a80",
+          "finances": {
+            "wealth": 18007.5,
+            "tax_bonus_income": 4141.725,
+            "corruption_loss": 0.0,
+            "tax_income": 22149.225,
+            "building_upkeep": 0.0,
+            "net_income": 22149.225,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_all_industry_minor_weavery_4",
+            "att_reg_germania_aregelia_att_bld_all_livestock_camels_4",
+            "att_reg_germania_aregelia_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_germania_lupfurdum_att_bld_all_industry_minor_weavery_4",
+            "att_reg_germania_lupfurdum_att_bld_all_livestock_camels_4",
+            "att_reg_germania_lupfurdum_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_germania_uburzis_att_bld_all_industry_major_mosaic_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_civic_market_slave_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_water_baths_3",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_water_storage_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_gauti",
+      "civilization": "Geats",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 14682.399999999998,
+          "bound": 14682.4,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "663553c6879acd67f5872128142fcf0daf9dc7cabbc92e8437212047039ddb81",
+          "finances": {
+            "wealth": 13780.0,
+            "tax_bonus_income": 1102.4000000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 14882.400000000001,
+            "building_upkeep": 200.0,
+            "net_income": 14682.400000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 13596.460000000001,
+          "bound": 13596.460000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "c6ee663bb077a9f7c2d205c722c4f9ff8d61dcb09ee70a06a803f8a3ee71c2e3",
+          "finances": {
+            "wealth": 12774.5,
+            "tax_bonus_income": 1021.9600000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 13796.460000000001,
+            "building_upkeep": 200.0,
+            "net_income": 13596.460000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_fish_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_3",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_2",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 14420.97,
+          "bound": 14420.970000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "e13c2191395b725dfee1930658385cef36ab1127816b2c161b132117a015f5b1",
+          "finances": {
+            "wealth": 13352.75,
+            "tax_bonus_income": 1068.2200000000003,
+            "corruption_loss": 0.0,
+            "tax_income": 14420.970000000001,
+            "building_upkeep": 0.0,
+            "net_income": 14420.970000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_farm_chickens_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_bonecarver_3",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_farm_chickens_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_slaves_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_himyar",
+      "civilization": "Himyar",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 19793.225,
+          "bound": 19793.225000000002,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "db3d5e2e086e64632d07bcbf8170bb7b60ea94227a71d994f16dfc0b0f1e3f4e",
+          "finances": {
+            "wealth": 15032.5,
+            "tax_bonus_income": 4960.725,
+            "corruption_loss": 0.0,
+            "tax_income": 19993.225,
+            "building_upkeep": 200.0,
+            "net_income": 19793.225,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_fish_4",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_civic_court_palace_4",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_livestock_camels_4",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_fish_4",
+            "att_reg_aegyptus_berenice_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_eastern_sassanid_water_baths_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_livestock_camels_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_eastern_sassanid_water_storage_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 19638.362500000003,
+          "bound": 19638.3625,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "3b3719fe3c033f48a6f898629078dbd75b1394d70759b1c397a7b4e04de99ef5",
+          "finances": {
+            "wealth": 16128.75,
+            "tax_bonus_income": 3709.6124999999993,
+            "corruption_loss": 0.0,
+            "tax_income": 19838.3625,
+            "building_upkeep": 200.0,
+            "net_income": 19638.3625,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_trade_4",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_civic_market_food_4",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_all_livestock_camels_4",
+            "att_reg_thracia_marcianopolis_att_bld_all_livestock_sheep_4",
+            "att_reg_thracia_marcianopolis_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_eastern_sassanid_water_baths_4",
+            "att_reg_thracia_trimontium_att_bld_all_livestock_camels_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_eastern_sassanid_water_storage_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 22149.225,
+          "bound": 22149.225000000002,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "208ebf1e7988b5e8c9faf9ad98e7e611f4fbdb52b669a2363f76ca586a2b92ca",
+          "finances": {
+            "wealth": 18007.5,
+            "tax_bonus_income": 4141.725,
+            "corruption_loss": 0.0,
+            "tax_income": 22149.225,
+            "building_upkeep": 0.0,
+            "net_income": 22149.225,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_all_industry_minor_weavery_4",
+            "att_reg_germania_aregelia_att_bld_all_livestock_camels_4",
+            "att_reg_germania_aregelia_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_germania_lupfurdum_att_bld_all_industry_minor_weavery_4",
+            "att_reg_germania_lupfurdum_att_bld_all_livestock_camels_4",
+            "att_reg_germania_lupfurdum_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_germania_uburzis_att_bld_all_industry_major_mosaic_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_civic_market_slave_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_water_baths_3",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_water_storage_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_iuti",
+      "civilization": "Jutes",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 14682.399999999998,
+          "bound": 14682.4,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "663553c6879acd67f5872128142fcf0daf9dc7cabbc92e8437212047039ddb81",
+          "finances": {
+            "wealth": 13780.0,
+            "tax_bonus_income": 1102.4000000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 14882.400000000001,
+            "building_upkeep": 200.0,
+            "net_income": 14682.400000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 13596.460000000001,
+          "bound": 13596.460000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "c6ee663bb077a9f7c2d205c722c4f9ff8d61dcb09ee70a06a803f8a3ee71c2e3",
+          "finances": {
+            "wealth": 12774.5,
+            "tax_bonus_income": 1021.9600000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 13796.460000000001,
+            "building_upkeep": 200.0,
+            "net_income": 13596.460000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_fish_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_3",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_2",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 14420.97,
+          "bound": 14420.970000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "e13c2191395b725dfee1930658385cef36ab1127816b2c161b132117a015f5b1",
+          "finances": {
+            "wealth": 13352.75,
+            "tax_bonus_income": 1068.2200000000003,
+            "corruption_loss": 0.0,
+            "tax_income": 14420.970000000001,
+            "building_upkeep": 0.0,
+            "net_income": 14420.970000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_farm_chickens_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_bonecarver_3",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_farm_chickens_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_slaves_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_lakhmids",
+      "civilization": "Lakhmids",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 19793.225,
+          "bound": 19793.225000000002,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "db3d5e2e086e64632d07bcbf8170bb7b60ea94227a71d994f16dfc0b0f1e3f4e",
+          "finances": {
+            "wealth": 15032.5,
+            "tax_bonus_income": 4960.725,
+            "corruption_loss": 0.0,
+            "tax_income": 19993.225,
+            "building_upkeep": 200.0,
+            "net_income": 19793.225,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_fish_4",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_civic_court_palace_4",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_livestock_camels_4",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_fish_4",
+            "att_reg_aegyptus_berenice_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_eastern_sassanid_water_baths_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_livestock_camels_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_eastern_sassanid_water_storage_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 19638.362500000003,
+          "bound": 19638.3625,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "3b3719fe3c033f48a6f898629078dbd75b1394d70759b1c397a7b4e04de99ef5",
+          "finances": {
+            "wealth": 16128.75,
+            "tax_bonus_income": 3709.6124999999993,
+            "corruption_loss": 0.0,
+            "tax_income": 19838.3625,
+            "building_upkeep": 200.0,
+            "net_income": 19638.3625,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_trade_4",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_civic_market_food_4",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_all_livestock_camels_4",
+            "att_reg_thracia_marcianopolis_att_bld_all_livestock_sheep_4",
+            "att_reg_thracia_marcianopolis_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_eastern_sassanid_water_baths_4",
+            "att_reg_thracia_trimontium_att_bld_all_livestock_camels_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_eastern_sassanid_water_storage_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 22149.225,
+          "bound": 22149.225000000002,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "208ebf1e7988b5e8c9faf9ad98e7e611f4fbdb52b669a2363f76ca586a2b92ca",
+          "finances": {
+            "wealth": 18007.5,
+            "tax_bonus_income": 4141.725,
+            "corruption_loss": 0.0,
+            "tax_income": 22149.225,
+            "building_upkeep": 0.0,
+            "net_income": 22149.225,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_all_industry_minor_weavery_4",
+            "att_reg_germania_aregelia_att_bld_all_livestock_camels_4",
+            "att_reg_germania_aregelia_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_germania_lupfurdum_att_bld_all_industry_minor_weavery_4",
+            "att_reg_germania_lupfurdum_att_bld_all_livestock_camels_4",
+            "att_reg_germania_lupfurdum_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_germania_uburzis_att_bld_all_industry_major_mosaic_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_civic_market_slave_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_water_baths_3",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_water_storage_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_langobardi",
+      "civilization": "Langobards",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 14682.399999999998,
+          "bound": 14682.4,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "663553c6879acd67f5872128142fcf0daf9dc7cabbc92e8437212047039ddb81",
+          "finances": {
+            "wealth": 13780.0,
+            "tax_bonus_income": 1102.4000000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 14882.400000000001,
+            "building_upkeep": 200.0,
+            "net_income": 14682.400000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 13596.460000000001,
+          "bound": 13596.460000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "c6ee663bb077a9f7c2d205c722c4f9ff8d61dcb09ee70a06a803f8a3ee71c2e3",
+          "finances": {
+            "wealth": 12774.5,
+            "tax_bonus_income": 1021.9600000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 13796.460000000001,
+            "building_upkeep": 200.0,
+            "net_income": 13596.460000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_fish_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_3",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_2",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 14420.970000000001,
+          "bound": 14420.970000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "5b30abaacb449742f30075bad240446005f0f7ac7521f58dde9084490c00a7ed",
+          "finances": {
+            "wealth": 13352.75,
+            "tax_bonus_income": 1068.2200000000003,
+            "corruption_loss": 0.0,
+            "tax_income": 14420.970000000001,
+            "building_upkeep": 0.0,
+            "net_income": 14420.970000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_farm_chickens_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_bonecarver_3",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_farm_chickens_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_slaves_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_ostrogothi",
+      "civilization": "Ostrogoths",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 14682.399999999998,
+          "bound": 14682.4,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "663553c6879acd67f5872128142fcf0daf9dc7cabbc92e8437212047039ddb81",
+          "finances": {
+            "wealth": 13780.0,
+            "tax_bonus_income": 1102.4000000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 14882.400000000001,
+            "building_upkeep": 200.0,
+            "net_income": 14682.400000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 13596.460000000001,
+          "bound": 13596.460000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "c6ee663bb077a9f7c2d205c722c4f9ff8d61dcb09ee70a06a803f8a3ee71c2e3",
+          "finances": {
+            "wealth": 12774.5,
+            "tax_bonus_income": 1021.9600000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 13796.460000000001,
+            "building_upkeep": 200.0,
+            "net_income": 13596.460000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_fish_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_3",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_2",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 14420.97,
+          "bound": 14420.970000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "e13c2191395b725dfee1930658385cef36ab1127816b2c161b132117a015f5b1",
+          "finances": {
+            "wealth": 13352.75,
+            "tax_bonus_income": 1068.2200000000003,
+            "corruption_loss": 0.0,
+            "tax_income": 14420.970000000001,
+            "building_upkeep": 0.0,
+            "net_income": 14420.970000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_farm_chickens_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_bonecarver_3",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_farm_chickens_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_slaves_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_picti",
+      "civilization": "Picts",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 15311.824,
+          "bound": 15311.824,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "cba0210cdcd9e39812fd0ec2afa897eeec7964196c9e8a923f02f6ad2032c673",
+          "finances": {
+            "wealth": 14362.8,
+            "tax_bonus_income": 1149.024,
+            "corruption_loss": 0.0,
+            "tax_income": 15511.824,
+            "building_upkeep": 200.0,
+            "net_income": 15311.824,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_berenice_att_bld_celtic_farm_livestock_3",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_livestock_2",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 14521.48,
+          "bound": 14521.48,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "b2c8243d0365579fd942be9460ef9a91274342c78429be4b892c4dfb85a23d22",
+          "finances": {
+            "wealth": 13631.0,
+            "tax_bonus_income": 1090.4799999999998,
+            "corruption_loss": 0.0,
+            "tax_income": 14721.48,
+            "building_upkeep": 200.0,
+            "net_income": 14521.48,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_trade_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_general_5_legendary_celts",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_5_legendary_celts",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_marcianopolis_att_bld_celtic_farm_livestock_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 16451.64,
+          "bound": 16451.64,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "95afa932df286f17eb7663b9f4f54745389f4d53deb7662e1f237bfd8b535542",
+          "finances": {
+            "wealth": 15233.0,
+            "tax_bonus_income": 1218.6399999999994,
+            "corruption_loss": 0.0,
+            "tax_income": 16451.64,
+            "building_upkeep": 0.0,
+            "net_income": 16451.64,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_aregelia_att_bld_celtic_farm_livestock_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_celtic_farm_livestock_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_5_legendary_celts",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_5_legendary_celts",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_sassanid_empire",
+      "civilization": "Sassanid Empire",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 19271.575,
+          "bound": 19271.575,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "f393c98a8382f36bedc2d99c9b70f0c61f71ac02b9ab3d4d39c2bd98f92bbaef",
+          "finances": {
+            "wealth": 15952.5,
+            "tax_bonus_income": 3669.0750000000003,
+            "corruption_loss": 0.0,
+            "tax_income": 19621.575,
+            "building_upkeep": 350.0,
+            "net_income": 19271.575,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_industry_major_pottery_4",
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_fish_4",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_livestock_camels_4",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_fish_4",
+            "att_reg_aegyptus_berenice_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_eastern_sassanid_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_livestock_camels_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_eastern_sassanid_water_baths_3"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 18993.595,
+          "bound": 18993.595,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "6698a3b3a3f96eb737804fa744b1148ef96811946d581cc644091f8faff93782",
+          "finances": {
+            "wealth": 15726.5,
+            "tax_bonus_income": 3617.0950000000003,
+            "corruption_loss": 0.0,
+            "tax_income": 19343.595,
+            "building_upkeep": 350.0,
+            "net_income": 18993.595,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_industry_major_pottery_4",
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_fish_4",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_all_livestock_camels_4",
+            "att_reg_thracia_marcianopolis_att_bld_all_livestock_sheep_4",
+            "att_reg_thracia_marcianopolis_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_eastern_sassanid_water_baths_2",
+            "att_reg_thracia_trimontium_att_bld_all_livestock_camels_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_eastern_sassanid_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 20865.72,
+          "bound": 20865.72,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "15048db7172bf5a880216e95b22d0aa5404f254659b5deda15096aa775298668",
+          "finances": {
+            "wealth": 16964.0,
+            "tax_bonus_income": 3901.72,
+            "corruption_loss": 0.0,
+            "tax_income": 20865.72,
+            "building_upkeep": 0.0,
+            "net_income": 20865.72,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_all_livestock_camels_4",
+            "att_reg_germania_aregelia_att_bld_all_livestock_sheep_4",
+            "att_reg_germania_aregelia_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_germania_lupfurdum_att_bld_all_industry_minor_weavery_4",
+            "att_reg_germania_lupfurdum_att_bld_all_livestock_camels_4",
+            "att_reg_germania_lupfurdum_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_germania_uburzis_att_bld_all_industry_major_mosaic_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_civic_market_slave_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_water_baths_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_water_storage_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_saxones",
+      "civilization": "Saxons",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 14682.399999999998,
+          "bound": 14682.4,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "663553c6879acd67f5872128142fcf0daf9dc7cabbc92e8437212047039ddb81",
+          "finances": {
+            "wealth": 13780.0,
+            "tax_bonus_income": 1102.4000000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 14882.400000000001,
+            "building_upkeep": 200.0,
+            "net_income": 14682.400000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 13596.460000000001,
+          "bound": 13596.460000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "c6ee663bb077a9f7c2d205c722c4f9ff8d61dcb09ee70a06a803f8a3ee71c2e3",
+          "finances": {
+            "wealth": 12774.5,
+            "tax_bonus_income": 1021.9600000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 13796.460000000001,
+            "building_upkeep": 200.0,
+            "net_income": 13596.460000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_fish_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_3",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_2",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 14420.97,
+          "bound": 14420.970000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "e13c2191395b725dfee1930658385cef36ab1127816b2c161b132117a015f5b1",
+          "finances": {
+            "wealth": 13352.75,
+            "tax_bonus_income": 1068.2200000000003,
+            "corruption_loss": 0.0,
+            "tax_income": 14420.970000000001,
+            "building_upkeep": 0.0,
+            "net_income": 14420.970000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_farm_chickens_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_bonecarver_3",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_farm_chickens_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_slaves_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_sclaveni",
+      "civilization": "Sclavenians",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 15552.550000000001,
+          "bound": 15552.550000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "34c52f9b04c71658aa1f6e1f263f30b289bd5e52f140d311bd1403b5670ca880",
+          "finances": {
+            "wealth": 14320.5,
+            "tax_bonus_income": 1432.0500000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 15752.55,
+            "building_upkeep": 200.0,
+            "net_income": 15552.55,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_farm_chickens_3",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 14010.050000000001,
+          "bound": 14010.050000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "2106be77c22ab72bed2020a4f20b26fdb35630b569c2e6c5c800ba8ce918daf9",
+          "finances": {
+            "wealth": 13645.5,
+            "tax_bonus_income": 1364.5500000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 15010.05,
+            "building_upkeep": 1000.0,
+            "net_income": 14010.05,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_trade_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_3",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_3",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_industry_bonecarver_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 14758.425,
+          "bound": 14758.425000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "cd6dfbeb5e988d3b63852f1e18f5ade34a1f6ba4de9bdfdf5a73a44b283ad37c",
+          "finances": {
+            "wealth": 13416.75,
+            "tax_bonus_income": 1341.6750000000002,
+            "corruption_loss": 0.0,
+            "tax_income": 14758.425,
+            "building_upkeep": 0.0,
+            "net_income": 14758.425,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_farm_chickens_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_farm_chickens_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_slaves_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_suebi",
+      "civilization": "Suebians",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 14682.399999999998,
+          "bound": 14682.4,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "663553c6879acd67f5872128142fcf0daf9dc7cabbc92e8437212047039ddb81",
+          "finances": {
+            "wealth": 13780.0,
+            "tax_bonus_income": 1102.4000000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 14882.400000000001,
+            "building_upkeep": 200.0,
+            "net_income": 14682.400000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 13596.460000000001,
+          "bound": 13596.460000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "c6ee663bb077a9f7c2d205c722c4f9ff8d61dcb09ee70a06a803f8a3ee71c2e3",
+          "finances": {
+            "wealth": 12774.5,
+            "tax_bonus_income": 1021.9600000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 13796.460000000001,
+            "building_upkeep": 200.0,
+            "net_income": 13596.460000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_fish_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_3",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_2",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 14420.970000000001,
+          "bound": 14420.970000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "5b30abaacb449742f30075bad240446005f0f7ac7521f58dde9084490c00a7ed",
+          "finances": {
+            "wealth": 13352.75,
+            "tax_bonus_income": 1068.2200000000003,
+            "corruption_loss": 0.0,
+            "tax_income": 14420.970000000001,
+            "building_upkeep": 0.0,
+            "net_income": 14420.970000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_farm_chickens_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_bonecarver_3",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_farm_chickens_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_slaves_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_tanukhids",
+      "civilization": "Tanukhids",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 19793.225,
+          "bound": 19793.225000000002,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "db3d5e2e086e64632d07bcbf8170bb7b60ea94227a71d994f16dfc0b0f1e3f4e",
+          "finances": {
+            "wealth": 15032.5,
+            "tax_bonus_income": 4960.725,
+            "corruption_loss": 0.0,
+            "tax_income": 19993.225,
+            "building_upkeep": 200.0,
+            "net_income": 19793.225,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_fish_4",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_civic_court_palace_4",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_aegyptus_alexandria_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_livestock_camels_4",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_fish_4",
+            "att_reg_aegyptus_berenice_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_eastern_sassanid_water_baths_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_livestock_camels_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_eastern_sassanid_water_storage_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 19638.362500000003,
+          "bound": 19638.3625,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "3b3719fe3c033f48a6f898629078dbd75b1394d70759b1c397a7b4e04de99ef5",
+          "finances": {
+            "wealth": 16128.75,
+            "tax_bonus_income": 3709.6124999999993,
+            "corruption_loss": 0.0,
+            "tax_income": 19838.3625,
+            "building_upkeep": 200.0,
+            "net_income": 19638.3625,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_trade_4",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_civic_market_food_4",
+            "att_reg_thracia_constantinopolis_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_all_livestock_camels_4",
+            "att_reg_thracia_marcianopolis_att_bld_all_livestock_sheep_4",
+            "att_reg_thracia_marcianopolis_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_eastern_sassanid_water_baths_4",
+            "att_reg_thracia_trimontium_att_bld_all_livestock_camels_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_eastern_sassanid_water_storage_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 22149.225,
+          "bound": 22149.225000000002,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "208ebf1e7988b5e8c9faf9ad98e7e611f4fbdb52b669a2363f76ca586a2b92ca",
+          "finances": {
+            "wealth": 18007.5,
+            "tax_bonus_income": 4141.725,
+            "corruption_loss": 0.0,
+            "tax_income": 22149.225,
+            "building_upkeep": 0.0,
+            "net_income": 22149.225,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_all_industry_minor_weavery_4",
+            "att_reg_germania_aregelia_att_bld_all_livestock_camels_4",
+            "att_reg_germania_aregelia_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_germania_lupfurdum_att_bld_all_industry_minor_weavery_4",
+            "att_reg_germania_lupfurdum_att_bld_all_livestock_camels_4",
+            "att_reg_germania_lupfurdum_att_bld_eastern_sassanid_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_eastern_sassanid_water_storage_4",
+            "att_reg_germania_uburzis_att_bld_all_industry_major_mosaic_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_city_major_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_civic_court_palace_5_legendary",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_civic_market_slave_4",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_water_baths_3",
+            "att_reg_germania_uburzis_att_bld_eastern_sassanid_water_storage_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_vandali",
+      "civilization": "Vandals",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 14682.399999999998,
+          "bound": 14682.4,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "663553c6879acd67f5872128142fcf0daf9dc7cabbc92e8437212047039ddb81",
+          "finances": {
+            "wealth": 13780.0,
+            "tax_bonus_income": 1102.4000000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 14882.400000000001,
+            "building_upkeep": 200.0,
+            "net_income": 14682.400000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 13596.460000000001,
+          "bound": 13596.460000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "c6ee663bb077a9f7c2d205c722c4f9ff8d61dcb09ee70a06a803f8a3ee71c2e3",
+          "finances": {
+            "wealth": 12774.5,
+            "tax_bonus_income": 1021.9600000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 13796.460000000001,
+            "building_upkeep": 200.0,
+            "net_income": 13596.460000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_fish_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_3",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_2",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 14420.97,
+          "bound": 14420.970000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "e13c2191395b725dfee1930658385cef36ab1127816b2c161b132117a015f5b1",
+          "finances": {
+            "wealth": 13352.75,
+            "tax_bonus_income": 1068.2200000000003,
+            "corruption_loss": 0.0,
+            "tax_income": 14420.970000000001,
+            "building_upkeep": 0.0,
+            "net_income": 14420.970000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_farm_chickens_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_bonecarver_3",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_farm_chickens_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_slaves_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_venedi",
+      "civilization": "Venedians",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 12991.75,
+          "bound": 12991.75,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "f8ad790b0af37fe2282d060ca87b51fdce23e6adb00b86164136e9c23d0717ea",
+          "finances": {
+            "wealth": 11992.5,
+            "tax_bonus_income": 1199.25,
+            "corruption_loss": 0.0,
+            "tax_income": 13191.75,
+            "building_upkeep": 200.0,
+            "net_income": 12991.75,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_farm_livestock_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_1",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_livestock_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 12466.5,
+          "bound": 12466.5,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "460cd449a61a8a42e847826b934d49931bca6b6d3bc00e9e2d99aa84a82e9d0e",
+          "finances": {
+            "wealth": 11515.0,
+            "tax_bonus_income": 1151.5,
+            "corruption_loss": 0.0,
+            "tax_income": 12666.5,
+            "building_upkeep": 200.0,
+            "net_income": 12466.5,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_trade_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 13692.25,
+          "bound": 13692.25,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "42603772769a79cbe71cca56eba492c596c673692fa01defe855f0db4ec7032e",
+          "finances": {
+            "wealth": 12447.5,
+            "tax_bonus_income": 1244.75,
+            "corruption_loss": 0.0,
+            "tax_income": 13692.25,
+            "building_upkeep": 0.0,
+            "net_income": 13692.25,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_farm_livestock_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_farm_chickens_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_farm_livestock_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_2",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_chieftain_5_legendary",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_farm_chickens_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_visigothi",
+      "civilization": "Visigoths",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 14682.399999999998,
+          "bound": 14682.4,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "663553c6879acd67f5872128142fcf0daf9dc7cabbc92e8437212047039ddb81",
+          "finances": {
+            "wealth": 13780.0,
+            "tax_bonus_income": 1102.4000000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 14882.400000000001,
+            "building_upkeep": 200.0,
+            "net_income": 14682.400000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_market_general_4",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_civic_tavern_3",
+            "att_reg_aegyptus_alexandria_att_bld_barbarian_water_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_trade_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_berenice_att_bld_barbarian_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_3",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_farm_chickens_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 13596.460000000001,
+          "bound": 13596.460000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "c6ee663bb077a9f7c2d205c722c4f9ff8d61dcb09ee70a06a803f8a3ee71c2e3",
+          "finances": {
+            "wealth": 12774.5,
+            "tax_bonus_income": 1021.9600000000005,
+            "corruption_loss": 0.0,
+            "tax_income": 13796.460000000001,
+            "building_upkeep": 200.0,
+            "net_income": 13596.460000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_fish_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_thracia_constantinopolis_att_bld_barbarian_water_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_farm_chickens_3",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_industry_basketweaver_4",
+            "att_reg_thracia_marcianopolis_att_bld_barbarian_water_minor_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_barbarian_farm_chickens_2",
+            "att_reg_thracia_trimontium_att_bld_barbarian_water_minor_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 14420.97,
+          "bound": 14420.970000000001,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "e13c2191395b725dfee1930658385cef36ab1127816b2c161b132117a015f5b1",
+          "finances": {
+            "wealth": 13352.75,
+            "tax_bonus_income": 1068.2200000000003,
+            "corruption_loss": 0.0,
+            "tax_income": 14420.970000000001,
+            "building_upkeep": 0.0,
+            "net_income": 14420.970000000001,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_farm_chickens_4",
+            "att_reg_germania_aregelia_att_bld_barbarian_industry_bonecarver_3",
+            "att_reg_germania_aregelia_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_farm_chickens_3",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_industry_bonecarver_4",
+            "att_reg_germania_lupfurdum_att_bld_barbarian_water_minor_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_city_major_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_amber_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_general_4",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_market_slaves_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_civic_tavern_3",
+            "att_reg_germania_uburzis_att_bld_barbarian_water_major_4"
+          ],
+          "scenario": {}
+        }
+      ]
+    },
+    {
+      "id": "att_fact_western_roman_empire",
+      "civilization": "Western Roman Empire",
+      "cases": [
+        {
+          "province": "Aegyptus",
+          "income": 18514.675,
+          "bound": 18514.675,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "4e9a7500e32e59996dad56182200933f458bd0e7db4a45f15aae7a62cb7000c4",
+          "finances": {
+            "wealth": 17104.25,
+            "tax_bonus_income": 1710.4249999999993,
+            "corruption_loss": 0.0,
+            "tax_income": 18814.675,
+            "building_upkeep": 300.0,
+            "net_income": 18514.675,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_aegyptus_alexandria_att_bld_all_resources_port_fish_4",
+            "att_reg_aegyptus_alexandria_att_bld_religion_orthodox_legendary_1",
+            "att_reg_aegyptus_alexandria_att_bld_roman_civic_market_food_4",
+            "att_reg_aegyptus_alexandria_att_bld_roman_water_aqueducts_3",
+            "att_reg_aegyptus_alexandria_att_bld_roman_west_city_major_4",
+            "att_reg_aegyptus_alexandria_att_bld_roman_west_civic_governor_5_legendary",
+            "att_reg_aegyptus_berenice_att_bld_all_livestock_cows_4",
+            "att_reg_aegyptus_berenice_att_bld_all_livestock_sheep_4",
+            "att_reg_aegyptus_berenice_att_bld_all_resources_port_fish_4",
+            "att_reg_aegyptus_berenice_att_bld_roman_west_city_minor_generic_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_livestock_sheep_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_roman_water_minor_4",
+            "att_reg_aegyptus_oxyrhynchus_att_bld_roman_west_city_minor_generic_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Thracia",
+          "income": 17661.175,
+          "bound": 17661.175,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "05a13e1d738eb12581bcf34b3e44ece659808d0437b5fa0c280b57ba1a56a46c",
+          "finances": {
+            "wealth": 16419.25,
+            "tax_bonus_income": 1641.9249999999993,
+            "corruption_loss": 0.0,
+            "tax_income": 18061.175,
+            "building_upkeep": 400.0,
+            "net_income": 17661.175,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_thracia_constantinopolis_att_bld_all_resources_port_fish_4",
+            "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_legendary_1",
+            "att_reg_thracia_constantinopolis_att_bld_roman_civic_market_food_4",
+            "att_reg_thracia_constantinopolis_att_bld_roman_water_aqueducts_4",
+            "att_reg_thracia_constantinopolis_att_bld_roman_west_city_major_4",
+            "att_reg_thracia_constantinopolis_att_bld_roman_west_civic_governor_5_legendary",
+            "att_reg_thracia_marcianopolis_att_bld_all_livestock_cows_4",
+            "att_reg_thracia_marcianopolis_att_bld_all_livestock_sheep_4",
+            "att_reg_thracia_marcianopolis_att_bld_roman_water_minor_4",
+            "att_reg_thracia_marcianopolis_att_bld_roman_west_city_minor_generic_4",
+            "att_reg_thracia_trimontium_att_bld_all_livestock_cows_4",
+            "att_reg_thracia_trimontium_att_bld_all_livestock_sheep_4",
+            "att_reg_thracia_trimontium_att_bld_all_resources_gold_jeweler_4",
+            "att_reg_thracia_trimontium_att_bld_roman_west_city_minor_generic_4"
+          ],
+          "scenario": {}
+        },
+        {
+          "province": "Germania",
+          "income": 17542.45,
+          "bound": 17542.45,
+          "status": "OPTIMAL",
+          "compiled_model_sha256": "c18fc4cbfe942eb0579ede076196a684d0275a53893b5e36b82e6e5ea7804a15",
+          "finances": {
+            "wealth": 16129.5,
+            "tax_bonus_income": 1612.9499999999998,
+            "corruption_loss": 0.0,
+            "tax_income": 17742.45,
+            "building_upkeep": 200.0,
+            "net_income": 17542.45,
+            "trade_income": 0.0,
+            "other_recurring_income": 0.0
+          },
+          "selected": [
+            "att_reg_germania_aregelia_att_bld_all_livestock_cows_4",
+            "att_reg_germania_aregelia_att_bld_all_livestock_sheep_4",
+            "att_reg_germania_aregelia_att_bld_roman_water_minor_4",
+            "att_reg_germania_aregelia_att_bld_roman_west_city_minor_generic_4",
+            "att_reg_germania_lupfurdum_att_bld_all_agriculture_grain_4",
+            "att_reg_germania_lupfurdum_att_bld_all_livestock_cows_4",
+            "att_reg_germania_lupfurdum_att_bld_all_livestock_sheep_4",
+            "att_reg_germania_lupfurdum_att_bld_roman_west_city_minor_generic_4",
+            "att_reg_germania_uburzis_att_bld_all_industry_major_pottery_3",
+            "att_reg_germania_uburzis_att_bld_roman_civic_market_food_4",
+            "att_reg_germania_uburzis_att_bld_roman_civic_market_wine_4",
+            "att_reg_germania_uburzis_att_bld_roman_water_aqueducts_4",
+            "att_reg_germania_uburzis_att_bld_roman_west_city_major_4",
+            "att_reg_germania_uburzis_att_bld_roman_west_civic_governor_5_legendary"
+          ],
+          "scenario": {}
+        }
+      ]
+    }
+  ]
+}
