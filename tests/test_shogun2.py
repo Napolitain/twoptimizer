@@ -35,20 +35,14 @@ def basic_layout(economy):
             choices.append("sho_port_0_coastal_village")
         if province["specialty"]:
             choices.append(
-                next(
-                    k
-                    for k in economy.candidates[key]
-                    if k.startswith("sho_region_specialty_")
-                )
+                next(k for k in economy.candidates[key] if k.startswith("sho_region_specialty_"))
             )
         layout[key] = choices
     return layout
 
 
 def replace_family(layout, province, prefix, new):
-    layout[province] = [
-        key for key in layout[province] if not key.startswith(prefix)
-    ] + [new]
+    layout[province] = [key for key in layout[province] if not key.startswith(prefix)] + [new]
 
 
 def test_all_provinces_have_soil_port_and_specialty(data):
@@ -65,7 +59,11 @@ def test_all_provinces_have_soil_port_and_specialty(data):
 
 def test_province_import_rejects_unknown_identity_or_soil():
     names = {"jap_kozuke": {"id": "jap_kozuke", "name": "Kozuke"}}
-    html = '<li id="Kozuka" class="horses playble"><h3>Kozuka Province</h3><p>Clan: Hojo</p><p>Port: No</p><p>Fertility: Average</p><p>Speciality/Resource: Horses</p></li>'
+    html = (
+        '<li id="Kozuka" class="horses playble"><h3>Kozuka '
+        "Province</h3><p>Clan: Hojo</p><p>Port: No</p><p>Fertility: "
+        "Average</p><p>Speciality/Resource: Horses</p></li>"
+    )
     record = province_records(html, names)["jap_kozuke"]
     assert record["farm_multiplier"] == 1.5 and not record["has_port"]
     with pytest.raises(ValueError, match="Unmatched province"):
@@ -77,9 +75,7 @@ def test_province_import_rejects_unknown_identity_or_soil():
 def test_tax_points_and_farm_bonus_against_hand_calculation(data):
     catalog, rules = data
     economy = Economy(
-        Scenario(
-            "chosokabe", (Province("jap_owari", town_wealth=1000, administration=0.8),)
-        ),
+        Scenario("chosokabe", (Province("jap_owari", town_wealth=1000, administration=0.8),)),
         catalog,
         rules,
     )
@@ -105,8 +101,7 @@ def test_food_is_shared_and_arts_food_counted_once(data):
     assert report["faction_arts_food"] == 1
     assert report["food_surplus"] == 6  # -1 + 3 + 3, plus one faction food.
     assert all(
-        p["growth_components"]["shared_food_surplus"] == 6
-        for p in report["provinces"].values()
+        p["growth_components"]["shared_food_surplus"] == 6 for p in report["provinces"].values()
     )
     for key in layout:
         replace_family(layout, key, "sho_farming_", "sho_farming_1_rice_paddies")
@@ -134,9 +129,7 @@ def test_religion_site_port_and_nanban_restrictions(data):
     catalog, rules = data
     province = {**rules["provinces"]["jap_owari"], "has_port": False}
     assert (
-        unavailable_reason(
-            catalog["buildings"]["sho_port_2_trading_port"], province, "buddhist"
-        )
+        unavailable_reason(catalog["buildings"]["sho_port_2_trading_port"], province, "buddhist")
         == "no_port_location"
     )
     economy = Economy(scenario("otomo"), *data)
@@ -147,13 +140,9 @@ def test_religion_site_port_and_nanban_restrictions(data):
     converted = Economy(replace(scenario(), religion="christian"), *data)
     assert "sho_christian_4_cathedral" in converted.candidates["jap_sado"]
     assert "sho_christian_4_jesuit_college" not in converted.candidates["jap_sado"]
+    assert "sho_region_specialty_gold_mining_3_mining_complex" in economy.candidates["jap_sado"]
     assert (
-        "sho_region_specialty_gold_mining_3_mining_complex"
-        in economy.candidates["jap_sado"]
-    )
-    assert (
-        "sho_region_specialty_gold_mining_3_mining_complex"
-        not in economy.candidates["jap_owari"]
+        "sho_region_specialty_gold_mining_3_mining_complex" not in economy.candidates["jap_owari"]
     )
     assert not any(
         "nanban" in key or "portuguese" in key
@@ -166,9 +155,7 @@ def test_religion_site_port_and_nanban_restrictions(data):
     christian = Economy(replace(scenario("otomo"), nanban_contact=True), *data)
     assert "sho_port_4_nanban_quarter" in christian.candidates["jap_sado"]
     ikko = Economy(replace(scenario("ikko_ikki"), nanban_contact=True), *data)
-    assert not any(
-        "nanban" in key or "buddhist" in key for key in ikko.candidates["jap_sado"]
-    )
+    assert not any("nanban" in key or "buddhist" in key for key in ikko.candidates["jap_sado"])
 
 
 def test_unresearched_arts_do_not_unlock_advanced_buildings(data):
@@ -196,20 +183,16 @@ def test_exact_solvers_match_exhaustive_original_formulas(data, algorithm):
     catalog["buildings"] = {key: catalog["buildings"][key] for key in ids}
     rules["provinces"]["jap_owari"].update(has_port=False, specialty=None)
     economy = Economy(
-        Scenario(
-            "chosokabe", (Province("jap_owari", town_wealth=1234, administration=0.8),)
-        ),
+        Scenario("chosokabe", (Province("jap_owari", town_wealth=1234, administration=0.8),)),
         catalog,
         rules,
     )
     best = 0
     count = 0
     for castle, farm, market, stealth, temple in itertools.product(
-        ids[:2], ids[2:4], [None] + ids[4:6], [None] + ids[6:8], [None, ids[8]]
+        ids[:2], ids[2:4], [None, *ids[4:6]], [None, *ids[6:8]], [None, ids[8]]
     ):
-        layout = {
-            "jap_owari": [key for key in (castle, farm, market, stealth, temple) if key]
-        }
+        layout = {"jap_owari": [key for key in (castle, farm, market, stealth, temple) if key]}
         try:
             report = economy.evaluate(layout)
         except ValueError:
@@ -263,10 +246,10 @@ def test_monetary_food_and_order_facts_are_classified(data):
                         "tariffs only",
                     )
                 ):
-                    assert (
-                        parse(text) is not None
-                        or record["id"] == "sho_portuguese_land_sold"
-                    ), (record["id"], text)
+                    assert parse(text) is not None or record["id"] == "sho_portuguese_land_sold", (
+                        record["id"],
+                        text,
+                    )
 
 
 @pytest.mark.parametrize(

@@ -24,17 +24,75 @@ def presets(name):
 
 def assumptions():
     return {
-        "objective": "Current domestic provincial tax receipts less modeled building maintenance, excluding external trade, armies, agents and construction spending.",
-        "reference_holdings": "Controlled two-settlement provinces: inland, coastal, and coastal with a grain-producing minor core. These are explicit layouts, not historical starting provinces.",
-        "slots": "Mature settlements: four ordinary plots in the capital, two in each town, plus one compulsory primary and a compulsory port when coastal.",
-        "legality": "Grand Campaign faction reference lists, ordinary levels 1-4, mandatory mature primary up to level 4 (highest available for shorter resource chains). City/town, major-only sanitation and industrial, minor-only civil agriculture/mining restrictions reconstructed from public rules. Different upgraded branches may coexist; duplicate stages of the same branch may not.",
-        "modifiers": "Research bonuses are disabled by default; explicit public/archived research profiles are optional. Construction resources/unlocks are assumed available independently. Choose exactly one playable political profile, maximizing income.",
-        "culture": "100% own culture; applicable culture-dependent public-order bonuses use the stated maximum. No foreign-culture, garrison, war-count, difficulty, imperium or character offsets unless explicitly supplied.",
-        "tax": "Normal taxes turn 100% of modified wealth into income. Tax bonuses and corruption deductions are additive percentage points; corruption reductions cannot make corruption negative. No slaves, active edicts or faction-capital-only subsistence. Named provinces include the explicitly labeled community patch-18 wonder profile unless disabled.",
-        "food": "Faction-wide food must be nonnegative. Each benchmark holding is an independent single-province realm, not simultaneous ownership of all three layouts. Per-region effects multiply by the number of owned recipient regions. Effects in adjacent provinces have no recipient in this realm.",
-        "growth": "Reported but not valued; no construction sequence, growth trajectory, treasury or future cash-flow forecast.",
-        "source_limit": "Raw repository DB snapshot, official Emperor Edition eligibility/research references and Honga faction traits have unspecified installed versions. Their combined model is not certified as a single/current patch. New Pantheon/Jupiter campaign rules are outside scope.",
-        "world_inputs": "Named provinces use all 173 sourced resource assignments and repository slot/port templates. Three port conflicts and older wonder-value conflicts are disclosed in world.json/world_modifiers.json. Roma/Pharos effect interpretations still need installed definitions. Each province is an independent counterfactual holding, not a historical faction start.",
+        "objective": (
+            "Current domestic provincial tax receipts less modeled building "
+            "maintenance, excluding external trade, armies, agents and "
+            "construction spending."
+        ),
+        "reference_holdings": (
+            "Controlled two-settlement provinces: inland, coastal, and coastal "
+            "with a grain-producing minor core. These are explicit layouts, not "
+            "historical starting provinces."
+        ),
+        "slots": (
+            "Mature settlements: four ordinary plots in the capital, two in each "
+            "town, plus one compulsory primary and a compulsory port when "
+            "coastal."
+        ),
+        "legality": (
+            "Grand Campaign faction reference lists, ordinary levels 1-4, "
+            "mandatory mature primary up to level 4 (highest available for "
+            "shorter resource chains). City/town, major-only sanitation and "
+            "industrial, minor-only civil agriculture/mining restrictions "
+            "reconstructed from public rules. Different upgraded branches may "
+            "coexist; duplicate stages of the same branch may not."
+        ),
+        "modifiers": (
+            "Research bonuses are disabled by default; explicit public/archived "
+            "research profiles are optional. Construction resources/unlocks are "
+            "assumed available independently. Choose exactly one playable "
+            "political profile, maximizing income."
+        ),
+        "culture": (
+            "100% own culture; applicable culture-dependent public-order bonuses "
+            "use the stated maximum. No foreign-culture, garrison, war-count, "
+            "difficulty, imperium or character offsets unless explicitly "
+            "supplied."
+        ),
+        "tax": (
+            "Normal taxes turn 100% of modified wealth into income. Tax bonuses "
+            "and corruption deductions are additive percentage points; corruption"
+            " reductions cannot make corruption negative. No slaves, active "
+            "edicts or faction-capital-only subsistence. Named provinces include "
+            "the explicitly labeled community patch-18 wonder profile unless "
+            "disabled."
+        ),
+        "food": (
+            "Faction-wide food must be nonnegative. Each benchmark holding is an "
+            "independent single-province realm, not simultaneous ownership of all"
+            " three layouts. Per-region effects multiply by the number of owned "
+            "recipient regions. Effects in adjacent provinces have no recipient "
+            "in this realm."
+        ),
+        "growth": (
+            "Reported but not valued; no construction sequence, growth "
+            "trajectory, treasury or future cash-flow forecast."
+        ),
+        "source_limit": (
+            "Raw repository DB snapshot, official Emperor Edition "
+            "eligibility/research references and Honga faction traits have "
+            "unspecified installed versions. Their combined model is not "
+            "certified as a single/current patch. New Pantheon/Jupiter campaign "
+            "rules are outside scope."
+        ),
+        "world_inputs": (
+            "Named provinces use all 173 sourced resource assignments and "
+            "repository slot/port templates. Three port conflicts and older "
+            "wonder-value conflicts are disclosed in "
+            "world.json/world_modifiers.json. Roma/Pharos effect interpretations "
+            "still need installed definitions. Each province is an independent "
+            "counterfactual holding, not a historical faction start."
+        ),
     }
 
 
@@ -51,19 +109,14 @@ def audit(data):
     facts = []
     for key, faction in data["factions"].items():
         for text in faction["traits"]["culture_facts"] + [
-            text
-            for p in faction["traits"]["parties"]
-            if p["playable"]
-            for text in p["facts"]
+            text for p in faction["traits"]["parties"] if p["playable"] for text in p["facts"]
         ]:
             effect = fact_effect(text)
             facts.append(
                 {
                     "faction": key,
                     "fact": text,
-                    "disposition": effect.kind
-                    if effect
-                    else "outside_declared_scenario",
+                    "disposition": effect.kind if effect else "outside_declared_scenario",
                 }
             )
     technologies = {}
@@ -74,9 +127,7 @@ def audit(data):
                 technologies[(record["id"], text)] = {
                     "technology": record["id"],
                     "fact": text,
-                    "disposition": effect.kind
-                    if effect
-                    else "outside_declared_scenario",
+                    "disposition": effect.kind if effect else "outside_declared_scenario",
                 }
     return {
         "raw_effect_scopes": list(raw.values()),
@@ -85,16 +136,47 @@ def audit(data):
     }
 
 
+def _solve_case(scenario, data, cases, algorithm, args, proofs):
+    economy = Economy(scenario, data)
+    seeds = [
+        c
+        for c in cases.values()
+        if "sites" in c
+        and json.dumps(c["scenario"], sort_keys=True)
+        == json.dumps(asdict(scenario), sort_keys=True)
+    ]
+    seed = max(seeds, key=lambda c: c["domestic_net_income"], default=None)
+    fingerprint = economy.fingerprint() if algorithm in {"cp-sat", "portfolio"} else None
+    result = (
+        economy.reuse_optimum(proofs[fingerprint])
+        if fingerprint in proofs
+        else economy.optimize(
+            algorithm,
+            args.seconds,
+            args.workers,
+            incumbent=seed if algorithm in {"cp-sat", "scip-nonlinear", "portfolio"} else None,
+        )
+    )
+    return result, fingerprint
+
+
+def _merge_incumbent(old, result):
+    if old and old.get("domestic_net_income", -1) > result.get("domestic_net_income", -1):
+        best = old
+    else:
+        best = result
+    bounds = [c["solver"]["bound"] for c in (old, result) if c and c["solver"]["bound"] is not None]
+    if bounds:
+        best["solver"]["bound"] = min(bounds)
+    return best
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--faction", action="append")
-    parser.add_argument(
-        "--province", action="append", help="Real province name or ID; may repeat"
-    )
+    parser.add_argument("--province", action="append", help="Real province name or ID; may repeat")
     parser.add_argument("--no-world-bonuses", action="store_true")
-    parser.add_argument(
-        "--layout", action="append", choices=["inland", "coastal", "grain"]
-    )
+    parser.add_argument("--layout", action="append", choices=["inland", "coastal", "grain"])
     parser.add_argument(
         "--algorithm",
         action="append",
@@ -111,12 +193,8 @@ def main(argv=None):
     research = parser.add_mutually_exclusive_group()
     research.add_argument("--no-technologies", action="store_true")
     research.add_argument("--all-technologies", action="store_true")
-    parser.add_argument(
-        "--technology-profile", choices=["public", "archived"], default="public"
-    )
-    parser.add_argument(
-        "--output", type=Path, default=Path("benchmark-results/rome2/income")
-    )
+    parser.add_argument("--technology-profile", choices=["public", "archived"], default="public")
+    parser.add_argument("--output", type=Path, default=Path("benchmark-results/rome2/income"))
     args = parser.parse_args(argv)
     if args.fill_missing and not args.resume:
         parser.error("--fill-missing requires --resume")
@@ -137,13 +215,7 @@ def main(argv=None):
     output = args.output.with_suffix(".json")
     cases = {}
     previous = {}
-    if args.resume and output.exists():
-        previous = json.loads(output.read_text())
-        if previous["catalog_sha256"] != source_hash:
-            raise ValueError("Cannot reuse a different data snapshot")
-        if previous.get("model_sha256") != model_hash:
-            raise ValueError("Cannot reuse results from different model code")
-        cases = {r["case_key"]: r for r in previous["cases"]}
+    previous, cases = _load_previous(args, output, source_hash, model_hash, previous)
     payload = {
         "schema_version": 1,
         "created_at_utc": datetime.now(UTC).isoformat(),
@@ -152,8 +224,7 @@ def main(argv=None):
         "assumptions": assumptions(),
         "coverage": audit(data),
         "excluded_playable_factions": sorted(
-            {f.value for f in Rome2Factions if f.value.startswith("rom_")}
-            - data["factions"].keys()
+            {f.value for f in Rome2Factions if f.value.startswith("rom_")} - data["factions"].keys()
         ),
     }
     if "snapshot_migration" in previous:
@@ -194,6 +265,7 @@ def main(argv=None):
                                 case.get("public_order"),
                                 solver["seconds"],
                             ],
+                            strict=False,
                         )
                     )
                 )
@@ -204,26 +276,7 @@ def main(argv=None):
         if c["solver"]["status"] == "OPTIMAL" and "proof_fingerprint" in c
     }
     factions = args.faction or sorted(data["factions"])
-    if args.all_technologies and not args.faction:
-        factions = [
-            f
-            for f in factions
-            if (
-                data["technology_coverage"][f]["complete_public_tree"]
-                if args.technology_profile == "public"
-                else f in data["technologies_archived"]
-            )
-        ]
-    payload["research_mode"] = (
-        args.technology_profile
-        if args.all_technologies
-        else "bonuses_disabled_unlocked_buildings"
-    )
-    payload["research_excluded_factions"] = (
-        sorted(set(data["factions"]) - set(factions))
-        if args.all_technologies and not args.faction
-        else []
-    )
+    factions = _faction_selection(args, factions, data, payload)
     for layout in args.province or args.layout or ["inland", "coastal", "grain"]:
         for faction in factions:
             scenario = (
@@ -249,32 +302,7 @@ def main(argv=None):
                     args.fill_missing or cases[key]["solver"]["status"] == "OPTIMAL"
                 ):
                     continue
-                economy = Economy(scenario, data)
-                seeds = [
-                    c
-                    for c in cases.values()
-                    if "sites" in c
-                    and json.dumps(c["scenario"], sort_keys=True)
-                    == json.dumps(asdict(scenario), sort_keys=True)
-                ]
-                seed = max(seeds, key=lambda c: c["domestic_net_income"], default=None)
-                fingerprint = (
-                    economy.fingerprint()
-                    if algorithm in {"cp-sat", "portfolio"}
-                    else None
-                )
-                result = (
-                    economy.reuse_optimum(proofs[fingerprint])
-                    if fingerprint in proofs
-                    else economy.optimize(
-                        algorithm,
-                        args.seconds,
-                        args.workers,
-                        incumbent=seed
-                        if algorithm in {"cp-sat", "scip-nonlinear", "portfolio"}
-                        else None,
-                    )
-                )
+                result, fingerprint = _solve_case(scenario, data, cases, algorithm, args, proofs)
                 result.update(
                     case_key=key,
                     layout=layout,
@@ -287,42 +315,83 @@ def main(argv=None):
                 ):
                     proofs[fingerprint] = result
                 old = cases.get(key)
-                if old and old.get("domestic_net_income", -1) > result.get(
-                    "domestic_net_income", -1
-                ):
-                    best = old
-                else:
-                    best = result
-                bounds = [
-                    c["solver"]["bound"]
-                    for c in (old, result)
-                    if c and c["solver"]["bound"] is not None
-                ]
-                if bounds:
-                    best["solver"]["bound"] = min(bounds)
+                best = _merge_incumbent(old, result)
                 result = best
                 cases[key] = result
-                same = [
-                    c
-                    for c in cases.values()
-                    if c["layout"] == layout
-                    and c["scenario"]["faction"] == faction
-                    and c["scenario"] == asdict(scenario)
-                    and c["solver"]["status"] == "OPTIMAL"
-                ]
-                if (
-                    same
-                    and max(c["domestic_net_income"] for c in same)
-                    - min(c["domestic_net_income"] for c in same)
-                    > 1e-5
-                ):
-                    raise AssertionError("Exact solvers disagree on a proved optimum")
+                _assert_matching_proofs(cases, layout, faction, scenario)
                 save()  # Retain incumbents/proofs if a later source case fails.
                 print(
-                    f"{layout:7} {faction:15} {algorithm:6} {result['solver']['status']:9} income={result.get('domestic_net_income')} bound={result['solver']['bound']} ({result['solver']['seconds']:.2f}s)",
+                    (
+                        f"{layout:7}"
+                        " "
+                        f"{faction:15}"
+                        " "
+                        f"{algorithm:6}"
+                        " "
+                        f"{result['solver']['status']:9}"
+                        " income="
+                        f"{result.get('domestic_net_income')}"
+                        " bound="
+                        f"{result['solver']['bound']}"
+                        " ("
+                        f"{result['solver']['seconds']:.2f}"
+                        "s)"
+                    ),
                     flush=True,
                 )
     return payload
+
+
+def _assert_matching_proofs(cases, layout, faction, scenario):
+    same = [
+        c
+        for c in cases.values()
+        if c["layout"] == layout
+        and c["scenario"]["faction"] == faction
+        and c["scenario"] == asdict(scenario)
+        and c["solver"]["status"] == "OPTIMAL"
+    ]
+    if (
+        same
+        and max(c["domestic_net_income"] for c in same)
+        - min(c["domestic_net_income"] for c in same)
+        > 1e-5
+    ):
+        raise AssertionError("Exact solvers disagree on a proved optimum")
+
+
+def _faction_selection(args, factions, data, payload):
+    if args.all_technologies and not args.faction:
+        factions = [
+            f
+            for f in factions
+            if (
+                data["technology_coverage"][f]["complete_public_tree"]
+                if args.technology_profile == "public"
+                else f in data["technologies_archived"]
+            )
+        ]
+    payload["research_mode"] = (
+        args.technology_profile if args.all_technologies else "bonuses_disabled_unlocked_buildings"
+    )
+    payload["research_excluded_factions"] = (
+        sorted(set(data["factions"]) - set(factions))
+        if args.all_technologies and not args.faction
+        else []
+    )
+    return factions
+
+
+def _load_previous(args, output, source_hash, model_hash, previous):
+    cases = {}
+    if args.resume and output.exists():
+        previous = json.loads(output.read_text())
+        if previous["catalog_sha256"] != source_hash:
+            raise ValueError("Cannot reuse a different data snapshot")
+        if previous.get("model_sha256") != model_hash:
+            raise ValueError("Cannot reuse results from different model code")
+        cases = {r["case_key"]: r for r in previous["cases"]}
+    return previous, cases
 
 
 if __name__ == "__main__":

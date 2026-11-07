@@ -78,16 +78,11 @@ def technologies(html):
     records = {}
     for doc in documents(html):
         for value in walk(doc):
-            if (
-                not isinstance(value, dict)
-                or not {"icons", "fx", "nodes"} <= value.keys()
-            ):
+            if not isinstance(value, dict) or not {"icons", "fx", "nodes"} <= value.keys():
                 continue
             for row in value["nodes"]:
                 if len(row) != 11 or row[0] in records:
-                    raise ValueError(
-                        "Technology source format changed or duplicated name"
-                    )
+                    raise ValueError("Technology source format changed or duplicated name")
                 records[row[0]] = {
                     "effects": [value["fx"][i][0] for i in row[4]],
                     "prerequisites": [value["nodes"][i][0] for i in row[7]],
@@ -101,9 +96,7 @@ def religions(html):
     records = {}
     for doc in documents(html):
         for value in walk(doc):
-            if not isinstance(value, dict) or not str(value.get("id", "")).startswith(
-                "att_rel_"
-            ):
+            if not isinstance(value, dict) or not str(value.get("id", "")).startswith("att_rel_"):
                 continue
             facts = []
             for node in walk(value):
@@ -141,9 +134,7 @@ def import_data(cache, output, offline=False):
         if not path.exists():
             if offline:
                 raise FileNotFoundError(path)
-            request = Request(
-                url, headers={"User-Agent": "twoptimizer-data-import/1.0"}
-            )
+            request = Request(url, headers={"User-Agent": "twoptimizer-data-import/1.0"})
             with urlopen(request, timeout=45) as response:
                 raw = response.read(8 * 1024 * 1024 + 1)
             if len(raw) > 8 * 1024 * 1024:
@@ -188,7 +179,11 @@ def main():
     args = cli.parse_args()
     report = import_data(args.cache, args.output, args.offline)
     print(
-        f"Imported {len(report['technologies'])} technology trees and {len(report['religions']['records'])} religions"
+        "Imported "
+        f"{len(report['technologies'])}"
+        " technology trees and "
+        f"{len(report['religions']['records'])}"
+        " religions"
     )
 
 

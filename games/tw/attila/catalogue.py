@@ -18,13 +18,8 @@ CULTURE_SLUGS = {
 def technology_available(building, culture, researched):
     if researched is None:
         return True  # Explicit end-state scenario: all technologies available.
-    if (
-        building.metadata is None
-        or culture not in building.metadata["requirements_by_culture"]
-    ):
-        raise ValueError(
-            f"Missing technology metadata for {building.name} in {culture}"
-        )
+    if building.metadata is None or culture not in building.metadata["requirements_by_culture"]:
+        raise ValueError(f"Missing technology metadata for {building.name} in {culture}")
     return all(
         set(alternatives) & researched
         for alternatives in building.metadata["requirements_by_culture"][culture]

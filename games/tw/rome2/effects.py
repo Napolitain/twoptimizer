@@ -60,17 +60,7 @@ class Effect:
     targets: tuple[str, ...] = ()
 
 
-def raw_effect(key, value):
-    if key == "rom_character_faction_leader_global_gdp_mod_agriculture_farming":
-        return Effect("wealth_percent", value, TARGETS["agriculture_farming"])
-    if key == "rom_tech_civil_economy_growth_mod":
-        return Effect("growth", value)
-    if key == "dk_building_gdp_maintenance":
-        return Effect("income_flat", value)
-    if key.startswith("rom_province_initiative_"):
-        return Effect("edict_conditional", value)
-    if key.startswith("rom_building_slave_"):
-        return Effect("slaves_conditional", value)
+def _wealth_effect(key, value):
     if key.startswith("rom_building_gdp_mod_"):
         suffix = key.removeprefix("rom_building_gdp_mod_")
         if suffix in TARGETS:
@@ -79,6 +69,27 @@ def raw_effect(key, value):
         suffix = key.removeprefix("rom_building_gdp_")
         if suffix in CATEGORIES:
             return Effect("wealth", value, (suffix,))
+    return None
+
+
+def raw_effect(key, value):
+    exact = {
+        "rom_character_faction_leader_global_gdp_mod_agriculture_farming": (
+            "wealth_percent",
+            TARGETS["agriculture_farming"],
+        ),
+        "rom_tech_civil_economy_growth_mod": ("growth", ()),
+        "dk_building_gdp_maintenance": ("income_flat", ()),
+    }
+    if key in exact:
+        kind, targets = exact[key]
+        return Effect(kind, value, targets)
+    if key.startswith("rom_province_initiative_"):
+        return Effect("edict_conditional", value)
+    if key.startswith("rom_building_slave_"):
+        return Effect("slaves_conditional", value)
+    if effect := _wealth_effect(key, value):
+        return effect
     if key == "rom_building_food_consumption":
         return Effect("food", -value)
     # Despite its ID, food_reserves is displayed as flat food production by
@@ -94,6 +105,22 @@ def raw_effect(key, value):
     return None
 
 
+def _order_fact(text):
+    if match := re.fullmatch(r"([+-]?\d+) public order(?: per turn)?(?: in all provinces)?", text):
+        return Effect("order", int(match[1]))
+    if match := re.fullmatch(
+        (
+            "[Pp]ublic order (?:bonus|penalty) \\((?:maximum|minimum) of "
+            "([+-]?\\d+)\\) from presence of .+ culture"
+        ),
+        text,
+    ):
+        return Effect("own_culture_order", int(match[1]))
+    if match := re.fullmatch(r"Up to ([+-]?\d+) public order from .+ culture", text):
+        return Effect("own_culture_order", int(match[1]))
+    return None
+
+
 def fact_effect(text):
     if re.search(r"edict:", text, re.IGNORECASE):
         return None
@@ -104,14 +131,10 @@ def fact_effect(text):
         r"([+-]?\d+)% (?:wealth from|income from|bonus to income from|income from all) (.+)",
         text,
     ):
-        label = (
-            match[2].removesuffix(" buildings") if match[2] not in LABELS else match[2]
-        )
+        label = match[2].removesuffix(" buildings") if match[2] not in LABELS else match[2]
         if label in LABELS:
             return Effect("wealth_percent", int(match[1]), TARGETS[LABELS[label]])
-    if match := re.fullmatch(
-        r"([+-]?\d+)% (?:all culture income|cultural income)", text
-    ):
+    if match := re.fullmatch(r"([+-]?\d+)% (?:all culture income|cultural income)", text):
         return Effect("wealth_percent", int(match[1]), TARGETS["culture_all"])
     if match := re.fullmatch(r"([+-]?\d+)% tax rate", text):
         return Effect("tax_percent", int(match[1]))
@@ -121,15 +144,5 @@ def fact_effect(text):
         return Effect("food_per_" + match[2], int(match[1]))
     if match := re.fullmatch(r"([+-]?\d+) (?:food|food production)", text):
         return Effect("food_per_provinces", int(match[1]))
-    if match := re.fullmatch(
-        r"([+-]?\d+) public order(?: per turn)?(?: in all provinces)?", text
-    ):
-        return Effect("order", int(match[1]))
-    if match := re.fullmatch(
-        r"[Pp]ublic order (?:bonus|penalty) \((?:maximum|minimum) of ([+-]?\d+)\) from presence of .+ culture",
-        text,
-    ):
-        return Effect("own_culture_order", int(match[1]))
-    if match := re.fullmatch(r"Up to ([+-]?\d+) public order from .+ culture", text):
-        return Effect("own_culture_order", int(match[1]))
+    return _order_fact(text)
     return None

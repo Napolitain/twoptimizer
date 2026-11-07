@@ -7,3 +7,14 @@
 benchmark-results/
 .cache/
 installed-game-data/
+__pycache__/
+*.py[cod]
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+coverage.xml
+.coverage
+htmlcov/
+mutants/
+.hypothesis/

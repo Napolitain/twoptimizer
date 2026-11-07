@@ -172,14 +172,14 @@ October 27, 2025
 ### Sample Parsed Idea
 ```python
 Idea(
-    name='civilian_economy',
+    name="civilian_economy",
     category=IdeaCategory.ECONOMY,
     cost=150,
     modifier={
-        'consumer_goods_expected_value': 0.30,
-        'production_speed_industrial_complex_factor': -0.10,
-        'production_speed_arms_factory_factor': -0.10
-    }
+        "consumer_goods_expected_value": 0.30,
+        "production_speed_industrial_complex_factor": -0.10,
+        "production_speed_arms_factory_factor": -0.10,
+    },
 )
 ```
 
@@ -190,28 +190,20 @@ Idea(
 from games.hoi4 import Country, Idea, IdeaCategory, State, StateCategory
 
 # Create country
-germany = Country(
-    name="Germany",
-    tag="GER",
-    political_power=150.0,
-    stability=0.7,
-    war_support=0.6
-)
+germany = Country(name="Germany", tag="GER", political_power=150.0, stability=0.7, war_support=0.6)
 
 # Add states
 berlin = State(
     name="Berlin",
     state_category=StateCategory.METROPOLIS,
     civilian_factories=12,
-    military_factories=8
+    military_factories=8,
 )
 germany.add_state(berlin)
 
 # Add national spirit
 militarism = Idea(
-    name="militarism",
-    category=IdeaCategory.COUNTRY,
-    modifier={"army_org_factor": 0.05}
+    name="militarism", category=IdeaCategory.COUNTRY, modifier={"army_org_factor": 0.05}
 )
 germany.add_national_spirit(militarism)
 
@@ -220,7 +212,7 @@ early_mob = Idea(
     name="early_mobilization",
     category=IdeaCategory.ECONOMY,
     cost=150,
-    modifier={"consumer_goods_factor": 0.25}
+    modifier={"consumer_goods_factor": 0.25},
 )
 germany.set_law(early_mob)  # Costs 150 PP
 ```

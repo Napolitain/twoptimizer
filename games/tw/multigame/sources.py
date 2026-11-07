@@ -32,9 +32,7 @@ class Sources:
         if not path.exists():
             if self.offline:
                 raise FileNotFoundError(f"Missing offline source: {url}")
-            request = Request(
-                url, headers={"User-Agent": "twoptimizer-data-import/1.0"}
-            )
+            request = Request(url, headers={"User-Agent": "twoptimizer-data-import/1.0"})
             for attempt in range(3):
                 try:
                     with urlopen(request, timeout=45) as response:
@@ -65,4 +63,4 @@ class Sources:
     def many(self, urls):
         urls = list(dict.fromkeys(urls))
         with ThreadPoolExecutor(max_workers=self.workers) as pool:
-            return dict(zip(urls, pool.map(self.get, urls)))
+            return dict(zip(urls, pool.map(self.get, urls), strict=False))

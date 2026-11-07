@@ -99,9 +99,7 @@ def local_identities(data_dir):
     with (data_dir / "building_culture_variants_table.tsv").open() as stream:
         for row in csv.reader(stream, delimiter="\t"):
             if row[0].startswith("att_"):
-                identities.setdefault((row[9], normalized_name(row[4])), set()).add(
-                    row[0]
-                )
+                identities.setdefault((row[9], normalized_name(row[4])), set()).add(row[0])
     return identities
 
 
@@ -201,7 +199,10 @@ def economic_observations(texts):
                 "fertility_food",
             ),
             (
-                r"Public order: ([+-]?[0-9]+)(?: from established authority)?(?: \(all provinces\))?",
+                (
+                    "Public order: ([+-]?[0-9]+)(?: from established authority)?(?: \\(all"
+                    " provinces\\))?"
+                ),
                 "public_order",
             ),
             (r"Squalor: \+([0-9]+)", "squalor"),
@@ -244,10 +245,7 @@ def records_from_payload(payload, identities):
                     }
                 )
                 continue
-            if any(
-                not isinstance(v, (int, float)) or v < 0
-                for v in (level, cost, turns, upkeep)
-            ):
+            if any(not isinstance(v, (int, float)) or v < 0 for v in (level, cost, turns, upkeep)):
                 raise ValueError("Source contains invalid building numbers")
             effects = [payload["fx"][index][0] for index in fx_indices]
             technologies = [
@@ -281,9 +279,7 @@ def import_data(cache, output, offline=False, cultures=CULTURES, data_dir=DATA):
         if not path.exists():
             if offline:
                 raise FileNotFoundError(f"Offline source cache missing: {path}")
-            request = Request(
-                url, headers={"User-Agent": "twoptimizer-data-import/1.0"}
-            )
+            request = Request(url, headers={"User-Agent": "twoptimizer-data-import/1.0"})
             with urlopen(request, timeout=45) as response:
                 raw = response.read(8 * 1024 * 1024 + 1)
             if len(raw) > 8 * 1024 * 1024:
@@ -292,17 +288,13 @@ def import_data(cache, output, offline=False, cultures=CULTURES, data_dir=DATA):
             parse_payload(raw.decode("utf-8"))
             path.write_bytes(raw)
         raw = path.read_bytes()
-        build = re.search(
-            r"Steam build (?:<!--.*?-->\s*)?([0-9]+)", raw.decode("utf-8")
-        )
+        build = re.search(r"Steam build (?:<!--.*?-->\s*)?([0-9]+)", raw.decode("utf-8"))
         if build is None:
             raise ValueError(f"Source page no longer declares a game build: {url}")
         game_builds.add(build[1])
         if len(game_builds) != 1:
             raise ValueError("Refusing to mix source pages from different game builds")
-        records, unmatched = records_from_payload(
-            parse_payload(raw.decode("utf-8")), identities
-        )
+        records, unmatched = records_from_payload(parse_payload(raw.decode("utf-8")), identities)
         for key, record in records.items():
             technologies = record.pop("required_technologies_any")
             observations = record.pop("economic_observations")
@@ -357,9 +349,7 @@ def import_data(cache, output, offline=False, cultures=CULTURES, data_dir=DATA):
     temporary = output.with_suffix(output.suffix + ".tmp")
     temporary.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n")
     temporary.replace(output)
-    print(
-        f"Imported {len(all_records)} buildings; {len(conflicts)} conflicting observations"
-    )
+    print(f"Imported {len(all_records)} buildings; {len(conflicts)} conflicting observations")
     return report
 
 

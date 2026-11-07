@@ -59,8 +59,8 @@ November 3, 2025
 from games.hoi4 import GameDate, HISTORICAL_DATES
 
 start = HISTORICAL_DATES["game_start"]  # 1936.01.01
-war = HISTORICAL_DATES["war_start"]      # 1939.09.01
-days = start.days_until(war)             # 1339 days
+war = HISTORICAL_DATES["war_start"]  # 1939.09.01
+days = start.days_until(war)  # 1339 days
 ```
 
 ### 2. GameClock (`models/game_date.py`)
@@ -110,10 +110,10 @@ print(f"Days elapsed: {clock.elapsed_days()}")  # 1339 days
 from games.hoi4.models.equipment import create_infantry_equipment
 
 eq = create_infantry_equipment()
-print(f"{eq.display_name}")              # Infantry Equipment I
+print(f"{eq.display_name}")  # Infantry Equipment I
 print(f"Cost: {eq.production_cost} IC")  # Cost: 0.5 IC
-print(f"Time: {eq.production_time} days") # Time: 30 days
-print(f"Steel: {eq.resource_cost['steel']}") # Steel: 1.0
+print(f"Time: {eq.production_time} days")  # Time: 30 days
+print(f"Steel: {eq.resource_cost['steel']}")  # Steel: 1.0
 ```
 
 ### 4. ProductionLine (`models/production.py`)
@@ -151,7 +151,7 @@ line = ProductionLine(equipment=eq, assigned_factories=10.0, start_date=start)
 
 # After 90 days, efficiency is 100%
 eff = line.calculate_efficiency(start.add_days(90))
-print(f"Efficiency: {eff*100:.0f}%")  # 100%
+print(f"Efficiency: {eff * 100:.0f}%")  # 100%
 
 # Total output in one year
 total = line.calculate_output_by_date(target)
@@ -242,7 +242,7 @@ result = optimizer.optimize_production(
     available_naval_factories=5.0,
     goals=goals,
     start_date=start,
-    efficiency_modifiers=0.0
+    efficiency_modifiers=0.0,
 )
 
 print(f"Status: {result.status}")  # OPTIMAL
@@ -357,7 +357,7 @@ result = optimizer.optimize_production(
     available_military_factories=25.0,
     available_naval_factories=5.0,
     goals=goals,
-    start_date=HISTORICAL_DATES["game_start"]
+    start_date=HISTORICAL_DATES["game_start"],
 )
 
 # Check results
@@ -376,8 +376,8 @@ from games.hoi4.optimization.production_optimizer import ProductionGoal
 optimizer = ProductionOptimizer()
 
 # Equipment that needs steel
-eq1 = create_artillery()      # Needs 2 steel + 0.5 tungsten
-eq2 = create_light_tank()     # Needs 2 steel + 1 chromium
+eq1 = create_artillery()  # Needs 2 steel + 0.5 tungsten
+eq2 = create_light_tank()  # Needs 2 steel + 1 chromium
 
 start = GameDate(1936, 1, 1)
 target = GameDate(1937, 1, 1)
@@ -399,7 +399,7 @@ result = optimizer.optimize_production(
     available_naval_factories=0.0,
     goals=goals,
     start_date=start,
-    available_resources=available_resources
+    available_resources=available_resources,
 )
 
 # Check resource usage

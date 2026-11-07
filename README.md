@@ -14,6 +14,66 @@ Three Kingdoms has [583 audited building detail pages](reports/three-kingdoms-re
 but still lacks essential rules for a trustworthy optimizer. Neither new model is a complete
 installed-build-verified campaign simulation.
 
+## Development
+
+The development workflow follows [template-python](https://github.com/Napolitain/template-python)
+(at `e20ae6d4e22d327b0a86735a0282f0db048cf8b7`), adapted to this repository's bundled
+game data and solver backends. See [AGENTS.md](AGENTS.md) for working and commit policies.
+
+Python 3.14 is the default in `.python-version`; Python 3.12 remains supported.
+Install [uv](https://docs.astral.sh/uv/), then run from the repository root:
+
+```sh
+uv sync --locked
+uv run --frozen prek install
+uv run --frozen prek run --all-files
+uv run --frozen prek run --all-files --hook-stage pre-push
+uv build
+```
+
+Pre-commit runs source hygiene, Ruff formatting/linting (including a complexity
+limit of 10), and ty with warnings treated as errors. Pre-push runs ty and pytest
+with an 80% branch-coverage gate. The same gates run in CI on Python 3.12 and 3.14.
+Ruff applies safe fixes; review any fixes before committing. Hypothesis properties
+run with pytest. Focused tests use `uv run --frozen pytest tests/test_shogun2.py
+--no-cov`; retain the coverage gate for full-suite validation.
+
+`pyproject.toml` declares runtime and development dependencies; `uv.lock` pins the
+resolved environment. To intentionally update dependencies, run `uv lock --upgrade`,
+then sync and rerun all gates. `pip install -r requirements.txt` remains supported
+as an editable runtime installation, with dependencies read from `pyproject.toml`.
+
+`uv build` creates a wheel and source distribution containing the `games` package
+and its reference data. The existing `python -m games...` entry points work from an
+installed wheel outside the checkout. No game installation or external services
+are needed for the checked-in-data workflow.
+
+Whitespace hooks preserve bundled game tables, reports and solver-result fixtures:
+trailing tabs, BOMs and exact hashes can be meaningful. Online import commands
+refresh source snapshots; run them intentionally. Historical reports retain their
+original code fingerprints and may require regeneration before current-code replay.
+
+### Optional Nix shell and mutation testing
+
+The template's optional Nix shell is included for x86_64/aarch64 Linux and Apple
+Silicon macOS. With flakes enabled, use `nix develop --command "$SHELL"`, then the
+same uv commands. The shell supplies Python 3.14, uv and prek; it disables automatic
+Python downloads. Refresh its pinned packages with `nix flake update nixpkgs`.
+
+Mutation testing runs on demand and weekly in CI:
+
+```sh
+uv run --frozen prek run --all-files --hook-stage manual mutmut
+uv run --frozen mutmut browse
+```
+
+The wrapper fails on surviving, untested, suspicious or timed-out mutants; mutmut's
+own exit code alone is insufficient. The full run can be expensive across solver
+and importer modules. Decorated application functions may be skipped by mutmut. Clear the generated,
+ignored `mutants/` directory before verifying changes across modules to avoid
+executing a stale cached source snapshot.
+`uv build` packages Python; it does not provide an application PGO pipeline.
+
 ## Run Rome II
 
 ```sh
@@ -47,8 +107,7 @@ validation against the installed build.
 ## Run Attila
 
 ```sh
-python -m venv .venv
-.venv/bin/pip install -r requirements.txt
+uv sync --locked
 .venv/bin/python -m games.tw.benchmark --province Thracia --fertility 5 \
   --seconds 60 --output benchmark-results/thracia.json
 ```

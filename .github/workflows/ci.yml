@@ -1,40 +1,46 @@
 name: CI
 
-on: [ push ]
+on:
+    push:
+        branches: [master]
+    pull_request:
+
+permissions:
+    contents: read
+
+concurrency:
+    group: ci-${{ github.ref }}
+    cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [ "3.12" ]
-
-    steps:
-      - uses: actions/checkout@v4  # Shallow clone is enabled by default
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v3
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install uv
-        run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
-
-      - name: Install dependencies
-        run: |
-          uv pip install --system -r requirements.txt
-          uv pip install --system ruff pytest
-
-      - name: Lint with ruff
-        run: |
-          ruff check . || true
-
-      - name: Run tests with pytest
-        run: |
-          pytest
-
-      - name: Test Total War Attila main.py
-        run: |
-          python -m games.tw.attila.main
+    ci:
+        runs-on: ubuntu-26.04
+        timeout-minutes: 15
+        strategy:
+            fail-fast: false
+            matrix:
+                python-version: ["3.12", "3.14"]
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+            - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+              with:
+                  python-version: ${{ matrix.python-version }}
+                  enable-cache: true
+            - run: uv sync --locked
+            - name: Hooks (pre-commit)
+              run: uv run --frozen prek run --all-files --show-diff-on-failure
+            - name: Hooks (pre-push)
+              run: uv run --frozen prek run --all-files --hook-stage pre-push
+            - run: uv build
+            - name: Smoke-test installed wheel outside the checkout
+              run: |
+                  uv venv "$RUNNER_TEMP/wheel-env"
+                  uv pip install --python "$RUNNER_TEMP/wheel-env/bin/python" dist/*.whl
+                  cd "$RUNNER_TEMP"
+                  "$RUNNER_TEMP/wheel-env/bin/python" - <<'PYTHON'
+                  from games.tw.shogun2.model import Economy, Province, Scenario
+                  provinces = tuple(Province(p) for p in ("jap_sado", "jap_settsu", "jap_owari"))
+                  result = Economy(Scenario("oda", provinces)).optimize(seconds=5, workers=1)
+                  assert result["solver"]["status"] == "OPTIMAL"
+                  assert abs(result["domestic_tax_income"] - 7688.06) < 1e-5
+                  PYTHON

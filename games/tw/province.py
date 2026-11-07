@@ -1,5 +1,3 @@
-from typing import List
-
 from games.tw.bases import ProvinceBase
 from games.tw.building import Building
 from games.tw.entity import Entity
@@ -43,8 +41,7 @@ class Province(ProvinceBase, Entity):
         Games.problem.create_constraint(
             name=f"{self.get_name()}_Public_Order",
             variables=[
-                building.public_order() * building.lp_variable
-                for building in self.buildings()
+                building.public_order() * building.lp_variable for building in self.buildings()
             ],
             constraint_fn=lambda expr: expr >= 0,
         )
@@ -58,9 +55,7 @@ class Province(ProvinceBase, Entity):
         """
         Games.problem.create_constraint(
             name=f"{self.get_name()}_Food",
-            variables=[
-                building.food() * building.lp_variable for building in self.buildings()
-            ],
+            variables=[building.food() * building.lp_variable for building in self.buildings()],
             constraint_fn=lambda expr: expr >= 0,
         )
 
@@ -68,27 +63,29 @@ class Province(ProvinceBase, Entity):
         if not Games.legacy_effects:
             return
         """
-        Add sanitation constraint to each region in the province, using the sanitation method from the building class + global effects.
-        Sum of each buildings sanitation must be greater or equal to 1, per region, including global effects. We can thus substract the global effects from 1.
+        Add regional sanitation constraints using building and global effects.
+        Each region needs at least one sanitation point, including province effects.
         :return:
         """
         for region in self.regions:
+            if any(b.lp_variable is None for b in region.buildings):
+                raise ValueError("Assign building variables before sanitation constraints")
             Games.problem.create_constraint(
                 name=f"{self.get_name()}_Sanitation_Constraint_{region.name}",
                 variables=[
-                    building.sanitation() * building.lp_variable
-                    for building in region.buildings
+                    building.sanitation() * building.variable for building in region.buildings
                 ],
                 variables2=[
-                    building.sanitation_scope(Scope.PROVINCE) * building.lp_variable
+                    building.sanitation_scope(Scope.PROVINCE) * building.variable
                     for building in self.buildings()
                 ],
                 constraint_fn=lambda expr1, expr2: expr1 >= 1 - expr2,
             )
 
-    def buildings(self) -> List[Building]:
+    def buildings(self) -> list[Building]:
         """
-        Return all buildings in the province that are potentially built. Basically, will be all our LpVariables.
+        Return all buildings in the province that are potentially built. Basically, will be all
+        our LpVariables.
         :return:
         """
         return [building for region in self.regions for building in region.buildings]

@@ -1,4 +1,2 @@
-pulp>=2.7,<4
-ortools>=9.10,<10
-numpy>=2.0.2
-pyscipopt>=6,<7
+# Compatibility entry point; pyproject.toml is the dependency source of truth.
+-e .

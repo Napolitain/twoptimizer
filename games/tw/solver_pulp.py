@@ -33,9 +33,7 @@ class SolverPulp(Solver):
     def create_variable(self, name: str, cat: str) -> LpVariable:
         return LpVariable(name, cat=cat)
 
-    def create_constraint(
-        self, name: str, variables, variables2=None, constraint_fn=None
-    ):
+    def create_constraint(self, name: str, variables, variables2=None, constraint_fn=None):
         """Handles summation internally using lpSum"""
         # Sum up the variables
         expr1 = lpSum(variables)
@@ -72,9 +70,7 @@ class SolverPulp(Solver):
                 parser.get_entry_name(FullEntryName(v.name), EntryType.REGION),
                 EntryType.REGION,
             )
-            building_print_name = parser.get_print_name(
-                building_name, EntryType.BUILDING
-            )
+            building_print_name = parser.get_print_name(building_name, EntryType.BUILDING)
             region_print_name = parser.get_print_name(region_name, EntryType.REGION)
             if v.varValue == 1:
                 answers.append((region_print_name, building_print_name))

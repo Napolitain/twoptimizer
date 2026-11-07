@@ -10,6 +10,7 @@ from dataclasses import asdict
 from math import isfinite
 from pathlib import Path
 from time import perf_counter
+from typing import Any
 
 import ortools
 
@@ -24,7 +25,7 @@ def load_attila(faction, religion, legacy=False):
     Games.legacy_effects = legacy
     Games.instance = AttilaGame(faction=faction, religion=religion)
     Games.USE_NAME = NameType.NAME
-    parser = Games.instance.get_parser()
+    parser = Games.current().get_parser()
     parser.parse_building_effects_junction_tables()
     parser.parse_start_pos_tsv(parser.game_dir)
     Games.buildings = parser.buildings
@@ -95,19 +96,14 @@ def compare(
     workers=1,
 ):
     results = [
-        solve(model, name, seconds, seed, width, restarts, workers=workers)
-        for name in algorithms
+        solve(model, name, seconds, seed, width, restarts, workers=workers) for name in algorithms
     ]
-    feasible = [
-        r.objective for r in results if not r.relaxation and r.objective is not None
-    ]
+    feasible = [r.objective for r in results if not r.relaxation and r.objective is not None]
     best = max(feasible, default=None)
     bounds = [r.bound for r in results if r.bound is not None and isfinite(r.bound)]
     upper = min(bounds, default=None)
     if upper is not None and best is not None and upper < best - 1e-5:
-        raise RuntimeError(
-            "Reported upper bound is below a validated feasible solution"
-        )
+        raise RuntimeError("Reported upper bound is below a validated feasible solution")
     rows = []
     for result in results:
         row = asdict(result)
@@ -122,54 +118,53 @@ def compare(
             else None
         )
         row["fractional_values"] = (
-            dict(zip(model.names, values))
+            dict(zip(model.names, values, strict=False))
             if values is not None and result.relaxation
             else None
         )
         row["gap_to_best_percent"] = (
             100 * max(0, best - result.objective) / max(1, abs(best))
-            if best is not None
-            and result.objective is not None
-            and not result.relaxation
+            if best is not None and result.objective is not None and not result.relaxation
             else None
         )
         row["gap_to_bound_percent"] = (
             100 * max(0, upper - result.objective) / max(1, abs(upper))
-            if upper is not None
-            and result.objective is not None
-            and not result.relaxation
+            if upper is not None and result.objective is not None and not result.relaxation
             else None
         )
         if economy is not None and row["selected"] is not None:
             row["layout"] = economy.evaluate_layout(set(row["selected"]), objective)
             if abs(row["layout"]["objective"] - result.objective) > 1e-5:
-                raise RuntimeError(
-                    "Layout evaluator disagrees with the compiled objective"
-                )
+                raise RuntimeError("Layout evaluator disagrees with the compiled objective")
         rows.append(row)
     return {"best_feasible": best, "upper_bound": upper, "results": rows}
+
+
+def _apply_region_fertility(args, parser, cli):
+    for assignment in args.region_fertility:
+        try:
+            name, value = assignment.rsplit("=", 1)
+            value = float(value)
+            if not isfinite(value) or value < 0:
+                raise ValueError()
+            matches = [r for r in parser.regions.values() if name in (r.name, r.print_name)]
+            if len(matches) != 1:
+                raise ValueError()
+            matches[0].fertility = value
+        except ValueError:
+            cli.error(f"Invalid or unknown region fertility assignment: {assignment}")
 
 
 def main(argv=None):
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument("--algorithms", nargs="+", choices=ALGORITHMS, default=["cp-sat"])
     cli.add_argument("--fertility", type=float, nargs="+", default=[0, 5])
-    cli.add_argument(
-        "--province", action="append", help="Province ID or display name; repeatable"
-    )
-    cli.add_argument(
-        "--limit", type=int, help="First N selected provinces (default: all)"
-    )
-    cli.add_argument(
-        "--seconds", type=float, default=5, help="Per-algorithm solve budget per case"
-    )
+    cli.add_argument("--province", action="append", help="Province ID or display name; repeatable")
+    cli.add_argument("--limit", type=int, help="First N selected provinces (default: all)")
+    cli.add_argument("--seconds", type=float, default=5, help="Per-algorithm solve budget per case")
     cli.add_argument("--seed", type=int, default=0)
-    cli.add_argument(
-        "--scenario", type=Path, help="Campaign inputs, targets and weights as JSON"
-    )
-    cli.add_argument(
-        "--joint", action="store_true", help="Optimize selected provinces together"
-    )
+    cli.add_argument("--scenario", type=Path, help="Campaign inputs, targets and weights as JSON")
+    cli.add_argument("--joint", action="store_true", help="Optimize selected provinces together")
     cli.add_argument(
         "--workers", type=int, default=1, help="CP-SAT workers; other solvers unchanged"
     )
@@ -190,16 +185,12 @@ def main(argv=None):
         action="store_true",
         help="No researched technologies (default: all available)",
     )
-    cli.add_argument(
-        "--region-fertility", action="append", default=[], metavar="REGION=VALUE"
-    )
+    cli.add_argument("--region-fertility", action="append", default=[], metavar="REGION=VALUE")
     cli.add_argument("--beam-width", type=int, default=128)
     cli.add_argument("--restarts", type=int, default=16)
     cli.add_argument("--city-level", type=int, choices=range(1, 5), default=4)
     cli.add_argument("--building-level", type=int, choices=range(1, 5), default=1)
-    cli.add_argument(
-        "--military", action="store_true", help="Include military buildings"
-    )
+    cli.add_argument("--military", action="store_true", help="Include military buildings")
     cli.add_argument(
         "--faction",
         choices=[f.name for f in AttilaGame.Factions],
@@ -223,9 +214,7 @@ def main(argv=None):
         or (args.limit is not None and args.limit < 1)
         or any(not isfinite(f) or f < 0 for f in args.fertility)
     ):
-        cli.error(
-            "Budgets/counts must be positive and fertility must be finite and nonnegative"
-        )
+        cli.error("Budgets/counts must be positive and fertility must be finite and nonnegative")
     try:
         scenario = json.loads(args.scenario.read_text()) if args.scenario else None
         from games.tw.attila.scenario import Scenario
@@ -240,34 +229,9 @@ def main(argv=None):
         AttilaGame.Religion[args.religion],
         legacy=args.objective == "legacy",
     )
-    for assignment in args.region_fertility:
-        try:
-            name, value = assignment.rsplit("=", 1)
-            value = float(value)
-            if not isfinite(value) or value < 0:
-                raise ValueError()
-            matches = [
-                r for r in parser.regions.values() if name in (r.name, r.print_name)
-            ]
-            if len(matches) != 1:
-                raise ValueError()
-            matches[0].fertility = value
-        except ValueError:
-            cli.error(f"Invalid or unknown region fertility assignment: {assignment}")
+    _apply_region_fertility(args, parser, cli)
     provinces = list(parser.provinces.values())
-    if args.province:
-        missing = set(args.province) - {
-            n for p in provinces for n in (p.name, p.print_name)
-        }
-        if missing:
-            cli.error(f"Unknown provinces: {', '.join(sorted(missing))}")
-        provinces = [
-            p
-            for p in provinces
-            if p.name in args.province or p.print_name in args.province
-        ]
-    if args.limit:
-        provinces = provinces[: args.limit]
+    provinces = _select_provinces(args, provinces, cli)
     digest = hashlib.sha256()
     for path in sorted(
         [
@@ -282,14 +246,26 @@ def main(argv=None):
     settings = vars(args).copy()
     settings.pop("output")
     settings["scenario"] = scenario
-    report = {
+    report: dict[str, Any] = {
         "settings": settings,
         "ortools_version": ortools.__version__,
         "data_sha256": digest.hexdigest(),
         "cases": [],
     }
     print(
-        f"{'Province':24} {'Fert':>5} {'Algorithm':12} {'Status':18} {'Objective':>10} {'Seconds':>8} {'Gap/bound':>10}"
+        f"{'Province':24}"
+        " "
+        f"{'Fert':>5}"
+        " "
+        f"{'Algorithm':12}"
+        " "
+        f"{'Status':18}"
+        " "
+        f"{'Objective':>10}"
+        " "
+        f"{'Seconds':>8}"
+        " "
+        f"{'Gap/bound':>10}"
     )
     for fertility in args.fertility:
         for group in [provinces] if args.joint else [[p] for p in provinces]:
@@ -312,16 +288,14 @@ def main(argv=None):
                 )
             except (ValueError, TypeError) as error:
                 cli.error(str(error))
-            case = {
+            case: dict[str, Any] = {
                 "province": "joint" if args.joint else province.name,
                 "province_name": ", ".join(p.print_name for p in group),
                 "fertility": fertility,
                 "variables": len(model.names),
                 "constraints": len(model.lower),
                 "build_seconds": build_seconds,
-                "omitted_effects": sorted(set(economy.omitted))
-                if economy is not None
-                else [],
+                "omitted_effects": sorted(set(economy.omitted)) if economy is not None else [],
             }
             case.update(
                 compare(
@@ -337,23 +311,38 @@ def main(argv=None):
                 )
             )
             report["cases"].append(case)
-            for result in case["results"]:
-                gdp = (
-                    "-" if result["objective"] is None else f"{result['objective']:.2f}"
-                )
-                gap = (
-                    "-"
-                    if result["gap_to_bound_percent"] is None
-                    else f"{result['gap_to_bound_percent']:.2f}%"
-                )
-                print(
-                    f"{case['province_name'][:24]:24} {fertility:5g} {result['algorithm']:12} "
-                    f"{result['status']:18} {gdp:>10} {result['seconds']:8.3f} {gap:>10}"
-                )
+            _print_case(case, fertility)
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
     return report
+
+
+def _select_provinces(args, provinces, cli):
+    if args.province:
+        missing = set(args.province) - {n for p in provinces for n in (p.name, p.print_name)}
+        if missing:
+            cli.error(f"Unknown provinces: {', '.join(sorted(missing))}")
+        provinces = [
+            p for p in provinces if p.name in args.province or p.print_name in args.province
+        ]
+    if args.limit:
+        provinces = provinces[: args.limit]
+    return provinces
+
+
+def _print_case(case, fertility):
+    for result in case["results"]:
+        gdp = "-" if result["objective"] is None else f"{result['objective']:.2f}"
+        gap = (
+            "-"
+            if result["gap_to_bound_percent"] is None
+            else f"{result['gap_to_bound_percent']:.2f}%"
+        )
+        print(
+            f"{case['province_name'][:24]:24} {fertility:5g} {result['algorithm']:12} "
+            f"{result['status']:18} {gdp:>10} {result['seconds']:8.3f} {gap:>10}"
+        )
 
 
 if __name__ == "__main__":

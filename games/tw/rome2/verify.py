@@ -40,19 +40,7 @@ def verify(paths):
             economy = Economy(Scenario(**raw), data)
             layout = {key: row["buildings"] for key, row in case["sites"].items()}
             checked = economy.evaluate(layout, case["party_index"])
-            for key in (
-                "domestic_net_income",
-                "domestic_tax_income",
-                "building_maintenance",
-                "food_surplus",
-                "public_order",
-                "modified_wealth",
-                "tax_modifier_percent_net",
-            ):
-                if abs(checked[key] - case[key]) > 1e-5:
-                    raise AssertionError(
-                        f"Stored economics differs: {path}, {case['case_key']}, {key}"
-                    )
+            _verify_economics(checked, case, path)
             income, bound = checked["domestic_net_income"], case["solver"]["bound"]
             if (
                 abs(case["solver"]["objective"] - income) > 1e-5
@@ -73,16 +61,33 @@ def verify(paths):
         "catalog_sha256": catalog_hash,
         "model_sha256": model_hash,
         "source_reports": reports,
-        "scope": "Replays eligibility, slots, branches, parties, economics, food/order, objective, upper-bound consistency and portable proof metadata. Does not independently reproduce solver proofs or validate against the installed game.",
+        "scope": (
+            "Replays eligibility, slots, branches, parties, economics, "
+            "food/order, objective, upper-bound consistency and portable proof "
+            "metadata. Does not independently reproduce solver proofs or validate"
+            " against the installed game."
+        ),
     }
+
+
+def _verify_economics(checked, case, path):
+    for key in (
+        "domestic_net_income",
+        "domestic_tax_income",
+        "building_maintenance",
+        "food_surplus",
+        "public_order",
+        "modified_wealth",
+        "tax_modifier_percent_net",
+    ):
+        if abs(checked[key] - case[key]) > 1e-5:
+            raise AssertionError(f"Stored economics differs: {path}, {case['case_key']}, {key}")
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", action="append", type=Path)
-    parser.add_argument(
-        "--output", type=Path, default=Path("reports/rome2-verification.json")
-    )
+    parser.add_argument("--output", type=Path, default=Path("reports/rome2-verification.json"))
     args = parser.parse_args(argv)
     paths = args.input or [
         Path("reports") / f"rome2-{name}-comparison.json"
@@ -91,7 +96,11 @@ def main(argv=None):
     result = verify(paths)
     args.output.write_text(json.dumps(result, indent=2) + "\n")
     print(
-        f"Verified {result['verified_feasible_layouts']} layouts ({result['optimal_solver_results']} optimal solver results)"
+        "Verified "
+        f"{result['verified_feasible_layouts']}"
+        " layouts ("
+        f"{result['optimal_solver_results']}"
+        " optimal solver results)"
     )
     return result
 

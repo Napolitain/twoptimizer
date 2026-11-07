@@ -17,6 +17,7 @@ from games.tw.games import Games
 from games.tw.models.game_attila import AttilaGame
 from games.tw.problem import Problem
 from games.tw.region import Region
+from games.tw.solver_ortools import SolverOrTools
 from tests.test_attila_effects import building, province, restore_globals  # noqa: F401
 
 NO_MODIFIERS = {"technology_effects": False, "religion_traits": False}
@@ -35,10 +36,7 @@ def test_default_income_selects_taxed_roman_wealth_over_larger_gross_wealth():
     problem = Problem()
     assert problem.objective_mode == "income"
     problem.add_province(p)
-    data = (
-        Path(__file__).parents[1]
-        / "games/tw/attila/data/building_effects_junction_table.tsv"
-    )
+    data = Path(__file__).parents[1] / "games/tw/attila/data/building_effects_junction_table.tsv"
     with data.open() as stream:
         tax = next(
             float(amount)
@@ -64,6 +62,7 @@ def test_default_income_selects_taxed_roman_wealth_over_larger_gross_wealth():
         building(r, "health", ("sanitation_buildings", "region_to_region_own", 1)),
     ]
     for b in candidates:
+        assert isinstance(problem.problem, SolverOrTools)
         b.lp_variable = problem.problem.solver.BoolVar(b.name)
     problem.problem.create_constraint(
         "choice",
@@ -77,8 +76,9 @@ def test_default_income_selects_taxed_roman_wealth_over_larger_gross_wealth():
         result = solve(model, algorithm)
         assert result.status == "OPTIMAL"
         assert result.objective == pytest.approx(97.6)
-        selected = {n for n, v in zip(model.names, result.values) if v > 0.5}
+        selected = {n for n, v in zip(model.names, result.values, strict=False) if v > 0.5}
         assert "roman" in selected and "gross" not in selected
+        assert problem.economy is not None
         report = problem.economy.evaluate_layout(selected)
         assert report["finances"]["total"]["tax_bonus_income"] == pytest.approx(7.6)
         assert report["finances"]["total"]["building_upkeep"] == 5
@@ -118,9 +118,7 @@ def test_ere_tariffs_corruption_and_upkeep_have_separate_channels():
         }
     )
     assert report["objective"] == 170
-    interest = next(
-        t for t in report["faction_traits"]["traits"] if "interest" in t["text"]
-    )
+    interest = next(t for t in report["faction_traits"]["traits"] if "interest" in t["text"])
     assert interest["status"] == "excluded_by_requested_objective"
 
 
@@ -190,9 +188,7 @@ def test_sassanid_capitals_and_tribute_count_once_with_multiple_regions():
     )
     assert [e.evaluate(e.sanitation(r), set()) for r in (a, b)] == [3, 3]
     assert e.evaluate(e.objective(), set()) == 200
-    assert (
-        e.evaluate_layout(set())["finances"]["total"]["other_recurring_income"] == 200
-    )
+    assert e.evaluate_layout(set())["finances"]["total"]["other_recurring_income"] == 200
 
 
 def test_axum_trade_food_is_a_provincial_total_and_trade_bonus_applies_once():
@@ -221,8 +217,7 @@ def test_peace_subsidy_is_once_per_faction_not_per_province():
     missing = Economy(e.provinces, scenario=NO_MODIFIERS)
     assert missing.evaluate(missing.objective(), set()) == 0
     assert any(
-        t.get("required_input") == "at_peace_with_sassanids"
-        for t in missing.traits["traits"]
+        t.get("required_input") == "at_peace_with_sassanids" for t in missing.traits["traits"]
     )
 
 
@@ -241,9 +236,7 @@ def test_disabled_roman_technology_is_not_an_active_bonus():
     assert economy.modifiers["technologies"]["active"] == profile["active"]
     for b in economy.buildings:
         assert b.metadata is not None
-        for alternatives in b.metadata["requirements_by_culture"].get(
-            "eastern-roman", []
-        ):
+        for alternatives in b.metadata["requirements_by_culture"].get("eastern-roman", []):
             assert not set(alternatives) <= set(profile["disabled_legacy"])
 
 
@@ -256,35 +249,22 @@ def test_disabled_roman_technology_is_not_an_active_bonus():
         ("eastern", "corruption_percent", None, -5),
     ],
 )
-def test_state_religion_economic_bonus_has_exact_imported_semantics(
-    faith, kind, category, value
-):
+def test_state_religion_economic_bonus_has_exact_imported_semantics(faith, kind, category, value):
     game("ATT_FACT_EASTERN_ROMAN_EMPIRE", faith)
-    report, effects = modifier_profile(
-        Games.instance, scenario={"technology_effects": False}
-    )
+    report, effects = modifier_profile(Games.instance, scenario={"technology_effects": False})
     assert len(effects) >= 1
     assert any(
-        rule.kind == kind
-        and (category is None or category in rule.categories)
-        and amount == value
+        rule.kind == kind and (category is None or category in rule.categories) and amount == value
         for _, rule, _, amount in effects
     )
     assert report["religion"]["source_sha256"]
 
 
 def test_rule_parser_does_not_flatten_subsistence_trade_or_unrest_percentages():
-    assert semantics("Wealth: +25% from subsistence")[0][0].categories == (
-        "subsistence",
-    )
+    assert semantics("Wealth: +25% from subsistence")[0][0].categories == ("subsistence",)
+    assert semantics("Trade income: +10% trade agreement tariffs")[0][0].kind == "tariff_percent"
     assert (
-        semantics("Trade income: +10% trade agreement tariffs")[0][0].kind
-        == "tariff_percent"
-    )
-    assert (
-        semantics("Public order: -5% penalty due to presence of other religions")[0][
-            0
-        ].kind
+        semantics("Public order: -5% penalty due to presence of other religions")[0][0].kind
         == "religious_order_percent"
     )
     assert not semantics("Unknown bonus: +10000")
@@ -306,7 +286,14 @@ def test_new_faiths_keep_their_source_building_aliases(faith, building_id):
 
 
 def test_opposition_party_is_not_given_to_the_ruler():
-    html = """<p>Campaign</p>main_attila<!-- Faction Group Effects --><div style="margin-left:64px">Sunscorched: +2 sanitation<br></div><!-- Political Parties Effects --><div style="margin-left:64px">Playable: False<br>Initial Power: 30<br>Trade tariffs: +999%<br></div><div style="margin-left:64px">Playable: True<br>Initial Power: 70<br>Trade tariffs: +50%<br></div><div class="table-responsive">"""
+    html = (
+        "<p>Campaign</p>main_attila<!-- Faction Group Effects --><div "
+        'style="margin-left:64px">Sunscorched: +2 sanitation<br></div><!-- '
+        'Political Parties Effects --><div style="margin-left:64px">Playable:'
+        " False<br>Initial Power: 30<br>Trade tariffs: +999%<br></div><div "
+        'style="margin-left:64px">Playable: True<br>Initial Power: '
+        '70<br>Trade tariffs: +50%<br></div><div class="table-responsive">'
+    )
     result = parse_faction(html)
     assert result["faction_traits"] == ["Trade tariffs: +50%"]
     assert result["other_party_traits"] == [["Trade tariffs: +999%"]]

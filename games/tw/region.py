@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import List, cast
+from typing import cast
 
 from games.tw.bases import RegionBase
 from games.tw.building import Building
@@ -7,7 +7,7 @@ from games.tw.entity import Entity
 from games.tw.enums import NameType, get_hash_name
 from games.tw.games import Games
 from games.tw.models.game_attila import AttilaGame
-from games.tw.models.model import RegionType, RegionPort
+from games.tw.models.model import RegionPort, RegionType
 from games.tw.models.model_attila import AttilaRegionResources, AttilaReligion
 
 
@@ -19,11 +19,11 @@ class Region(RegionBase, Entity):
     def __init__(self, name: str, print_name: str = ""):
         super().__init__()
         self.hash_name = get_hash_name("R")
-        self.fertility = (
-            None  # Explicit regional fertility; None uses the scenario value.
+        self.fertility = None  # Explicit regional fertility; None uses the scenario value.
+        self.n_buildings = (
+            0  # Number of buildings that can be built in the region. NOT equal to len(buildings).
         )
-        self.n_buildings = 0  # Number of buildings that can be built in the region. NOT equal to len(buildings).
-        self.buildings: List[
+        self.buildings: list[
             Building
         ] = []  # List of buildings that are potentially fit for the region.
         self.effects = defaultdict(list)
@@ -38,16 +38,12 @@ class Region(RegionBase, Entity):
         self.building_chain_to_hashname = {}
 
     def get_n_buildings(self):
-        if (
-            type(Games.instance) == AttilaGame
-            and self.name
-            not in [
-                # In attila, except a few regions, we can build one more building in any case.
-                "reg_bithynia_ancyra",
-                "reg_cappadocia_caesarea_eusebia",
-                "reg_palaestinea_nova_trajana_bostra",
-            ]
-        ):  # Argentorum(town which only has 3 slots), Ancyra, Caesarea Eusebia and Nova Trajana Bostra
+        if isinstance(Games.instance, AttilaGame) and self.name not in [
+            # In attila, except a few regions, we can build one more building in any case.
+            "reg_bithynia_ancyra",
+            "reg_cappadocia_caesarea_eusebia",
+            "reg_palaestinea_nova_trajana_bostra",
+        ]:
             return self.n_buildings + 1
         elif (
             self.has_port == RegionPort.REGION_PORT
@@ -73,95 +69,76 @@ class Region(RegionBase, Entity):
         Building must be named region_building.
         :return:
         """
-        if (
-            self.region_type is None
-            or self.has_port is None
-            or self.has_ressource is None
-        ):
+        if self.region_type is None or self.has_port is None or self.has_ressource is None:
             raise ValueError("Region type must be set before adding buildings.")
         # Add buildings Lp variables to the region.
-        for building in Games.buildings[
-            Games.instance.get_campaign().value[1]
-        ].values():
+        if Games.buildings is None:
+            raise ValueError("Load a game building catalog first")
+        for building in Games.buildings[Games.current().get_campaign().value[1]].values():
             if not Games.legacy_effects and any(
-                marker in building.name
-                for marker in ("_barbmigs_", "_nomad_", "_eastmig_")
+                marker in building.name for marker in ("_barbmigs_", "_nomad_", "_eastmig_")
             ):
                 continue  # Horde structures are not province building slots.
             # Filter out buildings that are not of the campaign to reduce the number of LpVariables.
-            if Games.instance.get_filter().building_is_not_of_campaign(building.name):
+            if Games.current().get_filter().building_is_not_of_campaign(building.name):
                 continue
             if (
                 self.region_type == RegionType.REGION_MAJOR
-                and Games.instance.get_filter().building_is_minor(building.name)
+                and Games.current().get_filter().building_is_minor(building.name)
             ):
                 continue
             if (
                 self.region_type == RegionType.REGION_MINOR
-                and Games.instance.get_filter().building_is_major(building.name)
+                and Games.current().get_filter().building_is_major(building.name)
             ):
                 continue
             if "ruin" in building.name or (
                 not Games.legacy_effects and building.name.startswith("att_abandoned_")
             ):
                 continue
-            if not Games.legacy_effects and building.metadata is not None:
-                from games.tw.attila.catalogue import CULTURE_SLUGS
-
-                parser = Games.instance.get_parser()
-                subculture = parser.faction_to_culture[parser.faction.value].subculture
-                culture = CULTURE_SLUGS.get(subculture)
-                if (
-                    culture is not None
-                    and culture not in building.metadata["requirements_by_culture"]
-                ):
-                    continue
-            deep_copy = building.__copy__()
-            deep_copy.region = self
-            deep_copy.name = f"{self.name}_{building.name}"
-            deep_copy.hash_name = f"{self.hash_name}_{building.hash_name}"
-            deep_copy.print_name = f"{self.print_name} {building.print_name}"
-            if Games.USE_NAME == NameType.PRINT_NAME:
-                deep_copy.lp_variable = Games.problem.create_variable(
-                    deep_copy.name, "Binary"
-                )
-            else:
-                deep_copy.lp_variable = Games.problem.create_variable(
-                    deep_copy.get_name(), "Binary"
-                )
-            self.buildings.append(deep_copy)
+            if not Games.legacy_effects and not self._building_matches_culture(building):
+                continue
+            self._copy_building(building)
         # Filter buildings out (remove LpVariables)
         self.filter_type()
         self.filter_resource()
         self.filter_port()
 
+    @staticmethod
+    def _building_matches_culture(building):
+        from games.tw.attila.catalogue import CULTURE_SLUGS
+
+        if building.metadata is None:
+            return True
+        parser = Games.current().get_parser()
+        subculture = parser.faction_to_culture[parser.faction.value].subculture
+        culture = CULTURE_SLUGS.get(subculture)
+        return culture is None or culture in building.metadata["requirements_by_culture"]
+
+    def _copy_building(self, building):
+        deep_copy = building.__copy__()
+        deep_copy.region = self
+        deep_copy.name = f"{self.name}_{building.name}"
+        deep_copy.hash_name = f"{self.hash_name}_{building.hash_name}"
+        deep_copy.print_name = f"{self.print_name} {building.print_name}"
+        if Games.USE_NAME == NameType.PRINT_NAME:
+            deep_copy.lp_variable = Games.problem.create_variable(deep_copy.name, "Binary")
+        else:
+            deep_copy.lp_variable = Games.problem.create_variable(deep_copy.get_name(), "Binary")
+        self.buildings.append(deep_copy)
+
     def filter_technologies(self):
         researched = getattr(Games.problem, "technologies", None)
-        if not Games.legacy_effects and getattr(
-            Games.problem, "require_income_metadata", False
-        ):
-            for i, building in reversed(list(enumerate(self.buildings))):
-                if building.metadata is None:
-                    Games.problem.catalogue_exclusions.append(
-                        {
-                            "building": building.name,
-                            "reason": "Missing imported upkeep/availability metadata; not assumed free",
-                        }
-                    )
-                    self.buildings.pop(i)
+        self._exclude_missing_income_metadata()
         disabled = getattr(Games.problem, "disabled_technologies", set())
         if not Games.legacy_effects and researched is None and disabled:
             from games.tw.attila.catalogue import CULTURE_SLUGS
 
-            parser = Games.instance.get_parser()
-            culture = CULTURE_SLUGS[
-                parser.faction_to_culture[parser.faction.value].subculture
-            ]
+            parser = Games.current().get_parser()
+            culture = CULTURE_SLUGS[parser.faction_to_culture[parser.faction.value].subculture]
             for i, building in reversed(list(enumerate(self.buildings))):
                 if building.metadata is not None:
-                    requirements = building.metadata["requirements_by_culture"].get(
-                        culture, []
-                    )
+                    requirements = building.metadata["requirements_by_culture"].get(culture, [])
                     if any(
                         alternatives and set(alternatives) <= disabled
                         for alternatives in requirements
@@ -170,12 +147,24 @@ class Region(RegionBase, Entity):
         if not Games.legacy_effects and researched is not None:
             from games.tw.attila.catalogue import CULTURE_SLUGS, technology_available
 
-            parser = Games.instance.get_parser()
+            parser = Games.current().get_parser()
             subculture = parser.faction_to_culture[parser.faction.value].subculture
             for i, building in reversed(list(enumerate(self.buildings))):
-                if not technology_available(
-                    building, CULTURE_SLUGS[subculture], researched
-                ):
+                if not technology_available(building, CULTURE_SLUGS[subculture], researched):
+                    self.buildings.pop(i)
+
+    def _exclude_missing_income_metadata(self):
+        if not Games.legacy_effects and getattr(Games.problem, "require_income_metadata", False):
+            for i, building in reversed(list(enumerate(self.buildings))):
+                if building.metadata is None:
+                    Games.problem.catalogue_exclusions.append(
+                        {
+                            "building": building.name,
+                            "reason": (
+                                "Missing imported upkeep/availability metadata; not assumed free"
+                            ),
+                        }
+                    )
                     self.buildings.pop(i)
 
     def add_constraints(self):
@@ -192,18 +181,20 @@ class Region(RegionBase, Entity):
 
     def filter_port(self):
         if self.has_port != RegionPort.REGION_PORT:
-            # Filter out all ports that are not spice if the region has no port to reduce the number of LpVariables.
+            # Filter out all ports that are not spice if the region has no port to reduce the
+            # number of LpVariables.
             for i, building in reversed(list(enumerate(self.buildings))):
-                if Games.instance.get_filter().building_is_port(building.name):
+                if Games.current().get_filter().building_is_port(building.name):
                     self.buildings.pop(i)
         # Filter out port that do not contain "resource" because we have duplicates?
         for i, building in reversed(list(enumerate(self.buildings))):
-            if Games.instance.get_filter().building_is_duplicate(building.name):
+            if Games.current().get_filter().building_is_duplicate(building.name):
                 self.buildings.pop(i)
 
     def add_port_constraint(self):
         """
-        If the region has a port, then we can add a constraint that the number of buildings in the region with "port" is between 1 and 1.
+        If the region has a port, then we can add a constraint that the number of buildings in
+        the region with "port" is between 1 and 1.
         :return:
         """
         if self.has_port == RegionPort.REGION_PORT:
@@ -212,7 +203,7 @@ class Region(RegionBase, Entity):
                 variables=[
                     building.lp_variable
                     for building in self.buildings
-                    if Games.instance.get_filter().building_is_port(building.name)
+                    if Games.current().get_filter().building_is_port(building.name)
                 ],
                 constraint_fn=lambda expr: expr == 1,
             )
@@ -225,20 +216,18 @@ class Region(RegionBase, Entity):
         # Remove buildings that are illegal
         for i, building in reversed(list(enumerate(self.buildings))):
             if (
-                self.has_ressource
-                != AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC
-                and "religion_catholic_legendary" in building.name
-            ):
-                self.buildings.pop(i)
-            elif (
-                self.has_ressource
-                != AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX
-                and "religion_orthodox_legendary" in building.name
-            ):
-                self.buildings.pop(i)
-            elif (
-                self.has_ressource == AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE
-                and Games.instance.get_filter().building_is_resource(building)
+                (
+                    self.has_ressource != AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC
+                    and "religion_catholic_legendary" in building.name
+                )
+                or (
+                    self.has_ressource != AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX
+                    and "religion_orthodox_legendary" in building.name
+                )
+                or (
+                    self.has_ressource == AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE
+                    and Games.current().get_filter().building_is_resource(building)
+                )
             ):
                 self.buildings.pop(i)
             elif self.has_ressource in AttilaRegionResources:
@@ -250,19 +239,18 @@ class Region(RegionBase, Entity):
                 ) or ("spice" in building.name and resource != "spice"):
                     self.buildings.pop(i)
             elif (
-                self.has_ressource
-                == AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX
-                or self.has_ressource
-                == AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC
+                self.has_ressource == AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX
+                or self.has_ressource == AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC
+            ) and (
+                ("resource" in building.name and "port" not in building.name)
+                or "spice" in building.name
             ):
-                if (
-                    "resource" in building.name and "port" not in building.name
-                ) or "spice" in building.name:
-                    self.buildings.pop(i)
+                self.buildings.pop(i)
 
     def add_resource_constraint(self):
         """
-        If the region has a resource, then we can add a constraint that the number of buildings in the region with "resource" and "spice" is between 1 and 1. That's because
+        If the region has a resource, then we can add a constraint that the number of buildings
+        in the region with "resource" and "spice" is between 1 and 1. That's because
         spice resource is mandatory (is a port). Any other resource is optional.
         :param region:
         :return:
@@ -276,13 +264,9 @@ class Region(RegionBase, Entity):
         if hasattr(Games.instance, "religion"):
             x = cast(AttilaGame, Games.instance)
             if x.religion != AttilaReligion.CHRIST_CATHOLIC:
-                resource_constraints[
-                    AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC
-                ] = False
+                resource_constraints[AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC] = False
             if x.religion != AttilaReligion.CHRIST_ORTHODOX:
-                resource_constraints[
-                    AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX
-                ] = False
+                resource_constraints[AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX] = False
 
         # Add constraints dynamically based on the resource type
         if self.has_ressource in resource_constraints:
@@ -294,13 +278,12 @@ class Region(RegionBase, Entity):
                 if chain_name in building.name
                 and ("resource" in building.name or "religion" in chain_name)
             ]
-            # If the resource is mandatory, then the constraint is == 1, otherwise <= 1, because not putting it may be better.
+            # If the resource is mandatory, then the constraint is == 1, otherwise <= 1, because
+            # not putting it may be better.
             Games.problem.create_constraint(
                 name=f"{self.get_name()}_{chain_name.capitalize()}_Resource",
                 variables=constraint,
-                constraint_fn=lambda expr: (
-                    expr == 1 if chain_is_mandatory else expr <= 1
-                ),
+                constraint_fn=lambda expr: expr == 1 if chain_is_mandatory else expr <= 1,
             )
 
     def filter_type(self):
@@ -311,18 +294,17 @@ class Region(RegionBase, Entity):
         for i, building in reversed(list(enumerate(self.buildings))):
             if (
                 self.region_type == RegionType.REGION_MAJOR
-                and Games.instance.get_filter().building_is_minor(building.name)
-            ):
-                self.buildings.pop(i)
-            elif (
+                and Games.current().get_filter().building_is_minor(building.name)
+            ) or (
                 self.region_type == RegionType.REGION_MINOR
-                and Games.instance.get_filter().building_is_major(building.name)
+                and Games.current().get_filter().building_is_major(building.name)
             ):
                 self.buildings.pop(i)
 
     def add_type_constraint(self):
         """
-        If the region is major, then we can add a constraint that all buildings with "minor" are between 0 and 0, as well as "agriculture".
+        If the region is major, then we can add a constraint that all buildings with "minor" are
+        between 0 and 0, as well as "agriculture".
         Conversely, disable civic, major buildings in minor regions.
         :return:
         """
@@ -332,7 +314,7 @@ class Region(RegionBase, Entity):
                 variables=[
                     building.lp_variable
                     for building in self.buildings
-                    if Games.instance.get_filter().building_is_majorcity(building.name)
+                    if Games.current().get_filter().building_is_majorcity(building.name)
                 ],
                 constraint_fn=lambda expr: expr == 1,
             )
@@ -342,14 +324,15 @@ class Region(RegionBase, Entity):
                 variables=[
                     building.lp_variable
                     for building in self.buildings
-                    if Games.instance.get_filter().building_is_minorcity(building.name)
+                    if Games.current().get_filter().building_is_minorcity(building.name)
                 ],
                 constraint_fn=lambda expr: expr == 1,
             )
 
     def add_chain_constraint(self):
         """
-        Add chain constraint to the region. buildingX_1 and buildingX_2 are exclusive, because it is an upgrade.
+        Add chain constraint to the region. buildingX_1 and buildingX_2 are exclusive, because
+        it is an upgrade.
 
         :return:
         """
@@ -369,7 +352,8 @@ class Region(RegionBase, Entity):
 
     def add_building_count_constraint(self):
         """
-        Add building count constraint to the region. The number of buildings in the region must be less or equal to the number of buildings that can be built in the region.
+        Add building count constraint to the region. The number of buildings in the region must
+        be less or equal to the number of buildings that can be built in the region.
         :return:
         """
         Games.problem.create_constraint(
@@ -415,12 +399,15 @@ class Region(RegionBase, Entity):
 
     def filter_military(self):
         """
-        Filter out all military buildings, which are not GDP buildings anyway, and will be a province in isolation.
+        Filter out all military buildings, which are not GDP buildings anyway, and will be a
+        province in isolation.
         :return:
         """
         for i, building in reversed(list(enumerate(self.buildings))):
             if "military" in building.name:
                 self.buildings.pop(i)
+
+    HASH_NAME = "R1"
 
     def increment_hash_name(self) -> str:
         """

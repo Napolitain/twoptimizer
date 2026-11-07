@@ -1,15 +1,73 @@
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry]
-name = "napolitain.twoptimizer"
+[project]
+name = "napolitain-twoptimizer"
 version = "1.0.0"
-description = "Shared library"
-authors = ["Maxime Boucher <mxboucher@gmail.com>"]
-packages = [
-    { include = "napolitain", from = "." }
+description = "Total War economic optimization and Hearts of Iron IV experiments"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [{ name = "Maxime Boucher", email = "mxboucher@gmail.com" }]
+dependencies = [
+    "numpy>=2.0.2",
+    "ortools>=9.10,<10",
+    "pulp>=2.7,<4",
+    "pyscipopt>=6,<7",
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.12"
+[dependency-groups]
+dev = [
+    "hypothesis>=6.168.3",
+    "mutmut>=3.8.0",
+    "prek>=0.5.10",
+    "pytest>=9.2.0",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.17.4",
+    "ty>=0.0.99",
+]
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "games"
+module-root = ""
+source-include = ["tests/**", "tools/**", "reports/**", "uv.lock", "AGENTS.md",
+                  "prek.toml", "requirements.txt", ".python-version", ".editorconfig",
+                  ".github/**", ".gitignore", "flake.nix", "flake.lock"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+show-fixes = true
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF", "C901"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ty.terminal]
+error-on-warning = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "games/hoi4"]
+addopts = ["-ra", "--strict-markers", "--cov", "--cov-report=term-missing", "--cov-report=xml"]
+
+[tool.coverage.run]
+source = ["games"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_also = ["if TYPE_CHECKING:", "raise NotImplementedError"]
+fail_under = 80
+
+[tool.mutmut]
+source_paths = ["games"]
+also_copy = ["tools", "reports"]
+do_not_mutate = ["games/**/test_*.py"]
+pytest_add_cli_args = ["--no-cov"]
+mutate_only_covered_lines = true

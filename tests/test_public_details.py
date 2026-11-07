@@ -12,7 +12,9 @@ from games.tw.rome2.world import DATA, import_world
 
 def test_no_effect_in_three_kingdoms_article_is_explicit():
     record = detail_record(
-        '<h1>City</h1><div id="article_body"><h3>Effects</h3><blockquote>No Effect</blockquote></div><div id="detail"></div><table class="table_stat"><tr><td><p>Food Cost</p>8</td></tr></table>'
+        '<h1>City</h1><div id="article_body"><h3>Effects</h3><blockquote>No '
+        'Effect</blockquote></div><div id="detail"></div><table '
+        'class="table_stat"><tr><td><p>Food Cost</p>8</td></tr></table>'
     )
     assert record["explicit_no_effect"]
     assert record["metadata"] == {"Food Cost": "8"}
@@ -21,7 +23,9 @@ def test_no_effect_in_three_kingdoms_article_is_explicit():
 
 def test_conditional_edict_and_unresolved_slots_are_retained():
     record = detail_record(
-        '<h1>Temple</h1><div id="detail"><h3>Effects</h3>+2 food<br>Bread and Games Edict:<br>+10 public order<br>Building slots: %n<br><h3>Other</h3>+99 food</div>'
+        '<h1>Temple</h1><div id="detail"><h3>Effects</h3>+2 food<br>Bread and'
+        " Games Edict:<br>+10 public order<br>Building slots: "
+        "%n<br><h3>Other</h3>+99 food</div>"
     )
     assert record["facts"] == [
         "+2 food",
@@ -44,9 +48,7 @@ def test_world_join_is_complete_and_rejects_missing_or_unknown_resources():
     with pytest.raises(ValueError, match="Incomplete resource"):
         import_world(load_data(), {**extract, "rows": extract["rows"][:-1]})
     changed = json.loads(json.dumps(extract))
-    changed["rows"][0]["text"] = (
-        changed["rows"][0]["text"].split("|")[0] + "|unknown.png||"
-    )
+    changed["rows"][0]["text"] = changed["rows"][0]["text"].split("|")[0] + "|unknown.png||"
     with pytest.raises(ValueError, match="Unknown resource icon"):
         import_world(load_data(), changed)
 

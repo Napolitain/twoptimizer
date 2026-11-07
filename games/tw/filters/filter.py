@@ -1,9 +1,7 @@
-import abc
-
 from games.tw.models.model import GameFactions
 
 
-class Filter(abc.ABC):
+class Filter:
     """
     All the filters here are pass by default because they are optional.
     Each games will have its own filter implementation.
@@ -20,10 +18,10 @@ class Filter(abc.ABC):
         return "city_minor" in building_name
 
     def building_is_major(self, building_name: str) -> bool:
-        pass
+        return False
 
     def building_is_minor(self, building_name: str) -> bool:
-        pass
+        return False
 
     def building_is_resource(self, building) -> bool:
         """
@@ -31,7 +29,7 @@ class Filter(abc.ABC):
         :param building:
         :return:
         """
-        pass
+        return False
 
     def building_is_not_of_campaign(self, building_name: str) -> bool:
         return False
@@ -43,15 +41,16 @@ class Filter(abc.ABC):
         :param building_name:
         :return:
         """
-        pass
+        return False
 
     def building_is_duplicate(self, building_name: str) -> bool:
         """
-        Check if a building is a duplicate. For example, if we have port_fish1, port_resource_fish1, they are duplicates.
+        Check if a building is a duplicate. For example, if we have port_fish1,
+        port_resource_fish1, they are duplicates.
         :param building_name:
         :return:
         """
-        pass
+        return False
 
     def effect_is_gdp(self, effect: str, include_fertility: bool = False) -> bool:
-        pass
+        return False

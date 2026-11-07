@@ -1,4 +1,4 @@
-from games.tw.enums import NameType, PrintType
+from games.tw.enums import NameType
 from games.tw.games import Games
 from games.tw.models.entity_interface import EntityInterface
 
@@ -9,7 +9,7 @@ class Entity(EntityInterface):
         self.name = "None"
         self.print_name = "None"
 
-    def get_name(self, name_type: PrintType = None):
+    def get_name(self, name_type: NameType | None = None):
         """
         :param name_type: the type of name to return (default use Games.USE_NAME)
         :return: either the print name, name, or hash name of the entity

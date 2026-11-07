@@ -9,6 +9,7 @@ from dataclasses import asdict, dataclass
 from fractions import Fraction
 from pathlib import Path
 from time import perf_counter
+from typing import Any
 
 from ortools.linear_solver import linear_solver_pb2, pywraplp
 from ortools.sat.python import cp_model
@@ -128,20 +129,22 @@ def branch(building):
     return re.sub(r"_\d+(?:_[a-z]+)?$", "", building["id"])
 
 
+def _primary_placement(site, category, title):
+    if site.major:
+        return "primary" if category == "Provincial Capital" else None
+    resource = re.sub(r"[^a-z]", "", (site.resource or "Minor Settlement").lower())
+    resource = {"oliveoil": "olive"}.get(resource, resource)
+    actual = re.sub(r"[^a-z]", "", title.lower())
+    actual = {"oliveoil": "olive"}.get(actual, actual)
+    return "primary" if category == "Minor Settlement" and resource == actual else None
+
+
 def placement(building, occurrence, site):
     if "allowed_regions" in occurrence and site.id not in occurrence["allowed_regions"]:
         return None
     category, title = occurrence["category"], occurrence["chain_title"]
     if category in {"Provincial Capital", "Minor Settlement"}:
-        if site.major:
-            return "primary" if category == "Provincial Capital" else None
-        resource = re.sub(r"[^a-z]", "", (site.resource or "Minor Settlement").lower())
-        resource = {"oliveoil": "olive"}.get(resource, resource)
-        actual = re.sub(r"[^a-z]", "", title.lower())
-        actual = {"oliveoil": "olive"}.get(actual, actual)
-        return (
-            "primary" if category == "Minor Settlement" and resource == actual else None
-        )
+        return _primary_placement(site, category, title)
     if category == "Port":
         return "port" if site.port else None
     if title == "City Centre" and not site.major:
@@ -149,17 +152,11 @@ def placement(building, occurrence, site):
     if title == "Town Centre" and site.major:
         return None
     barbarian = occurrence["culture"] == "rom_Barbarian"
-    if (
-        category in {"Sanitation", "Water", "Tax"} or title == "Tax"
-    ) and not site.major:
+    if (category in {"Sanitation", "Water", "Tax"} or title == "Tax") and not site.major:
         return None
     if not barbarian and category == "Agricultural" and site.major:
         return None
-    if (
-        not barbarian
-        and category == "Industrial"
-        and (title == "Minor Settlement") == site.major
-    ):
+    if not barbarian and category == "Industrial" and (title == "Minor Settlement") == site.major:
         return None
     if category == "Military" and title == "Siege" and not site.major:
         return None
@@ -170,35 +167,125 @@ class Economy:
     def __init__(self, scenario, data=None):
         self.data = load_data() if data is None else data
         self.scenario = scenario
-        if scenario.faction not in self.data["factions"]:
-            raise ValueError("Faction has no imported official eligibility tree")
-        if (
-            not scenario.sites
-            or len({s.id for s in scenario.sites}) != len(scenario.sites)
-            or sum(s.major for s in scenario.sites) != 1
-        ):
-            raise ValueError("A province needs distinct sites and exactly one capital")
-        if not 1 <= scenario.core_level <= scenario.maximum_level <= 4:
-            raise ValueError("Supported ordinary/core building levels are 1 through 4")
-        for value in (
-            scenario.tax_points,
-            scenario.corruption_points,
-            scenario.order_offset,
-            scenario.minimum_order,
-            scenario.external_food,
-        ):
-            if not isinstance(value, int) or isinstance(value, bool):
-                raise TypeError("Scenario modifiers must be integer points")
-        if (
-            not 0 <= scenario.corruption_points <= 100
-            or 100 + scenario.tax_points - scenario.corruption_points < 0
-        ):
-            raise ValueError("Supply a nonnegative net tax factor")
-        if any(
-            not isinstance(s.capacity, int) or s.capacity < 0 for s in scenario.sites
-        ):
-            raise ValueError("Invalid ordinary slot capacity")
+        self._validate_scenario(scenario)
         self.faction = self.data["factions"][scenario.faction]
+        self._load_modifiers(scenario)
+        self.effective_corruption = max(
+            0, scenario.corruption_points + self.fixed_value("corruption_percent")
+        )
+        self._load_parties(scenario)
+        self._load_candidates(scenario)
+
+    def _load_candidates(self, scenario):
+        self.candidates, self.roles, self.exclusions = {}, {}, Counter()
+        for site in scenario.sites:
+            choices = self._site_candidates(scenario, site)
+            # Some resources (notably iron and horses) stop at level three.
+            primary_level = max(
+                (
+                    b["level"]
+                    for key, b in choices.items()
+                    if self.roles[(site.id, key)] == "primary"
+                ),
+                default=0,
+            )
+            choices = {
+                key: b
+                for key, b in choices.items()
+                if self.roles[(site.id, key)] != "primary" or b["level"] == primary_level
+            }
+            if not any(self.roles[(site.id, k)] == "primary" for k in choices):
+                raise ValueError(
+                    f"No legal core building for {site.id}; resource assignment may be unsupported"
+                )
+            if site.port and not any(self.roles[(site.id, k)] == "port" for k in choices):
+                raise ValueError("Missing port candidates")
+            self.candidates[site.id] = choices
+
+    def _site_candidates(self, scenario, site):
+        choices = {}
+        for key, building in self.data["buildings"].items():
+            occurrences = [o for o in building["occurrences"] if scenario.faction in o["factions"]]
+            if not occurrences:
+                continue
+            if building["level"] > scenario.maximum_level:
+                self.exclusions["above_level_four_or_special_monument"] += 1
+                continue
+            legal = [role for o in occurrences if (role := placement(building, o, site))]
+            if not legal:
+                continue
+            role = legal[0]
+            if any(r != role for r in legal):
+                raise ValueError("Ambiguous building placement")
+            if role == "primary" and building["level"] > scenario.core_level:
+                continue
+            if not any(
+                (e := raw_effect(x["id"], x["value"]))
+                and e.kind
+                in {
+                    "wealth",
+                    "wealth_percent",
+                    "tax_percent",
+                    "order",
+                    "food",
+                    "income_flat",
+                }
+                for x in building["effects"]
+            ):
+                self.exclusions["no_effect_on_current_income_or_enforced_constraints"] += 1
+                continue
+            choices[key] = building
+            self.roles[(site.id, key)] = role
+        return choices
+
+    def _load_parties(self, scenario):
+        self.parties: dict[int, dict[str, Any]] = {
+            i: p for i, p in enumerate(self.faction["traits"]["parties"]) if p["playable"]
+        }
+        if not self.parties:
+            self.parties = {-1: {"facts": [], "playable": True}}
+        if scenario.party is not None:
+            if scenario.party not in self.parties:
+                raise ValueError("Selected party is not a playable source profile")
+            self.parties = {scenario.party: self.parties[scenario.party]}
+        self.party_effects = {
+            i: [e for t in p["facts"] if (e := fact_effect(t))] for i, p in self.parties.items()
+        }
+
+        def party_vector(index):
+            effects = self.party_effects[index]
+            return (
+                tuple(
+                    sum(e.value for e in effects if e.kind == "wealth_percent" and c in e.targets)
+                    for c in CATEGORIES
+                )
+                + tuple(
+                    sum(e.value for e in effects if e.kind == kind)
+                    for kind in (
+                        "minor_wealth_percent",
+                        "tax_percent",
+                        "food_per_regions",
+                        "food_per_provinces",
+                    )
+                )
+                + (sum(e.value for e in effects if e.kind in {"order", "own_culture_order"}),)
+            )
+
+        vectors = {i: party_vector(i) for i in self.parties}
+        self.pruned_parties = [
+            i
+            for i in self.parties
+            if any(
+                i != j
+                and all(b >= a for a, b in zip(vectors[i], vectors[j], strict=False))
+                and (vectors[i] != vectors[j] or j < i)
+                for j in self.parties
+            )
+        ]
+        self.parties = {i: p for i, p in self.parties.items() if i not in self.pruned_parties}
+        self.party_effects = {i: e for i, e in self.party_effects.items() if i in self.parties}
+
+    def _load_modifiers(self, scenario):
         self.fixed = []
         for modifier in scenario.modifiers:
             if (
@@ -225,18 +312,20 @@ class Economy:
         for text in self.faction["traits"]["culture_facts"]:
             if effect := fact_effect(text):
                 self.fixed.append(effect)
+        self._load_technologies(scenario)
+
+    def _load_technologies(self, scenario):
         if scenario.all_technologies:
             if scenario.technology_profile not in {"public", "archived"}:
                 raise ValueError("Select public or archived technology profile")
-            coverage = self.data.get("technology_coverage", {}).get(
-                scenario.faction, {}
-            )
+            coverage = self.data.get("technology_coverage", {}).get(scenario.faction, {})
             if (
                 scenario.technology_profile == "public"
                 and coverage.get("complete_public_tree") is False
             ):
                 raise ValueError(
-                    "Public research tree is incomplete; use the explicit no-technologies baseline or an available archival profile"
+                    "Public research tree is incomplete; use the explicit no-technologies"
+                    " baseline or an available archival profile"
                 )
             trees = (
                 self.data["technologies"]
@@ -244,145 +333,39 @@ class Economy:
                 else self.data.get("technologies_archived", {})
             )
             if scenario.faction not in trees:
-                raise ValueError(
-                    "Requested research profile is unavailable for this faction"
-                )
+                raise ValueError("Requested research profile is unavailable for this faction")
             for technology in trees[scenario.faction].values():
                 for text in technology["facts"]:
                     if effect := fact_effect(text):
                         self.fixed.append(effect)
-        self.effective_corruption = max(
-            0, scenario.corruption_points + self.fixed_value("corruption_percent")
-        )
-        self.parties = {
-            i: p
-            for i, p in enumerate(self.faction["traits"]["parties"])
-            if p["playable"]
-        }
-        if not self.parties:
-            self.parties = {-1: {"facts": [], "playable": True}}
-        if scenario.party is not None:
-            if scenario.party not in self.parties:
-                raise ValueError("Selected party is not a playable source profile")
-            self.parties = {scenario.party: self.parties[scenario.party]}
-        self.party_effects = {
-            i: [e for t in p["facts"] if (e := fact_effect(t))]
-            for i, p in self.parties.items()
-        }
 
-        def party_vector(index):
-            effects = self.party_effects[index]
-            return (
-                tuple(
-                    sum(
-                        e.value
-                        for e in effects
-                        if e.kind == "wealth_percent" and c in e.targets
-                    )
-                    for c in CATEGORIES
-                )
-                + tuple(
-                    sum(e.value for e in effects if e.kind == kind)
-                    for kind in (
-                        "minor_wealth_percent",
-                        "tax_percent",
-                        "food_per_regions",
-                        "food_per_provinces",
-                    )
-                )
-                + (
-                    sum(
-                        e.value
-                        for e in effects
-                        if e.kind in {"order", "own_culture_order"}
-                    ),
-                )
-            )
-
-        vectors = {i: party_vector(i) for i in self.parties}
-        self.pruned_parties = [
-            i
-            for i in self.parties
-            if any(
-                i != j
-                and all(b >= a for a, b in zip(vectors[i], vectors[j]))
-                and (vectors[i] != vectors[j] or j < i)
-                for j in self.parties
-            )
-        ]
-        self.parties = {
-            i: p for i, p in self.parties.items() if i not in self.pruned_parties
-        }
-        self.party_effects = {
-            i: e for i, e in self.party_effects.items() if i in self.parties
-        }
-        self.candidates, self.roles, self.exclusions = {}, {}, Counter()
-        for site in scenario.sites:
-            choices = {}
-            for key, building in self.data["buildings"].items():
-                occurrences = [
-                    o
-                    for o in building["occurrences"]
-                    if scenario.faction in o["factions"]
-                ]
-                if not occurrences:
-                    continue
-                if building["level"] > scenario.maximum_level:
-                    self.exclusions["above_level_four_or_special_monument"] += 1
-                    continue
-                legal = [
-                    role for o in occurrences if (role := placement(building, o, site))
-                ]
-                if not legal:
-                    continue
-                role = legal[0]
-                if any(r != role for r in legal):
-                    raise ValueError("Ambiguous building placement")
-                if role == "primary" and building["level"] > scenario.core_level:
-                    continue
-                if not any(
-                    (e := raw_effect(x["id"], x["value"]))
-                    and e.kind
-                    in {
-                        "wealth",
-                        "wealth_percent",
-                        "tax_percent",
-                        "order",
-                        "food",
-                        "income_flat",
-                    }
-                    for x in building["effects"]
-                ):
-                    self.exclusions[
-                        "no_effect_on_current_income_or_enforced_constraints"
-                    ] += 1
-                    continue
-                choices[key] = building
-                self.roles[(site.id, key)] = role
-            # Some resources (notably iron and horses) stop at level three.
-            primary_level = max(
-                (
-                    b["level"]
-                    for key, b in choices.items()
-                    if self.roles[(site.id, key)] == "primary"
-                ),
-                default=0,
-            )
-            choices = {
-                key: b
-                for key, b in choices.items()
-                if self.roles[(site.id, key)] != "primary"
-                or b["level"] == primary_level
-            }
-            if not any(self.roles[(site.id, k)] == "primary" for k in choices):
-                raise ValueError(
-                    f"No legal core building for {site.id}; resource assignment may be unsupported"
-                )
-            if site.port and not any(
-                self.roles[(site.id, k)] == "port" for k in choices
-            ):
-                raise ValueError("Missing port candidates")
-            self.candidates[site.id] = choices
+    def _validate_scenario(self, scenario):
+        if scenario.faction not in self.data["factions"]:
+            raise ValueError("Faction has no imported official eligibility tree")
+        if (
+            not scenario.sites
+            or len({s.id for s in scenario.sites}) != len(scenario.sites)
+            or sum(s.major for s in scenario.sites) != 1
+        ):
+            raise ValueError("A province needs distinct sites and exactly one capital")
+        if not 1 <= scenario.core_level <= scenario.maximum_level <= 4:
+            raise ValueError("Supported ordinary/core building levels are 1 through 4")
+        for value in (
+            scenario.tax_points,
+            scenario.corruption_points,
+            scenario.order_offset,
+            scenario.minimum_order,
+            scenario.external_food,
+        ):
+            if not isinstance(value, int) or isinstance(value, bool):
+                raise TypeError("Scenario modifiers must be integer points")
+        if (
+            not 0 <= scenario.corruption_points <= 100
+            or 100 + scenario.tax_points - scenario.corruption_points < 0
+        ):
+            raise ValueError("Supply a nonnegative net tax factor")
+        if any(not isinstance(s.capacity, int) or s.capacity < 0 for s in scenario.sites):
+            raise ValueError("Invalid ordinary slot capacity")
 
     def fixed_value(self, kind, category=None):
         return sum(
@@ -410,39 +393,11 @@ class Economy:
             if native
             else pywraplp.Solver.CreateSolver("CBC")
         )
-        choices, decision_names = {}, {}
-        for site in self.scenario.sites:
-            by_branch = defaultdict(list)
-            primary, ports, ordinary = [], [], []
-            for key, building in self.candidates[site.id].items():
-                variable = solver.BoolVar(site.id + ":" + key)
-                choices[(site.id, key)] = variable
-                decision_names[variable_name(variable)] = (site.id, key)
-                role = self.roles[(site.id, key)]
-                {"primary": primary, "port": ports, "ordinary": ordinary}[role].append(
-                    variable
-                )
-                if role == "ordinary":
-                    by_branch[branch(building)].append(variable)
-            solver.Add(sum(primary) == 1)
-            if ports:
-                solver.Add(sum(ports) == 1)
-            solver.Add(sum(ordinary) <= site.capacity)
-            for variables in by_branch.values():
-                solver.Add(sum(variables) <= 1)
+        choices, decision_names = self._compile_choices(solver)
         parties = {i: solver.BoolVar("party:" + str(i)) for i in self.parties}
         solver.Add(sum(parties.values()) == 1)
         # Identical sites are interchangeable under the province-wide effects.
-        signatures = {}
-        for site in self.scenario.sites:
-            keys = tuple(self.candidates[site.id])
-            group = (site.major, site.port, site.resource, site.capacity, keys)
-            signature = sum(
-                (i + 1) * choices[(site.id, key)] for i, key in enumerate(keys)
-            )
-            if group in signatures:
-                solver.Add(signatures[group] <= signature)
-            signatures[group] = signature
+        self._symmetry_constraints(choices, solver)
         food = (
             self.scenario.external_food
             + self.fixed_value("food_per_provinces")
@@ -460,44 +415,21 @@ class Economy:
         modifiers = {c: [] for c in CATEGORIES}
         tax = []
         flat_income = []
-        for pair, variable in choices.items():
-            building = self.candidates[pair[0]][pair[1]]
-            for raw in building["effects"]:
-                effect = raw_effect(raw["id"], raw["value"])
-                if effect is None or not self.receives(raw):
-                    continue
-                if effect.kind == "wealth":
-                    base[effect.targets[0]].append((effect.value, variable))
-                    if pair[0] in minor_sites:
-                        minor_base[effect.targets[0]].append((effect.value, variable))
-                elif effect.kind == "wealth_percent":
-                    for category in effect.targets:
-                        modifiers[category].append((effect.value, variable))
-                elif effect.kind == "food":
-                    food += effect.value * self.receives(raw) * variable
-                elif effect.kind == "order":
-                    order += effect.value * variable
-                elif effect.kind == "tax_percent":
-                    tax.append((effect.value, variable))
-                elif effect.kind == "income_flat":
-                    flat_income.append((effect.value, variable))
-                elif effect.kind == "minor_wealth_percent":
-                    minor_modifiers.append((effect.value, variable))
-        for i, variable in parties.items():
-            for effect in self.party_effects[i]:
-                if effect.kind == "wealth_percent":
-                    for category in effect.targets:
-                        modifiers[category].append((effect.value, variable))
-                elif effect.kind == "food_per_provinces":
-                    food += effect.value * variable
-                elif effect.kind == "food_per_regions":
-                    food += effect.value * len(self.scenario.sites) * variable
-                elif effect.kind in {"order", "own_culture_order"}:
-                    order += effect.value * variable
-                elif effect.kind == "tax_percent":
-                    tax.append((effect.value, variable))
-                elif effect.kind == "minor_wealth_percent":
-                    minor_modifiers.append((effect.value, variable))
+        food, order = self._compile_building_effects(
+            choices,
+            base,
+            minor_sites,
+            minor_base,
+            modifiers,
+            food,
+            order,
+            tax,
+            flat_income,
+            minor_modifiers,
+        )
+        food, order = self._compile_party_effects(
+            parties, modifiers, food, order, tax, minor_modifiers
+        )
         solver.Add(food >= 0)
         solver.Add(order >= self.scenario.minimum_order)
         aux_counter = 0
@@ -511,16 +443,10 @@ class Economy:
                 groups = defaultdict(list)
                 for pair, variable in choices.items():
                     if pair[0] == site.id:
-                        groups[self.roles[pair]].append(
-                            max(0, amounts[variable_name(variable)])
-                        )
-                upper += max(groups["primary"], default=0) + max(
-                    groups["port"], default=0
-                )
+                        groups[self.roles[pair]].append(max(0, amounts[variable_name(variable)]))
+                upper += max(groups["primary"], default=0) + max(groups["port"], default=0)
                 upper += sum(sorted(groups["ordinary"], reverse=True)[: site.capacity])
-            upper += max(
-                (max(0, amounts[variable_name(v)]) for v in parties.values()), default=0
-            )
+            upper += max((max(0, amounts[variable_name(v)]) for v in parties.values()), default=0)
             return upper
 
         def selected_product(expression, selector, upper):
@@ -532,94 +458,16 @@ class Economy:
             solver.Add(y >= expression - upper * (1 - selector))
             return y
 
-        wealth, upper_wealth, combined_upper_terms = [], 0, []
-        for category in CATEGORIES:
-            if not base[category]:
-                continue
-            expression = sum(amount * variable for amount, variable in base[category])
-            upper = selection_upper(base[category])
-            constant = 100 + self.fixed_value("wealth_percent", category)
-            grouped = defaultdict(int)
-            for amount, variable in modifiers[category]:
-                grouped[variable_name(variable)] += amount
-            lookup = {variable_name(v): v for _, v in modifiers[category]}
-            if constant + sum(min(0, a) for a in grouped.values()) < 0:
-                raise ValueError(
-                    "Negative wealth modifiers need an explicit zero-floor rule"
-                )
-            rate_upper = constant + selection_upper(modifiers[category])
-            upper_category = upper * rate_upper
-            combined_upper_terms.extend(
-                (amount * rate_upper, variable) for amount, variable in base[category]
-            )
-            w = solver.IntVar(0, upper_category, "wealth_hundredths:" + category)
-            if native:
-                b = solver.IntVar(0, upper, "base:" + category)
-                rate = solver.IntVar(
-                    constant + sum(min(0, v) for v in grouped.values()),
-                    rate_upper,
-                    "rate:" + category,
-                )
-                solver.Add(b == expression)
-                solver.Add(
-                    rate
-                    == constant
-                    + sum(amount * lookup[name] for name, amount in grouped.items())
-                )
-                solver.multiply(w, b, rate)
-            else:
-                solver.Add(
-                    w
-                    == constant * expression
-                    + sum(
-                        amount * selected_product(expression, lookup[name], upper)
-                        for name, amount in grouped.items()
-                        if amount
-                    )
-                )
-            wealth.append(w)
-            upper_wealth += upper_category
-            minor_constant = self.fixed_value("minor_wealth_percent")
-            if minor_base[category] and (minor_constant or minor_modifiers):
-                minor_expression = sum(a * v for a, v in minor_base[category])
-                minor_upper = selection_upper(minor_base[category])
-                extra_upper = minor_upper * (
-                    minor_constant + selection_upper(minor_modifiers)
-                )
-                combined_upper_terms.extend(
-                    (
-                        amount * (minor_constant + selection_upper(minor_modifiers)),
-                        variable,
-                    )
-                    for amount, variable in minor_base[category]
-                )
-                extra = solver.IntVar(
-                    0, extra_upper, "minor_wealth_hundredths:" + category
-                )
-                if native:
-                    b_minor = solver.IntVar(0, minor_upper, "minor_base:" + category)
-                    r_minor = solver.IntVar(
-                        minor_constant,
-                        minor_constant + selection_upper(minor_modifiers),
-                        "minor_rate:" + category,
-                    )
-                    solver.Add(b_minor == minor_expression)
-                    solver.Add(
-                        r_minor
-                        == minor_constant + sum(a * v for a, v in minor_modifiers)
-                    )
-                    solver.multiply(extra, b_minor, r_minor)
-                else:
-                    solver.Add(
-                        extra
-                        == minor_constant * minor_expression
-                        + sum(
-                            a * selected_product(minor_expression, v, minor_upper)
-                            for a, v in minor_modifiers
-                        )
-                    )
-                wealth.append(extra)
-                upper_wealth += extra_upper
+        wealth, upper_wealth, combined_upper_terms = self._compile_wealth(
+            base,
+            selection_upper,
+            modifiers,
+            solver,
+            native,
+            selected_product,
+            minor_base,
+            minor_modifiers,
+        )
         total_wealth = sum(wealth)
         upper_wealth = min(upper_wealth, selection_upper(combined_upper_terms))
         factor = (
@@ -641,18 +489,14 @@ class Economy:
                 "income_ten_thousandths",
             )
             solver.Add(w == total_wealth)
-            solver.Add(
-                rate == factor + sum(amount * variable for amount, variable in tax)
-            )
+            solver.Add(rate == factor + sum(amount * variable for amount, variable in tax))
             solver.multiply(income, w, rate)
         else:
             income = factor * total_wealth + sum(
                 amount * selected_product(total_wealth, variable, upper_wealth)
                 for amount, variable in tax
             )
-        solver.Maximize(
-            income + sum(amount * 10000 * variable for amount, variable in flat_income)
-        )
+        solver.Maximize(income + sum(amount * 10000 * variable for amount, variable in flat_income))
         self.decisions, self.party_variables = (
             decision_names,
             {variable_name(v): i for i, v in parties.items()},
@@ -660,8 +504,198 @@ class Economy:
         if native:
             return solver
         proto = linear_solver_pb2.MPModelProto()
+        if not isinstance(solver, pywraplp.Solver):
+            raise TypeError("Binary model export requires an MPSolver")
         solver.ExportModelToProto(proto)
         return proto
+
+    def _symmetry_constraints(self, choices, solver):
+        signatures = {}
+        for site in self.scenario.sites:
+            keys = tuple(self.candidates[site.id])
+            group = (site.major, site.port, site.resource, site.capacity, keys)
+            signature = sum((i + 1) * choices[(site.id, key)] for i, key in enumerate(keys))
+            if group in signatures:
+                solver.Add(signatures[group] <= signature)
+            signatures[group] = signature
+
+    def _compile_wealth(
+        self,
+        base,
+        selection_upper,
+        modifiers,
+        solver,
+        native,
+        selected_product,
+        minor_base,
+        minor_modifiers,
+    ):
+        wealth, upper_wealth, combined_upper_terms = [], 0, []
+        for category in CATEGORIES:
+            if not base[category]:
+                continue
+            expression = sum(amount * variable for amount, variable in base[category])
+            upper = selection_upper(base[category])
+            constant = 100 + self.fixed_value("wealth_percent", category)
+            grouped = defaultdict(int)
+            for amount, variable in modifiers[category]:
+                grouped[variable_name(variable)] += amount
+            lookup = {variable_name(v): v for _, v in modifiers[category]}
+            if constant + sum(min(0, a) for a in grouped.values()) < 0:
+                raise ValueError("Negative wealth modifiers need an explicit zero-floor rule")
+            rate_upper = constant + selection_upper(modifiers[category])
+            upper_category = upper * rate_upper
+            combined_upper_terms.extend(
+                (amount * rate_upper, variable) for amount, variable in base[category]
+            )
+            w = solver.IntVar(0, upper_category, "wealth_hundredths:" + category)
+            if native:
+                b = solver.IntVar(0, upper, "base:" + category)
+                rate = solver.IntVar(
+                    constant + sum(min(0, v) for v in grouped.values()),
+                    rate_upper,
+                    "rate:" + category,
+                )
+                solver.Add(b == expression)
+                solver.Add(
+                    rate
+                    == constant + sum(amount * lookup[name] for name, amount in grouped.items())
+                )
+                solver.multiply(w, b, rate)
+            else:
+                solver.Add(
+                    w
+                    == constant * expression
+                    + sum(
+                        amount * selected_product(expression, lookup[name], upper)
+                        for name, amount in grouped.items()
+                        if amount
+                    )
+                )
+            wealth.append(w)
+            upper_wealth += upper_category
+            minor_constant = self.fixed_value("minor_wealth_percent")
+            if minor_base[category] and (minor_constant or minor_modifiers):
+                minor_expression = sum(a * v for a, v in minor_base[category])
+                minor_upper = selection_upper(minor_base[category])
+                extra_upper = minor_upper * (minor_constant + selection_upper(minor_modifiers))
+                combined_upper_terms.extend(
+                    (
+                        amount * (minor_constant + selection_upper(minor_modifiers)),
+                        variable,
+                    )
+                    for amount, variable in minor_base[category]
+                )
+                extra = solver.IntVar(0, extra_upper, "minor_wealth_hundredths:" + category)
+                if native:
+                    b_minor = solver.IntVar(0, minor_upper, "minor_base:" + category)
+                    r_minor = solver.IntVar(
+                        minor_constant,
+                        minor_constant + selection_upper(minor_modifiers),
+                        "minor_rate:" + category,
+                    )
+                    solver.Add(b_minor == minor_expression)
+                    solver.Add(r_minor == minor_constant + sum(a * v for a, v in minor_modifiers))
+                    solver.multiply(extra, b_minor, r_minor)
+                else:
+                    solver.Add(
+                        extra
+                        == minor_constant * minor_expression
+                        + sum(
+                            a * selected_product(minor_expression, v, minor_upper)
+                            for a, v in minor_modifiers
+                        )
+                    )
+                wealth.append(extra)
+                upper_wealth += extra_upper
+        return wealth, upper_wealth, combined_upper_terms
+
+    def _compile_party_effects(self, parties, modifiers, food, order, tax, minor_modifiers):
+        for i, variable in parties.items():
+            for effect in self.party_effects[i]:
+                if effect.kind == "wealth_percent":
+                    for category in effect.targets:
+                        modifiers[category].append((effect.value, variable))
+                elif effect.kind == "food_per_provinces":
+                    food += effect.value * variable
+                elif effect.kind == "food_per_regions":
+                    food += effect.value * len(self.scenario.sites) * variable
+                elif effect.kind in {"order", "own_culture_order"}:
+                    order += effect.value * variable
+                elif effect.kind == "tax_percent":
+                    tax.append((effect.value, variable))
+                elif effect.kind == "minor_wealth_percent":
+                    minor_modifiers.append((effect.value, variable))
+        return food, order
+
+    @staticmethod
+    def _compile_wealth_effect(effect, pair, variable, base, minor_sites, minor_base, modifiers):
+        if effect.kind == "wealth":
+            base[effect.targets[0]].append((effect.value, variable))
+            if pair[0] in minor_sites:
+                minor_base[effect.targets[0]].append((effect.value, variable))
+            return True
+        if effect.kind == "wealth_percent":
+            for category in effect.targets:
+                modifiers[category].append((effect.value, variable))
+            return True
+        return False
+
+    def _compile_building_effects(
+        self,
+        choices,
+        base,
+        minor_sites,
+        minor_base,
+        modifiers,
+        food,
+        order,
+        tax,
+        flat_income,
+        minor_modifiers,
+    ):
+        for pair, variable in choices.items():
+            building = self.candidates[pair[0]][pair[1]]
+            for raw in building["effects"]:
+                effect = raw_effect(raw["id"], raw["value"])
+                if effect is None or not self.receives(raw):
+                    continue
+                if self._compile_wealth_effect(
+                    effect, pair, variable, base, minor_sites, minor_base, modifiers
+                ):
+                    continue
+                if effect.kind == "food":
+                    food += effect.value * self.receives(raw) * variable
+                elif effect.kind == "order":
+                    order += effect.value * variable
+                elif effect.kind == "tax_percent":
+                    tax.append((effect.value, variable))
+                elif effect.kind == "income_flat":
+                    flat_income.append((effect.value, variable))
+                elif effect.kind == "minor_wealth_percent":
+                    minor_modifiers.append((effect.value, variable))
+        return food, order
+
+    def _compile_choices(self, solver):
+        choices, decision_names = {}, {}
+        for site in self.scenario.sites:
+            by_branch = defaultdict(list)
+            primary, ports, ordinary = [], [], []
+            for key, building in self.candidates[site.id].items():
+                variable = solver.BoolVar(site.id + ":" + key)
+                choices[(site.id, key)] = variable
+                decision_names[variable_name(variable)] = (site.id, key)
+                role = self.roles[(site.id, key)]
+                {"primary": primary, "port": ports, "ordinary": ordinary}[role].append(variable)
+                if role == "ordinary":
+                    by_branch[branch(building)].append(variable)
+            solver.Add(sum(primary) == 1)
+            if ports:
+                solver.Add(sum(ports) == 1)
+            solver.Add(sum(ordinary) <= site.capacity)
+            for variables in by_branch.values():
+                solver.Add(sum(variables) <= 1)
+        return choices, decision_names
 
     def evaluate(self, layout, party):
         if set(layout) != set(self.candidates) or party not in self.parties:
@@ -690,49 +724,10 @@ class Economy:
         sites = {}
         flat_income = 0
         for site in self.scenario.sites:
-            keys = layout[site.id]
-            if (
-                len(keys) != len(set(keys))
-                or set(keys) - self.candidates[site.id].keys()
-            ):
-                raise ValueError("Duplicate or unavailable building")
-            roles = Counter(self.roles[(site.id, key)] for key in keys)
-            if (
-                roles["primary"] != 1
-                or roles["port"] != int(site.port)
-                or roles["ordinary"] > site.capacity
-            ):
-                raise ValueError("Invalid primary, port or ordinary slot occupancy")
-            branches = Counter(
-                branch(self.candidates[site.id][key])
-                for key in keys
-                if self.roles[(site.id, key)] == "ordinary"
+            keys, roles = self._validate_site_layout(layout, site)
+            local_food, local_order, growth, tax, flat_income = self._evaluate_buildings(
+                keys, site, base, minor_base, modifiers, tax, flat_income
             )
-            if any(n > 1 for n in branches.values()):
-                raise ValueError("Repeated branch in one settlement")
-            local_food, local_order, growth = 0, 0, 0
-            for key in keys:
-                for raw in self.candidates[site.id][key]["effects"]:
-                    effect = raw_effect(raw["id"], raw["value"])
-                    if effect is None or not self.receives(raw):
-                        continue
-                    if effect.kind == "wealth":
-                        base[effect.targets[0]] += effect.value
-                        if not site.major:
-                            minor_base[effect.targets[0]] += effect.value
-                    elif effect.kind == "wealth_percent":
-                        for c in effect.targets:
-                            modifiers[c] += effect.value
-                    elif effect.kind == "food":
-                        local_food += effect.value * self.receives(raw)
-                    elif effect.kind == "order":
-                        local_order += effect.value
-                    elif effect.kind == "tax_percent":
-                        tax += effect.value
-                    elif effect.kind == "income_flat":
-                        flat_income += effect.value
-                    elif effect.kind == "growth":
-                        growth += effect.value
             food += local_food
             order += local_order
             sites[site.id] = {
@@ -762,9 +757,7 @@ class Economy:
             for c in CATEGORIES
         }
         wealth = sum(
-            Fraction(
-                base[c] * (100 + modifiers[c]) + minor_base[c] * minor_percent, 100
-            )
+            Fraction(base[c] * (100 + modifiers[c]) + minor_base[c] * minor_percent, 100)
             for c in CATEGORIES
         )
         income = wealth * Fraction(100 + tax, 100)
@@ -782,6 +775,60 @@ class Economy:
             "party_facts": self.parties[party]["facts"],
             "sites": sites,
         }
+
+    @staticmethod
+    def _evaluate_wealth_effect(effect, site, base, minor_base, modifiers):
+        if effect.kind == "wealth":
+            base[effect.targets[0]] += effect.value
+            if not site.major:
+                minor_base[effect.targets[0]] += effect.value
+            return True
+        if effect.kind == "wealth_percent":
+            for category in effect.targets:
+                modifiers[category] += effect.value
+            return True
+        return False
+
+    def _evaluate_buildings(self, keys, site, base, minor_base, modifiers, tax, flat_income):
+        local_food, local_order, growth = 0, 0, 0
+        for key in keys:
+            for raw in self.candidates[site.id][key]["effects"]:
+                effect = raw_effect(raw["id"], raw["value"])
+                if effect is None or not self.receives(raw):
+                    continue
+                if self._evaluate_wealth_effect(effect, site, base, minor_base, modifiers):
+                    continue
+                if effect.kind == "food":
+                    local_food += effect.value * self.receives(raw)
+                elif effect.kind == "order":
+                    local_order += effect.value
+                elif effect.kind == "tax_percent":
+                    tax += effect.value
+                elif effect.kind == "income_flat":
+                    flat_income += effect.value
+                elif effect.kind == "growth":
+                    growth += effect.value
+        return local_food, local_order, growth, tax, flat_income
+
+    def _validate_site_layout(self, layout, site):
+        keys = layout[site.id]
+        if len(keys) != len(set(keys)) or set(keys) - self.candidates[site.id].keys():
+            raise ValueError("Duplicate or unavailable building")
+        roles = Counter(self.roles[(site.id, key)] for key in keys)
+        if (
+            roles["primary"] != 1
+            or roles["port"] != int(site.port)
+            or roles["ordinary"] > site.capacity
+        ):
+            raise ValueError("Invalid primary, port or ordinary slot occupancy")
+        branches = Counter(
+            branch(self.candidates[site.id][key])
+            for key in keys
+            if self.roles[(site.id, key)] == "ordinary"
+        )
+        if any(n > 1 for n in branches.values()):
+            raise ValueError("Repeated branch in one settlement")
+        return keys, roles
 
     def fingerprint(self):
         self._prepared = self.build(native=True)
@@ -833,15 +880,9 @@ class Economy:
         """Validate an incumbent and reconstruct exact native auxiliary values."""
         layout = {key: row["buildings"] for key, row in reference["sites"].items()}
         economics = self.evaluate(layout, reference["party_index"])
-        if (
-            abs(economics["domestic_net_income"] - reference["domestic_net_income"])
-            > 1e-5
-        ):
+        if abs(economics["domestic_net_income"] - reference["domestic_net_income"]) > 1e-5:
             raise ValueError("Warm start does not match original economics")
-        values = {
-            name: int(key in layout[site])
-            for name, (site, key) in self.decisions.items()
-        }
+        values = {name: int(key in layout[site]) for name, (site, key) in self.decisions.items()}
         values.update(
             {
                 name: int(party == reference["party_index"])
@@ -852,9 +893,7 @@ class Economy:
         for category, row in economics["categories"].items():
             values["base:" + category] = row["base"]
             values["rate:" + category] = 100 + row["modifier_percent"]
-            values["wealth_hundredths:" + category] = row["base"] * (
-                100 + row["modifier_percent"]
-            )
+            values["wealth_hundredths:" + category] = row["base"] * (100 + row["modifier_percent"])
             values["minor_base:" + category] = row["minor_base"]
             values["minor_rate:" + category] = row["minor_bonus_percent"]
             values["minor_wealth_hundredths:" + category] = (
@@ -872,154 +911,11 @@ class Economy:
     def optimize(self, algorithm="cp-sat", seconds=10, workers=1, incumbent=None):
         start = perf_counter()
         if algorithm == "portfolio":
-            first = self.optimize("cp-sat", seconds * 0.35, workers, incumbent)
-            if first["solver"]["status"] == "OPTIMAL":
-                first["solver"]["algorithm"] = "portfolio"
-                first["solver"]["proof_backend"] = "cp-sat"
-                return first
-            seed = first if "sites" in first else incumbent
-            second = self.optimize(
-                "scip-nonlinear",
-                max(0.01, seconds - (perf_counter() - start)),
-                workers,
-                seed,
-            )
-            feasible = [r for r in (first, second) if "sites" in r]
-            if not feasible:
-                return second
-            result = copy.deepcopy(
-                max(feasible, key=lambda r: r["domestic_net_income"])
-            )
-            bounds = [
-                r["solver"]["bound"]
-                for r in (first, second)
-                if r["solver"]["bound"] is not None
-            ]
-            proven = next(
-                (r for r in (first, second) if r["solver"]["status"] == "OPTIMAL"), None
-            )
-            result["solver"].update(
-                algorithm="portfolio",
-                seconds=perf_counter() - start,
-                bound=min(bounds) if bounds else None,
-                status="OPTIMAL" if proven else "FEASIBLE",
-                proof_backend=proven["solver"]["algorithm"] if proven else None,
-                stages=[first["solver"], second["solver"]],
-            )
-            return result
+            return self._optimize_portfolio(seconds, workers, incumbent, start)
         if algorithm == "scip-nonlinear":
-            problem = self.build(native="scip-nonlinear")
-            solver = problem.model
-            solver.setParam("limits/time", seconds)
-            solver.setParam("numerics/feastol", 1e-9)
-            if incumbent is not None:
-                values = self.warm_values(incumbent)
-                solution = solver.createSol()
-                for variable in problem.variables:
-                    solver.setSolVal(solution, variable, values[variable.name])
-                if not solver.addSol(solution):
-                    raise ValueError("SCIP rejected independently validated warm start")
-            solver.optimize()
-            status = str(solver.getStatus()).upper()
-            label = (
-                "OPTIMAL"
-                if status == "OPTIMAL"
-                else "INFEASIBLE"
-                if status == "INFEASIBLE"
-                else "FEASIBLE"
-                if solver.getNSols()
-                else "UNKNOWN"
-            )
-            report = {
-                "scenario": asdict(self.scenario),
-                "solver": {
-                    "algorithm": algorithm,
-                    "status": label,
-                    "seconds": perf_counter() - start,
-                    "objective": None,
-                    "bound": None,
-                    "variables": len(problem.variables),
-                    "constraints": solver.getNConss(),
-                },
-                "exclusions": dict(self.exclusions),
-            }
-            if solver.getNSols():
-                layout = {site.id: [] for site in self.scenario.sites}
-                party = None
-                for variable in problem.variables:
-                    if solver.getVal(variable) > 0.5:
-                        if variable.name in self.decisions:
-                            site, key = self.decisions[variable.name]
-                            layout[site].append(key)
-                        if variable.name in self.party_variables:
-                            party = self.party_variables[variable.name]
-                economics = self.evaluate(layout, party)
-                objective = solver.getObjVal() / 10000
-                if abs(objective - economics["domestic_net_income"]) > 1e-5:
-                    raise AssertionError(
-                        "Independent economics disagrees with nonlinear SCIP"
-                    )
-                report["solver"].update(
-                    objective=objective, bound=solver.getDualbound() / 10000
-                )
-                report.update(economics)
-            return report
+            return self._optimize_scip(seconds, workers, incumbent, start)
         if algorithm == "cp-sat":
-            if not hasattr(self, "_prepared"):
-                self.fingerprint()
-            problem = self._prepared
-            if incumbent is not None:
-                values = self.warm_values(incumbent)
-                problem.model.clear_hints()
-                for variable in problem.variables:
-                    problem.model.add_hint(variable, values[variable.name])
-            error = problem.model.validate()
-            if error:
-                raise ValueError(error)
-            solver = cp_model.CpSolver()
-            solver.parameters.max_time_in_seconds = seconds
-            solver.parameters.num_search_workers = workers
-            solver.parameters.random_seed = 0
-            status = solver.solve(problem.model)
-            report = {
-                "scenario": asdict(self.scenario),
-                "solver": {
-                    "algorithm": algorithm,
-                    "status": solver.status_name(status),
-                    "seconds": perf_counter() - start,
-                    "objective": None,
-                    "bound": None,
-                    "variables": len(problem.model.proto.variables),
-                    "constraints": len(problem.model.proto.constraints),
-                },
-                "exclusions": dict(self.exclusions),
-            }
-            if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-                layout = {site.id: [] for site in self.scenario.sites}
-                party = None
-                for variable in problem.variables:
-                    if solver.value(variable) > 0:
-                        if variable.name in self.decisions:
-                            site, key = self.decisions[variable.name]
-                            layout[site].append(key)
-                        if variable.name in self.party_variables:
-                            party = self.party_variables[variable.name]
-                economics = self.evaluate(layout, party)
-                objective = solver.objective_value / 10000
-                if abs(objective - economics["domestic_net_income"]) > 1e-5:
-                    raise AssertionError("Independent economics disagrees with CP-SAT")
-                report["solver"].update(
-                    objective=objective, bound=solver.best_objective_bound / 10000
-                )
-                report.update(economics)
-                report["proof_fingerprint"] = self._fingerprint
-                report["selected_decision_indices"] = [
-                    v.index
-                    for v in problem.variables
-                    if (v.name in self.decisions or v.name in self.party_variables)
-                    and solver.value(v)
-                ]
-            return report
+            return self._optimize_cpsat(seconds, workers, incumbent, start)
         proto = self.build()
         if algorithm not in {"cp-sat", "cbc", "scip"}:
             raise ValueError("Choose cp-sat, cbc or scip")
@@ -1058,26 +954,168 @@ class Economy:
         }
         if status in (solver.OPTIMAL, solver.FEASIBLE):
             if not solver.VerifySolution(1e-5, False):
-                raise AssertionError(
-                    "Solver returned an invalid integer model solution"
-                )
-            layout = {site.id: [] for site in self.scenario.sites}
-            selected_party = None
-            for variable in solver.variables():
-                if variable.solution_value() > 0.5:
-                    if variable.name() in self.decisions:
-                        site, key = self.decisions[variable.name()]
-                        layout[site].append(key)
-                    if variable.name() in self.party_variables:
-                        selected_party = self.party_variables[variable.name()]
+                raise AssertionError("Solver returned an invalid integer model solution")
+            layout, selected_party = self._read_linear_solution(solver)
             economics = self.evaluate(layout, selected_party)
             objective = solver.Objective().Value() / 10000
             if abs(objective - economics["domestic_net_income"]) > 1e-5:
-                raise AssertionError(
-                    "Independent economics disagrees with solver objective"
-                )
+                raise AssertionError("Independent economics disagrees with solver objective")
             report["solver"].update(
                 objective=objective, bound=solver.Objective().BestBound() / 10000
             )
             report.update(economics)
         return report
+
+    def _read_linear_solution(self, solver):
+        layout = {site.id: [] for site in self.scenario.sites}
+        selected_party = None
+        for variable in solver.variables():
+            if variable.solution_value() > 0.5:
+                if variable.name() in self.decisions:
+                    site, key = self.decisions[variable.name()]
+                    layout[site].append(key)
+                if variable.name() in self.party_variables:
+                    selected_party = self.party_variables[variable.name()]
+        return layout, selected_party
+
+    def _optimize_portfolio(self, seconds, workers, incumbent, start):
+        first = self.optimize("cp-sat", seconds * 0.35, workers, incumbent)
+        if first["solver"]["status"] == "OPTIMAL":
+            first["solver"]["algorithm"] = "portfolio"
+            first["solver"]["proof_backend"] = "cp-sat"
+            return first
+        seed = first if "sites" in first else incumbent
+        second = self.optimize(
+            "scip-nonlinear",
+            max(0.01, seconds - (perf_counter() - start)),
+            workers,
+            seed,
+        )
+        feasible = [r for r in (first, second) if "sites" in r]
+        if not feasible:
+            return second
+        result = copy.deepcopy(max(feasible, key=lambda r: r["domestic_net_income"]))
+        bounds = [r["solver"]["bound"] for r in (first, second) if r["solver"]["bound"] is not None]
+        proven = next((r for r in (first, second) if r["solver"]["status"] == "OPTIMAL"), None)
+        result["solver"].update(
+            algorithm="portfolio",
+            seconds=perf_counter() - start,
+            bound=min(bounds) if bounds else None,
+            status="OPTIMAL" if proven else "FEASIBLE",
+            proof_backend=proven["solver"]["algorithm"] if proven else None,
+            stages=[first["solver"], second["solver"]],
+        )
+        return result
+
+    def _optimize_scip(self, seconds, workers, incumbent, start):
+        algorithm = "scip-nonlinear"
+        problem = self.build(native="scip-nonlinear")
+        solver = problem.model
+        solver.setParam("limits/time", seconds)
+        solver.setParam("numerics/feastol", 1e-9)
+        if incumbent is not None:
+            values = self.warm_values(incumbent)
+            solution = solver.createSol()
+            for variable in problem.variables:
+                solver.setSolVal(solution, variable, values[variable.name])
+            if not solver.addSol(solution):
+                raise ValueError("SCIP rejected independently validated warm start")
+        solver.optimize()
+        status = str(solver.getStatus()).upper()
+        label = (
+            "OPTIMAL"
+            if status == "OPTIMAL"
+            else "INFEASIBLE"
+            if status == "INFEASIBLE"
+            else "FEASIBLE"
+            if solver.getNSols()
+            else "UNKNOWN"
+        )
+        report = {
+            "scenario": asdict(self.scenario),
+            "solver": {
+                "algorithm": algorithm,
+                "status": label,
+                "seconds": perf_counter() - start,
+                "objective": None,
+                "bound": None,
+                "variables": len(problem.variables),
+                "constraints": solver.getNConss(),
+            },
+            "exclusions": dict(self.exclusions),
+        }
+        if solver.getNSols():
+            layout = {site.id: [] for site in self.scenario.sites}
+            party = None
+            for variable in problem.variables:
+                if solver.getVal(variable) > 0.5:
+                    if variable.name in self.decisions:
+                        site, key = self.decisions[variable.name]
+                        layout[site].append(key)
+                    if variable.name in self.party_variables:
+                        party = self.party_variables[variable.name]
+            economics = self.evaluate(layout, party)
+            objective = solver.getObjVal() / 10000
+            if abs(objective - economics["domestic_net_income"]) > 1e-5:
+                raise AssertionError("Independent economics disagrees with nonlinear SCIP")
+            report["solver"].update(objective=objective, bound=solver.getDualbound() / 10000)
+            report.update(economics)
+        return report
+
+    def _optimize_cpsat(self, seconds, workers, incumbent, start):
+        algorithm = "cp-sat"
+        if not hasattr(self, "_prepared"):
+            self.fingerprint()
+        problem = self._prepared
+        self._cpsat_hints(incumbent, problem)
+        error = problem.model.validate()
+        if error:
+            raise ValueError(error)
+        solver = cp_model.CpSolver()
+        solver.parameters.max_time_in_seconds = seconds
+        solver.parameters.num_search_workers = workers
+        solver.parameters.random_seed = 0
+        status = solver.solve(problem.model)
+        report = {
+            "scenario": asdict(self.scenario),
+            "solver": {
+                "algorithm": algorithm,
+                "status": solver.status_name(status),
+                "seconds": perf_counter() - start,
+                "objective": None,
+                "bound": None,
+                "variables": len(problem.model.proto.variables),
+                "constraints": len(problem.model.proto.constraints),
+            },
+            "exclusions": dict(self.exclusions),
+        }
+        if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+            layout = {site.id: [] for site in self.scenario.sites}
+            party = None
+            for variable in problem.variables:
+                if solver.value(variable) > 0:
+                    if variable.name in self.decisions:
+                        site, key = self.decisions[variable.name]
+                        layout[site].append(key)
+                    if variable.name in self.party_variables:
+                        party = self.party_variables[variable.name]
+            economics = self.evaluate(layout, party)
+            objective = solver.objective_value / 10000
+            if abs(objective - economics["domestic_net_income"]) > 1e-5:
+                raise AssertionError("Independent economics disagrees with CP-SAT")
+            report["solver"].update(objective=objective, bound=solver.best_objective_bound / 10000)
+            report.update(economics)
+            report["proof_fingerprint"] = self._fingerprint
+            report["selected_decision_indices"] = [
+                v.index
+                for v in problem.variables
+                if (v.name in self.decisions or v.name in self.party_variables) and solver.value(v)
+            ]
+        return report
+
+    def _cpsat_hints(self, incumbent, problem):
+        if incumbent is not None:
+            values = self.warm_values(incumbent)
+            problem.model.clear_hints()
+            for variable in problem.variables:
+                problem.model.add_hint(variable, values[variable.name])

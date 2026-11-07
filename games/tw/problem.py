@@ -7,7 +7,6 @@ from games.tw.enums import ProblemState, SolverType
 from games.tw.games import Games
 from games.tw.models.model_attila import AttilaCampaign
 from games.tw.province import Province
-from games.tw.solver import Solver
 from games.tw.solver_cpsat import SolverCpSat
 from games.tw.solver_ortools import SolverOrTools
 from games.tw.solver_pulp import SolverPulp
@@ -29,9 +28,7 @@ class Problem:
         if objective is None:
             campaign = getattr(Games.instance, "campaign", None)
             objective = (
-                "income"
-                if campaign is None or isinstance(campaign, AttilaCampaign)
-                else "legacy"
+                "income" if campaign is None or isinstance(campaign, AttilaCampaign) else "legacy"
             )
         if objective not in ("legacy", "wealth", "income"):
             raise ValueError("Unknown objective mode")
@@ -40,16 +37,11 @@ class Problem:
         self.objective_mode = objective
         self.technologies = None if technologies is None else frozenset(technologies)
         self.technology_profile = None
-        if (
-            objective != "legacy"
-            and getattr(Games.instance, "faction", None) is not None
-        ):
+        if objective != "legacy" and getattr(Games.instance, "faction", None) is not None:
             from games.tw.attila.modifiers import technology_profile
             from games.tw.attila.scenario import Scenario
 
-            scenario_data = (
-                scenario.data if isinstance(scenario, Scenario) else scenario or {}
-            )
+            scenario_data = scenario.data if isinstance(scenario, Scenario) else scenario or {}
             self.technology_profile = technology_profile(
                 Games.instance,
                 technologies,
@@ -65,9 +57,7 @@ class Problem:
         self.problem = self.get_solver()
         self.problem.technologies = self.technologies
         self.problem.disabled_technologies = (
-            set(self.technology_profile["disabled_legacy"])
-            if self.technology_profile
-            else set()
+            set(self.technology_profile["disabled_legacy"]) if self.technology_profile else set()
         )
         self.problem.require_income_metadata = objective == "income"
         self.problem.catalogue_exclusions = []
@@ -75,7 +65,7 @@ class Problem:
         self.global_time = 0
         Games.problem = self.problem
 
-    def get_solver(self) -> Solver:
+    def get_solver(self) -> SolverPulp | SolverOrTools | SolverCpSat:
         if self.solver_type == SolverType.PULP:
             return SolverPulp()
         elif self.solver_type == SolverType.SCIP:
@@ -101,7 +91,7 @@ class Problem:
         Add all provinces to the problem.
         :return:
         """
-        for province in Games.instance.get_parser().provinces.values():
+        for province in Games.current().get_parser().provinces.values():
             self.add_province(province)
 
     def add_buildings(self) -> None:
@@ -121,7 +111,8 @@ class Problem:
 
     def buildings(self) -> list[Building]:
         """
-        Return all buildings in the problem that are potentially built. Basically, will be all our LpVariables.
+        Return all buildings in the problem that are potentially built. Basically, will be all
+        our LpVariables.
         :return:
         """
         return [
@@ -135,7 +126,8 @@ class Problem:
         """
         Add the objective function to the problem.
         Objective function: Maximize GDP on LpVariables (buildings) that are remaining.
-        After this, we CANNOT change the buildings anymore, because LpVariables are already factored in the objective function.
+        After this, we CANNOT change the buildings anymore, because LpVariables are already
+        factored in the objective function.
         :return: None
         """
         if self.state != ProblemState.CONSTRAINTS_ADDED:
@@ -151,9 +143,7 @@ class Problem:
             self.economy.catalogue_exclusions = self.problem.catalogue_exclusions
             self.economy.install_constraints(self.problem)
             self.problem.add_objective_terms(
-                self.economy.compile(
-                    self.economy.objective(self.objective_mode), self.problem
-                )
+                self.economy.compile(self.economy.objective(self.objective_mode), self.problem)
             )
         self.state = ProblemState.OBJECTIVE_ADDED
 
@@ -161,9 +151,7 @@ class Problem:
         self.problem = self.get_solver()
         self.problem.technologies = self.technologies
         self.problem.disabled_technologies = (
-            set(self.technology_profile["disabled_legacy"])
-            if self.technology_profile
-            else set()
+            set(self.technology_profile["disabled_legacy"]) if self.technology_profile else set()
         )
         self.problem.require_income_metadata = self.objective_mode == "income"
         self.problem.catalogue_exclusions = []
@@ -196,7 +184,11 @@ class Problem:
         :return: None
         """
         print(
-            f"Number of variables: {len(self.problem.variables())}\nNumber of constraints: {len(self.problem.constraints())}\n"
+            "Number of variables: "
+            f"{len(self.problem.variables())}"
+            "\nNumber of constraints: "
+            f"{len(self.problem.constraints())}"
+            "\n"
         )
 
     def get_problem_answers(self) -> list[tuple[str, str]]:
@@ -206,7 +198,7 @@ class Problem:
         """
         if self.state != ProblemState.SOLVED:
             raise ValueError("Problem must be solved first.")
-        return self.problem.get_problem_answers(Games.instance.get_parser())
+        return self.problem.get_problem_answers(Games.current().get_parser())
 
     def print_problem_answers(self):
         """
@@ -218,7 +210,7 @@ class Problem:
             print(f"{region_name}: {building_name}")
 
     def dump(self, path: str):
-        if self.solver_type in (SolverType.GOOGLE, SolverType.SCIP, SolverType.CP_SAT):
+        if isinstance(self.problem, SolverOrTools):
             # Assuming self.problem.solver is an instance of pywraplp.Solver
             if path.endswith(".lp"):
                 model_str = self.problem.solver.ExportModelAsLpFormat(False)

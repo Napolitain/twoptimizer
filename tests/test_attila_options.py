@@ -10,6 +10,7 @@ from games.tw.competition import BinaryModel, solve
 from games.tw.enums import ProblemState
 from games.tw.problem import Problem
 from games.tw.region import Region
+from games.tw.solver_ortools import SolverOrTools
 from tests.test_attila_effects import building, province, restore_globals  # noqa: F401
 
 
@@ -48,11 +49,7 @@ def test_scenario_clamps_offsets_targets_and_budget_against_enumeration():
     }
     problem = Problem(objective="income", scenario=scenario)
     problem.add_province(p)
-    candidates = [
-        building(
-            r, "factory", ("economy_gdp_industry", "building_to_building_own", 100)
-        )
-    ]
+    candidates = [building(r, "factory", ("economy_gdp_industry", "building_to_building_own", 100))]
     for name in ("reducer1", "reducer2"):
         candidates.append(
             building(
@@ -76,6 +73,7 @@ def test_scenario_clamps_offsets_targets_and_budget_against_enumeration():
         )
     )
     for b in candidates:
+        assert isinstance(problem.problem, SolverOrTools)
         b.lp_variable = problem.problem.solver.BoolVar(b.name)
     problem.problem.create_constraint(
         "slots", [b.lp_variable for b in candidates], constraint_fn=lambda x: x <= 3
@@ -83,13 +81,14 @@ def test_scenario_clamps_offsets_targets_and_budget_against_enumeration():
     problem.state = ProblemState.CONSTRAINTS_ADDED
     problem.add_objective()
     economy = problem.economy
+    assert economy is not None
     model = BinaryModel.from_solver(problem.problem.solver)
     assert model.offset == 50
     auxiliary = {v.name(): key for key, v in economy.products.items()}
     for bits in product((0, 1), repeat=4):
         factory, a, b, exporter = bits
         selected = {
-            candidate.name for candidate, enabled in zip(candidates, bits) if enabled
+            candidate.name for candidate, enabled in zip(candidates, bits, strict=False) if enabled
         }
         values = []
         for name in model.names:
@@ -166,9 +165,7 @@ def test_conditional_food_and_order_only_reach_explicit_recipients():
     assert [e.evaluate(e.public_order(p), selected) for p in ps] == [0, 3, 0]
     without = Economy(ps)
     assert without.evaluate(without.food(b), selected) == 0
-    assert any(
-        reason == "requires_explicit_recipients" for _, _, reason in without.omitted
-    )
+    assert any(reason == "requires_explicit_recipients" for _, _, reason in without.omitted)
 
 
 def test_metric_weight_can_change_choice_and_external_wealth_is_constant():
@@ -193,13 +190,10 @@ def test_metric_weight_can_change_choice_and_external_wealth_is_constant():
     }
     problem = Problem(scenario=scenario)
     problem.add_province(p)
-    a = building(
-        r, "factory", ("economy_gdp_industry", "building_to_building_own", 100)
-    )
-    b = building(
-        r, "library", ("technology_research_points", "faction_to_faction_own", 6)
-    )
+    a = building(r, "factory", ("economy_gdp_industry", "building_to_building_own", 100))
+    b = building(r, "library", ("technology_research_points", "faction_to_faction_own", 6))
     for v in (a, b):
+        assert isinstance(problem.problem, SolverOrTools)
         v.lp_variable = problem.problem.solver.BoolVar(v.name)
     problem.problem.create_constraint(
         "slots", [a.lp_variable, b.lp_variable], constraint_fn=lambda x: x <= 1
@@ -209,15 +203,10 @@ def test_metric_weight_can_change_choice_and_external_wealth_is_constant():
     problem.solve()
     assert problem.problem.get_objective() == 130
     assert (
-        next(
-            v for v in problem.problem.variables() if v.name() == "library"
-        ).solution_value()
-        == 1
+        next(v for v in problem.problem.variables() if v.name() == "library").solution_value() == 1
     )
-    assert (
-        problem.economy.evaluate_layout({"library"})["objective_kind"]
-        == "weighted_income"
-    )
+    assert problem.economy is not None
+    assert problem.economy.evaluate_layout({"library"})["objective_kind"] == "weighted_income"
 
 
 @pytest.mark.parametrize(
@@ -254,6 +243,7 @@ def test_rational_threshold_equality_and_both_clamp_boundaries(base):
     problem = Problem()
     for name in ("x", "y"):
         b = building(r, name)
+        assert isinstance(problem.problem, SolverOrTools)
         b.lp_variable = problem.problem.solver.BoolVar(name)
     e = Economy([p])
     polynomial = add({(): base}, {("x",): -0.1, ("y",): -0.2})
@@ -263,9 +253,7 @@ def test_rational_threshold_equality_and_both_clamp_boundaries(base):
     auxiliaries = {v.name(): k for k, v in e.products.items()}
     for x, y in product((0, 1), repeat=2):
         selected = {n for n, enabled in (("x", x), ("y", y)) if enabled}
-        values = [
-            e.evaluate({auxiliaries.get(n, (n,)): 1}, selected) for n in model.names
-        ]
+        values = [e.evaluate({auxiliaries.get(n, (n,)): 1}, selected) for n in model.names]
         assert model.feasible(values)
         expected = min(0.15, max(0, base - 0.1 * x - 0.2 * y))
         assert model.profit @ values + model.offset == pytest.approx(expected)
@@ -302,9 +290,7 @@ def test_state_religion_influence_joins_selected_faith_without_double_counting()
     p = province("p", r)
     building(r, "church", ("religion_conversion_orthodox", "region_to_region_own", 3))
     building(r, "authority", ("religion_conversion_state", "faction_to_region_own", 1))
-    building(
-        r, "other_faith", ("religion_conversion_catholic", "region_to_region_own", 5)
-    )
+    building(r, "other_faith", ("religion_conversion_catholic", "region_to_region_own", 5))
     e = Economy([p])
     for metric in ("religion:state", "religion:orthodox"):
         assert e.evaluate(e.metric(metric), set(e.by_id)) == 4

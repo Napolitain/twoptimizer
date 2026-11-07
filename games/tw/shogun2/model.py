@@ -9,6 +9,7 @@ from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass
 from fractions import Fraction
 from pathlib import Path
+from typing import Any
 
 from ortools.linear_solver import pywraplp
 
@@ -73,41 +74,21 @@ class Economy:
             scenario.provinces
         ):
             raise ValueError("Choose at least one province, without duplicates")
-        self.provinces = {}
-        for province in scenario.provinces:
-            location = dict(self.rules["provinces"][province.id])
-            for amount in asdict(province).values():
-                if amount is not None and not isinstance(amount, str):
-                    fraction(amount)  # Reject NaN/inf as well as non-numbers.
-            if (
-                province.town_wealth < 0
-                or not 0 <= province.base_tax_percent <= 100
-                or not 0 <= province.administration <= 1
-            ):
-                raise ValueError(
-                    "Invalid wealth, tax rate or administration multiplier"
-                )
-            if province.farm_multiplier is not None:
-                if (
-                    province.farm_multiplier
-                    not in self.rules["fertility_multipliers"].values()
-                ):
-                    raise ValueError(
-                        "Farm multiplier must be a sourced fertility multiplier"
-                    )
-                location["farm_multiplier"] = province.farm_multiplier
-            self.provinces[province.id] = (province, location)
+        self._load_provinces(scenario)
         self.arts = Counter()
         if scenario.all_arts:
             for art in self.catalog["technologies"].values():
                 for text in art["facts"] + art.get("clan_facts", []):
                     if effect := parse(text):
                         self.arts[effect.kind] += effect.value
-        self.farm_percent = self.arts["farm_percent"] + self.rules[
-            "clan_farm_percent"
-        ].get(scenario.clan, 0)
+        self.farm_percent = self.arts["farm_percent"] + self.rules["clan_farm_percent"].get(
+            scenario.clan, 0
+        )
         self.candidates = {}
 
+        self._load_candidates(scenario)
+
+    def _load_candidates(self, scenario):
         def arts_available(building, seen=frozenset()):
             if scenario.all_arts:
                 return True
@@ -138,6 +119,25 @@ class Economy:
                 )
                 is None
             }
+
+    def _load_provinces(self, scenario):
+        self.provinces = {}
+        for province in scenario.provinces:
+            location = dict(self.rules["provinces"][province.id])
+            for amount in asdict(province).values():
+                if amount is not None and not isinstance(amount, str):
+                    fraction(amount)  # Reject NaN/inf as well as non-numbers.
+            if (
+                province.town_wealth < 0
+                or not 0 <= province.base_tax_percent <= 100
+                or not 0 <= province.administration <= 1
+            ):
+                raise ValueError("Invalid wealth, tax rate or administration multiplier")
+            if province.farm_multiplier is not None:
+                if province.farm_multiplier not in self.rules["fertility_multipliers"].values():
+                    raise ValueError("Farm multiplier must be a sourced fertility multiplier")
+                location["farm_multiplier"] = province.farm_multiplier
+            self.provinces[province.id] = (province, location)
 
     def wealth(self, province_id, building):
         location = self.provinces[province_id][1]
@@ -180,61 +180,24 @@ class Economy:
                 food.append(values(building, "food") * variable)
                 if unique_id := unique_key(building):
                     unique[unique_id].append(variable)
-            for group, choices in groups.items():
-                if group in DEDICATED:
-                    solver.Add(sum(choices) == 1)
-                else:
-                    solver.Add(sum(choices) <= 1)
+            self._compile_chain_constraints(groups, solver)
             slots = sum(
                 level(buildings[key]) * variables[(province_id, key)]
                 for key in buildings
                 if family(buildings[key]) == "castle"
             )
             town = sum(
-                variables[(province_id, key)]
-                for key in buildings
-                if family(buildings[key]) in TOWN
+                variables[(province_id, key)] for key in buildings if family(buildings[key]) in TOWN
             )
             solver.Add(town <= slots)
             order = sum(
-                (values(b, "order") + values(b, "religious_order"))
-                * variables[(province_id, key)]
+                (values(b, "order") + values(b, "religious_order")) * variables[(province_id, key)]
                 for key, b in buildings.items()
             )
-            solver.Add(
-                order + self.arts["order"] + province.order_offset
-                >= province.minimum_order
+            solver.Add(order + self.arts["order"] + province.order_offset >= province.minimum_order)
+            offset = self._compile_income(
+                province, offset, province_id, buildings, objective, variables, product
             )
-            base_wealth = fraction(province.town_wealth)
-            base_tax = (
-                fraction(province.base_tax_percent) + self.arts["tax_percent"]
-            ) / 100
-            administration = fraction(province.administration)
-            offset += base_wealth * base_tax * administration
-            wealth = [
-                (key, self.wealth(province_id, b)) for key, b in buildings.items()
-            ]
-            taxes = [
-                (key, fraction(values(b, "tax_percent")) / 100)
-                for key, b in buildings.items()
-                if values(b, "tax_percent")
-            ]
-            for key, amount in wealth:
-                objective[variables[(province_id, key)].name()] += (
-                    amount * base_tax * administration
-                )
-            for key, rate in taxes:
-                tax_variable = variables[(province_id, key)]
-                objective[tax_variable.name()] += base_wealth * rate * administration
-                for wealth_key, amount in wealth:
-                    if not amount:
-                        continue
-                    if key != wealth_key and family(buildings[key]) == family(
-                        buildings[wealth_key]
-                    ):
-                        continue  # Mutually exclusive stages of the same chain.
-                    term = product(tax_variable, variables[(province_id, wealth_key)])
-                    objective[term.name()] += rate * amount * administration
         solver.Add(sum(food) + self.arts["food"] >= 0)
         for choices in unique.values():
             solver.Add(sum(choices) <= 1)
@@ -248,6 +211,40 @@ class Economy:
         self.decision_names = {v.name(): pair for pair, v in variables.items()}
         return self.binary
 
+    def _compile_chain_constraints(self, groups, solver):
+        for group, choices in groups.items():
+            if group in DEDICATED:
+                solver.Add(sum(choices) == 1)
+            else:
+                solver.Add(sum(choices) <= 1)
+
+    def _compile_income(
+        self, province, offset, province_id, buildings, objective, variables, product
+    ):
+        base_wealth = fraction(province.town_wealth)
+        base_tax = (fraction(province.base_tax_percent) + self.arts["tax_percent"]) / 100
+        administration = fraction(province.administration)
+        offset += base_wealth * base_tax * administration
+        wealth = [(key, self.wealth(province_id, b)) for key, b in buildings.items()]
+        taxes = [
+            (key, fraction(values(b, "tax_percent")) / 100)
+            for key, b in buildings.items()
+            if values(b, "tax_percent")
+        ]
+        for key, amount in wealth:
+            objective[variables[(province_id, key)].name()] += amount * base_tax * administration
+        for key, rate in taxes:
+            tax_variable = variables[(province_id, key)]
+            objective[tax_variable.name()] += base_wealth * rate * administration
+            for wealth_key, amount in wealth:
+                if not amount:
+                    continue
+                if key != wealth_key and family(buildings[key]) == family(buildings[wealth_key]):
+                    continue  # Mutually exclusive stages of the same chain.
+                term = product(tax_variable, variables[(province_id, wealth_key)])
+                objective[term.name()] += rate * amount * administration
+        return offset
+
     def evaluate(self, layout):
         """Recompute original economics and constraints without product variables."""
         if set(layout) != set(self.provinces):
@@ -255,25 +252,9 @@ class Economy:
         total_food = self.arts["food"]  # A faction effect, counted once.
         total_income = Fraction(0)
         unique = Counter()
-        report = {}
+        report: dict[str, Any] = {}
         for province_id, keys in layout.items():
-            if len(keys) != len(set(keys)):
-                raise ValueError("Duplicate building")
-            if set(keys) - self.candidates[province_id].keys():
-                raise ValueError("Unavailable building")
-            buildings = [self.candidates[province_id][key] for key in keys]
-            groups = Counter(family(b) for b in buildings)
-            available_groups = {
-                family(b) for b in self.candidates[province_id].values()
-            }
-            if any(groups[g] != 1 for g in DEDICATED & available_groups) or any(
-                n > 1 for n in groups.values()
-            ):
-                raise ValueError("Invalid chain occupancy")
-            castle = next(b for b in buildings if family(b) == "castle")
-            slots = level(castle)
-            if sum(groups[g] for g in TOWN) > slots:
-                raise ValueError("Castle has too few town slots")
+            buildings, slots = self._validate_province_layout(keys, province_id)
             for building in buildings:
                 if key := unique_key(building):
                     unique[key] += 1
@@ -281,9 +262,7 @@ class Economy:
             order = (
                 fraction(province.order_offset)
                 + self.arts["order"]
-                + sum(
-                    values(b, "order") + values(b, "religious_order") for b in buildings
-                )
+                + sum(values(b, "order") + values(b, "religious_order") for b in buildings)
             )
             if order < fraction(province.minimum_order):
                 raise ValueError("Insufficient public order")
@@ -346,6 +325,24 @@ class Economy:
             "provinces": report,
         }
 
+    def _validate_province_layout(self, keys, province_id):
+        if len(keys) != len(set(keys)):
+            raise ValueError("Duplicate building")
+        if set(keys) - self.candidates[province_id].keys():
+            raise ValueError("Unavailable building")
+        buildings = [self.candidates[province_id][key] for key in keys]
+        groups = Counter(family(b) for b in buildings)
+        available_groups = {family(b) for b in self.candidates[province_id].values()}
+        if any(groups[g] != 1 for g in DEDICATED & available_groups) or any(
+            n > 1 for n in groups.values()
+        ):
+            raise ValueError("Invalid chain occupancy")
+        castle = next(b for b in buildings if family(b) == "castle")
+        slots = level(castle)
+        if sum(groups[g] for g in TOWN) > slots:
+            raise ValueError("Castle has too few town slots")
+        return buildings, slots
+
     def optimize(self, algorithm="cp-sat", seconds=15, workers=1):
         result = solve(self.compile(), algorithm, seconds=seconds, workers=workers)
         report = {
@@ -354,7 +351,7 @@ class Economy:
         }
         if result.values is not None:
             layout = {p: [] for p in self.provinces}
-            for name, value in zip(self.binary.names, result.values):
+            for name, value in zip(self.binary.names, result.values, strict=False):
                 if value > 0.5 and name in self.decision_names:
                     province, key = self.decision_names[name]
                     layout[province].append(key)

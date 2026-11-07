@@ -31,15 +31,17 @@ def main(argv=None):
         records[wanted[url]] = {**detail_record(html), "source_url": url}
     absent = [k for k, r in records.items() if r["explicit_no_effect"]]
     recovered = [
-        k
-        for k, r in records.items()
-        if r["facts"] and not catalog["buildings"][k]["facts"]
+        k for k, r in records.items() if r["facts"] and not catalog["buildings"][k]["facts"]
     ]
     details = {
         "catalog_sha256": hashlib.sha256(catalog_path.read_bytes()).hexdigest(),
         "buildings": records,
         "sources": sorted(sources.records.values(), key=lambda r: r["url"]),
-        "interpretation": "Literal public page facts and metadata; explicit No Effect is a source statement, not proof that the game building has no effects. Conditional and faction-specific rules are not normalized away.",
+        "interpretation": (
+            "Literal public page facts and metadata; explicit No Effect is a "
+            "source statement, not proof that the game building has no effects. "
+            "Conditional and faction-specific rules are not normalized away."
+        ),
     }
     output = DATA / "three_kingdoms_details.json"
     output.write_text(json.dumps(details, indent=2) + "\n")
@@ -55,22 +57,39 @@ def main(argv=None):
                 "examples": [k for k in absent if k.startswith("3k_city_")],
             },
             {
-                "issue": "Some economic buildings explicitly publish No Effect; zero is not a defensible substitute",
+                "issue": (
+                    "Some economic buildings explicitly publish No Effect; "
+                    "zero is not a defensible substitute"
+                ),
                 "examples": [k for k in absent if "artisan_minting" in k],
             },
             {
-                "issue": "Commandery/county eligibility, population income and public-order functions, corruption, faction rules, and research bonuses require a consistent numeric reference"
+                "issue": (
+                    "Commandery/county eligibility, population income and "
+                    "public-order functions, corruption, faction rules, and "
+                    "research bonuses require a consistent numeric reference"
+                )
             },
         ],
-        "official_kit_availability": "Anonymous official Steam depot access was attempted for Assembly Kit app 1012260 and denied; no authenticated installed data is available in this workspace.",
+        "official_kit_availability": (
+            "Anonymous official Steam depot access was attempted for Assembly Kit"
+            " app 1012260 and denied; no authenticated installed data is "
+            "available in this workspace."
+        ),
         "details_path": "games/tw/multigame/data/three_kingdoms_details.json",
         "details_sha256": hashlib.sha256(output.read_bytes()).hexdigest(),
     }
-    Path("reports/three-kingdoms-readiness.json").write_text(
-        json.dumps(report, indent=2) + "\n"
-    )
+    Path("reports/three-kingdoms-readiness.json").write_text(json.dumps(report, indent=2) + "\n")
     print(
-        f"Checked {len(records)} detail pages; {len(absent)} explicitly say No Effect; {len(recovered)} newly recovered effect pages",
+        (
+            "Checked "
+            f"{len(records)}"
+            " detail pages; "
+            f"{len(absent)}"
+            " explicitly say No Effect; "
+            f"{len(recovered)}"
+            " newly recovered effect pages"
+        ),
         flush=True,
     )
     return report

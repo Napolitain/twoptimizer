@@ -12,34 +12,13 @@ def audit(catalog):
     game = catalog["game"]
     buildings, factions = catalog["buildings"], catalog["factions"]
     errors, placeholders = [], []
-    for key, building in buildings.items():
-        if building["id"] != key:
-            errors.append({"building": key, "error": "identity mismatch"})
-        for field in ("construction_cost", "construction_turns", "upkeep"):
-            value = building.get(field)
-            if value is not None and (
-                isinstance(value, bool)
-                or not isinstance(value, (int, float))
-                or value < 0
-            ):
-                errors.append({"building": key, "error": "invalid " + field})
-        for text in building["facts"] + building.get("clan_facts", []):
-            if re.search(r"%[+-]?n", text):
-                placeholders.append(
-                    {
-                        "building": key,
-                        "fact": text,
-                        "source_url": building["source_url"],
-                    }
-                )
+    _audit_buildings(buildings, errors, placeholders)
     for faction_id, faction in factions.items():
         if "roster_id" not in faction:
             continue
         roster = catalog.get("rosters", {}).get(faction["roster_id"])
         if roster is None or set(roster["buildings"]) - buildings.keys():
-            errors.append(
-                {"faction": faction_id, "error": "missing roster/building reference"}
-            )
+            errors.append({"faction": faction_id, "error": "missing roster/building reference"})
     if len({s["url"] for s in catalog["sources"]}) != len(catalog["sources"]):
         errors.append({"error": "duplicate source identities"})
     if any(not re.fullmatch(r"[a-f0-9]{64}", s["sha256"]) for s in catalog["sources"]):
@@ -47,19 +26,43 @@ def audit(catalog):
     gaps = {
         "shogun2": [
             "Archived encyclopedia patch is unspecified",
-            "Public static domestic-tax model available in games/tw/shogun2; full campaign not modeled",
-            "Clan farm bonus and 65 province soils/ports/specialties supplemented from public references; installed-build validation remains",
-            "Starting town wealth, taxation and administration are explicit scenario inputs, not historical campaign state",
-            "Food is shared; future wealth dynamics and tax-growth feedback still need a time model",
-            "Public faction/religion/unique-building rules need validation against installed tables",
+            (
+                "Public static domestic-tax model available in "
+                "games/tw/shogun2; full campaign not modeled"
+            ),
+            (
+                "Clan farm bonus and 65 province soils/ports/specialties"
+                " supplemented from public references; installed-build "
+                "validation remains"
+            ),
+            (
+                "Starting town wealth, taxation and administration are "
+                "explicit scenario inputs, not historical campaign state"
+            ),
+            (
+                "Food is shared; future wealth dynamics and tax-growth "
+                "feedback still need a time model"
+            ),
+            (
+                "Public faction/religion/unique-building rules need "
+                "validation against installed tables"
+            ),
         ],
         "rome2": [
-            "A static reference optimizer is available in games/tw/rome2, with explicit scenarios and optimality bounds",
+            (
+                "A static reference optimizer is available in "
+                "games/tw/rome2, with explicit scenarios and optimality "
+                "bounds"
+            ),
             "Public roster visibility is not proof of faction/campaign eligibility",
             "No separate upkeep column; maintenance effects must be interpreted",
             "Technology, edict, family, slavery and campaign inputs need validated tables",
             "Settlement capacities, food sharing and province scopes need game-specific validation",
-            "The separate economy supplement reconstructs 32 official faction trees; four later playable factions and current patch differences remain unverified",
+            (
+                "The separate economy supplement reconstructs 32 "
+                "official faction trees; four later playable factions "
+                "and current patch differences remain unverified"
+            ),
         ],
         "three_kingdoms": [
             "Numeric placeholders include building-slot values",
@@ -79,15 +82,37 @@ def audit(catalog):
         "source_responses": len(catalog["sources"]),
         "numeric_placeholder_count": len(placeholders),
         "numeric_placeholders": placeholders,
-        "missing_separate_upkeep_values": sum(
-            b.get("upkeep") is None for b in buildings.values()
-        ),
+        "missing_separate_upkeep_values": sum(b.get("upkeep") is None for b in buildings.values()),
         "identity_conflicts": catalog.get("conflicts", []),
         "integrity_errors": errors,
         "ready_for_full_economy_model": False,
         "required_validation": gaps[game],
-        "note": "Counts measure imported reference facts, not modeled mechanics or completeness. Missing numbers are not substituted with zero.",
+        "note": (
+            "Counts measure imported reference facts, not modeled mechanics or "
+            "completeness. Missing numbers are not substituted with zero."
+        ),
     }
+
+
+def _audit_buildings(buildings, errors, placeholders):
+    for key, building in buildings.items():
+        if building["id"] != key:
+            errors.append({"building": key, "error": "identity mismatch"})
+        for field in ("construction_cost", "construction_turns", "upkeep"):
+            value = building.get(field)
+            if value is not None and (
+                isinstance(value, bool) or not isinstance(value, (int, float)) or value < 0
+            ):
+                errors.append({"building": key, "error": "invalid " + field})
+        for text in building["facts"] + building.get("clan_facts", []):
+            if re.search(r"%[+-]?n", text):
+                placeholders.append(
+                    {
+                        "building": key,
+                        "fact": text,
+                        "source_url": building["source_url"],
+                    }
+                )
 
 
 def main(argv=None):

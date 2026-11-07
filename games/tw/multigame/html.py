@@ -26,21 +26,13 @@ class Node:
         return " ".join(self.raw_text().split())
 
     def raw_text(self):
-        return "".join(
-            c.raw_text() if isinstance(c, Node) else c for c in self.children
-        )
+        return "".join(c.raw_text() if isinstance(c, Node) else c for c in self.children)
 
     def lines(self):
-        return [
-            " ".join(line.split())
-            for line in self.raw_text().splitlines()
-            if line.strip()
-        ]
+        return [" ".join(line.split()) for line in self.raw_text().splitlines() if line.strip()]
 
     def cells(self):
-        return [
-            c for c in self.children if isinstance(c, Node) and c.tag in {"th", "td"}
-        ]
+        return [c for c in self.children if isinstance(c, Node) and c.tag in {"th", "td"}]
 
 
 class Document(HTMLParser):
@@ -96,7 +88,7 @@ class Document(HTMLParser):
 
 
 def number(value):
-    value = value.strip().replace(",", "").replace("−", "-")
+    value = value.strip().replace(",", "").replace("\N{MINUS SIGN}", "-")
     if not re.fullmatch(r"[+-]?\d+(?:\.\d+)?", value):
         raise ValueError(f"Not a source number: {value!r}")
     return float(value) if "." in value else int(value)

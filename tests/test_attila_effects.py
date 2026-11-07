@@ -13,6 +13,7 @@ from games.tw.games import Games
 from games.tw.problem import Problem
 from games.tw.province import Province
 from games.tw.region import Region
+from games.tw.solver_ortools import SolverOrTools
 
 
 @pytest.fixture(autouse=True)
@@ -63,13 +64,9 @@ def test_local_province_category_and_building_bonuses():
     r1, r2 = Region("one"), Region("two")
     building(r1, "factory1", ("economy_gdp_industry", "building_to_building_own", 100))
     building(r2, "factory2", ("economy_gdp_industry", "building_to_building_own", 100))
-    building(
-        r1, "farm", ("economy_gdp_agriculture_farming", "building_to_building_own", 50)
-    )
+    building(r1, "farm", ("economy_gdp_agriculture_farming", "building_to_building_own", 50))
     building(r1, "local", ("economy_gdp_mod_industry", "building_to_region_own", 10))
-    building(
-        r1, "provincial", ("economy_gdp_mod_industry", "province_to_region_own", 20)
-    )
+    building(r1, "provincial", ("economy_gdp_mod_industry", "province_to_region_own", 20))
     # A building-only bonus boosts its own 100 wealth, not either other factory.
     building(
         r1,
@@ -103,9 +100,7 @@ def test_sanitation_fertility_food_and_order_are_not_double_counted():
             ("food_consumption", "region_to_region_own", 5),
             ("economy_gdp_fertility_agriculture", "building_to_building_own", 100),
         )
-    building(
-        r1, "fertilizer", ("province_fertility_buildings", "building_to_region_own", 1)
-    )
+    building(r1, "fertilizer", ("province_fertility_buildings", "building_to_region_own", 1))
     economy = Economy([province("p", r1, r2)])
     report = economy.evaluate_layout(selected(economy))
     assert report["regions"]["one"] == {
@@ -133,9 +128,7 @@ def test_faction_and_adjacent_bonuses_have_distinct_targets():
             f"factory{i}",
             ("economy_gdp_industry", "building_to_building_own", 100),
         )
-    building(
-        regions[0], "global", ("economy_gdp_mod_industry", "faction_to_region_own", 10)
-    )
+    building(regions[0], "global", ("economy_gdp_mod_industry", "faction_to_region_own", 10))
     building(
         regions[0],
         "adjacent",
@@ -146,9 +139,11 @@ def test_faction_and_adjacent_bonuses_have_distinct_targets():
         ),
     )
     economy = Economy(provinces, {"p0": ["p1"]})
-    assert [
-        economy.evaluate(economy.wealth(r), selected(economy)) for r in regions
-    ] == [110, 130, 110]
+    assert [economy.evaluate(economy.wealth(r), selected(economy)) for r in regions] == [
+        110,
+        130,
+        110,
+    ]
     assert reach("force_to_force_own_factionwide") == Reach.OTHER
     assert reach("province_to_region_own_factionwide") == Reach.FACTION
 
@@ -174,21 +169,18 @@ def test_compiled_scoped_model_matches_independent_enumeration(mode):
     problem = Problem(objective=mode)
     problem.add_province(p)
     b = [
-        building(
-            r, "factory", ("economy_gdp_industry", "building_to_building_own", 100)
-        ),
+        building(r, "factory", ("economy_gdp_industry", "building_to_building_own", 100)),
         building(
             r,
             "industry_bonus",
             ("economy_gdp_mod_industry", "province_to_region_own", 50),
             upkeep=40,
         ),
-        building(
-            r, "tax", ("province_tax_rate", "province_to_province_own", 20), upkeep=20
-        ),
+        building(r, "tax", ("province_tax_rate", "province_to_province_own", 20), upkeep=20),
         building(r, "health", ("sanitation_buildings", "region_to_region_own", 1)),
     ]
     for candidate in b:
+        assert isinstance(problem.problem, SolverOrTools)
         candidate.lp_variable = problem.problem.solver.BoolVar(candidate.name)
     problem.problem.create_constraint(
         "slots", [v.lp_variable for v in b], constraint_fn=lambda x: x <= 3
@@ -209,9 +201,8 @@ def test_compiled_scoped_model_matches_independent_enumeration(mode):
         assert result.objective == pytest.approx(expected)
     problem.solve()
     layout = {v.name() for v in problem.problem.variables() if v.solution_value() > 0.5}
-    assert problem.economy.evaluate_layout(layout, mode)["objective"] == pytest.approx(
-        expected
-    )
+    assert problem.economy is not None
+    assert problem.economy.evaluate_layout(layout, mode)["objective"] == pytest.approx(expected)
 
 
 def test_two_canals_stack_locally_and_across_all_three_regions():
@@ -224,9 +215,11 @@ def test_two_canals_stack_locally_and_across_all_three_regions():
             ("sanitation_buildings_region", "province_to_region_own", 4),
         )
     economy = Economy([province("p", *regions)])
-    assert [
-        economy.evaluate(economy.sanitation(r), selected(economy)) for r in regions
-    ] == [11, 11, 8]
+    assert [economy.evaluate(economy.sanitation(r), selected(economy)) for r in regions] == [
+        11,
+        11,
+        8,
+    ]
 
 
 def test_display_tree_does_not_make_distinct_branches_exclusive():
@@ -236,13 +229,13 @@ def test_display_tree_does_not_make_distinct_branches_exclusive():
     for name in ("r_farm_grain_1", "r_farm_grain_2", "r_farm_cattle_1"):
         candidate = Building(name)
         candidate.metadata = {"metadata": {"source_tree_group": "agriculture"}}
+        assert isinstance(problem.problem, SolverOrTools)
         candidate.lp_variable = problem.problem.solver.BoolVar(name)
         region.buildings.append(candidate)
         candidates.append(candidate.lp_variable)
     region.add_chain_constraint()
-    problem.problem.solver.Maximize(
-        100 * candidates[0] + 200 * candidates[1] + 100 * candidates[2]
-    )
+    assert isinstance(problem.problem, SolverOrTools)
+    problem.problem.solver.Maximize(100 * candidates[0] + 200 * candidates[1] + 100 * candidates[2])
     problem.problem.solve()
     assert problem.problem.get_objective() == 300
 
@@ -265,10 +258,7 @@ def test_real_catalogue_eligibility_and_no_technology_scenario():
             region.filter_military()
             assert region.buildings
             for candidate in region.buildings:
-                assert (
-                    "_barbmigs_" not in candidate.name
-                    and "_nomad_" not in candidate.name
-                )
+                assert "_barbmigs_" not in candidate.name and "_nomad_" not in candidate.name
                 assert "eastern-roman" in candidate.metadata["requirements_by_culture"]
                 if "religion" in candidate.name:
                     assert "orthodox" in candidate.name

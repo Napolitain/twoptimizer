@@ -4,6 +4,11 @@ from games.tw.parser.parser import Parser
 
 
 class Solver(abc.ABC):
+    technologies: frozenset[str] | None = None
+    disabled_technologies: set[str]
+    require_income_metadata: bool = False
+    catalogue_exclusions: list[dict]
+
     @abc.abstractmethod
     def __init__(self):
         pass
@@ -52,5 +57,6 @@ class Solver(abc.ABC):
         """
         pass
 
-    def filter_added(self, buildings: dict[str, object]):
-        pass
+    def filter_added(self, buildings):
+        """Immediate-variable backends need no deferred registration."""
+        return None

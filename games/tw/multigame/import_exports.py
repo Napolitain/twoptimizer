@@ -52,12 +52,11 @@ def ingest(input_dir, output_dir, game, version, mods=None):
     paths = sorted(input_dir.rglob("*.tsv")) if input_dir.is_dir() else []
     if not paths:
         raise ValueError(
-            "No TSV exports found. Binary .pack archives must first be exported with RPFM; they are not TSV files."
+            "No TSV exports found. Binary .pack archives must first "
+            "be exported with RPFM; they are not TSV files."
         )
     if output_dir == input_dir or input_dir in output_dir.parents:
-        raise ValueError(
-            "Keep the generated bundle outside the source export directory"
-        )
+        raise ValueError("Keep the generated bundle outside the source export directory")
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "chunks").mkdir(exist_ok=True)
     tables = {}
@@ -67,64 +66,18 @@ def ingest(input_dir, output_dir, game, version, mods=None):
         with path.open("rb") as source:
             prefix = source.read(4)
             source.seek(0)
-            for block in iter(lambda: source.read(1024 * 1024), b""):
+            while block := source.read(1024 * 1024):
                 digest.update(block)
-        encoding = (
-            "utf-16" if prefix.startswith((b"\xff\xfe", b"\xfe\xff")) else "utf-8-sig"
-        )
+        encoding = "utf-16" if prefix.startswith((b"\xff\xfe", b"\xfe\xff")) else "utf-8-sig"
         identity = digest.hexdigest()
         table = table_name(path.relative_to(input_dir))
         safe_name = re.sub(r"[^a-zA-Z0-9_.-]", "_", table)
         destination = output_dir / "chunks" / f"{safe_name}-{identity}.jsonl"
         temporary = destination.with_suffix(".tmp")
-        columns, metadata, count, width = None, [], 0, None
-        with (
-            path.open(encoding=encoding, newline="") as source,
-            temporary.open("w", encoding="utf-8", newline="\n") as target,
-        ):
-            for row in csv.reader(source, delimiter="\t", strict=True):
-                if not row:
-                    continue
-                if (
-                    count == 0
-                    and len(row) == 1
-                    and re.match(r"^#[a-zA-Z0-9_]+;", row[0])
-                ):
-                    metadata.append(row)
-                    continue
-                if width is None:
-                    width = len(row)
-                    if HEADER_NAMES.intersection(row):
-                        if len(set(row)) != len(row) or any(
-                            not name.strip() for name in row
-                        ):
-                            raise ValueError(f"Ambiguous header in {path.name}")
-                        columns = row
-                        continue
-                if len(row) != width:
-                    raise ValueError(
-                        f"Inconsistent row width in {path.relative_to(input_dir)}: {len(row)} vs {width}"
-                    )
-                target.write(json.dumps(row, ensure_ascii=False) + "\n")
-                count += 1
-        temporary.replace(destination)
-        record = {
-            "source_file": str(path.relative_to(input_dir)),
-            "source_sha256": identity,
-            "source_bytes": path.stat().st_size,
-            "encoding": encoding,
-            "schema_metadata": metadata,
-            "columns": columns,
-            "schema_status": "named_columns"
-            if columns is not None
-            else "headerless_preserved_without_column_guesses",
-            "row_count": count,
-            "column_count": width,
-            "data_file": str(destination.relative_to(output_dir)),
-        }
-        tables.setdefault(table, {"chunks": [], "row_count": 0})["chunks"].append(
-            record
+        record, count = _write_table_chunk(
+            path, encoding, temporary, input_dir, destination, identity, output_dir
         )
+        tables.setdefault(table, {"chunks": [], "row_count": 0})["chunks"].append(record)
         tables[table]["row_count"] += count
     missing = sorted(CORE_TABLES - tables.keys())
     manifest = {
@@ -149,12 +102,64 @@ def ingest(input_dir, output_dir, game, version, mods=None):
             "Join technology, faction, population and scoped effects",
             "Validate against game economy panels before publishing game rankings",
         ],
-        "note": "Every source chunk is retained separately. Duplicate keys are not silently deduplicated or merged. Core table presence is not a completeness certificate.",
+        "note": (
+            "Every source chunk is retained separately. Duplicate keys are not "
+            "silently deduplicated or merged. Core table presence is not a "
+            "completeness certificate."
+        ),
     }
     temporary = output_dir / "manifest.tmp"
     temporary.write_text(json.dumps(manifest, indent=2) + "\n")
     temporary.replace(output_dir / "manifest.json")
     return manifest
+
+
+def _write_table_chunk(path, encoding, temporary, input_dir, destination, identity, output_dir):
+    columns, metadata, count, width = None, [], 0, None
+    with (
+        path.open(encoding=encoding, newline="") as source,
+        temporary.open("w", encoding="utf-8", newline="\n") as target,
+    ):
+        for row in csv.reader(source, delimiter="\t", strict=True):
+            if not row:
+                continue
+            if count == 0 and len(row) == 1 and re.match(r"^#[a-zA-Z0-9_]+;", row[0]):
+                metadata.append(row)
+                continue
+            if width is None:
+                width = len(row)
+                if HEADER_NAMES.intersection(row):
+                    if len(set(row)) != len(row) or any(not name.strip() for name in row):
+                        raise ValueError(f"Ambiguous header in {path.name}")
+                    columns = row
+                    continue
+            if len(row) != width:
+                raise ValueError(
+                    "Inconsistent row width in "
+                    f"{path.relative_to(input_dir)}"
+                    ": "
+                    f"{len(row)}"
+                    " vs "
+                    f"{width}"
+                )
+            target.write(json.dumps(row, ensure_ascii=False) + "\n")
+            count += 1
+    temporary.replace(destination)
+    record = {
+        "source_file": str(path.relative_to(input_dir)),
+        "source_sha256": identity,
+        "source_bytes": path.stat().st_size,
+        "encoding": encoding,
+        "schema_metadata": metadata,
+        "columns": columns,
+        "schema_status": "named_columns"
+        if columns is not None
+        else "headerless_preserved_without_column_guesses",
+        "row_count": count,
+        "column_count": width,
+        "data_file": str(destination.relative_to(output_dir)),
+    }
+    return record, count
 
 
 def main(argv=None):
@@ -186,12 +191,17 @@ def main(argv=None):
         [] if args.vanilla else args.mod,
     )
     print(
-        f"Imported {report['table_count']} tables / {report['chunk_count']} chunks / {report['row_count']} rows"
+        "Imported "
+        f"{report['table_count']}"
+        " tables / "
+        f"{report['chunk_count']}"
+        " chunks / "
+        f"{report['row_count']}"
+        " rows"
     )
     print(
         "Missing minimal core tables:",
-        ", ".join(report["missing_core_tables"])
-        or "none; full model validation remains required",
+        ", ".join(report["missing_core_tables"]) or "none; full model validation remains required",
     )
     return report
 
