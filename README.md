@@ -14,6 +14,58 @@ Three Kingdoms has [583 audited building detail pages](reports/three-kingdoms-re
 but still lacks essential rules for a trustworthy optimizer. Neither new model is a complete
 installed-build-verified campaign simulation.
 
+## Interactive terminal UI
+
+Install once, then launch without parameters:
+
+```sh
+python -m venv .venv
+.venv/bin/pip install -e .
+.venv/bin/twoptimizer
+```
+
+From the repository, `.venv/bin/python -m twoptimizer` opens the same TUI after
+installing `requirements.txt`. The existing CLI commands below remain available.
+
+![Interactive terminal workbench](docs/tui.png)
+
+The Textual interface supports Attila, Rome II and Shogun 2. Choose a faction or
+all factions, a province, research profile, solver and time budget with clickable,
+searchable dropdowns. Attila adds fertility/religion; Shogun 2 adds soil, town
+wealth and tax; Rome II offers regional bonuses and explicit research profiles.
+The default is a Rome II coastal reference case using the CP-SAT/SCIP portfolio.
+Three Kingdoms and HoI4 show their current readiness rather than starting an
+unsupported optimization.
+
+- Mouse clicks, wheel scrolling, arrows, Enter and Tab/Shift+Tab navigate the UI.
+- **Ctrl+R:** run; **Esc:** cancel the active batch; **Ctrl+Q:** quit.
+- **Ctrl+S:** export JSON and CSV; **F1:** keyboard help and model-status meanings.
+- Result rows show income, status, bound gap and timing. Click a heading to sort;
+  select a row to inspect it, or press Enter to open its building layout.
+- Compare exact solvers runs the supported formulations on the same selected
+  holding. All-faction research runs explicitly list unavailable profiles.
+
+Solves run in separate processes, so cancellation and exit stop the active solver
+while keeping completed results. Exports include scenario settings, source hashes,
+assumptions and the original engine result. Reports default to
+`benchmark-results/tui/`; the export dialog accepts another filename and protects
+existing JSON/CSV files unless replacement is explicitly selected. Model notes
+state each game's income definition and remaining data gaps. Values from different
+games are not a common GDP ranking.
+
+The TUI currently configures one province/holding per run. The CLI retains joint
+province optimization, campaign JSON inputs and the other existing advanced options.
+Installed wheels include the game data; a Git checkout is not required to run them.
+
+The new launcher also forwards CLI arguments unchanged:
+
+```sh
+.venv/bin/twoptimizer rome2 --layout coastal --seconds 15
+.venv/bin/twoptimizer shogun2 --soil native --algorithm cp-sat
+.venv/bin/twoptimizer attila --province Thracia --fertility 5 --seconds 15
+.venv/bin/twoptimizer attila-factions --help
+```
+
 ## Run Rome II
 
 ```sh

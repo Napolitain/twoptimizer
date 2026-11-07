@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 from games.tw.building import Building
 from games.tw.enums import Scope
@@ -20,9 +21,7 @@ class ParserAttila(Parser):
         religion: AttilaReligion = AttilaReligion.CHRIST_ORTHODOX,
     ):
         super().__init__()
-        # Override game_dir to point to new location: repo_root/games/tw/attila/data
-        # Base class sets it to repo_root/data, so we replace "data" with the new path
-        self.game_dir = self.game_dir.parent / "games" / "tw" / "attila" / "data"
+        self.game_dir = Path(__file__).resolve().parents[1] / "attila" / "data"
         self.campaign = campaign
         self.faction: AttilaFactions = faction
         self.religion = religion

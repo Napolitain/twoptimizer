@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from games.tw.building import Building
 from games.tw.enums import Scope, EntryType
 from games.tw.models.model_rome2 import Rome2Campaign, Rome2Factions
@@ -7,9 +9,7 @@ from games.tw.parser.parser import Parser, parse_tsv, Faction
 class ParserRome2(Parser):
     def __init__(self, campaign: Rome2Campaign, faction: Rome2Factions):
         super().__init__()
-        # Override game_dir to point to new location: repo_root/games/tw/rome2/data
-        # Base class sets it to repo_root/data, so we replace "data" with the new path
-        self.game_dir = self.game_dir.parent / "games" / "tw" / "rome2" / "data"
+        self.game_dir = Path(__file__).resolve().parents[1] / "rome2" / "data"
         self.campaign = campaign
         self.faction = faction
         self.faction_to_culture = self.parse_factions_table()
