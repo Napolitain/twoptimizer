@@ -1,0 +1,1513 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-11-08T05:58:17.775960+00:00",
+  "environment": {
+    "python": "3.14.9",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "processor": "",
+    "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "available_workers": 4,
+    "logical_cpus": 5,
+    "cpu_quota": "400000 100000",
+    "memory_limit_bytes": "17179869184",
+    "packages": {
+      "ortools": "9.15.6755",
+      "pyscipopt": "6.3.0",
+      "numpy": "2.5.4",
+      "textual": "6.12.0"
+    },
+    "lock_sha256": "3ee8cf95333f9c1485b36a501e9445a536fc3e636a24b419a6748db58db72d06",
+    "benchmark_sha256": "49ff64b7f0ccc24918a14faf30e7756e77e56e3915259909af683fd23c41ad25",
+    "git_revision": "6e03a72f0f56a9f26266fa875f0e265143eea5a7"
+  },
+  "limits": {
+    "wall_seconds": 90.0,
+    "memory_mib": 2048.0,
+    "solver_seconds": 6.0
+  },
+  "method": [
+    "Serial samples; fresh BatchRunner worker per sample, reused across independent cases.",
+    "No RunSession/proof reuse, coverage or profiling; installed Python/native-solver wheel.",
+    "Cold worker startup is included; filesystem caches may be warm on later runs.",
+    "Equal aggregate configured solver allowance per holding, split across independent cases.",
+    "Solver allowances may include model conversion; actual native search is recorded separately.",
+    "Separate wall/RSS guards cover preparation, conversion, search and validation.",
+    "Worker RSS uses Linux VmHWM sampled every 50 ms and at shutdown; guards may overshoot.",
+    "Independent totals describe separate hypothetical realms, not a legal joint layout.",
+    "Model counts sum largest observed formulation per stage/case; stages are not added.",
+    "Unavailable native build/search splits remain null; raw phase/timing keys retained."
+  ],
+  "groups": [
+    {
+      "size": "pair",
+      "request": {
+        "game": "rome2",
+        "faction": "rom_rome",
+        "province": "coastal",
+        "algorithm": "portfolio",
+        "seconds": null,
+        "workers": null,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "rome_main_italia",
+          "rome_main_magna_graecia"
+        ],
+        "joint": false,
+        "adjacency": null
+      },
+      "samples": [
+        {
+          "completion": "COMPLETE",
+          "peak_worker_rss_bytes": 231084032,
+          "requested_cases": 2,
+          "cases": [
+            {
+              "provinces": [
+                "rome_main_italia"
+              ],
+              "status": "FEASIBLE",
+              "income": 9733.8,
+              "bound": 10345.315866782497,
+              "gap_percent": 5.911041041733663,
+              "solver_seconds": 3.0268682400019316,
+              "solver_timings": {},
+              "effective_workers": 1,
+              "timings": {
+                "request_seconds": 0.09352493899859837,
+                "load_engine_seconds": 9.233800301444717e-05,
+                "build_model_seconds": 0.005863597998541081,
+                "solve_and_check_seconds": 3.042859053999564,
+                "prepare_result_seconds": 0.007850877002056222,
+                "worker_wall_seconds": 3.6438371459989867,
+                "worker_startup_seconds": 0.4927490179979941
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 288,
+                  "constraints": 131,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 258,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 522,
+                  "constraints": 1012,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 258,
+                  "nonzeros": 13681,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "SCIP nonlinear solver input",
+                  "variables": 288,
+                  "constraints": 131,
+                  "formulation": "native_products",
+                  "stage": "solver",
+                  "decision_variables": 258,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 522,
+                  "constraints": 1043,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 258,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_magna_graecia"
+              ],
+              "status": "FEASIBLE",
+              "income": 9460.0,
+              "bound": 10850.669976517178,
+              "gap_percent": 12.816443404203063,
+              "solver_seconds": 3.026001272999565,
+              "solver_timings": {
+                "model_conversion_seconds": 0.07635955099976854,
+                "search_seconds": 0.9771922939980868
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00031834800029173493,
+                "load_engine_seconds": 6.011500227032229e-05,
+                "build_model_seconds": 0.005930947998422198,
+                "solve_and_check_seconds": 3.042428202999872,
+                "prepare_result_seconds": 0.01036740000199643,
+                "worker_wall_seconds": 3.061841361999541,
+                "worker_dispatch_seconds": 0.000674247999995714
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 303,
+                  "constraints": 132,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 273,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 547,
+                  "constraints": 1044,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 273,
+                  "nonzeros": 15521,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "SCIP nonlinear solver input",
+                  "variables": 303,
+                  "constraints": 132,
+                  "formulation": "native_products",
+                  "stage": "solver",
+                  "decision_variables": 273,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 547,
+                  "constraints": 1073,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 273,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            }
+          ],
+          "source_files": {
+            "rome2/model.py": "ba902d60763e382af432d2510a06784109e6b09c7a1d6cd0673b3cdef4b48d59",
+            "rome2/compiler.py": "322d4a3946df88a7120e7a707a68bea6479f9d747cdebaa9db8d9340782dae1a",
+            "rome2/linear.py": "64e01f3667622b153d2aa2d9f96a6835917ad2eb57c82e3cf7e121e7ed2c2b25",
+            "rome2/optimization.py": "1550b086f531683a62516f4535f4a01b3b234a3aa3f6699a48b8c9e6d1d5e530",
+            "rome2/backends.py": "e1a1d7fc2c602fa29ba33bd48eaba990743316ab228c5de5903b09bb823c756a",
+            "rome2/scenario.py": "510308c94bf721f760e0d35b80b8909524a9635492de8fe5ba850c5746206568",
+            "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+            "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+            "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+            "rome2/provenance.py": "bd968316ef0279411aef5d34f05f82cf0b5bcd5013e1cd26f647598ef81edba7",
+            "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+            "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+            "rome2/holdings.py": "d4c60913d6c861eebec72aeaac6c7354e2239ee3b7b70b421317123cb4b30b4e",
+            "rome2/holding_compiler.py": "9d8c683741b03cda06550b5ff7085cce801a3e4716021de16e9d2e6b47e1070f",
+            "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+            "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+            "rome2/building_constraints.py": "70fe253fb319de35b7d2f9bdca6a2983454d1868fe8ff77d79b79ee6f6592d28",
+            "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+            "rome2/data/special_buildings_coverage.json": "0966a8f70aaa5a35a63f20d599997bb3bbf3dbe4760a5bef5294068a22f4bc4b",
+            "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+            "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+            "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+            "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+            "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+            "twoptimizer/requests.py": "1314056a1843305ff2e29a8d61fbbc38d35f8d17e5cf98492d246a6bce284e02",
+            "twoptimizer/models.py": "7a7d0dd03928918080d45648df659baf07b486889fd8fff9799bb8dd4353743d",
+            "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+            "twoptimizer/service.py": "79daeab6fbe0a92affd55a47d20f0fab15bc3df1ad248126a4005d65fec40dab",
+            "twoptimizer/session.py": "bbd2639e3e6bdd8c818ea2bacb2badc5c0d68e4dc37c5bb498626cfec1b25bbc",
+            "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+            "twoptimizer/progress.py": "d186fbd503057a01d7ec8f0add655a223a4c88b1817931558157b067f171834c",
+            "twoptimizer/adapters/model_stats.py": "7c54e5a6f81de6cc0555d03212f3a8feb581cc714cc62cda0fdfb91aae2fc5ba",
+            "twoptimizer/adapters/rome2.py": "567e83cf7f7c4e839611c04858f126323977771ed8bea94c40742affb30a88d4",
+            "twoptimizer/adapters/rome_models.py": "e53b8281981ef9c4e0614ee4fc40278e51dc1c4a26064d9a0a916a1b14e64f21",
+            "twoptimizer/rome_session.py": "faa0eeda343ee6e7430b7a8a75d4ccb163c4acd5b65e78f3d82f6e1354b7e177"
+          },
+          "last_progress": "Preparing result",
+          "last_model": {
+            "label": "CP-SAT solver input",
+            "variables": 547,
+            "constraints": 1073,
+            "formulation": "linearized_income",
+            "stage": "solver",
+            "decision_variables": 273,
+            "nonzeros": null,
+            "storage_bytes": null
+          },
+          "wall_seconds": 6.722317304996977,
+          "summary": {
+            "completed_cases": 2,
+            "statuses": {
+              "FEASIBLE": 2
+            },
+            "all_optimal": false,
+            "income_sum": 19193.8,
+            "bound_sum": 21195.985843299677,
+            "aggregate_gap_percent": 9.446061429280462,
+            "phase_seconds": {
+              "request_seconds": 0.09384328699889011,
+              "load_engine_seconds": 0.00015245300528476946,
+              "build_model_seconds": 0.01179454599696328,
+              "solve_and_check_seconds": 6.085287256999436,
+              "prepare_result_seconds": 0.018218277004052652,
+              "worker_wall_seconds": 6.7056785079985275,
+              "worker_startup_seconds": 0.4927490179979941,
+              "worker_dispatch_seconds": 0.000674247999995714
+            },
+            "solver_seconds": 6.052869513001497,
+            "solver_timings": {
+              "model_conversion_seconds": 0.07635955099976854,
+              "search_seconds": 0.9771922939980868
+            },
+            "model_preparation_seconds": 0.01179454599696328,
+            "model_build_and_conversion_seconds": null,
+            "native_search_seconds": null,
+            "effective_worker_counts": [
+              1,
+              4
+            ],
+            "reference_variables_sum": 1069,
+            "reference_constraints_sum": 2056,
+            "solver_variables_sum": 1069,
+            "solver_constraints_sum": 2116
+          },
+          "solver_seconds_per_case": 3.0,
+          "total_configured_solver_seconds": 6.0
+        },
+        {
+          "completion": "COMPLETE",
+          "peak_worker_rss_bytes": 235347968,
+          "requested_cases": 2,
+          "cases": [
+            {
+              "provinces": [
+                "rome_main_italia"
+              ],
+              "status": "FEASIBLE",
+              "income": 9100.8,
+              "bound": 10410.625206916116,
+              "gap_percent": 12.58161907553792,
+              "solver_seconds": 3.0176208810007665,
+              "solver_timings": {},
+              "effective_workers": 1,
+              "timings": {
+                "request_seconds": 0.08960303999992902,
+                "load_engine_seconds": 8.915900252759457e-05,
+                "build_model_seconds": 0.006162658999528503,
+                "solve_and_check_seconds": 3.037167242000578,
+                "prepare_result_seconds": 0.008930705997045152,
+                "worker_wall_seconds": 3.597341623997636,
+                "worker_startup_seconds": 0.4545414599997457
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 288,
+                  "constraints": 131,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 258,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 522,
+                  "constraints": 1012,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 258,
+                  "nonzeros": 13681,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "SCIP nonlinear solver input",
+                  "variables": 288,
+                  "constraints": 131,
+                  "formulation": "native_products",
+                  "stage": "solver",
+                  "decision_variables": 258,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 522,
+                  "constraints": 1043,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 258,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_magna_graecia"
+              ],
+              "status": "FEASIBLE",
+              "income": 9460.0,
+              "bound": 10850.669976517178,
+              "gap_percent": 12.816443404203063,
+              "solver_seconds": 3.017489365000074,
+              "solver_timings": {
+                "model_conversion_seconds": 0.07795953100139741,
+                "search_seconds": 0.9764028110002982
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003151460005028639,
+                "load_engine_seconds": 6.531999679282308e-05,
+                "build_model_seconds": 0.005859292003151495,
+                "solve_and_check_seconds": 3.0325726979972387,
+                "prepare_result_seconds": 0.007165620001615025,
+                "worker_wall_seconds": 3.0482154339988483,
+                "worker_dispatch_seconds": 0.0007560640005976893
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 303,
+                  "constraints": 132,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 273,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 547,
+                  "constraints": 1044,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 273,
+                  "nonzeros": 15521,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "SCIP nonlinear solver input",
+                  "variables": 303,
+                  "constraints": 132,
+                  "formulation": "native_products",
+                  "stage": "solver",
+                  "decision_variables": 273,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 547,
+                  "constraints": 1073,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 273,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            }
+          ],
+          "source_files": {
+            "rome2/model.py": "ba902d60763e382af432d2510a06784109e6b09c7a1d6cd0673b3cdef4b48d59",
+            "rome2/compiler.py": "322d4a3946df88a7120e7a707a68bea6479f9d747cdebaa9db8d9340782dae1a",
+            "rome2/linear.py": "64e01f3667622b153d2aa2d9f96a6835917ad2eb57c82e3cf7e121e7ed2c2b25",
+            "rome2/optimization.py": "1550b086f531683a62516f4535f4a01b3b234a3aa3f6699a48b8c9e6d1d5e530",
+            "rome2/backends.py": "e1a1d7fc2c602fa29ba33bd48eaba990743316ab228c5de5903b09bb823c756a",
+            "rome2/scenario.py": "510308c94bf721f760e0d35b80b8909524a9635492de8fe5ba850c5746206568",
+            "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+            "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+            "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+            "rome2/provenance.py": "bd968316ef0279411aef5d34f05f82cf0b5bcd5013e1cd26f647598ef81edba7",
+            "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+            "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+            "rome2/holdings.py": "d4c60913d6c861eebec72aeaac6c7354e2239ee3b7b70b421317123cb4b30b4e",
+            "rome2/holding_compiler.py": "9d8c683741b03cda06550b5ff7085cce801a3e4716021de16e9d2e6b47e1070f",
+            "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+            "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+            "rome2/building_constraints.py": "70fe253fb319de35b7d2f9bdca6a2983454d1868fe8ff77d79b79ee6f6592d28",
+            "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+            "rome2/data/special_buildings_coverage.json": "0966a8f70aaa5a35a63f20d599997bb3bbf3dbe4760a5bef5294068a22f4bc4b",
+            "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+            "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+            "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+            "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+            "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+            "twoptimizer/requests.py": "1314056a1843305ff2e29a8d61fbbc38d35f8d17e5cf98492d246a6bce284e02",
+            "twoptimizer/models.py": "7a7d0dd03928918080d45648df659baf07b486889fd8fff9799bb8dd4353743d",
+            "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+            "twoptimizer/service.py": "79daeab6fbe0a92affd55a47d20f0fab15bc3df1ad248126a4005d65fec40dab",
+            "twoptimizer/session.py": "bbd2639e3e6bdd8c818ea2bacb2badc5c0d68e4dc37c5bb498626cfec1b25bbc",
+            "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+            "twoptimizer/progress.py": "d186fbd503057a01d7ec8f0add655a223a4c88b1817931558157b067f171834c",
+            "twoptimizer/adapters/model_stats.py": "7c54e5a6f81de6cc0555d03212f3a8feb581cc714cc62cda0fdfb91aae2fc5ba",
+            "twoptimizer/adapters/rome2.py": "567e83cf7f7c4e839611c04858f126323977771ed8bea94c40742affb30a88d4",
+            "twoptimizer/adapters/rome_models.py": "e53b8281981ef9c4e0614ee4fc40278e51dc1c4a26064d9a0a916a1b14e64f21",
+            "twoptimizer/rome_session.py": "faa0eeda343ee6e7430b7a8a75d4ccb163c4acd5b65e78f3d82f6e1354b7e177"
+          },
+          "last_progress": "Preparing result",
+          "last_model": {
+            "label": "CP-SAT solver input",
+            "variables": 547,
+            "constraints": 1073,
+            "formulation": "linearized_income",
+            "stage": "solver",
+            "decision_variables": 273,
+            "nonzeros": null,
+            "storage_bytes": null
+          },
+          "wall_seconds": 6.654600503999973,
+          "summary": {
+            "completed_cases": 2,
+            "statuses": {
+              "FEASIBLE": 2
+            },
+            "all_optimal": false,
+            "income_sum": 18560.8,
+            "bound_sum": 21261.295183433293,
+            "aggregate_gap_percent": 12.70146131801748,
+            "phase_seconds": {
+              "request_seconds": 0.08991818600043189,
+              "load_engine_seconds": 0.00015447899932041764,
+              "build_model_seconds": 0.012021951002679998,
+              "solve_and_check_seconds": 6.069739939997817,
+              "prepare_result_seconds": 0.016096325998660177,
+              "worker_wall_seconds": 6.645557057996484,
+              "worker_startup_seconds": 0.4545414599997457,
+              "worker_dispatch_seconds": 0.0007560640005976893
+            },
+            "solver_seconds": 6.035110246000841,
+            "solver_timings": {
+              "model_conversion_seconds": 0.07795953100139741,
+              "search_seconds": 0.9764028110002982
+            },
+            "model_preparation_seconds": 0.012021951002679998,
+            "model_build_and_conversion_seconds": null,
+            "native_search_seconds": null,
+            "effective_worker_counts": [
+              1,
+              4
+            ],
+            "reference_variables_sum": 1069,
+            "reference_constraints_sum": 2056,
+            "solver_variables_sum": 1069,
+            "solver_constraints_sum": 2116
+          },
+          "solver_seconds_per_case": 3.0,
+          "total_configured_solver_seconds": 6.0
+        }
+      ],
+      "summary": {
+        "repeats": 2,
+        "completion_counts": {
+          "COMPLETE": 2
+        },
+        "wall_seconds_min": 6.654600503999973,
+        "wall_seconds_median": 6.688458904498475,
+        "wall_seconds_max": 6.722317304996977,
+        "peak_worker_rss_mib_max": 224.4453125,
+        "all_repeats_optimal": false,
+        "model_build_and_conversion_seconds_median": null,
+        "native_search_seconds_median": null
+      }
+    },
+    {
+      "size": "pair",
+      "request": {
+        "game": "rome2",
+        "faction": "rom_rome",
+        "province": "coastal",
+        "algorithm": "portfolio",
+        "seconds": null,
+        "workers": null,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "rome_main_italia",
+          "rome_main_magna_graecia"
+        ],
+        "joint": true,
+        "adjacency": null
+      },
+      "samples": [
+        {
+          "completion": "COMPLETE",
+          "peak_worker_rss_bytes": 249634816,
+          "requested_cases": 1,
+          "cases": [
+            {
+              "provinces": [
+                "rome_main_italia",
+                "rome_main_magna_graecia"
+              ],
+              "status": "FEASIBLE",
+              "income": 19563.9,
+              "bound": 23204.17,
+              "gap_percent": 15.687999182905472,
+              "solver_seconds": 6.025267231998441,
+              "solver_timings": {},
+              "effective_workers": 1,
+              "timings": {
+                "request_seconds": 0.09419974800039199,
+                "load_engine_seconds": 0.00010256500172545202,
+                "build_model_seconds": 0.0126425679991371,
+                "solve_and_check_seconds": 6.044934154000657,
+                "prepare_result_seconds": 0.007895176000602078,
+                "worker_wall_seconds": 6.617625385999418,
+                "worker_startup_seconds": 0.456622662000882
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 590,
+                  "constraints": 261,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 530,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 1070,
+                  "constraints": 2062,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 530,
+                  "nonzeros": 29315,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "SCIP nonlinear solver input",
+                  "variables": 590,
+                  "constraints": 261,
+                  "formulation": "native_products",
+                  "stage": "solver",
+                  "decision_variables": 530,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 1070,
+                  "constraints": 2123,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 530,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            }
+          ],
+          "source_files": {
+            "rome2/model.py": "ba902d60763e382af432d2510a06784109e6b09c7a1d6cd0673b3cdef4b48d59",
+            "rome2/compiler.py": "322d4a3946df88a7120e7a707a68bea6479f9d747cdebaa9db8d9340782dae1a",
+            "rome2/linear.py": "64e01f3667622b153d2aa2d9f96a6835917ad2eb57c82e3cf7e121e7ed2c2b25",
+            "rome2/optimization.py": "1550b086f531683a62516f4535f4a01b3b234a3aa3f6699a48b8c9e6d1d5e530",
+            "rome2/backends.py": "e1a1d7fc2c602fa29ba33bd48eaba990743316ab228c5de5903b09bb823c756a",
+            "rome2/scenario.py": "510308c94bf721f760e0d35b80b8909524a9635492de8fe5ba850c5746206568",
+            "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+            "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+            "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+            "rome2/provenance.py": "bd968316ef0279411aef5d34f05f82cf0b5bcd5013e1cd26f647598ef81edba7",
+            "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+            "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+            "rome2/holdings.py": "d4c60913d6c861eebec72aeaac6c7354e2239ee3b7b70b421317123cb4b30b4e",
+            "rome2/holding_compiler.py": "9d8c683741b03cda06550b5ff7085cce801a3e4716021de16e9d2e6b47e1070f",
+            "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+            "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+            "rome2/building_constraints.py": "70fe253fb319de35b7d2f9bdca6a2983454d1868fe8ff77d79b79ee6f6592d28",
+            "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+            "rome2/data/special_buildings_coverage.json": "0966a8f70aaa5a35a63f20d599997bb3bbf3dbe4760a5bef5294068a22f4bc4b",
+            "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+            "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+            "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+            "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+            "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+            "twoptimizer/requests.py": "1314056a1843305ff2e29a8d61fbbc38d35f8d17e5cf98492d246a6bce284e02",
+            "twoptimizer/models.py": "7a7d0dd03928918080d45648df659baf07b486889fd8fff9799bb8dd4353743d",
+            "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+            "twoptimizer/service.py": "79daeab6fbe0a92affd55a47d20f0fab15bc3df1ad248126a4005d65fec40dab",
+            "twoptimizer/session.py": "bbd2639e3e6bdd8c818ea2bacb2badc5c0d68e4dc37c5bb498626cfec1b25bbc",
+            "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+            "twoptimizer/progress.py": "d186fbd503057a01d7ec8f0add655a223a4c88b1817931558157b067f171834c",
+            "twoptimizer/adapters/model_stats.py": "7c54e5a6f81de6cc0555d03212f3a8feb581cc714cc62cda0fdfb91aae2fc5ba",
+            "twoptimizer/adapters/rome2.py": "567e83cf7f7c4e839611c04858f126323977771ed8bea94c40742affb30a88d4",
+            "twoptimizer/adapters/rome_models.py": "e53b8281981ef9c4e0614ee4fc40278e51dc1c4a26064d9a0a916a1b14e64f21",
+            "twoptimizer/rome_session.py": "faa0eeda343ee6e7430b7a8a75d4ccb163c4acd5b65e78f3d82f6e1354b7e177"
+          },
+          "last_progress": "Preparing result",
+          "last_model": {
+            "label": "CP-SAT solver input",
+            "variables": 1070,
+            "constraints": 2123,
+            "formulation": "linearized_income",
+            "stage": "solver",
+            "decision_variables": 530,
+            "nonzeros": null,
+            "storage_bytes": null
+          },
+          "wall_seconds": 6.632934269000543,
+          "summary": {
+            "completed_cases": 1,
+            "statuses": {
+              "FEASIBLE": 1
+            },
+            "all_optimal": false,
+            "income_sum": 19563.9,
+            "bound_sum": 23204.17,
+            "aggregate_gap_percent": 15.687999182905472,
+            "phase_seconds": {
+              "request_seconds": 0.09419974800039199,
+              "load_engine_seconds": 0.00010256500172545202,
+              "build_model_seconds": 0.0126425679991371,
+              "solve_and_check_seconds": 6.044934154000657,
+              "prepare_result_seconds": 0.007895176000602078,
+              "worker_wall_seconds": 6.617625385999418,
+              "worker_startup_seconds": 0.456622662000882
+            },
+            "solver_seconds": 6.025267231998441,
+            "solver_timings": {},
+            "model_preparation_seconds": 0.0126425679991371,
+            "model_build_and_conversion_seconds": null,
+            "native_search_seconds": null,
+            "effective_worker_counts": [
+              1
+            ],
+            "reference_variables_sum": 1070,
+            "reference_constraints_sum": 2062,
+            "solver_variables_sum": 1070,
+            "solver_constraints_sum": 2123
+          },
+          "solver_seconds_per_case": 6.0,
+          "total_configured_solver_seconds": 6.0
+        },
+        {
+          "completion": "COMPLETE",
+          "peak_worker_rss_bytes": 251281408,
+          "requested_cases": 1,
+          "cases": [
+            {
+              "provinces": [
+                "rome_main_italia",
+                "rome_main_magna_graecia"
+              ],
+              "status": "FEASIBLE",
+              "income": 19563.9,
+              "bound": 23204.17,
+              "gap_percent": 15.687999182905472,
+              "solver_seconds": 6.02631629300231,
+              "solver_timings": {},
+              "effective_workers": 1,
+              "timings": {
+                "request_seconds": 0.09234927799843717,
+                "load_engine_seconds": 7.585999992443249e-05,
+                "build_model_seconds": 0.013101757002004888,
+                "solve_and_check_seconds": 6.045770828000968,
+                "prepare_result_seconds": 0.0075747089977085125,
+                "worker_wall_seconds": 6.60747918999914,
+                "worker_startup_seconds": 0.4474260189999768
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 590,
+                  "constraints": 261,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 530,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 1070,
+                  "constraints": 2062,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 530,
+                  "nonzeros": 29315,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "SCIP nonlinear solver input",
+                  "variables": 590,
+                  "constraints": 261,
+                  "formulation": "native_products",
+                  "stage": "solver",
+                  "decision_variables": 530,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 1070,
+                  "constraints": 2123,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 530,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            }
+          ],
+          "source_files": {
+            "rome2/model.py": "ba902d60763e382af432d2510a06784109e6b09c7a1d6cd0673b3cdef4b48d59",
+            "rome2/compiler.py": "322d4a3946df88a7120e7a707a68bea6479f9d747cdebaa9db8d9340782dae1a",
+            "rome2/linear.py": "64e01f3667622b153d2aa2d9f96a6835917ad2eb57c82e3cf7e121e7ed2c2b25",
+            "rome2/optimization.py": "1550b086f531683a62516f4535f4a01b3b234a3aa3f6699a48b8c9e6d1d5e530",
+            "rome2/backends.py": "e1a1d7fc2c602fa29ba33bd48eaba990743316ab228c5de5903b09bb823c756a",
+            "rome2/scenario.py": "510308c94bf721f760e0d35b80b8909524a9635492de8fe5ba850c5746206568",
+            "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+            "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+            "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+            "rome2/provenance.py": "bd968316ef0279411aef5d34f05f82cf0b5bcd5013e1cd26f647598ef81edba7",
+            "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+            "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+            "rome2/holdings.py": "d4c60913d6c861eebec72aeaac6c7354e2239ee3b7b70b421317123cb4b30b4e",
+            "rome2/holding_compiler.py": "9d8c683741b03cda06550b5ff7085cce801a3e4716021de16e9d2e6b47e1070f",
+            "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+            "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+            "rome2/building_constraints.py": "70fe253fb319de35b7d2f9bdca6a2983454d1868fe8ff77d79b79ee6f6592d28",
+            "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+            "rome2/data/special_buildings_coverage.json": "0966a8f70aaa5a35a63f20d599997bb3bbf3dbe4760a5bef5294068a22f4bc4b",
+            "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+            "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+            "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+            "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+            "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+            "twoptimizer/requests.py": "1314056a1843305ff2e29a8d61fbbc38d35f8d17e5cf98492d246a6bce284e02",
+            "twoptimizer/models.py": "7a7d0dd03928918080d45648df659baf07b486889fd8fff9799bb8dd4353743d",
+            "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+            "twoptimizer/service.py": "79daeab6fbe0a92affd55a47d20f0fab15bc3df1ad248126a4005d65fec40dab",
+            "twoptimizer/session.py": "bbd2639e3e6bdd8c818ea2bacb2badc5c0d68e4dc37c5bb498626cfec1b25bbc",
+            "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+            "twoptimizer/progress.py": "d186fbd503057a01d7ec8f0add655a223a4c88b1817931558157b067f171834c",
+            "twoptimizer/adapters/model_stats.py": "7c54e5a6f81de6cc0555d03212f3a8feb581cc714cc62cda0fdfb91aae2fc5ba",
+            "twoptimizer/adapters/rome2.py": "567e83cf7f7c4e839611c04858f126323977771ed8bea94c40742affb30a88d4",
+            "twoptimizer/adapters/rome_models.py": "e53b8281981ef9c4e0614ee4fc40278e51dc1c4a26064d9a0a916a1b14e64f21",
+            "twoptimizer/rome_session.py": "faa0eeda343ee6e7430b7a8a75d4ccb163c4acd5b65e78f3d82f6e1354b7e177"
+          },
+          "last_progress": "Preparing result",
+          "last_model": {
+            "label": "CP-SAT solver input",
+            "variables": 1070,
+            "constraints": 2123,
+            "formulation": "linearized_income",
+            "stage": "solver",
+            "decision_variables": 530,
+            "nonzeros": null,
+            "storage_bytes": null
+          },
+          "wall_seconds": 6.6183285799997975,
+          "summary": {
+            "completed_cases": 1,
+            "statuses": {
+              "FEASIBLE": 1
+            },
+            "all_optimal": false,
+            "income_sum": 19563.9,
+            "bound_sum": 23204.17,
+            "aggregate_gap_percent": 15.687999182905472,
+            "phase_seconds": {
+              "request_seconds": 0.09234927799843717,
+              "load_engine_seconds": 7.585999992443249e-05,
+              "build_model_seconds": 0.013101757002004888,
+              "solve_and_check_seconds": 6.045770828000968,
+              "prepare_result_seconds": 0.0075747089977085125,
+              "worker_wall_seconds": 6.60747918999914,
+              "worker_startup_seconds": 0.4474260189999768
+            },
+            "solver_seconds": 6.02631629300231,
+            "solver_timings": {},
+            "model_preparation_seconds": 0.013101757002004888,
+            "model_build_and_conversion_seconds": null,
+            "native_search_seconds": null,
+            "effective_worker_counts": [
+              1
+            ],
+            "reference_variables_sum": 1070,
+            "reference_constraints_sum": 2062,
+            "solver_variables_sum": 1070,
+            "solver_constraints_sum": 2123
+          },
+          "solver_seconds_per_case": 6.0,
+          "total_configured_solver_seconds": 6.0
+        }
+      ],
+      "summary": {
+        "repeats": 2,
+        "completion_counts": {
+          "COMPLETE": 2
+        },
+        "wall_seconds_min": 6.6183285799997975,
+        "wall_seconds_median": 6.62563142450017,
+        "wall_seconds_max": 6.632934269000543,
+        "peak_worker_rss_mib_max": 239.640625,
+        "all_repeats_optimal": false,
+        "model_build_and_conversion_seconds_median": null,
+        "native_search_seconds_median": null
+      }
+    },
+    {
+      "size": "pair",
+      "request": {
+        "game": "rome2",
+        "faction": "rom_rome",
+        "province": "coastal",
+        "algorithm": "scip-nonlinear",
+        "seconds": null,
+        "workers": null,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "rome_main_italia",
+          "rome_main_magna_graecia"
+        ],
+        "joint": false,
+        "adjacency": null
+      },
+      "samples": [
+        {
+          "completion": "COMPLETE",
+          "peak_worker_rss_bytes": 203427840,
+          "requested_cases": 2,
+          "cases": [
+            {
+              "provinces": [
+                "rome_main_italia"
+              ],
+              "status": "FEASIBLE",
+              "income": 9073.7,
+              "bound": 10731.778519119483,
+              "gap_percent": 15.450174602145292,
+              "solver_seconds": 3.013827108999976,
+              "solver_timings": {},
+              "effective_workers": 1,
+              "timings": {
+                "request_seconds": 0.09060665699871606,
+                "load_engine_seconds": 9.329000022262335e-05,
+                "build_model_seconds": 0.0057702810008777305,
+                "solve_and_check_seconds": 3.0199570849981683,
+                "prepare_result_seconds": 0.00793780900130514,
+                "worker_wall_seconds": 3.5750041419996705,
+                "worker_startup_seconds": 0.4496828179981094
+              },
+              "model_complexity": [
+                {
+                  "label": "SCIP nonlinear solver input",
+                  "variables": 288,
+                  "constraints": 131,
+                  "formulation": "native_products",
+                  "stage": "solver",
+                  "decision_variables": 258,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_magna_graecia"
+              ],
+              "status": "FEASIBLE",
+              "income": 8791.6,
+              "bound": 11070.466618372988,
+              "gap_percent": 20.585099950447344,
+              "solver_seconds": 3.015597064000758,
+              "solver_timings": {},
+              "effective_workers": 1,
+              "timings": {
+                "request_seconds": 0.0004647919995477423,
+                "load_engine_seconds": 6.764800127712078e-05,
+                "build_model_seconds": 0.006794324999646051,
+                "solve_and_check_seconds": 3.0222474919974047,
+                "prepare_result_seconds": 0.00980901000002632,
+                "worker_wall_seconds": 3.04261107399725,
+                "worker_dispatch_seconds": 0.0006347630005620886
+              },
+              "model_complexity": [
+                {
+                  "label": "SCIP nonlinear solver input",
+                  "variables": 303,
+                  "constraints": 132,
+                  "formulation": "native_products",
+                  "stage": "solver",
+                  "decision_variables": 273,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            }
+          ],
+          "source_files": {
+            "rome2/model.py": "ba902d60763e382af432d2510a06784109e6b09c7a1d6cd0673b3cdef4b48d59",
+            "rome2/compiler.py": "322d4a3946df88a7120e7a707a68bea6479f9d747cdebaa9db8d9340782dae1a",
+            "rome2/linear.py": "64e01f3667622b153d2aa2d9f96a6835917ad2eb57c82e3cf7e121e7ed2c2b25",
+            "rome2/optimization.py": "1550b086f531683a62516f4535f4a01b3b234a3aa3f6699a48b8c9e6d1d5e530",
+            "rome2/backends.py": "e1a1d7fc2c602fa29ba33bd48eaba990743316ab228c5de5903b09bb823c756a",
+            "rome2/scenario.py": "510308c94bf721f760e0d35b80b8909524a9635492de8fe5ba850c5746206568",
+            "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+            "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+            "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+            "rome2/provenance.py": "bd968316ef0279411aef5d34f05f82cf0b5bcd5013e1cd26f647598ef81edba7",
+            "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+            "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+            "rome2/holdings.py": "d4c60913d6c861eebec72aeaac6c7354e2239ee3b7b70b421317123cb4b30b4e",
+            "rome2/holding_compiler.py": "9d8c683741b03cda06550b5ff7085cce801a3e4716021de16e9d2e6b47e1070f",
+            "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+            "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+            "rome2/building_constraints.py": "70fe253fb319de35b7d2f9bdca6a2983454d1868fe8ff77d79b79ee6f6592d28",
+            "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+            "rome2/data/special_buildings_coverage.json": "0966a8f70aaa5a35a63f20d599997bb3bbf3dbe4760a5bef5294068a22f4bc4b",
+            "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+            "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+            "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+            "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+            "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+            "twoptimizer/requests.py": "1314056a1843305ff2e29a8d61fbbc38d35f8d17e5cf98492d246a6bce284e02",
+            "twoptimizer/models.py": "7a7d0dd03928918080d45648df659baf07b486889fd8fff9799bb8dd4353743d",
+            "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+            "twoptimizer/service.py": "79daeab6fbe0a92affd55a47d20f0fab15bc3df1ad248126a4005d65fec40dab",
+            "twoptimizer/session.py": "bbd2639e3e6bdd8c818ea2bacb2badc5c0d68e4dc37c5bb498626cfec1b25bbc",
+            "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+            "twoptimizer/progress.py": "d186fbd503057a01d7ec8f0add655a223a4c88b1817931558157b067f171834c",
+            "twoptimizer/adapters/model_stats.py": "7c54e5a6f81de6cc0555d03212f3a8feb581cc714cc62cda0fdfb91aae2fc5ba",
+            "twoptimizer/adapters/rome2.py": "567e83cf7f7c4e839611c04858f126323977771ed8bea94c40742affb30a88d4",
+            "twoptimizer/adapters/rome_models.py": "e53b8281981ef9c4e0614ee4fc40278e51dc1c4a26064d9a0a916a1b14e64f21",
+            "twoptimizer/rome_session.py": "faa0eeda343ee6e7430b7a8a75d4ccb163c4acd5b65e78f3d82f6e1354b7e177"
+          },
+          "last_progress": "Preparing result",
+          "last_model": {
+            "label": "SCIP nonlinear solver input",
+            "variables": 303,
+            "constraints": 132,
+            "formulation": "native_products",
+            "stage": "solver",
+            "decision_variables": 273,
+            "nonzeros": null,
+            "storage_bytes": null
+          },
+          "wall_seconds": 6.626124474998505,
+          "summary": {
+            "completed_cases": 2,
+            "statuses": {
+              "FEASIBLE": 2
+            },
+            "all_optimal": false,
+            "income_sum": 17865.300000000003,
+            "bound_sum": 21802.24513749247,
+            "aggregate_gap_percent": 18.057521657355633,
+            "phase_seconds": {
+              "request_seconds": 0.0910714489982638,
+              "load_engine_seconds": 0.00016093800149974413,
+              "build_model_seconds": 0.012564606000523781,
+              "solve_and_check_seconds": 6.042204576995573,
+              "prepare_result_seconds": 0.01774681900133146,
+              "worker_wall_seconds": 6.617615215996921,
+              "worker_startup_seconds": 0.4496828179981094,
+              "worker_dispatch_seconds": 0.0006347630005620886
+            },
+            "solver_seconds": 6.029424173000734,
+            "solver_timings": {},
+            "model_preparation_seconds": 0.012564606000523781,
+            "model_build_and_conversion_seconds": null,
+            "native_search_seconds": null,
+            "effective_worker_counts": [
+              1
+            ],
+            "reference_variables_sum": 0,
+            "reference_constraints_sum": 0,
+            "solver_variables_sum": 591,
+            "solver_constraints_sum": 263
+          },
+          "solver_seconds_per_case": 3.0,
+          "total_configured_solver_seconds": 6.0
+        },
+        {
+          "completion": "COMPLETE",
+          "peak_worker_rss_bytes": 203358208,
+          "requested_cases": 2,
+          "cases": [
+            {
+              "provinces": [
+                "rome_main_italia"
+              ],
+              "status": "FEASIBLE",
+              "income": 9073.7,
+              "bound": 10731.778519119483,
+              "gap_percent": 15.450174602145292,
+              "solver_seconds": 3.0135175200011872,
+              "solver_timings": {},
+              "effective_workers": 1,
+              "timings": {
+                "request_seconds": 0.09124563700243016,
+                "load_engine_seconds": 8.994899690151215e-05,
+                "build_model_seconds": 0.005653694002830889,
+                "solve_and_check_seconds": 3.019584778998251,
+                "prepare_result_seconds": 0.008103577001747908,
+                "worker_wall_seconds": 3.5948887380000087,
+                "worker_startup_seconds": 0.46893465500033926
+              },
+              "model_complexity": [
+                {
+                  "label": "SCIP nonlinear solver input",
+                  "variables": 288,
+                  "constraints": 131,
+                  "formulation": "native_products",
+                  "stage": "solver",
+                  "decision_variables": 258,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_magna_graecia"
+              ],
+              "status": "FEASIBLE",
+              "income": 8791.6,
+              "bound": 11070.466618372988,
+              "gap_percent": 20.585099950447344,
+              "solver_seconds": 3.0144736709989957,
+              "solver_timings": {},
+              "effective_workers": 1,
+              "timings": {
+                "request_seconds": 0.0003465169975243043,
+                "load_engine_seconds": 6.362100248225033e-05,
+                "build_model_seconds": 0.006001580997690326,
+                "solve_and_check_seconds": 3.0200120139998035,
+                "prepare_result_seconds": 0.0073305170008097775,
+                "worker_wall_seconds": 3.03562954500012,
+                "worker_dispatch_seconds": 0.0006400429992936552
+              },
+              "model_complexity": [
+                {
+                  "label": "SCIP nonlinear solver input",
+                  "variables": 303,
+                  "constraints": 132,
+                  "formulation": "native_products",
+                  "stage": "solver",
+                  "decision_variables": 273,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            }
+          ],
+          "source_files": {
+            "rome2/model.py": "ba902d60763e382af432d2510a06784109e6b09c7a1d6cd0673b3cdef4b48d59",
+            "rome2/compiler.py": "322d4a3946df88a7120e7a707a68bea6479f9d747cdebaa9db8d9340782dae1a",
+            "rome2/linear.py": "64e01f3667622b153d2aa2d9f96a6835917ad2eb57c82e3cf7e121e7ed2c2b25",
+            "rome2/optimization.py": "1550b086f531683a62516f4535f4a01b3b234a3aa3f6699a48b8c9e6d1d5e530",
+            "rome2/backends.py": "e1a1d7fc2c602fa29ba33bd48eaba990743316ab228c5de5903b09bb823c756a",
+            "rome2/scenario.py": "510308c94bf721f760e0d35b80b8909524a9635492de8fe5ba850c5746206568",
+            "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+            "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+            "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+            "rome2/provenance.py": "bd968316ef0279411aef5d34f05f82cf0b5bcd5013e1cd26f647598ef81edba7",
+            "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+            "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+            "rome2/holdings.py": "d4c60913d6c861eebec72aeaac6c7354e2239ee3b7b70b421317123cb4b30b4e",
+            "rome2/holding_compiler.py": "9d8c683741b03cda06550b5ff7085cce801a3e4716021de16e9d2e6b47e1070f",
+            "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+            "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+            "rome2/building_constraints.py": "70fe253fb319de35b7d2f9bdca6a2983454d1868fe8ff77d79b79ee6f6592d28",
+            "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+            "rome2/data/special_buildings_coverage.json": "0966a8f70aaa5a35a63f20d599997bb3bbf3dbe4760a5bef5294068a22f4bc4b",
+            "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+            "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+            "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+            "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+            "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+            "twoptimizer/requests.py": "1314056a1843305ff2e29a8d61fbbc38d35f8d17e5cf98492d246a6bce284e02",
+            "twoptimizer/models.py": "7a7d0dd03928918080d45648df659baf07b486889fd8fff9799bb8dd4353743d",
+            "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+            "twoptimizer/service.py": "79daeab6fbe0a92affd55a47d20f0fab15bc3df1ad248126a4005d65fec40dab",
+            "twoptimizer/session.py": "bbd2639e3e6bdd8c818ea2bacb2badc5c0d68e4dc37c5bb498626cfec1b25bbc",
+            "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+            "twoptimizer/progress.py": "d186fbd503057a01d7ec8f0add655a223a4c88b1817931558157b067f171834c",
+            "twoptimizer/adapters/model_stats.py": "7c54e5a6f81de6cc0555d03212f3a8feb581cc714cc62cda0fdfb91aae2fc5ba",
+            "twoptimizer/adapters/rome2.py": "567e83cf7f7c4e839611c04858f126323977771ed8bea94c40742affb30a88d4",
+            "twoptimizer/adapters/rome_models.py": "e53b8281981ef9c4e0614ee4fc40278e51dc1c4a26064d9a0a916a1b14e64f21",
+            "twoptimizer/rome_session.py": "faa0eeda343ee6e7430b7a8a75d4ccb163c4acd5b65e78f3d82f6e1354b7e177"
+          },
+          "last_progress": "Preparing result",
+          "last_model": {
+            "label": "SCIP nonlinear solver input",
+            "variables": 303,
+            "constraints": 132,
+            "formulation": "native_products",
+            "stage": "solver",
+            "decision_variables": 273,
+            "nonzeros": null,
+            "storage_bytes": null
+          },
+          "wall_seconds": 6.639970619999076,
+          "summary": {
+            "completed_cases": 2,
+            "statuses": {
+              "FEASIBLE": 2
+            },
+            "all_optimal": false,
+            "income_sum": 17865.300000000003,
+            "bound_sum": 21802.24513749247,
+            "aggregate_gap_percent": 18.057521657355633,
+            "phase_seconds": {
+              "request_seconds": 0.09159215399995446,
+              "load_engine_seconds": 0.00015356999938376248,
+              "build_model_seconds": 0.011655275000521215,
+              "solve_and_check_seconds": 6.039596792998054,
+              "prepare_result_seconds": 0.015434094002557686,
+              "worker_wall_seconds": 6.630518283000129,
+              "worker_startup_seconds": 0.46893465500033926,
+              "worker_dispatch_seconds": 0.0006400429992936552
+            },
+            "solver_seconds": 6.027991191000183,
+            "solver_timings": {},
+            "model_preparation_seconds": 0.011655275000521215,
+            "model_build_and_conversion_seconds": null,
+            "native_search_seconds": null,
+            "effective_worker_counts": [
+              1
+            ],
+            "reference_variables_sum": 0,
+            "reference_constraints_sum": 0,
+            "solver_variables_sum": 591,
+            "solver_constraints_sum": 263
+          },
+          "solver_seconds_per_case": 3.0,
+          "total_configured_solver_seconds": 6.0
+        }
+      ],
+      "summary": {
+        "repeats": 2,
+        "completion_counts": {
+          "COMPLETE": 2
+        },
+        "wall_seconds_min": 6.626124474998505,
+        "wall_seconds_median": 6.633047547498791,
+        "wall_seconds_max": 6.639970619999076,
+        "peak_worker_rss_mib_max": 194.00390625,
+        "all_repeats_optimal": false,
+        "model_build_and_conversion_seconds_median": null,
+        "native_search_seconds_median": null
+      }
+    },
+    {
+      "size": "pair",
+      "request": {
+        "game": "rome2",
+        "faction": "rom_rome",
+        "province": "coastal",
+        "algorithm": "scip-nonlinear",
+        "seconds": null,
+        "workers": null,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "rome_main_italia",
+          "rome_main_magna_graecia"
+        ],
+        "joint": true,
+        "adjacency": null
+      },
+      "samples": [
+        {
+          "completion": "COMPLETE",
+          "peak_worker_rss_bytes": 211664896,
+          "requested_cases": 1,
+          "cases": [
+            {
+              "provinces": [
+                "rome_main_italia",
+                "rome_main_magna_graecia"
+              ],
+              "status": "FEASIBLE",
+              "income": 18658.85,
+              "bound": 23621.358537794735,
+              "gap_percent": 21.00856531962209,
+              "solver_seconds": 6.019245477000368,
+              "solver_timings": {},
+              "effective_workers": 1,
+              "timings": {
+                "request_seconds": 0.09313769100117497,
+                "load_engine_seconds": 7.304099926841445e-05,
+                "build_model_seconds": 0.012743670999043388,
+                "solve_and_check_seconds": 6.027849424001033,
+                "prepare_result_seconds": 0.007098909998603631,
+                "worker_wall_seconds": 6.597135570998944,
+                "worker_startup_seconds": 0.4550854250010161
+              },
+              "model_complexity": [
+                {
+                  "label": "SCIP nonlinear solver input",
+                  "variables": 590,
+                  "constraints": 261,
+                  "formulation": "native_products",
+                  "stage": "solver",
+                  "decision_variables": 530,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            }
+          ],
+          "source_files": {
+            "rome2/model.py": "ba902d60763e382af432d2510a06784109e6b09c7a1d6cd0673b3cdef4b48d59",
+            "rome2/compiler.py": "322d4a3946df88a7120e7a707a68bea6479f9d747cdebaa9db8d9340782dae1a",
+            "rome2/linear.py": "64e01f3667622b153d2aa2d9f96a6835917ad2eb57c82e3cf7e121e7ed2c2b25",
+            "rome2/optimization.py": "1550b086f531683a62516f4535f4a01b3b234a3aa3f6699a48b8c9e6d1d5e530",
+            "rome2/backends.py": "e1a1d7fc2c602fa29ba33bd48eaba990743316ab228c5de5903b09bb823c756a",
+            "rome2/scenario.py": "510308c94bf721f760e0d35b80b8909524a9635492de8fe5ba850c5746206568",
+            "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+            "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+            "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+            "rome2/provenance.py": "bd968316ef0279411aef5d34f05f82cf0b5bcd5013e1cd26f647598ef81edba7",
+            "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+            "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+            "rome2/holdings.py": "d4c60913d6c861eebec72aeaac6c7354e2239ee3b7b70b421317123cb4b30b4e",
+            "rome2/holding_compiler.py": "9d8c683741b03cda06550b5ff7085cce801a3e4716021de16e9d2e6b47e1070f",
+            "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+            "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+            "rome2/building_constraints.py": "70fe253fb319de35b7d2f9bdca6a2983454d1868fe8ff77d79b79ee6f6592d28",
+            "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+            "rome2/data/special_buildings_coverage.json": "0966a8f70aaa5a35a63f20d599997bb3bbf3dbe4760a5bef5294068a22f4bc4b",
+            "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+            "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+            "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+            "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+            "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+            "twoptimizer/requests.py": "1314056a1843305ff2e29a8d61fbbc38d35f8d17e5cf98492d246a6bce284e02",
+            "twoptimizer/models.py": "7a7d0dd03928918080d45648df659baf07b486889fd8fff9799bb8dd4353743d",
+            "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+            "twoptimizer/service.py": "79daeab6fbe0a92affd55a47d20f0fab15bc3df1ad248126a4005d65fec40dab",
+            "twoptimizer/session.py": "bbd2639e3e6bdd8c818ea2bacb2badc5c0d68e4dc37c5bb498626cfec1b25bbc",
+            "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+            "twoptimizer/progress.py": "d186fbd503057a01d7ec8f0add655a223a4c88b1817931558157b067f171834c",
+            "twoptimizer/adapters/model_stats.py": "7c54e5a6f81de6cc0555d03212f3a8feb581cc714cc62cda0fdfb91aae2fc5ba",
+            "twoptimizer/adapters/rome2.py": "567e83cf7f7c4e839611c04858f126323977771ed8bea94c40742affb30a88d4",
+            "twoptimizer/adapters/rome_models.py": "e53b8281981ef9c4e0614ee4fc40278e51dc1c4a26064d9a0a916a1b14e64f21",
+            "twoptimizer/rome_session.py": "faa0eeda343ee6e7430b7a8a75d4ccb163c4acd5b65e78f3d82f6e1354b7e177"
+          },
+          "last_progress": "Preparing result",
+          "last_model": {
+            "label": "SCIP nonlinear solver input",
+            "variables": 590,
+            "constraints": 261,
+            "formulation": "native_products",
+            "stage": "solver",
+            "decision_variables": 530,
+            "nonzeros": null,
+            "storage_bytes": null
+          },
+          "wall_seconds": 6.607517975000519,
+          "summary": {
+            "completed_cases": 1,
+            "statuses": {
+              "FEASIBLE": 1
+            },
+            "all_optimal": false,
+            "income_sum": 18658.85,
+            "bound_sum": 23621.358537794735,
+            "aggregate_gap_percent": 21.00856531962209,
+            "phase_seconds": {
+              "request_seconds": 0.09313769100117497,
+              "load_engine_seconds": 7.304099926841445e-05,
+              "build_model_seconds": 0.012743670999043388,
+              "solve_and_check_seconds": 6.027849424001033,
+              "prepare_result_seconds": 0.007098909998603631,
+              "worker_wall_seconds": 6.597135570998944,
+              "worker_startup_seconds": 0.4550854250010161
+            },
+            "solver_seconds": 6.019245477000368,
+            "solver_timings": {},
+            "model_preparation_seconds": 0.012743670999043388,
+            "model_build_and_conversion_seconds": null,
+            "native_search_seconds": null,
+            "effective_worker_counts": [
+              1
+            ],
+            "reference_variables_sum": 0,
+            "reference_constraints_sum": 0,
+            "solver_variables_sum": 590,
+            "solver_constraints_sum": 261
+          },
+          "solver_seconds_per_case": 6.0,
+          "total_configured_solver_seconds": 6.0
+        },
+        {
+          "completion": "COMPLETE",
+          "peak_worker_rss_bytes": 212389888,
+          "requested_cases": 1,
+          "cases": [
+            {
+              "provinces": [
+                "rome_main_italia",
+                "rome_main_magna_graecia"
+              ],
+              "status": "FEASIBLE",
+              "income": 17853.6,
+              "bound": 23621.358537794735,
+              "gap_percent": 24.41755637621852,
+              "solver_seconds": 6.01720691599985,
+              "solver_timings": {},
+              "effective_workers": 1,
+              "timings": {
+                "request_seconds": 0.09503006000159075,
+                "load_engine_seconds": 0.00010227599705103785,
+                "build_model_seconds": 0.012314064002566738,
+                "solve_and_check_seconds": 6.026791737000167,
+                "prepare_result_seconds": 0.008315223996760324,
+                "worker_wall_seconds": 6.594283757000085,
+                "worker_startup_seconds": 0.4502770219987724
+              },
+              "model_complexity": [
+                {
+                  "label": "SCIP nonlinear solver input",
+                  "variables": 590,
+                  "constraints": 261,
+                  "formulation": "native_products",
+                  "stage": "solver",
+                  "decision_variables": 530,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            }
+          ],
+          "source_files": {
+            "rome2/model.py": "ba902d60763e382af432d2510a06784109e6b09c7a1d6cd0673b3cdef4b48d59",
+            "rome2/compiler.py": "322d4a3946df88a7120e7a707a68bea6479f9d747cdebaa9db8d9340782dae1a",
+            "rome2/linear.py": "64e01f3667622b153d2aa2d9f96a6835917ad2eb57c82e3cf7e121e7ed2c2b25",
+            "rome2/optimization.py": "1550b086f531683a62516f4535f4a01b3b234a3aa3f6699a48b8c9e6d1d5e530",
+            "rome2/backends.py": "e1a1d7fc2c602fa29ba33bd48eaba990743316ab228c5de5903b09bb823c756a",
+            "rome2/scenario.py": "510308c94bf721f760e0d35b80b8909524a9635492de8fe5ba850c5746206568",
+            "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+            "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+            "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+            "rome2/provenance.py": "bd968316ef0279411aef5d34f05f82cf0b5bcd5013e1cd26f647598ef81edba7",
+            "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+            "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+            "rome2/holdings.py": "d4c60913d6c861eebec72aeaac6c7354e2239ee3b7b70b421317123cb4b30b4e",
+            "rome2/holding_compiler.py": "9d8c683741b03cda06550b5ff7085cce801a3e4716021de16e9d2e6b47e1070f",
+            "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+            "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+            "rome2/building_constraints.py": "70fe253fb319de35b7d2f9bdca6a2983454d1868fe8ff77d79b79ee6f6592d28",
+            "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+            "rome2/data/special_buildings_coverage.json": "0966a8f70aaa5a35a63f20d599997bb3bbf3dbe4760a5bef5294068a22f4bc4b",
+            "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+            "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+            "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+            "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+            "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+            "twoptimizer/requests.py": "1314056a1843305ff2e29a8d61fbbc38d35f8d17e5cf98492d246a6bce284e02",
+            "twoptimizer/models.py": "7a7d0dd03928918080d45648df659baf07b486889fd8fff9799bb8dd4353743d",
+            "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+            "twoptimizer/service.py": "79daeab6fbe0a92affd55a47d20f0fab15bc3df1ad248126a4005d65fec40dab",
+            "twoptimizer/session.py": "bbd2639e3e6bdd8c818ea2bacb2badc5c0d68e4dc37c5bb498626cfec1b25bbc",
+            "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+            "twoptimizer/progress.py": "d186fbd503057a01d7ec8f0add655a223a4c88b1817931558157b067f171834c",
+            "twoptimizer/adapters/model_stats.py": "7c54e5a6f81de6cc0555d03212f3a8feb581cc714cc62cda0fdfb91aae2fc5ba",
+            "twoptimizer/adapters/rome2.py": "567e83cf7f7c4e839611c04858f126323977771ed8bea94c40742affb30a88d4",
+            "twoptimizer/adapters/rome_models.py": "e53b8281981ef9c4e0614ee4fc40278e51dc1c4a26064d9a0a916a1b14e64f21",
+            "twoptimizer/rome_session.py": "faa0eeda343ee6e7430b7a8a75d4ccb163c4acd5b65e78f3d82f6e1354b7e177"
+          },
+          "last_progress": "Preparing result",
+          "last_model": {
+            "label": "SCIP nonlinear solver input",
+            "variables": 590,
+            "constraints": 261,
+            "formulation": "native_products",
+            "stage": "solver",
+            "decision_variables": 530,
+            "nonzeros": null,
+            "storage_bytes": null
+          },
+          "wall_seconds": 6.604919213998073,
+          "summary": {
+            "completed_cases": 1,
+            "statuses": {
+              "FEASIBLE": 1
+            },
+            "all_optimal": false,
+            "income_sum": 17853.6,
+            "bound_sum": 23621.358537794735,
+            "aggregate_gap_percent": 24.41755637621852,
+            "phase_seconds": {
+              "request_seconds": 0.09503006000159075,
+              "load_engine_seconds": 0.00010227599705103785,
+              "build_model_seconds": 0.012314064002566738,
+              "solve_and_check_seconds": 6.026791737000167,
+              "prepare_result_seconds": 0.008315223996760324,
+              "worker_wall_seconds": 6.594283757000085,
+              "worker_startup_seconds": 0.4502770219987724
+            },
+            "solver_seconds": 6.01720691599985,
+            "solver_timings": {},
+            "model_preparation_seconds": 0.012314064002566738,
+            "model_build_and_conversion_seconds": null,
+            "native_search_seconds": null,
+            "effective_worker_counts": [
+              1
+            ],
+            "reference_variables_sum": 0,
+            "reference_constraints_sum": 0,
+            "solver_variables_sum": 590,
+            "solver_constraints_sum": 261
+          },
+          "solver_seconds_per_case": 6.0,
+          "total_configured_solver_seconds": 6.0
+        }
+      ],
+      "summary": {
+        "repeats": 2,
+        "completion_counts": {
+          "COMPLETE": 2
+        },
+        "wall_seconds_min": 6.604919213998073,
+        "wall_seconds_median": 6.606218594499296,
+        "wall_seconds_max": 6.607517975000519,
+        "peak_worker_rss_mib_max": 202.55078125,
+        "all_repeats_optimal": false,
+        "model_build_and_conversion_seconds_median": null,
+        "native_search_seconds_median": null
+      }
+    }
+  ],
+  "summary_revision": {
+    "tool_sha256": "a9b3938b4f5102f6f0d5a14e55cd299dd401a0d45be579f6c71bf18a303f893a",
+    "at_utc": "2026-11-08T06:00:25.816580+00:00",
+    "reason": "Clarify configured solver allowance versus actual native search, and leave unavailable build/conversion timing unknown. Numeric case observations are unchanged; environment.benchmark_sha256 retains the execution harness hash."
+  }
+}

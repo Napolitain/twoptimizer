@@ -1,0 +1,3361 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-11-08T05:55:58.756441+00:00",
+  "environment": {
+    "python": "3.14.9",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "processor": "",
+    "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "available_workers": 4,
+    "logical_cpus": 5,
+    "cpu_quota": "400000 100000",
+    "memory_limit_bytes": "17179869184",
+    "packages": {
+      "ortools": "9.15.6755",
+      "pyscipopt": "6.3.0",
+      "numpy": "2.5.4",
+      "textual": "6.12.0"
+    },
+    "lock_sha256": "3ee8cf95333f9c1485b36a501e9445a536fc3e636a24b419a6748db58db72d06",
+    "benchmark_sha256": "49ff64b7f0ccc24918a14faf30e7756e77e56e3915259909af683fd23c41ad25",
+    "git_revision": "6e03a72f0f56a9f26266fa875f0e265143eea5a7"
+  },
+  "sensitivity_driver_sha256": "5dc47859214ff336ee50a1b7d25770eee97a057a36f3f2de87d55613adc9a3a0",
+  "limits": {
+    "wall_seconds": 180.0,
+    "memory_mib": 2048.0,
+    "solver_seconds": 57.0
+  },
+  "method": "Single longer-allowance diagnostic; fresh worker reused across independent cases where applicable. Per-case configured solver allowance can include conversion. Different aggregate allowance from the primary matrix; not a fair speed comparison.",
+  "groups": [
+    {
+      "size": "all",
+      "request": {
+        "game": "rome2",
+        "faction": "rom_rome",
+        "province": "coastal",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "all"
+        ],
+        "joint": false,
+        "adjacency": null
+      },
+      "samples": [
+        {
+          "completion": "COMPLETE",
+          "peak_worker_rss_bytes": 213987328,
+          "requested_cases": 57,
+          "cases": [
+            {
+              "provinces": [
+                "rome_main_aegyptos"
+              ],
+              "status": "FEASIBLE",
+              "income": 8703.8,
+              "bound": 10925.51,
+              "gap_percent": 20.335069026526,
+              "solver_seconds": 1.003427900999668,
+              "solver_timings": {
+                "model_conversion_seconds": 0.06685584200022276,
+                "search_seconds": 0.9365959129972907
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.09202296299918089,
+                "load_engine_seconds": 9.467400013818406e-05,
+                "build_model_seconds": 0.005799159000162035,
+                "solve_and_check_seconds": 1.021568764001131,
+                "prepare_result_seconds": 0.008443266000540461,
+                "worker_wall_seconds": 1.6521877849991142,
+                "worker_startup_seconds": 0.5232856479997281
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 287,
+                  "constraints": 131,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 257,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 506,
+                  "constraints": 961,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 257,
+                  "nonzeros": 12963,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 506,
+                  "constraints": 990,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 257,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_aithiops"
+              ],
+              "status": "FEASIBLE",
+              "income": 5915.9,
+              "bound": 7140.76,
+              "gap_percent": 17.153076143155637,
+              "solver_seconds": 1.0042033560021082,
+              "solver_timings": {
+                "model_conversion_seconds": 0.051733711999986554,
+                "search_seconds": 0.9525842550028756
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003547689993865788,
+                "load_engine_seconds": 7.823199848644435e-05,
+                "build_model_seconds": 0.005509277001692681,
+                "solve_and_check_seconds": 1.0172660220014222,
+                "prepare_result_seconds": 0.008366889996977989,
+                "worker_wall_seconds": 1.0338037309993524,
+                "worker_dispatch_seconds": 0.0006826549979450647
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 223,
+                  "constraints": 108,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 193,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 414,
+                  "constraints": 836,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 193,
+                  "nonzeros": 8752,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 414,
+                  "constraints": 864,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 193,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_africa"
+              ],
+              "status": "FEASIBLE",
+              "income": 10462.5,
+              "bound": 12041.3,
+              "gap_percent": 13.111541112670555,
+              "solver_seconds": 1.0135774299997138,
+              "solver_timings": {
+                "model_conversion_seconds": 0.08720277300017187,
+                "search_seconds": 0.9263948569969216
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00048305400196113624,
+                "load_engine_seconds": 0.00011290900147287175,
+                "build_model_seconds": 0.006498046997876372,
+                "solve_and_check_seconds": 1.0302999679988716,
+                "prepare_result_seconds": 0.006652367002971005,
+                "worker_wall_seconds": 1.045923732999654,
+                "worker_dispatch_seconds": 0.0008337569997820538
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 316,
+                  "constraints": 134,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 286,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 560,
+                  "constraints": 1046,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 286,
+                  "nonzeros": 16934,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 560,
+                  "constraints": 1076,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 286,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_aquitania"
+              ],
+              "status": "FEASIBLE",
+              "income": 5622.5,
+              "bound": 6934.42,
+              "gap_percent": 18.91895789409929,
+              "solver_seconds": 1.0031769990018802,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05213926000214997,
+                "search_seconds": 0.951057676000346
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0004164710007898975,
+                "load_engine_seconds": 0.00011255899880779907,
+                "build_model_seconds": 0.005009697000787128,
+                "solve_and_check_seconds": 1.0153648480008997,
+                "prepare_result_seconds": 0.006428796998079633,
+                "worker_wall_seconds": 1.0289006300008623,
+                "worker_dispatch_seconds": 0.0005251469992799684
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 222,
+                  "constraints": 108,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 192,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 400,
+                  "constraints": 793,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 192,
+                  "nonzeros": 8277,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 400,
+                  "constraints": 821,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 192,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_arabia_felix"
+              ],
+              "status": "FEASIBLE",
+              "income": 6130.9,
+              "bound": 6876.78,
+              "gap_percent": 10.846355416343117,
+              "solver_seconds": 1.0034047059998557,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05514627000229666,
+                "search_seconds": 0.9482786369990208
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0002985379978781566,
+                "load_engine_seconds": 4.815400097868405e-05,
+                "build_model_seconds": 0.005089469999802532,
+                "solve_and_check_seconds": 1.0159858139995777,
+                "prepare_result_seconds": 0.006357827001920668,
+                "worker_wall_seconds": 1.0291681269991386,
+                "worker_dispatch_seconds": 0.0022005779974278994
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 234,
+                  "constraints": 109,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 204,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 411,
+                  "constraints": 790,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 204,
+                  "nonzeros": 9082,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 411,
+                  "constraints": 818,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 204,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_arabia_magna"
+              ],
+              "status": "FEASIBLE",
+              "income": 5047.6,
+              "bound": 6210.83,
+              "gap_percent": 18.72905875704213,
+              "solver_seconds": 1.0034094139991794,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05175521400087746,
+                "search_seconds": 0.9516763279971201
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.000415458001953084,
+                "load_engine_seconds": 0.000283839999610791,
+                "build_model_seconds": 0.005745397000282537,
+                "solve_and_check_seconds": 1.017086626998207,
+                "prepare_result_seconds": 0.00705900300090434,
+                "worker_wall_seconds": 1.0320155179979338,
+                "worker_dispatch_seconds": 0.0004243639996275306
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 223,
+                  "constraints": 108,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 193,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 411,
+                  "constraints": 824,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 193,
+                  "nonzeros": 8604,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 411,
+                  "constraints": 849,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 193,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_arachosia"
+              ],
+              "status": "OPTIMAL",
+              "income": 3322.6,
+              "bound": 3322.6,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.19073475500044879,
+              "solver_timings": {
+                "model_conversion_seconds": 0.029940472002635943,
+                "search_seconds": 0.1608133249974344
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00046524299978045747,
+                "load_engine_seconds": 0.0001571159991726745,
+                "build_model_seconds": 0.004386652002722258,
+                "solve_and_check_seconds": 0.1996191899997939,
+                "prepare_result_seconds": 0.007015356997726485,
+                "worker_wall_seconds": 0.21368063499903656,
+                "worker_dispatch_seconds": 0.0010091229996760376
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 153,
+                  "constraints": 82,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 126,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 273,
+                  "constraints": 556,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 126,
+                  "nonzeros": 4304,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 273,
+                  "constraints": 579,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 126,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_aria"
+              ],
+              "status": "FEASIBLE",
+              "income": 4908.6,
+              "bound": 5768.11,
+              "gap_percent": 14.901068114165634,
+              "solver_seconds": 1.0029125880028005,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04716296700280509,
+                "search_seconds": 0.9557702499987499
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0005915620022278745,
+                "load_engine_seconds": 0.00012679800056503154,
+                "build_model_seconds": 0.004995054998289561,
+                "solve_and_check_seconds": 1.0152300789995934,
+                "prepare_result_seconds": 0.00653863100160379,
+                "worker_wall_seconds": 1.0291063270015002,
+                "worker_dispatch_seconds": 0.0006354459983413108
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 207,
+                  "constraints": 104,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 180,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 374,
+                  "constraints": 742,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 180,
+                  "nonzeros": 7477,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 374,
+                  "constraints": 766,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 180,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_armenia"
+              ],
+              "status": "FEASIBLE",
+              "income": 4652.6,
+              "bound": 5687.31,
+              "gap_percent": 18.19331107324904,
+              "solver_seconds": 1.0033023870018951,
+              "solver_timings": {
+                "model_conversion_seconds": 0.0478594720007095,
+                "search_seconds": 0.955462128000363
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003220670005248394,
+                "load_engine_seconds": 6.276299973251298e-05,
+                "build_model_seconds": 0.0061644339984923135,
+                "solve_and_check_seconds": 1.014553444001649,
+                "prepare_result_seconds": 0.006023224999808008,
+                "worker_wall_seconds": 1.0287414999984321,
+                "worker_dispatch_seconds": 0.0005718270003853831
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 208,
+                  "constraints": 104,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 181,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 373,
+                  "constraints": 734,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 181,
+                  "nonzeros": 7474,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 373,
+                  "constraints": 756,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 181,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_asia"
+              ],
+              "status": "FEASIBLE",
+              "income": 7329.74,
+              "bound": 9874.678,
+              "gap_percent": 25.77236442545266,
+              "solver_seconds": 1.0040276469990204,
+              "solver_timings": {
+                "model_conversion_seconds": 0.07957987299960223,
+                "search_seconds": 0.9244676630005415
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0005208490001678001,
+                "load_engine_seconds": 0.0002516839995223563,
+                "build_model_seconds": 0.00685352700020303,
+                "solve_and_check_seconds": 1.01999811800124,
+                "prepare_result_seconds": 0.00723096000001533,
+                "worker_wall_seconds": 1.0363121939990378,
+                "worker_dispatch_seconds": 0.0006547209995915182
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 290,
+                  "constraints": 131,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 260,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 533,
+                  "constraints": 1039,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 260,
+                  "nonzeros": 14163,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 533,
+                  "constraints": 1066,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 260,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_bactria"
+              ],
+              "status": "OPTIMAL",
+              "income": 4131.1,
+              "bound": 4131.1,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.2841930450013024,
+              "solver_timings": {
+                "model_conversion_seconds": 0.0327543900020828,
+                "search_seconds": 0.2514577489964722
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00047830099720158614,
+                "load_engine_seconds": 0.00020749100076500326,
+                "build_model_seconds": 0.004503624000790296,
+                "solve_and_check_seconds": 0.293157814998267,
+                "prepare_result_seconds": 0.006327638002403546,
+                "worker_wall_seconds": 0.30630899999960093,
+                "worker_dispatch_seconds": 0.0004939549980917946
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 153,
+                  "constraints": 82,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 126,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 273,
+                  "constraints": 556,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 126,
+                  "nonzeros": 4330,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 273,
+                  "constraints": 579,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 126,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_baetica"
+              ],
+              "status": "OPTIMAL",
+              "income": 4037.4,
+              "bound": 4037.4,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.4426637139986269,
+              "solver_timings": {
+                "model_conversion_seconds": 0.03842316699956427,
+                "search_seconds": 0.40426029300215305
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003846869985864032,
+                "load_engine_seconds": 0.00010832100088009611,
+                "build_model_seconds": 0.004137706000619801,
+                "solve_and_check_seconds": 0.4531754239978909,
+                "prepare_result_seconds": 0.007080294999468606,
+                "worker_wall_seconds": 0.4665521249989979,
+                "worker_dispatch_seconds": 0.0005682689989043865
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 169,
+                  "constraints": 86,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 139,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 304,
+                  "constraints": 618,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 139,
+                  "nonzeros": 5184,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 304,
+                  "constraints": 644,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 139,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_belgica"
+              ],
+              "status": "OPTIMAL",
+              "income": 3676.6,
+              "bound": 3676.6,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.18774816400036798,
+              "solver_timings": {
+                "model_conversion_seconds": 0.029938220999611076,
+                "search_seconds": 0.1578288460004842
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00029726200227742083,
+                "load_engine_seconds": 6.345599831547588e-05,
+                "build_model_seconds": 0.003926119999960065,
+                "solve_and_check_seconds": 0.19578856600128347,
+                "prepare_result_seconds": 0.006014819999109022,
+                "worker_wall_seconds": 0.20807477699781884,
+                "worker_dispatch_seconds": 0.0008717099990462884
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 153,
+                  "constraints": 82,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 126,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 271,
+                  "constraints": 548,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 126,
+                  "nonzeros": 4255,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 271,
+                  "constraints": 569,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 126,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_bithynia_et_pontus"
+              ],
+              "status": "FEASIBLE",
+              "income": 6182.8,
+              "bound": 9266.99,
+              "gap_percent": 33.281464639543145,
+              "solver_seconds": 1.0063281529983215,
+              "solver_timings": {
+                "model_conversion_seconds": 0.0807106100000965,
+                "search_seconds": 0.9256990079993557
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00032280000232276507,
+                "load_engine_seconds": 6.479099829448387e-05,
+                "build_model_seconds": 0.006755626000085613,
+                "solve_and_check_seconds": 1.0249884360018768,
+                "prepare_result_seconds": 0.010642794997693272,
+                "worker_wall_seconds": 1.0453765659985947,
+                "worker_dispatch_seconds": 0.0009619519987609237
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 303,
+                  "constraints": 132,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 273,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 548,
+                  "constraints": 1048,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 273,
+                  "nonzeros": 15578,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 548,
+                  "constraints": 1078,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 273,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_bosporus"
+              ],
+              "status": "FEASIBLE",
+              "income": 6027.2,
+              "bound": 7566.12,
+              "gap_percent": 20.339619250025113,
+              "solver_seconds": 1.002541686000768,
+              "solver_timings": {
+                "model_conversion_seconds": 0.061727315001917304,
+                "search_seconds": 0.9408352139980707
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0004130319975956809,
+                "load_engine_seconds": 0.00010627700248733163,
+                "build_model_seconds": 0.007832186998712132,
+                "solve_and_check_seconds": 1.0164883420002297,
+                "prepare_result_seconds": 0.006438589000026695,
+                "worker_wall_seconds": 1.032950221997453,
+                "worker_dispatch_seconds": 0.0007720069988863543
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 249,
+                  "constraints": 110,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 219,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 439,
+                  "constraints": 834,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 219,
+                  "nonzeros": 10755,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 439,
+                  "constraints": 863,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 219,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_britannia"
+              ],
+              "status": "FEASIBLE",
+              "income": 7117.7,
+              "bound": 10455.48,
+              "gap_percent": 31.923737599804124,
+              "solver_seconds": 1.004002533001767,
+              "solver_timings": {
+                "model_conversion_seconds": 0.07860786000310327,
+                "search_seconds": 0.9254139149998082
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00037134800004423596,
+                "load_engine_seconds": 0.0001018879993353039,
+                "build_model_seconds": 0.006321273998764809,
+                "solve_and_check_seconds": 1.0206822650034155,
+                "prepare_result_seconds": 0.006630590996792307,
+                "worker_wall_seconds": 1.0355854950030334,
+                "worker_dispatch_seconds": 0.0005342800031939987
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 301,
+                  "constraints": 132,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 271,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 535,
+                  "constraints": 1013,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 271,
+                  "nonzeros": 14984,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 535,
+                  "constraints": 1045,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 271,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_caledonia_et_hibernia"
+              ],
+              "status": "FEASIBLE",
+              "income": 3837.0,
+              "bound": 4291.66,
+              "gap_percent": 10.594035874230482,
+              "solver_seconds": 1.0029115259967512,
+              "solver_timings": {
+                "model_conversion_seconds": 0.03701658399950247,
+                "search_seconds": 0.9659148299979279
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00040277100197272375,
+                "load_engine_seconds": 0.0001110459998017177,
+                "build_model_seconds": 0.004064745000505354,
+                "solve_and_check_seconds": 1.012486996998632,
+                "prepare_result_seconds": 0.006297224001173163,
+                "worker_wall_seconds": 1.0248007280024467,
+                "worker_dispatch_seconds": 0.0005108389996166807
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 171,
+                  "constraints": 86,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 141,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 317,
+                  "constraints": 653,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 141,
+                  "nonzeros": 5536,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 317,
+                  "constraints": 677,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 141,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_carmania"
+              ],
+              "status": "OPTIMAL",
+              "income": 3854.4,
+              "bound": 3854.4,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.43365767000068445,
+              "solver_timings": {
+                "model_conversion_seconds": 0.03601732699826243,
+                "search_seconds": 0.3976579390000552
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003205399989383295,
+                "load_engine_seconds": 5.246599903330207e-05,
+                "build_model_seconds": 0.003947494999010814,
+                "solve_and_check_seconds": 0.44383799400020507,
+                "prepare_result_seconds": 0.006658800000877818,
+                "worker_wall_seconds": 0.456180219000089,
+                "worker_dispatch_seconds": 0.001030003000778379
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 169,
+                  "constraints": 86,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 139,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 302,
+                  "constraints": 610,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 139,
+                  "nonzeros": 5100,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 302,
+                  "constraints": 634,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 139,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_cartaginensis"
+              ],
+              "status": "FEASIBLE",
+              "income": 8495.5,
+              "bound": 10735.39,
+              "gap_percent": 20.864542415319793,
+              "solver_seconds": 1.0036808680015383,
+              "solver_timings": {
+                "model_conversion_seconds": 0.07915330600008019,
+                "search_seconds": 0.9245843530006823
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0004328089999035001,
+                "load_engine_seconds": 0.00014776000170968473,
+                "build_model_seconds": 0.006126190000941278,
+                "solve_and_check_seconds": 1.0211336840002332,
+                "prepare_result_seconds": 0.007708605997322593,
+                "worker_wall_seconds": 1.0376040369992552,
+                "worker_dispatch_seconds": 0.0005165949987713248
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 303,
+                  "constraints": 132,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 273,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 548,
+                  "constraints": 1048,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 273,
+                  "nonzeros": 15556,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 548,
+                  "constraints": 1078,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 273,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_caucasia"
+              ],
+              "status": "FEASIBLE",
+              "income": 5811.1,
+              "bound": 7138.55,
+              "gap_percent": 18.595513094395915,
+              "solver_seconds": 1.003469753999525,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05306152699995437,
+                "search_seconds": 0.950427784002386
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0005150500001036562,
+                "load_engine_seconds": 0.00012018299821647815,
+                "build_model_seconds": 0.006401691000064602,
+                "solve_and_check_seconds": 1.016228422002314,
+                "prepare_result_seconds": 0.006125416999566369,
+                "worker_wall_seconds": 1.0309521259987378,
+                "worker_dispatch_seconds": 0.0006910999982210342
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 223,
+                  "constraints": 108,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 193,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 414,
+                  "constraints": 836,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 193,
+                  "nonzeros": 8752,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 414,
+                  "constraints": 864,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 193,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_celtica"
+              ],
+              "status": "FEASIBLE",
+              "income": 5010.6,
+              "bound": 6014.11,
+              "gap_percent": 16.68592692850645,
+              "solver_seconds": 1.0033260279997194,
+              "solver_timings": {
+                "model_conversion_seconds": 0.0536561589979101,
+                "search_seconds": 0.9496904440020444
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003431840013945475,
+                "load_engine_seconds": 0.0001875790003396105,
+                "build_model_seconds": 0.005355749999580439,
+                "solve_and_check_seconds": 1.0164645939985348,
+                "prepare_result_seconds": 0.006803894000768196,
+                "worker_wall_seconds": 1.0307065000015427,
+                "worker_dispatch_seconds": 0.0009013620001496747
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 223,
+                  "constraints": 108,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 193,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 413,
+                  "constraints": 832,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 193,
+                  "nonzeros": 8692,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 413,
+                  "constraints": 859,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 193,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_chorasmia"
+              ],
+              "status": "OPTIMAL",
+              "income": 3533.1,
+              "bound": 3533.1,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.1979716140012897,
+              "solver_timings": {
+                "model_conversion_seconds": 0.03266564500154345,
+                "search_seconds": 0.1653197519990499
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00029704199914704077,
+                "load_engine_seconds": 5.629299994325265e-05,
+                "build_model_seconds": 0.004304985999624478,
+                "solve_and_check_seconds": 0.2062752370002272,
+                "prepare_result_seconds": 0.006117982000432676,
+                "worker_wall_seconds": 0.2184141109974007,
+                "worker_dispatch_seconds": 0.0005069489998277277
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 155,
+                  "constraints": 82,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 128,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 284,
+                  "constraints": 584,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 128,
+                  "nonzeros": 4606,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 284,
+                  "constraints": 605,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 128,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_cilicia"
+              ],
+              "status": "FEASIBLE",
+              "income": 5667.3,
+              "bound": 6647.15,
+              "gap_percent": 14.740903996449598,
+              "solver_seconds": 1.0045936480019009,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05604340100035188,
+                "search_seconds": 0.9486577190000389
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00030975799745647237,
+                "load_engine_seconds": 5.5290001910179853e-05,
+                "build_model_seconds": 0.004714364000392379,
+                "solve_and_check_seconds": 1.0188990419992479,
+                "prepare_result_seconds": 0.009620212000299944,
+                "worker_wall_seconds": 1.035969868000393,
+                "worker_dispatch_seconds": 0.0005067150013928767
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 236,
+                  "constraints": 109,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 206,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 424,
+                  "constraints": 825,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 206,
+                  "nonzeros": 9602,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 424,
+                  "constraints": 851,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 206,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_cisalpina"
+              ],
+              "status": "FEASIBLE",
+              "income": 5376.6,
+              "bound": 6148.17,
+              "gap_percent": 12.54958792616339,
+              "solver_seconds": 1.003152911998768,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05467574799695285,
+                "search_seconds": 0.9484979330009082
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0004299610009184107,
+                "load_engine_seconds": 0.0002442350014462136,
+                "build_model_seconds": 0.007425073999911547,
+                "solve_and_check_seconds": 1.0158696239996061,
+                "prepare_result_seconds": 0.006460073000198463,
+                "worker_wall_seconds": 1.0321262640027271,
+                "worker_dispatch_seconds": 0.0008432009999523871
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 223,
+                  "constraints": 108,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 193,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 411,
+                  "constraints": 824,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 193,
+                  "nonzeros": 8604,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 411,
+                  "constraints": 849,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 193,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_corsica_et_sardinia"
+              ],
+              "status": "FEASIBLE",
+              "income": 4182.7,
+              "bound": 4842.59,
+              "gap_percent": 13.626798882416233,
+              "solver_seconds": 1.001976347000891,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04003085500153247,
+                "search_seconds": 0.9619648189982399
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003859349999402184,
+                "load_engine_seconds": 0.00011185699986526743,
+                "build_model_seconds": 0.004553480997856241,
+                "solve_and_check_seconds": 1.012058929001796,
+                "prepare_result_seconds": 0.00846767499751877,
+                "worker_wall_seconds": 1.0275876209998387,
+                "worker_dispatch_seconds": 0.0005452149998745881
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 184,
+                  "constraints": 87,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 154,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 330,
+                  "constraints": 654,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 154,
+                  "nonzeros": 6315,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 330,
+                  "constraints": 679,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 154,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_dacia"
+              ],
+              "status": "FEASIBLE",
+              "income": 5272.9,
+              "bound": 6429.7,
+              "gap_percent": 17.991508157456806,
+              "solver_seconds": 1.0027893939986825,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05069050499878358,
+                "search_seconds": 0.9521177040005568
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0002924349973909557,
+                "load_engine_seconds": 4.991500100004487e-05,
+                "build_model_seconds": 0.0056418970016238745,
+                "solve_and_check_seconds": 1.0157309979986167,
+                "prepare_result_seconds": 0.006310756998573197,
+                "worker_wall_seconds": 1.030697140002303,
+                "worker_dispatch_seconds": 0.00708438099900377
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 207,
+                  "constraints": 104,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 180,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 373,
+                  "constraints": 738,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 180,
+                  "nonzeros": 7466,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 373,
+                  "constraints": 761,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 180,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_galatia_et_cappadocia"
+              ],
+              "status": "FEASIBLE",
+              "income": 6202.6,
+              "bound": 7777.13,
+              "gap_percent": 20.245643315721864,
+              "solver_seconds": 1.0028160809997644,
+              "solver_timings": {
+                "model_conversion_seconds": 0.06357657499756897,
+                "search_seconds": 0.9392922190017998
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003593870023905765,
+                "load_engine_seconds": 8.54520003485959e-05,
+                "build_model_seconds": 0.006015525999828242,
+                "solve_and_check_seconds": 1.0169224530000065,
+                "prepare_result_seconds": 0.006492901997262379,
+                "worker_wall_seconds": 1.0313233429988031,
+                "worker_dispatch_seconds": 0.00433564800187014
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 260,
+                  "constraints": 126,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 233,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 462,
+                  "constraints": 888,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 233,
+                  "nonzeros": 10907,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 462,
+                  "constraints": 912,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 233,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_gedrosia"
+              ],
+              "status": "FEASIBLE",
+              "income": 3821.4,
+              "bound": 4334.71,
+              "gap_percent": 11.841853318907145,
+              "solver_seconds": 1.0046222510027292,
+              "solver_timings": {
+                "model_conversion_seconds": 0.03677321000213851,
+                "search_seconds": 0.9679591940002865
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003782340027100872,
+                "load_engine_seconds": 0.00018081400048686191,
+                "build_model_seconds": 0.0043014169968955684,
+                "solve_and_check_seconds": 1.0157453829997394,
+                "prepare_result_seconds": 0.009571465001499746,
+                "worker_wall_seconds": 1.0320311989999027,
+                "worker_dispatch_seconds": 0.00047979599912650883
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 171,
+                  "constraints": 86,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 141,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 317,
+                  "constraints": 653,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 141,
+                  "nonzeros": 5536,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 317,
+                  "constraints": 677,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 141,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_germania_minor"
+              ],
+              "status": "OPTIMAL",
+              "income": 3406.6,
+              "bound": 3406.6,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.420100082999852,
+              "solver_timings": {
+                "model_conversion_seconds": 0.032780977999209426,
+                "search_seconds": 0.3873366650004755
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0005580260003625881,
+                "load_engine_seconds": 0.0001359469970338978,
+                "build_model_seconds": 0.006364174001646461,
+                "solve_and_check_seconds": 0.42986145399845554,
+                "prepare_result_seconds": 0.006245213000511285,
+                "worker_wall_seconds": 0.44475655399946845,
+                "worker_dispatch_seconds": 0.0007022530007816385
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 153,
+                  "constraints": 82,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 126,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 271,
+                  "constraints": 548,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 126,
+                  "nonzeros": 4246,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 271,
+                  "constraints": 569,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 126,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_hellas"
+              ],
+              "status": "FEASIBLE",
+              "income": 5730.4,
+              "bound": 6763.76,
+              "gap_percent": 15.277892769702067,
+              "solver_seconds": 1.0031422020001628,
+              "solver_timings": {
+                "model_conversion_seconds": 0.055880760999571066,
+                "search_seconds": 0.9472807359998114
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0004043459994136356,
+                "load_engine_seconds": 0.00010961200314341113,
+                "build_model_seconds": 0.006305077997240005,
+                "solve_and_check_seconds": 1.016407954000897,
+                "prepare_result_seconds": 0.00679732600110583,
+                "worker_wall_seconds": 1.0315621340014332,
+                "worker_dispatch_seconds": 0.0005581500008702278
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 236,
+                  "constraints": 109,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 206,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 424,
+                  "constraints": 825,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 206,
+                  "nonzeros": 9602,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 424,
+                  "constraints": 851,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 206,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_hercynia"
+              ],
+              "status": "OPTIMAL",
+              "income": 4131.1,
+              "bound": 4131.1,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.36665139599790564,
+              "solver_timings": {
+                "model_conversion_seconds": 0.032207791999098845,
+                "search_seconds": 0.33446469900081865
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0004692570000770502,
+                "load_engine_seconds": 0.00017045099957613274,
+                "build_model_seconds": 0.004205961999105057,
+                "solve_and_check_seconds": 0.37523099800091586,
+                "prepare_result_seconds": 0.006339308998576598,
+                "worker_wall_seconds": 0.3878615670000727,
+                "worker_dispatch_seconds": 0.0005463960005727131
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 153,
+                  "constraints": 82,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 126,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 273,
+                  "constraints": 556,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 126,
+                  "nonzeros": 4330,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 273,
+                  "constraints": 579,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 126,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_illyria"
+              ],
+              "status": "FEASIBLE",
+              "income": 5507.4,
+              "bound": 6737.81,
+              "gap_percent": 18.261274805908755,
+              "solver_seconds": 1.0041514500007906,
+              "solver_timings": {
+                "model_conversion_seconds": 0.0584445290005533,
+                "search_seconds": 0.9457267950019741
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0004544219991657883,
+                "load_engine_seconds": 0.00015249599891831167,
+                "build_model_seconds": 0.005217850000917679,
+                "solve_and_check_seconds": 1.017589103001228,
+                "prepare_result_seconds": 0.006270763999054907,
+                "worker_wall_seconds": 1.0312451249992591,
+                "worker_dispatch_seconds": 0.0005778389968327247
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 236,
+                  "constraints": 109,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 206,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 424,
+                  "constraints": 825,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 206,
+                  "nonzeros": 9602,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 424,
+                  "constraints": 851,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 206,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_italia"
+              ],
+              "status": "FEASIBLE",
+              "income": 8971.4,
+              "bound": 10987.84,
+              "gap_percent": 18.35155954218482,
+              "solver_seconds": 1.0147717270010617,
+              "solver_timings": {
+                "model_conversion_seconds": 0.07677726000110852,
+                "search_seconds": 0.9380391259983298
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003826409993052948,
+                "load_engine_seconds": 8.563099981984124e-05,
+                "build_model_seconds": 0.00684229499893263,
+                "solve_and_check_seconds": 1.0315286639997794,
+                "prepare_result_seconds": 0.007225974000903079,
+                "worker_wall_seconds": 1.0478300790018693,
+                "worker_dispatch_seconds": 0.0006550910002260935
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 288,
+                  "constraints": 131,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 258,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 522,
+                  "constraints": 1012,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 258,
+                  "nonzeros": 13681,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 522,
+                  "constraints": 1043,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 258,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_libue"
+              ],
+              "status": "FEASIBLE",
+              "income": 7165.1,
+              "bound": 9274.93,
+              "gap_percent": 22.747664941945654,
+              "solver_seconds": 1.0097173590002058,
+              "solver_timings": {
+                "model_conversion_seconds": 0.08222804899924085,
+                "search_seconds": 0.9275088850008615
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00036977100171498023,
+                "load_engine_seconds": 0.00013647899686475284,
+                "build_model_seconds": 0.006724572001985507,
+                "solve_and_check_seconds": 1.0277697989986336,
+                "prepare_result_seconds": 0.006625101999816252,
+                "worker_wall_seconds": 1.0431752510012302,
+                "worker_dispatch_seconds": 0.0005812929994135629
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 292,
+                  "constraints": 132,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 262,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 548,
+                  "constraints": 1083,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 262,
+                  "nonzeros": 15011,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 548,
+                  "constraints": 1110,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 262,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_lusitania"
+              ],
+              "status": "OPTIMAL",
+              "income": 3809.8,
+              "bound": 3809.8,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.39448887599792215,
+              "solver_timings": {
+                "model_conversion_seconds": 0.034378186999674654,
+                "search_seconds": 0.3601307649987575
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003971270016336348,
+                "load_engine_seconds": 0.00011114299923065118,
+                "build_model_seconds": 0.003976023999712197,
+                "solve_and_check_seconds": 0.4036838739993982,
+                "prepare_result_seconds": 0.006413841001631226,
+                "worker_wall_seconds": 0.41600670399930095,
+                "worker_dispatch_seconds": 0.0005322690012690146
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 170,
+                  "constraints": 86,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 140,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 303,
+                  "constraints": 610,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 140,
+                  "nonzeros": 5150,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 303,
+                  "constraints": 634,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 140,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_macedonia"
+              ],
+              "status": "FEASIBLE",
+              "income": 6495.7,
+              "bound": 7142.82,
+              "gap_percent": 9.059727110580974,
+              "solver_seconds": 1.0028614259972528,
+              "solver_timings": {
+                "model_conversion_seconds": 0.055991582998103695,
+                "search_seconds": 0.9468887850016472
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00039739600106258877,
+                "load_engine_seconds": 0.0002060309998341836,
+                "build_model_seconds": 0.005062045001977822,
+                "solve_and_check_seconds": 1.0160159189981641,
+                "prepare_result_seconds": 0.007060694999381667,
+                "worker_wall_seconds": 1.0302708460003487,
+                "worker_dispatch_seconds": 0.0004732830020657275
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 234,
+                  "constraints": 109,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 204,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 411,
+                  "constraints": 790,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 204,
+                  "nonzeros": 9124,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 411,
+                  "constraints": 818,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 204,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_magna_germania"
+              ],
+              "status": "FEASIBLE",
+              "income": 5273.4,
+              "bound": 6150.77,
+              "gap_percent": 14.264392913407603,
+              "solver_seconds": 1.0024699450004846,
+              "solver_timings": {
+                "model_conversion_seconds": 0.0531317040004069,
+                "search_seconds": 0.9493581040005665
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0002971739995700773,
+                "load_engine_seconds": 4.970199734088965e-05,
+                "build_model_seconds": 0.00489698100136593,
+                "solve_and_check_seconds": 1.0144549130018277,
+                "prepare_result_seconds": 0.006394198997440981,
+                "worker_wall_seconds": 1.0286123910009337,
+                "worker_dispatch_seconds": 0.0037210740010777954
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 223,
+                  "constraints": 108,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 193,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 412,
+                  "constraints": 828,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 193,
+                  "nonzeros": 8660,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 412,
+                  "constraints": 854,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 193,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_magna_graecia"
+              ],
+              "status": "FEASIBLE",
+              "income": 9460.0,
+              "bound": 10886.42,
+              "gap_percent": 13.10274635738838,
+              "solver_seconds": 1.0046400140017795,
+              "solver_timings": {
+                "model_conversion_seconds": 0.07940852100000484,
+                "search_seconds": 0.9252999450000061
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0004276869985915255,
+                "load_engine_seconds": 6.64690014673397e-05,
+                "build_model_seconds": 0.006828623998444527,
+                "solve_and_check_seconds": 1.0218467510021583,
+                "prepare_result_seconds": 0.008644401998026296,
+                "worker_wall_seconds": 1.039770605002559,
+                "worker_dispatch_seconds": 0.0005976130014460068
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 303,
+                  "constraints": 132,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 273,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 547,
+                  "constraints": 1044,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 273,
+                  "nonzeros": 15521,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 547,
+                  "constraints": 1073,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 273,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_mauretania"
+              ],
+              "status": "FEASIBLE",
+              "income": 8129.0,
+              "bound": 9895.37,
+              "gap_percent": 17.850469461980712,
+              "solver_seconds": 1.0036914039992553,
+              "solver_timings": {
+                "model_conversion_seconds": 0.07777115199860418,
+                "search_seconds": 0.9259393460015417
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0004400670004542917,
+                "load_engine_seconds": 0.00012736099961330183,
+                "build_model_seconds": 0.0068785299990850035,
+                "solve_and_check_seconds": 1.020893706001516,
+                "prepare_result_seconds": 0.006597255000087898,
+                "worker_wall_seconds": 1.0365245989996765,
+                "worker_dispatch_seconds": 0.000632532002782682
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 299,
+                  "constraints": 132,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 269,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 519,
+                  "constraints": 966,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 269,
+                  "nonzeros": 14090,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 519,
+                  "constraints": 997,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 269,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_media_magna"
+              ],
+              "status": "FEASIBLE",
+              "income": 4556.9,
+              "bound": 5697.57,
+              "gap_percent": 20.02028935142526,
+              "solver_seconds": 1.0027374490018701,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04657842600136064,
+                "search_seconds": 0.9561793899993063
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003692129976116121,
+                "load_engine_seconds": 9.873600356513634e-05,
+                "build_model_seconds": 0.004923491997033125,
+                "solve_and_check_seconds": 1.0142705979997118,
+                "prepare_result_seconds": 0.006814486001530895,
+                "worker_wall_seconds": 1.0279843440002878,
+                "worker_dispatch_seconds": 0.0005327430008037481
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 208,
+                  "constraints": 104,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 181,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 373,
+                  "constraints": 734,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 181,
+                  "nonzeros": 7474,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 373,
+                  "constraints": 756,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 181,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_mesopotamia"
+              ],
+              "status": "FEASIBLE",
+              "income": 7739.6,
+              "bound": 9505.55,
+              "gap_percent": 18.578093850434737,
+              "solver_seconds": 1.003083093000896,
+              "solver_timings": {
+                "model_conversion_seconds": 0.07326719599950593,
+                "search_seconds": 0.9298363999987487
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00040928900125436485,
+                "load_engine_seconds": 0.00012185900050099008,
+                "build_model_seconds": 0.008475520997308195,
+                "solve_and_check_seconds": 1.0181857900024625,
+                "prepare_result_seconds": 0.006972392999159638,
+                "worker_wall_seconds": 1.035982449000585,
+                "worker_dispatch_seconds": 0.0006252330022107344
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 275,
+                  "constraints": 130,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 245,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 508,
+                  "constraints": 1007,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 245,
+                  "nonzeros": 12399,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 508,
+                  "constraints": 1036,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 245,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_nabataea"
+              ],
+              "status": "FEASIBLE",
+              "income": 7775.1,
+              "bound": 9789.59,
+              "gap_percent": 20.577879155306807,
+              "solver_seconds": 1.0054931699996814,
+              "solver_timings": {
+                "model_conversion_seconds": 0.17705557299996144,
+                "search_seconds": 0.8285247390012955
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003731379983946681,
+                "load_engine_seconds": 0.00011009599984390661,
+                "build_model_seconds": 0.006019094002112979,
+                "solve_and_check_seconds": 1.0228710240007786,
+                "prepare_result_seconds": 0.01273366599707515,
+                "worker_wall_seconds": 1.0447528250006144,
+                "worker_dispatch_seconds": 0.0005840250014443882
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 275,
+                  "constraints": 130,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 245,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 507,
+                  "constraints": 1003,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 245,
+                  "nonzeros": 12303,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 507,
+                  "constraints": 1031,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 245,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_pannonia"
+              ],
+              "status": "FEASIBLE",
+              "income": 5066.4,
+              "bound": 6044.61,
+              "gap_percent": 16.183178071041805,
+              "solver_seconds": 1.0029359460022533,
+              "solver_timings": {
+                "model_conversion_seconds": 0.0467040210023697,
+                "search_seconds": 0.9562528329988709
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.000344233001669636,
+                "load_engine_seconds": 4.661699858843349e-05,
+                "build_model_seconds": 0.007381010000244714,
+                "solve_and_check_seconds": 1.0147099210007582,
+                "prepare_result_seconds": 0.006402410999726271,
+                "worker_wall_seconds": 1.0307200330025807,
+                "worker_dispatch_seconds": 0.0018942580027214717
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 206,
+                  "constraints": 104,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 179,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 361,
+                  "constraints": 702,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 179,
+                  "nonzeros": 7064,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 361,
+                  "constraints": 725,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 179,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_parthia"
+              ],
+              "status": "FEASIBLE",
+              "income": 6258.6,
+              "bound": 8110.19,
+              "gap_percent": 22.83041457721705,
+              "solver_seconds": 1.0246018260004348,
+              "solver_timings": {
+                "model_conversion_seconds": 0.06193514400001732,
+                "search_seconds": 0.9626858590017946
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00040151700159185566,
+                "load_engine_seconds": 0.00011758500113501213,
+                "build_model_seconds": 0.006565078998391982,
+                "solve_and_check_seconds": 1.03880817100071,
+                "prepare_result_seconds": 0.006639364997681696,
+                "worker_wall_seconds": 1.0541524610016495,
+                "worker_dispatch_seconds": 0.0004887130016868468
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 259,
+                  "constraints": 126,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 232,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 461,
+                  "constraints": 888,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 232,
+                  "nonzeros": 10823,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 461,
+                  "constraints": 912,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 232,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_persis"
+              ],
+              "status": "FEASIBLE",
+              "income": 4477.1,
+              "bound": 5672.19,
+              "gap_percent": 21.069287171268932,
+              "solver_seconds": 1.003101999998762,
+              "solver_timings": {
+                "model_conversion_seconds": 0.0472013180005888,
+                "search_seconds": 0.9559208159989794
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00035950500023318455,
+                "load_engine_seconds": 5.1864997658412904e-05,
+                "build_model_seconds": 0.005577472002187278,
+                "solve_and_check_seconds": 1.015723470998637,
+                "prepare_result_seconds": 0.010147685999982059,
+                "worker_wall_seconds": 1.0375683230013237,
+                "worker_dispatch_seconds": 0.004925162000290584
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 207,
+                  "constraints": 104,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 180,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 372,
+                  "constraints": 734,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 180,
+                  "nonzeros": 7407,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 372,
+                  "constraints": 756,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 180,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_phazania"
+              ],
+              "status": "OPTIMAL",
+              "income": 3533.1,
+              "bound": 3533.1,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.8289981140005693,
+              "solver_timings": {
+                "model_conversion_seconds": 0.03289215000040713,
+                "search_seconds": 0.7962125720005133
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00035031500010518357,
+                "load_engine_seconds": 5.469399911817163e-05,
+                "build_model_seconds": 0.004056150999531383,
+                "solve_and_check_seconds": 0.8395490440016147,
+                "prepare_result_seconds": 0.007956166999065317,
+                "worker_wall_seconds": 0.8683924590004608,
+                "worker_dispatch_seconds": 0.01930369299952872
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 155,
+                  "constraints": 82,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 128,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 284,
+                  "constraints": 584,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 128,
+                  "nonzeros": 4606,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 284,
+                  "constraints": 605,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 128,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_ponto_caspia"
+              ],
+              "status": "FEASIBLE",
+              "income": 6796.8,
+              "bound": 8573.16,
+              "gap_percent": 20.72001455705947,
+              "solver_seconds": 1.0110319269988395,
+              "solver_timings": {
+                "model_conversion_seconds": 0.07247788999666227,
+                "search_seconds": 0.9385736580006778
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.000586623002163833,
+                "load_engine_seconds": 8.803499804344028e-05,
+                "build_model_seconds": 0.0076721600016753655,
+                "solve_and_check_seconds": 1.0264881689981848,
+                "prepare_result_seconds": 0.006924750003236113,
+                "worker_wall_seconds": 1.043601771001704,
+                "worker_dispatch_seconds": 0.0007031550012470689
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 277,
+                  "constraints": 130,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 247,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 520,
+                  "constraints": 1038,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 247,
+                  "nonzeros": 12885,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 520,
+                  "constraints": 1064,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 247,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_provincia"
+              ],
+              "status": "FEASIBLE",
+              "income": 4447.9,
+              "bound": 4948.95,
+              "gap_percent": 10.12436981581952,
+              "solver_seconds": 1.0023011000012048,
+              "solver_timings": {
+                "model_conversion_seconds": 0.03774120000161929,
+                "search_seconds": 0.9645934500003932
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00032278800063068047,
+                "load_engine_seconds": 6.476400085375644e-05,
+                "build_model_seconds": 0.004122443999222014,
+                "solve_and_check_seconds": 1.0140876890000072,
+                "prepare_result_seconds": 0.006308858999545919,
+                "worker_wall_seconds": 1.0265575049998006,
+                "worker_dispatch_seconds": 0.0007299479984794743
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 169,
+                  "constraints": 86,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 139,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 304,
+                  "constraints": 618,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 139,
+                  "nonzeros": 5156,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 304,
+                  "constraints": 644,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 139,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_raetia_et_noricum"
+              ],
+              "status": "FEASIBLE",
+              "income": 4594.6,
+              "bound": 5686.84,
+              "gap_percent": 19.20644857249368,
+              "solver_seconds": 1.0024529160000384,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04800274800072657,
+                "search_seconds": 0.9544695330005197
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003046509991690982,
+                "load_engine_seconds": 7.433200153172947e-05,
+                "build_model_seconds": 0.004823403000045801,
+                "solve_and_check_seconds": 1.0148747929997626,
+                "prepare_result_seconds": 0.0062635300018882845,
+                "worker_wall_seconds": 1.028411421997589,
+                "worker_dispatch_seconds": 0.0009931239983416162
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 208,
+                  "constraints": 104,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 181,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 373,
+                  "constraints": 734,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 181,
+                  "nonzeros": 7474,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 373,
+                  "constraints": 756,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 181,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_sarmatia"
+              ],
+              "status": "FEASIBLE",
+              "income": 5272.6,
+              "bound": 6286.27,
+              "gap_percent": 16.125142572622554,
+              "solver_seconds": 1.003008582003531,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05472310500044841,
+                "search_seconds": 0.9483059200028947
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00029098500090185553,
+                "load_engine_seconds": 5.866200081072748e-05,
+                "build_model_seconds": 0.004952109997248044,
+                "solve_and_check_seconds": 1.0152307270000165,
+                "prepare_result_seconds": 0.008279268000478623,
+                "worker_wall_seconds": 1.030487768999592,
+                "worker_dispatch_seconds": 0.0005932169988227542
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 221,
+                  "constraints": 108,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 191,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 397,
+                  "constraints": 785,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 191,
+                  "nonzeros": 8097,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 397,
+                  "constraints": 811,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 191,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_scythia"
+              ],
+              "status": "FEASIBLE",
+              "income": 4531.55,
+              "bound": 5652.24,
+              "gap_percent": 19.827360480092842,
+              "solver_seconds": 1.0077907019986014,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04493560099945171,
+                "search_seconds": 0.9630134100007126
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00036889200055156834,
+                "load_engine_seconds": 0.00013900100020691752,
+                "build_model_seconds": 0.005740992000937695,
+                "solve_and_check_seconds": 1.0233816859981744,
+                "prepare_result_seconds": 0.014882364001095993,
+                "worker_wall_seconds": 1.0472672630021407,
+                "worker_dispatch_seconds": 0.0005119209999975283
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 207,
+                  "constraints": 104,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 180,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 373,
+                  "constraints": 738,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 180,
+                  "nonzeros": 7445,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 373,
+                  "constraints": 761,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 180,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_silesia"
+              ],
+              "status": "OPTIMAL",
+              "income": 3551.6,
+              "bound": 3551.6,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.1995834770023066,
+              "solver_timings": {
+                "model_conversion_seconds": 0.032102681001560995,
+                "search_seconds": 0.16749646400057827
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003745030007848982,
+                "load_engine_seconds": 7.905000165919773e-05,
+                "build_model_seconds": 0.00842232399736531,
+                "solve_and_check_seconds": 0.2098142810027639,
+                "prepare_result_seconds": 0.00609845500002848,
+                "worker_wall_seconds": 0.22700524700121605,
+                "worker_dispatch_seconds": 0.0021014429985370953
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 153,
+                  "constraints": 82,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 126,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 273,
+                  "constraints": 556,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 126,
+                  "nonzeros": 4304,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 273,
+                  "constraints": 579,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 126,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_suebia"
+              ],
+              "status": "FEASIBLE",
+              "income": 7179.2,
+              "bound": 8942.89,
+              "gap_percent": 19.721700703016584,
+              "solver_seconds": 1.0038985349965515,
+              "solver_timings": {
+                "model_conversion_seconds": 0.07202993399914703,
+                "search_seconds": 0.931887516999268
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0002800940019369591,
+                "load_engine_seconds": 4.461099888430908e-05,
+                "build_model_seconds": 0.006646754998655524,
+                "solve_and_check_seconds": 1.0189865170032135,
+                "prepare_result_seconds": 0.006362305997754447,
+                "worker_wall_seconds": 1.0342465249996167,
+                "worker_dispatch_seconds": 0.0030318419994728174
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 286,
+                  "constraints": 131,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 256,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 505,
+                  "constraints": 961,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 256,
+                  "nonzeros": 12795,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 505,
+                  "constraints": 990,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 256,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_syria"
+              ],
+              "status": "FEASIBLE",
+              "income": 7500.7,
+              "bound": 9774.33,
+              "gap_percent": 23.26123632003421,
+              "solver_seconds": 1.003781010000239,
+              "solver_timings": {
+                "model_conversion_seconds": 0.07406434199947398,
+                "search_seconds": 0.9297372379987792
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00044012299986206926,
+                "load_engine_seconds": 0.00011668200022540987,
+                "build_model_seconds": 0.006395217998942826,
+                "solve_and_check_seconds": 1.0198452350014122,
+                "prepare_result_seconds": 0.006567870997969294,
+                "worker_wall_seconds": 1.0350196940016758,
+                "worker_dispatch_seconds": 0.0006878569984110072
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 288,
+                  "constraints": 131,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 258,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 519,
+                  "constraints": 1000,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 258,
+                  "nonzeros": 13489,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 519,
+                  "constraints": 1028,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 258,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_tarraconensis"
+              ],
+              "status": "FEASIBLE",
+              "income": 5580.5,
+              "bound": 6902.18,
+              "gap_percent": 19.14873271922784,
+              "solver_seconds": 1.0020993389989599,
+              "solver_timings": {
+                "model_conversion_seconds": 0.0546836159992381,
+                "search_seconds": 0.9474352830002317
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003619189992605243,
+                "load_engine_seconds": 0.00010185499922954477,
+                "build_model_seconds": 0.00497984400135465,
+                "solve_and_check_seconds": 1.0149826900014887,
+                "prepare_result_seconds": 0.0066307999986747745,
+                "worker_wall_seconds": 1.028479068998422,
+                "worker_dispatch_seconds": 0.0004926009969494771
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 234,
+                  "constraints": 109,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 204,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 409,
+                  "constraints": 782,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 204,
+                  "nonzeros": 9005,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 409,
+                  "constraints": 808,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 204,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_thracia"
+              ],
+              "status": "FEASIBLE",
+              "income": 7141.5,
+              "bound": 8988.55,
+              "gap_percent": 20.548920571171095,
+              "solver_seconds": 1.0096575950010447,
+              "solver_timings": {
+                "model_conversion_seconds": 0.07711702400047216,
+                "search_seconds": 0.9325839269986318
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00032865899993339553,
+                "load_engine_seconds": 5.017600051360205e-05,
+                "build_model_seconds": 0.0061867389995313715,
+                "solve_and_check_seconds": 1.0275313620004454,
+                "prepare_result_seconds": 0.007980967999174027,
+                "worker_wall_seconds": 1.0437473070014676,
+                "worker_dispatch_seconds": 0.0011636599992925767
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 290,
+                  "constraints": 132,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 260,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 535,
+                  "constraints": 1048,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 260,
+                  "nonzeros": 14415,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 535,
+                  "constraints": 1077,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 260,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "rome_main_transoxania"
+              ],
+              "status": "OPTIMAL",
+              "income": 3526.6,
+              "bound": 3526.6,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.15930416899936972,
+              "solver_timings": {
+                "model_conversion_seconds": 0.03087893599877134,
+                "search_seconds": 0.1284373240014247
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003403429982427042,
+                "load_engine_seconds": 0.00014935299986973405,
+                "build_model_seconds": 0.005306676001055166,
+                "solve_and_check_seconds": 0.16811793200031389,
+                "prepare_result_seconds": 0.014980042000388494,
+                "worker_wall_seconds": 0.19031375399936223,
+                "worker_dispatch_seconds": 0.0013441459996101912
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 153,
+                  "constraints": 82,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 126,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 272,
+                  "constraints": 552,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 126,
+                  "nonzeros": 4293,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 272,
+                  "constraints": 574,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 126,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            }
+          ],
+          "source_files": {
+            "rome2/model.py": "ba902d60763e382af432d2510a06784109e6b09c7a1d6cd0673b3cdef4b48d59",
+            "rome2/compiler.py": "322d4a3946df88a7120e7a707a68bea6479f9d747cdebaa9db8d9340782dae1a",
+            "rome2/linear.py": "64e01f3667622b153d2aa2d9f96a6835917ad2eb57c82e3cf7e121e7ed2c2b25",
+            "rome2/optimization.py": "1550b086f531683a62516f4535f4a01b3b234a3aa3f6699a48b8c9e6d1d5e530",
+            "rome2/backends.py": "e1a1d7fc2c602fa29ba33bd48eaba990743316ab228c5de5903b09bb823c756a",
+            "rome2/scenario.py": "510308c94bf721f760e0d35b80b8909524a9635492de8fe5ba850c5746206568",
+            "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+            "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+            "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+            "rome2/provenance.py": "bd968316ef0279411aef5d34f05f82cf0b5bcd5013e1cd26f647598ef81edba7",
+            "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+            "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+            "rome2/holdings.py": "d4c60913d6c861eebec72aeaac6c7354e2239ee3b7b70b421317123cb4b30b4e",
+            "rome2/holding_compiler.py": "9d8c683741b03cda06550b5ff7085cce801a3e4716021de16e9d2e6b47e1070f",
+            "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+            "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+            "rome2/building_constraints.py": "70fe253fb319de35b7d2f9bdca6a2983454d1868fe8ff77d79b79ee6f6592d28",
+            "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+            "rome2/data/special_buildings_coverage.json": "0966a8f70aaa5a35a63f20d599997bb3bbf3dbe4760a5bef5294068a22f4bc4b",
+            "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+            "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+            "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+            "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+            "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+            "twoptimizer/requests.py": "1314056a1843305ff2e29a8d61fbbc38d35f8d17e5cf98492d246a6bce284e02",
+            "twoptimizer/models.py": "7a7d0dd03928918080d45648df659baf07b486889fd8fff9799bb8dd4353743d",
+            "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+            "twoptimizer/service.py": "79daeab6fbe0a92affd55a47d20f0fab15bc3df1ad248126a4005d65fec40dab",
+            "twoptimizer/session.py": "bbd2639e3e6bdd8c818ea2bacb2badc5c0d68e4dc37c5bb498626cfec1b25bbc",
+            "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+            "twoptimizer/progress.py": "d186fbd503057a01d7ec8f0add655a223a4c88b1817931558157b067f171834c",
+            "twoptimizer/adapters/model_stats.py": "7c54e5a6f81de6cc0555d03212f3a8feb581cc714cc62cda0fdfb91aae2fc5ba",
+            "twoptimizer/adapters/rome2.py": "567e83cf7f7c4e839611c04858f126323977771ed8bea94c40742affb30a88d4",
+            "twoptimizer/adapters/rome_models.py": "e53b8281981ef9c4e0614ee4fc40278e51dc1c4a26064d9a0a916a1b14e64f21",
+            "twoptimizer/rome_session.py": "faa0eeda343ee6e7430b7a8a75d4ccb163c4acd5b65e78f3d82f6e1354b7e177"
+          },
+          "last_progress": "Preparing result",
+          "last_model": {
+            "label": "CP-SAT solver input",
+            "variables": 272,
+            "constraints": 574,
+            "formulation": "linearized_income",
+            "stage": "solver",
+            "decision_variables": 126,
+            "nonzeros": null,
+            "storage_bytes": null
+          },
+          "wall_seconds": 51.611196957001084,
+          "summary": {
+            "completed_cases": 57,
+            "statuses": {
+              "FEASIBLE": 45,
+              "OPTIMAL": 12
+            },
+            "all_optimal": false,
+            "income_sum": 321944.99,
+            "bound_sum": 386036.278,
+            "aggregate_gap_percent": 16.60240025420616,
+            "phase_seconds": {
+              "request_seconds": 0.11383021400979487,
+              "load_engine_seconds": 0.006303137997747399,
+              "build_model_seconds": 0.3239284869887342,
+              "solve_and_check_seconds": 50.07564931401794,
+              "prepare_result_seconds": 0.42344552498252597,
+              "worker_wall_seconds": 51.58538759600924,
+              "worker_startup_seconds": 0.5232856479997281,
+              "worker_dispatch_seconds": 0.07997612899271189
+            },
+            "solver_seconds": 49.327169403011794,
+            "solver_timings": {
+              "model_conversion_seconds": 3.2082896810097736,
+              "search_seconds": 46.120800930999394
+            },
+            "model_preparation_seconds": 0.3239284869887342,
+            "model_build_and_conversion_seconds": 3.532218167998508,
+            "native_search_seconds": 46.120800930999394,
+            "effective_worker_counts": [
+              4
+            ],
+            "reference_variables_sum": 23220,
+            "reference_constraints_sum": 45634,
+            "solver_variables_sum": 23220,
+            "solver_constraints_sum": 47101
+          },
+          "solver_seconds_per_case": 1.0,
+          "total_configured_solver_seconds": 57.0
+        }
+      ],
+      "summary": {
+        "repeats": 1,
+        "completion_counts": {
+          "COMPLETE": 1
+        },
+        "wall_seconds_min": 51.611196957001084,
+        "wall_seconds_median": 51.611196957001084,
+        "wall_seconds_max": 51.611196957001084,
+        "peak_worker_rss_mib_max": 204.07421875,
+        "all_repeats_optimal": false,
+        "model_build_and_conversion_seconds_median": 3.532218167998508,
+        "native_search_seconds_median": 46.120800930999394
+      }
+    }
+  ],
+  "summary_revision": {
+    "tool_sha256": "a9b3938b4f5102f6f0d5a14e55cd299dd401a0d45be579f6c71bf18a303f893a",
+    "at_utc": "2026-11-08T06:00:25.820708+00:00",
+    "reason": "Clarify configured solver allowance versus actual native search, and leave unavailable build/conversion timing unknown. Numeric case observations are unchanged; environment.benchmark_sha256 retains the execution harness hash."
+  }
+}

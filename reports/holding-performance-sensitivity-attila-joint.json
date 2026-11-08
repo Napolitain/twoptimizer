@@ -1,0 +1,292 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-11-08T05:58:09.430004+00:00",
+  "environment": {
+    "python": "3.14.9",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "processor": "",
+    "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "available_workers": 4,
+    "logical_cpus": 5,
+    "cpu_quota": "400000 100000",
+    "memory_limit_bytes": "17179869184",
+    "packages": {
+      "ortools": "9.15.6755",
+      "pyscipopt": "6.3.0",
+      "numpy": "2.5.4",
+      "textual": "6.12.0"
+    },
+    "lock_sha256": "3ee8cf95333f9c1485b36a501e9445a536fc3e636a24b419a6748db58db72d06",
+    "benchmark_sha256": "49ff64b7f0ccc24918a14faf30e7756e77e56e3915259909af683fd23c41ad25",
+    "git_revision": "6e03a72f0f56a9f26266fa875f0e265143eea5a7"
+  },
+  "sensitivity_driver_sha256": "2863814848483575c4a833dd229b7038039748f91b74d968edcf11d27d9d6e83",
+  "limits": {
+    "wall_seconds": 120.0,
+    "memory_mib": 2048.0,
+    "solver_seconds": 60.0
+  },
+  "method": "Single longer-allowance diagnostic; fresh worker reused across independent cases where applicable. Per-case configured solver allowance can include conversion. Different aggregate allowance from the primary matrix; not a fair speed comparison.",
+  "groups": [
+    {
+      "size": "all",
+      "request": {
+        "game": "attila",
+        "faction": "att_fact_eastern_roman_empire",
+        "province": "att_prov_thracia",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "all"
+        ],
+        "joint": true,
+        "adjacency": null
+      },
+      "samples": [
+        {
+          "completion": "COMPLETE",
+          "peak_worker_rss_bytes": 1688772608,
+          "requested_cases": 1,
+          "cases": [
+            {
+              "provinces": [
+                "att_prov_aegyptus",
+                "att_prov_aethiopia",
+                "att_prov_africa",
+                "att_prov_aquitania",
+                "att_prov_arabia_felix",
+                "att_prov_arabia_magna",
+                "att_prov_armenia",
+                "att_prov_asia",
+                "att_prov_asorstan",
+                "att_prov_baetica",
+                "att_prov_belgica",
+                "att_prov_bithynia",
+                "att_prov_britannia_inferior",
+                "att_prov_britannia_superior",
+                "att_prov_caledonia_et_hbernia",
+                "att_prov_cappadocia",
+                "att_prov_carthaginensis",
+                "att_prov_caucasia",
+                "att_prov_cilicia",
+                "att_prov_dacia",
+                "att_prov_dalmatia",
+                "att_prov_dardania",
+                "att_prov_frisia",
+                "att_prov_gallaecia",
+                "att_prov_germania",
+                "att_prov_germano-sarmatia",
+                "att_prov_gothiscandza",
+                "att_prov_hercynia",
+                "att_prov_hyperborea",
+                "att_prov_italia",
+                "att_prov_khwarasan",
+                "att_prov_libya",
+                "att_prov_liguria",
+                "att_prov_lugdunensis",
+                "att_prov_lusitania",
+                "att_prov_macedonia",
+                "att_prov_magna_graecia",
+                "att_prov_makran",
+                "att_prov_mauretania",
+                "att_prov_maxima_sequanorum",
+                "att_prov_media_atropatene",
+                "att_prov_mediterraneus_occidentalis",
+                "att_prov_mediterraneus_orientalis",
+                "att_prov_narbonensis",
+                "att_prov_osroene",
+                "att_prov_palaestinea",
+                "att_prov_pannonia",
+                "att_prov_persis",
+                "att_prov_phazania",
+                "att_prov_raetia_et_noricum",
+                "att_prov_sarmatia_asiatica",
+                "att_prov_sarmatia_europaea",
+                "att_prov_scandza",
+                "att_prov_scythia",
+                "att_prov_spahan",
+                "att_prov_syria",
+                "att_prov_tarraconensis",
+                "att_prov_thracia",
+                "att_prov_transcarpathia",
+                "att_prov_transcaspia",
+                "att_prov_tripolitana",
+                "att_prov_venetia"
+              ],
+              "status": "FEASIBLE",
+              "income": 802558.86,
+              "bound": 3589075.415,
+              "gap_percent": 77.63884100496117,
+              "solver_seconds": 60.21350614200128,
+              "solver_timings": {
+                "model_conversion_seconds": 20.814042386002257,
+                "search_seconds": 39.26298320599744,
+                "validation_seconds": 0.032807376999699045
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.03299121300005936,
+                "load_engine_seconds": 5.255299765849486e-05,
+                "build_model_seconds": 16.819368579002912,
+                "solve_and_check_seconds": 69.0158517029995,
+                "prepare_result_seconds": 0.021157085000595544,
+                "worker_wall_seconds": 86.40439085900289,
+                "worker_startup_seconds": 0.5052378649997991
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 160011,
+                  "constraints": 462355,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 7188,
+                  "nonzeros": 1105504,
+                  "storage_bytes": 30230944
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 33987,
+                  "constraints": 30942,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            }
+          ],
+          "source_files": {
+            "attila/data/building_culture_variants_table.tsv": "6438a7e52babe196cfae1b52e4330159f48f119c5abd00a5b8d4d488e94a544c",
+            "attila/data/building_effects_junction_table.tsv": "dd95c690b7f7ac4e05106ebcf309628ca15aa5a1056f85507ec258ec115e55a9",
+            "attila/data/cultures_subcultures_table.tsv": "4e27ebec6dbd3c86f93f0b272602b0876333454b372a28925b3a51c604680cc7",
+            "attila/data/factions_table.tsv": "623b48208dee338dd563f5b32a49d85bd929105e72caadb56518a6575b0644a0",
+            "attila/data/provinces.tsv": "fa9b36e5ddda75fb6fa31b96218a555406d4b0047c2bf93ea0fcbbe1fa159905",
+            "attila/data/region_to_provinces_junctions_table.tsv": "f11adfa9d715e7048f1bbf3a74a6c9f64b4292ebf40075f841d9ade0bfb21770",
+            "attila/data/regions.tsv": "3bc3556d1ec349e22bf75b7ff928a1b597e77e40b6b85a3f02b84418b304d6b4",
+            "attila/data/start_pos_region_slot_templates_table.tsv": "12f34565345c74b4c432d71da7f4f8586c52c0f51723f31aa8f2efba0cbbf4d6",
+            "attila/data/online_buildings.json": "7958b74651ad52bb442e737f435079948103412f4770a818e68619fef654ac6e",
+            "attila/data/online_factions.json": "a087b6305d9bd5a3ca831a84f3261ed16ae1dd9a283169a553ef145a7adbaffe",
+            "attila/data/online_modifiers.json": "1b96106a9fbbfd616fdcf200bfecdc0772c48452eaf93bb06863ee2b22e0075e",
+            "attila/economy.py": "621483e3df1b288d34b0a7d3b7a82a287d05f247a25e60da17444ee6eee7d97b",
+            "attila/effect_index.py": "4b4ce42878aa0290b7f63ad19e51b7a3b1461ecd8b2ef5a4f16cff1bd96614b5",
+            "attila/algebra.py": "56cbd0d531ac45df20748847941a23a733bda3a46cc7e0904fb6919a146e993c",
+            "attila/compiler.py": "faa26af5feafd2a39bc7a234cbe00575c5a6c5ce600997e6647c05eb32d0774f",
+            "attila/compact.py": "1489e2cf7a14a9009c9c465913fe1828d54ee7c64c8932b184fff92dbab2ad1e",
+            "attila/reporting.py": "18f57586fb573e213c6cbf2c14e03c5526821be88d498ad2dbbd30b656030696",
+            "attila/scenario.py": "2a1b607fd8d9150a9061df92e84ae295c6e9f5064350bf5292c25deae156300d",
+            "attila/scenario_validation.py": "01d3865b561be2a5717cffecdadbe2fc1979e974c1a825e3d713a6a0f7faff29",
+            "attila/records.py": "275184c851877cb71083359d0217adad715373949e5608fa35d758cda50bb766",
+            "attila/building_rules.py": "2a6ccfe34e6bebd828434ca6fedb22f979a31ab3b26af299146e17529e05cb8c",
+            "attila/special_slots.py": "2fa735c6e6524f7e4bab754eda8dad2955d04de84b5098c495366b328b676a0f",
+            "catalog.py": "1b435dc7ab6e126c8ec980152efe526d2c466d63f1f02698bd845b5862125e0b",
+            "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+            "attila/model.py": "3ecdcad9c29056aef774ea08eb313785862f38628247825d70d22417a2f79603",
+            "context.py": "9180dc72256da412e703048c829d56d96f7fe1837a0aa88b5825537c7d55ae3c",
+            "comparison.py": "bf79c8fe6e10e21a17273cbc332f7c12ced54f02f98ce54265f18b9d9a6902f8",
+            "building.py": "bd2cbf7d7fa018e3c58ceeba950672c772e754f0cf82db15c9ea44a5cd98bd40",
+            "entity.py": "d3fe7dfedf916f986cdff78d9ebcd3e5a89457038d0ccd0ba51b897b8305f00e",
+            "region.py": "83e8d02ce7f85f46fbec88dbb184f6cb74f05d84ead2c619e168816e8cc28e24",
+            "province.py": "9aabfa210d19568e2eb472fc258c5375548effcdbe78cb8105d0c70c0fa776d9",
+            "problem.py": "5da6d4e083ecf2536605399373274cc4a3c4b61efa9cd3087638d7a8bd25487b",
+            "solver_ortools.py": "8404daf043821c9880cef8958e661d72fa4b0f70436103a7fb17195c8f179b2e",
+            "solver_cpsat.py": "348b2760d71d45a2fa0159313d37168609ab013e0a3c5b9b6f2a5e03f209568f",
+            "parser/parser.py": "2e8f049efb1f381155a50fd1abbfc55a861062eb3b23ab5ad6d568b101ee2f95",
+            "parser/parser_attila.py": "7f672ea3d14136e79607dc3941959a49db6341da8d5894cbd3170bf900818439",
+            "competition.py": "d9346b9d80e1dc0dabe99fa3d3a56ed131dbdd513b77bc55ed1c0f898dd56cb1",
+            "sparse.py": "4847ece3e4517fd1b2631de4a036324cb795449ae1a307fc4ec7c4cbd2ef0748",
+            "resources.py": "b05eaf10e77328669b95e919dd800e055469e4334c143229899f69f99bb4da7b",
+            "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+            "attila/data/campaign_map.json": "7224f705401a7e2d0d60c5ea66a67ef640f7557bbcbccf8015d875ce0a808789",
+            "twoptimizer/requests.py": "1314056a1843305ff2e29a8d61fbbc38d35f8d17e5cf98492d246a6bce284e02",
+            "twoptimizer/models.py": "7a7d0dd03928918080d45648df659baf07b486889fd8fff9799bb8dd4353743d",
+            "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+            "twoptimizer/service.py": "79daeab6fbe0a92affd55a47d20f0fab15bc3df1ad248126a4005d65fec40dab",
+            "twoptimizer/session.py": "bbd2639e3e6bdd8c818ea2bacb2badc5c0d68e4dc37c5bb498626cfec1b25bbc",
+            "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+            "twoptimizer/progress.py": "d186fbd503057a01d7ec8f0add655a223a4c88b1817931558157b067f171834c",
+            "twoptimizer/adapters/model_stats.py": "7c54e5a6f81de6cc0555d03212f3a8feb581cc714cc62cda0fdfb91aae2fc5ba",
+            "twoptimizer/adapters/attila.py": "7d8dee95167d1b8c2a4439cb6f8cb41d5dcf059a7cbb0113a61ab0553b8f1df3",
+            "twoptimizer/attila_session.py": "a5c52be8a416cc2d9f444691fd9685189b769ed9099cc284ead741c50e31ba5e"
+          },
+          "last_progress": "Preparing result",
+          "last_model": {
+            "label": "CP-SAT solver input",
+            "variables": 33987,
+            "constraints": 30942,
+            "formulation": "factored_income",
+            "stage": "solver",
+            "decision_variables": null,
+            "nonzeros": null,
+            "storage_bytes": null
+          },
+          "wall_seconds": 86.52989019600136,
+          "summary": {
+            "completed_cases": 1,
+            "statuses": {
+              "FEASIBLE": 1
+            },
+            "all_optimal": false,
+            "income_sum": 802558.86,
+            "bound_sum": 3589075.415,
+            "aggregate_gap_percent": 77.63884100496117,
+            "phase_seconds": {
+              "request_seconds": 0.03299121300005936,
+              "load_engine_seconds": 5.255299765849486e-05,
+              "build_model_seconds": 16.819368579002912,
+              "solve_and_check_seconds": 69.0158517029995,
+              "prepare_result_seconds": 0.021157085000595544,
+              "worker_wall_seconds": 86.40439085900289,
+              "worker_startup_seconds": 0.5052378649997991
+            },
+            "solver_seconds": 60.21350614200128,
+            "solver_timings": {
+              "model_conversion_seconds": 20.814042386002257,
+              "search_seconds": 39.26298320599744,
+              "validation_seconds": 0.032807376999699045
+            },
+            "model_preparation_seconds": 16.819368579002912,
+            "model_build_and_conversion_seconds": 37.63341096500517,
+            "native_search_seconds": 39.26298320599744,
+            "effective_worker_counts": [
+              4
+            ],
+            "reference_variables_sum": 160011,
+            "reference_constraints_sum": 462355,
+            "solver_variables_sum": 33987,
+            "solver_constraints_sum": 30942
+          },
+          "solver_seconds_per_case": 60.0,
+          "total_configured_solver_seconds": 60.0
+        }
+      ],
+      "summary": {
+        "repeats": 1,
+        "completion_counts": {
+          "COMPLETE": 1
+        },
+        "wall_seconds_min": 86.52989019600136,
+        "wall_seconds_median": 86.52989019600136,
+        "wall_seconds_max": 86.52989019600136,
+        "peak_worker_rss_mib_max": 1610.5390625,
+        "all_repeats_optimal": false,
+        "model_build_and_conversion_seconds_median": 37.63341096500517,
+        "native_search_seconds_median": 39.26298320599744
+      }
+    }
+  ],
+  "summary_revision": {
+    "tool_sha256": "a9b3938b4f5102f6f0d5a14e55cd299dd401a0d45be579f6c71bf18a303f893a",
+    "at_utc": "2026-11-08T06:00:25.817326+00:00",
+    "reason": "Clarify configured solver allowance versus actual native search, and leave unavailable build/conversion timing unknown. Numeric case observations are unchanged; environment.benchmark_sha256 retains the execution harness hash."
+  }
+}

@@ -1,0 +1,3100 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-11-08T05:55:07.029470+00:00",
+  "environment": {
+    "python": "3.14.9",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "processor": "",
+    "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "available_workers": 4,
+    "logical_cpus": 5,
+    "cpu_quota": "400000 100000",
+    "memory_limit_bytes": "17179869184",
+    "packages": {
+      "ortools": "9.15.6755",
+      "pyscipopt": "6.3.0",
+      "numpy": "2.5.4",
+      "textual": "6.12.0"
+    },
+    "lock_sha256": "3ee8cf95333f9c1485b36a501e9445a536fc3e636a24b419a6748db58db72d06",
+    "benchmark_sha256": "49ff64b7f0ccc24918a14faf30e7756e77e56e3915259909af683fd23c41ad25",
+    "git_revision": "6e03a72f0f56a9f26266fa875f0e265143eea5a7"
+  },
+  "sensitivity_driver_sha256": "5dc47859214ff336ee50a1b7d25770eee97a057a36f3f2de87d55613adc9a3a0",
+  "limits": {
+    "wall_seconds": 180.0,
+    "memory_mib": 2048.0,
+    "solver_seconds": 62.0
+  },
+  "method": "Single longer-allowance diagnostic; fresh worker reused across independent cases where applicable. Per-case configured solver allowance can include conversion. Different aggregate allowance from the primary matrix; not a fair speed comparison.",
+  "groups": [
+    {
+      "size": "all",
+      "request": {
+        "game": "attila",
+        "faction": "att_fact_eastern_roman_empire",
+        "province": "att_prov_thracia",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "all"
+        ],
+        "joint": false,
+        "adjacency": null
+      },
+      "samples": [
+        {
+          "completion": "COMPLETE",
+          "peak_worker_rss_bytes": 239341568,
+          "requested_cases": 62,
+          "cases": [
+            {
+              "provinces": [
+                "att_prov_aegyptus"
+              ],
+              "status": "OPTIMAL",
+              "income": 23778.125,
+              "bound": 23778.125,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.985452210999938,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05974933299876284,
+                "search_seconds": 0.9236250320027466,
+                "validation_seconds": 0.0005054600005678367
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.023913870001706528,
+                "load_engine_seconds": 4.6173998271115124e-05,
+                "build_model_seconds": 0.22865184700276586,
+                "solve_and_check_seconds": 1.0334557319984015,
+                "prepare_result_seconds": 0.006912412998644868,
+                "worker_wall_seconds": 1.7724050659999193,
+                "worker_startup_seconds": 0.478245076003077
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2790,
+                  "constraints": 8050,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 130,
+                  "nonzeros": 19204,
+                  "storage_bytes": 525304
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 588,
+                  "constraints": 534,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_aethiopia"
+              ],
+              "status": "FEASIBLE",
+              "income": 21513.4375,
+              "bound": 25957.555,
+              "gap_percent": 17.120709173109717,
+              "solver_seconds": 1.0051071660018351,
+              "solver_timings": {
+                "model_conversion_seconds": 0.047151665999990655,
+                "search_seconds": 0.9560728679971362,
+                "validation_seconds": 0.00043336300223018043
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00016288600090774707,
+                "load_engine_seconds": 2.741999924182892e-05,
+                "build_model_seconds": 0.19993205900027533,
+                "solve_and_check_seconds": 1.0448663730021508,
+                "prepare_result_seconds": 0.005652040999848396,
+                "worker_wall_seconds": 1.2525925419977284,
+                "worker_dispatch_seconds": 0.0006617529979848769
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2343,
+                  "constraints": 6753,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 112,
+                  "nonzeros": 16111,
+                  "storage_bytes": 440696
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 500,
+                  "constraints": 452,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_africa"
+              ],
+              "status": "FEASIBLE",
+              "income": 25856.125,
+              "bound": 29373.7125,
+              "gap_percent": 11.97529083189604,
+              "solver_seconds": 1.0048879830028454,
+              "solver_timings": {
+                "model_conversion_seconds": 0.06203660699975444,
+                "search_seconds": 0.9410590160005086,
+                "validation_seconds": 0.0004482869990170002
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00019582199820433743,
+                "load_engine_seconds": 2.495599983376451e-05,
+                "build_model_seconds": 0.18308232799972757,
+                "solve_and_check_seconds": 1.0594134680031857,
+                "prepare_result_seconds": 0.0073318959985044785,
+                "worker_wall_seconds": 1.252066820001346,
+                "worker_dispatch_seconds": 0.0006749750027665868
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2854,
+                  "constraints": 8255,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 125,
+                  "nonzeros": 19665,
+                  "storage_bytes": 538008
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 609,
+                  "constraints": 557,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_aquitania"
+              ],
+              "status": "FEASIBLE",
+              "income": 26343.4375,
+              "bound": 29167.2725,
+              "gap_percent": 9.681518901021681,
+              "solver_seconds": 1.0050345109993941,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05405203999907826,
+                "search_seconds": 0.9490321170014795,
+                "validation_seconds": 0.0004236919994582422
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00015440000061062165,
+                "load_engine_seconds": 2.2435000573750585e-05,
+                "build_model_seconds": 0.16558026099664858,
+                "solve_and_check_seconds": 1.0493018360029964,
+                "prepare_result_seconds": 0.005062401000031969,
+                "worker_wall_seconds": 1.2219907110011263,
+                "worker_dispatch_seconds": 0.0008162429985532071
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2563,
+                  "constraints": 7399,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 118,
+                  "nonzeros": 17643,
+                  "storage_bytes": 482632
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 541,
+                  "constraints": 491,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_arabia_felix"
+              ],
+              "status": "FEASIBLE",
+              "income": 22956.6875,
+              "bound": 25569.3175,
+              "gap_percent": 10.217832368814697,
+              "solver_seconds": 1.004799151000043,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04694341199865448,
+                "search_seconds": 0.9559837680026249,
+                "validation_seconds": 0.00047693099986645393
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00022684899886371568,
+                "load_engine_seconds": 6.94010013830848e-05,
+                "build_model_seconds": 0.15725329599808902,
+                "solve_and_check_seconds": 1.0429115219994856,
+                "prepare_result_seconds": 0.005497467001987388,
+                "worker_wall_seconds": 1.207721152000886,
+                "worker_dispatch_seconds": 0.0005293020003591664
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2418,
+                  "constraints": 6971,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 115,
+                  "nonzeros": 16632,
+                  "storage_bytes": 454944
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 515,
+                  "constraints": 467,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_arabia_magna"
+              ],
+              "status": "FEASIBLE",
+              "income": 25696.5625,
+              "bound": 28184.412500000002,
+              "gap_percent": 8.82704225252168,
+              "solver_seconds": 1.0051321030005056,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05637830500199925,
+                "search_seconds": 0.9468023519984854,
+                "validation_seconds": 0.0004654420008591842
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0001406820010743104,
+                "load_engine_seconds": 1.2153999705333263e-05,
+                "build_model_seconds": 0.1694768130000739,
+                "solve_and_check_seconds": 1.0572580320003908,
+                "prepare_result_seconds": 0.005321504999301396,
+                "worker_wall_seconds": 1.2341533470025752,
+                "worker_dispatch_seconds": 0.0028947910032002255
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2585,
+                  "constraints": 7482,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 111,
+                  "nonzeros": 17808,
+                  "storage_bytes": 487256
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 554,
+                  "constraints": 506,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_armenia"
+              ],
+              "status": "FEASIBLE",
+              "income": 25696.5625,
+              "bound": 26669.63,
+              "gap_percent": 3.6485976745834154,
+              "solver_seconds": 1.0042324080022809,
+              "solver_timings": {
+                "model_conversion_seconds": 0.048417303998576244,
+                "search_seconds": 0.9536817030020757,
+                "validation_seconds": 0.00043970100159640424
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00022556100157089531,
+                "load_engine_seconds": 6.351899719447829e-05,
+                "build_model_seconds": 0.22851003300092998,
+                "solve_and_check_seconds": 1.0445580189989414,
+                "prepare_result_seconds": 0.005102103001263458,
+                "worker_wall_seconds": 1.280376342998352,
+                "worker_dispatch_seconds": 0.0007027999999991152
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2567,
+                  "constraints": 7435,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 108,
+                  "nonzeros": 17682,
+                  "storage_bytes": 483856
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 548,
+                  "constraints": 501,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_asia"
+              ],
+              "status": "FEASIBLE",
+              "income": 25753.4375,
+              "bound": 29356.39,
+              "gap_percent": 12.273145642226444,
+              "solver_seconds": 1.0049581750026846,
+              "solver_timings": {
+                "model_conversion_seconds": 0.06033554099849425,
+                "search_seconds": 0.9425831170010497,
+                "validation_seconds": 0.000484780000988394
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00020839900025748648,
+                "load_engine_seconds": 2.446999860694632e-05,
+                "build_model_seconds": 0.18603742900086218,
+                "solve_and_check_seconds": 1.0525071279989788,
+                "prepare_result_seconds": 0.006024366000929149,
+                "worker_wall_seconds": 1.2467318570015777,
+                "worker_dispatch_seconds": 0.0007117380009731278
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2842,
+                  "constraints": 8219,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 125,
+                  "nonzeros": 19581,
+                  "storage_bytes": 535704
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 609,
+                  "constraints": 557,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_asorstan"
+              ],
+              "status": "FEASIBLE",
+              "income": 21895.8125,
+              "bound": 26616.72,
+              "gap_percent": 17.736623821417517,
+              "solver_seconds": 1.005360177001421,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05306080000082147,
+                "search_seconds": 0.9503055259992834,
+                "validation_seconds": 0.00040229899968835525
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00015263800014508888,
+                "load_engine_seconds": 2.313699951628223e-05,
+                "build_model_seconds": 0.16437496900107362,
+                "solve_and_check_seconds": 1.0472089360009704,
+                "prepare_result_seconds": 0.005560831999900984,
+                "worker_wall_seconds": 1.2191567379995831,
+                "worker_dispatch_seconds": 0.000520199002494337
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2604,
+                  "constraints": 7529,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 115,
+                  "nonzeros": 17931,
+                  "storage_bytes": 490584
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 559,
+                  "constraints": 510,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_baetica"
+              ],
+              "status": "FEASIBLE",
+              "income": 25653.4375,
+              "bound": 28404.7975,
+              "gap_percent": 9.686251063750765,
+              "solver_seconds": 1.004967773998942,
+              "solver_timings": {
+                "model_conversion_seconds": 0.046825362001982285,
+                "search_seconds": 0.9562848619971192,
+                "validation_seconds": 0.0004200999974273145
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00022507299945573322,
+                "load_engine_seconds": 8.182600140571594e-05,
+                "build_model_seconds": 0.14504129999841098,
+                "solve_and_check_seconds": 1.043827561999933,
+                "prepare_result_seconds": 0.005744804002461024,
+                "worker_wall_seconds": 1.1965727050010173,
+                "worker_dispatch_seconds": 0.0005367820012907032
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2330,
+                  "constraints": 6718,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 111,
+                  "nonzeros": 16026,
+                  "storage_bytes": 438376
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 496,
+                  "constraints": 449,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_belgica"
+              ],
+              "status": "FEASIBLE",
+              "income": 25166.125,
+              "bound": 28048.8975,
+              "gap_percent": 10.277667776425076,
+              "solver_seconds": 1.0051903640014643,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04906559400114929,
+                "search_seconds": 0.9542139959994529,
+                "validation_seconds": 0.0004463359982764814
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00014151000141282566,
+                "load_engine_seconds": 1.2329001037869602e-05,
+                "build_model_seconds": 0.15743310999823734,
+                "solve_and_check_seconds": 1.045776814000419,
+                "prepare_result_seconds": 0.005065166998974746,
+                "worker_wall_seconds": 1.210494139999355,
+                "worker_dispatch_seconds": 0.0017146029967989307
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2583,
+                  "constraints": 7483,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 108,
+                  "nonzeros": 17794,
+                  "storage_bytes": 486928
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 548,
+                  "constraints": 501,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_bithynia"
+              ],
+              "status": "FEASIBLE",
+              "income": 24095.1875,
+              "bound": 28483.8375,
+              "gap_percent": 15.407509609616334,
+              "solver_seconds": 1.0062800309970044,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05349583599672769,
+                "search_seconds": 0.9506999330005783,
+                "validation_seconds": 0.00045234199933474883
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00027153900009579957,
+                "load_engine_seconds": 1.7487000150140375e-05,
+                "build_model_seconds": 0.23497816100280033,
+                "solve_and_check_seconds": 1.0498047659966687,
+                "prepare_result_seconds": 0.005911121003009612,
+                "worker_wall_seconds": 1.2928076759999385,
+                "worker_dispatch_seconds": 0.003007406001415802
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2710,
+                  "constraints": 7847,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 115,
+                  "nonzeros": 18676,
+                  "storage_bytes": 511008
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 571,
+                  "constraints": 522,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_britannia_inferior"
+              ],
+              "status": "FEASIBLE",
+              "income": 24811.0625,
+              "bound": 28387.8975,
+              "gap_percent": 12.59985879546028,
+              "solver_seconds": 1.0041298380019725,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05501230599838891,
+                "search_seconds": 0.9469090919992595,
+                "validation_seconds": 0.0005292809983075131
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00013355899864109233,
+                "load_engine_seconds": 1.2542001059046015e-05,
+                "build_model_seconds": 0.17098111000086647,
+                "solve_and_check_seconds": 1.0498347969987663,
+                "prepare_result_seconds": 0.0052638839988503605,
+                "worker_wall_seconds": 1.227937101997668,
+                "worker_dispatch_seconds": 0.0022220059981918894
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2754,
+                  "constraints": 7979,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 115,
+                  "nonzeros": 18984,
+                  "storage_bytes": 519456
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 583,
+                  "constraints": 534,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_britannia_superior"
+              ],
+              "status": "FEASIBLE",
+              "income": 25118.935,
+              "bound": 28376.5425,
+              "gap_percent": 11.479931002869705,
+              "solver_seconds": 1.0054756780009484,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05393370799720287,
+                "search_seconds": 0.9491176340015954,
+                "validation_seconds": 0.0005052579981565941
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00013415700232144445,
+                "load_engine_seconds": 1.1723997886292636e-05,
+                "build_model_seconds": 0.1706892020010855,
+                "solve_and_check_seconds": 1.0502659090016095,
+                "prepare_result_seconds": 0.0053147929975239094,
+                "worker_wall_seconds": 1.2280438599991612,
+                "worker_dispatch_seconds": 0.00219235300028231
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2760,
+                  "constraints": 7990,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 118,
+                  "nonzeros": 19020,
+                  "storage_bytes": 520408
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 589,
+                  "constraints": 539,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_caledonia_et_hbernia"
+              ],
+              "status": "FEASIBLE",
+              "income": 25653.4375,
+              "bound": 28371.1225,
+              "gap_percent": 9.5790534900408,
+              "solver_seconds": 1.0057360579994565,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05274911900050938,
+                "search_seconds": 0.9507028699990769,
+                "validation_seconds": 0.0005948269972577691
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00013653399946633726,
+                "load_engine_seconds": 4.788599835592322e-05,
+                "build_model_seconds": 0.1685866959996929,
+                "solve_and_check_seconds": 1.0500256330014963,
+                "prepare_result_seconds": 0.00513436699839076,
+                "worker_wall_seconds": 1.2256097919998865,
+                "worker_dispatch_seconds": 0.002052232997812098
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2742,
+                  "constraints": 7943,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 115,
+                  "nonzeros": 18894,
+                  "storage_bytes": 517008
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 583,
+                  "constraints": 534,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_cappadocia"
+              ],
+              "status": "FEASIBLE",
+              "income": 25653.4375,
+              "bound": 28346.107500000002,
+              "gap_percent": 9.499258407878406,
+              "solver_seconds": 1.0052887750025548,
+              "solver_timings": {
+                "model_conversion_seconds": 0.055466683999839006,
+                "search_seconds": 0.9477419709983224,
+                "validation_seconds": 0.00048079900079756044
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00021660700076608919,
+                "load_engine_seconds": 6.375600059982389e-05,
+                "build_model_seconds": 0.2287041319978016,
+                "solve_and_check_seconds": 1.0492675339992275,
+                "prepare_result_seconds": 0.005681791000824887,
+                "worker_wall_seconds": 1.2857120830012718,
+                "worker_dispatch_seconds": 0.0005806629997096024
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2770,
+                  "constraints": 8027,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 115,
+                  "nonzeros": 19096,
+                  "storage_bytes": 522528
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 583,
+                  "constraints": 534,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_carthaginensis"
+              ],
+              "status": "FEASIBLE",
+              "income": 25899.25,
+              "bound": 28798.735,
+              "gap_percent": 10.068098477242145,
+              "solver_seconds": 1.0052550799991877,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05364034000012907,
+                "search_seconds": 0.9495173399991472,
+                "validation_seconds": 0.000466362002043752
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00021469399871421047,
+                "load_engine_seconds": 6.643600136158057e-05,
+                "build_model_seconds": 0.17416632099775597,
+                "solve_and_check_seconds": 1.0493614850020094,
+                "prepare_result_seconds": 0.0053429649997269735,
+                "worker_wall_seconds": 1.2309930060000625,
+                "worker_dispatch_seconds": 0.0005152929988980759
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2682,
+                  "constraints": 7763,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 115,
+                  "nonzeros": 18481,
+                  "storage_bytes": 505656
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 571,
+                  "constraints": 522,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_caucasia"
+              ],
+              "status": "FEASIBLE",
+              "income": 25368.625,
+              "bound": 28512.4275,
+              "gap_percent": 11.026078014578035,
+              "solver_seconds": 1.0055523939990962,
+              "solver_timings": {
+                "model_conversion_seconds": 0.045919440999568906,
+                "search_seconds": 0.9577877180017822,
+                "validation_seconds": 0.0004031209973618388
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00021140700118849054,
+                "load_engine_seconds": 6.301599933067337e-05,
+                "build_model_seconds": 0.1493878979999863,
+                "solve_and_check_seconds": 1.0444454470016353,
+                "prepare_result_seconds": 0.005220132999966154,
+                "worker_wall_seconds": 1.2011770909994084,
+                "worker_dispatch_seconds": 0.0005135749997862149
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2367,
+                  "constraints": 6835,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 108,
+                  "nonzeros": 16288,
+                  "storage_bytes": 445600
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 508,
+                  "constraints": 461,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_cilicia"
+              ],
+              "status": "FEASIBLE",
+              "income": 25899.25,
+              "bound": 28892.435,
+              "gap_percent": 10.359753340277484,
+              "solver_seconds": 1.0062343979989237,
+              "solver_timings": {
+                "model_conversion_seconds": 0.057869255000696285,
+                "search_seconds": 0.946665868999844,
+                "validation_seconds": 0.0004103800019947812
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00013132099775248207,
+                "load_engine_seconds": 1.1288000678177923e-05,
+                "build_model_seconds": 0.1856597719997808,
+                "solve_and_check_seconds": 1.0526139389985474,
+                "prepare_result_seconds": 0.004810914000699995,
+                "worker_wall_seconds": 1.2449556499996106,
+                "worker_dispatch_seconds": 0.0022365320000972133
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2997,
+                  "constraints": 8691,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 122,
+                  "nonzeros": 20673,
+                  "storage_bytes": 565688
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 634,
+                  "constraints": 583,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_dacia"
+              ],
+              "status": "FEASIBLE",
+              "income": 25166.125,
+              "bound": 28378.3375,
+              "gap_percent": 11.319241305097599,
+              "solver_seconds": 1.0046028869983274,
+              "solver_timings": {
+                "model_conversion_seconds": 0.12302154899953166,
+                "search_seconds": 0.8795565460022772,
+                "validation_seconds": 0.0004762150019814726
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00021818300228915177,
+                "load_engine_seconds": 6.283599941525608e-05,
+                "build_model_seconds": 0.16927093299818807,
+                "solve_and_check_seconds": 1.047000085000036,
+                "prepare_result_seconds": 0.005273498001770349,
+                "worker_wall_seconds": 1.2235288589981792,
+                "worker_dispatch_seconds": 0.0004852659985772334
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2725,
+                  "constraints": 7892,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 115,
+                  "nonzeros": 18782,
+                  "storage_bytes": 513912
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 582,
+                  "constraints": 532,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_dalmatia"
+              ],
+              "status": "FEASIBLE",
+              "income": 26060.25,
+              "bound": 27282.07,
+              "gap_percent": 4.478472491273572,
+              "solver_seconds": 1.004444065001735,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05064126900106203,
+                "search_seconds": 0.9516959530010354,
+                "validation_seconds": 0.000572253000427736
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00020767699970747344,
+                "load_engine_seconds": 6.0497000959003344e-05,
+                "build_model_seconds": 0.1511022429986042,
+                "solve_and_check_seconds": 1.044316837000224,
+                "prepare_result_seconds": 0.006324368001514813,
+                "worker_wall_seconds": 1.2038389299996197,
+                "worker_dispatch_seconds": 0.0006004659990139771
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2318,
+                  "constraints": 6682,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 111,
+                  "nonzeros": 15942,
+                  "storage_bytes": 436072
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 496,
+                  "constraints": 449,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_dardania"
+              ],
+              "status": "FEASIBLE",
+              "income": 25696.5625,
+              "bound": 28269.502500000002,
+              "gap_percent": 9.101468977036303,
+              "solver_seconds": 1.0218089040026825,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05504200799987302,
+                "search_seconds": 0.9646605310008454,
+                "validation_seconds": 0.0004999189986847341
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00013638599921250716,
+                "load_engine_seconds": 1.2041000445606187e-05,
+                "build_model_seconds": 0.16333499300162657,
+                "solve_and_check_seconds": 1.0644332359988766,
+                "prepare_result_seconds": 0.005348724000214133,
+                "worker_wall_seconds": 1.2349219509997056,
+                "worker_dispatch_seconds": 0.0016734160017222166
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2583,
+                  "constraints": 7483,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 108,
+                  "nonzeros": 17800,
+                  "storage_bytes": 487072
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 548,
+                  "constraints": 501,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_frisia"
+              ],
+              "status": "OPTIMAL",
+              "income": 25653.4375,
+              "bound": 25653.4375,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.7682798019995971,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04881639900122536,
+                "search_seconds": 0.7175896099979582,
+                "validation_seconds": 0.00041931599844247103
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00013809599840897135,
+                "load_engine_seconds": 1.2819000403396785e-05,
+                "build_model_seconds": 0.15179592099957517,
+                "solve_and_check_seconds": 0.8084704770008102,
+                "prepare_result_seconds": 0.005078363999928115,
+                "worker_wall_seconds": 0.9673723039995821,
+                "worker_dispatch_seconds": 0.0027367609982320573
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2418,
+                  "constraints": 6971,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 115,
+                  "nonzeros": 16633,
+                  "storage_bytes": 454968
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 515,
+                  "constraints": 466,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_gallaecia"
+              ],
+              "status": "FEASIBLE",
+              "income": 25653.4375,
+              "bound": 29182.395,
+              "gap_percent": 12.092761748992844,
+              "solver_seconds": 1.0067755470008706,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05257868399712606,
+                "search_seconds": 0.9522413880004024,
+                "validation_seconds": 0.0004581440007314086
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00014019900118000805,
+                "load_engine_seconds": 1.2105996574973688e-05,
+                "build_model_seconds": 0.1664020240023092,
+                "solve_and_check_seconds": 1.049044071998651,
+                "prepare_result_seconds": 0.0052562199998646975,
+                "worker_wall_seconds": 1.2225838169979397,
+                "worker_dispatch_seconds": 0.00321286599864834
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2575,
+                  "constraints": 7435,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 118,
+                  "nonzeros": 17727,
+                  "storage_bytes": 484936
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 541,
+                  "constraints": 491,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_germania"
+              ],
+              "status": "FEASIBLE",
+              "income": 25166.125,
+              "bound": 28244.787500000002,
+              "gap_percent": 10.899931536040064,
+              "solver_seconds": 1.0047093319990381,
+              "solver_timings": {
+                "model_conversion_seconds": 0.041563539001799654,
+                "search_seconds": 0.9614242589996138,
+                "validation_seconds": 0.0003967850025219377
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00025984999956563115,
+                "load_engine_seconds": 7.262099825311452e-05,
+                "build_model_seconds": 0.1391462000028696,
+                "solve_and_check_seconds": 1.038949945999775,
+                "prepare_result_seconds": 0.005204381999647012,
+                "worker_wall_seconds": 1.1857240130011633,
+                "worker_dispatch_seconds": 0.0006373220021487214
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2147,
+                  "constraints": 6175,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 108,
+                  "nonzeros": 14748,
+                  "storage_bytes": 403360
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 464,
+                  "constraints": 417,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_germano-sarmatia"
+              ],
+              "status": "FEASIBLE",
+              "income": 24208.75,
+              "bound": 28336.4875,
+              "gap_percent": 14.566863659442616,
+              "solver_seconds": 1.0039437399973394,
+              "solver_timings": {
+                "model_conversion_seconds": 0.046033775000978494,
+                "search_seconds": 0.9560320929995214,
+                "validation_seconds": 0.0004220669979986269
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00013569500151788816,
+                "load_engine_seconds": 1.150800017057918e-05,
+                "build_model_seconds": 0.23166095399938058,
+                "solve_and_check_seconds": 1.0435461919987574,
+                "prepare_result_seconds": 0.005193283002881799,
+                "worker_wall_seconds": 1.2824401760008186,
+                "worker_dispatch_seconds": 0.002811245998600498
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2322,
+                  "constraints": 6683,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 115,
+                  "nonzeros": 15960,
+                  "storage_bytes": 436512
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 499,
+                  "constraints": 450,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_gothiscandza"
+              ],
+              "status": "FEASIBLE",
+              "income": 25899.25,
+              "bound": 28643.760000000002,
+              "gap_percent": 9.581528402695742,
+              "solver_seconds": 1.0043467600007716,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05283999800303718,
+                "search_seconds": 0.9493581559981976,
+                "validation_seconds": 0.0004165390018897597
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0001543020007375162,
+                "load_engine_seconds": 2.4263001250801608e-05,
+                "build_model_seconds": 0.16847393799980637,
+                "solve_and_check_seconds": 1.0456836080011271,
+                "prepare_result_seconds": 0.005650222999975085,
+                "worker_wall_seconds": 1.221860713998467,
+                "worker_dispatch_seconds": 0.0006680900005449075
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2585,
+                  "constraints": 7455,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 122,
+                  "nonzeros": 17792,
+                  "storage_bytes": 486656
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 546,
+                  "constraints": 495,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_hercynia"
+              ],
+              "status": "FEASIBLE",
+              "income": 23424.75,
+              "bound": 28396.4,
+              "gap_percent": 17.50802918679833,
+              "solver_seconds": 1.0056915099994512,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05208731700258795,
+                "search_seconds": 0.9513162809998903,
+                "validation_seconds": 0.00041717700150911696
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00013845300054526888,
+                "load_engine_seconds": 2.2920998162589967e-05,
+                "build_model_seconds": 0.16228809200038086,
+                "solve_and_check_seconds": 1.0493258550013707,
+                "prepare_result_seconds": 0.005382289997214684,
+                "worker_wall_seconds": 1.2192069580014504,
+                "worker_dispatch_seconds": 0.0005119050001667347
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2583,
+                  "constraints": 7483,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 108,
+                  "nonzeros": 17800,
+                  "storage_bytes": 487072
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 548,
+                  "constraints": 501,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_hyperborea"
+              ],
+              "status": "FEASIBLE",
+              "income": 25696.5625,
+              "bound": 27302.0625,
+              "gap_percent": 5.880508111795583,
+              "solver_seconds": 1.004717015002825,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04735456699927454,
+                "search_seconds": 0.9556796720025886,
+                "validation_seconds": 0.0004035070014651865
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00028246600049897097,
+                "load_engine_seconds": 4.9268001021118835e-05,
+                "build_model_seconds": 0.1443286609974166,
+                "solve_and_check_seconds": 1.047709141002997,
+                "prepare_result_seconds": 0.004956258999300189,
+                "worker_wall_seconds": 1.1990788020011678,
+                "worker_dispatch_seconds": 0.0005155670005478896
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2243,
+                  "constraints": 6463,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 108,
+                  "nonzeros": 15421,
+                  "storage_bytes": 421816
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 480,
+                  "constraints": 433,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_italia"
+              ],
+              "status": "OPTIMAL",
+              "income": 23379.125,
+              "bound": 23379.125,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.5632580210003653,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04729935800060048,
+                "search_seconds": 0.5141151140014699,
+                "validation_seconds": 0.0004335169978730846
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00018936899869004264,
+                "load_engine_seconds": 2.5658999220468104e-05,
+                "build_model_seconds": 0.15563869200195768,
+                "solve_and_check_seconds": 0.6024851669972122,
+                "prepare_result_seconds": 0.0053607680019922554,
+                "worker_wall_seconds": 0.765891738999926,
+                "worker_dispatch_seconds": 0.0005496359990502242
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2403,
+                  "constraints": 6913,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 120,
+                  "nonzeros": 16516,
+                  "storage_bytes": 451696
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 516,
+                  "constraints": 465,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_khwarasan"
+              ],
+              "status": "FEASIBLE",
+              "income": 25696.5625,
+              "bound": 28354.8825,
+              "gap_percent": 9.375175509896753,
+              "solver_seconds": 1.00583116299822,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04794068000046536,
+                "search_seconds": 0.9552933810009563,
+                "validation_seconds": 0.0005177689999982249
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00014106000162428245,
+                "load_engine_seconds": 2.2915999579709023e-05,
+                "build_model_seconds": 0.2479283350003243,
+                "solve_and_check_seconds": 1.0457834070002718,
+                "prepare_result_seconds": 0.00520271099958336,
+                "worker_wall_seconds": 1.3010347010022087,
+                "worker_dispatch_seconds": 0.0006616300015593879
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2367,
+                  "constraints": 6835,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 108,
+                  "nonzeros": 16288,
+                  "storage_bytes": 445600
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 508,
+                  "constraints": 461,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_libya"
+              ],
+              "status": "FEASIBLE",
+              "income": 25856.125,
+              "bound": 29062.877500000002,
+              "gap_percent": 11.0338437754486,
+              "solver_seconds": 1.0063148369990813,
+              "solver_timings": {
+                "model_conversion_seconds": 0.06288733499968657,
+                "search_seconds": 0.9410222080005042,
+                "validation_seconds": 0.0005983350019960199
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00013982800010126084,
+                "load_engine_seconds": 1.962699752766639e-05,
+                "build_model_seconds": 0.18974663400149439,
+                "solve_and_check_seconds": 1.056567167997855,
+                "prepare_result_seconds": 0.005497011999977985,
+                "worker_wall_seconds": 1.2538792480008851,
+                "worker_dispatch_seconds": 0.0005615139998553786
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2997,
+                  "constraints": 8691,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 122,
+                  "nonzeros": 20673,
+                  "storage_bytes": 565688
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 634,
+                  "constraints": 583,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_liguria"
+              ],
+              "status": "FEASIBLE",
+              "income": 24811.0625,
+              "bound": 28954.1775,
+              "gap_percent": 14.30921323874595,
+              "solver_seconds": 1.006108449997555,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05335266900146962,
+                "search_seconds": 0.950740666998172,
+                "validation_seconds": 0.0005135649989824742
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00022915200315765105,
+                "load_engine_seconds": 6.558499808306806e-05,
+                "build_model_seconds": 0.16789674000028754,
+                "solve_and_check_seconds": 1.0500537840016477,
+                "prepare_result_seconds": 0.005315635997249046,
+                "worker_wall_seconds": 1.2253080270020291,
+                "worker_dispatch_seconds": 0.0005979240013402887
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2667,
+                  "constraints": 7711,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 118,
+                  "nonzeros": 18369,
+                  "storage_bytes": 502552
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 574,
+                  "constraints": 524,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_lugdunensis"
+              ],
+              "status": "FEASIBLE",
+              "income": 24276.3125,
+              "bound": 28360.495,
+              "gap_percent": 14.400956330275614,
+              "solver_seconds": 1.0052118059975328,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04982101199857425,
+                "search_seconds": 0.9533493480012112,
+                "validation_seconds": 0.0005118349981785286
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00013294599921209738,
+                "load_engine_seconds": 1.1439999070717022e-05,
+                "build_model_seconds": 0.15373811100289458,
+                "solve_and_check_seconds": 1.0448988759999338,
+                "prepare_result_seconds": 0.005619852996460395,
+                "worker_wall_seconds": 1.2064998830028344,
+                "worker_dispatch_seconds": 0.001559543001349084
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2410,
+                  "constraints": 6947,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 115,
+                  "nonzeros": 16580,
+                  "storage_bytes": 453504
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 511,
+                  "constraints": 462,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_lusitania"
+              ],
+              "status": "FEASIBLE",
+              "income": 22024.9,
+              "bound": 28444.065000000002,
+              "gap_percent": 22.567678002423357,
+              "solver_seconds": 1.0042018439999083,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05384139200032223,
+                "search_seconds": 0.9485682920021645,
+                "validation_seconds": 0.0005435599996417295
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00013706399840884842,
+                "load_engine_seconds": 1.204499858431518e-05,
+                "build_model_seconds": 0.2408671500015771,
+                "solve_and_check_seconds": 1.048537768998358,
+                "prepare_result_seconds": 0.004945204000250669,
+                "worker_wall_seconds": 1.2963911170008942,
+                "worker_dispatch_seconds": 0.003068187001190381
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2772,
+                  "constraints": 8026,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 118,
+                  "nonzeros": 19104,
+                  "storage_bytes": 522712
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 589,
+                  "constraints": 539,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_macedonia"
+              ],
+              "status": "FEASIBLE",
+              "income": 25699.75,
+              "bound": 29987.805,
+              "gap_percent": 14.29932934404502,
+              "solver_seconds": 1.0072840739994717,
+              "solver_timings": {
+                "model_conversion_seconds": 0.07442446099958033,
+                "search_seconds": 0.9290678709985514,
+                "validation_seconds": 0.0012002420007775072
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0001363379997201264,
+                "load_engine_seconds": 1.1606000043684617e-05,
+                "build_model_seconds": 0.2233478220005054,
+                "solve_and_check_seconds": 1.0679569450003328,
+                "prepare_result_seconds": 0.005127982996782521,
+                "worker_wall_seconds": 1.2983789909994812,
+                "worker_dispatch_seconds": 0.0025229080019926187
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 3661,
+                  "constraints": 10649,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 136,
+                  "nonzeros": 25292,
+                  "storage_bytes": 692208
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 776,
+                  "constraints": 720,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_magna_graecia"
+              ],
+              "status": "FEASIBLE",
+              "income": 25015.1875,
+              "bound": 28647.265,
+              "gap_percent": 12.678618709325304,
+              "solver_seconds": 1.004470179999771,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05680446699989261,
+                "search_seconds": 0.9454466619972663,
+                "validation_seconds": 0.0005584040009125602
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.000197280001884792,
+                "load_engine_seconds": 2.5779998395591974e-05,
+                "build_model_seconds": 0.1821199070000148,
+                "solve_and_check_seconds": 1.050254058001883,
+                "prepare_result_seconds": 0.005269264998787548,
+                "worker_wall_seconds": 1.239729979999538,
+                "worker_dispatch_seconds": 0.000578657000005478
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2668,
+                  "constraints": 7698,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 125,
+                  "nonzeros": 18366,
+                  "storage_bytes": 502376
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 566,
+                  "constraints": 515,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_makran"
+              ],
+              "status": "FEASIBLE",
+              "income": 22240.735,
+              "bound": 26003.975000000002,
+              "gap_percent": 14.471787486336229,
+              "solver_seconds": 1.0042985229993064,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05279024300034507,
+                "search_seconds": 0.9492869779969624,
+                "validation_seconds": 0.000433501998486463
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00015941200035740621,
+                "load_engine_seconds": 2.443799894535914e-05,
+                "build_model_seconds": 0.15665636799894855,
+                "solve_and_check_seconds": 1.0434856970023247,
+                "prepare_result_seconds": 0.014905569998518331,
+                "worker_wall_seconds": 1.2174505479997606,
+                "worker_dispatch_seconds": 0.0006475890004367102
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2323,
+                  "constraints": 6693,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 112,
+                  "nonzeros": 15974,
+                  "storage_bytes": 436928
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 496,
+                  "constraints": 448,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_mauretania"
+              ],
+              "status": "FEASIBLE",
+              "income": 25647.6875,
+              "bound": 29159.2175,
+              "gap_percent": 12.042607110427427,
+              "solver_seconds": 1.0057822670023597,
+              "solver_timings": {
+                "model_conversion_seconds": 0.13412150499789277,
+                "search_seconds": 0.8692645920018549,
+                "validation_seconds": 0.000560202999622561
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00016050699923653156,
+                "load_engine_seconds": 2.4084998585749418e-05,
+                "build_model_seconds": 0.1991724819999945,
+                "solve_and_check_seconds": 1.054948630000581,
+                "prepare_result_seconds": 0.00616065900248941,
+                "worker_wall_seconds": 1.2624425100002554,
+                "worker_dispatch_seconds": 0.0006151130000944249
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 3104,
+                  "constraints": 8995,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 129,
+                  "nonzeros": 21402,
+                  "storage_bytes": 585616
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 653,
+                  "constraints": 600,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_maxima_sequanorum"
+              ],
+              "status": "FEASIBLE",
+              "income": 23625.1,
+              "bound": 28481.3475,
+              "gap_percent": 17.050624097051593,
+              "solver_seconds": 1.0068395560010686,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05623426700185519,
+                "search_seconds": 0.9482497930002864,
+                "validation_seconds": 0.0004905950008833315
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00028687200028798543,
+                "load_engine_seconds": 2.5904999347403646e-05,
+                "build_model_seconds": 0.1807245050003985,
+                "solve_and_check_seconds": 1.0551913759991294,
+                "prepare_result_seconds": 0.00503898399983882,
+                "worker_wall_seconds": 1.243218594998325,
+                "worker_dispatch_seconds": 0.000618810998275876
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2585,
+                  "constraints": 7482,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 111,
+                  "nonzeros": 17808,
+                  "storage_bytes": 487256
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 554,
+                  "constraints": 506,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_media_atropatene"
+              ],
+              "status": "FEASIBLE",
+              "income": 23950.0,
+              "bound": 28570.945,
+              "gap_percent": 16.17358123786245,
+              "solver_seconds": 1.005816231998324,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04893736499798251,
+                "search_seconds": 0.9544472749985289,
+                "validation_seconds": 0.0005076589986856561
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0001551650020701345,
+                "load_engine_seconds": 2.3684999177930877e-05,
+                "build_model_seconds": 0.1589542129986512,
+                "solve_and_check_seconds": 1.0462142640026286,
+                "prepare_result_seconds": 0.00528834599754191,
+                "worker_wall_seconds": 1.2126927169992996,
+                "worker_dispatch_seconds": 0.0005529299996851478
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2367,
+                  "constraints": 6835,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 108,
+                  "nonzeros": 16288,
+                  "storage_bytes": 445600
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 508,
+                  "constraints": 461,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_mediterraneus_occidentalis"
+              ],
+              "status": "FEASIBLE",
+              "income": 25647.6875,
+              "bound": 28301.795000000002,
+              "gap_percent": 9.377876915580801,
+              "solver_seconds": 1.0049517240004207,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05333843400148908,
+                "search_seconds": 0.9487840149995463,
+                "validation_seconds": 0.0005922540003666654
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0001811299989640247,
+                "load_engine_seconds": 2.436499926261604e-05,
+                "build_model_seconds": 0.17651535800177953,
+                "solve_and_check_seconds": 1.04971109699909,
+                "prepare_result_seconds": 0.006476817998191109,
+                "worker_wall_seconds": 1.2352671090011427,
+                "worker_dispatch_seconds": 0.0005632639986288268
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2680,
+                  "constraints": 7733,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 125,
+                  "nonzeros": 18450,
+                  "storage_bytes": 504672
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 565,
+                  "constraints": 514,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_mediterraneus_orientalis"
+              ],
+              "status": "FEASIBLE",
+              "income": 25647.6875,
+              "bound": 28301.795000000002,
+              "gap_percent": 9.377876915580801,
+              "solver_seconds": 1.0047030870009621,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05759063900040928,
+                "search_seconds": 0.9448439669977233,
+                "validation_seconds": 0.0005341090000001714
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0003142199966532644,
+                "load_engine_seconds": 4.01659999624826e-05,
+                "build_model_seconds": 0.19313605500065023,
+                "solve_and_check_seconds": 1.0500064370025939,
+                "prepare_result_seconds": 0.005863007998414105,
+                "worker_wall_seconds": 1.2514127710019238,
+                "worker_dispatch_seconds": 0.0006752949993824586
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2680,
+                  "constraints": 7733,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 125,
+                  "nonzeros": 18450,
+                  "storage_bytes": 504672
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 565,
+                  "constraints": 514,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_narbonensis"
+              ],
+              "status": "FEASIBLE",
+              "income": 24811.0625,
+              "bound": 28349.940000000002,
+              "gap_percent": 12.482839469854264,
+              "solver_seconds": 1.0052655450017483,
+              "solver_timings": {
+                "model_conversion_seconds": 0.050300119997700676,
+                "search_seconds": 0.9526786679998622,
+                "validation_seconds": 0.0005079720031062607
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00018753800031845458,
+                "load_engine_seconds": 2.4257999029941857e-05,
+                "build_model_seconds": 0.25564394100001664,
+                "solve_and_check_seconds": 1.0458854919997975,
+                "prepare_result_seconds": 0.006122939001215855,
+                "worker_wall_seconds": 1.3099790410014975,
+                "worker_dispatch_seconds": 0.0005585619983321521
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2330,
+                  "constraints": 6718,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 111,
+                  "nonzeros": 16026,
+                  "storage_bytes": 438376
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 496,
+                  "constraints": 449,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_osroene"
+              ],
+              "status": "FEASIBLE",
+              "income": 25696.5625,
+              "bound": 27925.135000000002,
+              "gap_percent": 7.980525429868116,
+              "solver_seconds": 1.0056105820003722,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04328131700094673,
+                "search_seconds": 0.9597289949997503,
+                "validation_seconds": 0.0006086519970267545
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0002487130004737992,
+                "load_engine_seconds": 6.691199814667925e-05,
+                "build_model_seconds": 0.15026125800068257,
+                "solve_and_check_seconds": 1.0423685540008591,
+                "prepare_result_seconds": 0.005334740999387577,
+                "worker_wall_seconds": 1.200255173000187,
+                "worker_dispatch_seconds": 0.000698120999004459
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2143,
+                  "constraints": 6174,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 104,
+                  "nonzeros": 14730,
+                  "storage_bytes": 402920
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 461,
+                  "constraints": 416,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_palaestinea"
+              ],
+              "status": "FEASIBLE",
+              "income": 22412.0,
+              "bound": 24162.365,
+              "gap_percent": 7.244179119055612,
+              "solver_seconds": 1.0052489290028461,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04749783499937621,
+                "search_seconds": 0.9558055830020749,
+                "validation_seconds": 0.00044908400013810024
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00021767600264865905,
+                "load_engine_seconds": 6.476599810412154e-05,
+                "build_model_seconds": 0.1557394289993681,
+                "solve_and_check_seconds": 1.0465054449996387,
+                "prepare_result_seconds": 0.005489712002599845,
+                "worker_wall_seconds": 1.209807015999104,
+                "worker_dispatch_seconds": 0.0005221809988142923
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2327,
+                  "constraints": 6685,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 120,
+                  "nonzeros": 15980,
+                  "storage_bytes": 437008
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 504,
+                  "constraints": 453,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_pannonia"
+              ],
+              "status": "FEASIBLE",
+              "income": 25696.5625,
+              "bound": 28150.7925,
+              "gap_percent": 8.718155980866257,
+              "solver_seconds": 1.00449650599694,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04971215499972459,
+                "search_seconds": 0.953107537003234,
+                "validation_seconds": 0.0003594939989852719
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00021635300072375685,
+                "load_engine_seconds": 6.031600059941411e-05,
+                "build_model_seconds": 0.15091313000084483,
+                "solve_and_check_seconds": 1.0436552169994684,
+                "prepare_result_seconds": 0.005058142000052612,
+                "worker_wall_seconds": 1.201896188002138,
+                "worker_dispatch_seconds": 0.0005178360006539151
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2243,
+                  "constraints": 6463,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 108,
+                  "nonzeros": 15421,
+                  "storage_bytes": 421816
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 480,
+                  "constraints": 433,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_persis"
+              ],
+              "status": "FEASIBLE",
+              "income": 24811.0625,
+              "bound": 28372.735,
+              "gap_percent": 12.553151819872143,
+              "solver_seconds": 1.0055251640005736,
+              "solver_timings": {
+                "model_conversion_seconds": 0.046254867000243394,
+                "search_seconds": 0.9570132510016265,
+                "validation_seconds": 0.00040758899922366254
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00014630200166720897,
+                "load_engine_seconds": 2.304599911440164e-05,
+                "build_model_seconds": 0.15365579499848536,
+                "solve_and_check_seconds": 1.0444075300001714,
+                "prepare_result_seconds": 0.006407656001101714,
+                "worker_wall_seconds": 1.2070109640008013,
+                "worker_dispatch_seconds": 0.0005572510017373133
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2318,
+                  "constraints": 6681,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 111,
+                  "nonzeros": 15942,
+                  "storage_bytes": 436064
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 495,
+                  "constraints": 448,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_phazania"
+              ],
+              "status": "OPTIMAL",
+              "income": 25696.5625,
+              "bound": 25696.5625,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.8483359409983677,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04293838100056746,
+                "search_seconds": 0.8038092099995993,
+                "validation_seconds": 0.0003631530016718898
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00023188399791251868,
+                "load_engine_seconds": 6.729800225002691e-05,
+                "build_model_seconds": 0.14016115999766043,
+                "solve_and_check_seconds": 0.8839090930014208,
+                "prepare_result_seconds": 0.005185513000469655,
+                "worker_wall_seconds": 1.031509055999777,
+                "worker_dispatch_seconds": 0.0006797539972467348
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2147,
+                  "constraints": 6175,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 108,
+                  "nonzeros": 14748,
+                  "storage_bytes": 403360
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 464,
+                  "constraints": 417,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_raetia_et_noricum"
+              ],
+              "status": "FEASIBLE",
+              "income": 25696.5625,
+              "bound": 28246.127500000002,
+              "gap_percent": 9.026246164186585,
+              "solver_seconds": 1.0043643009994412,
+              "solver_timings": {
+                "model_conversion_seconds": 0.053078119999554474,
+                "search_seconds": 0.9492990090002422,
+                "validation_seconds": 0.000426022001192905
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0002569999996921979,
+                "load_engine_seconds": 7.413000275846571e-05,
+                "build_model_seconds": 0.24921957299739006,
+                "solve_and_check_seconds": 1.046631299002911,
+                "prepare_result_seconds": 0.005463896999572171,
+                "worker_wall_seconds": 1.3036374510011228,
+                "worker_dispatch_seconds": 0.0005135800020070747
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2583,
+                  "constraints": 7483,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 108,
+                  "nonzeros": 17794,
+                  "storage_bytes": 486928
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 548,
+                  "constraints": 501,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_sarmatia_asiatica"
+              ],
+              "status": "FEASIBLE",
+              "income": 24619.3,
+              "bound": 28988.1375,
+              "gap_percent": 15.07112176489435,
+              "solver_seconds": 1.0076652579991787,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05976517800081638,
+                "search_seconds": 0.9447660829973756,
+                "validation_seconds": 0.0009676129993749782
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00014058799933991395,
+                "load_engine_seconds": 1.2453001545509323e-05,
+                "build_model_seconds": 0.1796265669981949,
+                "solve_and_check_seconds": 1.0544478869996965,
+                "prepare_result_seconds": 0.006073386000934988,
+                "worker_wall_seconds": 1.2423992570002156,
+                "worker_dispatch_seconds": 0.0007368459991994314
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2785,
+                  "constraints": 8048,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 125,
+                  "nonzeros": 19184,
+                  "storage_bytes": 524808
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 583,
+                  "constraints": 531,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_sarmatia_europaea"
+              ],
+              "status": "FEASIBLE",
+              "income": 25899.25,
+              "bound": 28402.57,
+              "gap_percent": 8.813709463615439,
+              "solver_seconds": 1.0055789619982534,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04989142799968249,
+                "search_seconds": 0.953482172000804,
+                "validation_seconds": 0.0005408420001913328
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00024805000066407956,
+                "load_engine_seconds": 7.628499952261336e-05,
+                "build_model_seconds": 0.16410929300036514,
+                "solve_and_check_seconds": 1.046601774996816,
+                "prepare_result_seconds": 0.005172398003196577,
+                "worker_wall_seconds": 1.2180597719998332,
+                "worker_dispatch_seconds": 0.0005863719998160377
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2505,
+                  "constraints": 7226,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 118,
+                  "nonzeros": 17238,
+                  "storage_bytes": 471528
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 531,
+                  "constraints": 482,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_scandza"
+              ],
+              "status": "FEASIBLE",
+              "income": 25470.875,
+              "bound": 28797.9725,
+              "gap_percent": 11.553235214736038,
+              "solver_seconds": 1.0069976939994376,
+              "solver_timings": {
+                "model_conversion_seconds": 0.060524964002979686,
+                "search_seconds": 0.9434623999986798,
+                "validation_seconds": 0.000509572997543728
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0002258929998788517,
+                "load_engine_seconds": 6.565000148839317e-05,
+                "build_model_seconds": 0.18836283099881257,
+                "solve_and_check_seconds": 1.0544058049999876,
+                "prepare_result_seconds": 0.0050280860014026985,
+                "worker_wall_seconds": 1.2498380659999384,
+                "worker_dispatch_seconds": 0.0005690560028597247
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 3092,
+                  "constraints": 8959,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 129,
+                  "nonzeros": 21318,
+                  "storage_bytes": 583312
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 653,
+                  "constraints": 600,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_scythia"
+              ],
+              "status": "FEASIBLE",
+              "income": 25166.125,
+              "bound": 28372.5,
+              "gap_percent": 11.300995682438982,
+              "solver_seconds": 1.004350164999778,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04994545400040806,
+                "search_seconds": 0.9521393100003479,
+                "validation_seconds": 0.0004289009993954096
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0001399729990225751,
+                "load_engine_seconds": 2.271599805681035e-05,
+                "build_model_seconds": 0.23890906700034975,
+                "solve_and_check_seconds": 1.046964729001047,
+                "prepare_result_seconds": 0.004974777999450453,
+                "worker_wall_seconds": 1.292680909999035,
+                "worker_dispatch_seconds": 0.0005064830002083909
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2567,
+                  "constraints": 7435,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 108,
+                  "nonzeros": 17682,
+                  "storage_bytes": 483856
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 548,
+                  "constraints": 501,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_spahan"
+              ],
+              "status": "FEASIBLE",
+              "income": 25620.16,
+              "bound": 28844.5175,
+              "gap_percent": 11.17840678042197,
+              "solver_seconds": 1.0102005830012786,
+              "solver_timings": {
+                "model_conversion_seconds": 0.04687951800224255,
+                "search_seconds": 0.958964516998094,
+                "validation_seconds": 0.0008503050012222957
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0002585949987405911,
+                "load_engine_seconds": 7.003599966992624e-05,
+                "build_model_seconds": 0.15660150500116288,
+                "solve_and_check_seconds": 1.0540368029978708,
+                "prepare_result_seconds": 0.00725062300261925,
+                "worker_wall_seconds": 1.2203201350021118,
+                "worker_dispatch_seconds": 0.0005348150007193908
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2353,
+                  "constraints": 6786,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 111,
+                  "nonzeros": 16186,
+                  "storage_bytes": 442760
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 499,
+                  "constraints": 451,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_syria"
+              ],
+              "status": "OPTIMAL",
+              "income": 23553.0625,
+              "bound": 23553.0625,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.5821990969998296,
+              "solver_timings": {
+                "model_conversion_seconds": 0.053934266998112435,
+                "search_seconds": 0.5260337990002881,
+                "validation_seconds": 0.0007666279998375103
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00028473500060499646,
+                "load_engine_seconds": 7.068500053719617e-05,
+                "build_model_seconds": 0.17276506299822358,
+                "solve_and_check_seconds": 0.6250846850016387,
+                "prepare_result_seconds": 0.005863244998181472,
+                "worker_wall_seconds": 0.8060655070003122,
+                "worker_dispatch_seconds": 0.0007756999984849244
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2510,
+                  "constraints": 7227,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 123,
+                  "nonzeros": 17258,
+                  "storage_bytes": 472016
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 535,
+                  "constraints": 484,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_tarraconensis"
+              ],
+              "status": "FEASIBLE",
+              "income": 24569.5625,
+              "bound": 29435.595,
+              "gap_percent": 16.531116493483488,
+              "solver_seconds": 1.0047117419999267,
+              "solver_timings": {
+                "model_conversion_seconds": 0.052777491000597365,
+                "search_seconds": 0.9499467799978447,
+                "validation_seconds": 0.0004900500025541987
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.0002146519982488826,
+                "load_engine_seconds": 6.191500142449513e-05,
+                "build_model_seconds": 0.17167063399756444,
+                "solve_and_check_seconds": 1.0469123780021619,
+                "prepare_result_seconds": 0.005276217998471111,
+                "worker_wall_seconds": 1.2258817209985864,
+                "worker_dispatch_seconds": 0.000543350000953069
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2667,
+                  "constraints": 7711,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 118,
+                  "nonzeros": 18369,
+                  "storage_bytes": 502552
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 574,
+                  "constraints": 524,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_thracia"
+              ],
+              "status": "OPTIMAL",
+              "income": 24140.375,
+              "bound": 24140.375,
+              "gap_percent": 0.0,
+              "solver_seconds": 0.3421616310006357,
+              "solver_timings": {
+                "model_conversion_seconds": 0.05077627500213566,
+                "search_seconds": 0.2895243290004146,
+                "validation_seconds": 0.0004249300000083167
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00024788600057945587,
+                "load_engine_seconds": 6.429499990190379e-05,
+                "build_model_seconds": 0.16092156000013347,
+                "solve_and_check_seconds": 0.3857863189987256,
+                "prepare_result_seconds": 0.005846776002726983,
+                "worker_wall_seconds": 0.5547307089982496,
+                "worker_dispatch_seconds": 0.0006527890000143088
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2580,
+                  "constraints": 7437,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 123,
+                  "nonzeros": 17747,
+                  "storage_bytes": 485432
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 546,
+                  "constraints": 494,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_transcarpathia"
+              ],
+              "status": "FEASIBLE",
+              "income": 25166.125,
+              "bound": 28352.9575,
+              "gap_percent": 11.239859192819658,
+              "solver_seconds": 1.0046010760015633,
+              "solver_timings": {
+                "model_conversion_seconds": 0.11869895599738811,
+                "search_seconds": 0.8841649290006899,
+                "validation_seconds": 0.0004360999992059078
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00013894299991079606,
+                "load_engine_seconds": 1.2245000107213855e-05,
+                "build_model_seconds": 0.13613798000005772,
+                "solve_and_check_seconds": 1.0398253359999217,
+                "prepare_result_seconds": 0.00544064099813113,
+                "worker_wall_seconds": 1.183392778999405,
+                "worker_dispatch_seconds": 0.0018204869993496686
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2143,
+                  "constraints": 6173,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 104,
+                  "nonzeros": 14730,
+                  "storage_bytes": 402912
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 460,
+                  "constraints": 415,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_transcaspia"
+              ],
+              "status": "FEASIBLE",
+              "income": 25061.1875,
+              "bound": 28477.9225,
+              "gap_percent": 11.997837974311505,
+              "solver_seconds": 1.0066847430025518,
+              "solver_timings": {
+                "model_conversion_seconds": 0.051570204999734415,
+                "search_seconds": 0.9519200440008717,
+                "validation_seconds": 0.0007235599987325259
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00013542799933929928,
+                "load_engine_seconds": 1.2085001799277961e-05,
+                "build_model_seconds": 0.16579359599927557,
+                "solve_and_check_seconds": 1.048333327002183,
+                "prepare_result_seconds": 0.007196150996605866,
+                "worker_wall_seconds": 1.2234911199993803,
+                "worker_dispatch_seconds": 0.0023468420004064683
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2597,
+                  "constraints": 7518,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 111,
+                  "nonzeros": 17892,
+                  "storage_bytes": 489560
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 554,
+                  "constraints": 506,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_tripolitana"
+              ],
+              "status": "FEASIBLE",
+              "income": 25647.6875,
+              "bound": 28514.9375,
+              "gap_percent": 10.055256126723055,
+              "solver_seconds": 1.005165198999748,
+              "solver_timings": {
+                "model_conversion_seconds": 0.052774055999179836,
+                "search_seconds": 0.9501770310016582,
+                "validation_seconds": 0.00044705400068778545
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00014148199988994747,
+                "load_engine_seconds": 1.223299841512926e-05,
+                "build_model_seconds": 0.17071916200075066,
+                "solve_and_check_seconds": 1.0473610129993176,
+                "prepare_result_seconds": 0.005153115002030972,
+                "worker_wall_seconds": 1.2252105429979565,
+                "worker_dispatch_seconds": 0.002799197998683667
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2680,
+                  "constraints": 7733,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 125,
+                  "nonzeros": 18450,
+                  "storage_bytes": 504672
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 565,
+                  "constraints": 514,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            },
+            {
+              "provinces": [
+                "att_prov_venetia"
+              ],
+              "status": "FEASIBLE",
+              "income": 25882.8125,
+              "bound": 29005.14,
+              "gap_percent": 10.764738594607712,
+              "solver_seconds": 1.005553372000577,
+              "solver_timings": {
+                "model_conversion_seconds": 0.06114475700087496,
+                "search_seconds": 0.9421152209979482,
+                "validation_seconds": 0.0005678850029653404
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.00021846399977221154,
+                "load_engine_seconds": 7.240600098157302e-05,
+                "build_model_seconds": 0.18563569099933375,
+                "solve_and_check_seconds": 1.0534261719985807,
+                "prepare_result_seconds": 0.005532871000468731,
+                "worker_wall_seconds": 1.2477206599978672,
+                "worker_dispatch_seconds": 0.0005082669995317701
+              },
+              "model_complexity": [
+                {
+                  "label": "Attila expanded income model",
+                  "variables": 2997,
+                  "constraints": 8691,
+                  "formulation": "expanded_boolean",
+                  "stage": "reference",
+                  "decision_variables": 122,
+                  "nonzeros": 20673,
+                  "storage_bytes": 565688
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 634,
+                  "constraints": 583,
+                  "formulation": "factored_income",
+                  "stage": "solver",
+                  "decision_variables": null,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            }
+          ],
+          "source_files": {
+            "attila/data/building_culture_variants_table.tsv": "6438a7e52babe196cfae1b52e4330159f48f119c5abd00a5b8d4d488e94a544c",
+            "attila/data/building_effects_junction_table.tsv": "dd95c690b7f7ac4e05106ebcf309628ca15aa5a1056f85507ec258ec115e55a9",
+            "attila/data/cultures_subcultures_table.tsv": "4e27ebec6dbd3c86f93f0b272602b0876333454b372a28925b3a51c604680cc7",
+            "attila/data/factions_table.tsv": "623b48208dee338dd563f5b32a49d85bd929105e72caadb56518a6575b0644a0",
+            "attila/data/provinces.tsv": "fa9b36e5ddda75fb6fa31b96218a555406d4b0047c2bf93ea0fcbbe1fa159905",
+            "attila/data/region_to_provinces_junctions_table.tsv": "f11adfa9d715e7048f1bbf3a74a6c9f64b4292ebf40075f841d9ade0bfb21770",
+            "attila/data/regions.tsv": "3bc3556d1ec349e22bf75b7ff928a1b597e77e40b6b85a3f02b84418b304d6b4",
+            "attila/data/start_pos_region_slot_templates_table.tsv": "12f34565345c74b4c432d71da7f4f8586c52c0f51723f31aa8f2efba0cbbf4d6",
+            "attila/data/online_buildings.json": "7958b74651ad52bb442e737f435079948103412f4770a818e68619fef654ac6e",
+            "attila/data/online_factions.json": "a087b6305d9bd5a3ca831a84f3261ed16ae1dd9a283169a553ef145a7adbaffe",
+            "attila/data/online_modifiers.json": "1b96106a9fbbfd616fdcf200bfecdc0772c48452eaf93bb06863ee2b22e0075e",
+            "attila/economy.py": "621483e3df1b288d34b0a7d3b7a82a287d05f247a25e60da17444ee6eee7d97b",
+            "attila/effect_index.py": "4b4ce42878aa0290b7f63ad19e51b7a3b1461ecd8b2ef5a4f16cff1bd96614b5",
+            "attila/algebra.py": "56cbd0d531ac45df20748847941a23a733bda3a46cc7e0904fb6919a146e993c",
+            "attila/compiler.py": "faa26af5feafd2a39bc7a234cbe00575c5a6c5ce600997e6647c05eb32d0774f",
+            "attila/compact.py": "1489e2cf7a14a9009c9c465913fe1828d54ee7c64c8932b184fff92dbab2ad1e",
+            "attila/reporting.py": "18f57586fb573e213c6cbf2c14e03c5526821be88d498ad2dbbd30b656030696",
+            "attila/scenario.py": "2a1b607fd8d9150a9061df92e84ae295c6e9f5064350bf5292c25deae156300d",
+            "attila/scenario_validation.py": "01d3865b561be2a5717cffecdadbe2fc1979e974c1a825e3d713a6a0f7faff29",
+            "attila/records.py": "275184c851877cb71083359d0217adad715373949e5608fa35d758cda50bb766",
+            "attila/building_rules.py": "2a6ccfe34e6bebd828434ca6fedb22f979a31ab3b26af299146e17529e05cb8c",
+            "attila/special_slots.py": "2fa735c6e6524f7e4bab754eda8dad2955d04de84b5098c495366b328b676a0f",
+            "catalog.py": "1b435dc7ab6e126c8ec980152efe526d2c466d63f1f02698bd845b5862125e0b",
+            "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+            "attila/model.py": "3ecdcad9c29056aef774ea08eb313785862f38628247825d70d22417a2f79603",
+            "context.py": "9180dc72256da412e703048c829d56d96f7fe1837a0aa88b5825537c7d55ae3c",
+            "comparison.py": "bf79c8fe6e10e21a17273cbc332f7c12ced54f02f98ce54265f18b9d9a6902f8",
+            "building.py": "bd2cbf7d7fa018e3c58ceeba950672c772e754f0cf82db15c9ea44a5cd98bd40",
+            "entity.py": "d3fe7dfedf916f986cdff78d9ebcd3e5a89457038d0ccd0ba51b897b8305f00e",
+            "region.py": "83e8d02ce7f85f46fbec88dbb184f6cb74f05d84ead2c619e168816e8cc28e24",
+            "province.py": "9aabfa210d19568e2eb472fc258c5375548effcdbe78cb8105d0c70c0fa776d9",
+            "problem.py": "5da6d4e083ecf2536605399373274cc4a3c4b61efa9cd3087638d7a8bd25487b",
+            "solver_ortools.py": "8404daf043821c9880cef8958e661d72fa4b0f70436103a7fb17195c8f179b2e",
+            "solver_cpsat.py": "348b2760d71d45a2fa0159313d37168609ab013e0a3c5b9b6f2a5e03f209568f",
+            "parser/parser.py": "2e8f049efb1f381155a50fd1abbfc55a861062eb3b23ab5ad6d568b101ee2f95",
+            "parser/parser_attila.py": "7f672ea3d14136e79607dc3941959a49db6341da8d5894cbd3170bf900818439",
+            "competition.py": "d9346b9d80e1dc0dabe99fa3d3a56ed131dbdd513b77bc55ed1c0f898dd56cb1",
+            "sparse.py": "4847ece3e4517fd1b2631de4a036324cb795449ae1a307fc4ec7c4cbd2ef0748",
+            "resources.py": "b05eaf10e77328669b95e919dd800e055469e4334c143229899f69f99bb4da7b",
+            "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+            "attila/data/campaign_map.json": "7224f705401a7e2d0d60c5ea66a67ef640f7557bbcbccf8015d875ce0a808789",
+            "twoptimizer/requests.py": "1314056a1843305ff2e29a8d61fbbc38d35f8d17e5cf98492d246a6bce284e02",
+            "twoptimizer/models.py": "7a7d0dd03928918080d45648df659baf07b486889fd8fff9799bb8dd4353743d",
+            "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+            "twoptimizer/service.py": "79daeab6fbe0a92affd55a47d20f0fab15bc3df1ad248126a4005d65fec40dab",
+            "twoptimizer/session.py": "bbd2639e3e6bdd8c818ea2bacb2badc5c0d68e4dc37c5bb498626cfec1b25bbc",
+            "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+            "twoptimizer/progress.py": "d186fbd503057a01d7ec8f0add655a223a4c88b1817931558157b067f171834c",
+            "twoptimizer/adapters/model_stats.py": "7c54e5a6f81de6cc0555d03212f3a8feb581cc714cc62cda0fdfb91aae2fc5ba",
+            "twoptimizer/adapters/attila.py": "7d8dee95167d1b8c2a4439cb6f8cb41d5dcf059a7cbb0113a61ab0553b8f1df3",
+            "twoptimizer/attila_session.py": "a5c52be8a416cc2d9f444691fd9685189b769ed9099cc284ead741c50e31ba5e"
+          },
+          "last_progress": "Preparing result",
+          "last_model": {
+            "label": "CP-SAT solver input",
+            "variables": 634,
+            "constraints": 583,
+            "formulation": "factored_income",
+            "stage": "solver",
+            "decision_variables": null,
+            "nonzeros": null,
+            "storage_bytes": null
+          },
+          "wall_seconds": 75.17339497099965,
+          "summary": {
+            "completed_cases": 62,
+            "statuses": {
+              "OPTIMAL": 6,
+              "FEASIBLE": 56
+            },
+            "all_optimal": false,
+            "income_sum": 1544569.005,
+            "bound_sum": 1728784.2875,
+            "aggregate_gap_percent": 10.655770290832205,
+            "phase_seconds": {
+              "request_seconds": 0.035469313006615266,
+              "load_engine_seconds": 0.0023338679820881225,
+              "build_model_seconds": 11.089620302995172,
+              "solve_and_check_seconds": 63.077827915014495,
+              "prepare_result_seconds": 0.3535652789978485,
+              "worker_wall_seconds": 75.15553820900459,
+              "worker_startup_seconds": 0.478245076003077,
+              "worker_dispatch_seconds": 0.06713664299968514
+            },
+            "solver_seconds": 60.40818209101053,
+            "solver_timings": {
+              "model_conversion_seconds": 3.4732109290016524,
+              "search_seconds": 56.7989603040005,
+              "validation_seconds": 0.031541639000352006
+            },
+            "model_preparation_seconds": 11.089620302995172,
+            "model_build_and_conversion_seconds": 14.562831231996824,
+            "native_search_seconds": 56.7989603040005,
+            "effective_worker_counts": [
+              4
+            ],
+            "reference_variables_sum": 160011,
+            "reference_constraints_sum": 462355,
+            "solver_variables_sum": 34053,
+            "solver_constraints_sum": 31003
+          },
+          "solver_seconds_per_case": 1.0,
+          "total_configured_solver_seconds": 62.0
+        }
+      ],
+      "summary": {
+        "repeats": 1,
+        "completion_counts": {
+          "COMPLETE": 1
+        },
+        "wall_seconds_min": 75.17339497099965,
+        "wall_seconds_median": 75.17339497099965,
+        "wall_seconds_max": 75.17339497099965,
+        "peak_worker_rss_mib_max": 228.25390625,
+        "all_repeats_optimal": false,
+        "model_build_and_conversion_seconds_median": 14.562831231996824,
+        "native_search_seconds_median": 56.7989603040005
+      }
+    }
+  ],
+  "summary_revision": {
+    "tool_sha256": "a9b3938b4f5102f6f0d5a14e55cd299dd401a0d45be579f6c71bf18a303f893a",
+    "at_utc": "2026-11-08T06:00:25.818788+00:00",
+    "reason": "Clarify configured solver allowance versus actual native search, and leave unavailable build/conversion timing unknown. Numeric case observations are unchanged; environment.benchmark_sha256 retains the execution harness hash."
+  }
+}
