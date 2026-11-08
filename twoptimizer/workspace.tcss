@@ -22,6 +22,10 @@ TabPane { padding: 0; }
 DataTable { height: 1fr; background: #101b2c; }
 #selection { height: auto; min-height: 2; padding: 0 1; color: #b4c9dd; }
 #layout-summary { height: auto; padding: 0 1; color: #b4c9dd; }
+#constraint-cost-summary, #constraint-changes-note {
+    height: auto; padding: 0 1; color: #b4c9dd;
+}
+#compare-constraints { width: 100%; height: auto; }
 #run-status { width: 1fr; height: 2; padding-left: 1; }
 #activity { height: 2; }
 #model-size { height: auto; padding: 0 1; color: #b4c9dd; }

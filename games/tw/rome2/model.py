@@ -37,7 +37,11 @@ class Economy:
     def __init__(self, scenario: Scenario, data: Catalog | None = None, *, required_candidates=()):
         self.data = load_data() if data is None else freeze(data)
         self.scenario = scenario
-        self.required_candidates = set(scenario.required_buildings) | set(required_candidates)
+        self.required_candidates = (
+            set(scenario.required_buildings)
+            | set(scenario.retained_buildings)
+            | set(required_candidates)
+        )
         self.decisions: dict[str, tuple[str, str]] = {}
         self.party_variables: dict[str, int] = {}
         self._validate_scenario(scenario)

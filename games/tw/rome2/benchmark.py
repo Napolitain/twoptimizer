@@ -15,9 +15,12 @@ from games.tw.rome2.provenance import model_fingerprint
 from twoptimizer import service
 from twoptimizer.adapters.rome2 import prepare_scenario, request_key
 from twoptimizer.cli_constraints import (
+    COMPARISON_FIELDS,
     add_constraint_options,
+    comparison_csv,
     constraint_csv,
     constraint_metadata,
+    print_comparison,
     read_constraints,
 )
 from twoptimizer.cli_holdings import add_holding_options, read_borders
@@ -240,6 +243,7 @@ def main(argv=None):
             "public_order",
             "seconds",
             *csv_constraints,
+            *(COMPARISON_FIELDS if args.compare_constraints else ()),
         ]
         with args.output.with_suffix(".csv").open("w", newline="") as stream:
             writer = csv.DictWriter(stream, fieldnames=fields, lineterminator="\n")
@@ -266,6 +270,7 @@ def main(argv=None):
                             )
                         ),
                         **csv_constraints,
+                        **(comparison_csv(case) if args.compare_constraints else {}),
                     }
                 )
 
@@ -301,6 +306,7 @@ def main(argv=None):
             f"income={case.income} bound={solver.bound} ({solver.seconds:.2f}s)",
             flush=True,
         )
+        print_comparison(result)
     payload["cases"] = list(cases.values())
     return payload
 
@@ -321,6 +327,7 @@ def request_from_args(args) -> RunRequest:
             joint=args.joint,
             adjacency=read_borders(args, "rome2"),
             constraints=read_constraints(args, "rome2"),
+            compare_constraints=args.compare_constraints,
         ),
         factions=tuple(args.faction or ()),
         provinces=tuple(args.province or args.layout or ("inland", "coastal", "grain")),
@@ -343,6 +350,10 @@ def _load_previous(args, output, source_hash, model_hash, previous):
     cases = {}
     if args.resume and output.exists():
         previous = json.loads(output.read_text())
+        if bool(previous.get("compare_constraints", False)) != args.compare_constraints:
+            raise ApplicationError(
+                "Cannot change constraint-comparison mode when resuming a report"
+            )
         if previous.get("constraints") != constraint_metadata(args, "rome2").get("constraints"):
             raise ApplicationError(
                 "Cannot change optional constraints when resuming a report; "

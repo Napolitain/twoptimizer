@@ -12,7 +12,11 @@ def identifiers(values):
 
 
 def validate(scenario, known, candidates):
-    requested = set(scenario.required_buildings) | set(scenario.forbidden_buildings)
+    requested = (
+        set(scenario.required_buildings)
+        | set(scenario.forbidden_buildings)
+        | set(scenario.retained_buildings)
+    )
     unknown = requested - set(known)
     if unknown:
         raise ValueError(f"Unknown building IDs in requirements: {sorted(unknown)}")
@@ -26,7 +30,7 @@ def validate(scenario, known, candidates):
 def fields(scenario):
     return {
         key: list(getattr(scenario, key))
-        for key in ("required_buildings", "forbidden_buildings")
+        for key in ("required_buildings", "forbidden_buildings", "retained_buildings")
         if getattr(scenario, key)
     }
 

@@ -101,6 +101,26 @@ rules and province targets without discarding caller input. Report metadata and
 scenario identity retain nondefault constraints so proof reuse and resume cannot
 silently cross requirements.
 
+`RunConfig.compare_constraints` opts into the shared service's two-sided solve.
+`constraint_comparison.baseline_config` removes only application building and
+minimum-influence requirements, preserving the rest of the scenario. Rome's
+`comparison_candidates` retains candidates exposed by an explicit requirement
+when that requirement is relaxed; otherwise economic candidate pruning could
+make the purported baseline a different feasible set. Advanced Attila campaign
+constraints remain active on both sides.
+
+`constraint_comparison.compare_results` checks scenario/source compatibility and
+uses validated incumbent incomes and solver bounds to report optimum-loss bounds.
+Exact loss requires two `OPTIMAL` results. The observed incumbent difference is
+kept separate and may be negative without establishing a saving. The service
+stores the summary, multiset building differences and complete baseline result
+in `raw.constraint_comparison`; aggregate timings/model labels cover both solves.
+Each solve receives the configured time cap. An enabled comparison with no active
+application requirements runs once and records an unavailable explanation.
+The TUI checkbox/tab and CLI `--compare-constraints` use this same service path.
+Rome resume requires unchanged comparison mode and retries unproved costs unless
+the caller explicitly requests `--fill-missing`.
+
 `twoptimizer.requests.make_jobs`, exposed through `twoptimizer.service`, resolves
 province/faction identities, validates common and game-specific options, applies
 research availability rules and expands the batch. `default_config` supplies the
@@ -194,6 +214,10 @@ time limit and uses automatic workers.
 | `attila-factions` | Settled playable factions; independent Aegyptus, Thracia and Germania; fertility 5; Orthodox; all technologies; CP-SAT | Province selection, religion, fertility, NPC factions with horde exclusions, validated proof reuse and resume |
 | `rome2` | All imported factions on independent inland/coastal/grain reference layouts; portfolio; research bonuses disabled | Repeated named provinces/layouts, factions and solvers; public/archived research; world bonuses; resume/fill-missing, warm hints and portable proof reuse |
 | `shogun2` | All imported clans jointly owning Sado, Settsu and Owari; native/barren/very fertile soil comparisons; CP-SAT; all arts | Repeated joint provinces, clans, soils and exact solvers; fixed town wealth and tax |
+
+The TUI and the `attila`, `rome2` and `shogun2` commands also expose optional
+building requirements and their income-cost comparison. Comparison remains off
+unless requested; enabling it does not change the normal time-limit or CPU policy.
 
 The shared request supports advanced CLI cases even though the TUI does not expose
 all of those controls. Adding an interface option should translate into these

@@ -18,8 +18,8 @@ from games.tw.competition import ALGORITHMS
 from games.tw.models.game_attila import AttilaGame
 from twoptimizer import service
 from twoptimizer.adapters.attila import comparison_report
-from twoptimizer.catalog import ROOT
-from twoptimizer.cli_constraints import add_constraint_options, read_constraints
+from twoptimizer.catalog import NOTES, ROOT
+from twoptimizer.cli_constraints import add_constraint_options, print_comparison, read_constraints
 from twoptimizer.cli_holdings import add_holding_options, read_borders
 from twoptimizer.models import AttilaOptions, RegionFertility, RunConfig, RunRequest
 from twoptimizer.session import RunSession
@@ -105,6 +105,7 @@ def request_from_args(args) -> RunRequest:
         joint=args.joint,
         adjacency=read_borders(args, "attila"),
         constraints=read_constraints(args, "attila"),
+        compare_constraints=args.compare_constraints,
         attila=AttilaOptions(
             campaign=campaign,
             technologies=None if args.technology is None else tuple(args.technology),
@@ -170,6 +171,7 @@ def main(argv=None):
         "settings": settings,
         "ortools_version": ortools.__version__,
         "data_sha256": _source_digest(),
+        "model_assumptions": NOTES["attila"],
         "cases": [],
     }
     print(
@@ -198,6 +200,7 @@ def _print_case(case, fertility):
             f"{case['province_name'][:24]:24} {fertility:5g} {result['algorithm']:12} "
             f"{result['status']:18} {gdp:>10} {result['seconds']:8.3f} {gap:>10}"
         )
+        print_comparison(result)
 
 
 if __name__ == "__main__":

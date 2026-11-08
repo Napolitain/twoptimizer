@@ -7,6 +7,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from twoptimizer.cli_constraints import COMPARISON_FIELDS, comparison_csv
+
 
 def export_session(
     path: str | Path,
@@ -70,6 +72,9 @@ def export_session(
         "adjacency_directed",
         "constraints",
     )
+    include_comparison = any("constraint_comparison" in row.get("raw", {}) for row in results)
+    if include_comparison:
+        fields += COMPARISON_FIELDS
     with csv_path.open("w", newline="") as stream:
         writer = csv.DictWriter(stream, fieldnames=fields)
         writer.writeheader()
@@ -112,6 +117,7 @@ def export_session(
                     "adjacency_mode": row.get("raw", {}).get("map_context", {}).get("mode"),
                     "adjacency_directed": row.get("raw", {}).get("map_context", {}).get("directed"),
                     "constraints": json.dumps(row["request"].get("constraints", {})),
+                    **(comparison_csv(row.get("raw", {})) if include_comparison else {}),
                 }
             )
     return path, csv_path

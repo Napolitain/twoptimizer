@@ -59,7 +59,17 @@ class RomeSession:
         from twoptimizer.adapters.rome2 import request_key
 
         previous = self.cases.get(request_key(config))
-        return previous is not None and (fill_missing or previous["solver"]["status"] == "OPTIMAL")
+        if previous is None or fill_missing:
+            return previous is not None
+        if config.compare_constraints:
+            from twoptimizer.constraint_comparison import has_requirements
+
+            if (
+                has_requirements(config)
+                and previous.get("constraint_comparison", {}).get("status") != "exact"
+            ):
+                return False
+        return previous["solver"]["status"] == "OPTIMAL"
 
     def solve(self, economy: Economy, config: RunConfig) -> dict[str, Any]:
         scenario = economy.scenario.to_dict()

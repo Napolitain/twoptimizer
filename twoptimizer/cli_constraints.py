@@ -9,6 +9,14 @@ from twoptimizer.constraint_options import ConstraintOptions
 def add_constraint_options(parser: argparse.ArgumentParser, game: str) -> None:
     group = parser.add_argument_group("optional constraints")
     group.add_argument(
+        "--compare-constraints",
+        action="store_true",
+        help=(
+            "Also solve without optional building/influence requirements to compare income; "
+            "faith, contact and campaign inputs stay fixed. Each solve gets the selected time limit"
+        ),
+    )
+    group.add_argument(
         "--require-building",
         action="append",
         default=[],
@@ -60,7 +68,10 @@ def read_constraints(args: argparse.Namespace, game: str) -> ConstraintOptions:
 
 def constraint_metadata(args: argparse.Namespace, game: str) -> dict:
     options = read_constraints(args, game)
-    return {} if options == ConstraintOptions() else {"constraints": options.to_dict()}
+    metadata: dict = {} if options == ConstraintOptions() else {"constraints": options.to_dict()}
+    if args.compare_constraints:
+        metadata["compare_constraints"] = True
+    return metadata
 
 
 def constraint_csv(args: argparse.Namespace, game: str) -> dict[str, str]:
@@ -68,3 +79,47 @@ def constraint_csv(args: argparse.Namespace, game: str) -> dict[str, str]:
         key: json.dumps(value, sort_keys=True)
         for key, value in constraint_metadata(args, game).items()
     }
+
+
+COMPARISON_FIELDS = (
+    "comparison_status",
+    "baseline_income",
+    "constraint_cost",
+    "constraint_cost_lower",
+    "constraint_cost_upper",
+    "observed_income_difference",
+)
+
+
+def comparison_csv(raw: dict) -> dict:
+    comparison = raw.get("constraint_comparison", {})
+    return dict(
+        zip(
+            COMPARISON_FIELDS,
+            (
+                comparison.get("status"),
+                comparison.get("baseline_income"),
+                comparison.get("exact_cost"),
+                comparison.get("cost_lower"),
+                comparison.get("cost_upper"),
+                comparison.get("observed_income_difference"),
+            ),
+            strict=True,
+        )
+    )
+
+
+def print_comparison(raw: dict) -> None:
+    comparison = raw.get("constraint_comparison")
+    if not comparison:
+        return
+    if comparison.get("status") == "exact":
+        print(f"  Proven income cost of requirements: {comparison['exact_cost']:.3f}", flush=True)
+    elif comparison.get("status") == "bounded":
+        upper = comparison.get("cost_upper")
+        label = "unknown" if upper is None else f"{upper:.3f}"
+        print(
+            f"  Income cost remains unproved: {comparison['cost_lower']:.3f} to {label}", flush=True
+        )
+    else:
+        print(f"  Constraint comparison unavailable: {comparison.get('reason', '')}", flush=True)

@@ -57,6 +57,28 @@ The same dialog offers game-specific religious settings:
 These optional restrictions leave income as the optimization objective. Without
 them, existing default behavior is unchanged.
 
+Enable **Compare income without requirements** to run the selected case and a
+baseline with only the optional required buildings, forbidden buildings and
+religious-influence minimum removed. Both runs retain the same faith, Nanban
+contact, advanced campaign rules, world settings and available building choices.
+For example, comparing a Christian Shogun temple requirement keeps Christianity
+in both runs. Attila targets or building rules supplied through an advanced
+campaign scenario also stay in both runs.
+
+Select a completed row and open **Constraint cost** to inspect income with and
+without those requirements and the added/removed buildings. The tab reports a
+**proven income loss** only when both runs reach `OPTIMAL`. If feasible runs remain
+unfinished, it shows bounds on the optimum income loss and separately labels the
+observed difference between their current layouts. That observed difference can
+be negative without proving an economic benefit from the requirements. Building
+changes can also reflect tied alternatives. Missing feasible results produce an
+unavailable comparison rather than an assumed zero cost.
+
+Comparison is off by default. Enabling it can perform two solves for each case;
+each receives the configured per-case time limit, if one was supplied. Without
+active building or influence requirements, it performs no extra solve and reports
+that there is nothing to compare. Normal run defaults remain unchanged.
+
 - Mouse clicks, wheel scrolling, arrows, Enter and Tab/Shift+Tab navigate the UI.
 - **Ctrl+R:** run; **Esc:** cancel the active batch; **Ctrl+Q:** quit.
 - **Ctrl+S:** export JSON and CSV; **F1:** keyboard help and model-status meanings.
@@ -136,6 +158,10 @@ source details and limitations. CSV includes the effective adjacency, its mode,
 and a direction flag; Attila campaign pairs retain source-to-recipient direction.
 Nondefault optional settings are stored in each shared JSON `request.constraints`;
 the matching CSV `constraints` column contains the same JSON object.
+Comparison JSON stores the cost summary, changed buildings and full baseline
+result under `raw.constraint_comparison`. CSV adds comparison status, baseline
+income, exact cost when known, lower/upper cost bounds and the observed difference.
+An empty bound or exact-cost field means unavailable, not zero.
 Cancel stops the active worker
 and preserves completed cases. The CLI retains campaign JSON inputs and its existing
 advanced options.
@@ -218,13 +244,33 @@ their scenario/results. When resuming a Rome II report, repeat the original
 constraint flags; resume rejects changed or omitted nondefault constraints.
 These examples run to completion unless you add an explicit `--seconds` limit.
 
+All three optimizer CLIs support `--compare-constraints`:
+
+```sh
+uv run --locked twoptimizer rome2 --faction rom_rome --province Italia \
+  --require-building rome_religious_jupiter_3 --compare-constraints
+```
+
+The CLI prints a proved cost or unresolved bounds and preserves both sides in
+the report. The [worked comparison examples](constraint-cost-examples.md) show
+actual CLI and worker results for all three games, including a zero-cost
+requirement. Repeat `--compare-constraints` when resuming a Rome II comparison;
+resume cannot change comparison mode. A comparison whose income cost remains
+unproved is retried on ordinary resume even if the constrained case is optimal.
+`--fill-missing` retains existing cases and only fills absent ones.
+
 An all-province joint problem maximizes the selected realm's total income. An
 independent batch solves a separate hypothetical realm for each province; adding
 those results does not enforce shared food, uniqueness or cross-province bonuses.
 Joint problems can take longer to prove optimal. Cancellation and optional time
-limits remain available; no limit is imposed by default. A solver time limit
-limits search, not catalog loading, model compilation or result validation;
+limits remain available; no limit is imposed by default. The configured time
+limit is a solver allowance, not a wall-clock deadline. Some backends charge model
+conversion against it; loading, compilation and result validation can make total
+wall time exceed it.
 Cancel also stops a case during those preparation stages.
+The [holding-performance report](holding-performance.md) records the current
+small/all-province, joint/independent solver matrix, including resource limits and
+unfinished results; those limits are benchmark settings, not application defaults.
 
 For a measured all-65-province Shogun 2 case (Oda, all arts, native soil,
 CP-SAT, one solver worker), independent TUI batches fell from **39.59 seconds**
@@ -297,6 +343,13 @@ uv run --frozen python -m games.tw.attila.tools.import_map
 The [Rome II special-building audit](../games/tw/rome2/data/special_buildings_coverage.json)
 records the missing rules and the official construction-manual evidence. These
 coverage limits matter when interpreting an optimum as a campaign result.
+The latest [Rome II evidence review](rome-special-audit.md) expands the per-building
+requirements audit without enabling any of the 35 excluded level-five buildings.
+The [Attila evidence review](attila-special-audit.md) identifies a missing
+faction-capital restriction for some legendary civic buildings; exact vanilla
+per-ID flags remain unavailable. Current Attila layouts can therefore overstate
+attainable campaign income. No new legendary unlocks or guessed caps were added
+by these audits.
 
 ## Run Rome II
 

@@ -108,6 +108,7 @@ def source_files(game):
         application / "requests.py",
         application / "models.py",
         application / "constraint_options.py",
+        application / "constraint_comparison.py",
         application / "service.py",
         application / "session.py",
         application / "holdings.py",

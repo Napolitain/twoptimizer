@@ -23,6 +23,11 @@ from textual.widgets import (
 
 from games.tw.maps.catalog import province_borders
 from twoptimizer.catalog import EXACT, GAMES, NOTES, choices, faction_name
+from twoptimizer.comparison_presentation import (
+    COMPARISON_EMPTY,
+    comparison_rows,
+    comparison_summary,
+)
 from twoptimizer.constraint_catalog import building_choices
 from twoptimizer.constraint_options import ConstraintOptions
 from twoptimizer.constraint_picker import ConstraintPicker, constraint_count
@@ -101,6 +106,9 @@ class OptimizerApp(App):
             table.add_column(label, key=key, width=width)
         table.fixed_columns = 1
         self.query_one("#buildings", DataTable).add_columns("Region", "Building", "Source ID")
+        self.query_one("#constraint-changes", DataTable).add_columns(
+            "Change", "Region", "Building", "Source ID"
+        )
         self.query_one("#spinner").display = False
         self._configure_game()
         self.set_interval(0.5, self._tick)
@@ -118,6 +126,7 @@ class OptimizerApp(App):
         self._loading_settings = True
         self.province_selection = ProvinceSelection()
         self.constraint_options = ConstraintOptions()
+        self.query_one("#compare-constraints", Checkbox).value = False
         game = str(self.query_one("#game", Select).value)
         options = choices(game)
         available = game in EXACT
@@ -294,6 +303,7 @@ class OptimizerApp(App):
                 if self.province_selection.joint
                 else None,
                 constraints=self.constraint_options,
+                compare_constraints=self.query_one("#compare-constraints", Checkbox).value,
             )
         except ValueError as error:
             raise ValueError("Enter numeric values for the selected settings.") from error
@@ -320,6 +330,7 @@ class OptimizerApp(App):
             f"Optional constraints… ({count})" if count else "Optional constraints…"
         )
         constraint_button.disabled = str(self.query_one("#game", Select).value) not in EXACT
+        self.query_one("#compare-constraints", Checkbox).disabled = constraint_button.disabled
         self.query_one("#time-options").display = self.query_one("#time-limit", Checkbox).value
         try:
             config = self._config()
@@ -331,7 +342,10 @@ class OptimizerApp(App):
             self.query_one("#preview", Static).update(str(error))
             self.query_one("#run", Button).disabled = True
         else:
-            self.query_one("#preview", Static).update(query_summary(config, jobs, skipped))
+            preview = query_summary(config, jobs, skipped)
+            if config.compare_constraints:
+                preview += "\nComparison: up to 2 solves per case; limit applies to each solve."
+            self.query_one("#preview", Static).update(preview)
             self.query_one("#run", Button).disabled = not jobs
 
     @on(Button.Pressed, "#run")
@@ -570,6 +584,11 @@ class OptimizerApp(App):
         table.clear()
         for building in result["buildings"]:
             table.add_row(building["region"], building["building"], building["id"])
+        self.query_one("#constraint-cost-summary", Static).update(comparison_summary(result))
+        changes = self.query_one("#constraint-changes", DataTable)
+        changes.clear()
+        for row in comparison_rows(result):
+            changes.add_row(*row)
 
     @on(Button.Pressed, "#cancel")
     async def cancel_button(self):
@@ -607,6 +626,8 @@ class OptimizerApp(App):
         self._reset_model_size("available after compilation")
         self.query_one("#results", DataTable).clear()
         self.query_one("#buildings", DataTable).clear()
+        self.query_one("#constraint-changes", DataTable).clear()
+        self.query_one("#constraint-cost-summary", Static).update(COMPARISON_EMPTY)
         for key in ("income", "bound", "status"):
             self.query_one("#" + key, Static).update("—")
         self.query_one("#selection", Static).update("No results yet. Choose settings and Run.")

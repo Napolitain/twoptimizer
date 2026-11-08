@@ -34,6 +34,7 @@ def prepare_scenario(config: RunConfig) -> Scenario:
         _base_scenario(config),
         required_buildings=config.constraints.required_buildings,
         forbidden_buildings=config.constraints.forbidden_buildings,
+        retained_buildings=config.comparison_candidates,
     )
 
 

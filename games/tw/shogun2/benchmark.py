@@ -12,8 +12,10 @@ from games.tw.shogun2.effects import family, parse
 from twoptimizer import service
 from twoptimizer.cli_constraints import (
     add_constraint_options,
+    comparison_csv,
     constraint_csv,
     constraint_metadata,
+    print_comparison,
     read_constraints,
 )
 from twoptimizer.models import RunConfig, RunRequest
@@ -204,6 +206,7 @@ def main(argv=None):
             f"{case.income} ({case.solver.seconds:.3f}s)",
             flush=True,
         )
+        print_comparison(result)
     for (soil, _, holdings), first in first_results.items():
         result = first.raw
         rows.append(
@@ -217,6 +220,7 @@ def main(argv=None):
                 "food_surplus": first.metrics.get("food_surplus"),
                 "status": first.solver.status,
                 **constraint_csv(args, "shogun2"),
+                **(comparison_csv(result) if args.compare_constraints else {}),
                 **{
                     key: result.get("provinces", {}).get(key, {}).get("tax_income")
                     for key in provinces
@@ -262,6 +266,7 @@ def request_from_args(args) -> RunRequest:
             town_wealth=args.town_wealth,
             tax=args.tax,
             constraints=read_constraints(args, "shogun2"),
+            compare_constraints=args.compare_constraints,
         ),
         factions=tuple(args.clan or ()),
         provinces=tuple(args.province or ("jap_sado", "jap_settsu", "jap_owari")),

@@ -79,6 +79,8 @@ def validate_case(config: RunConfig) -> None:
     if not isinstance(config.constraints, ConstraintOptions):
         raise ApplicationError("Optional constraints must use ConstraintOptions.")
     config.constraints.validate_game(config.game)
+    if config.comparison_candidates and config.game != "rome2":
+        raise ApplicationError("Retained comparison candidates require the Rome II model.")
     if config.seconds is not None and (not _finite_number(config.seconds) or config.seconds <= 0):
         raise ApplicationError("Time limit must be positive, or disabled to run to completion.")
     _positive_integer(config.workers, "Workers")
@@ -98,6 +100,7 @@ def _validate_flags(config: RunConfig) -> None:
     for value, label in (
         (config.joint, "Joint mode"),
         (config.world_bonuses, "World bonuses"),
+        (config.compare_constraints, "Constraint comparison"),
         (config.attila.military, "Military buildings"),
     ):
         if not isinstance(value, bool):

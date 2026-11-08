@@ -21,6 +21,7 @@ from textual.widgets import (
 )
 
 from twoptimizer.catalog import GAMES
+from twoptimizer.comparison_presentation import COMPARISON_EMPTY
 
 
 def compose_workspace() -> ComposeResult:
@@ -39,6 +40,9 @@ def compose_workspace() -> ComposeResult:
                 yield Button("Multiple provinces…", id="choose-provinces")
                 yield Button("Neighboring provinces…", id="choose-borders")
                 yield Button("Optional constraints…", id="choose-constraints")
+                yield Checkbox(
+                    "Compare income without requirements", value=False, id="compare-constraints"
+                )
                 yield Label("Research", classes="field-label")
                 yield Select([("Loading…", "loading")], allow_blank=False, id="research")
                 with Vertical(classes="option-group", id="rome-options"):
@@ -112,6 +116,14 @@ def compose_workspace() -> ComposeResult:
                         markup=False,
                     )
                     yield DataTable(id="buildings", cursor_type="row", zebra_stripes=True)
+                with TabPane("Constraint cost", id="constraint-cost-pane"):
+                    yield Static(COMPARISON_EMPTY, id="constraint-cost-summary", markup=False)
+                    yield Static(
+                        "Changes in the layout with requirements compared with the baseline:",
+                        id="constraint-changes-note",
+                        markup=False,
+                    )
+                    yield DataTable(id="constraint-changes", cursor_type="row", zebra_stripes=True)
                 with (
                     TabPane("Model size", id="complexity-pane"),
                     VerticalScroll(id="complexity-scroll"),

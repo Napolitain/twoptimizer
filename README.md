@@ -30,6 +30,9 @@ the game's applicable bonuses and constraints.
 Use **Optional constraints…** to require or forbid specific buildings, set an
 Attila religious-influence minimum, or choose Shogun 2 religion and Nanban contact.
 These options retain the income objective and the game's modeled availability rules.
+Enable **Compare income without requirements** to measure their income cost and
+inspect changed buildings in the **Constraint cost** tab. Exact loss is reported
+when both optima are proved; unfinished solves show bounds instead.
 The query preview shows batch scope before Run. **Model size** displays compiled
 variable and constraint counts, with separate reference and solver formulations.
 
@@ -61,4 +64,7 @@ for optimization in the UI.
 - [Rome II model](games/tw/rome2/README.md)
 - [Shogun 2 model](games/tw/shogun2/README.md)
 - [Data preparation and coverage](games/tw/multigame/README.md)
+- [Joint and independent holding performance](docs/holding-performance.md)
+- [Attila special-building audit](docs/attila-special-audit.md)
+- [Rome II special-building audit](docs/rome-special-audit.md)
 - [Agent and development guidelines](AGENTS.md)

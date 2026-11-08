@@ -39,6 +39,15 @@ effect points, not population percentages. Shogun 2 offers state religion and
 Nanban contact; Ikko requires Ikko Ikki. Rome II temples can be required by ID,
 but religious conversion is not modeled. Income remains the objective.
 
+**Compare income without requirements** adds a baseline run that removes only
+optional required/forbidden buildings and the influence minimum. Faith, Nanban
+contact, advanced campaign rules, world settings and available choices stay fixed.
+Select a result and open **Constraint cost** for the income loss and changed
+buildings. Exact loss requires both optima to be proved; unfinished results show
+bounds and label current-layout differences separately. Comparison can perform
+two solves per case, each with the configured time limit. With no active building
+or influence requirements, it performs no extra solve.
+
 Mouse clicks, wheel scrolling, **Tab / Shift+Tab**, **arrow keys** and **Enter**
 work throughout. Selects support typing to search. Click a result or move with
 the arrows to inspect its income, bound and building layout. **Enter** opens the

@@ -85,11 +85,12 @@ class Scenario:
     world_profile: str | None = None
     required_buildings: tuple[str, ...] = ()
     forbidden_buildings: tuple[str, ...] = ()
+    retained_buildings: tuple[str, ...] = ()  # Optional candidates kept when relaxing requirements.
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "sites", tuple(self.sites))
         object.__setattr__(self, "modifiers", tuple(self.modifiers))
-        for key in ("required_buildings", "forbidden_buildings"):
+        for key in ("required_buildings", "forbidden_buildings", "retained_buildings"):
             object.__setattr__(self, key, identifiers(getattr(self, key)))
         if set(self.required_buildings) & set(self.forbidden_buildings):
             raise ValueError("A building cannot be both required and forbidden")
@@ -107,7 +108,7 @@ class Scenario:
     def to_dict(self) -> dict:
         data = asdict(self)
         data["modifiers"] = [modifier.to_dict() for modifier in self.modifiers]
-        for key in ("required_buildings", "forbidden_buildings"):
+        for key in ("required_buildings", "forbidden_buildings", "retained_buildings"):
             if not data[key]:
                 del data[key]
         return thaw(data)

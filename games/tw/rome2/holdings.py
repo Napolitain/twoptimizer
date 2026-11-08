@@ -24,7 +24,15 @@ class HoldingScenario(Scenario):
     adjacency: tuple[tuple[str, str], ...] = ()
 
     @classmethod
-    def from_provinces(cls, provinces, adjacency, *, required_buildings=(), forbidden_buildings=()):
+    def from_provinces(
+        cls,
+        provinces,
+        adjacency,
+        *,
+        required_buildings=(),
+        forbidden_buildings=(),
+        retained_buildings=(),
+    ):
         provinces = tuple(provinces)
         if not provinces:
             raise ValueError("Joint holdings require at least one province")
@@ -53,6 +61,7 @@ class HoldingScenario(Scenario):
             technology_profile=provinces[0].technology_profile,
             required_buildings=required_buildings,
             forbidden_buildings=forbidden_buildings,
+            retained_buildings=retained_buildings,
         )
 
     @classmethod
@@ -62,6 +71,7 @@ class HoldingScenario(Scenario):
             record["adjacency"],
             required_buildings=record.get("required_buildings", ()),
             forbidden_buildings=record.get("forbidden_buildings", ()),
+            retained_buildings=record.get("retained_buildings", ()),
         )
         expected = result.to_dict()
         if set(record) != set(expected) or any(
@@ -91,13 +101,18 @@ class HoldingEconomy(Economy):
             scenario.adjacency,
             required_buildings=scenario.required_buildings,
             forbidden_buildings=scenario.forbidden_buildings,
+            retained_buildings=scenario.retained_buildings,
         )
         if validated != scenario:
             raise ValueError("Use HoldingScenario.from_provinces for consistent joint settings")
         self.scenario = scenario
         self.data = load_data() if data is None else freeze(data)
         self.locals = {
-            p.name: Economy(p, self.data, required_candidates=scenario.required_buildings)
+            p.name: Economy(
+                p,
+                self.data,
+                required_candidates=(*scenario.required_buildings, *scenario.retained_buildings),
+            )
             for p in scenario.provinces
         }
         if not self.locals:

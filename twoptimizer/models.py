@@ -84,8 +84,12 @@ class RunConfig:
     technology_profile: str = "public"
     attila: AttilaOptions = field(default_factory=AttilaOptions)
     constraints: ConstraintOptions = field(default_factory=ConstraintOptions)
+    compare_constraints: bool = False
+    comparison_candidates: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
+        candidates = ConstraintOptions(required_buildings=self.comparison_candidates)
+        object.__setattr__(self, "comparison_candidates", candidates.required_buildings)
         if self.provinces is not None:
             object.__setattr__(self, "provinces", tuple(self.provinces))
         if self.adjacency is not None:
@@ -100,7 +104,14 @@ class RunConfig:
         data = {
             key: getattr(self, key)
             for key in self.__dataclass_fields__
-            if key not in {"technology_profile", "attila", "constraints"}
+            if key
+            not in {
+                "technology_profile",
+                "attila",
+                "constraints",
+                "compare_constraints",
+                "comparison_candidates",
+            }
         }
         data["provinces"] = None if self.provinces is None else list(self.provinces)
         data["adjacency"] = (
@@ -112,6 +123,10 @@ class RunConfig:
             data["attila"] = self.attila.to_dict()
         if self.constraints != ConstraintOptions():
             data["constraints"] = self.constraints.to_dict()
+        if self.compare_constraints:
+            data["compare_constraints"] = True
+        if self.comparison_candidates:
+            data["comparison_candidates"] = list(self.comparison_candidates)
         return data
 
     @classmethod

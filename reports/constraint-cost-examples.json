@@ -1,0 +1,557 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-11-08T06:02:27.848179+00:00",
+  "purpose": "Functional comparison evidence, not a performance benchmark or cross-game income ranking.",
+  "baseline_revision": "6e03a72f0f56a9f26266fa875f0e265143eea5a7",
+  "source_state": "Working tree with the constraint-comparison feature; per-case source hashes identify the measured code/data.",
+  "python": "3.14.9",
+  "packages": {
+    "ortools": "9.15.6755",
+    "numpy": "2.5.4",
+    "pyscipopt": "6.3.0",
+    "textual": "6.12.0"
+  },
+  "solver_settings": {
+    "algorithm": "cp-sat",
+    "workers": 1,
+    "seconds_per_solve": 10,
+    "scope": "Configured solver allowance per side; some backends charge conversion against it, and wall time can exceed it."
+  },
+  "limitations": [
+    "All reported optimality and income values concern the stated static models, not installed-game certification.",
+    "Attila still lacks exact per-building faction-capital availability flags; its campaign attainability is not established.",
+    "Building differences can include alternative tied optimal layouts and may differ between CLI and worker runs.",
+    "Advanced campaign rules, selected faith, Nanban contact and world settings remain active in both sides."
+  ],
+  "shared_worker_export": {
+    "json_sha256": "6e0f01232eb8cf903786826dc85446ab4c6d943e09a564964cb9308f5a3997d9",
+    "csv_sha256": "ba987ff2e379fe2fa0578c3a4f685d931cb70742ec1c2d94cc65b1d5f8544f92",
+    "comparison_fields_checked": true
+  },
+  "examples": [
+    {
+      "game": "attila",
+      "title": "ERE / Thracia / fertility 5",
+      "reproduce_cli": [
+        "uv",
+        "run",
+        "--frozen",
+        "twoptimizer",
+        "attila",
+        "--province",
+        "Thracia",
+        "--fertility",
+        "5",
+        "--algorithms",
+        "cp-sat",
+        "--require-building",
+        "att_bld_religion_orthodox_major_1",
+        "--minimum-religious-influence",
+        "4",
+        "--seconds",
+        "10",
+        "--workers",
+        "1",
+        "--compare-constraints",
+        "--output",
+        "benchmark-results/constraint-cost-examples/attila.json"
+      ],
+      "request": {
+        "game": "attila",
+        "faction": "att_fact_eastern_roman_empire",
+        "province": "att_prov_thracia",
+        "algorithm": "cp-sat",
+        "seconds": 10,
+        "workers": 1,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": null,
+        "joint": false,
+        "adjacency": null,
+        "constraints": {
+          "required_buildings": [
+            "att_bld_religion_orthodox_major_1"
+          ],
+          "minimum_religious_influence": 4
+        },
+        "compare_constraints": true
+      },
+      "cli_comparison": {
+        "status": "exact",
+        "scope": "Removes only optional required/forbidden buildings and minimum religious influence. Faith, Nanban contact, campaign rules and other inputs are retained. Each solve receives the configured time limit; building differences can include ties.",
+        "reason": "Both optimal incomes are proved for the stated scenarios.",
+        "baseline_status": "OPTIMAL",
+        "constrained_status": "OPTIMAL",
+        "baseline_income": 24140.375,
+        "constrained_income": 20808.0625,
+        "baseline_bound": 24140.375,
+        "constrained_bound": 20808.0625,
+        "baseline_gap_percent": 0.0,
+        "constrained_gap_percent": 0.0,
+        "observed_income_difference": 3332.3125,
+        "cost_lower": 3332.3125,
+        "cost_upper": 3332.3125,
+        "exact_cost": 3332.3125,
+        "percent": 13.803896998286067,
+        "added_buildings": [
+          {
+            "region": "Constantinopolis",
+            "building": "Constantinopolis Greek Chapel",
+            "id": "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_major_1"
+          }
+        ],
+        "removed_buildings": [
+          {
+            "region": "Constantinopolis",
+            "building": "Constantinopolis Wine Emporium",
+            "id": "att_reg_thracia_constantinopolis_att_bld_roman_civic_market_wine_4"
+          }
+        ]
+      },
+      "worker_comparison": {
+        "status": "exact",
+        "scope": "Removes only optional required/forbidden buildings and minimum religious influence. Faith, Nanban contact, campaign rules and other inputs are retained. Each solve receives the configured time limit; building differences can include ties.",
+        "reason": "Both optimal incomes are proved for the stated scenarios.",
+        "baseline_status": "OPTIMAL",
+        "constrained_status": "OPTIMAL",
+        "baseline_income": 24140.375,
+        "constrained_income": 20808.0625,
+        "baseline_bound": 24140.375,
+        "constrained_bound": 20808.0625,
+        "baseline_gap_percent": 0.0,
+        "constrained_gap_percent": 0.0,
+        "observed_income_difference": 3332.3125,
+        "cost_lower": 3332.3125,
+        "cost_upper": 3332.3125,
+        "exact_cost": 3332.3125,
+        "percent": 13.803896998286067,
+        "added_buildings": [
+          {
+            "region": "Constantinopolis",
+            "building": "Constantinopolis Greek Chapel",
+            "id": "att_reg_thracia_constantinopolis_att_bld_religion_orthodox_major_1"
+          }
+        ],
+        "removed_buildings": [
+          {
+            "region": "Constantinopolis",
+            "building": "Constantinopolis Wine Emporium",
+            "id": "att_reg_thracia_constantinopolis_att_bld_roman_civic_market_wine_4"
+          }
+        ]
+      },
+      "source_files": {
+        "attila/data/building_culture_variants_table.tsv": "6438a7e52babe196cfae1b52e4330159f48f119c5abd00a5b8d4d488e94a544c",
+        "attila/data/building_effects_junction_table.tsv": "dd95c690b7f7ac4e05106ebcf309628ca15aa5a1056f85507ec258ec115e55a9",
+        "attila/data/cultures_subcultures_table.tsv": "4e27ebec6dbd3c86f93f0b272602b0876333454b372a28925b3a51c604680cc7",
+        "attila/data/factions_table.tsv": "623b48208dee338dd563f5b32a49d85bd929105e72caadb56518a6575b0644a0",
+        "attila/data/provinces.tsv": "fa9b36e5ddda75fb6fa31b96218a555406d4b0047c2bf93ea0fcbbe1fa159905",
+        "attila/data/region_to_provinces_junctions_table.tsv": "f11adfa9d715e7048f1bbf3a74a6c9f64b4292ebf40075f841d9ade0bfb21770",
+        "attila/data/regions.tsv": "3bc3556d1ec349e22bf75b7ff928a1b597e77e40b6b85a3f02b84418b304d6b4",
+        "attila/data/start_pos_region_slot_templates_table.tsv": "12f34565345c74b4c432d71da7f4f8586c52c0f51723f31aa8f2efba0cbbf4d6",
+        "attila/data/online_buildings.json": "7958b74651ad52bb442e737f435079948103412f4770a818e68619fef654ac6e",
+        "attila/data/online_factions.json": "a087b6305d9bd5a3ca831a84f3261ed16ae1dd9a283169a553ef145a7adbaffe",
+        "attila/data/online_modifiers.json": "1b96106a9fbbfd616fdcf200bfecdc0772c48452eaf93bb06863ee2b22e0075e",
+        "attila/economy.py": "621483e3df1b288d34b0a7d3b7a82a287d05f247a25e60da17444ee6eee7d97b",
+        "attila/effect_index.py": "4b4ce42878aa0290b7f63ad19e51b7a3b1461ecd8b2ef5a4f16cff1bd96614b5",
+        "attila/algebra.py": "56cbd0d531ac45df20748847941a23a733bda3a46cc7e0904fb6919a146e993c",
+        "attila/compiler.py": "faa26af5feafd2a39bc7a234cbe00575c5a6c5ce600997e6647c05eb32d0774f",
+        "attila/compact.py": "1489e2cf7a14a9009c9c465913fe1828d54ee7c64c8932b184fff92dbab2ad1e",
+        "attila/reporting.py": "18f57586fb573e213c6cbf2c14e03c5526821be88d498ad2dbbd30b656030696",
+        "attila/scenario.py": "2a1b607fd8d9150a9061df92e84ae295c6e9f5064350bf5292c25deae156300d",
+        "attila/scenario_validation.py": "01d3865b561be2a5717cffecdadbe2fc1979e974c1a825e3d713a6a0f7faff29",
+        "attila/records.py": "275184c851877cb71083359d0217adad715373949e5608fa35d758cda50bb766",
+        "attila/building_rules.py": "2a6ccfe34e6bebd828434ca6fedb22f979a31ab3b26af299146e17529e05cb8c",
+        "attila/special_slots.py": "2fa735c6e6524f7e4bab754eda8dad2955d04de84b5098c495366b328b676a0f",
+        "catalog.py": "1b435dc7ab6e126c8ec980152efe526d2c466d63f1f02698bd845b5862125e0b",
+        "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+        "attila/model.py": "3ecdcad9c29056aef774ea08eb313785862f38628247825d70d22417a2f79603",
+        "context.py": "9180dc72256da412e703048c829d56d96f7fe1837a0aa88b5825537c7d55ae3c",
+        "comparison.py": "bf79c8fe6e10e21a17273cbc332f7c12ced54f02f98ce54265f18b9d9a6902f8",
+        "building.py": "bd2cbf7d7fa018e3c58ceeba950672c772e754f0cf82db15c9ea44a5cd98bd40",
+        "entity.py": "d3fe7dfedf916f986cdff78d9ebcd3e5a89457038d0ccd0ba51b897b8305f00e",
+        "region.py": "83e8d02ce7f85f46fbec88dbb184f6cb74f05d84ead2c619e168816e8cc28e24",
+        "province.py": "9aabfa210d19568e2eb472fc258c5375548effcdbe78cb8105d0c70c0fa776d9",
+        "problem.py": "5da6d4e083ecf2536605399373274cc4a3c4b61efa9cd3087638d7a8bd25487b",
+        "solver_ortools.py": "8404daf043821c9880cef8958e661d72fa4b0f70436103a7fb17195c8f179b2e",
+        "solver_cpsat.py": "348b2760d71d45a2fa0159313d37168609ab013e0a3c5b9b6f2a5e03f209568f",
+        "parser/parser.py": "2e8f049efb1f381155a50fd1abbfc55a861062eb3b23ab5ad6d568b101ee2f95",
+        "parser/parser_attila.py": "7f672ea3d14136e79607dc3941959a49db6341da8d5894cbd3170bf900818439",
+        "competition.py": "d9346b9d80e1dc0dabe99fa3d3a56ed131dbdd513b77bc55ed1c0f898dd56cb1",
+        "sparse.py": "4847ece3e4517fd1b2631de4a036324cb795449ae1a307fc4ec7c4cbd2ef0748",
+        "resources.py": "b05eaf10e77328669b95e919dd800e055469e4334c143229899f69f99bb4da7b",
+        "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+        "attila/data/campaign_map.json": "7224f705401a7e2d0d60c5ea66a67ef640f7557bbcbccf8015d875ce0a808789",
+        "twoptimizer/requests.py": "2b8fe2b3f37c7b7482fafa4eb8cf5c512385eb1c08ec060f8b9d57831142370d",
+        "twoptimizer/models.py": "8a6e83c89e23017ac3ac8bbe8d54441bc0aec31a5c0225fa38cf901c39d754f0",
+        "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+        "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+        "twoptimizer/service.py": "e0631e5adab7fc42105c38065e91b2221fb699c117fdb83dcc024879849a94b9",
+        "twoptimizer/session.py": "bbd2639e3e6bdd8c818ea2bacb2badc5c0d68e4dc37c5bb498626cfec1b25bbc",
+        "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+        "twoptimizer/progress.py": "d186fbd503057a01d7ec8f0add655a223a4c88b1817931558157b067f171834c",
+        "twoptimizer/adapters/model_stats.py": "7c54e5a6f81de6cc0555d03212f3a8feb581cc714cc62cda0fdfb91aae2fc5ba",
+        "twoptimizer/adapters/attila.py": "90bca3b404d39db634dd6ca51064bc7ad71e31a1e4349fce32a13fbc5208fbd6",
+        "twoptimizer/attila_session.py": "a5c52be8a416cc2d9f444691fd9685189b769ed9099cc284ead741c50e31ba5e"
+      },
+      "artifact_sha256": {
+        "cli_json": "22b335d51f0c061be397a158b260a0a853e6c64c2dbb2539638614e93f3b6871",
+        "worker_json": "f0ac338cb13fd8845eaaa25ec9e9fb7fb827304b812a28a06343b1c2d6e91b28"
+      },
+      "checks": {
+        "cli_json_preserves_comparison": true,
+        "cli_csv_preserves_comparison": null,
+        "worker_request_roundtrip": true,
+        "exact_cli_worker_incomes_agree": true,
+        "baseline_requirements_removed": true,
+        "ordinary_scenario_inputs_preserved": true,
+        "cli_csv_note": "Attila CLI writes JSON; shared worker export CSV was checked for this game."
+      }
+    },
+    {
+      "game": "rome2",
+      "title": "Rome / coastal reference",
+      "reproduce_cli": [
+        "uv",
+        "run",
+        "--frozen",
+        "twoptimizer",
+        "rome2",
+        "--faction",
+        "rom_rome",
+        "--layout",
+        "coastal",
+        "--algorithm",
+        "cp-sat",
+        "--require-building",
+        "rome_religious_jupiter_2",
+        "--seconds",
+        "10",
+        "--workers",
+        "1",
+        "--compare-constraints",
+        "--output",
+        "benchmark-results/constraint-cost-examples/rome2.json"
+      ],
+      "request": {
+        "game": "rome2",
+        "faction": "rom_rome",
+        "province": "coastal",
+        "algorithm": "cp-sat",
+        "seconds": 10,
+        "workers": 1,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": null,
+        "joint": false,
+        "adjacency": null,
+        "constraints": {
+          "required_buildings": [
+            "rome_religious_jupiter_2"
+          ]
+        },
+        "compare_constraints": true
+      },
+      "cli_comparison": {
+        "status": "exact",
+        "scope": "Removes only optional required/forbidden buildings and minimum religious influence. Faith, Nanban contact, campaign rules and other inputs are retained. Each solve receives the configured time limit; building differences can include ties.",
+        "reason": "Both optimal incomes are proved for the stated scenarios.",
+        "baseline_status": "OPTIMAL",
+        "constrained_status": "OPTIMAL",
+        "baseline_income": 4182.7,
+        "constrained_income": 3860.6,
+        "baseline_bound": 4182.7,
+        "constrained_bound": 3860.6,
+        "baseline_gap_percent": 0.0,
+        "constrained_gap_percent": 0.0,
+        "observed_income_difference": 322.0999999999999,
+        "cost_lower": 322.0999999999999,
+        "cost_upper": 322.0999999999999,
+        "exact_cost": 322.0999999999999,
+        "percent": 7.7007674468644645,
+        "added_buildings": [
+          {
+            "region": "Town",
+            "building": "Forum Piscarium",
+            "id": "rome_port_fish_4"
+          },
+          {
+            "region": "Town",
+            "building": "Shrine of Jupiter",
+            "id": "rome_religious_jupiter_2"
+          },
+          {
+            "region": "Town",
+            "building": "Civil Colonia",
+            "id": "rome_town_civil_4"
+          }
+        ],
+        "removed_buildings": [
+          {
+            "region": "Town",
+            "building": "Horreum",
+            "id": "rome_agriculture_granary_4"
+          },
+          {
+            "region": "Town",
+            "building": "Fishing Port",
+            "id": "rome_port_fish_2"
+          },
+          {
+            "region": "Town",
+            "building": "Farming Colonia",
+            "id": "rome_town_farm_4"
+          }
+        ]
+      },
+      "worker_comparison": {
+        "status": "exact",
+        "scope": "Removes only optional required/forbidden buildings and minimum religious influence. Faith, Nanban contact, campaign rules and other inputs are retained. Each solve receives the configured time limit; building differences can include ties.",
+        "reason": "Both optimal incomes are proved for the stated scenarios.",
+        "baseline_status": "OPTIMAL",
+        "constrained_status": "OPTIMAL",
+        "baseline_income": 4182.7,
+        "constrained_income": 3860.6,
+        "baseline_bound": 4182.7,
+        "constrained_bound": 3860.6,
+        "baseline_gap_percent": 0.0,
+        "constrained_gap_percent": 0.0,
+        "observed_income_difference": 322.0999999999999,
+        "cost_lower": 322.0999999999999,
+        "cost_upper": 322.0999999999999,
+        "exact_cost": 322.0999999999999,
+        "percent": 7.7007674468644645,
+        "added_buildings": [
+          {
+            "region": "Town",
+            "building": "Forum Piscarium",
+            "id": "rome_port_fish_4"
+          },
+          {
+            "region": "Town",
+            "building": "Shrine of Jupiter",
+            "id": "rome_religious_jupiter_2"
+          },
+          {
+            "region": "Town",
+            "building": "Civil Colonia",
+            "id": "rome_town_civil_4"
+          }
+        ],
+        "removed_buildings": [
+          {
+            "region": "Town",
+            "building": "Horreum",
+            "id": "rome_agriculture_granary_4"
+          },
+          {
+            "region": "Town",
+            "building": "Fishing Port",
+            "id": "rome_port_fish_2"
+          },
+          {
+            "region": "Town",
+            "building": "Farming Colonia",
+            "id": "rome_town_farm_4"
+          }
+        ]
+      },
+      "source_files": {
+        "rome2/model.py": "fea4b8fa23b5be3faaa52c9d490d214d0d7261048a315cb2e7d3f6e660bba664",
+        "rome2/compiler.py": "322d4a3946df88a7120e7a707a68bea6479f9d747cdebaa9db8d9340782dae1a",
+        "rome2/linear.py": "64e01f3667622b153d2aa2d9f96a6835917ad2eb57c82e3cf7e121e7ed2c2b25",
+        "rome2/optimization.py": "1550b086f531683a62516f4535f4a01b3b234a3aa3f6699a48b8c9e6d1d5e530",
+        "rome2/backends.py": "e1a1d7fc2c602fa29ba33bd48eaba990743316ab228c5de5903b09bb823c756a",
+        "rome2/scenario.py": "78c4a296b5984ecdcb718ee1e7d0b1e4ace87e6ec3f3ca4a10a5e639f1e884fd",
+        "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+        "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+        "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+        "rome2/provenance.py": "bd968316ef0279411aef5d34f05f82cf0b5bcd5013e1cd26f647598ef81edba7",
+        "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+        "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+        "rome2/holdings.py": "58f4beaeca008298f5428b4a0a44932edf0d049b1b8b1e030b3fb15a9ec17f0f",
+        "rome2/holding_compiler.py": "9d8c683741b03cda06550b5ff7085cce801a3e4716021de16e9d2e6b47e1070f",
+        "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+        "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+        "rome2/building_constraints.py": "f87c6afee90906cc846712b09e0a96a64749f1ad62d4119912b07a69e1cab566",
+        "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+        "rome2/data/special_buildings_coverage.json": "10e91f33f67bc8296487844c7fadf2961bbf5646143e1b338eb174800fe74d68",
+        "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+        "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+        "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+        "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+        "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+        "twoptimizer/requests.py": "2b8fe2b3f37c7b7482fafa4eb8cf5c512385eb1c08ec060f8b9d57831142370d",
+        "twoptimizer/models.py": "8a6e83c89e23017ac3ac8bbe8d54441bc0aec31a5c0225fa38cf901c39d754f0",
+        "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+        "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+        "twoptimizer/service.py": "e0631e5adab7fc42105c38065e91b2221fb699c117fdb83dcc024879849a94b9",
+        "twoptimizer/session.py": "bbd2639e3e6bdd8c818ea2bacb2badc5c0d68e4dc37c5bb498626cfec1b25bbc",
+        "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+        "twoptimizer/progress.py": "d186fbd503057a01d7ec8f0add655a223a4c88b1817931558157b067f171834c",
+        "twoptimizer/adapters/model_stats.py": "7c54e5a6f81de6cc0555d03212f3a8feb581cc714cc62cda0fdfb91aae2fc5ba",
+        "twoptimizer/adapters/rome2.py": "c38b87c6394081c874d8d5b93fac4a7f22c0374d3dec6bc723848fe50df1bb66",
+        "twoptimizer/adapters/rome_models.py": "e53b8281981ef9c4e0614ee4fc40278e51dc1c4a26064d9a0a916a1b14e64f21",
+        "twoptimizer/rome_session.py": "b6892065fe21adfcbbaada4de27f4b4f816bd3b75c59967985969d06d644fa8b"
+      },
+      "artifact_sha256": {
+        "cli_json": "2cf4b94319235b97817a9fa639fb21ae861f6a1fd4baf6f338ce37fb89b51d7f",
+        "worker_json": "7d2414c6939e6e7b8cedb44dd186d5cea5077f412e47d0691079d3506a4efe4f"
+      },
+      "checks": {
+        "cli_json_preserves_comparison": true,
+        "cli_csv_preserves_comparison": true,
+        "worker_request_roundtrip": true,
+        "exact_cli_worker_incomes_agree": true,
+        "baseline_requirements_removed": true,
+        "ordinary_scenario_inputs_preserved": true
+      }
+    },
+    {
+      "game": "shogun2",
+      "title": "Oda / Owari + Settsu / joint",
+      "reproduce_cli": [
+        "uv",
+        "run",
+        "--frozen",
+        "twoptimizer",
+        "shogun2",
+        "--clan",
+        "oda",
+        "--province",
+        "jap_owari",
+        "--province",
+        "jap_settsu",
+        "--joint",
+        "--soil",
+        "native",
+        "--algorithm",
+        "cp-sat",
+        "--require-building",
+        "sho_buddhist_4_legendary_temple",
+        "--seconds",
+        "10",
+        "--workers",
+        "1",
+        "--compare-constraints",
+        "--output",
+        "benchmark-results/constraint-cost-examples/shogun2.json"
+      ],
+      "request": {
+        "game": "shogun2",
+        "faction": "oda",
+        "province": "jap_owari",
+        "algorithm": "cp-sat",
+        "seconds": 10,
+        "workers": 1,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "jap_owari",
+          "jap_settsu"
+        ],
+        "joint": true,
+        "adjacency": null,
+        "constraints": {
+          "required_buildings": [
+            "sho_buddhist_4_legendary_temple"
+          ]
+        },
+        "compare_constraints": true
+      },
+      "cli_comparison": {
+        "status": "exact",
+        "scope": "Removes only optional required/forbidden buildings and minimum religious influence. Faith, Nanban contact, campaign rules and other inputs are retained. Each solve receives the configured time limit; building differences can include ties.",
+        "reason": "Both optimal incomes are proved for the stated scenarios.",
+        "baseline_status": "OPTIMAL",
+        "constrained_status": "OPTIMAL",
+        "baseline_income": 5663.84,
+        "constrained_income": 5663.84,
+        "baseline_bound": 5663.84,
+        "constrained_bound": 5663.84,
+        "baseline_gap_percent": 0.0,
+        "constrained_gap_percent": 0.0,
+        "observed_income_difference": 0.0,
+        "cost_lower": 0.0,
+        "cost_upper": 0.0,
+        "exact_cost": 0.0,
+        "percent": 0.0,
+        "added_buildings": [],
+        "removed_buildings": []
+      },
+      "worker_comparison": {
+        "status": "exact",
+        "scope": "Removes only optional required/forbidden buildings and minimum religious influence. Faith, Nanban contact, campaign rules and other inputs are retained. Each solve receives the configured time limit; building differences can include ties.",
+        "reason": "Both optimal incomes are proved for the stated scenarios.",
+        "baseline_status": "OPTIMAL",
+        "constrained_status": "OPTIMAL",
+        "baseline_income": 5663.84,
+        "constrained_income": 5663.84,
+        "baseline_bound": 5663.84,
+        "constrained_bound": 5663.84,
+        "baseline_gap_percent": 0.0,
+        "constrained_gap_percent": 0.0,
+        "observed_income_difference": 0.0,
+        "cost_lower": 0.0,
+        "cost_upper": 0.0,
+        "exact_cost": 0.0,
+        "percent": 0.0,
+        "added_buildings": [],
+        "removed_buildings": []
+      },
+      "source_files": {
+        "shogun2/model.py": "0f9487d09d3c4533645e8873fe17f3840ffe0453f740def0cfe04b81a2fa02dd",
+        "shogun2/scenario.py": "1c9546027b5dcdf042412f3abc8e4d4f84b9f5cb779309986934b33e88659540",
+        "shogun2/catalog.py": "99ab1387a3a1f0b98f3580927a05223208e3af9fd268a4b9a0ee7adef3481817",
+        "shogun2/records.py": "c17ab21580f26b91e9772d69da14820a931dc2a4a1dae09854df6a043e0d256b",
+        "shogun2/effects.py": "8f828168ea67cd7ef7e1c7b370539c10b97c403f2c9ad3c1fc97050c96aade0a",
+        "shogun2/constraints.py": "22d6a1d54e49bdc9b24e1cbf0c86b41e8bb7f360031dfb747c51b4dce1e36e30",
+        "shogun2/data/rules.json": "78fd6567c22095313024845067bd2a1975814b1d7a9b973ad7e77a921c704e5d",
+        "multigame/data/shogun2.json": "3307bcf1d29d2dc82280f1adfa74b4e99ea588ad28caf83075bac4eb9c2c9b44",
+        "competition.py": "d9346b9d80e1dc0dabe99fa3d3a56ed131dbdd513b77bc55ed1c0f898dd56cb1",
+        "sparse.py": "4847ece3e4517fd1b2631de4a036324cb795449ae1a307fc4ec7c4cbd2ef0748",
+        "resources.py": "b05eaf10e77328669b95e919dd800e055469e4334c143229899f69f99bb4da7b",
+        "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+        "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+        "shogun2/data/campaign_map.json": "63e79585d9ec254710d9bf86ab6be423336b0b298333275c23f5560e9e142ba4",
+        "twoptimizer/requests.py": "2b8fe2b3f37c7b7482fafa4eb8cf5c512385eb1c08ec060f8b9d57831142370d",
+        "twoptimizer/models.py": "8a6e83c89e23017ac3ac8bbe8d54441bc0aec31a5c0225fa38cf901c39d754f0",
+        "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+        "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+        "twoptimizer/service.py": "e0631e5adab7fc42105c38065e91b2221fb699c117fdb83dcc024879849a94b9",
+        "twoptimizer/session.py": "bbd2639e3e6bdd8c818ea2bacb2badc5c0d68e4dc37c5bb498626cfec1b25bbc",
+        "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+        "twoptimizer/progress.py": "d186fbd503057a01d7ec8f0add655a223a4c88b1817931558157b067f171834c",
+        "twoptimizer/adapters/model_stats.py": "7c54e5a6f81de6cc0555d03212f3a8feb581cc714cc62cda0fdfb91aae2fc5ba",
+        "twoptimizer/adapters/shogun2.py": "f40f11bafc6c26b0e33bf53ab7bb0125f5b24d8771489fc7aad53a2f74580ae4"
+      },
+      "artifact_sha256": {
+        "cli_json": "268d9c20294b2b07f16f394987135cc62dfa02f2df014fe0992fff7ad8a76753",
+        "worker_json": "8c791d54c1102d86e4d4b9732dc3014ac5e42818ef22739c2b020f75ffb657c0"
+      },
+      "checks": {
+        "cli_json_preserves_comparison": true,
+        "cli_csv_preserves_comparison": true,
+        "worker_request_roundtrip": true,
+        "exact_cli_worker_incomes_agree": true,
+        "baseline_requirements_removed": true,
+        "ordinary_scenario_inputs_preserved": true
+      }
+    }
+  ]
+}

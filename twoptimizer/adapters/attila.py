@@ -119,6 +119,7 @@ def _comparison_row(raw: dict[str, Any]) -> dict[str, Any]:
         "gap_to_best_percent",
         "gap_to_bound_percent",
         "layout",
+        "constraint_comparison",
     }
     return {key: value for key, value in raw.items() if key in keys}
 
