@@ -268,8 +268,9 @@ limit is a solver allowance, not a wall-clock deadline. Some backends charge mod
 conversion against it; loading, compilation and result validation can make total
 wall time exceed it.
 Cancel also stops a case during those preparation stages.
-The [holding-performance report](holding-performance.md) records the current
-small/all-province, joint/independent solver matrix, including resource limits and
+The [CP-SAT/HiGHS comparison](cpsat-highs-performance.md) records the supported
+backends on paired provinces. The [earlier holding report](holding-performance.md)
+also covers all provinces and retired backends. Both retain resource limits and
 unfinished results; those limits are benchmark settings, not application defaults.
 
 For a measured all-65-province Shogun 2 case (Oda, all arts, native soil,
