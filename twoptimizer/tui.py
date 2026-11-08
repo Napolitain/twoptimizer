@@ -515,6 +515,8 @@ class OptimizerApp(App):
 
     @on(DataTable.RowHighlighted, "#results")
     def highlight_result(self, event):
+        if not self.is_running:
+            return
         index = int(event.row_key.value)
         if index < len(self.results):
             self._show_result(self.results[index])

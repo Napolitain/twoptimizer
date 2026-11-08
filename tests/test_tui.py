@@ -7,7 +7,7 @@ from dataclasses import replace
 from pathlib import Path
 
 import pytest
-from textual.widgets import Button, Checkbox, DataTable, Input, Select, TabbedContent
+from textual.widgets import Button, Checkbox, DataTable, Input, Select, Static, TabbedContent
 
 from tests.support.ui import QuickRunner, result
 from twoptimizer.catalog import choices
@@ -161,6 +161,44 @@ def test_small_terminal_and_invalid_input_keep_actions_accessible():
             assert await pilot.click("#run")
             await app.workers.wait_for_complete()
             assert app.results
+
+    asyncio.run(exercise())
+
+
+def test_result_highlight_during_shutdown_does_not_render_removed_widgets():
+    class ClosingApp(OptimizerApp):
+        CSS_PATH = Path(__file__).parents[1] / "twoptimizer" / "workspace.tcss"
+        late_highlight = None
+        late_highlight_delivered = False
+
+        async def _close_all(self):
+            try:
+                if self.late_highlight is not None:
+                    # Deliver the pending table notification at the actual teardown boundary.
+                    assert not self.is_running
+                    await self.query_one("#income", Static).remove()
+                    assert not self.query("#income")
+                    await self._dispatch_message(self.late_highlight)
+                    self.late_highlight_delivered = True
+            finally:
+                await super()._close_all()
+
+    async def exercise():
+        app = ClosingApp(runner_factory=QuickRunner)
+        async with app.run_test(size=(100, 36)) as pilot:
+            await pilot.pause()
+            completed = result()
+            app.results.append(completed)
+            app._add_result(completed)
+            table = app.query_one("#results", DataTable)
+            row_key = next(iter(table.rows))
+            income = app.query_one("#income", Static)
+            income.update("Awaiting selection")
+            await app._dispatch_message(DataTable.RowHighlighted(table, 0, row_key))
+            assert str(income.content) == "4,182.700"
+            app.late_highlight = DataTable.RowHighlighted(table, 0, row_key)
+        assert app.late_highlight_delivered
+        assert app.results == [completed]
 
     asyncio.run(exercise())
 
