@@ -28,6 +28,7 @@ class SelectionContext:
     start: CampaignDate
     known_dlcs: frozenset[str]
     enabled_dlcs: frozenset[str]
+    tutorial: bool | None = None
 
     def __post_init__(self):
         if not isinstance(self.start, CampaignDate):
@@ -38,6 +39,8 @@ class SelectionContext:
             raise ValueError("DLC identifiers must be immutable frozensets")
         if not self.enabled_dlcs <= self.known_dlcs:
             raise ValueError("Enabled DLC identifiers must be explicitly catalogued")
+        if self.tutorial is not None and not isinstance(self.tutorial, bool):
+            raise ValueError("Tutorial context must be a boolean or unknown")
 
 
 @dataclass(frozen=True, slots=True)
@@ -101,6 +104,9 @@ def evaluate_trigger(entry: Entry, context: SelectionContext) -> Truth:
         return Truth.UNKNOWN
     if name == "has_dlc" and entry.value.text in context.known_dlcs:
         return _truth(entry.value.text in context.enabled_dlcs)
+    if name == "is_tutorial" and context.tutorial is not None:
+        value = entry.value.literal()
+        return _truth(value == context.tutorial) if isinstance(value, bool) else Truth.UNKNOWN
     if name == "always" and isinstance(entry.value.literal(), bool):
         return _truth(entry.value.literal() is True)
     return Truth.UNKNOWN

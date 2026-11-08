@@ -62,7 +62,8 @@ inventory already contains 1,081 states.
   `archetype`, substitutes zero resources if unresolved, and other paths fall
   back to normalized costs or a pre-1936 equipment type. It also deduplicates
   definitions. Our dependency graph keeps all declarations and the separate
-  relationships; effective inheritance still needs source-backed semantics.
+  relationships; the new [base equipment resolver](hoi4-equipment-resolution.md)
+  follows sourced archetype inheritance while preserving unresolved designer economics.
 - **Template demand:** `add_regiment_demand` adds 1,000 infantry equipment per
   infantry battalion, whereas our imported unit source declares 100. It also
   hardcodes support requirements and cannot cover all source unit types. Read

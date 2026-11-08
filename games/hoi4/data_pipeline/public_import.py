@@ -104,7 +104,9 @@ def _source(path: Path, root: Path) -> dict:
     }
 
 
-class _Inputs:
+class SourceInputs:
+    """Read pinned source documents while preserving hashes and partial-source diagnostics."""
+
     def __init__(self, root: Path, context: SelectionContext | None = None):
         self.root = root
         self.context = context
@@ -199,7 +201,7 @@ def _flat_blocks(document: Document, block: Block, field: str):
     ]
 
 
-def _state_record(document: Document, state: Block, history: Block, inputs: _Inputs):
+def _state_record(document: Document, state: Block, history: Block, inputs: SourceInputs):
     return {
         "id": _one_literal(state, "id"),
         "name_key": _one_literal(state, "name"),
@@ -214,7 +216,7 @@ def _state_record(document: Document, state: Block, history: Block, inputs: _Inp
     }
 
 
-def _states(inputs: _Inputs):
+def _states(inputs: SourceInputs):
     result: dict[str, list] = {tag: [] for tag in COUNTRIES}
     unknown = []
     for path in sorted((inputs.root / "history" / "states").glob("*.txt")):
@@ -276,7 +278,7 @@ def _production_records(document: Document, incomplete_children: tuple[Entry, ..
     return records
 
 
-def _oob_records(inputs: _Inputs, tag: str):
+def _oob_records(inputs: SourceInputs, tag: str):
     records = []
     for path in sorted((inputs.root / "history" / "units").glob(f"{tag}_1936*.txt")):
         document = inputs.document(path, allow_prefix=True)
@@ -325,7 +327,7 @@ def _totals(states: list):
     return {"state_count": len(states), **dict(totals)}
 
 
-def _country(inputs: _Inputs, tag: str, states: list):
+def _country(inputs: SourceInputs, tag: str, states: list):
     paths = sorted((inputs.root / "history" / "countries").glob(f"{tag} - *.txt"))
     if len(paths) != 1:
         raise ValueError(f"Expected one country history for {tag}; found {len(paths)}")
@@ -397,7 +399,7 @@ def _selected_country_context(document: Document, context: SelectionContext):
     }
 
 
-def _definition_records(inputs: _Inputs, paths, container: str, fields=None, nested=()):
+def _definition_records(inputs: SourceInputs, paths, container: str, fields=None, nested=()):
     result = []
     for path in sorted(paths):
         document = inputs.document(path)
@@ -418,7 +420,7 @@ def _definition_records(inputs: _Inputs, paths, container: str, fields=None, nes
     return result
 
 
-def _equipment(inputs: _Inputs):
+def _equipment(inputs: SourceInputs):
     root = inputs.root / "common" / "units"
     return {
         "schema_version": 1,
@@ -445,7 +447,7 @@ def _equipment(inputs: _Inputs):
     }
 
 
-def _numeric_defines(inputs: _Inputs):
+def _numeric_defines(inputs: SourceInputs):
     path = inputs.root / "common" / "defines" / "00_defines.lua"
     source = _source(path, inputs.root)
     inputs.sources[source["path"]] = source
@@ -462,7 +464,7 @@ def _numeric_defines(inputs: _Inputs):
     }
 
 
-def _building_rules(inputs: _Inputs):
+def _building_rules(inputs: SourceInputs):
     root = inputs.root / "common"
     return {
         "schema_version": 1,
@@ -492,7 +494,7 @@ def _write(path: Path, payload: dict):
     return {"path": path.name, "bytes": len(content), "sha256": hashlib.sha256(content).hexdigest()}
 
 
-def _verify_checkout(root: Path):
+def verify_source_checkout(root: Path):
     """Do not label arbitrary local edits as the pinned public repository revision."""
     revision = subprocess.run(
         ["git", "-C", str(root), "rev-parse", "HEAD"],
@@ -537,11 +539,11 @@ def build_public_reference(
         if inspection_start is not None and dlc_catalog_path is not None
         else None
     )
-    inputs = _Inputs(Path(source_root), context)
+    inputs = SourceInputs(Path(source_root), context)
     output = Path(output_root)
     if not (inputs.root / "history" / "states").is_dir():
         raise ValueError("Expected a game-source directory containing history/states")
-    _verify_checkout(inputs.root)
+    verify_source_checkout(inputs.root)
     states, unresolved_owners = _states(inputs)
     artifacts, countries = [], []
     for tag, owned_states in states.items():

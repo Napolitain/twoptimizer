@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "target": {
+    "game_version": "1.19.4",
+    "checksum": "0bdb",
+    "checked_at": "2026-11-08",
+    "full_version_validated": false
+  },
+  "semantics": "Specific factual field corrections from official release notes, guarded by the unique imported declaration, source path and old/new values. Original source files remain unchanged. This is not a complete patch diff or a validated gameplay scenario.",
+  "sources": {
+    "1.19.3": {
+      "publisher": "Paradox Interactive",
+      "title": "HOI IV | Patch 1.19.3",
+      "url": "https://store.steampowered.com/news/app/394360/view/712286322480383530",
+      "announcement_url": "https://steamcommunity.com/games/394360/announcements/detail/712286322480383531",
+      "announcement_id": "712286322480383531",
+      "steam_news_gid": "1844115010491691",
+      "published_at": "2026-09-17",
+      "checked_at": "2026-11-08"
+    },
+    "1.19.4": {
+      "publisher": "Paradox Interactive",
+      "title": "Hearts of Iron IV | QoL Patch Notes 1.19.4 (Updated Nov. 5th)",
+      "url": "https://store.steampowered.com/news/app/394360/view/684142629662760619",
+      "announcement_url": "https://steamcommunity.com/games/394360/announcements/detail/684142629662760620",
+      "announcement_id": "684142629662760620",
+      "steam_news_gid": "1847286114049046",
+      "published_at": "2026-10-27",
+      "latest_hotfix_at": "2026-11-05",
+      "checked_at": "2026-11-08"
+    }
+  },
+  "identifier_evidence": {
+    "repository": "https://github.com/BanderaModding/vanilla-fin-hoi4",
+    "revision": "e249d22284449ece5416b41e68c4d73f2b79e3cc",
+    "localisation": {
+      "anti_air": "localisation/english/unit_l_english.yml:300",
+      "field_guns": "localisation/english/unit_l_english.yml:459",
+      "rocket_battery": "localisation/english/unit_l_english.yml:461",
+      "gw_armored_car_equipment": "localisation/english/equipment_l_english.yml:3111",
+      "armored_car_equipment_1": "localisation/english/equipment_l_english.yml:3113",
+      "armored_car_equipment_2": "localisation/english/equipment_l_english.yml:3115",
+      "armored_car_at_equipment": "localisation/english/equipment_l_english.yml:3117",
+      "easy_maintenance": "localisation/english/tank_modules_l_english.yml:372"
+    }
+  },
+  "corrections": [
+    {
+      "id": "1.19.3-support-aa-equipment",
+      "release": "1.19.3",
+      "section": "units",
+      "record_id": "anti_air",
+      "raw_source_path": "common/units/anti-air.txt",
+      "block": "need",
+      "field": "anti_air_equipment",
+      "old_value": 20,
+      "new_value": 24
+    },
+    {
+      "id": "1.19.3-infantry-gun-equipment",
+      "release": "1.19.3",
+      "section": "units",
+      "record_id": "field_guns",
+      "raw_source_path": "common/units/fire_support.txt",
+      "block": "need",
+      "field": "artillery_equipment",
+      "old_value": 4,
+      "new_value": 6
+    },
+    {
+      "id": "1.19.3-rocket-battery-equipment",
+      "release": "1.19.3",
+      "section": "units",
+      "record_id": "rocket_battery",
+      "raw_source_path": "common/units/fire_support.txt",
+      "block": "need",
+      "field": "rocket_artillery_equipment",
+      "old_value": 4,
+      "new_value": 6
+    },
+    {
+      "id": "1.19.3-interwar-armored-car-cost",
+      "release": "1.19.3",
+      "section": "equipment",
+      "record_id": "gw_armored_car_equipment",
+      "raw_source_path": "common/units/equipment/armored_car.txt",
+      "block": null,
+      "field": "build_cost_ic",
+      "old_value": 3.5,
+      "new_value": 3
+    },
+    {
+      "id": "1.19.3-armored-car-archetype-cost",
+      "release": "1.19.3",
+      "section": "equipment",
+      "record_id": "armored_car_equipment",
+      "raw_source_path": "common/units/equipment/armored_car.txt",
+      "mapping_note": "The sole 5.5 IC declaration is on armored_car_equipment; Basic Armored Car armored_car_equipment_1 declares this archetype and no own cost. This correction changes the declaration only; inheritance is resolved separately.",
+      "block": null,
+      "field": "build_cost_ic",
+      "old_value": 5.5,
+      "new_value": 4.5
+    },
+    {
+      "id": "1.19.3-improved-armored-car-cost",
+      "release": "1.19.3",
+      "section": "equipment",
+      "record_id": "armored_car_equipment_2",
+      "raw_source_path": "common/units/equipment/armored_car.txt",
+      "block": null,
+      "field": "build_cost_ic",
+      "old_value": 7.5,
+      "new_value": 6
+    },
+    {
+      "id": "1.19.3-antitank-armored-car-cost",
+      "release": "1.19.3",
+      "section": "equipment",
+      "record_id": "armored_car_at_equipment",
+      "raw_source_path": "common/units/equipment/armored_car.txt",
+      "block": null,
+      "field": "build_cost_ic",
+      "old_value": 8.5,
+      "new_value": 7.5
+    },
+    {
+      "id": "1.19.4-easy-maintenance-cost",
+      "release": "1.19.4",
+      "section": "modules",
+      "record_id": "easy_maintenance",
+      "raw_source_path": "common/units/equipment/modules/00_tank_modules.txt",
+      "block": "multiply_stats",
+      "field": "build_cost_ic",
+      "old_value": -0.075,
+      "new_value": -0.05
+    },
+    {
+      "id": "1.19.4-easy-maintenance-reliability",
+      "release": "1.19.4",
+      "section": "modules",
+      "record_id": "easy_maintenance",
+      "raw_source_path": "common/units/equipment/modules/00_tank_modules.txt",
+      "block": "add_stats",
+      "field": "reliability",
+      "old_value": 0.1,
+      "new_value": 0.075
+    },
+    {
+      "id": "1.19.4-easy-maintenance-xp",
+      "release": "1.19.4",
+      "section": "modules",
+      "record_id": "easy_maintenance",
+      "raw_source_path": "common/units/equipment/modules/00_tank_modules.txt",
+      "block": null,
+      "field": "xp_cost",
+      "old_value": 30,
+      "new_value": 20
+    }
+  ]
+}

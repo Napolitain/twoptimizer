@@ -241,6 +241,13 @@ remain in their existing engine/build boundaries.
 source hashes and explicit diagnostics. Parsing a file does not execute its
 conditions, effects or defaults. The requested latest-stable/all-gameplay-DLC
 target is separate from the imported mirror's unverified patch identity.
+`resolved_import` builds a separate interpretation layer from checked literal
+artifacts and a pinned source checkout. Equipment inheritance, OOB selection,
+initial modifiers and state/landmark summaries have their own resolvers. Guarded
+official patch overlays preserve original evidence; they do not certify the
+entire snapshot. Derived loaders verify individual artifact hashes. Unknown
+inventory, conditional effects and designer economics remain explicit instead
+of being replaced with usable-looking zero values.
 `twoptimizer.hoi4_data.inspect_reference` supplies the same caller-owned report
 to the `hoi4 data` CLI and TUI inspector. This read-only route does not invoke
 `solve_case` or enable the historical production experiment as a campaign solver.
@@ -257,6 +264,10 @@ There is no secondary spending objective. Provisional hourly efficiency
 integration and training only after full equipment have been approved; their
 small arithmetic helpers still require callers to supply effective rates and
 eligibility, and do not constitute a complete campaign transition engine.
+Construction uses simultaneous allocations from the starting hourly boundary,
+with completions available at the ending boundary and an explicit overflow
+policy. Consumer-goods and power arithmetic take effective pools, modifiers and
+rule constants as inputs; they do not infer occupation, trade or initialization.
 
 `ObjectiveSummary` carries ordered objectives with labels, units, direction,
 value, bound and individual proof status. A proved primary objective can coexist

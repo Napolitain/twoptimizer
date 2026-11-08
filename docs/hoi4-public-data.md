@@ -12,6 +12,36 @@ categories and 23 selected numeric defines. Country files contain candidate
 permits. An optional separate `source_selection` records country-history
 candidate declarations for the explicitly supplied date and DLC catalog.
 
+A second, reproducible **derived reference** now interprets supported rules for
+the 1936 noon start with all catalogued gameplay DLC. It resolves equipment
+inheritance and generated families, selects starting armies, evaluates initial
+laws/spirits/technology modifiers, and summarizes state economies and landmarks.
+The literal snapshot remains unchanged; each derived artifact has its own hash
+and retains the inputs and unresolved fields needed to audit the calculation.
+
+| Country | Civilian / military / dockyards, base declarations | Selected deployed divisions |
+| --- | ---: | ---: |
+| France | 35 / 8 / 11 | 74 |
+| United Kingdom | 32 / 14 / 19 | 38 |
+| United States | 129 / 10 / 22 | 36 |
+| Germany | 35 / 28 / 10 | 30 |
+| Italy | 21 / 20 / 15 | 46 |
+| Japan | 26 / 16 / 15 | 60 |
+| Soviet Union | 46 / 33 / 6 | 138 |
+| China | 16 / 11 / 2 | 85 |
+
+These counts describe the pinned source. They are not a ranking of usable
+construction capacity, and the source patch has not been certified. The 507
+selected divisions have resolved base template requirements; requirements are
+distinct from initially issued equipment and reserve stockpiles.
+
+The derived equipment catalog contains **456 IDs**, including 148 generated
+definitions. **440 have resolved base IC and resource requirements**. Named
+designer variants retain component evidence separately from chassis costs.
+Ten guarded corrections from the official 1.19.3/1.19.4 patch notes update
+supported unit, armored-car and module fields while retaining original hashes.
+An unexpected original value causes a correction to remain unsupported.
+
 ## Provenance and target
 
 The source is the public
@@ -65,7 +95,8 @@ initialization effects can change effective capacity.
 Country scripts, future dated history, DLC branches, building conditions and
 other unexecuted statements retain source locations. Scalar declarations and
 repeated entries retain their order. Equipment parent/archetype references are
-preserved; costs and resource needs are not inherited or defaulted. Unit
+preserved in the literal layer; the derived layer resolves supported inheritance.
+Unit
 training times are source facts rather than an implemented training formula.
 Numeric defines are selected literal Lua assignments; Lua is not executed.
 Ambiguous repeated or noninteger factory declarations prevent reporting that
@@ -113,3 +144,33 @@ maintained `rules_evidence.json` is preserved. Every generated file stays below
 Python consumers can use `load_reference_manifest()`, `load_reference_equipment()`
 and `load_reference_country("FRA")` from
 `games.hoi4.data_pipeline.public_import`. Each call returns caller-owned data.
+
+Build the derived layer after the literal import:
+
+```sh
+uv run --frozen python -m games.hoi4.data_pipeline.resolved_import \
+  --source-root /tmp/hoi4-reference \
+  --reference games/hoi4/data/public_reference \
+  --output games/hoi4/data/public_reference/derived \
+  --start 1936.1.1.12
+```
+
+`load_resolved_country("FRA")` and `load_resolved_equipment()` in
+`games.hoi4.data_pipeline.resolved_import` validate artifact hashes and return
+caller-owned results. Country reports include army, selected national modifiers,
+base state economy, landmark effects and named-variant economics. Regeneration
+validates the source revision and literal input hashes before interpretation.
+`load_resolved_support_profile()` exposes sourced stability/war-support endpoint
+tables without assuming the country's effective support levels. The bundled OOB
+inventory covers 1936 candidates; a later `--start` can retain unresolved OOB
+references and does not create a validated later bookmark.
+
+For the implemented semantics and remaining limits, see
+[equipment economics](hoi4-equipment-resolution.md),
+[starting armies](hoi4-starting-armies.md),
+[initial modifiers](hoi4-modifier-resolution.md), and
+[construction and economy arithmetic](../games/hoi4/planning/construction-economy.md).
+The remaining campaign work includes initialization and starting reserves,
+effective manpower, trade/occupation, designer and industrial-organization
+effects, dated runtime hooks and the solver/replay connection. Data inspection
+does not claim deadline feasibility or enable the campaign Run action.
