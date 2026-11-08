@@ -1,0 +1,274 @@
+{
+  "schema_version": 1,
+  "purpose": "audit_only_not_solver_input",
+  "sources": {
+    "capital_mod_ionized": {
+      "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=581104077",
+      "sha256": "d06ca0c7750e05b3cc409db6ba28e21de334357fc5fa2f89f54b304a91640b9f",
+      "size": 72992,
+      "retrieved_date_utc": "2026-11-08",
+      "game_build": null,
+      "evidence_kind": "mod_author_description_not_vanilla_rows"
+    },
+    "capital_mod_bladeuk": {
+      "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=437563994",
+      "sha256": "8e6f4ec3cad369cf7d9b3b7b89be35a8a90a107da4eda7a45900da5e8215bd8d",
+      "size": 86317,
+      "retrieved_date_utc": "2026-11-08",
+      "game_build": null,
+      "evidence_kind": "mod_author_description_not_vanilla_rows"
+    },
+    "official_empires_sand": {
+      "url": "https://store.steampowered.com/app/343463/Total_War_ATTILA__Empires_of_Sand_Culture_Pack/?l=english",
+      "sha256": "fbcc9c85a6ee5e5c7ad593866623708c0418aa6aabdb2d3e1e10cfeb6547cedd",
+      "size": 117538,
+      "retrieved_date_utc": "2026-11-08",
+      "game_build": null,
+      "evidence_kind": "publisher_product_description"
+    },
+    "official_slavic": {
+      "url": "https://store.steampowered.com/app/428730/Total_War_ATTILA_Slavic_Nations_Culture_Pack/?l=english",
+      "sha256": "aa5e5830d99cbaa35930cdb25c6d83967dcc18f7311c1b841c66af25b8d05987",
+      "size": 115409,
+      "retrieved_date_utc": "2026-11-08",
+      "game_build": null,
+      "evidence_kind": "publisher_product_description"
+    },
+    "honga_mint": {
+      "url": "https://www.honga.net/totalwar/attila/building.php?b=att_bld_eos_mint&f=att_fact_axum&l=en&v=attila",
+      "sha256": "287a8ad2576542b9bd6ad5ad7aa8124a819dad881426363562f35b92ff6098c1",
+      "size": 45789,
+      "retrieved_date_utc": "2026-11-08",
+      "game_build": null,
+      "evidence_kind": "third_party_extracted_display_facts"
+    },
+    "honga_dam": {
+      "url": "https://www.honga.net/totalwar/attila/building.php?b=att_bld_eos_marib_dam&f=att_fact_himyar&l=en&v=attila",
+      "sha256": "acd4132ecc1d76d8d1f7e26c42f49060f3d0c8626affb61d36ca502771bedff7",
+      "size": 31213,
+      "retrieved_date_utc": "2026-11-08",
+      "game_build": null,
+      "evidence_kind": "third_party_extracted_display_facts"
+    },
+    "att_slav_wonder_1": {
+      "url": "https://www.honga.net/totalwar/attila/building.php?b=att_slav_wonder_1&f=att_fact_antes&l=en&v=attila",
+      "sha256": "a708b2a41329c8423215d6d26412a5bc510d8fa95391b288ce2f2df4229568fa",
+      "size": 34446,
+      "retrieved_date_utc": "2026-11-08",
+      "game_build": null,
+      "evidence_kind": "third_party_extracted_display_facts"
+    },
+    "att_slav_wonder_civic_2": {
+      "url": "https://www.honga.net/totalwar/attila/building.php?b=att_slav_wonder_civic_2&f=att_fact_antes&l=en&v=attila",
+      "sha256": "068ff8ebfcbb5e95bb8761ae8c3b7bb4f157c8fad94b24639579b30e278998db",
+      "size": 35008,
+      "retrieved_date_utc": "2026-11-08",
+      "game_build": null,
+      "evidence_kind": "third_party_extracted_display_facts"
+    },
+    "att_slav_wonder_civic_3": {
+      "url": "https://www.honga.net/totalwar/attila/building.php?b=att_slav_wonder_civic_3&f=att_fact_antes&l=en&v=attila",
+      "sha256": "ddeca3f81d9c18eac7f794692b6947deca5231e0fdbdb32a405cd49094a96efe",
+      "size": 35076,
+      "retrieved_date_utc": "2026-11-08",
+      "game_build": null,
+      "evidence_kind": "third_party_extracted_display_facts"
+    },
+    "att_slav_wonder_military_2": {
+      "url": "https://www.honga.net/totalwar/attila/building.php?b=att_slav_wonder_military_2&f=att_fact_antes&l=en&v=attila",
+      "sha256": "43771236d4dbc1eec9e2c99abb4944c70284fb823377d6d4127c75fdc6cab34b",
+      "size": 35088,
+      "retrieved_date_utc": "2026-11-08",
+      "game_build": null,
+      "evidence_kind": "third_party_extracted_display_facts"
+    },
+    "att_slav_wonder_military_3": {
+      "url": "https://www.honga.net/totalwar/attila/building.php?b=att_slav_wonder_military_3&f=att_fact_antes&l=en&v=attila",
+      "sha256": "62146bb17c025b022a3f3b56854f0b88f0447ab63ebb88025a7bb2d857579739",
+      "size": 35314,
+      "retrieved_date_utc": "2026-11-08",
+      "game_build": null,
+      "evidence_kind": "third_party_extracted_display_facts"
+    },
+    "attila_schema": {
+      "url": "https://raw.githubusercontent.com/Frodo45127/rpfm-schemas/ddd192747ebc12ad1411ce87ed4c2e90b21dff2a/schema_att.ron",
+      "sha256": "760c756608186ee0181efc372a4bdd6fe9b1aa1441d295226a4b0b1c199ff5cc",
+      "size": 5229705,
+      "revision": "ddd192747ebc12ad1411ce87ed4c2e90b21dff2a",
+      "evidence_kind": "primary_schema_not_vanilla_rows",
+      "retrieved_date_utc": "2026-11-08",
+      "game_build": null
+    }
+  },
+  "claims": [
+    {
+      "id": "capital_requirement_exists",
+      "sources": [
+        "capital_mod_ionized",
+        "capital_mod_bladeuk"
+      ],
+      "finding": "Certain legendary or tier-five buildings require the faction capital, rather than any province capital. Authors describe removing that restriction; the descriptions do not enumerate exact vanilla building IDs.",
+      "per_building_flags_verified": false
+    },
+    {
+      "id": "capital_is_not_uniqueness",
+      "sources": [
+        "attila_schema"
+      ],
+      "finding": "building_levels defines separate only_in_capital and faction_unique boolean columns and a first_in_world_bundle reference. Their existence does not supply per-building values or prove their runtime semantics.",
+      "per_building_flags_verified": false
+    },
+    {
+      "id": "dam_state",
+      "sources": [
+        "official_empires_sand",
+        "honga_dam"
+      ],
+      "building": "att_bld_eos_marib_dam",
+      "finding": "Himyar has a unique fertility-improving dam at its capital. Recurring repairs cost money; neglect can cause flooding. Its displayed effects do not define repair probabilities, event costs, upkeep or ownership/conquest rules."
+    },
+    {
+      "id": "slavic_metadata_incomplete",
+      "sources": [
+        "official_slavic",
+        "capital_mod_ionized"
+      ],
+      "finding": "Slavic wonders exist, affect province and faction, and have maintenance costs. The legendary-capital mod was updated for Slavic wonders in February 2016. No raw restrictions or upkeep values were recovered."
+    }
+  ],
+  "external_buildings": {
+    "att_slav_wonder_1": {
+      "source": "att_slav_wonder_1",
+      "name": "Totem of the Wolf",
+      "page_faction": "att_fact_antes",
+      "construction_cost": 50000,
+      "construction_turns": 8,
+      "technology_display_name": "Sacred King",
+      "upkeep": null,
+      "availability_status": "not_verified",
+      "displayed_tax_percent": 10,
+      "tax_raw_scope": "province_to_province_own"
+    },
+    "att_slav_wonder_civic_2": {
+      "source": "att_slav_wonder_civic_2",
+      "name": "Lunar Shrine of Svarog",
+      "page_faction": "att_fact_antes",
+      "construction_cost": 100000,
+      "construction_turns": 16,
+      "technology_display_name": "Elite Military Class",
+      "upkeep": null,
+      "availability_status": "not_verified",
+      "displayed_tax_percent": 20,
+      "tax_raw_scope": "province_to_province_own",
+      "displayed_conversion_cost_percent": -50,
+      "displayed_conversion_rate_percent": 50,
+      "conversion_display_scope": "all regions; underlying raw scope not shown"
+    },
+    "att_slav_wonder_civic_3": {
+      "source": "att_slav_wonder_civic_3",
+      "name": "Temple of the Shimmering Wolves",
+      "page_faction": "att_fact_antes",
+      "construction_cost": 150000,
+      "construction_turns": 32,
+      "technology_display_name": "Royal Council",
+      "upkeep": null,
+      "availability_status": "not_verified",
+      "displayed_tax_percent": 30,
+      "tax_raw_scope": "province_to_province_own",
+      "displayed_conversion_cost_percent": -100,
+      "displayed_conversion_rate_percent": 100,
+      "conversion_display_scope": "all regions; underlying raw scope not shown"
+    },
+    "att_slav_wonder_military_2": {
+      "source": "att_slav_wonder_military_2",
+      "name": "Fiery Shrine of Svarog",
+      "page_faction": "att_fact_antes",
+      "construction_cost": 100000,
+      "construction_turns": 16,
+      "technology_display_name": "Slavic Martial Culture",
+      "upkeep": null,
+      "availability_status": "not_verified",
+      "displayed_tax_percent": 10,
+      "tax_raw_scope": "province_to_province_own"
+    },
+    "att_slav_wonder_military_3": {
+      "source": "att_slav_wonder_military_3",
+      "name": "Temple of the Blazing Wolves",
+      "page_faction": "att_fact_antes",
+      "construction_cost": 150000,
+      "construction_turns": 32,
+      "technology_display_name": "King's Court",
+      "upkeep": null,
+      "availability_status": "not_verified",
+      "displayed_tax_percent": 10,
+      "tax_raw_scope": "province_to_province_own"
+    }
+  },
+  "local_cross_checks": {
+    "att_bld_eos_marib_dam": {
+      "source": "honga_dam",
+      "construction_cost": 20000,
+      "construction_turns": 20,
+      "upkeep": null,
+      "agriculture_and_livestock_wealth_percent": 30,
+      "wealth_display_scope": "factionwide",
+      "subsistence_wealth": 500,
+      "subsistence_raw_scope": "building_to_building_own",
+      "fertility_bonus": 5,
+      "fertility_raw_scope": "building_to_region_own",
+      "scope_discrepancy": "Display says province; raw scope names region. Preserve both pending raw-data validation."
+    },
+    "att_bld_eos_mint": {
+      "source": "honga_mint",
+      "construction_cost": 10000,
+      "construction_turns": 6,
+      "upkeep": null,
+      "commerce_wealth": 2200,
+      "commerce_wealth_percent": 18,
+      "commerce_bonus_raw_scope": "province_to_region_own",
+      "trade_tariff_percent": 30,
+      "trade_tariff_display_scope": "factionwide",
+      "availability_status": "Faction appears in local culture variant; capital and uniqueness fields remain unverified."
+    }
+  },
+  "required_exports": {
+    "building_levels": [
+      "level_name",
+      "only_in_capital",
+      "faction_unique",
+      "first_in_world_bundle",
+      "religion_requirement",
+      "resource_requirement",
+      "upkeep_cost",
+      "primary_slot_building_building_level_requirement"
+    ],
+    "building_chain_availabilities": [
+      "set_id",
+      "culture",
+      "faction",
+      "sub_culture",
+      "campaign"
+    ],
+    "building_chain_availability_sets": [
+      "building_chain",
+      "id"
+    ],
+    "building_chain_to_slots": [
+      "chain",
+      "slot"
+    ],
+    "building_level_required_buildings": [
+      "building_level",
+      "required"
+    ],
+    "effect_bundles_to_effects_junctions": [
+      "full table, especially first_in_world_bundle references"
+    ],
+    "campaign_state": [
+      "current faction capital",
+      "existing special buildings and current owner",
+      "Ma'rib Dam event state and repair/flood scripts"
+    ]
+  },
+  "interpretation": "Public descriptions establish missing rule families. They do not provide per-ID vanilla flags, cap values, or complete build-specific availability. Null is unknown, never zero or unrestricted. No source in this audit changes solver candidates."
+}

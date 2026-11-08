@@ -30,7 +30,7 @@ NOTES = {
         "disabled. Joint holdings share food and factionwide bonuses; "
         "adjacent effects use bundled map borders or explicit overrides. Public references are not "
         "installed-patch certification. No external trade, treasury "
-        "interest or campaign timeline."
+        "interest or campaign timeline. Unverified level-5 monuments remain excluded."
     ),
     "attila": (
         "Recurring settlement income, including modeled tax and "
@@ -40,7 +40,8 @@ NOTES = {
         "Technologies default researched; missing building metadata can "
         "exclude variants. No treasury interest or unsupplied "
         "trade/tribute/campaign inputs. Public references still need "
-        "installed-build validation."
+        "installed-build validation. Legendary civic capital and uniqueness restrictions "
+        "remain unverified; layouts using them can overstate legal campaign income."
     ),
     "shogun2": (
         "Domestic tax income in koku per turn. Food and public order are "

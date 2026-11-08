@@ -1,14 +1,73 @@
 {
-  "schema_version": 1,
-  "audited_at_utc": "2026-11-08T03:25:22.829998+00:00",
+  "schema_version": 2,
+  "audited_at_utc": "2026-11-08T05:47:19.561377+00:00",
   "catalog_sha256": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
   "scope": "Construction eligibility and uniqueness coverage for the bundled Rome II reference catalog; not an installed-build certification.",
+  "campaign": "Grand Campaign faction roster; other campaigns appearing on official detail pages are filtered from predecessor observations.",
+  "patch": "Public reference snapshots have no installed-build identifier. The pinned community schema identifies fields, not game row values or patch compatibility.",
+  "rule_evidence_needed": {
+    "unlock_and_eligibility": {
+      "status": "unresolved",
+      "database_fields": [
+        "building_levels_tables.condition",
+        "building_levels_tables.resource_requirement",
+        "building_level_required_technology_junctions_tables.building_level_key",
+        "building_level_required_technology_junctions_tables.technology_key"
+      ],
+      "additional_state": "Evaluate construction condition scripts/events, required technologies and resource access for the requested campaign. Public requirement lists are partial observations."
+    },
+    "uniqueness_and_shared_caps": {
+      "status": "unresolved",
+      "database_fields": [
+        "building_levels_tables.faction_unique",
+        "building_levels_tables.building_instance_key",
+        "building_instances_tables.key",
+        "building_instances_tables.num_instances",
+        "building_levels_tables.chain",
+        "building_chains_tables.building_superchain",
+        "building_superchains_tables.max_instances_per_region"
+      ],
+      "additional_state": "Obtain actual row values and validate cap scope/semantics; identify existing and externally owned instances where applicable. A legendary name does not imply cap=1."
+    },
+    "first_builder_rewards": {
+      "status": "unresolved",
+      "database_fields": [
+        "building_levels_tables.first_in_world_bundle",
+        "effect_bundles_tables.key",
+        "effect_bundles_tables.bundle_target",
+        "effect_bundles_to_effects_junctions_tables.effect_bundle_key",
+        "effect_bundles_to_effects_junctions_tables.effect_key",
+        "effect_bundles_to_effects_junctions_tables.value",
+        "effect_bundles_to_effects_junctions_tables.effect_scope"
+      ],
+      "additional_state": "Validate acquisition conditions, duration and persistence; record which faction already earned each first-construction trait. Do not infer these rewards from recurring building effects."
+    },
+    "regional_placement": {
+      "status": "unresolved",
+      "database_fields": [
+        "building_levels_tables.only_in_capital",
+        "building_levels_tables.condition",
+        "building_set_to_building_junctions_tables.building_set",
+        "building_set_to_building_junctions_tables.building_level",
+        "building_set_to_building_junctions_tables.building_chain",
+        "building_set_to_building_junctions_tables.exclude"
+      ],
+      "additional_state": "Resolve campaign/startpos building-set assignments and validate faction/culture variants and capital semantics. No historical place name is treated as a region restriction."
+    }
+  },
   "sources": [
     {
       "url": "https://r2encv2.totalwar.com/en/manual/single-player/0045_enc_page_campaign_play_province_construction/index.html",
       "response_sha256": "b71e1b20fb80f0be811711efcfb97ec12b1c34d8067382d1effcace4856ca5a4",
       "quote": "When your faction reaches the top of a building chain and a certain event has occurred it may then be possible to construct a legendary building. If you are the first to construct one your faction will be awarded a permanent faction trait and its associated effects.",
       "supports": "Legendary buildings have event-dependent availability; first construction can award a permanent faction trait. This source does not enumerate per-building construction caps or regional restrictions."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/bukowa/twr2docs/aeaece2b77f5ae7f197cf14184a367ce58a6e4e9/r2docs/docs/database/assemblykit.md",
+      "response_sha256": "e8091395d0b900420c064e3f74018958d25ace7185b1aadcbe1f65513100fc75",
+      "revision": "aeaece2b77f5ae7f197cf14184a367ce58a6e4e9",
+      "kind": "community_published_assembly_kit_schema",
+      "supports": "Documents the exact construction, cap and first-in-world bundle fields listed in rule_evidence_needed. Contains no building row values; not evidence that any building has a particular cap, condition or reward."
     }
   ],
   "level_five_count": 35,
@@ -27,7 +86,98 @@
       "factions": [
         "rom_rome"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Circus Maximus",
+          "facts": [
+            "+2 influence per turn for your political party",
+            "160 wealth from entertainment (culture)",
+            "+30 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_rome"
+              ],
+              "links": [
+                {
+                  "name": "Circus",
+                  "url": "https://r2encv2.totalwar.com/en/building/rome_city_centre_gladiator_4rom_Roman"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Marble",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_marble"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/rome_city_centre_circus_5rom_Roman/index.html",
+            "sha256": "22aeb4efed810d67808892a3ed5a7c8f3c53595806a699ddf7f67f090b5525ad",
+            "bytes": 49603
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Circus Maximus",
+          "facts": [
+            "-8 food (this_region)",
+            "160 wealth from entertainment (culture) (this_building)",
+            "+30 public order per turn (this_province)",
+            "[NOT DISPLAYED] Drives the road levels between settlements (this_region)",
+            "+2 influence per turn for your political party (this_faction)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Circus Maximus",
+            "Level Name": "rome_city_centre_circus_5",
+            "Building Chain": "City Centre",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "13900",
+            "Require Resource": "Marble"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_rome&b=rome_city_centre_circus_5",
+            "sha256": "9110756adc222cf86b38e49498d36cf73e69d02b2caecaf4779ea241bc3cc6a7",
+            "bytes": 53530
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "rome_city_centre_gladiator_5",
@@ -36,7 +186,98 @@
       "factions": [
         "rom_rome"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Colosseum",
+          "facts": [
+            "+2 influence per turn for your political party",
+            "500 wealth from entertainment (culture)",
+            "+12 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_rome"
+              ],
+              "links": [
+                {
+                  "name": "Circus",
+                  "url": "https://r2encv2.totalwar.com/en/building/rome_city_centre_gladiator_4rom_Roman"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Marble",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_marble"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/rome_city_centre_gladiator_5rom_Roman/index.html",
+            "sha256": "29578405fc7fd2ad881a5ef6cdf2463e874fdc166c10915b14ea7680340327dc",
+            "bytes": 49617
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Colosseum",
+          "facts": [
+            "-8 food (this_region)",
+            "500 wealth from entertainment (culture) (this_building)",
+            "+12 public order per turn (this_province)",
+            "[NOT DISPLAYED] Drives the road levels between settlements (this_region)",
+            "+2 influence per turn for your political party (this_faction)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Colosseum",
+            "Level Name": "rome_city_centre_gladiator_5",
+            "Building Chain": "City Centre",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "13600",
+            "Require Resource": "Marble"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_rome&b=rome_city_centre_gladiator_5",
+            "sha256": "cf3ebccac8bd252acfac585390ec855d474abbefd608313a9809cdac2b4158ce",
+            "bytes": 53526
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "rome_water_sewer_5",
@@ -45,7 +286,97 @@
       "factions": [
         "rom_rome"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Cloaca Maxima",
+          "facts": [
+            "+8 Latin cultural influence",
+            "+2 influence per turn for your political party",
+            "+16 growth per turn",
+            "+8 public order per turn (sanitation)"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_rome"
+              ],
+              "links": [
+                {
+                  "name": "Cloaca",
+                  "url": "https://r2encv2.totalwar.com/en/building/rome_water_sewer_4rom_Roman"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Lead",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_lead"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/rome_water_sewer_5rom_Roman/index.html",
+            "sha256": "c249ec2dcbad69ad1f9bb91a8c997d0729bf99e30d1f24cb6686a68bfb621e45",
+            "bytes": 40964
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 1
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Cloaca Maxima",
+          "facts": [
+            "+8 Latin cultural influence (this_region)",
+            "+16 growth per turn (this_province)",
+            "+8 public order per turn (sanitation) (this_province)",
+            "+2 influence per turn for your political party (this_faction)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Cloaca Maxima",
+            "Level Name": "rome_water_sewer_5",
+            "Building Chain": "Sanitation",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "16000",
+            "Require Resource": "Lead"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Lead",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_rome&b=rome_water_sewer_5",
+            "sha256": "505ab3c7863f00927a4d5860ab36b4d1ad236d7dbfcd731bc886cfa51d6b34dc",
+            "bytes": 39180
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 1
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "rome_religious_jupiter_5",
@@ -54,7 +385,101 @@
       "factions": [
         "rom_rome"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Pantheon",
+          "facts": [
+            "Tax Harvesting Edict: +10% tax rate",
+            "+20% wealth from all sources",
+            "+12 Latin cultural influence",
+            "+2 influence per turn for your political party",
+            "+12 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_rome"
+              ],
+              "links": [
+                {
+                  "name": "Basilica of Jupiter",
+                  "url": "https://r2encv2.totalwar.com/en/building/rome_religious_jupiter_4rom_Roman"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Marble",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_marble"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/rome_religious_jupiter_5rom_Roman/index.html",
+            "sha256": "b32b7b9e8c21fbbb97bfebc80d069270f74f59bf545d475d445efd86f225c2e0",
+            "bytes": 48475
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Pantheon",
+          "facts": [
+            "+12 Latin cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+20% wealth from all sources (regions_in_this_province)",
+            "+12 public order per turn (this_province)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Tax Harvesting Edict: +10% tax rate (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Pantheon",
+            "Level Name": "rome_religious_jupiter_5",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "12600",
+            "Require Resource": "Marble"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_rome&b=rome_religious_jupiter_5",
+            "sha256": "d7bb8da407ab90e5bc7155b50d1da6b305953fe39f39aab6871159e23a52de0f",
+            "bytes": 31594
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_military_heavy_5",
@@ -63,7 +488,97 @@
       "factions": [
         "rom_sparta"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Monument of Leonidas",
+          "facts": [
+            "+2 army recruitment capacity",
+            "+2 influence per turn for your political party",
+            "+8 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_sparta"
+              ],
+              "links": [
+                {
+                  "name": "Royal Barracks",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_military_heavy_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Iron",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_iron"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_military_heavy_5rom_Hellenisticrom_sparta/index.html",
+            "sha256": "e6a5c8ca1f003eba624c4a253334558791ed73db133bc63a38331febc8e5d899",
+            "bytes": 29321
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 2
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Monument of Leonidas",
+          "facts": [
+            "-8 food (this_region)",
+            "+8 public order per turn (this_province)",
+            "+2 army recruitment capacity (this_province)",
+            "+2 influence per turn for your political party (this_faction)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Monument of Leonidas",
+            "Level Name": "greek_military_heavy_5",
+            "Building Chain": "Military (Recruitment)",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "4100",
+            "Require Resource": "Iron"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Iron",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_sparta&b=greek_military_heavy_5",
+            "sha256": "eb8e50858eab62ecee40e0e16fc811e0f180e2781eef47baa20f2b612e70e12b",
+            "bytes": 53464
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 2
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_city_centre_5_prytaneion",
@@ -72,7 +587,114 @@
       "factions": [
         "rom_cimmeria"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Prytaneion",
+          "facts": [
+            "+30% wealth from culture",
+            "600 wealth from subsistence",
+            "+14 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_cimmeria"
+              ],
+              "links": [
+                {
+                  "name": "Deigma",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_city_centre_food_4rom_Hellenistic"
+                },
+                {
+                  "name": "Pandocheion",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_city_centre_inn_4rom_Hellenistic"
+                },
+                {
+                  "name": "Akademia",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_city_centre_library_4rom_Hellenistic"
+                },
+                {
+                  "name": "Hippodrome",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_city_centre_theatre_4rom_Hellenistic"
+                },
+                {
+                  "name": "Wine Market",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_city_centre_wine_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Marble",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_marble"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_city_centre_5_prytaneionrom_Hellenisticrom_cimmeria/index.html",
+            "sha256": "4002c342e672172357de557db396c305a2d51a621f60c1da83c5c2b732c301ca",
+            "bytes": 38406
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 4
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Prytaneion",
+          "facts": [
+            "-8 food (this_region)",
+            "+30% wealth from culture (regions_in_this_province)",
+            "600 wealth from subsistence (this_building)",
+            "+14 public order per turn (this_province)",
+            "[NOT DISPLAYED] Drives the road levels between settlements (this_region)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Prytaneion",
+            "Level Name": "greek_city_centre_5_prytaneion",
+            "Building Chain": "City Centre",
+            "Building Level": "5",
+            "Create Time": "2",
+            "Create Cost": "12000",
+            "Require Resource": "Marble"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_cimmeria&b=greek_city_centre_5_prytaneion",
+            "sha256": "ad2994f4f2cbdec09a406c272bcac2292adb226f1a492e6991dbe1327ef9eeaa",
+            "bytes": 49277
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 4
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_city_centre_trade_5",
@@ -81,7 +703,100 @@
       "factions": [
         "rom_colchis"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Great Market",
+          "facts": [
+            "+30% wealth from all commerce",
+            "+26% tariff income from trade agreements",
+            "500 wealth from local commerce",
+            "+6 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_colchis"
+              ],
+              "links": [
+                {
+                  "name": "Wine Market",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_city_centre_wine_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Wine",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_wine"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_city_centre_trade_5rom_Hellenisticrom_colchis/index.html",
+            "sha256": "0c00c33a4c7a2444c99606d630c89f140351c13a59642cf0d88c9df498d87ead",
+            "bytes": 35529
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 4
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Great Market",
+          "facts": [
+            "-8 food (this_region)",
+            "+30% wealth from all commerce (regions_in_this_province)",
+            "500 wealth from local commerce (this_building)",
+            "+6 public order per turn (this_province)",
+            "[NOT DISPLAYED] Drives the road levels between settlements (this_region)",
+            "+26% tariff income from trade agreements (this_faction)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Great Market",
+            "Level Name": "greek_city_centre_trade_5",
+            "Building Chain": "City Centre",
+            "Building Level": "5",
+            "Create Time": "8",
+            "Create Cost": "12000",
+            "Require Resource": "Wine"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Wine",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_colchis&b=greek_city_centre_trade_5",
+            "sha256": "689408dac21f06167c8d75426ad56778b314e6db9932c69fb5f64b42fe1f1296",
+            "bytes": 45867
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 4
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_city_centre_library_5_pergamon",
@@ -90,7 +805,98 @@
       "factions": [
         "rom_pergamon"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Library of Pergamon",
+          "facts": [
+            "+2 influence per turn for your political party",
+            "300 wealth from learning (culture)",
+            "+36% research rate",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_pergamon"
+              ],
+              "links": [
+                {
+                  "name": "Akademia",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_city_centre_library_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Glassware",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_glass"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_city_centre_library_5_pergamonrom_Hellenisticrom_pergamon/index.html",
+            "sha256": "f70be78fe61856b6528fb8ba490e056a57ac7b077ba77ce72570d5ec675a561b",
+            "bytes": 35558
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 2
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Library of Pergamon",
+          "facts": [
+            "-8 food (this_region)",
+            "300 wealth from learning (culture) (this_building)",
+            "+36% research rate (this_faction)",
+            "[NOT DISPLAYED] Drives the road levels between settlements (this_region)",
+            "+2 influence per turn for your political party (this_faction)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Library of Pergamon",
+            "Level Name": "greek_city_centre_library_5_pergamon",
+            "Building Chain": "City Centre",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "11800",
+            "Require Resource": "Glassware"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Glassware",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_pergamon&b=greek_city_centre_library_5_pergamon",
+            "sha256": "fc9fee4d96781a7799cfac6cc64bd3ea71cc551c75d127146c15a22a179ab0e4",
+            "bytes": 46353
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 2
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_city_centre_library_5",
@@ -99,7 +905,98 @@
       "factions": [
         "rom_ptolemaics"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Great Library",
+          "facts": [
+            "+2 influence per turn for your political party",
+            "300 wealth from learning (culture)",
+            "+36% research rate",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_ptolemaics"
+              ],
+              "links": [
+                {
+                  "name": "Akademia",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_city_centre_library_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Glassware",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_glass"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_city_centre_library_5rom_Hellenisticsc_rom_egyptian/index.html",
+            "sha256": "a8bd9e4cf71d75989288902c86f9620ff81a72070c00af77f76ab2a7fd6f04e5",
+            "bytes": 37753
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 2
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Great Library",
+          "facts": [
+            "-8 food (this_region)",
+            "300 wealth from learning (culture) (this_building)",
+            "+36% research rate (this_faction)",
+            "[NOT DISPLAYED] Drives the road levels between settlements (this_region)",
+            "+2 influence per turn for your political party (this_faction)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Great Library",
+            "Level Name": "greek_city_centre_library_5",
+            "Building Chain": "City Centre",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "11800",
+            "Require Resource": "Glassware"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Glassware",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_ptolemaics&b=greek_city_centre_library_5",
+            "sha256": "a065b0ee822b70e8c26d951e948d1c65fd041bc7470bdef807d92a76fee2306b",
+            "bytes": 46241
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 2
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_city_centre_theatre_5",
@@ -108,7 +1005,121 @@
       "factions": [
         "rom_syracuse"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Theatre of Syracuse",
+          "facts": [
+            "+2 influence per turn for your political party",
+            "400 wealth from entertainment (culture)",
+            "+30 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_syracuse"
+              ],
+              "links": [
+                {
+                  "name": "Hippodrome",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_city_centre_theatre_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Tech",
+              "factions": [
+                "rom_syracuse"
+              ],
+              "links": [
+                {
+                  "name": "Golden Age",
+                  "url": "https://r2encv2.totalwar.com/en/tech/rom_syracuse_engineering_construction_golden_age"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Marble",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_marble"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_city_centre_theatre_5rom_Hellenisticrom_syracuse/index.html",
+            "sha256": "d2e928adc66c1c809367dd23f1a3fd40e06ab8cd71314a8b364c4e2e544e71ab",
+            "bytes": 36758
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Theatre of Syracuse",
+          "facts": [
+            "-8 food (this_region)",
+            "400 wealth from entertainment (culture) (this_building)",
+            "+30 public order per turn (this_province)",
+            "[NOT DISPLAYED] Drives the road levels between settlements (this_region)",
+            "+2 influence per turn for your political party (this_faction)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Theatre of Syracuse",
+            "Level Name": "greek_city_centre_theatre_5",
+            "Building Chain": "City Centre",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "15100",
+            "Require Resource": "Marble",
+            "Require Technology": "Golden Age"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            },
+            {
+              "label": "Require Technology",
+              "value": "Golden Age",
+              "links": [
+                {
+                  "name": "Golden Age",
+                  "url": "https://www.honga.net/totalwar/rome2/technology.php?l=en&v=rome2&f=rom_syracuse&t=rom_syracuse_engineering_construction_golden_age"
+                }
+              ]
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_syracuse&b=greek_city_centre_theatre_5",
+            "sha256": "750e243e3fda393fc350f87b75e05ae9b8b5fea1c3e4633c0eb274b4345e960f",
+            "bytes": 46343
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_town_centre_5_rose_marl",
@@ -117,7 +1128,101 @@
       "factions": [
         "rom_cimmeria"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Rose Marl Building",
+          "facts": [
+            "+2 influence per turn for your political party",
+            "500 wealth from local commerce",
+            "+8 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_cimmeria"
+              ],
+              "links": [
+                {
+                  "name": "Emporion",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_town_centre_market_4rom_Hellenistic"
+                },
+                {
+                  "name": "Stadia",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_town_centre_stadia_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Silk",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_textiles"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_town_centre_5_rose_marlrom_Hellenisticrom_cimmeria/index.html",
+            "sha256": "d088f4ab440061c7f0eaf20a589e1fdae4d5efb4c1ebdff8fba1f9915f13deab",
+            "bytes": 24958
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Rose Marl Building",
+          "facts": [
+            "-8 food (this_region)",
+            "500 wealth from local commerce (this_building)",
+            "+8 public order per turn (this_province)",
+            "+2 influence per turn for your political party (this_faction)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Rose Marl Building",
+            "Level Name": "greek_town_centre_5_rose_marl",
+            "Building Chain": "Town Centre",
+            "Building Level": "5",
+            "Create Time": "8",
+            "Create Cost": "9000",
+            "Require Resource": "Silk"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Silk",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_cimmeria&b=greek_town_centre_5_rose_marl",
+            "sha256": "430d17418e5364f7ce76b10f5e7eed3af1c114d0a36945f02ea570a46fca7d7b",
+            "bytes": 37985
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_religious_athena_5",
@@ -126,7 +1231,101 @@
       "factions": [
         "rom_athens"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Acropolis",
+          "facts": [
+            "Bread and Games Edict +40% wealth generated by agricultural buildings",
+            "+40% wealth from culture",
+            "+6 Hellenic cultural influence",
+            "+2 influence per turn for your political party",
+            "+10 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_athens"
+              ],
+              "links": [
+                {
+                  "name": "Temple of Athena Promachos",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_athena_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Marble",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_marble"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_religious_athena_5rom_Hellenisticrom_athens/index.html",
+            "sha256": "24349811f098f83b926d6db533d47431f6f3936f542f515b03b7d167e56991cc",
+            "bytes": 38140
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Acropolis",
+          "facts": [
+            "+6 Hellenic cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+40% wealth from culture (regions_in_this_province)",
+            "+10 public order per turn (this_province)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Bread and Games Edict: +40% wealth generated by agricultural buildings (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Acropolis",
+            "Level Name": "greek_religious_athena_5",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "7900",
+            "Require Resource": "Marble"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_athens&b=greek_religious_athena_5",
+            "sha256": "9dac82a65addb1f64838aa705c0859914068c9e983d5c695d543174436d95bf5",
+            "bytes": 31131
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_religious_5_demeter",
@@ -135,7 +1334,121 @@
       "factions": [
         "rom_cimmeria"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Sanctuary of Demeter",
+          "facts": [
+            "Tax Harvesting Edict: +10% tax rate",
+            "+24% wealth from all sources",
+            "+12 Hellenic cultural influence",
+            "+2 influence per turn for your political party",
+            "+10 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_cimmeria"
+              ],
+              "links": [
+                {
+                  "name": "Temple of Ares Enyalios",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_areas_4rom_Hellenistic"
+                },
+                {
+                  "name": "Temple of Athena Promachos",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_athena_4rom_Hellenistic"
+                },
+                {
+                  "name": "Temple of Hephaistos Polumetis",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_hephaistos_4rom_Hellenistic"
+                },
+                {
+                  "name": "Nymphaion",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_nymph_4rom_Hellenistic"
+                },
+                {
+                  "name": "Temple of Poseidon Hippois",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_poseidon_4rom_Hellenistic"
+                },
+                {
+                  "name": "Temple of Zeus Panhellenios",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_zeus_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Marble",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_marble"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_religious_5_demeterrom_Hellenisticrom_cimmeria/index.html",
+            "sha256": "9189d9229311d8505824debf1181782a3f3147bcf96334abdcc16cc6fbebf250",
+            "bytes": 42685
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Sanctuary of Demeter",
+          "facts": [
+            "+12 Hellenic cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+24% wealth from all sources (regions_in_this_province)",
+            "+10 public order per turn (this_province)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Tax Harvesting Edict: +10% tax rate (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Sanctuary of Demeter",
+            "Level Name": "greek_religious_5_demeter",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "12000",
+            "Require Resource": "Marble"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_cimmeria&b=greek_religious_5_demeter",
+            "sha256": "d85bb65d7c3e9caa8f8cf84ed824f8575839e7f69c24cb6a661913295d2b6e16",
+            "bytes": 31624
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_religious_5_golden_fleece",
@@ -144,7 +1457,121 @@
       "factions": [
         "rom_colchis"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Temple of the Golden Fleece",
+          "facts": [
+            "Tax Harvesting Edict: +10% tax rate",
+            "+24% wealth from all sources",
+            "+12 Hellenic cultural influence",
+            "+2 influence per turn for your political party",
+            "+10 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_colchis"
+              ],
+              "links": [
+                {
+                  "name": "Temple of Ares Enyalios",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_areas_4rom_Hellenistic"
+                },
+                {
+                  "name": "Temple of Athena Promachos",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_athena_4rom_Hellenistic"
+                },
+                {
+                  "name": "Temple of Hephaistos Polumetis",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_hephaistos_4rom_Hellenistic"
+                },
+                {
+                  "name": "Nymphaion",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_nymph_4rom_Hellenistic"
+                },
+                {
+                  "name": "Temple of Poseidon Hippois",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_poseidon_4rom_Hellenistic"
+                },
+                {
+                  "name": "Temple of Zeus Panhellenios",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_zeus_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Marble",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_marble"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_religious_5_golden_fleecerom_Hellenisticrom_colchis/index.html",
+            "sha256": "c352c0fa9421421ddd7bd9b2fb68ef4b8b57dfddd8459f82d7f0f1b003a28419",
+            "bytes": 42585
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Temple of the Golden Fleece",
+          "facts": [
+            "+12 Hellenic cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+24% wealth from all sources (regions_in_this_province)",
+            "+10 public order per turn (this_province)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Tax Harvesting Edict: +10% tax rate (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Temple of the Golden Fleece",
+            "Level Name": "greek_religious_5_golden_fleece",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "12000",
+            "Require Resource": "Marble"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_colchis&b=greek_religious_5_golden_fleece",
+            "sha256": "a0b4ee2c6f859c9527796650c35e29d3066cb906dcbe54780206400e0bdb430f",
+            "bytes": 31617
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_religious_zeus_5_epirus",
@@ -153,7 +1580,101 @@
       "factions": [
         "rom_epirus"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Oracle of Dodona",
+          "facts": [
+            "Tax Harvesting Edict: +10% tax rate",
+            "+24% wealth from all sources",
+            "+12 Hellenic cultural influence",
+            "+2 influence per turn for your political party",
+            "+10 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_epirus"
+              ],
+              "links": [
+                {
+                  "name": "Temple of Zeus Panhellenios",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_zeus_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Marble",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_marble"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_religious_zeus_5_epirusrom_Hellenisticrom_epirus/index.html",
+            "sha256": "9300c77095a806611e85e93f0cb27e863bd9356e2a5985b1ccca26800f9c1a08",
+            "bytes": 38247
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Oracle of Dodona",
+          "facts": [
+            "+12 Hellenic cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+24% wealth from all sources (regions_in_this_province)",
+            "+10 public order per turn (this_province)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Tax Harvesting Edict: +10% tax rate (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Oracle of Dodona",
+            "Level Name": "greek_religious_zeus_5_epirus",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "12000",
+            "Require Resource": "Marble"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_epirus&b=greek_religious_zeus_5_epirus",
+            "sha256": "62e84f07e26856e17049fbcc4497b24aae88b368a78c68024509d737799d53b8",
+            "bytes": 31451
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_religious_zeus_5_macedon",
@@ -162,7 +1683,101 @@
       "factions": [
         "rom_macedon"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Hieron ton Mehalon Theon",
+          "facts": [
+            "Tax Harvesting Edict: +10% tax rate",
+            "+24% wealth from all sources",
+            "+12 Hellenic cultural influence",
+            "+2 influence per turn for your political party",
+            "+10 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_macedon"
+              ],
+              "links": [
+                {
+                  "name": "Temple of Zeus Panhellenios",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_zeus_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Marble",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_marble"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_religious_zeus_5_macedonrom_Hellenisticrom_macedon/index.html",
+            "sha256": "efa3752269ad41e93a0c30649d8a56476faf738d9f53069752b3db9eb59ed13d",
+            "bytes": 38344
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Hieron ton Mehalon Theon",
+          "facts": [
+            "+12 Hellenic cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+24% wealth from all sources (regions_in_this_province)",
+            "+10 public order per turn (this_province)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Tax Harvesting Edict: +10% tax rate (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Hieron ton Mehalon Theon",
+            "Level Name": "greek_religious_zeus_5_macedon",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "12000",
+            "Require Resource": "Marble"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_macedon&b=greek_religious_zeus_5_macedon",
+            "sha256": "9c932938f17993d9a8598eb574660351696d7ed18d29e8a840c495f4960fe5af",
+            "bytes": 31628
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_religious_5_ephesus",
@@ -171,7 +1786,121 @@
       "factions": [
         "rom_massilia"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Cult of Ephesus",
+          "facts": [
+            "Tax Harvesting Edict: +10% tax rate",
+            "+24% wealth from all sources",
+            "+12 Hellenic cultural influence",
+            "+2 influence per turn for your political party",
+            "+10 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_massilia"
+              ],
+              "links": [
+                {
+                  "name": "Temple of Ares Enyalios",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_areas_4rom_Hellenistic"
+                },
+                {
+                  "name": "Temple of Athena Promachos",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_athena_4rom_Hellenistic"
+                },
+                {
+                  "name": "Temple of Hephaistos Polumetis",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_hephaistos_4rom_Hellenistic"
+                },
+                {
+                  "name": "Nymphaion",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_nymph_4rom_Hellenistic"
+                },
+                {
+                  "name": "Temple of Poseidon Hippois",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_poseidon_4rom_Hellenistic"
+                },
+                {
+                  "name": "Temple of Zeus Panhellenios",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_zeus_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Marble",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_marble"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_religious_5_ephesusrom_Hellenisticrom_massilia/index.html",
+            "sha256": "687c004dc72696930f765d8a43166e177868eec786c13c1b0de1c6595700ed46",
+            "bytes": 42774
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Cult of Ephesus",
+          "facts": [
+            "+12 Hellenic cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+24% wealth from all sources (regions_in_this_province)",
+            "+10 public order per turn (this_province)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Tax Harvesting Edict: +10% tax rate (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Cult of Ephesus",
+            "Level Name": "greek_religious_5_ephesus",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "12000",
+            "Require Resource": "Marble"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_massilia&b=greek_religious_5_ephesus",
+            "sha256": "1771f5a56c22a4deeca511b45d14870736a7b43a75a62d7810b6edd6e33a4743",
+            "bytes": 31481
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_religious_zeus_5_pergamon",
@@ -180,7 +1909,101 @@
       "factions": [
         "rom_pergamon"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Great Altar of Pergamon",
+          "facts": [
+            "Tax Harvesting Edict: +10% tax rate",
+            "+24% wealth from all sources",
+            "+12 Hellenic cultural influence",
+            "+2 influence per turn for your political party",
+            "+10 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_pergamon"
+              ],
+              "links": [
+                {
+                  "name": "Temple of Zeus Panhellenios",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_zeus_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Marble",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_marble"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_religious_zeus_5_pergamonrom_Hellenisticrom_pergamon/index.html",
+            "sha256": "31790c16688f802474f9b9e590e56a2a3bf6b7c11eef85eef8891fa3d7ef5101",
+            "bytes": 38177
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Great Altar of Pergamon",
+          "facts": [
+            "+12 Hellenic cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+24% wealth from all sources (regions_in_this_province)",
+            "+10 public order per turn (this_province)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Tax Harvesting Edict: +10% tax rate (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Great Altar of Pergamon",
+            "Level Name": "greek_religious_zeus_5_pergamon",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "12000",
+            "Require Resource": "Marble"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_pergamon&b=greek_religious_zeus_5_pergamon",
+            "sha256": "b7b926e5e743ccf89c6b3f7b85b986dbb3adf1446ee0327ca0d2f691bda8b7b5",
+            "bytes": 31587
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_religious_zeus_5_pontus",
@@ -189,7 +2012,101 @@
       "factions": [
         "rom_pontus"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Hieron ton Mehalon Theon",
+          "facts": [
+            "Tax Harvesting Edict: +10% tax rate",
+            "+24% wealth from all sources",
+            "+12 Hellenic cultural influence",
+            "+2 influence per turn for your political party",
+            "+10 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_pontus"
+              ],
+              "links": [
+                {
+                  "name": "Temple of Zeus Panhellenios",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_zeus_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Marble",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_marble"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_religious_zeus_5_pontusrom_Hellenisticrom_pontus/index.html",
+            "sha256": "52f9e6d47e30c42fcaeb9483edfff465cfef4bf0bb60421eff4a08b577c55828",
+            "bytes": 38249
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Hieron ton Mehalon Theon",
+          "facts": [
+            "+12 Hellenic cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+24% wealth from all sources (regions_in_this_province)",
+            "+10 public order per turn (this_province)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Tax Harvesting Edict: +10% tax rate (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Hieron ton Mehalon Theon",
+            "Level Name": "greek_religious_zeus_5_pontus",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "12000",
+            "Require Resource": "Marble"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_pontus&b=greek_religious_zeus_5_pontus",
+            "sha256": "89c9bdeff2697ea59be899d8ee8755bca9cfb647e45efc1f8e1f6b4d05982b41",
+            "bytes": 31560
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_religious_nymph_5",
@@ -198,7 +2115,101 @@
       "factions": [
         "rom_seleucid"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Paradise of Daphne",
+          "facts": [
+            "Noble Philanthropy Edict: -50% building conversion costs",
+            "+20% wealth from agriculture",
+            "+6 Hellenic cultural influence",
+            "+2 influence per turn for your political party",
+            "+24 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_seleucid"
+              ],
+              "links": [
+                {
+                  "name": "Nymphaion",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_nymph_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Timber",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_timber"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_religious_nymph_5rom_Hellenisticrom_seleucid/index.html",
+            "sha256": "de8637a910275530c417c9b0f0e0e6873ce7a359ded2cd81e7524ae67566774f",
+            "bytes": 38843
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Paradise of Daphne",
+          "facts": [
+            "+6 Hellenic cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+20% wealth from agriculture (regions_in_this_province)",
+            "+24 public order per turn (this_province)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Noble Philanthropy Edict: -50% building conversion costs (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Paradise of Daphne",
+            "Level Name": "greek_religious_nymph_5",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "11700",
+            "Require Resource": "Timber"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Timber",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_seleucid&b=greek_religious_nymph_5",
+            "sha256": "51598cdbe3d489812f4a1796c55876dd14d59d122796676fca77fbae2be407bf",
+            "bytes": 32026
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_religious_zeus_5_syracuse",
@@ -207,7 +2218,124 @@
       "factions": [
         "rom_syracuse"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Altar to Zeus",
+          "facts": [
+            "Tax Harvesting Edict: +10% tax rate",
+            "+24% wealth from all sources",
+            "+12 Hellenic cultural influence",
+            "+2 influence per turn for your political party",
+            "+10 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_syracuse"
+              ],
+              "links": [
+                {
+                  "name": "Temple of Zeus Panhellenios",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_zeus_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Tech",
+              "factions": [
+                "rom_syracuse"
+              ],
+              "links": [
+                {
+                  "name": "Golden Age",
+                  "url": "https://r2encv2.totalwar.com/en/tech/rom_syracuse_engineering_construction_golden_age"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Marble",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_marble"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_religious_zeus_5_syracuserom_Hellenisticrom_syracuse/index.html",
+            "sha256": "1bbf5ad952284e8421576042d7cf51716716fd7f3e4f008a9c22cf4663d2cd5d",
+            "bytes": 39886
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Altar to Zeus",
+          "facts": [
+            "+12 Hellenic cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+24% wealth from all sources (regions_in_this_province)",
+            "+10 public order per turn (this_province)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Tax Harvesting Edict: +10% tax rate (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Altar to Zeus",
+            "Level Name": "greek_religious_zeus_5_syracuse",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "12000",
+            "Require Resource": "Marble",
+            "Require Technology": "Golden Age"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            },
+            {
+              "label": "Require Technology",
+              "value": "Golden Age",
+              "links": [
+                {
+                  "name": "Golden Age",
+                  "url": "https://www.honga.net/totalwar/rome2/technology.php?l=en&v=rome2&f=rom_syracuse&t=rom_syracuse_engineering_construction_golden_age"
+                }
+              ]
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_syracuse&b=greek_religious_zeus_5_syracuse",
+            "sha256": "788051c2e474c802d0a58e1f6c45237a20ccad34dcc289d4ace56532f75cd706",
+            "bytes": 32173
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_religious_egypt_ammon_5",
@@ -216,7 +2344,101 @@
       "factions": [
         "rom_ptolemaics"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Ptolemaic Temple Complex",
+          "facts": [
+            "Tax Harvesting Edict: +10% tax rate",
+            "+24% wealth from all sources",
+            "+12 Hellenic cultural influence",
+            "+2 influence per turn for your political party",
+            "+12 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_ptolemaics"
+              ],
+              "links": [
+                {
+                  "name": "Precinct of Ammon-Zeus",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_egypt_ammon_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Marble",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_marble"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_religious_egypt_ammon_5rom_Hellenisticsc_rom_egyptianrom_ptolemaics/index.html",
+            "sha256": "67ede13d47bf14e80239adc4fb03cd422134a2d207762a7b65e0f1c24beed1a3",
+            "bytes": 40838
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Ptolemaic Temple Complex",
+          "facts": [
+            "+12 Hellenic cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+24% wealth from all sources (regions_in_this_province)",
+            "+12 public order per turn (this_province)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Tax Harvesting Edict: +10% tax rate (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Ptolemaic Temple Complex",
+            "Level Name": "greek_religious_egypt_ammon_5",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "12000",
+            "Require Resource": "Marble"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_ptolemaics&b=greek_religious_egypt_ammon_5",
+            "sha256": "440eb50c335f727fe8819c4f5351cb9435f0fdc8c0b11048527d14c0e5cae3cf",
+            "bytes": 31753
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "greek_religious_punic_5",
@@ -225,7 +2447,104 @@
       "factions": [
         "rom_carthage"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Tophet",
+          "facts": [
+            "Bread and Games Edict: +6 public order",
+            "+20% unit morale upon recruitment",
+            "+5% wealth from maritime commerce (all regions)",
+            "+15 Punic cultural influence",
+            "+2 influence per turn for your political party",
+            "+10 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_carthage"
+              ],
+              "links": [
+                {
+                  "name": "Precinct of Baal Hammon",
+                  "url": "https://r2encv2.totalwar.com/en/building/greek_religious_punic_baal_hammon_4rom_Hellenistic"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Lead",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_lead"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/greek_religious_punic_5rom_Hellenisticsc_rom_carthaginianrom_carthage/index.html",
+            "sha256": "cfaf99d2c030bf8d150045b1be3dd4af3f625a5609968013b38ffb2a15486650",
+            "bytes": 35379
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Tophet",
+          "facts": [
+            "+15 Punic cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+5% wealth from maritime commerce (all regions)",
+            "+10 public order per turn (this_province)",
+            "+20% unit morale upon recruitment (this_province)",
+            "[HIDDEN] Add this effect with scope province_to_sea_region to give morale to sea units (this_buildings_province_to_adjacent_sea_regions)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Bread and Games Edict: +6 public order (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Tophet",
+            "Level Name": "greek_religious_punic_5",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "17200",
+            "Require Resource": "Lead"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Lead",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_carthage&b=greek_religious_punic_5",
+            "sha256": "b5c2281389377ea686aec3c8321c2470bd71474b52626bce37560f8c151613f5",
+            "bytes": 31864
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "barb_commons_chieftan_5",
@@ -245,7 +2564,242 @@
         "rom_suebi",
         "rom_tylis"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "High King's Hold",
+          "facts": [
+            "+2 influence per turn for your political party",
+            "400 wealth from subsistence",
+            "+10 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_ardiaei"
+              ],
+              "links": [
+                {
+                  "name": "Great Hall",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_commons_chieftan_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_arevaci"
+              ],
+              "links": [
+                {
+                  "name": "Great Hall",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_commons_chieftan_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_arverni"
+              ],
+              "links": [
+                {
+                  "name": "Great Hall",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_commons_chieftan_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_boii"
+              ],
+              "links": [
+                {
+                  "name": "Great Hall",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_commons_chieftan_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_galatia"
+              ],
+              "links": [
+                {
+                  "name": "Great Hall",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_commons_chieftan_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_getae"
+              ],
+              "links": [
+                {
+                  "name": "Great Hall",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_commons_chieftan_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_iceni"
+              ],
+              "links": [
+                {
+                  "name": "Great Hall",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_commons_chieftan_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_lusitani"
+              ],
+              "links": [
+                {
+                  "name": "Great Hall",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_commons_chieftan_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_nervii"
+              ],
+              "links": [
+                {
+                  "name": "Great Hall",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_commons_chieftan_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_odryssia"
+              ],
+              "links": [
+                {
+                  "name": "Great Hall",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_commons_chieftan_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_suebi"
+              ],
+              "links": [
+                {
+                  "name": "Great Hall",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_commons_chieftan_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_tylis"
+              ],
+              "links": [
+                {
+                  "name": "Great Hall",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_commons_chieftan_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Tech",
+              "factions": [
+                "rom_getae"
+              ],
+              "links": [
+                {
+                  "name": "Murus Dacius",
+                  "url": "https://r2encv2.totalwar.com/en/tech/rom_dacian_engineering_construction_murus_dacius"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Timber",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_timber"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/barb_commons_chieftan_5rom_Barbarian/index.html",
+            "sha256": "e0cd1546d07ae944be81622d18edaffc2af693f29c2e89c21913ac04a3fd9901",
+            "bytes": 75620
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "High King's Hold",
+          "facts": [
+            "-8 food (this_region)",
+            "400 wealth from subsistence (this_building)",
+            "+10 public order per turn (this_province)",
+            "[NOT DISPLAYED] Drives the road levels between settlements (this_region)",
+            "+2 influence per turn for your political party (this_faction)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "High King's Hold",
+            "Level Name": "barb_commons_chieftan_5",
+            "Building Chain": "Commons",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "9100",
+            "Require Resource": "Timber"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Timber",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_ardiaei&b=barb_commons_chieftan_5",
+            "sha256": "b09963a18f3ed87176b5ce2777f1c624e29902946ec327cf6e850c7158d428f2",
+            "bytes": 43304
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "barb_religious_briton_andraste_5",
@@ -254,7 +2808,101 @@
       "factions": [
         "rom_iceni"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Nemeton",
+          "facts": [
+            "Tribute Collection Edict +12 public order from taxes",
+            "+40% wealth generated by slaves",
+            "+8 Celtic cultural influence",
+            "+2 influence per turn for your political party",
+            "+10 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_iceni"
+              ],
+              "links": [
+                {
+                  "name": "Sanctuary of Andraste",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_briton_andraste_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Timber",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_timber"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/barb_religious_briton_andraste_5rom_Barbarian/index.html",
+            "sha256": "43b0ba155eda5bfe1984ed40b76e176bcccfa3db2257e01323f091425eff3cfe",
+            "bytes": 37898
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 2
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Nemeton",
+          "facts": [
+            "+8 Celtic cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+10 public order per turn (this_province)",
+            "+40% wealth generated by slaves (this_province)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Tribute Collection Edict: +12 public order from taxes (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Nemeton",
+            "Level Name": "barb_religious_briton_andraste_5",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "11400",
+            "Require Resource": "Timber"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Timber",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_iceni&b=barb_religious_briton_andraste_5",
+            "sha256": "dd258fd35329c1bcce8e4dc52340b13d7b5407c761482ad629213b0f06710a20",
+            "bytes": 31446
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 2
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "barb_religious_gaul_toutatis_5",
@@ -265,7 +2913,123 @@
         "rom_boii",
         "rom_nervii"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Nemeton",
+          "facts": [
+            "Migration Edict: -40% unit recruitment cost",
+            "+16 Celtic cultural influence",
+            "+2 influence per turn for your political party",
+            "+16 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_arverni"
+              ],
+              "links": [
+                {
+                  "name": "Sanctuary of Toutatis",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_gaul_toutatis_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_boii"
+              ],
+              "links": [
+                {
+                  "name": "Sanctuary of Toutatis",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_gaul_toutatis_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_nervii"
+              ],
+              "links": [
+                {
+                  "name": "Sanctuary of Toutatis",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_gaul_toutatis_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Timber",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_timber"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/barb_religious_gaul_toutatis_5rom_Barbarian/index.html",
+            "sha256": "0e3971457f4489bdafb8af1df7f02dbb050226710c7742775ad25c5811157fef",
+            "bytes": 44749
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 2
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Nemeton",
+          "facts": [
+            "+16 Celtic cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+16 public order per turn (this_province)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Migration Edict: -40% unit recruitment cost (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Nemeton",
+            "Level Name": "barb_religious_gaul_toutatis_5",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "11400",
+            "Require Resource": "Timber"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Timber",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_arverni&b=barb_religious_gaul_toutatis_5",
+            "sha256": "8b8e3ac272c1014216fb605bd13c3b64b111c8fd8ef1222f85044fbe001a56b6",
+            "bytes": 31338
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 2
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "barb_religious_german_teiwaz_5",
@@ -274,7 +3038,99 @@
       "factions": [
         "rom_suebi"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Oak of Teiwaz",
+          "facts": [
+            "-50% land unit recruitment cost",
+            "+16 Germanic cultural influence",
+            "+2 influence per turn for your political party",
+            "+16 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_suebi"
+              ],
+              "links": [
+                {
+                  "name": "Sanctuary of Teiwaz",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_german_teiwaz_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Timber",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_timber"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/barb_religious_german_teiwaz_5rom_Barbarian/index.html",
+            "sha256": "ff8348591f4858a57b85a98a49e0129fde804a783a540aa96e57c79c934c79ce",
+            "bytes": 47023
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 2
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Oak of Teiwaz",
+          "facts": [
+            "+16 Germanic cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+16 public order per turn (this_province)",
+            "-50% land unit recruitment cost (this_province)",
+            "+2 influence per turn for your political party (this_faction)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Oak of Teiwaz",
+            "Level Name": "barb_religious_german_teiwaz_5",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "15800",
+            "Require Resource": "Timber"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Timber",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_suebi&b=barb_religious_german_teiwaz_5",
+            "sha256": "57945284946e79f857ec10ce330b6a2491b7715331550d5b0e2cd74d105417b1",
+            "bytes": 33508
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 2
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "barb_religious_iberian_5",
@@ -284,7 +3140,145 @@
         "rom_arevaci",
         "rom_lusitani"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Sacrificial Grove",
+          "facts": [
+            "Tribute Collection Edict: +12% tax rate",
+            "+40% wealth from agriculture",
+            "+16 Iberian cultural influence",
+            "+2 influence per turn for your political party",
+            "+16 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_arevaci"
+              ],
+              "links": [
+                {
+                  "name": "Sanctuary of Ataegina",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_iberian_ataegina_4rom_Barbarian"
+                },
+                {
+                  "name": "Sanctuary of Bandua",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_iberian_bandua_4rom_Barbarian"
+                },
+                {
+                  "name": "Sanctuary of Endovelicus",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_iberian_endovelicus_4rom_Barbarian"
+                },
+                {
+                  "name": "Sanctuary of Epona",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_iberian_epona_4rom_Barbarian"
+                },
+                {
+                  "name": "Sanctuary of Nabia",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_iberian_nabia_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_lusitani"
+              ],
+              "links": [
+                {
+                  "name": "Sanctuary of Ataegina",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_iberian_ataegina_4rom_Barbarian"
+                },
+                {
+                  "name": "Sanctuary of Bandua",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_iberian_bandua_4rom_Barbarian"
+                },
+                {
+                  "name": "Sanctuary of Endovelicus",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_iberian_endovelicus_4rom_Barbarian"
+                },
+                {
+                  "name": "Sanctuary of Epona",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_iberian_epona_4rom_Barbarian"
+                },
+                {
+                  "name": "Sanctuary of Nabia",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_iberian_nabia_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Timber",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_timber"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/barb_religious_iberian_5rom_Barbarian/index.html",
+            "sha256": "e4f13d30f9b933b9c62ea82865f6e456d79aa053b5b45294fd77c4f4a15dd996",
+            "bytes": 56889
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Sacrificial Grove",
+          "facts": [
+            "+16 Iberian cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+40% wealth from agriculture (regions_in_this_province)",
+            "+16 public order per turn (this_province)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Tribute Collection Edict: +12% tax rate (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Sacrificial Grove",
+            "Level Name": "barb_religious_iberian_5",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "5000",
+            "Require Resource": "Timber"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Timber",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_arevaci&b=barb_religious_iberian_5",
+            "sha256": "204cf3170dc592eb6efa81d242618355dfee4ec7f94821f849a714fef8a90271",
+            "bytes": 31346
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "barb_religious_nomad_api_5",
@@ -295,7 +3289,123 @@
         "rom_roxolani",
         "rom_scythia"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Kurgan Field",
+          "facts": [
+            "Tribute Collection Edict: +12% tax rate",
+            "+16 Nomadic cultural influence",
+            "+2 influence per turn for your political party",
+            "+16 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_massagetae"
+              ],
+              "links": [
+                {
+                  "name": "Sanctuary of Api",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_nomad_api_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_roxolani"
+              ],
+              "links": [
+                {
+                  "name": "Sanctuary of Api",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_nomad_api_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_scythia"
+              ],
+              "links": [
+                {
+                  "name": "Sanctuary of Api",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_nomad_api_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Timber",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_timber"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/barb_religious_nomad_api_5rom_Barbarian/index.html",
+            "sha256": "48fb46249a2d025961bce860408c7dcf2579107298ca7984b916365a6fdfcb14",
+            "bytes": 39796
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 2
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Kurgan Field",
+          "facts": [
+            "+16 Nomadic cultural influence (this_region)",
+            "-8 food (this_region)",
+            "+16 public order per turn (this_province)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Tribute Collection Edict: +12% tax rate (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Kurgan Field",
+            "Level Name": "barb_religious_nomad_api_5",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "11400",
+            "Require Resource": "Timber"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Timber",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_massagetae&b=barb_religious_nomad_api_5",
+            "sha256": "caca10e512928d04a98d9d8835c91a0aa12079ee015fcad13bbb9c22face918f",
+            "bytes": 31847
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 2
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "barb_religious_thrace_cabeiri_5",
@@ -304,7 +3414,103 @@
       "factions": [
         "rom_odryssia"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "official_encyclopedia",
+          "name": "Hearth Altar of the Cabeiri",
+          "facts": [
+            "Commercial Stimulation Edict: +25% wealth from industry buildings",
+            "+40% wealth from industry",
+            "+8 Balkan cultural influence",
+            "+2 influence per turn for your political party",
+            "360 wealth from entertainment (culture)",
+            "+6 public order per turn",
+            "-8 food"
+          ],
+          "requirements": [
+            {
+              "label": "Buildings",
+              "factions": [
+                "rom_odryssia"
+              ],
+              "links": [
+                {
+                  "name": "Sanctuary of the Cabeiri",
+                  "url": "https://r2encv2.totalwar.com/en/building/barb_religious_thrace_cabeiri_4rom_Barbarian"
+                }
+              ]
+            },
+            {
+              "label": "Resources",
+              "factions": [],
+              "links": [
+                {
+                  "name": "Timber",
+                  "url": "https://r2encv2.totalwar.com/en/resource/res_rom_timber"
+                }
+              ]
+            }
+          ],
+          "scope_warning": "Displayed facts do not consistently identify effect recipients.",
+          "source": {
+            "url": "https://r2encv2.totalwar.com/en/building/barb_religious_thrace_cabeiri_5rom_Barbarian/index.html",
+            "sha256": "c1e708660bf51aeaa212d4cad5a6a1107c8f9e9a4fc8870c461223de1d78e36d",
+            "bytes": 35863
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 4
+          }
+        },
+        {
+          "kind": "honga_detail",
+          "name": "Hearth Altar of the Cabeiri",
+          "facts": [
+            "+8 Balkan cultural influence (this_region)",
+            "-8 food (this_region)",
+            "360 wealth from entertainment (culture) (this_building)",
+            "+40% wealth from industry (regions_in_this_province)",
+            "+6 public order per turn (this_province)",
+            "+2 influence per turn for your political party (this_faction)",
+            "Commercial Stimulation Edict: +25% wealth from industry buildings (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Hearth Altar of the Cabeiri",
+            "Level Name": "barb_religious_thrace_cabeiri_5",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "11100",
+            "Require Resource": "Timber"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Timber",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_odryssia&b=barb_religious_thrace_cabeiri_5",
+            "sha256": "071d3f80bda590d6497b28b00df8476817bffde2b598ddfdd56fb0318582f71b",
+            "bytes": 32208
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 4
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "dk_ara_town_centre_caravanserai_5",
@@ -314,7 +3520,51 @@
         "rom_nabatea",
         "rom_saba"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "honga_detail",
+          "name": "Caravanserai",
+          "facts": [
+            "-10 food (this_region)",
+            "600 wealth from local commerce (this_building)",
+            "+12% tariff income from trade agreements (this_faction)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Caravanserai",
+            "Level Name": "dk_ara_town_centre_caravanserai_5",
+            "Building Chain": "Town Centre",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "7800",
+            "Require Resource": "Wine"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Wine",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_nabatea&b=dk_ara_town_centre_caravanserai_5",
+            "sha256": "3166245bf246f225dc2cac927422f7c29bf2f94e24b8e82782d62c0f3718981f",
+            "bytes": 39290
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 2
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "dk_all_city_5",
@@ -323,7 +3573,51 @@
       "factions": [
         "rom_nabatea"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "honga_detail",
+          "name": "Rekem",
+          "facts": [
+            "+8 artillery on walls (this_region)",
+            "-12 food (this_region)",
+            "+25% wealth from all sources (regions_in_this_province)",
+            "1000 wealth from subsistence (this_building)",
+            "+10 growth per turn (this_province)",
+            "+10 public order per turn (this_province)",
+            "[NOT DISPLAYED] Drives the road levels between settlements (this_region)",
+            "((NOT DISPLAYED)) (this_region)",
+            "[NOT DISPLAYED] Used for settlements to identify the presence of 15m walls (Hellenic / Roman / Eastern) (this_region)",
+            "+15 line of sight across borders (this_region)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Rekem",
+            "Level Name": "dk_all_city_5",
+            "Building Chain": "Provincial Capital",
+            "Building Level": "5",
+            "Create Time": "10",
+            "Create Cost": "12000"
+          },
+          "requirements": [],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_nabatea&b=dk_all_city_5",
+            "sha256": "a93cb2687c15c81780336a417fccda754908c96779dcbffb6d25f8e79dd941da",
+            "bytes": 48918
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 4
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "dk_kush_religious_royal_5",
@@ -332,7 +3626,54 @@
       "factions": [
         "rom_kush"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "honga_detail",
+          "name": "Nubian Pyramids",
+          "facts": [
+            "+8 Desert Nomadic cultural influence (this_region)",
+            "-10 food (this_region)",
+            "+30% wealth from culture (regions_in_this_province)",
+            "+10 public order per turn (this_province)",
+            "+12% research rate (this_faction)",
+            "Bread and Games Edict: +30% wealth generated by agricultural buildings (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Nubian Pyramids",
+            "Level Name": "dk_kush_religious_royal_5",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "16000",
+            "Require Resource": "Marble"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_kush&b=dk_kush_religious_royal_5",
+            "sha256": "cceaefda5f851ec7cb4cd285c10484e82daefce8de914c7d13eed9b238c29a00",
+            "bytes": 31153
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 3
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "dk_num_religious_royal_5",
@@ -341,7 +3682,64 @@
       "factions": [
         "rom_masaesyli"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "honga_detail",
+          "name": "Madghacen",
+          "facts": [
+            "+8 Desert Nomadic cultural influence (this_region)",
+            "-10 food (this_region)",
+            "+10 public order per turn (this_province)",
+            "+15% unit morale upon recruitment (this_province)",
+            "Bread and Games Edict: +30% wealth generated by all commerce buildings (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Madghacen",
+            "Level Name": "dk_num_religious_royal_5",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "12000",
+            "Require Resource": "Marble",
+            "Require Technology": "Monumental Architecture"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            },
+            {
+              "label": "Require Technology",
+              "value": "Monumental Architecture",
+              "links": [
+                {
+                  "name": "Monumental Architecture",
+                  "url": "https://www.honga.net/totalwar/rome2/technology.php?l=en&v=rome2&f=rom_masaesyli&t=dk_gen_civil_construction_monumental_architecture"
+                }
+              ]
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_masaesyli&b=dk_num_religious_royal_5",
+            "sha256": "b307c32c65cce9c3d2ed83f8c2e36851d2d5e9e90a3519f955248ed63a3ff3f3",
+            "bytes": 31754
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 2
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     },
     {
       "id": "dk_saba_religious_almaqah_5",
@@ -350,7 +3748,63 @@
       "factions": [
         "rom_saba"
       ],
-      "status": "excluded_pending_rules"
+      "status": "excluded_pending_rules",
+      "public_details": [
+        {
+          "kind": "honga_detail",
+          "name": "Throne of Almaqah",
+          "facts": [
+            "+12 Desert Nomadic cultural influence (this_region)",
+            "-12 food (this_region)",
+            "+24 public order per turn (this_province)",
+            "Bread and Games Edict: +10 public order (this_province)"
+          ],
+          "explicit_no_effect": false,
+          "metadata": {
+            "Building Name": "Throne of Almaqah",
+            "Level Name": "dk_saba_religious_almaqah_5",
+            "Building Chain": "",
+            "Building Level": "5",
+            "Create Time": "12",
+            "Create Cost": "10000",
+            "Require Resource": "Marble",
+            "Require Technology": "Monumental Architecture"
+          },
+          "requirements": [
+            {
+              "label": "Require Resource",
+              "value": "Marble",
+              "links": []
+            },
+            {
+              "label": "Require Technology",
+              "value": "Monumental Architecture",
+              "links": [
+                {
+                  "name": "Monumental Architecture",
+                  "url": "https://www.honga.net/totalwar/rome2/technology.php?l=en&v=rome2&f=rom_saba&t=dk_gen_civil_construction_monumental_architecture"
+                }
+              ]
+            }
+          ],
+          "source": {
+            "url": "https://www.honga.net/totalwar/rome2/building.php?l=en&v=rome2&f=rom_saba&b=dk_saba_religious_almaqah_5",
+            "sha256": "32b7c29fcde4cd8834ad75d54e9dd9b4f7de03a0fd9733369d673d46e41186d9",
+            "bytes": 31495
+          },
+          "display_vs_catalog_raw": {
+            "displayed_not_matched": [],
+            "raw_not_displayed": [],
+            "matched": 2
+          }
+        }
+      ],
+      "unresolved_rules": [
+        "unlock_and_eligibility",
+        "uniqueness_and_shared_caps",
+        "first_builder_rewards",
+        "regional_placement"
+      ]
     }
   ],
   "explicit_regional_buildings": [
@@ -398,5 +3852,15 @@
   },
   "refresh_limitations": [
     "A fresh Honga Colosseum detail request returned HTTP 403. The existing cached detail page was inspected and contains effects and a marble prerequisite, but no construction cap."
-  ]
+  ],
+  "public_detail_summary": {
+    "buildings": 35,
+    "pages_checked": 65,
+    "pages_parsed": 65,
+    "pages_failed": 0,
+    "buildings_with_public_requirements": 34,
+    "pages_with_numeric_disagreement": 0,
+    "newly_enabled_buildings": 0,
+    "interpretation": "Public prerequisite lists are partial observations, not eligibility certificates. A missing resource/technology/cap field does not prove no requirement. Numeric comparisons do not certify scope, first-builder rewards or game patch."
+  }
 }

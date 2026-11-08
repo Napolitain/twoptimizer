@@ -20,6 +20,8 @@ def observation(text):
     body = re.sub(r" \((?:this_|regions_|in_all_|all regions|all provinces)[^)]*\)$", "", text)
     if match := re.fullmatch(r"([+-]?\d+) wealth from (.+)", body):
         label = match[2]
+        if label == "learning (culture)":
+            return "wealth", ("culture_learning",), int(match[1])
         if label in LABELS:
             targets = TARGETS[LABELS[label]]
             if len(targets) == 1 and targets[0] in CATEGORIES:

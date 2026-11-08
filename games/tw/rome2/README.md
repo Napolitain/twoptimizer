@@ -174,7 +174,9 @@ future value. The [special-building audit](data/special_buildings_coverage.json)
 lists all 35 excluded level-5 entries. The official manual requires event unlocks
 and awards first constructors permanent faction traits; the available data does
 not specify every unlock, construction cap or trait bundle. These buildings remain
-excluded until those rules can be supplied. This is a static domestic
+excluded until those rules can be supplied. The [public evidence report](../../../docs/rome-special-audit.md)
+records 65 checked pages, resource prerequisites for 34 buildings, technology
+observations and the exact database fields still needed. This is a static domestic
 income model, not exhaustive campaign economics.
 
 ## Results and replay

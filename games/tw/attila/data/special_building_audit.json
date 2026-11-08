@@ -1,0 +1,2581 @@
+{
+  "schema_version": 1,
+  "purpose": "audit_only_not_solver_input",
+  "selection": "Attila legendary IDs, Ma'rib Dam, Aksum Royal Mint and sourced external IDs",
+  "selection_note": "An inventory heuristic; neither a cap nor a complete special-building list.",
+  "inputs": {
+    "building_culture_variants_table.tsv": "6438a7e52babe196cfae1b52e4330159f48f119c5abd00a5b8d4d488e94a544c",
+    "building_effects_junction_table.tsv": "dd95c690b7f7ac4e05106ebcf309628ca15aa5a1056f85507ec258ec115e55a9",
+    "online_buildings.json": "7958b74651ad52bb442e737f435079948103412f4770a818e68619fef654ac6e",
+    "special_building_sources.json": "a16939ce93ce31a1676391fee8d9b398cd3d196a2ecf23cc979fa42503ca95bf"
+  },
+  "online_game_build": "25370302",
+  "summary": {
+    "local_candidates": 34,
+    "income_metadata": {
+      "present": 26,
+      "missing_excluded_by_default": 8
+    },
+    "site_rules": {
+      "no_verified_special_site_rule": 18,
+      "fixed_site": 1,
+      "patriarchal_site_and_religion": 15
+    },
+    "with_faction_effects": 12,
+    "with_adjacent_effects": 1,
+    "external_candidates_missing_locally": [],
+    "external_candidates_missing_income_metadata": [
+      "att_slav_wonder_1",
+      "att_slav_wonder_civic_2",
+      "att_slav_wonder_civic_3",
+      "att_slav_wonder_military_2",
+      "att_slav_wonder_military_3"
+    ]
+  },
+  "buildings": {
+    "att_bld_barbarian_civic_chieftain_5_legendary": {
+      "names": [
+        "Warlord's Castle"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_barbarian",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_barbarian_civic_major",
+        "source_level": 4,
+        "construction_cost": 15000,
+        "construction_turns": 8,
+        "upkeep": 0
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic"
+      ],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_champion",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_agent_recruitment_cap_champion",
+          "raw_scope": "faction_to_faction_own",
+          "reach": "faction",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_economy_gdp_culture",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 1500.0,
+          "model_kind": "wealth"
+        },
+        {
+          "effect": "att_effect_food_consumption",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 150.0,
+          "model_kind": "food_consumption"
+        },
+        {
+          "effect": "att_effect_force_all_campaign_experience_base_all",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 16.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_public_order_global",
+          "raw_scope": "faction_to_province_own",
+          "reach": "faction",
+          "value": 1.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_unit_recruitment_points",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_barbarian_civic_market_general_5_legendary_celts": {
+      "names": [
+        "Central Market"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_barbarian",
+          "att_sub_cult_barbarian_celtic",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_barbarian_civic_major",
+        "source_level": 4,
+        "construction_cost": 14000,
+        "construction_turns": 6,
+        "upkeep": 0
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic"
+      ],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_spy",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_building_road",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 30.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_economy_gdp_mod_commerce_all",
+          "raw_scope": "province_to_regions_own_in_adjacent_province",
+          "reach": "adjacent",
+          "value": 15.0,
+          "model_kind": "wealth_percent"
+        },
+        {
+          "effect": "att_effect_economy_gdp_trade_local",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 3000.0,
+          "model_kind": "wealth"
+        },
+        {
+          "effect": "att_effect_public_order_sanitation",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": -8.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_sanitation_squalor_buildings",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 6.0,
+          "model_kind": "squalor"
+        }
+      ]
+    },
+    "att_bld_barbarian_civic_minor_chieftain_1_legendary": {
+      "names": [
+        "Chieftain's House"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_barbarian",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_barbarian_civic_minor",
+        "source_level": 0,
+        "construction_cost": 2000,
+        "construction_turns": 3,
+        "upkeep": 0
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic"
+      ],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_economy_gdp_culture",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 225.0,
+          "model_kind": "wealth"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 3.0,
+          "model_kind": "public_order"
+        }
+      ]
+    },
+    "att_bld_barbarian_civic_minor_chieftain_2_legendary": {
+      "names": [
+        "Chieftain's Hall"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_barbarian",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_barbarian_civic_minor",
+        "source_level": 1,
+        "construction_cost": 3000,
+        "construction_turns": 4,
+        "upkeep": 0
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic"
+      ],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_economy_gdp_culture",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 300.0,
+          "model_kind": "wealth"
+        },
+        {
+          "effect": "att_effect_food_consumption",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 20.0,
+          "model_kind": "food_consumption"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 7.0,
+          "model_kind": "public_order"
+        }
+      ]
+    },
+    "att_bld_barbarian_civic_minor_chieftain_3_legendary": {
+      "names": [
+        "Chieftain's Hold"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_barbarian",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_barbarian_civic_minor",
+        "source_level": 2,
+        "construction_cost": 5000,
+        "construction_turns": 5,
+        "upkeep": 0
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic"
+      ],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_champion",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_economy_gdp_culture",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 500.0,
+          "model_kind": "wealth"
+        },
+        {
+          "effect": "att_effect_food_consumption",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 50.0,
+          "model_kind": "food_consumption"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 10.0,
+          "model_kind": "public_order"
+        }
+      ]
+    },
+    "att_bld_barbarian_civic_minor_chieftain_4_legendary": {
+      "names": [
+        "Chieftain's Keep"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_barbarian",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_barbarian_civic_minor",
+        "source_level": 3,
+        "construction_cost": 8000,
+        "construction_turns": 6,
+        "upkeep": 0
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic"
+      ],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_champion",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_economy_gdp_culture",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 825.0,
+          "model_kind": "wealth"
+        },
+        {
+          "effect": "att_effect_food_consumption",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 100.0,
+          "model_kind": "food_consumption"
+        },
+        {
+          "effect": "att_effect_force_all_campaign_experience_base_all",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 13.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_unit_recruitment_points",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 1.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_barbarian_civic_minor_chieftain_5_legendary": {
+      "names": [
+        "Chieftain's Castle"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_barbarian",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_barbarian_civic_minor",
+        "source_level": 4,
+        "construction_cost": 15000,
+        "construction_turns": 8,
+        "upkeep": 0
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic"
+      ],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_champion",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_agent_recruitment_cap_champion",
+          "raw_scope": "faction_to_faction_own",
+          "reach": "faction",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_economy_gdp_culture",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 1500.0,
+          "model_kind": "wealth"
+        },
+        {
+          "effect": "att_effect_food_consumption",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 150.0,
+          "model_kind": "food_consumption"
+        },
+        {
+          "effect": "att_effect_force_all_campaign_experience_base_all",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 16.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_public_order_global",
+          "raw_scope": "faction_to_province_own",
+          "reach": "faction",
+          "value": 1.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_unit_recruitment_points",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_barbarian_civic_tavern_5_legendary_celts": {
+      "names": [
+        "Bards' Hall"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_barbarian",
+          "att_sub_cult_barbarian_celtic",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_barbarian_civic_major",
+        "source_level": 4,
+        "construction_cost": 15000,
+        "construction_turns": 8,
+        "upkeep": 0
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic"
+      ],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_champion",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_economy_gdp_culture",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 2000.0,
+          "model_kind": "wealth"
+        },
+        {
+          "effect": "att_effect_food_consumption",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 150.0,
+          "model_kind": "food_consumption"
+        },
+        {
+          "effect": "att_effect_force_all_campaign_experience_base_all",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 23.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_public_order_immigration",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": -60.0,
+          "model_kind": "immigration_order_percent"
+        },
+        {
+          "effect": "att_effect_unit_recruitment_points",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_eastern_sassanid_civic_court_palace_5_legendary": {
+      "names": [
+        "Imperial Palace"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_eastern",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_eastern_sassanid_civic_major",
+        "source_level": 4,
+        "construction_cost": 15000,
+        "construction_turns": 8,
+        "upkeep": 0
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/caucasian",
+        "https://twdatabase.com/attila/buildings/desert",
+        "https://twdatabase.com/attila/buildings/sassanid"
+      ],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_champion",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_agent_recruitment_cap_champion",
+          "raw_scope": "faction_to_faction_own",
+          "reach": "faction",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_economy_gdp_culture",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 2500.0,
+          "model_kind": "wealth"
+        },
+        {
+          "effect": "att_effect_food_consumption",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 160.0,
+          "model_kind": "food_consumption"
+        },
+        {
+          "effect": "att_effect_province_tax_rate",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 18.0,
+          "model_kind": "tax_percent"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 16.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_public_order_global",
+          "raw_scope": "faction_to_province_own",
+          "reach": "faction",
+          "value": 1.0,
+          "model_kind": "public_order"
+        }
+      ]
+    },
+    "att_bld_eos_marib_dam": {
+      "names": [
+        "The Ma'rib Dam"
+      ],
+      "culture_variants": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": null,
+      "income_metadata_status": "missing_excluded_by_default",
+      "online_sources": [],
+      "modeled_site_rule": {
+        "kind": "fixed_site",
+        "region": "att_reg_arabia_felix_zafar"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_economy_gdp_mod_agriculture_and_livestock",
+          "raw_scope": "province_to_region_own_factionwide",
+          "reach": "faction",
+          "value": 30.0,
+          "model_kind": "wealth_percent"
+        },
+        {
+          "effect": "att_effect_economy_gdp_subsistance",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 500.0,
+          "model_kind": "wealth"
+        },
+        {
+          "effect": "att_effect_province_fertility_buildings",
+          "raw_scope": "building_to_region_own",
+          "reach": "region",
+          "value": 5.0,
+          "model_kind": "fertility"
+        }
+      ]
+    },
+    "att_bld_eos_mint": {
+      "names": [
+        "Royal Mint"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_eastern",
+          "att_sub_cult_eastern_desert",
+          "att_fact_axum"
+        ]
+      ],
+      "income_metadata": null,
+      "income_metadata_status": "missing_excluded_by_default",
+      "online_sources": [],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_spy",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_building_road",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 25.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_economy_gdp_mod_commerce_all",
+          "raw_scope": "province_to_region_own",
+          "reach": "province",
+          "value": 18.0,
+          "model_kind": "wealth_percent"
+        },
+        {
+          "effect": "att_effect_economy_gdp_trade_local",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 2200.0,
+          "model_kind": "wealth"
+        },
+        {
+          "effect": "att_effect_economy_trade_tariff_mod",
+          "raw_scope": "faction_to_faction_own",
+          "reach": "faction",
+          "value": 30.0,
+          "model_kind": "tariff_percent"
+        },
+        {
+          "effect": "att_effect_public_order_sanitation",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": -6.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_sanitation_squalor_buildings",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 8.0,
+          "model_kind": "squalor"
+        }
+      ]
+    },
+    "att_bld_religion_arian_legendary_1": {
+      "names": [
+        "Arian Patriarchal Chapel"
+      ],
+      "culture_variants": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_religion_arian_legendary",
+        "source_level": 0,
+        "construction_cost": 2500,
+        "construction_turns": 3,
+        "upkeep": 200
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic",
+        "https://twdatabase.com/attila/buildings/caucasian",
+        "https://twdatabase.com/attila/buildings/desert",
+        "https://twdatabase.com/attila/buildings/sassanid",
+        "https://twdatabase.com/attila/buildings/eastern-roman",
+        "https://twdatabase.com/attila/buildings/western-roman"
+      ],
+      "modeled_site_rule": {
+        "kind": "patriarchal_site_and_religion",
+        "religion": "arian",
+        "slot_templates": [
+          "att_city_aelia_capitolina",
+          "att_city_alexandria",
+          "att_city_antiochia",
+          "att_city_constantinopolis",
+          "att_city_roma"
+        ]
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 3.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_religion_conversion_arian",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 3.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_religion_arian_legendary_2": {
+      "names": [
+        "Arian Patriarchal Church"
+      ],
+      "culture_variants": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_religion_arian_legendary",
+        "source_level": 1,
+        "construction_cost": 4000,
+        "construction_turns": 4,
+        "upkeep": 600
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic",
+        "https://twdatabase.com/attila/buildings/caucasian",
+        "https://twdatabase.com/attila/buildings/desert",
+        "https://twdatabase.com/attila/buildings/sassanid",
+        "https://twdatabase.com/attila/buildings/eastern-roman",
+        "https://twdatabase.com/attila/buildings/western-roman"
+      ],
+      "modeled_site_rule": {
+        "kind": "patriarchal_site_and_religion",
+        "religion": "arian",
+        "slot_templates": [
+          "att_city_aelia_capitolina",
+          "att_city_alexandria",
+          "att_city_antiochia",
+          "att_city_constantinopolis",
+          "att_city_roma"
+        ]
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_dignitary",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 5.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_religion_conversion_arian",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 5.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_religion_arian_legendary_3": {
+      "names": [
+        "Arian Patriarchal Basilica"
+      ],
+      "culture_variants": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_religion_arian_legendary",
+        "source_level": 2,
+        "construction_cost": 7000,
+        "construction_turns": 5,
+        "upkeep": 1000
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic",
+        "https://twdatabase.com/attila/buildings/caucasian",
+        "https://twdatabase.com/attila/buildings/desert",
+        "https://twdatabase.com/attila/buildings/sassanid",
+        "https://twdatabase.com/attila/buildings/eastern-roman",
+        "https://twdatabase.com/attila/buildings/western-roman"
+      ],
+      "modeled_site_rule": {
+        "kind": "patriarchal_site_and_religion",
+        "religion": "arian",
+        "slot_templates": [
+          "att_city_aelia_capitolina",
+          "att_city_alexandria",
+          "att_city_antiochia",
+          "att_city_constantinopolis",
+          "att_city_roma"
+        ]
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_dignitary",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 7.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_religion_conversion_arian",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 7.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_religion_arian_legendary_4": {
+      "names": [
+        "Arian Partriarchal Cathedral"
+      ],
+      "culture_variants": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_religion_arian_legendary",
+        "source_level": 3,
+        "construction_cost": 11500,
+        "construction_turns": 6,
+        "upkeep": 1500
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic",
+        "https://twdatabase.com/attila/buildings/caucasian",
+        "https://twdatabase.com/attila/buildings/desert",
+        "https://twdatabase.com/attila/buildings/sassanid",
+        "https://twdatabase.com/attila/buildings/eastern-roman",
+        "https://twdatabase.com/attila/buildings/western-roman"
+      ],
+      "modeled_site_rule": {
+        "kind": "patriarchal_site_and_religion",
+        "religion": "arian",
+        "slot_templates": [
+          "att_city_aelia_capitolina",
+          "att_city_alexandria",
+          "att_city_antiochia",
+          "att_city_constantinopolis",
+          "att_city_roma"
+        ]
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_dignitary",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 10.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_religion_conversion_arian",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 10.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_religion_arian_legendary_5": {
+      "names": [
+        "Arian Patriarchal See"
+      ],
+      "culture_variants": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_religion_arian_legendary",
+        "source_level": 4,
+        "construction_cost": 25000,
+        "construction_turns": 8,
+        "upkeep": 3000
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic",
+        "https://twdatabase.com/attila/buildings/caucasian",
+        "https://twdatabase.com/attila/buildings/desert",
+        "https://twdatabase.com/attila/buildings/sassanid",
+        "https://twdatabase.com/attila/buildings/eastern-roman",
+        "https://twdatabase.com/attila/buildings/western-roman"
+      ],
+      "modeled_site_rule": {
+        "kind": "patriarchal_site_and_religion",
+        "religion": "arian",
+        "slot_templates": [
+          "att_city_aelia_capitolina",
+          "att_city_alexandria",
+          "att_city_antiochia",
+          "att_city_constantinopolis",
+          "att_city_roma"
+        ]
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_dignitary",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 3.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_agent_recruitment_cap_dignitary",
+          "raw_scope": "faction_to_faction_own",
+          "reach": "faction",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 15.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_religion_conversion_arian",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 15.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_religion_conversion_state",
+          "raw_scope": "faction_to_region_own",
+          "reach": "faction",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_religion_osmosis_arian",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 1.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_religion_catholic_legendary_1": {
+      "names": [
+        "Latin Patriarchal Chapel"
+      ],
+      "culture_variants": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_religion_catholic_legendary",
+        "source_level": 0,
+        "construction_cost": 2500,
+        "construction_turns": 3,
+        "upkeep": 200
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic",
+        "https://twdatabase.com/attila/buildings/caucasian",
+        "https://twdatabase.com/attila/buildings/desert",
+        "https://twdatabase.com/attila/buildings/sassanid",
+        "https://twdatabase.com/attila/buildings/eastern-roman",
+        "https://twdatabase.com/attila/buildings/western-roman"
+      ],
+      "modeled_site_rule": {
+        "kind": "patriarchal_site_and_religion",
+        "religion": "catholic",
+        "slot_templates": [
+          "att_city_aelia_capitolina",
+          "att_city_alexandria",
+          "att_city_antiochia",
+          "att_city_constantinopolis",
+          "att_city_roma"
+        ]
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 3.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_religion_conversion_catholic",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 3.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_religion_catholic_legendary_2": {
+      "names": [
+        "Latin Patriarchal Church"
+      ],
+      "culture_variants": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_religion_catholic_legendary",
+        "source_level": 1,
+        "construction_cost": 4000,
+        "construction_turns": 4,
+        "upkeep": 600
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic",
+        "https://twdatabase.com/attila/buildings/caucasian",
+        "https://twdatabase.com/attila/buildings/desert",
+        "https://twdatabase.com/attila/buildings/sassanid",
+        "https://twdatabase.com/attila/buildings/eastern-roman",
+        "https://twdatabase.com/attila/buildings/western-roman"
+      ],
+      "modeled_site_rule": {
+        "kind": "patriarchal_site_and_religion",
+        "religion": "catholic",
+        "slot_templates": [
+          "att_city_aelia_capitolina",
+          "att_city_alexandria",
+          "att_city_antiochia",
+          "att_city_constantinopolis",
+          "att_city_roma"
+        ]
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_dignitary",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 4.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_religion_conversion_catholic",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 7.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_religion_catholic_legendary_3": {
+      "names": [
+        "Latin Patriarchal Basilica"
+      ],
+      "culture_variants": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_religion_catholic_legendary",
+        "source_level": 2,
+        "construction_cost": 7000,
+        "construction_turns": 5,
+        "upkeep": 1000
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic",
+        "https://twdatabase.com/attila/buildings/caucasian",
+        "https://twdatabase.com/attila/buildings/desert",
+        "https://twdatabase.com/attila/buildings/sassanid",
+        "https://twdatabase.com/attila/buildings/eastern-roman",
+        "https://twdatabase.com/attila/buildings/western-roman"
+      ],
+      "modeled_site_rule": {
+        "kind": "patriarchal_site_and_religion",
+        "religion": "catholic",
+        "slot_templates": [
+          "att_city_aelia_capitolina",
+          "att_city_alexandria",
+          "att_city_antiochia",
+          "att_city_constantinopolis",
+          "att_city_roma"
+        ]
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_dignitary",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 6.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_religion_conversion_catholic",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 9.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_religion_catholic_legendary_4": {
+      "names": [
+        "Latin Patriarchal Cathedral"
+      ],
+      "culture_variants": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_religion_catholic_legendary",
+        "source_level": 3,
+        "construction_cost": 11500,
+        "construction_turns": 6,
+        "upkeep": 1500
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic",
+        "https://twdatabase.com/attila/buildings/caucasian",
+        "https://twdatabase.com/attila/buildings/desert",
+        "https://twdatabase.com/attila/buildings/sassanid",
+        "https://twdatabase.com/attila/buildings/eastern-roman",
+        "https://twdatabase.com/attila/buildings/western-roman"
+      ],
+      "modeled_site_rule": {
+        "kind": "patriarchal_site_and_religion",
+        "religion": "catholic",
+        "slot_templates": [
+          "att_city_aelia_capitolina",
+          "att_city_alexandria",
+          "att_city_antiochia",
+          "att_city_constantinopolis",
+          "att_city_roma"
+        ]
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_dignitary",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 8.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_religion_conversion_catholic",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 12.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_religion_catholic_legendary_5": {
+      "names": [
+        "Latin Patriarchal See"
+      ],
+      "culture_variants": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_religion_catholic_legendary",
+        "source_level": 4,
+        "construction_cost": 25000,
+        "construction_turns": 8,
+        "upkeep": 3000
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic",
+        "https://twdatabase.com/attila/buildings/caucasian",
+        "https://twdatabase.com/attila/buildings/desert",
+        "https://twdatabase.com/attila/buildings/sassanid",
+        "https://twdatabase.com/attila/buildings/eastern-roman",
+        "https://twdatabase.com/attila/buildings/western-roman"
+      ],
+      "modeled_site_rule": {
+        "kind": "patriarchal_site_and_religion",
+        "religion": "catholic",
+        "slot_templates": [
+          "att_city_aelia_capitolina",
+          "att_city_alexandria",
+          "att_city_antiochia",
+          "att_city_constantinopolis",
+          "att_city_roma"
+        ]
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_dignitary",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 3.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_agent_recruitment_cap_dignitary",
+          "raw_scope": "faction_to_faction_own",
+          "reach": "faction",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 12.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_religion_conversion_catholic",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 15.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_religion_conversion_state",
+          "raw_scope": "faction_to_region_own",
+          "reach": "faction",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_religion_osmosis_catholic",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 1.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_religion_germanic_minor_grove_lb_legendary_5": {
+      "names": [
+        "Beheading Copse"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_barbarian",
+          "",
+          "att_fact_langobardi"
+        ]
+      ],
+      "income_metadata": null,
+      "income_metadata_status": "missing_excluded_by_default",
+      "online_sources": [],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_dignitary",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_food_production_reserves",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 80.0,
+          "model_kind": "food"
+        },
+        {
+          "effect": "att_effect_force_all_campaign_experience_base_all",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_province_growth_building",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": -5.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 8.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_religion_conversion_germanic",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 5.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_religion_osmosis_germanic",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_sanitation_squalor_buildings",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 3.0,
+          "model_kind": "squalor"
+        }
+      ]
+    },
+    "att_bld_religion_orthodox_legendary_1": {
+      "names": [
+        "Greek Patriarchal Chapel"
+      ],
+      "culture_variants": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_religion_orthodox_legendary",
+        "source_level": 0,
+        "construction_cost": 2500,
+        "construction_turns": 3,
+        "upkeep": 200
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic",
+        "https://twdatabase.com/attila/buildings/caucasian",
+        "https://twdatabase.com/attila/buildings/desert",
+        "https://twdatabase.com/attila/buildings/sassanid",
+        "https://twdatabase.com/attila/buildings/eastern-roman",
+        "https://twdatabase.com/attila/buildings/western-roman"
+      ],
+      "modeled_site_rule": {
+        "kind": "patriarchal_site_and_religion",
+        "religion": "orthodox",
+        "slot_templates": [
+          "att_city_aelia_capitolina",
+          "att_city_alexandria",
+          "att_city_antiochia",
+          "att_city_constantinopolis",
+          "att_city_roma"
+        ]
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 3.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_religion_conversion_orthodox",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 3.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_religion_orthodox_legendary_2": {
+      "names": [
+        "Greek Patriarchal Church"
+      ],
+      "culture_variants": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_religion_orthodox_legendary",
+        "source_level": 1,
+        "construction_cost": 4000,
+        "construction_turns": 4,
+        "upkeep": 600
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic",
+        "https://twdatabase.com/attila/buildings/caucasian",
+        "https://twdatabase.com/attila/buildings/desert",
+        "https://twdatabase.com/attila/buildings/sassanid",
+        "https://twdatabase.com/attila/buildings/eastern-roman",
+        "https://twdatabase.com/attila/buildings/western-roman"
+      ],
+      "modeled_site_rule": {
+        "kind": "patriarchal_site_and_religion",
+        "religion": "orthodox",
+        "slot_templates": [
+          "att_city_aelia_capitolina",
+          "att_city_alexandria",
+          "att_city_antiochia",
+          "att_city_constantinopolis",
+          "att_city_roma"
+        ]
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_dignitary",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 5.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_religion_conversion_orthodox",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 5.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_religion_orthodox_legendary_3": {
+      "names": [
+        "Greek Patriarchal Basilica"
+      ],
+      "culture_variants": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_religion_orthodox_legendary",
+        "source_level": 2,
+        "construction_cost": 7000,
+        "construction_turns": 5,
+        "upkeep": 1000
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic",
+        "https://twdatabase.com/attila/buildings/caucasian",
+        "https://twdatabase.com/attila/buildings/desert",
+        "https://twdatabase.com/attila/buildings/sassanid",
+        "https://twdatabase.com/attila/buildings/eastern-roman",
+        "https://twdatabase.com/attila/buildings/western-roman"
+      ],
+      "modeled_site_rule": {
+        "kind": "patriarchal_site_and_religion",
+        "religion": "orthodox",
+        "slot_templates": [
+          "att_city_aelia_capitolina",
+          "att_city_alexandria",
+          "att_city_antiochia",
+          "att_city_constantinopolis",
+          "att_city_roma"
+        ]
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_dignitary",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 7.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_religion_conversion_orthodox",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 7.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_religion_orthodox_legendary_4": {
+      "names": [
+        "Greek Patriarchal Cathedral"
+      ],
+      "culture_variants": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_religion_orthodox_legendary",
+        "source_level": 3,
+        "construction_cost": 11500,
+        "construction_turns": 6,
+        "upkeep": 1500
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic",
+        "https://twdatabase.com/attila/buildings/caucasian",
+        "https://twdatabase.com/attila/buildings/desert",
+        "https://twdatabase.com/attila/buildings/sassanid",
+        "https://twdatabase.com/attila/buildings/eastern-roman",
+        "https://twdatabase.com/attila/buildings/western-roman"
+      ],
+      "modeled_site_rule": {
+        "kind": "patriarchal_site_and_religion",
+        "religion": "orthodox",
+        "slot_templates": [
+          "att_city_aelia_capitolina",
+          "att_city_alexandria",
+          "att_city_antiochia",
+          "att_city_constantinopolis",
+          "att_city_roma"
+        ]
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_dignitary",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 10.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_religion_conversion_orthodox",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 10.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_religion_orthodox_legendary_5": {
+      "names": [
+        "Greek Patriarchal See"
+      ],
+      "culture_variants": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_religion_orthodox_legendary",
+        "source_level": 4,
+        "construction_cost": 25000,
+        "construction_turns": 8,
+        "upkeep": 3000
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/celtic",
+        "https://twdatabase.com/attila/buildings/eastern-germanic",
+        "https://twdatabase.com/attila/buildings/northern-germanic",
+        "https://twdatabase.com/attila/buildings/western-germanic",
+        "https://twdatabase.com/attila/buildings/caucasian",
+        "https://twdatabase.com/attila/buildings/desert",
+        "https://twdatabase.com/attila/buildings/sassanid",
+        "https://twdatabase.com/attila/buildings/eastern-roman",
+        "https://twdatabase.com/attila/buildings/western-roman"
+      ],
+      "modeled_site_rule": {
+        "kind": "patriarchal_site_and_religion",
+        "religion": "orthodox",
+        "slot_templates": [
+          "att_city_aelia_capitolina",
+          "att_city_alexandria",
+          "att_city_antiochia",
+          "att_city_constantinopolis",
+          "att_city_roma"
+        ]
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_dignitary",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 3.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_agent_recruitment_cap_dignitary",
+          "raw_scope": "faction_to_faction_own",
+          "reach": "faction",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 15.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_religion_conversion_orthodox",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 15.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_religion_conversion_state",
+          "raw_scope": "faction_to_region_own",
+          "reach": "faction",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_religion_osmosis_orthodox",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 1.0,
+          "model_kind": "metric"
+        }
+      ]
+    },
+    "att_bld_roman_east_civic_governor_5_legendary": {
+      "names": [
+        "Imperial Palace"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_roman",
+          "att_sub_cult_roman_east",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_roman_east_civic_major",
+        "source_level": 4,
+        "construction_cost": 15000,
+        "construction_turns": 8,
+        "upkeep": 0
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/eastern-roman"
+      ],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_champion",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 3.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_agent_recruitment_cap_champion",
+          "raw_scope": "faction_to_faction_own",
+          "reach": "faction",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_economy_gdp_culture",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 2000.0,
+          "model_kind": "wealth"
+        },
+        {
+          "effect": "att_effect_food_consumption",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 100.0,
+          "model_kind": "food_consumption"
+        },
+        {
+          "effect": "att_effect_province_tax_rate",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 8.0,
+          "model_kind": "tax_percent"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 17.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_public_order_politics",
+          "raw_scope": "faction_to_province_own",
+          "reach": "faction",
+          "value": 1.0,
+          "model_kind": "public_order"
+        }
+      ]
+    },
+    "att_bld_roman_west_civic_governor_5_legendary": {
+      "names": [
+        "Royal Court"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_roman",
+          "att_sub_cult_roman_west",
+          ""
+        ]
+      ],
+      "income_metadata": {
+        "source_tree_group": "att_bch_roman_west_civic_major",
+        "source_level": 4,
+        "construction_cost": 15000,
+        "construction_turns": 8,
+        "upkeep": 0
+      },
+      "income_metadata_status": "present",
+      "online_sources": [
+        "https://twdatabase.com/attila/buildings/western-roman"
+      ],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_agent_enable_recruitment_champion",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 3.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_agent_recruitment_cap_champion",
+          "raw_scope": "faction_to_faction_own",
+          "reach": "faction",
+          "value": 1.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_economy_gdp_culture",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 2000.0,
+          "model_kind": "wealth"
+        },
+        {
+          "effect": "att_effect_economy_gdp_mod_all",
+          "raw_scope": "province_to_region_own",
+          "reach": "province",
+          "value": 10.0,
+          "model_kind": "wealth_percent"
+        },
+        {
+          "effect": "att_effect_food_consumption",
+          "raw_scope": "region_to_region_own",
+          "reach": "region",
+          "value": 100.0,
+          "model_kind": "food_consumption"
+        },
+        {
+          "effect": "att_effect_public_order_base",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 17.0,
+          "model_kind": "public_order"
+        },
+        {
+          "effect": "att_effect_public_order_politics",
+          "raw_scope": "faction_to_province_own",
+          "reach": "faction",
+          "value": 1.0,
+          "model_kind": "public_order"
+        }
+      ]
+    },
+    "att_slav_wonder_1": {
+      "names": [
+        "Totem of the Wolf"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_barbarian",
+          "att_sub_cult_barbarian_germanic_east",
+          "att_fact_antes"
+        ],
+        [
+          "att_cult_barbarian",
+          "att_sub_cult_barbarian_germanic_east",
+          "att_fact_sclaveni"
+        ],
+        [
+          "att_cult_barbarian",
+          "att_sub_cult_barbarian_germanic_east",
+          "att_fact_venedi"
+        ]
+      ],
+      "income_metadata": null,
+      "income_metadata_status": "missing_excluded_by_default",
+      "online_sources": [],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_province_tax_rate",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 10.0,
+          "model_kind": "tax_percent"
+        },
+        {
+          "effect": "att_effect_unit_recruitment_points",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "cha_effect_imperium",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 50.0,
+          "model_kind": "unmodeled"
+        }
+      ]
+    },
+    "att_slav_wonder_civic_2": {
+      "names": [
+        "Lunar Shrine of Svarog"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_barbarian",
+          "att_sub_cult_barbarian_germanic_east",
+          "att_fact_antes"
+        ],
+        [
+          "att_cult_barbarian",
+          "att_sub_cult_barbarian_germanic_east",
+          "att_fact_sclaveni"
+        ],
+        [
+          "att_cult_barbarian",
+          "att_sub_cult_barbarian_germanic_east",
+          "att_fact_venedi"
+        ]
+      ],
+      "income_metadata": null,
+      "income_metadata_status": "missing_excluded_by_default",
+      "online_sources": [],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_building_conversion_cost_mod",
+          "raw_scope": "faction_to_region_own",
+          "reach": "faction",
+          "value": -50.0,
+          "model_kind": "conversion_cost_percent"
+        },
+        {
+          "effect": "att_effect_faction_trait_barbarian_new_kingdoms_building_conversion",
+          "raw_scope": "faction_to_region_own",
+          "reach": "faction",
+          "value": 50.0,
+          "model_kind": "unmodeled"
+        },
+        {
+          "effect": "att_effect_province_tax_rate",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 20.0,
+          "model_kind": "tax_percent"
+        },
+        {
+          "effect": "att_effect_unit_recruitment_points",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "cha_effect_imperium",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 75.0,
+          "model_kind": "unmodeled"
+        }
+      ]
+    },
+    "att_slav_wonder_civic_3": {
+      "names": [
+        "Temple of the Shimmering Wolves"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_barbarian",
+          "att_sub_cult_barbarian_germanic_east",
+          "att_fact_antes"
+        ],
+        [
+          "att_cult_barbarian",
+          "att_sub_cult_barbarian_germanic_east",
+          "att_fact_sclaveni"
+        ],
+        [
+          "att_cult_barbarian",
+          "att_sub_cult_barbarian_germanic_east",
+          "att_fact_venedi"
+        ]
+      ],
+      "income_metadata": null,
+      "income_metadata_status": "missing_excluded_by_default",
+      "online_sources": [],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_building_conversion_cost_mod",
+          "raw_scope": "faction_to_region_own",
+          "reach": "faction",
+          "value": -100.0,
+          "model_kind": "conversion_cost_percent"
+        },
+        {
+          "effect": "att_effect_faction_trait_barbarian_new_kingdoms_building_conversion",
+          "raw_scope": "faction_to_region_own",
+          "reach": "faction",
+          "value": 100.0,
+          "model_kind": "unmodeled"
+        },
+        {
+          "effect": "att_effect_province_tax_rate",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 30.0,
+          "model_kind": "tax_percent"
+        },
+        {
+          "effect": "att_effect_unit_recruitment_points",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 2.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "cha_effect_imperium",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 100.0,
+          "model_kind": "unmodeled"
+        }
+      ]
+    },
+    "att_slav_wonder_military_2": {
+      "names": [
+        "Fiery Shrine of Svarog"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_barbarian",
+          "att_sub_cult_barbarian_germanic_east",
+          "att_fact_antes"
+        ],
+        [
+          "att_cult_barbarian",
+          "att_sub_cult_barbarian_germanic_east",
+          "att_fact_sclaveni"
+        ],
+        [
+          "att_cult_barbarian",
+          "att_sub_cult_barbarian_germanic_east",
+          "att_fact_venedi"
+        ]
+      ],
+      "income_metadata": null,
+      "income_metadata_status": "missing_excluded_by_default",
+      "online_sources": [],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_force_all_campaign_experience_base_all",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 3.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_province_tax_rate",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 10.0,
+          "model_kind": "tax_percent"
+        },
+        {
+          "effect": "att_effect_unit_recruitment_points",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 3.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_slavs_add_offensive_abiltiy",
+          "raw_scope": "building_to_forces_factionwide",
+          "reach": "other",
+          "value": 1.0,
+          "model_kind": "unmodeled"
+        },
+        {
+          "effect": "cha_effect_imperium",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 75.0,
+          "model_kind": "unmodeled"
+        }
+      ]
+    },
+    "att_slav_wonder_military_3": {
+      "names": [
+        "Temple of the Blazing Wolves"
+      ],
+      "culture_variants": [
+        [
+          "att_cult_barbarian",
+          "att_sub_cult_barbarian_germanic_east",
+          "att_fact_antes"
+        ],
+        [
+          "att_cult_barbarian",
+          "att_sub_cult_barbarian_germanic_east",
+          "att_fact_sclaveni"
+        ],
+        [
+          "att_cult_barbarian",
+          "att_sub_cult_barbarian_germanic_east",
+          "att_fact_venedi"
+        ]
+      ],
+      "income_metadata": null,
+      "income_metadata_status": "missing_excluded_by_default",
+      "online_sources": [],
+      "modeled_site_rule": {
+        "kind": "no_verified_special_site_rule"
+      },
+      "raw_availability_fields": {
+        "only_in_capital": null,
+        "faction_unique": null,
+        "first_in_world_bundle": null,
+        "religion_requirement": null,
+        "resource_requirement": null
+      },
+      "effects": [
+        {
+          "effect": "att_effect_force_all_campaign_experience_base_all",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 5.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_effect_province_tax_rate",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 10.0,
+          "model_kind": "tax_percent"
+        },
+        {
+          "effect": "att_effect_unit_recruitment_points",
+          "raw_scope": "province_to_province_own",
+          "reach": "province",
+          "value": 4.0,
+          "model_kind": "metric"
+        },
+        {
+          "effect": "att_slavs_add_offensive_abiltiy",
+          "raw_scope": "building_to_forces_factionwide",
+          "reach": "other",
+          "value": 1.0,
+          "model_kind": "unmodeled"
+        },
+        {
+          "effect": "att_slavs_add_passive_ability_wonder_3",
+          "raw_scope": "building_to_forces_factionwide",
+          "reach": "other",
+          "value": 1.0,
+          "model_kind": "unmodeled"
+        },
+        {
+          "effect": "cha_effect_imperium",
+          "raw_scope": "building_to_building_own",
+          "reach": "building",
+          "value": 100.0,
+          "model_kind": "unmodeled"
+        }
+      ]
+    }
+  },
+  "limitation": "Faction-capital requirements and vanilla uniqueness flags are not imported. Income from layouts selecting legendary civic buildings may exceed legal campaign income. Capital placement is distinct from a one-per-faction or world cap. Null flags are unknown, not false."
+}
