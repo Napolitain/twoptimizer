@@ -1,6 +1,7 @@
 """Typed application objects; dictionaries are reserved for engine/JSON boundaries."""
 
 from dataclasses import asdict, dataclass, field
+from math import isfinite
 from typing import Any
 
 from games.tw.attila.scenario import Scenario as CampaignScenario
@@ -164,6 +165,100 @@ class BuildingSelection:
 
 
 @dataclass(frozen=True, slots=True)
+class ObjectiveSummary:
+    """One objective in priority order; a bound uses the objective's own units.
+
+    Maximization bounds are upper bounds; minimization bounds are lower bounds.
+    An omitted status inherits the case's status. Explicit statuses allow a
+    proved primary objective followed by an unfinished secondary objective.
+    """
+
+    identifier: str
+    label: str
+    unit: str
+    sense: str
+    value: float | None
+    bound: float | None
+    status: str | None = None
+
+    def __post_init__(self) -> None:
+        for name in ("identifier", "label", "unit"):
+            value = getattr(self, name)
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(f"Objective {name} must be a nonempty string")
+        if not isinstance(self.sense, str) or self.sense not in {"maximize", "minimize"}:
+            raise ValueError("Objective sense must be maximize or minimize")
+        self._validate_numbers()
+        if self.status is not None:
+            if not isinstance(self.status, str) or not self.status.strip():
+                raise ValueError("Objective status must be a nonempty string or None")
+            self.validate_status(self.status)
+
+    def _validate_numbers(self) -> None:
+        for value in (self.value, self.bound):
+            if value is not None and (
+                not isinstance(value, (int, float))
+                or isinstance(value, bool)
+                or not isfinite(value)
+            ):
+                raise ValueError("Objective value and bound must be finite numbers or None")
+        if self.value is None or self.bound is None:
+            return
+        difference = (
+            self.bound - self.value if self.sense == "maximize" else self.value - self.bound
+        )
+        if difference < -1e-5:
+            raise ValueError("Objective bound contradicts its value and optimization sense")
+
+    def validate_status(self, fallback: str) -> None:
+        status = self.status or fallback
+        if status == "OPTIMAL" and (
+            self.value is None or self.bound is None or abs(self.value - self.bound) > 1e-5
+        ):
+            raise ValueError("An optimal objective requires a value and matching bound")
+        if status == "FEASIBLE" and self.value is None:
+            raise ValueError("A feasible objective requires a value")
+        if status == "INFEASIBLE" and self.value is not None:
+            raise ValueError("An infeasible objective cannot retain a feasible value")
+
+    @property
+    def gap_percent(self) -> float | None:
+        """Interval width relative to its upper endpoint, in either direction."""
+        if self.value is None or self.bound is None:
+            return None
+        lower, upper = (
+            (self.value, self.bound) if self.sense == "maximize" else (self.bound, self.value)
+        )
+        return 100 * max(0, upper - lower) / max(1, abs(upper))
+
+    def to_dict(self) -> dict[str, Any]:
+        result = {
+            key: getattr(self, key)
+            for key in ("identifier", "label", "unit", "sense", "value", "bound")
+        }
+        if self.status is not None:
+            result["status"] = self.status
+        return result
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> ObjectiveSummary:
+        if not isinstance(payload, dict):
+            raise ValueError("An objective must be a JSON object")
+        return cls(**payload)
+
+
+def _objectives(values) -> tuple[ObjectiveSummary, ...]:
+    if not isinstance(values, (tuple, list)) or any(
+        not isinstance(value, ObjectiveSummary) for value in values
+    ):
+        raise ValueError("Objectives must be an ordered sequence of ObjectiveSummary records")
+    result = tuple(values)
+    if len({value.identifier for value in result}) != len(result):
+        raise ValueError("Objective identifiers must be unique within a case")
+    return result
+
+
+@dataclass(frozen=True, slots=True)
 class SolverSummary:
     algorithm: str
     status: str
@@ -198,6 +293,10 @@ class EngineResult:
     income: float | None
     buildings: list[BuildingSelection]
     metrics: dict[str, float | None]
+    objectives: tuple[ObjectiveSummary, ...] = ()
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "objectives", _objectives(self.objectives))
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -214,10 +313,33 @@ class CaseResult:
     source_files: dict[str, str]
     raw: dict[str, Any]
     timings: dict[str, float]
+    objectives: tuple[ObjectiveSummary, ...] = ()
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "objectives", _objectives(self.objectives))
+        self._validate_objective_feasibility()
+        proved_prefix = True
+        for objective in self.objectives:
+            objective.validate_status(self.solver.status)
+            proved = (objective.status or self.solver.status) == "OPTIMAL"
+            if proved and not proved_prefix:
+                raise ValueError("A later objective cannot be proved before earlier priorities")
+            if self.solver.status == "OPTIMAL" and not proved:
+                raise ValueError("An optimal case requires every objective to be proved")
+            proved_prefix = proved_prefix and proved
+
+    def _validate_objective_feasibility(self) -> None:
+        statuses = {objective.status or self.solver.status for objective in self.objectives}
+        statuses.add(self.solver.status)
+        if "INFEASIBLE" in statuses and (
+            statuses & {"OPTIMAL", "FEASIBLE", "UNBOUNDED"}
+            or any(objective.value is not None for objective in self.objectives)
+        ):
+            raise ValueError("An infeasible case or stage contradicts a feasible objective")
 
     def to_dict(self) -> dict[str, Any]:
         """Retain the existing JSON schema at the public process/export boundary."""
-        return {
+        result = {
             "request": self.request.to_dict(),
             "faction": self.faction,
             "province": self.province,
@@ -231,6 +353,9 @@ class CaseResult:
             "raw": self.raw,
             "timings": self.timings,
         }
+        if self.objectives:
+            result["objectives"] = [objective.to_dict() for objective in self.objectives]
+        return result
 
     @classmethod
     def from_dict(cls, payload: dict[str, Any]) -> CaseResult:
@@ -238,4 +363,10 @@ class CaseResult:
         data["request"] = RunConfig.from_dict(data["request"])
         data["solver"] = SolverSummary.from_dict(data["solver"])
         data["buildings"] = [BuildingSelection(**item) for item in data["buildings"]]
+        if "objectives" in data:
+            if not isinstance(data["objectives"], (tuple, list)):
+                raise ValueError("Objectives must be an ordered JSON array")
+            data["objectives"] = tuple(
+                ObjectiveSummary.from_dict(item) for item in data["objectives"]
+            )
         return cls(**data)

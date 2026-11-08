@@ -8,6 +8,32 @@ from pathlib import Path
 from typing import Any
 
 from twoptimizer.cli_constraints import COMPARISON_FIELDS, comparison_csv
+from twoptimizer.presentation import primary_metric
+
+OBJECTIVE_FIELDS = (
+    "objective_id",
+    "objective_label",
+    "objective_unit",
+    "objective_sense",
+    "objective_value",
+    "objective_bound",
+    "objective_status",
+    "objectives",
+)
+
+
+def _objective_csv(row):
+    if not row.get("objectives"):
+        return dict.fromkeys(OBJECTIVE_FIELDS, None)
+    primary = primary_metric(row)
+    return {
+        **{
+            f"objective_{key}": primary[key]
+            for key in ("label", "unit", "sense", "value", "bound", "status")
+        },
+        "objective_id": primary["identifier"],
+        "objectives": json.dumps(row["objectives"], sort_keys=True),
+    }
 
 
 def export_session(
@@ -28,6 +54,7 @@ def export_session(
         raise FileExistsError(
             "A report already exists. Choose another filename or enable replacement."
         )
+    include_objectives = any(row.get("objectives") for row in results)
     payload = {
         "schema_version": 1,
         "created_at": datetime.now().astimezone().isoformat(),
@@ -42,6 +69,15 @@ def export_session(
         "skipped": list(skipped),
         "cases": results,
     }
+    if include_objectives:
+        payload["scope"] = (
+            "Cases retain their scenario, model assumptions and source snapshots. "
+            "Explicit objectives retain labels, units, directions and priority order. "
+            "A proved primary objective does not prove an unfinished secondary objective. "
+            "No cross-game ranking. OPTIMAL is a solver proof for the stated model; "
+            "FEASIBLE keeps an unresolved bound. Cancelled batches may contain fewer "
+            "cases than requested."
+        )
     encoded = json.dumps(payload, indent=2, allow_nan=False) + "\n"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(encoded)
@@ -75,6 +111,8 @@ def export_session(
     include_comparison = any("constraint_comparison" in row.get("raw", {}) for row in results)
     if include_comparison:
         fields += COMPARISON_FIELDS
+    if include_objectives:
+        fields += OBJECTIVE_FIELDS
     with csv_path.open("w", newline="") as stream:
         writer = csv.DictWriter(stream, fieldnames=fields)
         writer.writeheader()
@@ -97,7 +135,7 @@ def export_session(
                     "algorithm": row["solver"]["algorithm"],
                     "status": row["solver"]["status"],
                     "income": row["income"],
-                    "bound": row["solver"].get("bound"),
+                    "bound": primary_metric(row)["bound"],
                     "gap_percent": row["gap_percent"],
                     "seconds": row["solver"]["seconds"],
                     "time_limit_seconds": row["request"]["seconds"],
@@ -118,6 +156,7 @@ def export_session(
                     "adjacency_directed": row.get("raw", {}).get("map_context", {}).get("directed"),
                     "constraints": json.dumps(row["request"].get("constraints", {})),
                     **(comparison_csv(row.get("raw", {})) if include_comparison else {}),
+                    **(_objective_csv(row) if include_objectives else {}),
                 }
             )
     return path, csv_path

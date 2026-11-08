@@ -56,6 +56,8 @@ def _solve_one(config: RunConfig, phase: PhaseTimer, session: RunSession | None)
         if income is not None and bound is not None and isfinite(bound)
         else None
     )
+    if result.objectives:
+        gap = result.objectives[0].gap_percent
     output = CaseResult(
         request=config,
         faction=faction_name(config.game, config.faction),
@@ -69,6 +71,7 @@ def _solve_one(config: RunConfig, phase: PhaseTimer, session: RunSession | None)
         source_files=source_files(config.game),
         raw=result.raw,
         timings=phase.timings,
+        objectives=result.objectives,
     )
     if session is not None:
         session.record(output)

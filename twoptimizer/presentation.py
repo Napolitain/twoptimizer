@@ -17,6 +17,33 @@ def money(value):
     return "—" if value is None else f"{value:,.3f}"
 
 
+def primary_metric(result: dict) -> dict:
+    """Read an explicit primary objective without calling another quantity income."""
+    if result.get("objectives"):
+        objective = result["objectives"][0]
+        return {**objective, "status": objective.get("status") or result["solver"]["status"]}
+    return {
+        "identifier": "income",
+        "label": "Income",
+        "unit": "",
+        "sense": "maximize",
+        "value": result["income"],
+        "bound": result["solver"].get("bound"),
+        "status": result["solver"]["status"],
+    }
+
+
+def objective_summary(result: dict) -> str:
+    """Describe lexicographic priorities with their individual proof statuses."""
+    objectives = result.get("objectives") or (primary_metric(result),)
+    return "\n".join(
+        f"{index}. {objective['label']}: {money(objective['value'])}"
+        + (f" {objective['unit']}" if objective.get("unit") else "")
+        + f" · {objective['sense']} · {objective.get('status') or result['solver']['status']}"
+        for index, objective in enumerate(objectives, 1)
+    )
+
+
 def timing_summary(result):
     times = result.get("timings", {})
     return " · ".join(
