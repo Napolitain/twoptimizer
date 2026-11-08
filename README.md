@@ -23,8 +23,9 @@ run. Use **Esc** to cancel, **Ctrl+S** to export, **F1** for help and **Ctrl+Q**
 quit. CPU selection is automatic. Solves run until optimality or infeasibility is
 proved; enable **Use a time limit** for a bounded run.
 Use **Multiple provinces…** for a searchable checklist with All/None controls.
-Independent batches work in all three games; joint holdings are available for
-Attila and Shogun 2, with explicit neighboring-province inputs for Attila.
+Independent batches and joint holdings work in all three games. Joint Attila and
+Rome II runs take explicit neighboring-province inputs. **All** selects actual
+provinces; the joint mode shares the game's applicable bonuses and constraints.
 
 ![Interactive terminal UI](docs/tui.png)
 

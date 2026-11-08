@@ -5,7 +5,7 @@ import asyncio
 from textual.widgets import Button, Checkbox, Input, Select, SelectionList, Static
 
 from tests.support.ui import QuickRunner, result
-from twoptimizer.catalog import choices
+from twoptimizer.holdings import named_province_choices
 from twoptimizer.province_picker import BorderPicker, ProvincePicker, ProvinceSelection
 from twoptimizer.tui import OptimizerApp
 
@@ -29,7 +29,8 @@ def test_search_preserves_hidden_selections_and_runs_the_complete_batch():
             await pilot.pause()
             assert isinstance(app.screen, ProvincePicker)
             await pilot.click("#provinces-all")
-            assert len(app.screen.selected) == len(choices("rome2")["provinces"])
+            assert len(app.screen.selected) == len(named_province_choices("rome2")) == 57
+            assert not app.screen.selected & {"coastal", "inland", "grain"}
             await pilot.click("#provinces-none")
             assert app.screen.selected == set()
             for query, key in [("Italia", "rome_main_italia"), ("Africa", "rome_main_africa")]:
@@ -132,7 +133,7 @@ def test_joint_attila_requires_borders_and_supports_explicit_no_neighbors():
             await pilot.pause()
             assert app._config().provinces is None and not app._config().joint
             await pilot.click("#choose-provinces")
-            assert app.screen.query_one("#joint-provinces", Checkbox).disabled
+            assert not app.screen.query_one("#joint-provinces", Checkbox).disabled
 
     asyncio.run(exercise())
 
@@ -159,6 +160,67 @@ def test_picker_actions_remain_accessible_in_a_small_terminal():
             await pilot.click("#provinces-apply")
             await pilot.pause()
             assert app._config().provinces == ()
+            app.provinces_chosen(
+                ProvinceSelection(("rome_main_italia", "rome_main_cisalpina"), True)
+            )
+            app.query_one("#choose-borders", Button).focus()
+            await pilot.pause(0.3)
+            await pilot.press("enter")
+            await pilot.pause()
+            assert isinstance(app.screen, BorderPicker)
+            for selector in ("#borders-apply", "#borders-cancel"):
+                region = app.screen.query_one(selector).region
+                assert region.y >= 0 and region.bottom <= 24
+            await pilot.click("#borders-apply")
+            await pilot.pause()
+            assert app._config().adjacency == ()
+
+    asyncio.run(exercise())
+
+
+def test_rome_joint_mode_edits_borders_and_runs_one_shared_holding():
+    async def exercise():
+        app = OptimizerApp(runner_factory=QuickRunner)
+        async with app.run_test(size=(120, 42)) as pilot:
+            await pilot.pause()
+            await pilot.click("#choose-provinces")
+            assert isinstance(app.screen, ProvincePicker)
+            assert app.screen.selected == set()
+            widget = app.screen.query_one("#province-list", SelectionList)
+            widget.select("rome_main_italia")
+            widget.select("rome_main_cisalpina")
+            app.screen.query_one("#joint-provinces", Checkbox).value = True
+            await pilot.pause()
+            await pilot.click("#provinces-apply")
+            await pilot.pause()
+            assert app.query_one("#run", Button).disabled
+            assert app.query_one("#choose-borders").display
+            await pilot.click("#choose-borders")
+            await pilot.pause()
+            assert isinstance(app.screen, BorderPicker)
+            assert set(app.screen.names) == {"rome_main_italia", "rome_main_cisalpina"}
+            await pilot.click("#border-add")
+            await pilot.click("#borders-apply")
+            await pilot.pause()
+            config = app._config()
+            assert config.joint and len(config.adjacency) == 1
+            assert not app.query_one("#run", Button).disabled
+            await pilot.press("ctrl+r")
+            await app.workers.wait_for_complete()
+            assert len(app.results) == 1
+            request = app.results[0]["request"]
+            assert request["joint"]
+            assert set(request["provinces"]) == {"rome_main_italia", "rome_main_cisalpina"}
+            assert len(request["adjacency"]) == 1
+            await pilot.click("#choose-provinces")
+            app.screen.query_one("#joint-provinces", Checkbox).value = False
+            await pilot.click("#provinces-apply")
+            await pilot.pause()
+            assert not app._config().joint and app._config().adjacency is None
+            assert not app.query_one("#choose-borders").display
+            await pilot.press("ctrl+r")
+            await app.workers.wait_for_complete()
+            assert len(app.results) == 2
 
     asyncio.run(exercise())
 

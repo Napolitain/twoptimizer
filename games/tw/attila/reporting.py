@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from games.tw.attila.building_rules import rule_report
 from games.tw.attila.records import FinanceTotals, LayoutReport, RegionFinance
 from games.tw.immutable import thaw
 
@@ -47,6 +48,10 @@ def evaluate_layout(economy: Economy, selected, mode="income") -> LayoutReport:
         "catalogue_exclusions": getattr(economy, "catalogue_exclusions", []),
         "imported_modifiers": economy.modifiers,
         "assumptions": {
+            "building_rules": rule_report(economy, selected),
+            "building_limit_coverage": (
+                "User-supplied limits only; vanilla faction/world uniqueness caps are not imported"
+            ),
             "treasury_interest": "excluded_by_requested_objective",
             "province_capitals_held": economy.capitals_held,
             "base_tax_percent_default": 100,

@@ -11,6 +11,8 @@ claim to have verified the current patch.
   --algorithm cp-sat --algorithm cbc --algorithm scip
 .venv/bin/python -m games.tw.shogun2.benchmark --clan chosokabe \
   --province jap_owari --province jap_settsu --town-wealth 1000
+.venv/bin/python -m games.tw.shogun2.benchmark --clan oda --province all --joint --soil native
+.venv/bin/python -m games.tw.shogun2.benchmark --clan oda --province all --independent --soil native
 ```
 
 The default compares all 12 playable clans with joint ownership of Sado,
@@ -19,6 +21,11 @@ philosophical tradition; Owari has very fertile soil. Two sensitivity cases
 replace every province's soil multiplier with barren (1) or very fertile (3).
 The default solver is CP-SAT and runs to completion without a time cap.
 `--seconds` explicitly enables an optional per-case time limit.
+`--joint` is the default; `--independent` solves each selected province separately.
+`--province all` selects all 65 provinces. Independent cases reset faction food
+and unique-building limits: their individually optimal layouts cannot generally
+be added into one legal faction holding. JSON retains every solver case; CSV
+retains one row per clan, soil and holding, with explicit ownership and province IDs.
 
 ## Enforced mechanics
 
@@ -38,6 +45,21 @@ The default solver is CP-SAT and runs to completion without a time cap.
   including Kabunakama, Mizu Shobai and the Famous Temple. The Nanban chain
   also has a faction-wide limit. Jesuit Colleges are regular buildings and do
   not have a legendary limit. Captured duplicates are outside this scenario.
+
+Regional specialties cover all 11 imported types: craftwork, gold, holy sites,
+horses, intellectual centres, iron, naval tradition, ninja, smithing, stone and
+timber. Their buildings are available only at the sourced locations. Income,
+tax and order effects stay local: for example, Settsu's Law Court does not add
+its tax bonus to Sado. Arts supply the sourced clan-wide tax, farm and order
+bonuses to every owned province, while arts food enters the faction total once.
+
+The catalog's 15 neighboring-province building effects are **religious zeal**.
+They are recognized and reported as excluded conversion dynamics; they are not
+direct tax or wealth bonuses. This static model assumes 100% state-religion
+adherence and does not invent adjacency income. Naval specialties' tariff
+bonuses and legendary buildings' first-construction military/agent rewards also
+remain explicitly outside current domestic taxation. Joint ownership still
+matters because food and legendary-building limits are shared across the holding.
 
 The income formula is:
 

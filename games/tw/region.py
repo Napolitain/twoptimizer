@@ -224,21 +224,13 @@ class Region(RegionBase, Entity):
         """
         context = self.context
         game_filter = context.current().get_filter()
+        from games.tw.attila.special_slots import special_allowed
+
         # Remove buildings that are illegal
         for i, building in reversed(list(enumerate(self.buildings))):
-            if (
-                (
-                    self.has_ressource != AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC
-                    and "religion_catholic_legendary" in building.name
-                )
-                or (
-                    self.has_ressource != AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX
-                    and "religion_orthodox_legendary" in building.name
-                )
-                or (
-                    self.has_ressource == AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE
-                    and game_filter.building_is_resource(building)
-                )
+            if not special_allowed(self, building) or (
+                self.has_ressource == AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE
+                and game_filter.building_is_resource(building)
             ):
                 self.buildings.pop(i)
             elif self.has_ressource in AttilaRegionResources:
@@ -271,6 +263,7 @@ class Region(RegionBase, Entity):
         resource_constraints[AttilaRegionResources.ATTILA_REGION_SPICE] = True
         resource_constraints[AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC] = True
         resource_constraints[AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX] = True
+        resource_constraints[AttilaRegionResources.ATTILA_REGION_CHURCH_ARIAN] = True
         del resource_constraints[AttilaRegionResources.ATTILA_REGION_NO_RESSOURCE]
         # TODO: ugly fix, should be replaced without usage of cast with dynamic check.
         if hasattr(context.instance, "religion"):
@@ -279,6 +272,8 @@ class Region(RegionBase, Entity):
                 resource_constraints[AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC] = False
             if x.religion != AttilaReligion.CHRIST_ORTHODOX:
                 resource_constraints[AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX] = False
+            if x.religion != AttilaReligion.CHRIST_ARIAN:
+                resource_constraints[AttilaRegionResources.ATTILA_REGION_CHURCH_ARIAN] = False
 
         # Add constraints dynamically based on the resource type
         if self.has_ressource in resource_constraints:

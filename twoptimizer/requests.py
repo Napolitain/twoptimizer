@@ -6,7 +6,7 @@ from math import isfinite
 
 from twoptimizer.catalog import EXACT, ROOT, choices, faction_name, read
 from twoptimizer.errors import ApplicationError
-from twoptimizer.holdings import validate_selection
+from twoptimizer.holdings import named_province_choices, validate_selection
 from twoptimizer.models import AttilaOptions, RunConfig, RunRequest
 
 
@@ -220,7 +220,7 @@ def _all_provinces(game: str) -> tuple[str, ...]:
                 for row in csv.reader(stream, delimiter="\t")
                 if row[0].startswith("att_prov_")
             )
-    return tuple(key for _, key in choices(game)["provinces"])
+    return tuple(key for _, key in named_province_choices(game))
 
 
 def _holdings(request: RunRequest) -> tuple[tuple[str, ...], ...]:

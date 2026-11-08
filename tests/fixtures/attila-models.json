@@ -56,9 +56,17 @@
     ],
     "fertility": 5,
     "technologies": null,
-    "signature": "89414c245a3482063d5f4985b0f3248629017d6956a6120184362f88805057bb",
-    "variables": 799,
-    "constraints": 2096
+    "signature": "a8bc1a134a9ac4790488a801fa3c7b5e8872c3c347bc5d436ed5ee3255585b64",
+    "variables": 804,
+    "constraints": 2097,
+    "migration": {
+      "reason": "Select the state religion's patriarchal chain at Alexandria instead of incorrectly assigning the Orthodox special resource to a Catholic faction.",
+      "previous_signature": "89414c245a3482063d5f4985b0f3248629017d6956a6120184362f88805057bb",
+      "previous_variables": 799,
+      "previous_constraints": 2096,
+      "candidate_delta": "Added the five att_bld_religion_catholic_legendary levels at Alexandria only; no candidates removed.",
+      "constraint_delta": "Added their shared upgrade-chain constraint; the existing special-slot constraint now requires the matching Catholic chain."
+    }
   },
   {
     "faction": "ATT_FACT_AXUM",

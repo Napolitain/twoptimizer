@@ -8,7 +8,7 @@ from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.screen import ModalScreen
 from textual.widgets import Button, Checkbox, Input, Select, SelectionList, Static
 
-from twoptimizer.holdings import JOINT_GAMES
+from twoptimizer.holdings import BORDER_GAMES, JOINT_GAMES
 
 
 @dataclass(frozen=True)
@@ -43,7 +43,8 @@ class ProvincePicker(ModalScreen):
     def __init__(self, game, options, state: ProvinceSelection, current: str):
         super().__init__()
         self.game, self.options, self.original = game, options, state
-        self.selected = set((current,) if state.provinces is None else state.provinces)
+        available = {key for _, key in options}
+        self.selected = set((current,) if state.provinces is None else state.provinces) & available
         self.visible_keys = [key for _, key in options]
 
     def compose(self):
@@ -84,11 +85,9 @@ class ProvincePicker(ModalScreen):
         if together:
             text = "One joint holding per faction and solver. " + (
                 "Set its neighboring provinces before running; no complete border map is bundled."
-                if self.game == "attila"
-                else "Shares food and enforces unique buildings across the holding."
+                if self.game in BORDER_GAMES
+                else "Shares food, faction effects and unique-building limits across the holding."
             )
-        elif self.game == "rome2":
-            text += " Rome II currently supports independent province batches."
         self.query_one("#joint-note", Static).update(text)
 
     @on(Input.Changed, "#province-search")

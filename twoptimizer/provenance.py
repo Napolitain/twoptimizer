@@ -23,7 +23,12 @@ def source_files(game):
                 "provenance.py",
                 "effects.py",
                 "world.py",
+                "holdings.py",
+                "holding_compiler.py",
+                "holding_evaluation.py",
+                "holding_scopes.py",
                 "data/economy_catalog.json",
+                "data/special_buildings_coverage.json",
                 "data/world.json",
                 "data/world_modifiers.json",
             )
@@ -60,6 +65,7 @@ def source_files(game):
                 ROOT / name
                 for name in (
                     "attila/economy.py",
+                    "attila/effect_index.py",
                     "attila/algebra.py",
                     "attila/compiler.py",
                     "attila/compact.py",
@@ -67,6 +73,8 @@ def source_files(game):
                     "attila/scenario.py",
                     "attila/scenario_validation.py",
                     "attila/records.py",
+                    "attila/building_rules.py",
+                    "attila/special_slots.py",
                     "catalog.py",
                     "immutable.py",
                     "attila/model.py",

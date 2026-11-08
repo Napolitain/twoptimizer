@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from games.tw.attila.algebra import add
+from games.tw.attila.building_rules import install_rules
 
 if TYPE_CHECKING:
     from games.tw.attila.economy import Economy
@@ -61,6 +62,7 @@ class PolynomialCompiler:
         return result
 
     def install_constraints(self, solver):
+        install_rules(self.economy, solver)
         for province in self.economy.provinces:
             food = {}
             for region in province.regions:

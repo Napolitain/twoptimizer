@@ -3,6 +3,7 @@
 from copy import deepcopy
 from math import isfinite
 
+from games.tw.attila.building_rules import bind_records, validate_records
 from games.tw.attila.effects import METRICS, RULES, Reach, reach
 
 
@@ -26,6 +27,7 @@ class ScenarioValidator:
             "faction_traits",
             "technology_effects",
             "religion_traits",
+            "building_rules",
         }
         self.keys(self.data, allowed, "scenario")
         for key in ("faction_traits", "technology_effects", "religion_traits"):
@@ -51,6 +53,7 @@ class ScenarioValidator:
         self._validate_metrics()
         self._validate_external_effects()
         self._validate_projects()
+        validate_records(self.data.get("building_rules", []))
         if "project_budget" in self.data:
             self.number(self.data["project_budget"], nonnegative=True)
 
@@ -230,6 +233,7 @@ class ScenarioValidator:
             raise ValueError("Value must be nonnegative")
 
     def bind(self, provinces):
+        bind_records(self.data.get("building_rules", []), provinces)
         province_ids = {p.name for p in provinces}
         region_ids = {r.name for p in provinces for r in p.regions}
         if set(self.data.get("campaign", {}).get("poor_fertility_regions", [])) - region_ids:

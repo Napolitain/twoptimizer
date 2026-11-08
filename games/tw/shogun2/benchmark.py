@@ -14,7 +14,7 @@ from twoptimizer.models import RunConfig, RunRequest
 from twoptimizer.session import RunSession
 
 
-def assumptions():
+def assumptions(*, joint=True):
     return {
         "objective": (
             "Current domestic provincial tax receipts in koku per turn; not GDP, "
@@ -23,6 +23,17 @@ def assumptions():
         "ownership": (
             "The selected provinces are jointly owned; food and unique-building "
             "limits are faction-wide."
+        )
+        if joint
+        else (
+            "Each selected province is optimized as a separate hypothetical holding; "
+            "food and unique-building limits reset for each case. Independent results "
+            "must not be added as one legal faction layout."
+        ),
+        "adjacency": (
+            "The imported neighboring-province effects are religious zeal, not direct "
+            "income bonuses. Conversion dynamics are excluded under the explicit full "
+            "state-religion adherence assumption; no adjacency income is invented."
         ),
         "town_wealth": (
             "Explicit, fixed scenario input. Default zero isolates income from "
@@ -92,6 +103,10 @@ def coverage(catalog):
             "food": "Enforced faction-wide; surplus growth reported in each province",
             "order": "Enforced locally; arts bonuses applied per province",
             "religious_order": "Enforced locally under the explicit 100% adherence assumption",
+            "adjacent_religious_zeal": (
+                "Recognized neighboring-province conversion effect; outside the static "
+                "income model, which assumes 100% state-religion adherence"
+            ),
             "building_growth": "Reported only; no future-income objective",
             "arts_growth": "Reported only; no future-income objective",
             "growth_percent": "Reported only; no future-income objective",
@@ -126,8 +141,19 @@ def coverage(catalog):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--province", action="append", help="Province ID, repeat for joint ownership"
+        "--province", action="append", help="Province ID, repeat to select holdings; all selects 65"
     )
+    ownership = parser.add_mutually_exclusive_group()
+    ownership.add_argument(
+        "--joint", dest="joint", action="store_true", help="Optimize selected provinces together"
+    )
+    ownership.add_argument(
+        "--independent",
+        dest="joint",
+        action="store_false",
+        help="Optimize each province separately",
+    )
+    parser.set_defaults(joint=True)
     parser.add_argument("--clan", action="append", help="Default: all 12 imported playable clans")
     parser.add_argument(
         "--algorithm",
@@ -155,7 +181,7 @@ def main(argv=None):
     catalog, _ = load_data()
     request = request_from_args(args)
     jobs, _ = service.make_jobs(request)
-    provinces = list(request.provinces)
+    provinces = list(dict.fromkeys(key for job in jobs for key in job.holdings))
     cases, rows = [], []
     first_results = {}
     session = RunSession()
@@ -163,18 +189,20 @@ def main(argv=None):
         case = service.solve_case(job, session=session)
         result = case.raw
         cases.append({"soil": job.soil, "clan_name": case.faction, **result})
-        first_results.setdefault((job.soil, job.faction), case)
+        first_results.setdefault((job.soil, job.faction, job.holdings), case)
         print(
             f"{job.soil:13} {job.faction:12} {job.algorithm:6} {case.solver.status:9} "
             f"{case.income} ({case.solver.seconds:.3f}s)",
             flush=True,
         )
-    for (soil, _), first in first_results.items():
+    for (soil, _, holdings), first in first_results.items():
         result = first.raw
         rows.append(
             {
                 "soil": soil,
                 "clan": first.faction,
+                "ownership": "joint" if request.joint else "independent",
+                "provinces": ";".join(holdings),
                 "religion": result.get("religion"),
                 "domestic_tax_income": first.income,
                 "food_surplus": first.metrics.get("food_surplus"),
@@ -188,7 +216,7 @@ def main(argv=None):
     payload = {
         "schema_version": 1,
         "created_at_utc": datetime.now(UTC).isoformat(),
-        "assumptions": assumptions(),
+        "assumptions": assumptions(joint=request.joint),
         "overrides": {"town_wealth": args.town_wealth, "base_tax_percent": args.tax},
         "source_files": {
             str(p.relative_to(Path(__file__).parents[3])): hashlib.sha256(
@@ -226,7 +254,7 @@ def request_from_args(args) -> RunRequest:
         provinces=tuple(args.province or ("jap_sado", "jap_settsu", "jap_owari")),
         algorithms=tuple(args.algorithm or ()),
         soils=tuple(args.soil or ("native", "barren", "very_fertile")),
-        joint=True,
+        joint=args.joint,
     )
 
 

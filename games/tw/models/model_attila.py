@@ -273,6 +273,7 @@ class AttilaRegionResources(enum.Enum):
     ATTILA_REGION_OLIVES = "olives"
     ATTILA_REGION_CHURCH_CATHOLIC = "religion_catholic_legendary"
     ATTILA_REGION_CHURCH_ORTHODOX = "religion_orthodox_legendary"
+    ATTILA_REGION_CHURCH_ARIAN = "religion_arian_legendary"
 
 
 class AttilaCampaign(GameCampaign):

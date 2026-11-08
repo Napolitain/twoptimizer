@@ -18,6 +18,13 @@ retains the compiled binary model and independent evaluator. Input regions remai
 untouched on both success and failure, and the same catalog supports concurrent
 compilation of different scenarios.
 
+Each Attila `Economy` resolves source effects once and indexes their region and
+province recipients. Building-only modifiers retain their producer check; province
+effects are counted once per province even when multiple regions receive them.
+The index has the same fixed-source lifetime as the compiled expression caches.
+Recompiling after changing caller-owned inputs creates a fresh index. No effect
+cache is shared globally or across models.
+
 ```python
 from games.tw.attila.model import SnapshotOptions, compile_scenario, load_attila
 from games.tw.comparison import ComparisonOptions, compare_model
@@ -76,7 +83,7 @@ TUI widgets -> RunConfig -> make_jobs -> CaseRunner -> worker subprocess
 and `RunRequest` for additional batch axes: factions, provinces, solvers, fertility
 and soil. `RunConfig.provinces=None` uses the single `province`; an empty tuple
 selects no jobs. With multiple provinces, `joint=False` creates independent cases
-and `joint=True` retains one combined holding in Attila or Shogun 2.
+and `joint=True` retains one combined holding in any of the three games.
 `AttilaOptions` carries typed campaign inputs, region fertility overrides,
 technology selections, building filters and heuristic settings. Explicit
 `to_dict`/`from_dict` methods preserve those records across worker JSON.
@@ -91,9 +98,16 @@ single request, so direct calls and worker calls use the same rules.
 `twoptimizer.holdings` owns selection and border helpers.
 `twoptimizer.province_picker` owns the optional TUI selection dialogs. Adding
 provinces invalidates known borders; removing provinces prunes links. Joint TUI
-Attila holdings require explicit border input, including an empty confirmed list
+Attila and Rome II holdings require explicit border input, including an empty confirmed list
 when none are adjacent. Picker borders are two-way links. Campaign JSON can
 supply its existing directed adjacency map; no border map is inferred.
+
+Rome II's `HoldingScenario`/`HoldingEconomy` compose the existing placement and
+solver backends. Province-specific economic expressions share one political
+choice, a faction food balance and recipient routing for worldwide/adjacent
+building effects. Each province retains its local order constraint and income
+evaluation. Single-province source fingerprints remain unchanged; joint reports
+add a fingerprint for the holding modules and replay their per-province economics.
 
 `twoptimizer.adapters` prepares the game's scenario and invokes its existing
 engine. It turns the independently evaluated native report into `EngineResult`.

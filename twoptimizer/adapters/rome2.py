@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from dataclasses import replace
 from typing import TYPE_CHECKING
 
 from games.tw.rome2.catalog import load_data
@@ -27,6 +28,8 @@ def presets(name: str) -> tuple[Site, ...]:
 
 
 def prepare_scenario(config: RunConfig) -> Scenario:
+    if config.joint:
+        return _joint_scenario(config)
     profile = config.research if config.research != "none" else config.technology_profile
     if config.province in {"coastal", "inland", "grain"}:
         return Scenario(
@@ -45,6 +48,33 @@ def prepare_scenario(config: RunConfig) -> Scenario:
     )
 
 
+def _joint_scenario(config):
+    from games.tw.rome2.holdings import HoldingScenario
+
+    if any(key in {"coastal", "inland", "grain"} for key in config.holdings):
+        raise ValueError("Joint Rome II holdings require named campaign provinces")
+    world = read("rome2/data/world.json")["regions"]
+    owned = {key for key, row in world.items() if row["province"] in config.holdings}
+    profile = config.research if config.research != "none" else config.technology_profile
+    provinces = tuple(
+        replace(
+            province_scenario(
+                key,
+                config.faction,
+                owned_regions=owned,
+                world_bonuses=config.world_bonuses,
+                all_technologies=config.research != "none",
+                technology_profile=profile,
+            ),
+            name=key,
+        )
+        for key in config.holdings
+    )
+    if len(provinces) > 1 and config.adjacency is None:
+        raise ValueError("Set neighboring provinces or explicitly confirm no borders")
+    return HoldingScenario.from_provinces(provinces, config.adjacency or ())
+
+
 def request_key(config: RunConfig) -> str:
     """Stable historical resume key, using the scenario's public JSON contract."""
     return json.dumps([prepare_scenario(config).to_dict(), config.algorithm], sort_keys=True)
@@ -55,7 +85,14 @@ def solve_rome(
 ) -> EngineResult:
     data = load_data()
     phase("build_model_seconds", "Preparing province model")
-    economy = Economy(prepare_scenario(config), data)
+    scenario = prepare_scenario(config)
+    if config.joint:
+        from games.tw.rome2.holdings import HoldingEconomy, HoldingScenario
+
+        assert isinstance(scenario, HoldingScenario)
+        economy = HoldingEconomy(scenario, data)
+    else:
+        economy = Economy(scenario, data)
     phase("solve_and_check_seconds", "Solving and validating")
     state = RomeSession() if session is None else session.rome
     raw = state.solve(economy, config)

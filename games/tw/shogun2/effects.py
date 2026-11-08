@@ -12,6 +12,17 @@ class Effect:
 
 
 def parse(text):
+    if match := re.fullmatch(
+        r"Spreads (Buddhism|Christianity|radical Ikko beliefs) to neighbouring provinces "
+        r"\(([+-][0-9]+) religious zeal\)",
+        text,
+    ):
+        religion = {
+            "Buddhism": "buddhist",
+            "Christianity": "christian",
+            "radical Ikko beliefs": "ikko",
+        }[match[1]]
+        return Effect("adjacent_religious_zeal", int(match[2]), religion)
     if match := re.fullmatch(r"Cost: ([0-9]+)", text):
         return Effect("construction_cost", int(match[1]))
     if match := re.fullmatch(

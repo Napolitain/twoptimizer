@@ -12,12 +12,18 @@ from games.tw.region import Region
 from tests.support.attila import building, province
 from twoptimizer.catalog import choices
 from twoptimizer.export import export_session
-from twoptimizer.holdings import adjacency_mapping, province_label, selected_provinces
-from twoptimizer.models import RunConfig
+from twoptimizer.holdings import (
+    adjacency_mapping,
+    named_province_choices,
+    province_label,
+    selected_provinces,
+)
+from twoptimizer.models import RunConfig, RunRequest
 from twoptimizer.service import make_jobs, solve_case
 
 SHOGUN = ("jap_sado", "jap_settsu", "jap_owari")
 ATTILA = ("att_prov_thracia", "att_prov_macedonia")
+ROME = ("rome_main_italia", "rome_main_africa")
 
 
 @given(st.lists(st.sampled_from(SHOGUN), unique=True))
@@ -115,9 +121,48 @@ def test_invalid_or_unknown_borders_never_silently_drop_effects(changes, message
         make_jobs(replace(config, **changes))
 
 
-def test_rome_joint_ownership_is_not_presented_as_an_independent_batch():
-    with pytest.raises(ValueError, match="Rome II batches are independent"):
-        make_jobs(RunConfig(provinces=("coastal", "inland"), joint=True))
+def test_rome_joint_holding_keeps_every_province_and_border_in_one_case():
+    config = RunConfig(provinces=ROME, joint=True, adjacency=(ROME,))
+    jobs, skipped = make_jobs(config)
+    assert not skipped
+    assert len(jobs) == 1
+    assert jobs[0].holdings == ROME and jobs[0].joint
+    assert adjacency_mapping(jobs[0]) == {ROME[0]: [ROME[1]], ROME[1]: [ROME[0]]}
+    independent, _ = make_jobs(replace(config, joint=False, adjacency=None))
+    assert len(independent) == 2
+    assert [job.holdings for job in independent] == [(ROME[0],), (ROME[1],)]
+    assert all(not job.joint for job in independent)
+
+
+@pytest.mark.parametrize("selected", [("coastal",), ("coastal", "inland"), (*ROME, "grain")])
+def test_geographic_joint_holdings_reject_reference_layouts(selected):
+    with pytest.raises(ValueError, match="require named provinces"):
+        make_jobs(RunConfig(provinces=selected, joint=True, adjacency=()))
+
+
+@pytest.mark.parametrize(
+    "borders, message",
+    [
+        (None, "Set neighboring"),
+        (((ROME[0], "missing"),), "two different"),
+        ((ROME, ROME[::-1]), "only once"),
+    ],
+)
+def test_rome_joint_holdings_validate_border_knowledge(borders, message):
+    with pytest.raises(ValueError, match=message):
+        make_jobs(RunConfig(provinces=ROME, joint=True, adjacency=borders))
+
+
+def test_rome_all_means_the_map_not_hypothetical_reference_layouts():
+    request = RunRequest(RunConfig(), provinces=("all",))
+    separate, _ = make_jobs(request)
+    names = {key for _, key in named_province_choices("rome2")}
+    assert len(separate) == len(names) == 57
+    assert {job.province for job in separate} == names
+    assert not names & {"coastal", "inland", "grain"}
+    together, _ = make_jobs(replace(request, config=RunConfig(adjacency=()), joint=True))
+    assert len(together) == 1 and together[0].joint
+    assert set(together[0].holdings) == names
 
 
 def test_explicit_borders_change_adjacent_income_only_in_the_joint_holding(context):

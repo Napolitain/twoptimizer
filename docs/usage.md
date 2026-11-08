@@ -83,18 +83,21 @@ to the original dropdown; Cancel discards picker changes.
 
 By default each province is optimized independently, with one result row per
 province/faction/solver. **Optimize selected provinces together** instead creates
-one joint holding per faction/solver in Attila and Shogun 2. Attila shares faction
+one joint holding per faction/solver in all three games. **All** selects named
+provinces (57 in Rome II), excluding hypothetical reference layouts. Attila shares faction
 effects and applies adjacency bonuses across the explicit borders; its existing
 province-level food, sanitation and order requirements still apply. Shogun 2 shares
-food and enforces unique-building limits across the holding.
+food and enforces unique-building limits across the holding. Rome II shares food,
+selects one political profile, keeps public order local, and applies factionwide
+building and owned-world bonuses across the holding.
 
-For joint Attila holdings, **Neighboring provinces…** edits shared borders between
+For joint Attila and Rome II holdings, **Neighboring provinces…** edits shared borders between
 selected provinces. Add each border once: effects work in both directions. Apply
-an empty list to explicitly confirm no selected provinces are adjacent. No complete
+an empty list to explicitly model no adjacency effects. No complete
 border map is bundled, so new selections need this input rather than inferred
 neighbors. Removing provinces prunes their borders; adding provinces requires
-confirmation again. Rome II supports independent batches; joint ownership and
-cross-province effects are not implemented in its current model.
+confirmation again. Shogun 2's imported neighboring effects concern religious
+conversion, outside the static full-adherence income model, so it needs no border input.
 
 JSON exports retain the province selection, joint mode and border inputs; CSV
 includes the joint flag, province IDs and adjacency. Cancel stops the active worker
@@ -117,6 +120,40 @@ run to completion; specify it only when you want an optional per-case time limit
 All application requests optimize income. The shared service applies the same
 validation, scenario preparation and result semantics in either interface; CLI
 comparison commands retain their broader batch defaults.
+
+All three CLIs accept `--joint` and `--independent`. Rome II and Attila default to
+independent cases; Shogun 2 retains its joint default. Use `--province all` for all
+named provinces. Joint Attila/Rome II inputs require `--borders borders.json`, an
+explicit `--no-borders` sensitivity, or Attila's campaign `adjacency` map. A border
+file is a JSON list of pairs, for example `[["Italia", "Magna Graecia"]]` for Rome II;
+names and IDs are accepted. Resume retains the original ownership mode.
+
+```sh
+uv run --locked twoptimizer rome2 --faction rom_rome --province all --independent
+uv run --locked twoptimizer rome2 --faction rom_rome \
+  --province Italia --province 'Magna Graecia' --joint --borders borders.json
+uv run --locked twoptimizer shogun2 --clan oda --province all --joint --soil native
+```
+
+An all-province joint problem maximizes the selected realm's total income. An
+independent batch solves a separate hypothetical realm for each province; adding
+those results does not enforce shared food, uniqueness or cross-province bonuses.
+Joint problems can take longer to prove optimal. Cancellation and optional time
+limits remain available; no limit is imposed by default. A solver time limit
+limits search, not catalog loading, model compilation or result validation;
+Cancel also stops a case during those preparation stages.
+
+### Regional and worldwide coverage
+
+| Game | Neighboring effects | Special sites and shared effects |
+| --- | --- | --- |
+| Attila | Imported adjacent economic effects use explicit borders; conditional food-routing effects still need recipient inputs | Resource and church sites, factionwide modifiers, and explicit scenario construction restrictions; incomplete legendary metadata is disclosed |
+| Rome II | Imported adjacent food effects count owned recipient regions | Resource settlements, Marib-only dam, shared faction building bonuses and owned regional/natural wonders; 35 level-5 legendary entries remain excluded pending unlock/limit/first-builder rules |
+| Shogun 2 | Religious zeal is recognized but conversion is outside current income | All 65 province specialties/soils/ports, local special buildings, worldwide arts, shared food and legendary/Nanban limits |
+
+The [Rome II special-building audit](../games/tw/rome2/data/special_buildings_coverage.json)
+records the missing rules and the official construction-manual evidence. These
+coverage limits matter when interpreting an optimum as a campaign result.
 
 ## Run Rome II
 
@@ -359,8 +396,8 @@ The tests cover independently calculated scope examples, stacked sanitation,
 category modifiers, fertility interactions, exact Boolean products, exhaustive
 small optimization problems, legacy regressions, source format changes, ambiguous
 identities, culture-specific requirements, mixed-build rejection and offline
-imports. The HoI4 tests remain in the suite. Rome II is retained, but its current
-parser still lacks checked-in province and region name tables.
+imports. The HoI4 tests remain in the suite. The separate Rome II engine uses
+the bundled named-province resource and regional-modifier catalogs.
 
 Historical wealth and legacy benchmark measurements remain in Git history. They
 do not describe the current income-only application.
@@ -399,6 +436,7 @@ The JSON keys are:
 | `resource_prices` | Revenue per exported resource unit; used only for the income objective |
 | `resource_demand` | Optional export-volume caps; surplus units have no export value |
 | `adjacency` | Source province IDs mapped to adjacent selected province IDs; lists are explicit and directed |
+| `building_rules` | Explicit construction restrictions: `buildings` lists exact IDs, `maximum` caps their combined count across the holding, `regions` optionally restricts placement |
 | `conditional_targets` | Effect IDs mapped to source-province/recipient-province lists for exceptional food-sharing/neighbor effects |
 | `targets` | Minimum required scoped effects: `metric`, `scope`, `target`, `value` |
 | `weights` | Must be absent or empty; the application optimizes income only |
@@ -410,6 +448,25 @@ The JSON keys are:
 Resource names include wood, wine, iron, lead, leather, marble, olive, salt, silk,
 spice, dyes, gem and cloth. Prices and demand are supplied by the scenario; the
 optimizer does not invent world-market prices or trade partners.
+
+`building_rules` can express a unique building or several upgrade variants sharing
+one limit. For example, a supplied rule
+`{"buildings":["att_bld_roman_east_civic_governor_5_legendary"],"maximum":1}`
+allows at most one selected instance across the holding. This is a scenario
+assumption, **not an imported vanilla cap**; reports label it
+`user_supplied_campaign_rule`. Unknown IDs, unselected regions and invalid limits
+are rejected. These rules restrict available candidates; they cannot enable a
+building whose upkeep or availability metadata is missing.
+
+The income model restricts patriarchal church chains to the five church sites
+and uses the selected religion's chain. Zafar's special dam slot is distinguished
+from those church sites. The Attila Ma'rib Dam still lacks enough imported upkeep
+and availability metadata for inclusion in income optimization. Factionwide
+legendary effects are applied for available candidates, but exhaustive vanilla
+legendary construction caps are not yet imported.
+Earlier Attila comparison tables predate the church-placement correction. Rerun
+Catholic/Arian holdings with patriarchal sites before treating those historical
+rows as results of the current model.
 
 Corruption modifiers are relative reductions of the supplied base corruption,
 not percentage-point deductions: 50% corruption with a -20% modifier becomes 40%.

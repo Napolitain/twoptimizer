@@ -14,13 +14,15 @@ from games.tw.rome2.effects import fact_effect, raw_effect
 from games.tw.rome2.provenance import model_fingerprint
 from twoptimizer import service
 from twoptimizer.adapters.rome2 import prepare_scenario, request_key
+from twoptimizer.cli_holdings import add_holding_options, read_borders
+from twoptimizer.errors import ApplicationError
 from twoptimizer.models import RunConfig, RunRequest
 from twoptimizer.rome_session import RomeSession
 from twoptimizer.session import RunSession
 
 
-def assumptions():
-    return {
+def assumptions(joint=False):
+    result = {
         "objective": (
             "Current domestic provincial tax receipts less modeled building "
             "maintenance, excluding external trade, armies, agents and "
@@ -91,6 +93,18 @@ def assumptions():
             "counterfactual holding, not a historical faction start."
         ),
     }
+    if joint:
+        result["food"] = (
+            "Selected provinces form one realm with shared food and local public order. "
+            "Factionwide effects reach every selected recipient; adjacent effects use "
+            "explicit two-way province borders and count owned recipient regions."
+        )
+        result["world_inputs"] = (
+            "Named provinces jointly own their sourced regions and location-specific "
+            "bonuses. Provincial bonuses stay local; faction bonuses affect all selected "
+            "provinces. No geography or external ownership is inferred."
+        )
+    return result
 
 
 def audit(data):
@@ -136,12 +150,15 @@ def audit(data):
 def _validate_run_options(args, parser):
     if args.fill_missing and not args.resume:
         parser.error("--fill-missing requires --resume")
+    if args.joint and (not args.province or args.layout):
+        parser.error("--joint requires named --province selections (or --province all)")
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--faction", action="append")
     parser.add_argument("--province", action="append", help="Real province name or ID; may repeat")
+    add_holding_options(parser)
     parser.add_argument("--no-world-bonuses", action="store_true")
     parser.add_argument("--layout", action="append", choices=["inland", "coastal", "grain"])
     parser.add_argument(
@@ -186,7 +203,7 @@ def main(argv=None):
         "created_at_utc": datetime.now(UTC).isoformat(),
         "catalog_sha256": source_hash,
         "model_sha256": model_hash,
-        "assumptions": assumptions(),
+        "assumptions": assumptions(args.joint),
         "coverage": audit(data),
         "excluded_playable_factions": sorted(
             {f.value for f in Rome2Factions if f.value.startswith("rom_")} - data["factions"].keys()
@@ -194,6 +211,10 @@ def main(argv=None):
     }
     if "snapshot_migration" in previous:
         payload["snapshot_migration"] = previous["snapshot_migration"]
+    if args.joint:
+        from games.tw.rome2.holdings import joint_model_fingerprint
+
+        payload["joint_model_sha256"] = joint_model_fingerprint()
 
     def save():
         payload["cases"] = list(cases.values())
@@ -237,10 +258,7 @@ def main(argv=None):
 
     request = request_from_args(args)
     jobs, _ = service.make_jobs(request)
-    labels = {
-        prepare_scenario(replace(request.config, province=name)).name: name
-        for name in request.provinces
-    }
+    labels = _layout_labels(request, jobs)
     selected = {job.faction for job in jobs}
     payload["research_mode"] = (
         args.technology_profile if args.all_technologies else "bonuses_disabled_unlocked_buildings"
@@ -287,6 +305,8 @@ def request_from_args(args) -> RunRequest:
             research=args.technology_profile if args.all_technologies else "none",
             technology_profile=args.technology_profile,
             world_bonuses=not args.no_world_bonuses,
+            joint=args.joint,
+            adjacency=read_borders(args, "rome2"),
         ),
         factions=tuple(args.faction or ()),
         provinces=tuple(args.province or args.layout or ("inland", "coastal", "grain")),
@@ -294,14 +314,34 @@ def request_from_args(args) -> RunRequest:
     )
 
 
+def _layout_labels(request, jobs):
+    if request.config.joint:
+        return {prepare_scenario(job).name: prepare_scenario(job).name for job in jobs}
+    if request.provinces == ("all",):
+        return {prepare_scenario(job).name: job.province for job in jobs}
+    return {
+        prepare_scenario(replace(request.config, province=name)).name: name
+        for name in request.provinces
+    }
+
+
 def _load_previous(args, output, source_hash, model_hash, previous):
     cases = {}
     if args.resume and output.exists():
         previous = json.loads(output.read_text())
+        if bool(previous.get("joint_model_sha256")) != args.joint:
+            raise ApplicationError(
+                "Cannot change joint/independent ownership when resuming a report"
+            )
         if previous["catalog_sha256"] != source_hash:
             raise ValueError("Cannot reuse a different data snapshot")
         if previous.get("model_sha256") != model_hash:
             raise ValueError("Cannot reuse results from different model code")
+        if args.joint or previous.get("joint_model_sha256"):
+            from games.tw.rome2.holdings import joint_model_fingerprint
+
+            if previous.get("joint_model_sha256") != joint_model_fingerprint():
+                raise ApplicationError("Cannot reuse results from different joint model code")
         cases = {r["case_key"]: r for r in previous["cases"]}
     return previous, cases
 

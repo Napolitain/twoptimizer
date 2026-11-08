@@ -1,0 +1,402 @@
+{
+  "schema_version": 1,
+  "audited_at_utc": "2026-11-08T03:25:22.829998+00:00",
+  "catalog_sha256": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+  "scope": "Construction eligibility and uniqueness coverage for the bundled Rome II reference catalog; not an installed-build certification.",
+  "sources": [
+    {
+      "url": "https://r2encv2.totalwar.com/en/manual/single-player/0045_enc_page_campaign_play_province_construction/index.html",
+      "response_sha256": "b71e1b20fb80f0be811711efcfb97ec12b1c34d8067382d1effcace4856ca5a4",
+      "quote": "When your faction reaches the top of a building chain and a certain event has occurred it may then be possible to construct a legendary building. If you are the first to construct one your faction will be awarded a permanent faction trait and its associated effects.",
+      "supports": "Legendary buildings have event-dependent availability; first construction can award a permanent faction trait. This source does not enumerate per-building construction caps or regional restrictions."
+    }
+  ],
+  "level_five_count": 35,
+  "level_five_status": "Excluded from the default ordinary-level-1-through-4 economic model. A level or historical name alone does not establish a one-per-faction or region-only rule.",
+  "missing_rules": [
+    "Per-building event/unlock conditions and current eligibility",
+    "Per-building or shared-chain uniqueness limits and their scope",
+    "First-construction faction-trait effect bundles and acquisition state",
+    "Installed-build validation of regional construction restrictions"
+  ],
+  "level_five_buildings": [
+    {
+      "id": "rome_city_centre_circus_5",
+      "name": "Circus Maximus",
+      "level": 5,
+      "factions": [
+        "rom_rome"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "rome_city_centre_gladiator_5",
+      "name": "Colosseum",
+      "level": 5,
+      "factions": [
+        "rom_rome"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "rome_water_sewer_5",
+      "name": "Cloaca Maxima",
+      "level": 5,
+      "factions": [
+        "rom_rome"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "rome_religious_jupiter_5",
+      "name": "Pantheon",
+      "level": 5,
+      "factions": [
+        "rom_rome"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_military_heavy_5",
+      "name": "Monument of Leonidas",
+      "level": 5,
+      "factions": [
+        "rom_sparta"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_city_centre_5_prytaneion",
+      "name": "Prytaneion",
+      "level": 5,
+      "factions": [
+        "rom_cimmeria"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_city_centre_trade_5",
+      "name": "Great Market",
+      "level": 5,
+      "factions": [
+        "rom_colchis"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_city_centre_library_5_pergamon",
+      "name": "Library of Pergamon",
+      "level": 5,
+      "factions": [
+        "rom_pergamon"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_city_centre_library_5",
+      "name": "Great Library",
+      "level": 5,
+      "factions": [
+        "rom_ptolemaics"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_city_centre_theatre_5",
+      "name": "Theatre of Syracuse",
+      "level": 5,
+      "factions": [
+        "rom_syracuse"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_town_centre_5_rose_marl",
+      "name": "Rose Marl Building",
+      "level": 5,
+      "factions": [
+        "rom_cimmeria"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_religious_athena_5",
+      "name": "Acropolis",
+      "level": 5,
+      "factions": [
+        "rom_athens"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_religious_5_demeter",
+      "name": "Sanctuary of Demeter",
+      "level": 5,
+      "factions": [
+        "rom_cimmeria"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_religious_5_golden_fleece",
+      "name": "Temple of the Golden Fleece",
+      "level": 5,
+      "factions": [
+        "rom_colchis"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_religious_zeus_5_epirus",
+      "name": "Oracle of Dodona",
+      "level": 5,
+      "factions": [
+        "rom_epirus"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_religious_zeus_5_macedon",
+      "name": "Hieron ton Mehalon Theon",
+      "level": 5,
+      "factions": [
+        "rom_macedon"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_religious_5_ephesus",
+      "name": "Cult of Ephesus",
+      "level": 5,
+      "factions": [
+        "rom_massilia"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_religious_zeus_5_pergamon",
+      "name": "Great Altar of Pergamon",
+      "level": 5,
+      "factions": [
+        "rom_pergamon"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_religious_zeus_5_pontus",
+      "name": "Hieron ton Mehalon Theon",
+      "level": 5,
+      "factions": [
+        "rom_pontus"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_religious_nymph_5",
+      "name": "Paradise of Daphne",
+      "level": 5,
+      "factions": [
+        "rom_seleucid"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_religious_zeus_5_syracuse",
+      "name": "Altar to Zeus",
+      "level": 5,
+      "factions": [
+        "rom_syracuse"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_religious_egypt_ammon_5",
+      "name": "Ptolemaic Temple Complex",
+      "level": 5,
+      "factions": [
+        "rom_ptolemaics"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "greek_religious_punic_5",
+      "name": "Tophet",
+      "level": 5,
+      "factions": [
+        "rom_carthage"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "barb_commons_chieftan_5",
+      "name": "High King's Hold",
+      "level": 5,
+      "factions": [
+        "rom_ardiaei",
+        "rom_arevaci",
+        "rom_arverni",
+        "rom_boii",
+        "rom_galatia",
+        "rom_getae",
+        "rom_iceni",
+        "rom_lusitani",
+        "rom_nervii",
+        "rom_odryssia",
+        "rom_suebi",
+        "rom_tylis"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "barb_religious_briton_andraste_5",
+      "name": "Nemeton",
+      "level": 5,
+      "factions": [
+        "rom_iceni"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "barb_religious_gaul_toutatis_5",
+      "name": "Nemeton",
+      "level": 5,
+      "factions": [
+        "rom_arverni",
+        "rom_boii",
+        "rom_nervii"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "barb_religious_german_teiwaz_5",
+      "name": "Oak of Teiwaz",
+      "level": 5,
+      "factions": [
+        "rom_suebi"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "barb_religious_iberian_5",
+      "name": "Sacrificial Grove",
+      "level": 5,
+      "factions": [
+        "rom_arevaci",
+        "rom_lusitani"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "barb_religious_nomad_api_5",
+      "name": "Kurgan Field",
+      "level": 5,
+      "factions": [
+        "rom_massagetae",
+        "rom_roxolani",
+        "rom_scythia"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "barb_religious_thrace_cabeiri_5",
+      "name": "Hearth Altar of the Cabeiri",
+      "level": 5,
+      "factions": [
+        "rom_odryssia"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "dk_ara_town_centre_caravanserai_5",
+      "name": "Caravanserai",
+      "level": 5,
+      "factions": [
+        "rom_nabatea",
+        "rom_saba"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "dk_all_city_5",
+      "name": "Rekem",
+      "level": 5,
+      "factions": [
+        "rom_nabatea"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "dk_kush_religious_royal_5",
+      "name": "Nubian Pyramids",
+      "level": 5,
+      "factions": [
+        "rom_kush"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "dk_num_religious_royal_5",
+      "name": "Madghacen",
+      "level": 5,
+      "factions": [
+        "rom_masaesyli"
+      ],
+      "status": "excluded_pending_rules"
+    },
+    {
+      "id": "dk_saba_religious_almaqah_5",
+      "name": "Throne of Almaqah",
+      "level": 5,
+      "factions": [
+        "rom_saba"
+      ],
+      "status": "excluded_pending_rules"
+    }
+  ],
+  "explicit_regional_buildings": [
+    {
+      "id": "dk_saba_marib_dam_1",
+      "name": "Great Dam of Marib",
+      "allowed_regions": [
+        "rom_arabia_felix_saba"
+      ],
+      "status": "supported"
+    },
+    {
+      "id": "dk_saba_marib_dam_2",
+      "name": "Greater Dam of Marib",
+      "allowed_regions": [
+        "rom_arabia_felix_saba"
+      ],
+      "status": "supported"
+    },
+    {
+      "id": "dk_saba_marib_dam_3",
+      "name": "Grand Dam of Marib",
+      "allowed_regions": [
+        "rom_arabia_felix_saba"
+      ],
+      "status": "supported"
+    }
+  ],
+  "regional_coverage_note": "Marib Dam stages carry explicit allowed_regions in the catalog. Resource-primary chains are additionally restricted by each region resource. Regional/natural-wonder passive modifiers are recorded separately in world_modifiers.json.",
+  "marib_economics": {
+    "source_region": "rom_arabia_felix_saba",
+    "scope": "in_all_your_regions",
+    "effect_id": "rom_character_faction_leader_global_gdp_mod_agriculture_farming",
+    "stage_values_percent": [
+      10,
+      25,
+      50
+    ],
+    "maintenance_per_turn": [
+      100,
+      600,
+      1200
+    ],
+    "evidence": "Raw effect rows already retained in economy_catalog.json; maintenance is paid once per selected dam and the farming bonus reaches owned recipient regions."
+  },
+  "refresh_limitations": [
+    "A fresh Honga Colosseum detail request returned HTTP 403. The existing cached detail page was inspected and contains effects and a marble prerequisite, but no construction cap."
+  ]
+}

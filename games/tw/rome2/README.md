@@ -14,6 +14,15 @@ including Kush, Masaesyli, Nabataea and Saba.
 .venv/bin/python -m games.tw.rome2.summarize
 ```
 
+The CLI and TUI both support independent and joint province runs. In the TUI,
+choose **Multiple provinces…**, select a subset or **All**, then enable
+**Optimize selected provinces together**. Enter explicit borders in
+**Neighboring provinces…**. The CLI equivalent uses repeated `--province` or
+`--province all`, `--joint`, and `--borders borders.json` (a JSON list of two-way
+province-name/ID pairs). `--no-borders` explicitly models no adjacency effects;
+the independent mode remains the CLI default. Reference layouts remain separate
+synthetic scenarios and cannot form a geographic joint holding.
+
 By default the optimizer runs to an optimality/infeasibility proof with no time
 cap. `--seconds` enables an optional per-case limit. The portfolio starts with a
 short CP-SAT search, then passes an independently validated layout to native
@@ -80,8 +89,9 @@ its hash is not presented as an HTTP response hash.
 
 [world_modifiers.json](data/world_modifiers.json) records 14 economic bonuses,
 including Roma, Carthago, Pergamon, Antioch and natural wonders. Province bonuses
-stay local; faction bonuses require ownership of their source region. Each named
-province comparison owns that province alone. Conditional Bread and Games effects
+stay local; faction bonuses require ownership of their source region. Independent
+comparisons own one province each. Joint runs own the selected provinces together
+and distribute faction bonuses to every selected province. Conditional Bread and Games effects
 stay inactive. Conflicting older 2013 wonder values remain visible.
 
 Roma's all-income bonus is interpreted as additive all-source wealth; Pharos'
@@ -97,7 +107,9 @@ are counterfactual equal-holding comparisons, not historical starts or empire to
   bonus applies only to wealth originating in minor settlements.
 - Tax modifiers/corruption deductions are percentage points. Corruption reductions
   cannot make corruption negative. Food and province public order must be nonnegative.
-  Per-region food counts once per owned recipient; adjacent provinces are unowned.
+  Per-region food counts once per owned recipient. Joint holdings share food;
+  adjacent food effects reach regions across the explicitly supplied borders.
+  Independent comparisons have no owned adjacent recipient.
 - One primary per site, one port where coastal, four ordinary capital plots and
   two ordinary town plots. Mature primaries up to level four and ordinary levels
   1–4 are used; shorter resource chains stop at their actual maximum (e.g. iron).
@@ -107,7 +119,9 @@ are counterfactual equal-holding comparisons, not historical starts or empire to
 - One playable political profile is selected; family effects are not stacked.
   Safely dominated profiles can be pruned for this objective.
 - Marib Dam is restricted to Marib. Its raw farming modifier is retained and
-  maintenance is deducted once, outside the tax multiplier.
+  reaches farming wealth across all jointly owned regions. Maintenance is deducted
+  once per dam, outside the tax multiplier. It is not multiplied by the number of
+  provinces receiving the bonus.
 
 Hypothetical inland/coastal/grain layouts each contain one capital and one town;
 grain changes the minor primary. `Scenario`/`Site` accepts custom slot capacities,
@@ -118,7 +132,11 @@ and unlocks are available independently of research bonuses. There are no active
 edicts, faction-capital-only subsistence, external trade/export/tariff receipts,
 armies, agents, construction spending, treasury interest, difficulty, imperium,
 character/event modifiers or future cash-flow timeline. Growth is reported without
-future value. Level-5 special monuments are excluded. This is a static domestic
+future value. The [special-building audit](data/special_buildings_coverage.json)
+lists all 35 excluded level-5 entries. The official manual requires event unlocks
+and awards first constructors permanent faction traits; the available data does
+not specify every unlock, construction cap or trait bundle. These buildings remain
+excluded until those rules can be supplied. This is a static domestic
 income model, not exhaustive campaign economics.
 
 ## Results and replay
@@ -128,6 +146,9 @@ keeping scenarios and research modes separate. Rank intervals preserve uncertain
 Reports contain original layouts, categories, food/order, maintenance, hashes and
 timing. Identical compiled CP-SAT models may reuse an optimum; receiving layouts
 are independently checked. Resume rejects different data/model snapshots.
+Joint reports additionally retain per-province economics, the combined realm
+income, explicit borders and a separate joint-model fingerprint. Independent
+and joint modes cannot be mixed when resuming one comparison report.
 
 The checked-in coastal benchmark proves all 36 cases without research bonuses:
 Nabataea and Saba tie at 4,477.248. All 29 supported public research cases are also

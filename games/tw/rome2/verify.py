@@ -23,11 +23,12 @@ def verify(paths):
             model_hash,
         ):
             raise ValueError(f"Stale data/model snapshot: {path}")
+        _verify_joint_identity(report, path)
         reports[str(path)] = hashlib.sha256(path.read_bytes()).hexdigest()
         for case in report["cases"]:
             if "sites" not in case:
                 continue
-            economy = Economy(Scenario.from_dict(case["scenario"]), data)
+            economy = _economy(case, data, report)
             layout = {key: row["buildings"] for key, row in case["sites"].items()}
             checked = economy.evaluate(layout, case["party_index"])
             _verify_economics(checked, case, path)
@@ -60,18 +61,45 @@ def verify(paths):
     }
 
 
+def _verify_joint_identity(report, path):
+    if report.get("joint_model_sha256"):
+        from games.tw.rome2.holdings import joint_model_fingerprint
+
+        if report["joint_model_sha256"] != joint_model_fingerprint():
+            raise ValueError(f"Stale joint model snapshot: {path}")
+
+
+def _economy(case, data, report):
+    if "provinces" in case["scenario"]:
+        from games.tw.rome2.holdings import HoldingEconomy, HoldingScenario
+
+        if not report.get("joint_model_sha256"):
+            raise ValueError("Joint report is missing its model fingerprint")
+        return HoldingEconomy(HoldingScenario.from_dict(case["scenario"]), data)
+    return Economy(Scenario.from_dict(case["scenario"]), data)
+
+
 def _verify_economics(checked, case, path):
-    for key in (
+    keys = (
         "domestic_net_income",
         "domestic_tax_income",
         "building_maintenance",
         "food_surplus",
         "public_order",
         "modified_wealth",
-        "tax_modifier_percent_net",
-    ):
+    )
+    if "provinces" in checked:
+        if set(case["provinces"]) != set(checked["provinces"]):
+            raise AssertionError(f"Stored provinces differ: {path}")
+        for name, local in checked["provinces"].items():
+            _verify_economics(local, case["provinces"][name], path)
+    else:
+        keys += ("tax_modifier_percent_net",)
+    for key in keys:
         if abs(checked[key] - case[key]) > 1e-5:
-            raise AssertionError(f"Stored economics differs: {path}, {case['case_key']}, {key}")
+            raise AssertionError(
+                f"Stored economics differs: {path}, {case.get('case_key', '')}, {key}"
+            )
 
 
 def main(argv=None):

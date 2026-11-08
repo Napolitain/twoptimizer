@@ -12,6 +12,7 @@ from types import SimpleNamespace
 
 from games.tw.attila.algebra import Indicator, Polynomial, add, multiply, rational
 from games.tw.attila.compiler import PolynomialCompiler
+from games.tw.attila.effect_index import EffectIndex
 from games.tw.attila.effects import Reach, entries
 from games.tw.attila.records import LayoutReport
 from games.tw.context import GameContext
@@ -104,6 +105,7 @@ class Economy:
             )
         self._record_trait_requirements()
         self._record_omitted_effects()
+        self.effect_index = EffectIndex(self)
 
     def _record_omitted_effects(self):
         self.omitted = []
@@ -223,14 +225,11 @@ class Economy:
         if cache_key in self._fields:
             return self._fields[cache_key]
         result = defaultdict(Fraction)
-        for b in self.sources:
-            for effect, rule, scope, value in self.effects(b):
-                if (
-                    rule.kind == kind
-                    and (category is None or category in rule.categories)
-                    and self.applies(b, region, scope, effect, recipient)
-                ):
-                    result[self.decision(b)] += rational(value)
+        for record in self.effect_index.by_region[region.name, kind]:
+            if (category is None or category in record.rule.categories) and (
+                recipient is None or record.scope != Reach.BUILDING or record.source is recipient
+            ):
+                result[self.decision(record.source)] += rational(record.value)
         self._fields[cache_key] = dict(result)
         return self._fields[cache_key]
 
@@ -241,28 +240,24 @@ class Economy:
         if region.name in self._wealth:
             return self._wealth[region.name]
         total = {}
-        for producer in self.sources:
-            for effect, rule, scope, value in self.effects(producer):
-                if rule.kind not in ("wealth", "fertility_wealth") or not self.applies(
-                    producer, region, scope, effect
-                ):
-                    continue
-                base = {self.decision(producer): value}
-                if rule.kind == "fertility_wealth":
-                    base = multiply(base, self.fertility(region))
-                for category in rule.categories:
-                    modifier = {
-                        key: value / 100
-                        for key, value in self.field(
-                            region, "wealth_percent", category, producer
-                        ).items()
-                    }
-                    external = self.scenario.for_region(region).wealth_percent
-                    modifier = add(
-                        modifier,
-                        {(): rational(external.get("all", 0) + external.get(category, 0)) / 100},
-                    )
-                    total = add(total, multiply(base, add({(): 1}, modifier)))
+        for record in self.effect_index.wealth[region.name]:
+            producer, rule, value = record.source, record.rule, record.value
+            base = {self.decision(producer): value}
+            if rule.kind == "fertility_wealth":
+                base = multiply(base, self.fertility(region))
+            for category in rule.categories:
+                modifier = {
+                    key: value / 100
+                    for key, value in self.field(
+                        region, "wealth_percent", category, producer
+                    ).items()
+                }
+                external = self.scenario.for_region(region).wealth_percent
+                modifier = add(
+                    modifier,
+                    {(): rational(external.get("all", 0) + external.get(category, 0)) / 100},
+                )
+                total = add(total, multiply(base, add({(): 1}, modifier)))
         immigration = self.scenario.for_region(region).immigration_wealth
         if immigration:
             modifier = {
@@ -307,12 +302,8 @@ class Economy:
 
     def province_field(self, province, kind):
         result = {}
-        for source in self.sources:
-            for effect, rule, scope, value in self.effects(source):
-                if rule.kind == kind and any(
-                    self.applies(source, r, scope, effect) for r in province.regions
-                ):
-                    result = add(result, {self.decision(source): value})
+        for record in self.effect_index.by_province[province.name, kind]:
+            result = add(result, {self.decision(record.source): record.value})
         return result
 
     def public_order(self, province):
@@ -417,20 +408,21 @@ class Economy:
         # iteration counts. Global research/caps apply once to the faction.
         faction_metric = metric.startswith(("research_", "agent_cap:"))
         region_metric = metric.startswith(("resource:", "religion:")) or metric == "roads"
-        for source in self.sources:
-            for effect, rule, reach_, value in self.effects(source):
-                if rule.kind != "metric" or not aliases.intersection(rule.categories):
-                    continue
-                recipients = [r for r in regions if self.applies(source, r, reach_, effect)]
-                count = (
-                    bool(recipients)
-                    if faction_metric
-                    else len(recipients)
-                    if region_metric
-                    else len({self.owner[r.name] for r in recipients})
-                )
-                if count:
-                    result = add(result, {self.decision(source): value * count})
+        for record in self.effect_index.by_kind["metric"]:
+            if not aliases.intersection(record.rule.categories):
+                continue
+            recipients = [
+                r for r in regions if self.applies(record.source, r, record.scope, record.effect)
+            ]
+            count = (
+                bool(recipients)
+                if faction_metric
+                else len(recipients)
+                if region_metric
+                else len({self.owner[r.name] for r in recipients})
+            )
+            if count:
+                result = add(result, {self.decision(record.source): record.value * count})
         if metric.startswith("agent_enable:"):
             result = self.indicator(add(result, {(): -1}))
         self._metrics[cache_key] = result
@@ -449,10 +441,9 @@ class Economy:
         from games.tw.attila.traits import rules
 
         tariffs = {}
-        for source in self.sources:
-            for _, rule, scope, value in self.effects(source):
-                if rule.kind == "tariff_percent" and scope == Reach.FACTION:
-                    tariffs = add(tariffs, {self.decision(source): rational(value) / 100})
+        for record in self.effect_index.by_kind["tariff_percent"]:
+            if record.scope == Reach.FACTION:
+                tariffs = add(tariffs, {self.decision(record.source): rational(record.value) / 100})
         total = multiply({(): self.scenario.base_tariffs}, add({(): 1}, tariffs))
         for resource, price in self.scenario.resource_prices.items():
             quantity = self.floor_zero(self.metric(f"resource:{resource}"))

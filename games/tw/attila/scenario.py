@@ -6,6 +6,7 @@ from collections.abc import Mapping
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
+from games.tw.attila.building_rules import BuildingRule
 from games.tw.attila.scenario_validation import ScenarioValidator
 from games.tw.immutable import FrozenMap, freeze, thaw
 
@@ -97,6 +98,7 @@ class Scenario:
     targets: tuple[MetricInput, ...]
     weights: tuple[MetricInput, ...]
     projects: tuple[ProjectInput, ...]
+    building_rules: tuple[BuildingRule, ...]
     base_tariffs: float
     resource_prices: Mapping[str, float]
     resource_demand: Mapping[str, float]
@@ -134,6 +136,7 @@ class Scenario:
             ("targets", MetricInput),
             ("weights", MetricInput),
             ("projects", ProjectInput),
+            ("building_rules", BuildingRule),
         ):
             object.__setattr__(self, key, tuple(record_type(**row) for row in frozen.get(key, ())))
         object.__setattr__(self, "base_tariffs", frozen.get("base_tariffs", 0))

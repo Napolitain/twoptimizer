@@ -35,7 +35,7 @@ def load_case(case):
 
 
 @pytest.mark.parametrize("case", BASELINES)
-def test_compiled_models_match_pre_refactor_coefficients_and_bounds(case):
+def test_compiled_models_match_recorded_coefficients_and_bounds(case):
     _, provinces, options = load_case(case)
     compiled = compile_scenario(provinces, options)
     assert signature(compiled.model) == case["signature"]

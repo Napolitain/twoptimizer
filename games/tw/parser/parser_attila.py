@@ -234,7 +234,13 @@ class ParserAttila(Parser):
         :param building: the building entry
         """
         if "city" in building:
-            region.set_has_ressource(AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX)
+            from games.tw.attila.special_slots import church_resource
+
+            region.set_has_ressource(
+                AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX
+                if self.context.legacy_effects
+                else church_resource(building, self.religion)
+            )
         else:
             for resource in AttilaRegionResources:
                 if resource.value in building:

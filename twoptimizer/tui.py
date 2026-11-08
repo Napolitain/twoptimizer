@@ -21,7 +21,12 @@ from textual.widgets import (
 )
 
 from twoptimizer.catalog import EXACT, GAMES, NOTES, choices, faction_name
-from twoptimizer.holdings import province_label, selected_provinces
+from twoptimizer.holdings import (
+    BORDER_GAMES,
+    named_province_choices,
+    province_label,
+    selected_provinces,
+)
 from twoptimizer.models import RunConfig
 from twoptimizer.presentation import money, timing_summary
 from twoptimizer.province_picker import BorderPicker, ProvincePicker, ProvinceSelection
@@ -153,7 +158,7 @@ class OptimizerApp(App):
         self.push_screen(
             ProvincePicker(
                 game,
-                choices(game)["provinces"],
+                named_province_choices(game),
                 self.province_selection,
                 str(self.query_one("#province", Select).value),
             ),
@@ -167,9 +172,10 @@ class OptimizerApp(App):
 
     @on(Button.Pressed, "#choose-borders")
     def choose_borders(self):
+        game = str(self.query_one("#game", Select).value)
         selected = set(self.province_selection.provinces or ())
-        options = [(label, key) for label, key in choices("attila")["provinces"] if key in selected]
-        if self.busy or len(options) < 2:
+        options = [(label, key) for label, key in named_province_choices(game) if key in selected]
+        if self.busy or game not in BORDER_GAMES or len(options) < 2:
             return
         self.push_screen(
             BorderPicker(options, self.province_selection.adjacency), self.borders_chosen
@@ -193,7 +199,7 @@ class OptimizerApp(App):
         )
         self.query_one("#choose-provinces", Button).disabled = game not in EXACT
         self.query_one("#choose-borders").display = (
-            game == "attila" and state.joint and len(state.provinces or ()) > 1
+            game in BORDER_GAMES and state.joint and len(state.provinces or ()) > 1
         )
 
     def _config(self):

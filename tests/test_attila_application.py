@@ -144,7 +144,7 @@ def test_advanced_cli_compiles_the_same_joint_campaign_model(tmp_path):
     assert "att_prov_aethiopia" not in prepared.snapshot.economy.scenario.adjacency
 
 
-def test_joint_cli_defaults_to_no_borders_and_keeps_campaign_inputs(tmp_path):
+def test_joint_cli_explicit_no_borders_keeps_campaign_inputs(tmp_path):
     path = tmp_path / "campaign.json"
     path.write_text('{"campaign":{"base_tribute":200}}')
     args = benchmark._parser().parse_args(
@@ -154,6 +154,7 @@ def test_joint_cli_defaults_to_no_borders_and_keeps_campaign_inputs(tmp_path):
             "--province",
             "Aegyptus",
             "--joint",
+            "--no-borders",
             "--fertility",
             "5",
             "--scenario",
