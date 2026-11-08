@@ -1,0 +1,1231 @@
+{
+  "schema_version": 1,
+  "game": "hoi4",
+  "researched_on": "2026-11-08",
+  "purpose": "Factual evidence for review. This file is not an executable rules profile and does not supply optimizer defaults.",
+  "target": {
+    "selection": "latest_stable",
+    "verified_on": "2026-11-08",
+    "version": "1.19.4",
+    "released_on": "2026-10-27",
+    "latest_hotfix_on": "2026-11-05",
+    "checksum": "0bdb",
+    "release_source_id": "steam.latest_stable",
+    "dlc_profile": "all_gameplay_dlc",
+    "mirror_matches_target": null,
+    "mirror_match_status": "not_verified"
+  },
+  "sources": [
+    {
+      "id": "wiki.army_planner",
+      "kind": "community_wiki_mirror",
+      "title": "Army planner",
+      "upstream_url": "https://hoi4.paradoxwikis.com/index.php?title=Army_planner&oldid=88249",
+      "upstream_revision": 88249,
+      "mirror_url": "https://github.com/CooderAtom/hoi4-zh-wiki/blob/9f15dbe333f50742f0afd075bcb5a69c7c2ff39c/site/Army_planner.html",
+      "mirror_commit": "9f15dbe333f50742f0afd075bcb5a69c7c2ff39c",
+      "mirror_fetched_at": "2026-09-10",
+      "mirror_file_sha256": "65e7bff7e9067f40e9dbbcc187e70e1561dee3f6844c97c669e0c499f1550ba2",
+      "upstream_touched_at": "2025-08-12T06:33:11Z",
+      "version_categories": [
+        "1.8",
+        "Articles with potentially outdated sections",
+        "Military"
+      ],
+      "target_patch_verified": false
+    },
+    {
+      "id": "wiki.construction",
+      "kind": "community_wiki_mirror",
+      "title": "Construction",
+      "upstream_url": "https://hoi4.paradoxwikis.com/index.php?title=Construction&oldid=102988",
+      "upstream_revision": 102988,
+      "mirror_url": "https://github.com/CooderAtom/hoi4-zh-wiki/blob/9f15dbe333f50742f0afd075bcb5a69c7c2ff39c/site/Construction.html",
+      "mirror_commit": "9f15dbe333f50742f0afd075bcb5a69c7c2ff39c",
+      "mirror_fetched_at": "2026-09-10",
+      "mirror_file_sha256": "51f8ffce2fda0660b6d6b22a9413f3cbb603e0d7600153a1db2d43151a069dac",
+      "upstream_touched_at": "2026-06-16T22:54:03Z",
+      "version_categories": [
+        "1.9",
+        "Articles with potentially outdated sections",
+        "Game concepts",
+        "Pages with math errors",
+        "Pages with math render errors"
+      ],
+      "target_patch_verified": false
+    },
+    {
+      "id": "wiki.ideas",
+      "kind": "community_wiki_mirror",
+      "title": "Ideas",
+      "upstream_url": "https://hoi4.paradoxwikis.com/index.php?title=Ideas&oldid=104673",
+      "upstream_revision": 104673,
+      "mirror_url": "https://github.com/CooderAtom/hoi4-zh-wiki/blob/9f15dbe333f50742f0afd075bcb5a69c7c2ff39c/site/Ideas.html",
+      "mirror_commit": "9f15dbe333f50742f0afd075bcb5a69c7c2ff39c",
+      "mirror_fetched_at": "2026-09-10",
+      "mirror_file_sha256": "96da2e698309e2ffec172b1d5dead677d996ae587397ea904f193f2c0bc7a991",
+      "upstream_touched_at": "2026-08-18T15:05:57Z",
+      "version_categories": [
+        "1.12",
+        "Articles with potentially outdated sections",
+        "Game concepts",
+        "Ideas"
+      ],
+      "target_patch_verified": false
+    },
+    {
+      "id": "wiki.land_units",
+      "kind": "community_wiki_mirror",
+      "title": "Land units",
+      "upstream_url": "https://hoi4.paradoxwikis.com/index.php?title=Land_units&oldid=104726",
+      "upstream_revision": 104726,
+      "mirror_url": "https://github.com/CooderAtom/hoi4-zh-wiki/blob/9f15dbe333f50742f0afd075bcb5a69c7c2ff39c/site/Land_units.html",
+      "mirror_commit": "9f15dbe333f50742f0afd075bcb5a69c7c2ff39c",
+      "mirror_fetched_at": "2026-09-10",
+      "mirror_file_sha256": "37fe0a75d92d5ef35f4e7761dd97bbf324deba312f845f53c7d614028cc77a11",
+      "upstream_touched_at": "2026-08-19T22:01:29Z",
+      "version_categories": [
+        "1.9",
+        "Articles with potentially outdated sections",
+        "Units"
+      ],
+      "target_patch_verified": false
+    },
+    {
+      "id": "wiki.event_modding",
+      "kind": "community_wiki_mirror",
+      "title": "Event modding",
+      "upstream_url": "https://hoi4.paradoxwikis.com/index.php?title=Event_modding&oldid=102070",
+      "upstream_revision": 102070,
+      "mirror_url": "https://github.com/CooderAtom/hoi4-zh-wiki/blob/9f15dbe333f50742f0afd075bcb5a69c7c2ff39c/site/Event_modding.html",
+      "mirror_commit": "9f15dbe333f50742f0afd075bcb5a69c7c2ff39c",
+      "mirror_fetched_at": "2026-09-10",
+      "mirror_file_sha256": "4106d9f9309de331e6dd486dc30033d266ab9cd55a001ca551fbe0189c1fea29",
+      "upstream_touched_at": "2026-05-27T10:22:05Z",
+      "version_categories": [
+        "1.12",
+        "Modding"
+      ],
+      "target_patch_verified": false
+    },
+    {
+      "id": "wiki.trade",
+      "kind": "community_wiki_mirror",
+      "title": "Trade",
+      "upstream_url": "https://hoi4.paradoxwikis.com/index.php?title=Trade&oldid=98827",
+      "upstream_revision": 98827,
+      "mirror_url": "https://github.com/CooderAtom/hoi4-zh-wiki/blob/9f15dbe333f50742f0afd075bcb5a69c7c2ff39c/site/Trade.html",
+      "mirror_commit": "9f15dbe333f50742f0afd075bcb5a69c7c2ff39c",
+      "mirror_fetched_at": "2026-09-10",
+      "mirror_file_sha256": "07e77967aad4a8720a549bf6b2be93b35ab5dc23c693ba35cfaba54bd6f63a81",
+      "upstream_touched_at": "2026-03-14T13:35:24Z",
+      "version_categories": [
+        "1.16",
+        "Articles with potentially outdated sections",
+        "Game concepts"
+      ],
+      "target_patch_verified": false
+    },
+    {
+      "id": "wiki.production",
+      "kind": "community_wiki_mirror",
+      "title": "Production",
+      "upstream_url": "https://hoi4.paradoxwikis.com/index.php?title=Production&oldid=104639",
+      "upstream_revision": 104639,
+      "mirror_url": "https://github.com/CooderAtom/hoi4-zh-wiki/blob/9f15dbe333f50742f0afd075bcb5a69c7c2ff39c/site/Production.html",
+      "mirror_commit": "9f15dbe333f50742f0afd075bcb5a69c7c2ff39c",
+      "mirror_fetched_at": "2026-09-10",
+      "mirror_file_sha256": "862b94b871c16080722bf62bdbcf7848f560d56d4d1060754e8d64fe8c3089ef",
+      "upstream_touched_at": "2026-08-18T07:57:14Z",
+      "version_categories": [
+        "1.16",
+        "Articles with potentially outdated sections",
+        "Game concepts",
+        "Pages with reference errors"
+      ],
+      "target_patch_verified": false
+    },
+    {
+      "id": "wiki.recruitable_population",
+      "kind": "community_wiki_mirror",
+      "title": "Recruitable population",
+      "upstream_url": "https://hoi4.paradoxwikis.com/index.php?title=Recruitable_population&oldid=72013",
+      "upstream_revision": 72013,
+      "mirror_url": "https://github.com/CooderAtom/hoi4-zh-wiki/blob/9f15dbe333f50742f0afd075bcb5a69c7c2ff39c/site/Recruitable_population.html",
+      "mirror_commit": "9f15dbe333f50742f0afd075bcb5a69c7c2ff39c",
+      "mirror_fetched_at": "2026-09-10",
+      "mirror_file_sha256": "ca28ecdb9dd1f8bdebaf66121829d0000475074491225ce0337db530f32e99f6",
+      "upstream_touched_at": "2024-08-19T21:06:39Z",
+      "version_categories": [
+        "1.9",
+        "Articles with potentially outdated sections",
+        "Game concepts"
+      ],
+      "target_patch_verified": false
+    },
+    {
+      "id": "wiki.manpower",
+      "kind": "community_wiki_mirror",
+      "title": "Manpower",
+      "upstream_url": "https://hoi4.paradoxwikis.com/index.php?title=Manpower&oldid=66169",
+      "upstream_revision": 66169,
+      "mirror_url": "https://github.com/CooderAtom/hoi4-zh-wiki/blob/9f15dbe333f50742f0afd075bcb5a69c7c2ff39c/site/Manpower.html",
+      "mirror_commit": "9f15dbe333f50742f0afd075bcb5a69c7c2ff39c",
+      "mirror_fetched_at": "2026-09-10",
+      "mirror_file_sha256": "e621feaf5f825c80e2243e469ee0b9b757f1cb96f068ad9dc1bebd6afedeae3f",
+      "upstream_touched_at": "2023-12-01T13:21:01Z",
+      "version_categories": [
+        "1.8",
+        "Articles with potentially outdated sections",
+        "Military"
+      ],
+      "target_patch_verified": false
+    },
+    {
+      "id": "wiki.defines",
+      "kind": "community_wiki_mirror",
+      "title": "Defines",
+      "upstream_url": "https://hoi4.paradoxwikis.com/index.php?title=Defines&oldid=104682",
+      "upstream_revision": 104682,
+      "mirror_url": "https://github.com/CooderAtom/hoi4-zh-wiki/blob/9f15dbe333f50742f0afd075bcb5a69c7c2ff39c/site/Defines.html",
+      "mirror_commit": "9f15dbe333f50742f0afd075bcb5a69c7c2ff39c",
+      "mirror_fetched_at": "2026-09-10",
+      "mirror_file_sha256": "c21d0e7db83ecceefb55f883fdaba268f69573c2f2370660b41f7fa61e3b647c",
+      "upstream_touched_at": "2026-08-19T08:08:10Z",
+      "version_categories": [
+        "1.14",
+        "Articles with potentially outdated sections",
+        "Modding"
+      ],
+      "target_patch_verified": false
+    },
+    {
+      "id": "steam.latest_stable",
+      "kind": "publisher_announcement",
+      "title": "Hearts of Iron IV | QoL Patch Notes 1.19.4 (Updated Nov. 5th)",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1847286114049046",
+      "canonical_url": "https://steamcommunity.com/ogg/394360/announcements/detail/684142629662760620",
+      "published_at": "2026-10-27T14:05:09+00:00",
+      "contents_sha256": "0c15e0f470a19279be93551b26a556f38605cbb128c44b6641e2bd2694dfa447",
+      "verification_api_url": "https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=394360&count=100&maxlength=0&feeds=steam_community_announcements&format=json",
+      "verification_response_sha256": "0f641517f4952bc06d121246370975fc20b7d0049e426d81aa407e256a35d8b2",
+      "accessed_on": "2026-11-08",
+      "evidence_excerpt": "Hotfix update #2 November 5th 2026 | Checksum 0bdb",
+      "verification_note": "Latest released patch announcement among the 100 official feed entries fetched. The newer November 3 entry is a development diary. Search snippets with inconsistent localized patch labels were not used."
+    },
+    {
+      "id": "steam.consumer_goods_2023",
+      "kind": "publisher_developer_diary",
+      "title": "Developer Diary | Small Features #1",
+      "published_on": "2023-07-19",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/5124584051966124338",
+      "accessible_feed_url": "https://store.steampowered.com/news/posts/?appids=394360&enddate=1690376984&feed=steam_community_announcements"
+    },
+    {
+      "id": "steam.coal_2025",
+      "kind": "publisher_developer_diary",
+      "title": "NCNS | Upcoming Coal Adjustments",
+      "published_on": "2025-11-27",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1817483467036914",
+      "accessible_feed_url": "https://store.steampowered.com/news/posts/?appids=394360&enddate=1764603946&feed=steam_community_announcements"
+    },
+    {
+      "id": "steam.experimental_energy_2026",
+      "kind": "publisher_open_beta_announcement",
+      "title": "Dev Corner & Open Beta: Energy #2",
+      "published_on": "2026-10-07",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1846018067926058",
+      "not_adopted_as_stable_rules": true,
+      "published_at": "2026-10-07T13:04:59+00:00",
+      "contents_sha256": "81bf386df747e2f9f0b62bbd9a781e704d29e7d1765df6603718bcf98c67e1a8",
+      "accessed_on": "2026-11-08"
+    },
+    {
+      "id": "raw.defines",
+      "kind": "unverified_game_data_mirror",
+      "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/defines/00_defines.lua",
+      "repository_commit": "e249d22284449ece5416b41e68c4d73f2b79e3cc",
+      "file": "common/defines/00_defines.lua",
+      "file_sha256": "405a24ce579815443cafe052cff1361e20c712ca8182e3f10ccbf45330dd4be4",
+      "game_patch": null,
+      "target_patch_verified": false,
+      "repository_license_verified": false,
+      "warning": "Observed numerical constants only. Mirror identity, exact patch and complete vanilla integrity have not been established."
+    },
+    {
+      "id": "steam.energy.1845383656381198",
+      "title": "HOI IV Dev Corner | Energy",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1845383656381198",
+      "published_at": "2026-10-01T13:01:40+00:00",
+      "contents_sha256": "25e9755debaa131edb4f6d8fb7620b5802455673faacd93349924f922ec63a8c",
+      "kind": "publisher_developer_diary",
+      "accessed_on": "2026-11-08"
+    },
+    {
+      "id": "steam.energy.1825093633185039",
+      "title": "No Compromise, No Surrender | Patch 1.17.4",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1825093633185039",
+      "published_at": "2026-02-19T13:59:13+00:00",
+      "contents_sha256": "d2d6fd1c87413a2d815175e98e244defa7406acb5afffd49004461c93f891034",
+      "kind": "publisher_patch_note",
+      "accessed_on": "2026-11-08"
+    },
+    {
+      "id": "steam.energy.1818118366172856",
+      "title": "NCNS | Patch 1.17.2",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1818118366172856",
+      "published_at": "2025-12-04T12:53:46+00:00",
+      "contents_sha256": "8732adeedf99ebcea4bae584fb00a0e23b5ac667619f60fd9abc39ada706b01f",
+      "kind": "publisher_patch_note",
+      "accessed_on": "2026-11-08"
+    },
+    {
+      "id": "steam.energy.1816849002007641",
+      "title": "Development Diary | New Features",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1816849002007641",
+      "published_at": "2025-11-19T13:04:08+00:00",
+      "contents_sha256": "dac5434b2423beb05ee08cf34a0bee79bec3539b73670bbd9b0c1cfff9f80bff",
+      "kind": "publisher_developer_diary",
+      "accessed_on": "2026-11-08"
+    },
+    {
+      "id": "steam.energy.1803527891506227",
+      "title": "Dev Corner | Thermodynamics",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1803527891506227",
+      "published_at": "2025-06-26T12:04:08+00:00",
+      "contents_sha256": "34afcc0d56646b9a5d9e56047e4b6174431b4f96b0f63969fe93163a28ad9efc",
+      "kind": "publisher_developer_diary",
+      "accessed_on": "2026-11-08"
+    },
+    {
+      "id": "steam.efficiency_2017",
+      "kind": "publisher_developer_diary",
+      "title": "Patch 1.3.3 Update #1",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/4249665521683217168",
+      "published_at": "2017-02-08T14:45:00+00:00",
+      "contents_sha256": "23c4a3489a03c1fb81ea498fd86f131ae5e329d573de46582db1203467a3705c",
+      "accessed_on": "2026-11-08",
+      "version_scope": "1.3.3 design; confirms historical nonlinear change, not exact target-patch hourly recurrence"
+    },
+    {
+      "id": "raw.deployment_localization",
+      "kind": "unverified_game_data_mirror",
+      "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/localisation/english/deployment_l_english.yml",
+      "repository_commit": "e249d22284449ece5416b41e68c4d73f2b79e3cc",
+      "file": "localisation/english/deployment_l_english.yml",
+      "file_sha256": "ee17326b44297c497beb4ef17d00eb4cfe9de5731136d4d951bde78d2097a1fe",
+      "game_patch": null,
+      "target_patch_verified": false,
+      "repository_license_verified": false
+    },
+    {
+      "id": "raw.production_localization",
+      "kind": "unverified_game_data_mirror",
+      "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/localisation/english/production_l_english.yml",
+      "repository_commit": "e249d22284449ece5416b41e68c4d73f2b79e3cc",
+      "file": "localisation/english/production_l_english.yml",
+      "file_sha256": "ac1e335e12c770cd10c59907316dcb8be1ca4d8a5af36adb8d1d5981d96a4516",
+      "game_patch": null,
+      "target_patch_verified": false,
+      "repository_license_verified": false
+    },
+    {
+      "id": "raw.buildings",
+      "kind": "unverified_game_data_mirror",
+      "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/buildings/00_buildings.txt",
+      "repository_commit": "e249d22284449ece5416b41e68c4d73f2b79e3cc",
+      "file": "common/buildings/00_buildings.txt",
+      "file_sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+      "game_patch": null,
+      "target_patch_verified": false,
+      "repository_license_verified": false
+    }
+  ],
+  "observations": [
+    {
+      "id": "calendar.no_leap_days",
+      "status": "documented_observation",
+      "observation": "The game calendar excludes leap days.",
+      "source_ids": [
+        "wiki.event_modding"
+      ],
+      "target_patch_validation": "pending"
+    },
+    {
+      "id": "construction.costs",
+      "status": "documented_observation",
+      "observation": "Base building costs in construction IC.",
+      "source_ids": [
+        "wiki.construction",
+        "raw.buildings"
+      ],
+      "target_patch_validation": "pending",
+      "values": {
+        "civilian_factory": 10800,
+        "military_factory": 7200,
+        "infrastructure": 6000
+      },
+      "source_locators": [
+        {
+          "source_id": "raw.buildings",
+          "key": "infrastructure.base_cost",
+          "line": 35
+        },
+        {
+          "source_id": "raw.buildings",
+          "key": "arms_factory.base_cost",
+          "line": 57
+        },
+        {
+          "source_id": "raw.buildings",
+          "key": "industrial_complex.base_cost",
+          "line": 72
+        }
+      ]
+    },
+    {
+      "id": "construction.project_cap",
+      "status": "documented_observation",
+      "observation": "At most 15 civilian factories may work on one construction project.",
+      "source_ids": [
+        "wiki.construction",
+        "raw.defines"
+      ],
+      "target_patch_validation": "pending",
+      "value": 15
+    },
+    {
+      "id": "construction.infrastructure",
+      "status": "documented_observation",
+      "observation": "For affected building types, the infrastructure multiplier is 1 + level * maximum_effect / maximum_level; defaults give 1 + 0.2 * level.",
+      "source_ids": [
+        "wiki.construction",
+        "raw.defines",
+        "raw.buildings"
+      ],
+      "target_patch_validation": "pending",
+      "caveat": "Building flags and exceptions must be respected; not every project receives this bonus.",
+      "source_locators": [
+        {
+          "source_id": "raw.buildings",
+          "key": "infrastructure.level_cap.state_max",
+          "line": 46
+        },
+        {
+          "source_id": "raw.buildings",
+          "key": "arms_factory.infrastructure_construction_effect",
+          "line": 63
+        },
+        {
+          "source_id": "raw.buildings",
+          "key": "industrial_complex.infrastructure_construction_effect",
+          "line": 77
+        }
+      ]
+    },
+    {
+      "id": "production.powered_output",
+      "status": "documented_observation",
+      "observation": "Coal-era daily base output differs between unpowered and powered factories.",
+      "source_ids": [
+        "wiki.production",
+        "raw.defines"
+      ],
+      "target_patch_validation": "pending",
+      "values": {
+        "civilian_unpowered": 4,
+        "civilian_powered": 5,
+        "military_unpowered": 3.5,
+        "military_powered": 4.5,
+        "dockyard_unpowered": 2,
+        "dockyard_powered": 2.5
+      },
+      "caveat": "These endpoints do not establish the exact partial-energy allocation formula."
+    },
+    {
+      "id": "consumer_goods.factor",
+      "status": "documented_observation",
+      "observation": "Expected consumer goods is the sum of base modifiers multiplied by the product of each (1 + factor). Apply the minimum percentage and round the resulting factory count down.",
+      "source_ids": [
+        "steam.consumer_goods_2023",
+        "wiki.construction",
+        "raw.defines"
+      ],
+      "target_patch_validation": "pending",
+      "formula": "floor(max(sum(base_modifiers) * product(1 + factor), minimum_fraction) * total_factories)",
+      "caveat": "Raw constants additionally name an absolute minimum of 1 and minimum fraction 0.10. Their full interaction and the factory accounting boundary require validation."
+    },
+    {
+      "id": "production.efficiency",
+      "status": "documented_observation",
+      "observation": "Documented base efficiency starts at 0.10, with a 0.50 base cap; daily gain is nonlinear. Efficiency is tracked per factory slot.",
+      "source_ids": [
+        "wiki.production",
+        "raw.defines",
+        "steam.efficiency_2017",
+        "raw.production_localization"
+      ],
+      "target_patch_validation": "pending",
+      "formula": "daily_base_gain = 0.001 * efficiency_cap ** 2 / current_efficiency",
+      "caveat": "Publisher notes establish nonlinear growth and UI labels give a daily rate, but neither establishes the hourly recurrence or event cadence. The same localization file contains an apparently stale per-unit gain description at line43, so UI strings alone are not executable semantics.",
+      "source_locators": [
+        {
+          "source_id": "raw.production_localization",
+          "line": 42,
+          "key": "PRODUCTION_EFFICIENCY_WITH_GAIN"
+        },
+        {
+          "source_id": "raw.production_localization",
+          "line": 178,
+          "key": "PRODUCTION_EFFICIENCY_GAIN_BASE"
+        }
+      ]
+    },
+    {
+      "id": "production.switch_retention",
+      "status": "documented_observation",
+      "observation": "Switch retention depends on the relationship between old and new equipment, with an initial-efficiency floor.",
+      "source_ids": [
+        "wiki.production",
+        "raw.defines"
+      ],
+      "target_patch_validation": "pending",
+      "values": {
+        "variant": 0.9,
+        "family": 0.7,
+        "parent_child": 0.3,
+        "archetype": 0.2,
+        "other": 0.1
+      },
+      "formula": "max(start_efficiency, previous_efficiency * (retention + (1 - retention) * retention_bonus))",
+      "caveat": "The wiki describes a fixed variant-change loss exception. Equipment relationships and DLC designer rules must be resolved before implementation."
+    },
+    {
+      "id": "resources.flow",
+      "status": "documented_observation",
+      "observation": "Strategic resources are flows, not inventories. Fuel has its own inventory. Production priority and cumulative resource deficits affect each factory; documented shortage is 5% per missing resource unit, capped at 100%, using the worst resource deficit.",
+      "source_ids": [
+        "wiki.production",
+        "raw.defines"
+      ],
+      "target_patch_validation": "pending",
+      "caveat": "Exact engine allocation order and rounding remain unverified."
+    },
+    {
+      "id": "resources.trade",
+      "status": "documented_observation",
+      "observation": "A normal trade spends one civilian factory for up to eight resource units; a partial block still costs one factory. Subject rates and availability differ.",
+      "source_ids": [
+        "wiki.trade"
+      ],
+      "target_patch_validation": "pending"
+    },
+    {
+      "id": "training.capacity",
+      "status": "documented_observation",
+      "observation": "Concurrent training manpower has a documented base cap of max(100000, 0.75 * fielded_manpower).",
+      "source_ids": [
+        "wiki.army_planner",
+        "raw.defines"
+      ],
+      "target_patch_validation": "pending"
+    },
+    {
+      "id": "training.duration",
+      "status": "documented_observation",
+      "observation": "Template equipment and manpower requirements sum over battalions and companies. Base training time is the maximum constituent training time, with applicable modifiers.",
+      "source_ids": [
+        "wiki.land_units"
+      ],
+      "target_patch_validation": "pending"
+    },
+    {
+      "id": "training.progress",
+      "status": "documented_observation",
+      "observation": "Recruitment training can overlap equipment delivery and is capped by equipment availability. The mirrored game UI describes its maximum deployment experience as dependent on equipment; the AI define comment also describes an equipment-deficit cap.",
+      "source_ids": [
+        "wiki.army_planner",
+        "raw.deployment_localization",
+        "raw.defines"
+      ],
+      "target_patch_validation": "pending",
+      "caveat": "These sources do not establish the equipment weighting, manpower gate, progress update cadence, or exact delivery timing. AI deployment thresholds are policy, not the player training formula.",
+      "source_locators": [
+        {
+          "source_id": "raw.deployment_localization",
+          "line": 17,
+          "key": "DEPLOYMENT_TRAINING_MAXVALUE_DESC"
+        },
+        {
+          "source_id": "raw.deployment_localization",
+          "line": 21,
+          "key": "DEPLOYMENT_EXPERIENCE_ESTIMATED_DESC"
+        },
+        {
+          "source_id": "raw.defines",
+          "line": 2422,
+          "key": "NAI.DEPLOY_MIN_EQUIPMENT_CAP_DEPLOY_FACTOR"
+        }
+      ]
+    },
+    {
+      "id": "training.level",
+      "status": "documented_observation",
+      "observation": "The cited base rules produce Trained on completion of recruitment training. Field exercises can reach Regular and consume equipment; applicable experience modifiers still need mapping.",
+      "source_ids": [
+        "wiki.army_planner",
+        "raw.defines"
+      ],
+      "target_patch_validation": "pending"
+    },
+    {
+      "id": "manpower.mobilization",
+      "status": "documented_observation",
+      "observation": "Free manpower differs from potential recruitable population. Mobilization over time matters after conscription changes.",
+      "source_ids": [
+        "wiki.recruitable_population",
+        "wiki.manpower"
+      ],
+      "target_patch_validation": "pending"
+    },
+    {
+      "id": "energy.partial_output",
+      "source_ids": [
+        "steam.energy.1803527891506227",
+        "steam.energy.1816849002007641"
+      ],
+      "status": "publisher_documented_design_confirmed_in_launch_eve_diary",
+      "observation": "Energy fulfillment interpolates between unpowered and fully powered base factory output. The developer explicitly gives 50% fulfillment as halfway.",
+      "inference": "base_output = unpowered + fulfillment * (powered - unpowered)",
+      "target_patch_validation": "pending"
+    },
+    {
+      "id": "energy.positive_bonus_scaling",
+      "source_ids": [
+        "steam.energy.1816849002007641"
+      ],
+      "status": "publisher_documented_launch_eve_rule",
+      "observation": "Energy shortage scales the sum of factory-output, construction-speed or dockyard-output modifiers only when the relevant sum is positive. Nonpositive summed bonuses avoid this additional scaling.",
+      "inference": "bonus = summed_bonus if summed_bonus <= 0 else fulfillment * summed_bonus",
+      "target_patch_validation": "pending"
+    },
+    {
+      "id": "energy.demand_structure",
+      "source_ids": [
+        "steam.energy.1803527891506227"
+      ],
+      "status": "publisher_documented_design",
+      "observation": "Civilian, military and naval factories share base energy demand; each additional factory also increases demand per factory. Economic-law energy modifiers affect both base and scaled parts.",
+      "remaining_unknown": "Exact accounting of trade/occupation/damage and composition of national/local modifiers.",
+      "target_patch_validation": "pending"
+    },
+    {
+      "id": "energy.zero_demand_and_cap",
+      "source_ids": [
+        "steam.energy.1818118366172856"
+      ],
+      "status": "released_patch_note",
+      "observation": "Patch 1.17.2 gives no output penalty when demand is zero; introduces a per-factory consumption cap, lower trade-factory contribution to scaling, energy technologies and two mutually exclusive state buildings.",
+      "target_patch_validation": "pending"
+    },
+    {
+      "id": "energy.cap_6_6",
+      "source_ids": [
+        "steam.energy.1825093633185039"
+      ],
+      "status": "released_patch_note",
+      "observation": "Patch 1.17.4 increases the per-factory energy cap from 6 to 6.6.",
+      "target_patch_validation": "pending"
+    },
+    {
+      "id": "energy.experimental_rework",
+      "source_ids": [
+        "steam.energy.1845383656381198",
+        "steam.experimental_energy_2026"
+      ],
+      "status": "experimental_not_target_stable",
+      "observation": "The October 2026 power-plant and production-line power-draw rework is explicitly experimental/open beta and cannot establish shipped target mechanics.",
+      "target_patch_validation": "pending"
+    }
+  ],
+  "raw_constant_observations": {
+    "source_id": "raw.defines",
+    "values": [
+      {
+        "key": "REINFORCEMENT_MANPOWER_DELIVERY_SPEED",
+        "value": 10,
+        "line": 316,
+        "namespace": "NCountry"
+      },
+      {
+        "key": "REINFORCEMENT_MANPOWER_CHUNK",
+        "value": 0.1,
+        "line": 317,
+        "namespace": "NCountry"
+      },
+      {
+        "key": "MAX_CIV_FACTORIES_PER_LINE",
+        "value": 15,
+        "line": 613,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "DEFAULT_MAX_NAV_FACTORIES_PER_LINE",
+        "value": 10,
+        "line": 614,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "FLOATING_HARBOR_MAX_NAV_FACTORIES_PER_LINE",
+        "value": 5,
+        "line": 615,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "CONVOY_MAX_NAV_FACTORIES_PER_LINE",
+        "value": 15,
+        "line": 616,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "CAPITAL_SHIP_MAX_NAV_FACTORIES_PER_LINE",
+        "value": 5,
+        "line": 617,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "MAX_MIL_FACTORIES_PER_LINE",
+        "value": 150,
+        "line": 618,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "MAX_MIL_FACTORIES_VISIBLE_FOR_MIL_EQUIPMENT_LINE",
+        "value": 15,
+        "line": 619,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "RAILWAY_GUN_MAX_MIL_FACTORIES_PER_LINE",
+        "value": 5,
+        "line": 620,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "RAILWAY_GUN_REPAIR_SPEED",
+        "value": 8,
+        "line": 621,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "EFFICIENCY_LOSS_PER_UNUSED_DAY",
+        "value": 1,
+        "line": 622,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "RESOURCE_PENALTY_WARNING_CRITICAL_RATIO",
+        "value": 0.8,
+        "line": 623,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "RESOURCE_TO_ENERGY_COEFFICIENT",
+        "value": 9,
+        "line": 624,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "BASE_COUNTRY_ENERGY_PRODUCTION",
+        "value": 10,
+        "line": 625,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "ENERGY_SCALING_COST_BY_FACTORY_COUNT",
+        "value": 0.0225,
+        "line": 626,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "BASE_ENERGY_COST",
+        "value": 0.25,
+        "line": 627,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "ENERGY_COST_CAP",
+        "value": 6.6,
+        "line": 628,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "ENERGY_SCALE_PER_TRADE_FACTORY_EXPORT",
+        "value": 0.25,
+        "line": 629,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "BASE_FACTORY_SPEED",
+        "value": 4,
+        "line": 630,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "BASE_FACTORY_SPEED_MIL",
+        "value": 3.5,
+        "line": 631,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "BASE_FACTORY_SPEED_NAV",
+        "value": 2,
+        "line": 632,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "BASE_FACTORY_START_EFFICIENCY_FACTOR",
+        "value": 10,
+        "line": 633,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "POWERED_FACTORY_SPEED",
+        "value": 5,
+        "line": 634,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "POWERED_FACTORY_SPEED_MIL",
+        "value": 4.5,
+        "line": 635,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "POWERED_FACTORY_SPEED_NAV",
+        "value": 2.5,
+        "line": 636,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "BASE_FACTORY_MAX_EFFICIENCY_FACTOR",
+        "value": 50,
+        "line": 637,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "BASE_FACTORY_EFFICIENCY_GAIN",
+        "value": 1,
+        "line": 638,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "BASE_FACTORY_EFFICIENCY_BALANCE_FACTOR",
+        "value": 0.1,
+        "line": 639,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "BASE_FACTORY_EFFICIENCY_VARIANT_CHANGE_FACTOR",
+        "value": 90,
+        "line": 640,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "BASE_FACTORY_EFFICIENCY_PARENT_CHANGE_FACTOR",
+        "value": 30,
+        "line": 641,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "BASE_FACTORY_EFFICIENCY_FAMILY_CHANGE_FACTOR",
+        "value": 70,
+        "line": 642,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "BASE_FACTORY_EFFICIENCY_ARCHETYPE_CHANGE_FACTOR",
+        "value": 20,
+        "line": 643,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "EQUIPMENT_BASE_LEND_LEASE_WEIGHT",
+        "value": 1,
+        "line": 644,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "EQUIPMENT_LEND_LEASE_WEIGHT_FACTOR",
+        "value": 0.01,
+        "line": 645,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "LEND_LEASE_DELIVERY_TOTAL_DAYS",
+        "value": 30,
+        "line": 646,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "ANNEX_STOCKPILES_RATIO",
+        "value": 1,
+        "line": 647,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "ANNEX_FIELD_EQUIPMENT_RATIO",
+        "value": 0.25,
+        "line": 648,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "ANNEX_FUEL_RATIO",
+        "value": 0.25,
+        "line": 649,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "ANNEX_CONVOYS_RATIO",
+        "value": 0.15,
+        "line": 650,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "MIN_POSSIBLE_TRAINING_MANPOWER",
+        "value": 100000,
+        "line": 651,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "MIN_FIELD_TO_TRAINING_MANPOWER_RATIO",
+        "value": 0.75,
+        "line": 652,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "CAPITULATE_STOCKPILES_RATIO",
+        "value": 0.5,
+        "line": 653,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "CAPITULATE_FUEL_RATIO",
+        "value": 0.5,
+        "line": 654,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "INFRA_MAX_CONSTRUCTION_COST_EFFECT",
+        "value": 1,
+        "line": 655,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "PRODUCTION_RESOURCE_LACK_PENALTY",
+        "value": -0.05,
+        "line": 656,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "CIC_BANK_SPEED_BOOST_FACTOR",
+        "value": 0.25,
+        "line": 657,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "MIN_LICENSE_ACTIVE_DAYS",
+        "value": 30,
+        "line": 658,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "BASE_LICENSE_IC_COST",
+        "value": 1,
+        "line": 659,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "LICENSE_IC_COST_YEAR_INCREASE",
+        "value": 1,
+        "line": 660,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "LICENSE_EQUIPMENT_BASE_SPEED",
+        "value": -0.25,
+        "line": 661,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "LICENSE_EQUIPMENT_TECH_SPEED_PER_YEAR",
+        "value": -0.05,
+        "line": 662,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "LICENSE_EQUIPMENT_TECH_SPEED_MAX_YEARS",
+        "value": 4,
+        "line": 663,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "LICENSE_EQUIPMENT_SPEED_NOT_FACTION",
+        "value": -0.1,
+        "line": 664,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "LICENSE_EQUIPMENT_UPGRADE_XP_FACTOR",
+        "value": 2,
+        "line": 665,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "LICENSE_EQUIPMENT_SPEED_NO_LICENSE",
+        "value": -0.5,
+        "line": 666,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "CONVERSION_SPEED_BONUS",
+        "value": 0,
+        "line": 667,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "EQUIPMENT_MODULE_ADD_XP_COST",
+        "value": 5,
+        "line": 668,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "EQUIPMENT_MODULE_REPLACE_XP_COST",
+        "value": 6,
+        "line": 669,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "EQUIPMENT_MODULE_CONVERT_XP_COST",
+        "value": 3,
+        "line": 670,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "EQUIPMENT_MODULE_REMOVE_XP_COST",
+        "value": 1,
+        "line": 671,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "BASE_NAVAL_EQUIPMENT_CONVERSION_IC_COST_FACTOR",
+        "value": 0.2,
+        "line": 672,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "BASE_LAND_EQUIPMENT_CONVERSION_IC_COST_FACTOR",
+        "value": 0.9,
+        "line": 673,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "MIN_NAVAL_EQUIPMENT_CONVERSION_RESOURCE_COST_FACTOR",
+        "value": 0.2,
+        "line": 674,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "MIN_LAND_EQUIPMENT_CONVERSION_RESOURCE_COST_FACTOR",
+        "value": 0,
+        "line": 675,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "SHIP_REFIT_MAX_PROGRESS_TO_CANCEL",
+        "value": 0.2,
+        "line": 676,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "SHIP_REFIT_DAMAGE_TO_PROGRESS_FACTOR",
+        "value": 0.5,
+        "line": 677,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "MINIMUM_NUMBER_OF_FACTORIES_TAKEN_BY_CONSUMER_GOODS_VALUE",
+        "value": 1,
+        "line": 678,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "MINIMUM_NUMBER_OF_FACTORIES_TAKEN_BY_CONSUMER_GOODS_PERCENT",
+        "value": 0.1,
+        "line": 679,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "INITIAL_ALLOWED_FACTORY_RATIO_FOR_REPAIRS",
+        "value": 1,
+        "line": 680,
+        "namespace": "NProduction"
+      },
+      {
+        "key": "MAX_SHARED_SLOTS",
+        "value": 25,
+        "line": 754,
+        "namespace": "NBuildings"
+      },
+      {
+        "key": "BASE_DEPLOYMENT_TRAINING",
+        "value": 1,
+        "line": 764,
+        "namespace": "NDeployment"
+      },
+      {
+        "key": "TRAINING_MAX_LEVEL",
+        "value": 2,
+        "line": 963,
+        "namespace": "NMilitary"
+      },
+      {
+        "key": "DEPLOY_TRAINING_MAX_LEVEL",
+        "value": 1,
+        "line": 964,
+        "namespace": "NMilitary"
+      },
+      {
+        "key": "MIN_DIVISION_DEPLOYMENT_TRAINING",
+        "value": 0.2,
+        "line": 1133,
+        "namespace": "NMilitary"
+      }
+    ]
+  },
+  "source_conflicts": [
+    "Wiki Production contains coal-era output, while the mirrored Defines page retains pre-coal 5/4.5 output. Wiki pages have different version categories and potentially outdated sections.",
+    "The public raw mirror commit predates the selected current stable release and has no verified exact patch identity. Its constants cannot be relabeled as 1.19.4 defaults.",
+    "The October 2026 energy power-plant proposal is explicitly an open beta. A development proposal is not evidence that the feature shipped in the target stable patch.",
+    "Launch-eve New Features diary illustrates military base output4.0→4.5 while public rawmirror and wiki report3.5→4.5. Use the diary for operation ordering, not its illustrative coefficients as current defaults."
+  ],
+  "unresolved_engine_details": [
+    "Exact hourly update order, production/construction overflow and rounding",
+    "Partial-energy allocation and shortage formula",
+    "Equipment-readiness weighting and manpower/equipment delivery timing",
+    "Complete conditional country initialization under the selected DLC profile"
+  ],
+  "pending_user_model_decisions": [
+    "Concrete deadlines, templates and equipment reserve targets",
+    "Precise measure of civilian construction capacity at the final deadline",
+    "Treatment of existing army equipment deficits"
+  ],
+  "reproduction": {
+    "latest_release_check": "Read the official Steam News API above, identify the newest stable patch announcement by publication date, and inspect updates within its body. Exclude entries labeled development diary or open beta.",
+    "raw_constants_check": "Retrieve the pinned defines file, verify its SHA-256, and inspect each recorded line. These are observations, not a claim of target-patch compatibility.",
+    "wiki_check": "Each wiki source records its original revision, pinned mirror commit, mirrored file SHA-256 and original version categories."
+  },
+  "approved_model_scope": {
+    "time_resolution": "hourly",
+    "optimization_decisions": [
+      "construction",
+      "production_allocation",
+      "recruitment"
+    ],
+    "supplied_dated_plan": [
+      "research",
+      "national_focus",
+      "laws"
+    ],
+    "approval_source": "user_conversation",
+    "note": "User-approved scope and provisional approximations are recorded separately from source-backed engine facts. No delayed-military-spending secondary objective remains.",
+    "objective": {
+      "feasibility": "Meet every equipment reserve and fully equipped, fully trained division deadline",
+      "maximize": "Civilian construction capacity at the final deadline",
+      "secondary_objective": null
+    },
+    "equipment_targets": "Reserve stockpile targets are additional to equipment issued to required divisions; issued equipment does not satisfy reserve targets.",
+    "approved_provisional_approximations": [
+      {
+        "id": "production.hourly_efficiency_integration",
+        "behavior": "Integrate the documented nonlinear production-efficiency curve on the hourly timeline.",
+        "limitation": "This is an approved engineering approximation; exact engine cadence, ordering and rounding are unverified."
+      },
+      {
+        "id": "training.fully_equipped_start",
+        "behavior": "Recruitment training starts only once the division is fully equipped.",
+        "limitation": "Conservative approximation removes the documented overlap between equipment delivery and training; it may reject plans feasible in the game."
+      }
+    ]
+  },
+  "research_gaps": [
+    {
+      "id": "production.update_cadence",
+      "status": "unresolved",
+      "question": "Does each subsystem accrue output and efficiency hourly, at the daily boundary, or with separate cadences?",
+      "searched": [
+        "Publisher announcement archive",
+        "Wiki production and defines revisions",
+        "Raw defines and production localization",
+        "Targeted hourly, daily and midnight searches"
+      ],
+      "community_lead_url": "https://www.reddit.com/r/hoi4/comments/1siw5tt/production_output_math_question/",
+      "community_lead_status": "Unverified player report suggests production updates at midnight; not adopted as an engine rule.",
+      "impact": "Exact engine matching remains unverified; user-approved hourly integration of the documented curve permits a clearly labeled provisional implementation.",
+      "approved_provisional_approximation": "production.hourly_efficiency_integration"
+    },
+    {
+      "id": "training.readiness_aggregation",
+      "status": "unresolved",
+      "question": "What exact equipment/manpower function caps recruitment progress and on which ticks are deliveries applied?",
+      "excluded_assumptions": [
+        "Progress is necessarily the minimum per-equipment quantity fraction",
+        "Progress is necessarily an IC-weighted ratio",
+        "A field-strength formula automatically applies to recruitment"
+      ],
+      "approved_provisional_approximation": "training.fully_equipped_start",
+      "impact": "The exact overlap formula remains unresolved; the user-approved fully-equipped start gate permits a conservative provisional implementation."
+    },
+    {
+      "id": "construction.completion_overflow",
+      "status": "unresolved",
+      "question": "Is excess construction IC carried, discarded or reassigned, and when are completed factories available?",
+      "searched": [
+        "Publisher announcement archive",
+        "Wiki construction revision",
+        "Targeted overflow, remainder, completion and hourly searches"
+      ],
+      "impact": "Do not silently discard or transfer excess IC."
+    },
+    {
+      "id": "energy.current_accounting",
+      "status": "partly_resolved",
+      "question": "How do current national/local energy modifiers, damaged/occupied factories and trade-derived factories compose?",
+      "resolved": [
+        "Partial-power base-output interpolation",
+        "Additional scaling only for a positive sum of output/construction bonuses",
+        "Released historical consumption cap and zero-demand exception"
+      ],
+      "remaining": "Complete target-patch equation and update cadence.",
+      "required_profile_behavior": "Target-patch coal/energy coefficients and unresolved accounting must be explicit profile overrides, not inferred defaults from the unknown-version mirror."
+    }
+  ],
+  "validation_probes": [
+    {
+      "id": "production.cadence",
+      "method": "On a later matching installation, observe stockpile and efficiency for a single fixed factory immediately before and after each hour, including midnight. Repeat with an intraday allocation change and with an efficiency-cap change."
+    },
+    {
+      "id": "training.cap",
+      "method": "Queue one unchanged template, vary one equipment category at a time and manpower independently, then compare progress ceilings and delivery timestamps. Include cheap rifles and costly support equipment to distinguish quantity, IC and minimum-category weighting."
+    },
+    {
+      "id": "construction.overflow",
+      "method": "Set remaining project IC just below the next output increment and observe progress in the next queued project after completion; repeat across building types and states."
+    },
+    {
+      "id": "energy.scale",
+      "method": "On a later matching installation, compare fixed production and construction at zero, half and full energy with separately positive and nonpositive summed modifiers."
+    }
+  ]
+}

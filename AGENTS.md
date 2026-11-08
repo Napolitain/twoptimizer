@@ -191,9 +191,17 @@ scenario preparation and typed results. Keep native solver invocation and result
 adaptation in `twoptimizer.adapters`; keep process lifetime, progress transport
 and cancellation in `CaseRunner`. Preserve legacy report shapes with boundary
 serializers, not separate optimization paths. Use explicit request/result
-serialization for workers instead of `dataclasses.asdict`. Application objectives
+serialization for workers instead of `dataclasses.asdict`. Total War objectives
 are income only; campaign target constraints remain supported, but objective
-weights do not. Retain advanced joint-holding and campaign capabilities when
+weights do not. HoI4 uses hourly planning with user-defined equipment and fully
+equipped, fully trained division deadlines; among feasible plans, maximize
+civilian construction capacity at the final deadline. Equipment targets mean
+reserve stockpile in addition to issued division equipment. Do not add a
+secondary military-spending objective. Keep HoI4
+gameplay-model choices and approximations with the user, and distinguish sourced
+game facts from assumptions. Target latest stable vanilla with all gameplay DLC.
+Optimize construction, production allocation and recruitment; take research,
+focuses and laws from an explicit dated input schedule. Retain advanced joint-holding and campaign capabilities when
 changing the request model, and verify semantic results without depending on
 tied building choices or timings. Keep proof/incumbent reuse in caller-owned
 `RunSession` state and validate reused decisions through the owning engine.

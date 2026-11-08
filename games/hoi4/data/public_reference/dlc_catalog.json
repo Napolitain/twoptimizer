@@ -1,0 +1,662 @@
+{
+  "schema_version": 1,
+  "researched_on": "2026-11-08",
+  "scope": "Exact known gameplay DLC identifiers requested by parent; not a classification of arbitrary identifiers.",
+  "requested_profile": {
+    "all_gameplay_dlc_enabled": true,
+    "target_latest_stable": "1.19.4",
+    "target_release_verification": "Owned by parent rules evidence artifact."
+  },
+  "unknown_identifier_policy": "Unknown; do not assume cosmetic, gameplay or enabled.",
+  "source_snapshot": {
+    "repository": "https://github.com/BanderaModding/vanilla-fin-hoi4",
+    "commit": "e249d22284449ece5416b41e68c4d73f2b79e3cc",
+    "verified_game_patch": null,
+    "descriptor_files_present": false,
+    "script_spellings_observed": true
+  },
+  "interpretation_notes": [
+    "Official product descriptions establish that these 16 identifiers refer to gameplay packs; exact has_dlc spellings are observed in the pinned public script mirror.",
+    "Gameplay and technical DLC integration status are separate. All 16 are enabled by the user-approved all-gameplay-DLC profile regardless of inclusion in the base purchase.",
+    "No Steam API response or script observation proves the raw mirror matches latest stable.",
+    "Cosmetic and music pack identifiers are outside this recognized gameplay allowlist; unsupported names must remain Unknown."
+  ],
+  "target_version": "1.19.4",
+  "sources": [
+    {
+      "id": "included_2024",
+      "publisher": "Paradox Interactive via official Steam news",
+      "title": "Steam Store Update | Patch 1.14.3 [Checksum 21DE]",
+      "date": "2024-03-21",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/5686430301718087167",
+      "steam_news_gid": "5686430301718087167",
+      "body_sha256": "17f584ed68d0624e633608b86bf68ca852fbfe0d42567b74be7c453570baa83e",
+      "finding": "Three older expansions included in new base purchases; explicit statement that full integration is later."
+    },
+    {
+      "id": "integrated_2024",
+      "publisher": "Paradox Interactive via official Steam news",
+      "title": "FREE WEEKEND | MASSIVE SALE | WAR EFFORT (Sale & Free Weekend Has Ended)",
+      "date": "2024-04-04",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/5756237364308098699",
+      "steam_news_gid": "5756237364308098699",
+      "body_sha256": "7d97d614ec6456664f07d1cfaf4c3ef3e8c03dd0d2d38a441579cb2f1b4ff78e",
+      "finding": "Together for Victory, Death or Dishonor and Waking the Tiger are now part of the base game in all senses."
+    },
+    {
+      "id": "mtg_planned_integration",
+      "publisher": "Paradox Interactive via official Steam news",
+      "title": "No Compromise, No Surrender | Expansion Pass 2",
+      "date": "2025-09-25",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1811772772248740",
+      "steam_news_gid": "1811772772248740",
+      "body_sha256": "317d69f3ccfdff59bd959957fb5e3c9072e5c7ee49921a8dc2a15e24a9964e88",
+      "finding": "Man the Guns integration announced for the free patch accompanying No Compromise, No Surrender."
+    },
+    {
+      "id": "mtg_free_2025",
+      "publisher": "Paradox Interactive via official Steam news",
+      "title": "Hearts of Iron IV: General Edition!",
+      "date": "2025-10-15",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1813674388909083",
+      "steam_news_gid": "1813674388909083",
+      "body_sha256": "1c0788388a54f9a89d0c87c15e1fe253a0b6dbec1f86779c394b46a2dc02f070",
+      "finding": "Man the Guns already free, ahead of full integration at No Compromise, No Surrender launch."
+    },
+    {
+      "id": "poland_free",
+      "publisher": "Paradox Interactive via official Steam news",
+      "title": "Hearts of Iron IV - Development Diary 57 - Poland: United and Ready",
+      "date": "2016-05-20",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/4249665521683222057",
+      "steam_news_gid": "4249665521683222057",
+      "body_sha256": "d9cf59019999f2058ba2f5cbc70454bf8a601a6db8519e94f5e376147171d9a6",
+      "finding": "Poland DLC includes a focus tree, achievements and events, and is free for anyone buying HoI4, not just preorders."
+    },
+    {
+      "id": "steam.dlc.1348661",
+      "publisher": "Paradox Interactive via Steam store",
+      "title": "Expansion - Hearts of Iron IV: No Step Back",
+      "url": "https://store.steampowered.com/app/1348661/",
+      "api_url": "https://store.steampowered.com/api/appdetails?appids=1348661&l=english",
+      "response_sha256": "aa443bb6eec997656788bec45511bd22cbe17bc10973c5d96562fe817853b9c6",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "steam.dlc.815460",
+      "publisher": "Paradox Interactive via Steam store",
+      "title": "Expansion - Hearts of Iron IV: Man the Guns",
+      "url": "https://store.steampowered.com/app/815460/",
+      "api_url": "https://store.steampowered.com/api/appdetails?appids=815460&l=english",
+      "response_sha256": "820ee3cb7e371a1f2214ad3cdc9d7ea7b4b6108920a83451c1a20e88321d847b",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "steam.dlc.1880650",
+      "publisher": "Paradox Interactive via Steam store",
+      "title": "Expansion - Hearts of Iron IV: By Blood Alone",
+      "url": "https://store.steampowered.com/app/1880650/",
+      "api_url": "https://store.steampowered.com/api/appdetails?appids=1880650&l=english",
+      "response_sha256": "843bea23ccecbc1ba003807f76d762e2b7a7150976d671b2e14a090b21a6a1b3",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "steam.dlc.530760",
+      "publisher": "Paradox Interactive via Steam store",
+      "title": "Expansion - Hearts of Iron IV: Together for Victory",
+      "url": "https://store.steampowered.com/app/530760/",
+      "api_url": "https://store.steampowered.com/api/appdetails?appids=530760&l=english",
+      "response_sha256": "9b96296ba5221d1c32ba3282f412f04902afc71b91439de99d98adac376c28b6",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "steam.dlc.3152780",
+      "publisher": "Paradox Interactive via Steam store",
+      "title": "Expansion - Hearts of Iron IV: Götterdämmerung",
+      "url": "https://store.steampowered.com/app/3152780/",
+      "api_url": "https://store.steampowered.com/api/appdetails?appids=3152780&l=english",
+      "response_sha256": "040d72b63ba60bfbd3cef0a9f9987c422778ceb3b42c1134f067a36d0524b7a4",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "steam.dlc.1348660",
+      "publisher": "Paradox Interactive via Steam store",
+      "title": "Country Pack - Hearts of Iron IV: Battle for the Bosporus",
+      "url": "https://store.steampowered.com/app/1348660/",
+      "api_url": "https://store.steampowered.com/api/appdetails?appids=1348660&l=english",
+      "response_sha256": "a84a57c8388c8c9f804d5ce655481f45ca7cc0724250767fd2c0d6fc3ed7a6b3",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "steam.dlc.1158100",
+      "publisher": "Paradox Interactive via Steam store",
+      "title": "Expansion - Hearts of Iron IV: La Résistance",
+      "url": "https://store.steampowered.com/app/1158100/",
+      "api_url": "https://store.steampowered.com/api/appdetails?appids=1158100&l=english",
+      "response_sha256": "8f5ac38085a5c7448d3eab2b01527ac799b44d4f88e505556b2c0c9b65cd5c1d",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "steam.dlc.3152790",
+      "publisher": "Paradox Interactive via Steam store",
+      "title": "Country Pack - Hearts of Iron IV: Graveyard of Empires",
+      "url": "https://store.steampowered.com/app/3152790/",
+      "api_url": "https://store.steampowered.com/api/appdetails?appids=3152790&l=english",
+      "response_sha256": "692ffaf6e269e1a944709a11d58ccce05239234aa9f92f2c379fa5966c86b39e",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "steam.dlc.3796260",
+      "publisher": "Paradox Interactive via Steam store",
+      "title": "Expansion - Hearts of Iron IV: No Compromise, No Surrender",
+      "url": "https://store.steampowered.com/app/3796260/",
+      "api_url": "https://store.steampowered.com/api/appdetails?appids=3796260&l=english",
+      "response_sha256": "a6744f28743c4c6ba1190f8d5660b2b1b8bf253af452a6798eb395a08231d253",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "steam.dlc.3796290",
+      "publisher": "Paradox Interactive via Steam store",
+      "title": "Theater Pack - Hearts of Iron IV: Thunder at our Gates",
+      "url": "https://store.steampowered.com/app/3796290/",
+      "api_url": "https://store.steampowered.com/api/appdetails?appids=3796290&l=english",
+      "response_sha256": "1b371e9eed5f7df93f630f9165b4f4ceb9f982c259eb84e4404921cded61f62f",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "steam.dlc.2183930",
+      "publisher": "Paradox Interactive via Steam store",
+      "title": "Expansion - Hearts of Iron IV: Arms Against Tyranny",
+      "url": "https://store.steampowered.com/app/2183930/",
+      "api_url": "https://store.steampowered.com/api/appdetails?appids=2183930&l=english",
+      "response_sha256": "7a06dab0f342acf1f17c014d8f4ff90826c1dabdbdc3fe254d44a4e128b4cd80",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "steam.dlc.3757310",
+      "publisher": "Paradox Interactive via Steam store",
+      "title": "Focus Pack - Hearts of Iron IV: Peace For Our Time",
+      "url": "https://store.steampowered.com/app/3757310/",
+      "api_url": "https://store.steampowered.com/api/appdetails?appids=3757310&l=english",
+      "response_sha256": "e8f3b967c3707df8f61340a75e683c1aa001e24066222a55be53f4836549a6ca",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "steam.dlc.584140",
+      "publisher": "Paradox Interactive via Steam store",
+      "title": "Expansion - Hearts of Iron IV: Death or Dishonor",
+      "url": "https://store.steampowered.com/app/584140/",
+      "api_url": "https://store.steampowered.com/api/appdetails?appids=584140&l=english",
+      "response_sha256": "66b029c282fc9d8af6d1ec85ce8f4b02ee7ffb41bd37a0f8b501578938995cfc",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "steam.dlc.702350",
+      "publisher": "Paradox Interactive via Steam store",
+      "title": "Expansion - Hearts of Iron IV: Waking the Tiger",
+      "url": "https://store.steampowered.com/app/702350/",
+      "api_url": "https://store.steampowered.com/api/appdetails?appids=702350&l=english",
+      "response_sha256": "4270f7896a69b3dd66490e63ecf624aa7ab8d004cff0ef92a82f0441f6532409",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "steam.dlc.2695150",
+      "publisher": "Paradox Interactive via Steam store",
+      "title": "Country Pack - Hearts of Iron IV: Trial of Allegiance",
+      "url": "https://store.steampowered.com/app/2695150/",
+      "api_url": "https://store.steampowered.com/api/appdetails?appids=2695150&l=english",
+      "response_sha256": "edd69f612461b2b18259730ba908e2025ca72e911fd747a14ac77fd28b06ad88",
+      "checked_on": "2026-11-08"
+    }
+  ],
+  "dlcs": [
+    {
+      "kind": "expansion",
+      "gameplay": true,
+      "enabled_by_requested_profile": true,
+      "steam_app_id": 1348661,
+      "gameplay_evidence": "Eastern Front focus trees, tank design and army officer management.",
+      "included_with_base_game": false,
+      "included_with_base_from": null,
+      "integration_date": null,
+      "script_evidence": {
+        "path": "common/operations/00_operations.txt",
+        "line": 2526,
+        "file_sha256": "e9d91ac1af23868d96a91a8ddf0463b769480525407e04bc02ec6edb4b7a273e",
+        "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/operations/00_operations.txt#L2526"
+      },
+      "official_name": "Expansion - Hearts of Iron IV: No Step Back",
+      "official_store_url": "https://store.steampowered.com/app/1348661/",
+      "official_api_url": "https://store.steampowered.com/api/appdetails?appids=1348661&l=english",
+      "official_response_sha256": "aa443bb6eec997656788bec45511bd22cbe17bc10973c5d96562fe817853b9c6",
+      "release_date_as_published": "Nov 23, 2021",
+      "script_id": "No Step Back",
+      "title": "Expansion - Hearts of Iron IV: No Step Back",
+      "integrated_into_base_game": false,
+      "source_ids": [
+        "steam.dlc.1348661"
+      ]
+    },
+    {
+      "kind": "expansion",
+      "gameplay": true,
+      "enabled_by_requested_profile": true,
+      "steam_app_id": 815460,
+      "gameplay_evidence": "Naval warfare, ship design, and British and US focus content.",
+      "included_with_base_game": true,
+      "included_with_base_from": null,
+      "integration_date": null,
+      "script_evidence": {
+        "path": "common/operations/00_operations.txt",
+        "line": 2804,
+        "file_sha256": "e9d91ac1af23868d96a91a8ddf0463b769480525407e04bc02ec6edb4b7a273e",
+        "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/operations/00_operations.txt#L2804"
+      },
+      "official_name": "Expansion - Hearts of Iron IV: Man the Guns",
+      "official_store_url": "https://store.steampowered.com/app/815460/",
+      "official_api_url": "https://store.steampowered.com/api/appdetails?appids=815460&l=english",
+      "official_response_sha256": "820ee3cb7e371a1f2214ad3cdc9d7ea7b4b6108920a83451c1a20e88321d847b",
+      "release_date_as_published": "Feb 28, 2019",
+      "inclusion_confirmed_by": "2025-10-15",
+      "scheduled_integration_date": "2025-11-20",
+      "integration_caveat": "Official prelaunch sources announce integration with the November 2025 expansion, whose official release date is November 20; actual integration completion has not been separately verified in this catalog.",
+      "script_id": "Man the Guns",
+      "title": "Expansion - Hearts of Iron IV: Man the Guns",
+      "integrated_into_base_game": null,
+      "source_ids": [
+        "steam.dlc.815460",
+        "mtg_planned_integration",
+        "mtg_free_2025"
+      ]
+    },
+    {
+      "kind": "expansion",
+      "gameplay": true,
+      "enabled_by_requested_profile": true,
+      "steam_app_id": 1880650,
+      "gameplay_evidence": "New national focus content and aircraft design.",
+      "included_with_base_game": false,
+      "included_with_base_from": null,
+      "integration_date": null,
+      "script_evidence": {
+        "path": "common/operations/00_operations.txt",
+        "line": 3041,
+        "file_sha256": "e9d91ac1af23868d96a91a8ddf0463b769480525407e04bc02ec6edb4b7a273e",
+        "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/operations/00_operations.txt#L3041"
+      },
+      "official_name": "Expansion - Hearts of Iron IV: By Blood Alone",
+      "official_store_url": "https://store.steampowered.com/app/1880650/",
+      "official_api_url": "https://store.steampowered.com/api/appdetails?appids=1880650&l=english",
+      "official_response_sha256": "843bea23ccecbc1ba003807f76d762e2b7a7150976d671b2e14a090b21a6a1b3",
+      "release_date_as_published": "Sep 27, 2022",
+      "script_id": "By Blood Alone",
+      "title": "Expansion - Hearts of Iron IV: By Blood Alone",
+      "integrated_into_base_game": false,
+      "source_ids": [
+        "steam.dlc.1880650"
+      ]
+    },
+    {
+      "kind": "expansion",
+      "gameplay": true,
+      "enabled_by_requested_profile": true,
+      "steam_app_id": 530760,
+      "gameplay_evidence": "Commonwealth national focus trees and autonomy mechanics.",
+      "included_with_base_game": true,
+      "included_with_base_from": "2024-03-21",
+      "integration_date": null,
+      "script_evidence": {
+        "path": "common/ai_strategy_plans/NZL_historical_strategy_plan.txt",
+        "line": 7,
+        "file_sha256": "cc9dfd8d25c19c11549e1cf7344708023286b2d41ad44ca1506f85969f113817",
+        "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/ai_strategy_plans/NZL_historical_strategy_plan.txt#L7"
+      },
+      "official_name": "Expansion - Hearts of Iron IV: Together for Victory",
+      "official_store_url": "https://store.steampowered.com/app/530760/",
+      "official_api_url": "https://store.steampowered.com/api/appdetails?appids=530760&l=english",
+      "official_response_sha256": "9b96296ba5221d1c32ba3282f412f04902afc71b91439de99d98adac376c28b6",
+      "release_date_as_published": "Dec 15, 2016",
+      "integration_confirmed_by": "2024-04-04",
+      "script_id": "Together for Victory",
+      "title": "Expansion - Hearts of Iron IV: Together for Victory",
+      "integrated_into_base_game": true,
+      "source_ids": [
+        "steam.dlc.530760",
+        "included_2024",
+        "integrated_2024"
+      ]
+    },
+    {
+      "kind": "expansion",
+      "gameplay": true,
+      "enabled_by_requested_profile": true,
+      "steam_app_id": 3152780,
+      "gameplay_evidence": "National focus content and special projects.",
+      "included_with_base_game": false,
+      "included_with_base_from": null,
+      "integration_date": null,
+      "script_evidence": {
+        "path": "common/achievements.txt",
+        "line": 1688,
+        "file_sha256": "2b7b3d3a3f1a45707af283b111d541a2caff0b23c53eb748c59f079afc3d429c",
+        "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/achievements.txt#L1688"
+      },
+      "official_name": "Expansion - Hearts of Iron IV: Götterdämmerung",
+      "official_store_url": "https://store.steampowered.com/app/3152780/",
+      "official_api_url": "https://store.steampowered.com/api/appdetails?appids=3152780&l=english",
+      "official_response_sha256": "040d72b63ba60bfbd3cef0a9f9987c422778ceb3b42c1134f067a36d0524b7a4",
+      "release_date_as_published": "Nov 14, 2024",
+      "script_id": "Gotterdammerung",
+      "title": "Expansion - Hearts of Iron IV: Götterdämmerung",
+      "integrated_into_base_game": false,
+      "source_ids": [
+        "steam.dlc.3152780"
+      ]
+    },
+    {
+      "kind": "country_pack",
+      "gameplay": true,
+      "enabled_by_requested_profile": true,
+      "steam_app_id": 1348660,
+      "gameplay_evidence": "National focus trees for Bulgaria, Greece and Turkey.",
+      "included_with_base_game": false,
+      "included_with_base_from": null,
+      "integration_date": null,
+      "script_evidence": {
+        "path": "common/achievements.txt",
+        "line": 3197,
+        "file_sha256": "2b7b3d3a3f1a45707af283b111d541a2caff0b23c53eb748c59f079afc3d429c",
+        "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/achievements.txt#L3197"
+      },
+      "official_name": "Country Pack - Hearts of Iron IV: Battle for the Bosporus",
+      "official_store_url": "https://store.steampowered.com/app/1348660/",
+      "official_api_url": "https://store.steampowered.com/api/appdetails?appids=1348660&l=english",
+      "official_response_sha256": "a84a57c8388c8c9f804d5ce655481f45ca7cc0724250767fd2c0d6fc3ed7a6b3",
+      "release_date_as_published": "Oct 15, 2020",
+      "script_id": "Battle for the Bosporus",
+      "title": "Country Pack - Hearts of Iron IV: Battle for the Bosporus",
+      "integrated_into_base_game": false,
+      "source_ids": [
+        "steam.dlc.1348660"
+      ]
+    },
+    {
+      "kind": "expansion",
+      "gameplay": true,
+      "enabled_by_requested_profile": true,
+      "steam_app_id": 1158100,
+      "gameplay_evidence": "Intelligence agencies, spies and resistance mechanics.",
+      "included_with_base_game": false,
+      "included_with_base_from": null,
+      "integration_date": null,
+      "script_evidence": {
+        "path": "common/technologies/infantry.txt",
+        "line": 2099,
+        "file_sha256": "f5287822cd9139cc03e487c4b9d0d8f83f0877b5e0e85235eae8cff3975e337d",
+        "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/technologies/infantry.txt#L2099"
+      },
+      "official_name": "Expansion - Hearts of Iron IV: La Résistance",
+      "official_store_url": "https://store.steampowered.com/app/1158100/",
+      "official_api_url": "https://store.steampowered.com/api/appdetails?appids=1158100&l=english",
+      "official_response_sha256": "8f5ac38085a5c7448d3eab2b01527ac799b44d4f88e505556b2c0c9b65cd5c1d",
+      "release_date_as_published": "Feb 25, 2020",
+      "script_id": "La Resistance",
+      "title": "Expansion - Hearts of Iron IV: La Résistance",
+      "integrated_into_base_game": false,
+      "source_ids": [
+        "steam.dlc.1158100"
+      ]
+    },
+    {
+      "kind": "country_pack",
+      "gameplay": true,
+      "enabled_by_requested_profile": true,
+      "steam_app_id": 3152790,
+      "gameplay_evidence": "National focus content for India, Iran, Iraq and Afghanistan.",
+      "included_with_base_game": false,
+      "included_with_base_from": null,
+      "integration_date": null,
+      "script_evidence": {
+        "path": "common/achievements.txt",
+        "line": 717,
+        "file_sha256": "2b7b3d3a3f1a45707af283b111d541a2caff0b23c53eb748c59f079afc3d429c",
+        "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/achievements.txt#L717"
+      },
+      "official_name": "Country Pack - Hearts of Iron IV: Graveyard of Empires",
+      "official_store_url": "https://store.steampowered.com/app/3152790/",
+      "official_api_url": "https://store.steampowered.com/api/appdetails?appids=3152790&l=english",
+      "official_response_sha256": "692ffaf6e269e1a944709a11d58ccce05239234aa9f92f2c379fa5966c86b39e",
+      "release_date_as_published": "Mar 4, 2025",
+      "script_id": "Graveyard of Empires",
+      "title": "Country Pack - Hearts of Iron IV: Graveyard of Empires",
+      "integrated_into_base_game": false,
+      "source_ids": [
+        "steam.dlc.3152790"
+      ]
+    },
+    {
+      "kind": "expansion",
+      "gameplay": true,
+      "enabled_by_requested_profile": true,
+      "steam_app_id": 3796260,
+      "gameplay_evidence": "Asian national focus content and doctrine/faction changes.",
+      "included_with_base_game": false,
+      "included_with_base_from": null,
+      "integration_date": null,
+      "script_evidence": {
+        "path": "common/achievements.txt",
+        "line": 7300,
+        "file_sha256": "2b7b3d3a3f1a45707af283b111d541a2caff0b23c53eb748c59f079afc3d429c",
+        "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/achievements.txt#L7300"
+      },
+      "official_name": "Expansion - Hearts of Iron IV: No Compromise, No Surrender",
+      "official_store_url": "https://store.steampowered.com/app/3796260/",
+      "official_api_url": "https://store.steampowered.com/api/appdetails?appids=3796260&l=english",
+      "official_response_sha256": "a6744f28743c4c6ba1190f8d5660b2b1b8bf253af452a6798eb395a08231d253",
+      "release_date_as_published": "Nov 20, 2025",
+      "script_id": "No Compromise, No Surrender",
+      "title": "Expansion - Hearts of Iron IV: No Compromise, No Surrender",
+      "integrated_into_base_game": false,
+      "source_ids": [
+        "steam.dlc.3796260"
+      ]
+    },
+    {
+      "kind": "theater_pack",
+      "gameplay": true,
+      "enabled_by_requested_profile": true,
+      "steam_app_id": 3796290,
+      "gameplay_evidence": "Headquarters mechanics and national content for Australia, Siam and Indonesia.",
+      "included_with_base_game": false,
+      "included_with_base_from": null,
+      "integration_date": null,
+      "script_evidence": {
+        "path": "common/technologies/support.txt",
+        "line": 104,
+        "file_sha256": "c9c7a00363dfbf1f053872f22acc07b430bb37978a77e7617324ec7130883d69",
+        "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/technologies/support.txt#L104"
+      },
+      "official_name": "Theater Pack - Hearts of Iron IV: Thunder at our Gates",
+      "official_store_url": "https://store.steampowered.com/app/3796290/",
+      "official_api_url": "https://store.steampowered.com/api/appdetails?appids=3796290&l=english",
+      "official_response_sha256": "1b371e9eed5f7df93f630f9165b4f4ceb9f982c259eb84e4404921cded61f62f",
+      "release_date_as_published": "Jun 11, 2026",
+      "script_id": "Thunder at Our Gates",
+      "title": "Theater Pack - Hearts of Iron IV: Thunder at our Gates",
+      "integrated_into_base_game": false,
+      "source_ids": [
+        "steam.dlc.3796290"
+      ]
+    },
+    {
+      "kind": "expansion",
+      "gameplay": true,
+      "enabled_by_requested_profile": true,
+      "steam_app_id": 2183930,
+      "gameplay_evidence": "Nordic national focus content and military industrial organization mechanics.",
+      "included_with_base_game": false,
+      "included_with_base_from": null,
+      "integration_date": null,
+      "script_evidence": {
+        "path": "common/achievements.txt",
+        "line": 7733,
+        "file_sha256": "2b7b3d3a3f1a45707af283b111d541a2caff0b23c53eb748c59f079afc3d429c",
+        "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/achievements.txt#L7733"
+      },
+      "official_name": "Expansion - Hearts of Iron IV: Arms Against Tyranny",
+      "official_store_url": "https://store.steampowered.com/app/2183930/",
+      "official_api_url": "https://store.steampowered.com/api/appdetails?appids=2183930&l=english",
+      "official_response_sha256": "7a06dab0f342acf1f17c014d8f4ff90826c1dabdbdc3fe254d44a4e128b4cd80",
+      "release_date_as_published": "Oct 10, 2023",
+      "script_id": "Arms Against Tyranny",
+      "title": "Expansion - Hearts of Iron IV: Arms Against Tyranny",
+      "integrated_into_base_game": false,
+      "source_ids": [
+        "steam.dlc.2183930"
+      ]
+    },
+    {
+      "kind": "focus_pack",
+      "gameplay": true,
+      "enabled_by_requested_profile": true,
+      "steam_app_id": 3757310,
+      "gameplay_evidence": "Czechoslovak national focus content.",
+      "included_with_base_game": false,
+      "included_with_base_from": null,
+      "integration_date": null,
+      "script_evidence": {
+        "path": "common/achievements.txt",
+        "line": 7735,
+        "file_sha256": "2b7b3d3a3f1a45707af283b111d541a2caff0b23c53eb748c59f079afc3d429c",
+        "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/achievements.txt#L7735"
+      },
+      "official_name": "Focus Pack - Hearts of Iron IV: Peace For Our Time",
+      "official_store_url": "https://store.steampowered.com/app/3757310/",
+      "official_api_url": "https://store.steampowered.com/api/appdetails?appids=3757310&l=english",
+      "official_response_sha256": "e8f3b967c3707df8f61340a75e683c1aa001e24066222a55be53f4836549a6ca",
+      "release_date_as_published": "Apr 22, 2026",
+      "script_id": "Peace For Our Time",
+      "title": "Focus Pack - Hearts of Iron IV: Peace For Our Time",
+      "integrated_into_base_game": false,
+      "source_ids": [
+        "steam.dlc.3757310"
+      ]
+    },
+    {
+      "kind": "free_content_pack",
+      "gameplay": true,
+      "enabled_by_requested_profile": true,
+      "steam_app_id": null,
+      "gameplay_evidence": "Polish national focus tree, achievements and events, in addition to artwork.",
+      "included_with_base_game": true,
+      "included_with_base_from": null,
+      "integration_date": null,
+      "script_evidence": {
+        "path": "common/characters/POL.txt",
+        "line": 190,
+        "file_sha256": "e900496a367e1dc6214057b0082d73d33fc85b1654a79e6116bc5d85775fa3d3",
+        "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/characters/POL.txt#L190"
+      },
+      "official_name": "Poland: United and Ready",
+      "official_store_url": null,
+      "official_api_url": null,
+      "official_response_sha256": null,
+      "release_date_as_published": null,
+      "official_announcement_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/4249665521683222057",
+      "integration_caveat": "Official prelaunch diary promises this DLC free with every base-game purchase forever; full technical integration status is not established.",
+      "script_id": "Poland: United and Ready",
+      "title": "Poland: United and Ready",
+      "integrated_into_base_game": null,
+      "source_ids": [
+        "poland_free"
+      ]
+    },
+    {
+      "kind": "expansion",
+      "gameplay": true,
+      "enabled_by_requested_profile": true,
+      "steam_app_id": 584140,
+      "gameplay_evidence": "National focus content and military/equipment mechanics.",
+      "included_with_base_game": true,
+      "included_with_base_from": "2024-03-21",
+      "integration_date": null,
+      "script_evidence": {
+        "path": "common/ai_strategy_plans/CZE_mun_alternate_strategy_plan.txt",
+        "line": 7,
+        "file_sha256": "6c1713d3575a3d661aed10b3149d0d00d993f50f952743456bacc9817bf83d83",
+        "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/ai_strategy_plans/CZE_mun_alternate_strategy_plan.txt#L7"
+      },
+      "official_name": "Expansion - Hearts of Iron IV: Death or Dishonor",
+      "official_store_url": "https://store.steampowered.com/app/584140/",
+      "official_api_url": "https://store.steampowered.com/api/appdetails?appids=584140&l=english",
+      "official_response_sha256": "66b029c282fc9d8af6d1ec85ce8f4b02ee7ffb41bd37a0f8b501578938995cfc",
+      "release_date_as_published": "Jun 14, 2017",
+      "integration_confirmed_by": "2024-04-04",
+      "script_id": "Death or Dishonor",
+      "title": "Expansion - Hearts of Iron IV: Death or Dishonor",
+      "integrated_into_base_game": true,
+      "source_ids": [
+        "steam.dlc.584140",
+        "included_2024",
+        "integrated_2024"
+      ]
+    },
+    {
+      "kind": "expansion",
+      "gameplay": true,
+      "enabled_by_requested_profile": true,
+      "steam_app_id": 702350,
+      "gameplay_evidence": "Asian national focus content and military mechanics.",
+      "included_with_base_game": true,
+      "included_with_base_from": "2024-03-21",
+      "integration_date": null,
+      "script_evidence": {
+        "path": "common/ai_strategy_plans/CHI_alternate_strategy_plan.txt",
+        "line": 7,
+        "file_sha256": "42d5f9a62d222e842d9f3268cf07638e3aee506a463457a83c78a7798e845e7e",
+        "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/ai_strategy_plans/CHI_alternate_strategy_plan.txt#L7"
+      },
+      "official_name": "Expansion - Hearts of Iron IV: Waking the Tiger",
+      "official_store_url": "https://store.steampowered.com/app/702350/",
+      "official_api_url": "https://store.steampowered.com/api/appdetails?appids=702350&l=english",
+      "official_response_sha256": "4270f7896a69b3dd66490e63ecf624aa7ab8d004cff0ef92a82f0441f6532409",
+      "release_date_as_published": "Mar 8, 2018",
+      "integration_confirmed_by": "2024-04-04",
+      "script_id": "Waking the Tiger",
+      "title": "Expansion - Hearts of Iron IV: Waking the Tiger",
+      "integrated_into_base_game": true,
+      "source_ids": [
+        "steam.dlc.702350",
+        "included_2024",
+        "integrated_2024"
+      ]
+    },
+    {
+      "kind": "country_pack",
+      "gameplay": true,
+      "enabled_by_requested_profile": true,
+      "steam_app_id": 2695150,
+      "gameplay_evidence": "National focus content for Argentina, Brazil and Chile.",
+      "included_with_base_game": false,
+      "included_with_base_from": null,
+      "integration_date": null,
+      "script_evidence": {
+        "path": "common/ai_strategy_plans/BRA_historical_strategy_plan.txt",
+        "line": 7,
+        "file_sha256": "13e8008d93004eae3ab4bf799d95915325831fcfab106d100b100c9dd353c27e",
+        "url": "https://github.com/BanderaModding/vanilla-fin-hoi4/blob/e249d22284449ece5416b41e68c4d73f2b79e3cc/common/ai_strategy_plans/BRA_historical_strategy_plan.txt#L7"
+      },
+      "official_name": "Country Pack - Hearts of Iron IV: Trial of Allegiance",
+      "official_store_url": "https://store.steampowered.com/app/2695150/",
+      "official_api_url": "https://store.steampowered.com/api/appdetails?appids=2695150&l=english",
+      "official_response_sha256": "edd69f612461b2b18259730ba908e2025ca72e911fd747a14ac77fd28b06ad88",
+      "release_date_as_published": "Mar 7, 2024",
+      "script_id": "Trial of Allegiance",
+      "title": "Country Pack - Hearts of Iron IV: Trial of Allegiance",
+      "integrated_into_base_game": false,
+      "source_ids": [
+        "steam.dlc.2695150"
+      ]
+    }
+  ]
+}
