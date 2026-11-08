@@ -13,6 +13,9 @@ Select, Input { width: 100%; }
 #buttons Button { width: 1fr; min-width: 10; margin: 0 1; }
 #right { width: 1fr; padding: 0 1; }
 #intro { height: 2; padding: 0 1; color: #a9bdd6; }
+#runtime-scroll { height: 1fr; padding: 1; }
+#runtime-expectation, #runtime-activity { height: auto; color: #b4c9dd; margin-bottom: 1; }
+#runtime-activity { display: none; }
 #stats { height: 5; }
 .stat { width: 1fr; padding: 0 1; border: round #28405c; background: #101e31; }
 .stat Label { color: #9ab1cd; height: 1; }

@@ -72,9 +72,17 @@ JSON includes settings, source hashes and original engine details. CSV is a summ
 
 The query preview counts provinces, factions, solver choices and cases before Run.
 **Model size** shows variables, constraints and available details as models compile;
-some native solver counts arrive after search. Reference and solver formulations
+CP-SAT input counts arrive before search. Reference and solver formulations
 are labeled separately. Select a completed result to inspect its saved counts.
 Counts describe models before presolve; they do not predict runtime.
+
+**Runtime** shows matching historical measurements and earlier runs with exactly
+the same settings in this session. These are observations, not an ETA. During
+CP-SAT search it shows the first candidate and time since the layout or bound
+last improved; clocks keep advancing during quiet search. A small gap or a quiet
+interval cannot predict minutes, hours or weeks to completion. Cancelled runs
+remain unfinished observations. Session timing history survives Clear results
+and disappears when you quit. HiGHS does not stream candidate/bound activity here.
 
 **OPTIMAL** is a solver proof for the stated model. **FEASIBLE** is a valid layout
 with an unresolved bound. **INFEASIBLE** proves the supplied requirements cannot

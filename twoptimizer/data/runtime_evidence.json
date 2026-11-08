@@ -1,0 +1,589 @@
+{
+  "schema_version": 1,
+  "scope": "Historical runtime observations for exact supported request shapes; not forecasts or completion guarantees. Worker preference/time allowance may differ and are disclosed in UI. Input and solver source revisions are historical.",
+  "sources": {
+    "joint_scaling": {
+      "path": "reports/joint-scaling.json",
+      "sha256": "5d5c773cc0c6b8929acaf3699dab012932fb158ed52affab9d62625735cdde60",
+      "revision": "caa603d5dcdaa07f9d71c8c28b2044e17cf36a4c",
+      "measured_at_utc": "2026-11-08T10:13:22.027721+00:00",
+      "machine": "INTEL(R) XEON(R) PLATINUM 8573C",
+      "workers": 4,
+      "python": "3.14.9",
+      "ortools": "9.15.6755"
+    },
+    "shogun_holdings": {
+      "path": "reports/holding-performance-all-shogun2-cpsat.json",
+      "sha256": "729953d07f2e05f9b14ff21807527d998185844a55e4a05978b810d9fd52e993",
+      "revision": "6e03a72f0f56a9f26266fa875f0e265143eea5a7",
+      "measured_at_utc": "2026-11-08T05:53:25.336616+00:00",
+      "machine": "INTEL(R) XEON(R) PLATINUM 8573C",
+      "workers": 4,
+      "python": "3.14.9",
+      "ortools": "9.15.6755"
+    }
+  },
+  "profiles": [
+    {
+      "id": "attila-all-joint",
+      "source": "joint_scaling",
+      "request": {
+        "game": "attila",
+        "faction": "att_fact_eastern_roman_empire",
+        "province": "att_prov_thracia",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "all"
+        ],
+        "joint": true,
+        "adjacency": null
+      },
+      "holdings": [
+        [
+          "att_prov_aegyptus",
+          "att_prov_aethiopia",
+          "att_prov_africa",
+          "att_prov_aquitania",
+          "att_prov_arabia_felix",
+          "att_prov_arabia_magna",
+          "att_prov_armenia",
+          "att_prov_asia",
+          "att_prov_asorstan",
+          "att_prov_baetica",
+          "att_prov_belgica",
+          "att_prov_bithynia",
+          "att_prov_britannia_inferior",
+          "att_prov_britannia_superior",
+          "att_prov_caledonia_et_hbernia",
+          "att_prov_cappadocia",
+          "att_prov_carthaginensis",
+          "att_prov_caucasia",
+          "att_prov_cilicia",
+          "att_prov_dacia",
+          "att_prov_dalmatia",
+          "att_prov_dardania",
+          "att_prov_frisia",
+          "att_prov_gallaecia",
+          "att_prov_germania",
+          "att_prov_germano-sarmatia",
+          "att_prov_gothiscandza",
+          "att_prov_hercynia",
+          "att_prov_hyperborea",
+          "att_prov_italia",
+          "att_prov_khwarasan",
+          "att_prov_libya",
+          "att_prov_liguria",
+          "att_prov_lugdunensis",
+          "att_prov_lusitania",
+          "att_prov_macedonia",
+          "att_prov_magna_graecia",
+          "att_prov_makran",
+          "att_prov_mauretania",
+          "att_prov_maxima_sequanorum",
+          "att_prov_media_atropatene",
+          "att_prov_mediterraneus_occidentalis",
+          "att_prov_mediterraneus_orientalis",
+          "att_prov_narbonensis",
+          "att_prov_osroene",
+          "att_prov_palaestinea",
+          "att_prov_pannonia",
+          "att_prov_persis",
+          "att_prov_phazania",
+          "att_prov_raetia_et_noricum",
+          "att_prov_sarmatia_asiatica",
+          "att_prov_sarmatia_europaea",
+          "att_prov_scandza",
+          "att_prov_scythia",
+          "att_prov_spahan",
+          "att_prov_syria",
+          "att_prov_tarraconensis",
+          "att_prov_thracia",
+          "att_prov_transcarpathia",
+          "att_prov_transcaspia",
+          "att_prov_tripolitana",
+          "att_prov_venetia"
+        ]
+      ],
+      "observations": [
+        {
+          "wall_seconds": 78.7334341780006,
+          "statuses": {
+            "FEASIBLE": 1
+          },
+          "configured_solver_seconds": 60.0,
+          "complete": true
+        },
+        {
+          "wall_seconds": 76.92610752500332,
+          "statuses": {
+            "FEASIBLE": 1
+          },
+          "configured_solver_seconds": 60.0,
+          "complete": true
+        }
+      ]
+    },
+    {
+      "id": "rome2-all-joint",
+      "source": "joint_scaling",
+      "request": {
+        "game": "rome2",
+        "faction": "rom_rome",
+        "province": "coastal",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "all"
+        ],
+        "joint": true,
+        "adjacency": null
+      },
+      "holdings": [
+        [
+          "rome_main_aegyptos",
+          "rome_main_africa",
+          "rome_main_aithiops",
+          "rome_main_aquitania",
+          "rome_main_arabia_felix",
+          "rome_main_arabia_magna",
+          "rome_main_arachosia",
+          "rome_main_aria",
+          "rome_main_armenia",
+          "rome_main_asia",
+          "rome_main_bactria",
+          "rome_main_baetica",
+          "rome_main_belgica",
+          "rome_main_bithynia_et_pontus",
+          "rome_main_bosporus",
+          "rome_main_britannia",
+          "rome_main_caledonia_et_hibernia",
+          "rome_main_carmania",
+          "rome_main_cartaginensis",
+          "rome_main_caucasia",
+          "rome_main_celtica",
+          "rome_main_chorasmia",
+          "rome_main_cilicia",
+          "rome_main_cisalpina",
+          "rome_main_corsica_et_sardinia",
+          "rome_main_dacia",
+          "rome_main_galatia_et_cappadocia",
+          "rome_main_gedrosia",
+          "rome_main_germania_minor",
+          "rome_main_hellas",
+          "rome_main_hercynia",
+          "rome_main_illyria",
+          "rome_main_italia",
+          "rome_main_libue",
+          "rome_main_lusitania",
+          "rome_main_macedonia",
+          "rome_main_magna_germania",
+          "rome_main_magna_graecia",
+          "rome_main_mauretania",
+          "rome_main_media_magna",
+          "rome_main_mesopotamia",
+          "rome_main_nabataea",
+          "rome_main_pannonia",
+          "rome_main_parthia",
+          "rome_main_persis",
+          "rome_main_phazania",
+          "rome_main_ponto_caspia",
+          "rome_main_provincia",
+          "rome_main_raetia_et_noricum",
+          "rome_main_sarmatia",
+          "rome_main_scythia",
+          "rome_main_silesia",
+          "rome_main_suebia",
+          "rome_main_syria",
+          "rome_main_tarraconensis",
+          "rome_main_thracia",
+          "rome_main_transoxania"
+        ]
+      ],
+      "observations": [
+        {
+          "wall_seconds": 63.187321418001375,
+          "statuses": {
+            "FEASIBLE": 1
+          },
+          "configured_solver_seconds": 60.0,
+          "complete": true
+        },
+        {
+          "wall_seconds": 63.01079085699894,
+          "statuses": {
+            "FEASIBLE": 1
+          },
+          "configured_solver_seconds": 60.0,
+          "complete": true
+        }
+      ]
+    },
+    {
+      "id": "shogun2-all-independent",
+      "source": "shogun_holdings",
+      "request": {
+        "game": "shogun2",
+        "faction": "oda",
+        "province": "jap_owari",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "all"
+        ],
+        "joint": false,
+        "adjacency": null
+      },
+      "holdings": [
+        [
+          "jap_aki"
+        ],
+        [
+          "jap_awa"
+        ],
+        [
+          "jap_awaji"
+        ],
+        [
+          "jap_bingo"
+        ],
+        [
+          "jap_bitchu"
+        ],
+        [
+          "jap_bizen"
+        ],
+        [
+          "jap_bungo"
+        ],
+        [
+          "jap_buzen"
+        ],
+        [
+          "jap_echigo"
+        ],
+        [
+          "jap_echizen"
+        ],
+        [
+          "jap_etchu"
+        ],
+        [
+          "jap_fukushima"
+        ],
+        [
+          "jap_harima"
+        ],
+        [
+          "jap_hida"
+        ],
+        [
+          "jap_higo"
+        ],
+        [
+          "jap_hitachi"
+        ],
+        [
+          "jap_hizen"
+        ],
+        [
+          "jap_hoki"
+        ],
+        [
+          "jap_hyuga"
+        ],
+        [
+          "jap_iga"
+        ],
+        [
+          "jap_inaba"
+        ],
+        [
+          "jap_ise"
+        ],
+        [
+          "jap_iwami"
+        ],
+        [
+          "jap_iwate"
+        ],
+        [
+          "jap_iyo"
+        ],
+        [
+          "jap_izu"
+        ],
+        [
+          "jap_izumo"
+        ],
+        [
+          "jap_kaga"
+        ],
+        [
+          "jap_kai"
+        ],
+        [
+          "jap_kawachi"
+        ],
+        [
+          "jap_kazusa"
+        ],
+        [
+          "jap_kii"
+        ],
+        [
+          "jap_kozuke"
+        ],
+        [
+          "jap_mikawa"
+        ],
+        [
+          "jap_mimasaka"
+        ],
+        [
+          "jap_mino"
+        ],
+        [
+          "jap_miyagi"
+        ],
+        [
+          "jap_musashi"
+        ],
+        [
+          "jap_nagato"
+        ],
+        [
+          "jap_north_shinano"
+        ],
+        [
+          "jap_noto"
+        ],
+        [
+          "jap_omi"
+        ],
+        [
+          "jap_osumi"
+        ],
+        [
+          "jap_owari"
+        ],
+        [
+          "jap_sado"
+        ],
+        [
+          "jap_sagami"
+        ],
+        [
+          "jap_sanuki"
+        ],
+        [
+          "jap_satsuma"
+        ],
+        [
+          "jap_settsu"
+        ],
+        [
+          "jap_shimosa"
+        ],
+        [
+          "jap_shimotsuke"
+        ],
+        [
+          "jap_south_shinano"
+        ],
+        [
+          "jap_suo"
+        ],
+        [
+          "jap_suruga"
+        ],
+        [
+          "jap_tajima"
+        ],
+        [
+          "jap_tamba"
+        ],
+        [
+          "jap_tango"
+        ],
+        [
+          "jap_tosa"
+        ],
+        [
+          "jap_totomi"
+        ],
+        [
+          "jap_tsukushi"
+        ],
+        [
+          "jap_ugo"
+        ],
+        [
+          "jap_uzen"
+        ],
+        [
+          "jap_wakasa"
+        ],
+        [
+          "jap_yamashiro"
+        ],
+        [
+          "jap_yamato"
+        ]
+      ],
+      "observations": [
+        {
+          "wall_seconds": 1.8952426470023056,
+          "statuses": {
+            "OPTIMAL": 65
+          },
+          "configured_solver_seconds": 12.0,
+          "complete": true
+        },
+        {
+          "wall_seconds": 1.8434144809980353,
+          "statuses": {
+            "OPTIMAL": 65
+          },
+          "configured_solver_seconds": 12.0,
+          "complete": true
+        }
+      ]
+    },
+    {
+      "id": "shogun2-all-joint",
+      "source": "shogun_holdings",
+      "request": {
+        "game": "shogun2",
+        "faction": "oda",
+        "province": "jap_owari",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "all"
+        ],
+        "joint": true,
+        "adjacency": null
+      },
+      "holdings": [
+        [
+          "jap_aki",
+          "jap_awa",
+          "jap_awaji",
+          "jap_bingo",
+          "jap_bitchu",
+          "jap_bizen",
+          "jap_bungo",
+          "jap_buzen",
+          "jap_echigo",
+          "jap_echizen",
+          "jap_etchu",
+          "jap_fukushima",
+          "jap_harima",
+          "jap_hida",
+          "jap_higo",
+          "jap_hitachi",
+          "jap_hizen",
+          "jap_hoki",
+          "jap_hyuga",
+          "jap_iga",
+          "jap_inaba",
+          "jap_ise",
+          "jap_iwami",
+          "jap_iwate",
+          "jap_iyo",
+          "jap_izu",
+          "jap_izumo",
+          "jap_kaga",
+          "jap_kai",
+          "jap_kawachi",
+          "jap_kazusa",
+          "jap_kii",
+          "jap_kozuke",
+          "jap_mikawa",
+          "jap_mimasaka",
+          "jap_mino",
+          "jap_miyagi",
+          "jap_musashi",
+          "jap_nagato",
+          "jap_north_shinano",
+          "jap_noto",
+          "jap_omi",
+          "jap_osumi",
+          "jap_owari",
+          "jap_sado",
+          "jap_sagami",
+          "jap_sanuki",
+          "jap_satsuma",
+          "jap_settsu",
+          "jap_shimosa",
+          "jap_shimotsuke",
+          "jap_south_shinano",
+          "jap_suo",
+          "jap_suruga",
+          "jap_tajima",
+          "jap_tamba",
+          "jap_tango",
+          "jap_tosa",
+          "jap_totomi",
+          "jap_tsukushi",
+          "jap_ugo",
+          "jap_uzen",
+          "jap_wakasa",
+          "jap_yamashiro",
+          "jap_yamato"
+        ]
+      ],
+      "observations": [
+        {
+          "wall_seconds": 8.04904365100083,
+          "statuses": {
+            "OPTIMAL": 1
+          },
+          "configured_solver_seconds": 12.0,
+          "complete": true
+        },
+        {
+          "wall_seconds": 13.013952074998087,
+          "statuses": {
+            "FEASIBLE": 1
+          },
+          "configured_solver_seconds": 12.0,
+          "complete": true
+        }
+      ]
+    }
+  ]
+}

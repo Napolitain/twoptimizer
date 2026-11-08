@@ -39,6 +39,9 @@ The query preview shows batch scope before Run. **Model size** displays compiled
 variable and constraint counts, with separate reference and solver formulations.
 During CP-SAT search, a separate live line shows the candidate income, upper
 bound and remaining gap. A candidate becomes a result after validation.
+The **Runtime** tab shows matching historical measurements, timings from earlier
+runs with the same settings in this session, and time since the candidate or
+bound last improved. These are observations, not a promised completion time.
 
 For HoI4, select **Inspect HoI4 data…** to browse the eight major countries,
 starting armies, economic modifiers and states with mouse or keyboard.

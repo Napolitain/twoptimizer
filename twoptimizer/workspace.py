@@ -110,6 +110,12 @@ def compose_workspace() -> ComposeResult:
                         markup=False,
                     )
                     yield DataTable(id="results", cursor_type="row", zebra_stripes=True)
+                with (
+                    TabPane("Runtime", id="runtime-pane"),
+                    VerticalScroll(id="runtime-scroll"),
+                ):
+                    yield Static("No active case.", id="runtime-activity", markup=False)
+                    yield Static("Completion time unknown.", id="runtime-expectation", markup=False)
                 with TabPane("Buildings", id="buildings-pane"):
                     yield Static(
                         "Select a result to inspect its layout.",

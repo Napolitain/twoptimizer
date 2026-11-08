@@ -56,7 +56,9 @@ from twoptimizer.province_picker import (
     ProvinceSelection,
 )
 from twoptimizer.runner import BatchRunner
+from twoptimizer.runtime_view import RuntimeView
 from twoptimizer.screens import ExportScreen, HelpScreen
+from twoptimizer.search_activity import format_duration
 from twoptimizer.service import error_result, make_jobs
 from twoptimizer.workspace import compose_workspace
 
@@ -87,6 +89,7 @@ class OptimizerApp(App):
         self.current_phase = ""
         self.current_models: list[ModelStats] = []
         self.current_search: SearchStats | None = None
+        self.runtime = RuntimeView()
         self.sort_column, self.sort_reverse = "income", True
         self.province_selection = ProvinceSelection()
         self.constraint_options = ConstraintOptions()
@@ -314,7 +317,8 @@ class OptimizerApp(App):
     @on(Checkbox.Changed)
     def settings_changed(self):
         if (
-            self._ui_ready
+            self.is_running
+            and self._ui_ready
             and not self._loading_settings
             and not self.busy
             and not isinstance(self.screen, ModalScreen)
@@ -341,13 +345,23 @@ class OptimizerApp(App):
             jobs, skipped = make_jobs(config)
         except ValueError as error:
             self.query_one("#preview", Static).update(str(error))
+            self.query_one("#intro", Static).update("Runtime: choose valid settings.")
+            self.query_one("#runtime-expectation", Static).update(str(error))
             self.query_one("#run", Button).disabled = True
         else:
             preview = query_summary(config, jobs, skipped)
             if config.compare_constraints:
                 preview += "\nComparison: up to 2 solves per case; limit applies to each solve."
             self.query_one("#preview", Static).update(preview)
+            self._show_runtime_outlook(config, jobs)
             self.query_one("#run", Button).disabled = not jobs
+
+    def _show_runtime_outlook(self, config, jobs):
+        summary, details = self.runtime.preview(config, jobs)
+        intro = self.query_one("#intro", Static)
+        intro.update("Runtime: " + summary)
+        intro.tooltip = summary + "\nOpen the Runtime tab for evidence and live activity."
+        self.query_one("#runtime-expectation", Static).update(details)
 
     @on(Button.Pressed, "#run")
     def run_button(self):
@@ -411,6 +425,8 @@ class OptimizerApp(App):
                 self.current_phase = "Starting engine"
                 self._reset_model_size("compiling this case…")
                 self._reset_search()
+                self.runtime.begin(job, perf_counter())
+                self._show_runtime_outlook(job, [job])
                 self._tick()
                 log.write(self.current_case)
                 try:
@@ -423,6 +439,8 @@ class OptimizerApp(App):
                     errors += 1
                     log.write(f"ERROR: {error}")
                     result = error_result(job, error).to_dict()
+                self.runtime.finish(result, perf_counter())
+                self._update_runtime()
                 if result is None:
                     break
                 self.results.append(result)
@@ -443,7 +461,7 @@ class OptimizerApp(App):
             elif self.results:
                 self._show_result(self.results[-1])
             self.query_one("#run-status", Static).update(
-                self.current_case + f" · {perf_counter() - started:.1f}s elapsed"
+                self.current_case + f" · {format_duration(perf_counter() - started)} elapsed"
             )
 
     def _tick(self):
@@ -453,16 +471,45 @@ class OptimizerApp(App):
                 " · "
                 f"{self.current_phase}"
                 " · "
-                f"{perf_counter() - self.started:.1f}"
-                "s elapsed"
+                f"{format_duration(perf_counter() - self.started)} elapsed"
             )
+            self._update_runtime()
+
+    def _update_runtime(self):
+        now = perf_counter()
+        activity = self.query_one("#runtime-activity", Static)
+        activity.update(self.runtime.details(now))
+        activity.display = self.runtime.job is not None
+        if self.busy and self.current_search is not None and self.runtime.searching:
+            stats = self.runtime.search.snapshot(now).stats
+            if stats is not None:
+                self.query_one("#search-progress", Static).update(search_summary(stats))
+        self._sync_activity_panels()
+
+    @on(TabbedContent.TabActivated, "#tabs")
+    def activity_tab_changed(self):
+        if self._ui_ready and self.is_running:
+            self._sync_activity_panels()
+
+    def _sync_activity_panels(self):
+        # Runtime already contains live values. Avoid duplicate footers consuming
+        # its entire scrollable viewport in a small terminal.
+        footer = self.query_one("#tabs", TabbedContent).active != "runtime-pane"
+        self.query_one("#model-size").display = footer
+        self.query_one("#search-progress").display = (
+            footer and self.busy and self.current_search is not None
+        )
 
     def _phase_changed(self, phase):
+        if not self.is_running or not self.busy:
+            return
+        self.runtime.observe(phase, perf_counter())
         if isinstance(phase, SearchStats):
             if self.is_running and self.busy:
                 self.current_search = phase
                 self.query_one("#search-progress", Static).update(search_summary(phase))
                 self.query_one("#search-progress").display = True
+                self._update_runtime()
             return
         if isinstance(phase, ModelStats):
             self.current_models.append(phase)

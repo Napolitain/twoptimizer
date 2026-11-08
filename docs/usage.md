@@ -273,6 +273,20 @@ and elapsed search time separately from completed, validated results. Solver
 model counts arrive before search begins. These observations do not impose a
 time limit or change the objective. Cancel retains completed cases; the active
 case's displayed candidate is not a saved result.
+The **Runtime** tab adds time to the first observed candidate and the age of the
+last layout and bound improvements. Its clocks keep advancing during quiet
+search. Before Run, the runtime outlook uses narrowly matched historical
+benchmarks where available, including unfinished measurements; reference
+hardware, solver allowance and older-build limitations remain visible.
+Earlier runs with exactly the same settings in the current TUI session provide
+additional timing context. This bounded in-memory history survives **Clear results**
+and is discarded when the app exits. Cancelled and time-limited unfinished runs
+are recorded separately from optimality/infeasibility proofs. Comparisons require
+both sides to finish their proofs. Partial batch history never extrapolates the
+remaining cases. HiGHS currently has no live candidate/bound telemetry.
+Neither model size, gap nor a quiet interval predicts whether a proof will take
+minutes, hours or weeks. The outlook reports **unknown** without matching evidence;
+past completion times are not an ETA or a new time limit.
 The [joint-model investigation](joint-scaling.md) records reductions in model
 construction time and the remaining difficulty of proving full-world optima.
 The [CP-SAT/HiGHS comparison](cpsat-highs-performance.md) records the supported

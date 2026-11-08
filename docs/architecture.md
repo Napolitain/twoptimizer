@@ -203,6 +203,19 @@ response's default zero is not presented as a proved bound. Model counts arrive
 before search. The TUI displays search observations separately from validated
 case results and never exports an unfinished candidate as a completed layout.
 
+`runtime_view.RuntimeView` owns TUI case timing and coordinates the runtime
+display without invoking solvers. `search_activity.SearchActivity` tracks best
+observed candidates/bounds and advances elapsed/quiet intervals on the UI clock;
+each native search resets it, including separate constraint-comparison sides.
+`runtime_history.RuntimeHistory` retains bounded timing observations for exact
+requests within the app session. Terminal proof statuses are distinct from
+cancelled/unfinished results, and both comparison sides must be accounted for.
+`runtime_evidence` reads bundled, sourced benchmark summaries and matches expanded
+holdings plus scenario settings. Explicit reference-machine/build caveats cover
+execution differences; none of these modules extrapolates completion from model
+counts, gaps or batch case counts. They do not change solver parameters, worker
+selection, cancellation or result serialization.
+
 `ApplicationError` identifies invalid requests across direct and subprocess
 execution; its message and code survive worker transport. Runtime failures remain
 failures rather than solver feasibility claims. `service.error_result` constructs
