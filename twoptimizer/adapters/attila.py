@@ -34,7 +34,7 @@ def solve_attila(
     )
     phase("solve_and_check_seconds", "Solving and validating")
     result, fingerprint, reused = state.solve(
-        config, prepared, **search_observers(phase, "Attila CP-SAT", lambda: decisions)
+        config, prepared, **search_observers(phase, "Attila CP-SAT", lambda: decisions, phases=True)
     )
     row = report_results(
         snapshot.model, [result], ComparisonOptions(algorithms=(config.algorithm,)), economy
@@ -54,19 +54,22 @@ def solve_attila(
         "province_names": list(prepared.province_names),
         "adjacency": thaw(economy.adjacency),
         "solver": {
-            key: row[key]
-            for key in (
-                "algorithm",
-                "status",
-                "seconds",
-                "objective",
-                "bound",
-                "timings",
-                "workers",
-                "model_stats",
-                "relaxation",
-                "detail",
-            )
+            **{
+                key: row[key]
+                for key in (
+                    "algorithm",
+                    "status",
+                    "seconds",
+                    "objective",
+                    "bound",
+                    "timings",
+                    "workers",
+                    "model_stats",
+                    "relaxation",
+                    "detail",
+                )
+            },
+            "joint_bound_search": result.model_stats.get("joint_bound_search"),
         },
         "model_size": {
             "variables": len(snapshot.model.names),

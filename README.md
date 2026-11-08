@@ -43,6 +43,10 @@ Larger joint Rome II CP-SAT runs automatically prepare bounds from smaller
 connected groups before searching the complete model. Shared food and all other
 requirements remain enforced; the [measurement report](docs/rome-joint-bounds.md)
 explains the method, observed results and limits.
+Eligible joint Attila CP-SAT runs use a separate bound-preparation method for
+provincial food and cross-province effects. Its
+[measurement report](docs/attila-joint-bounds.md) shows improved income and bounds
+within the tested allowance, alongside higher wall time and memory use.
 The **Runtime** tab shows matching historical measurements, timings from earlier
 runs with the same settings in this session, and time since the candidate or
 bound last improved. These are observations, not a promised completion time.

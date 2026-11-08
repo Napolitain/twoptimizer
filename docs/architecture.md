@@ -474,6 +474,33 @@ is checked around it, and Force stop remains available. Components are processed
 serially using the same machine-derived worker allocation as the full search.
 See the [method and measurements](rome-joint-bounds.md).
 
+For holdings with at least four provinces, Attila's `compact` builder groups
+factored income by province and adds independent extra-income terms directly to
+the objective, avoiding artificial connections through aggregate variables.
+Its `partition` module derives province ownership
+recursively from reference decisions, products and indicators. Only certified
+cross-province reference rows can be relaxed for preparation; indicator rows,
+economic definitions and rows with unknown ownership remain. The actual native
+constraint graph includes enforcement literals and product factors. `projection`
+adds necessary local inequalities from relaxed rows using optimistic bounds on
+external contributions and exact fixed shifts. It does not assume those external
+choices are jointly attainable.
+Smaller holdings preserve the original native income grouping, auxiliary
+aggregation and product formulation, and skip this bound preparation.
+
+Attila's `native_parts` extracts and independently validates supported native
+components with exact integer objectives. `bound_search` combines safe component
+bounds, including fixed contributions, and adds valid inequalities to the
+unchanged complete model. A combined seed must satisfy every original native
+constraint. `joint_search` retains valid seeds and native proof semantics, restores
+expanded auxiliaries and validates the original reference matrix and objective.
+It uses the same preparation caps as Rome, without an LP food-price pass.
+Component searches use one native worker each and run concurrently within the
+machine's allocated worker count; final joint search retains the full allocation.
+Each component's allowance is at most one second, with the remaining budget
+shared across the remaining waves. Reports preserve the separate preparation timing and
+component statuses. See the [Attila method](attila-joint-bounds.md).
+
 The integrated architecture was compared against `bd60b0c` with the same locked
 Python 3.14 environment, default scenarios, one worker and three serial samples.
 All three games produced identical result fingerprints, including income,

@@ -159,7 +159,15 @@ def _binary_cp_model(model):
 
 
 def sat_solve(
-    model, seconds, seed, workers=None, *, on_search=None, on_model=None, cancellation=None
+    model,
+    seconds,
+    seed,
+    workers=None,
+    *,
+    on_search=None,
+    on_model=None,
+    cancellation=None,
+    on_phase=None,
 ):
     workers = resolve_workers(workers)
     if cancellation is not None:
@@ -177,6 +185,7 @@ def sat_solve(
                     ("on_search", on_search),
                     ("on_model", on_model),
                     ("cancellation", cancellation),
+                    ("on_phase", on_phase),
                 )
                 if value is not None
             }
@@ -238,6 +247,7 @@ def solve(
     on_search=None,
     on_model=None,
     cancellation=None,
+    on_phase=None,
 ):
     if algorithm not in ALGORITHMS:
         raise ValueError(f"Unknown algorithm: {algorithm}; choose cp-sat or highs")
@@ -257,6 +267,7 @@ def solve(
                 on_search=on_search,
                 on_model=on_model,
                 cancellation=cancellation,
+                on_phase=on_phase,
             )
             if algorithm == "cp-sat"
             else highs_solve(model, seconds, seed, workers, cancellation=cancellation)

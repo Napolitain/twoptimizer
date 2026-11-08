@@ -144,12 +144,12 @@ Worker selection stays machine-based. Groups run in sequence using the same
 worker allocation as the full solver. These measurements use four workers;
 additional-core scaling is unmeasured and must not be inferred from them.
 
-The new stage is specific to Rome II. Attila's food constraints are provincial,
-and ERE's factionwide order links require a different decomposition. Reusable
-local alternatives and tighter Attila bounds remain future work; no Attila or
-Shogun 2 performance gain is established by this Rome experiment. Building a
-complete template library or a column-generation solver is also outside this
-change.
+The food-price stage is specific to Rome II. Attila's food constraints are
+provincial, and ERE's factionwide order links require a different decomposition;
+the [Attila method](attila-joint-bounds.md) documents that separate implementation.
+No Attila or Shogun 2 performance gain is established by this Rome experiment.
+Building a complete template library or a column-generation solver is also
+outside this change.
 
 ## Reproduction
 

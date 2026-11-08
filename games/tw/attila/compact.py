@@ -35,7 +35,7 @@ class Selector:
 
 @dataclass(frozen=True)
 class Value:
-    variable: object
+    variable: cp_model.IntVar | int
     unit: Fraction
     lower: int
     upper: int
@@ -64,77 +64,52 @@ class CompactIncome:
         }
 
     def solve(
-        self, reference, seconds, seed, workers, *, on_search=None, on_model=None, cancellation=None
+        self,
+        reference,
+        seconds,
+        seed,
+        workers,
+        *,
+        on_search=None,
+        on_model=None,
+        cancellation=None,
+        on_phase=None,
     ):
-        from games.tw.competition import Result
+        from games.tw.attila.joint_search import solve
 
         if cancellation is not None:
             cancellation.checkpoint()
         start = perf_counter()
-        builder = Builder(self, reference)
+        builder = Builder(self, reference, joint_bounds=len(self.economy.provinces) >= 4)
         if not any(
             reference.profit[index] and len(terms) > 2 for index, terms in builder.products.items()
         ):
-            # The gain comes from factoring cubic income. For the simpler
-            # quadratic objectives the expanded Boolean relaxation is stronger
-            # and was faster in the WRE/barbarian comparison cases.
+            # The expanded Boolean relaxation remains stronger for the simpler
+            # quadratic WRE/barbarian comparison objectives.
             raise UnsupportedCompact("Expanded model retained: no cubic income products")
         model, unit = builder.build()
         validation = model.validate()
         if validation:
             raise UnsupportedCompact(validation)
-        solver = cp_model.CpSolver()
-        solver.parameters.num_search_workers = workers
-        solver.parameters.random_seed = seed
-        solver.parameters.linearization_level = 2
-        if seconds is not None:
-            solver.parameters.max_time_in_seconds = max(0.001, seconds - (perf_counter() - start))
-        stats = {
-            "formulation": "factored_income",
-            "variables": len(model.proto.variables),
-            "constraints": len(model.proto.constraints),
-            "reference_variables": len(reference.names),
-            "reference_constraints": len(reference.lower),
-            "income_groups": builder.income_groups,
-        }
-        if on_model is not None:
-            on_model(stats)
-        from games.tw.search_progress import solve_with_progress
-
-        search_start = perf_counter()
-        status = solve_with_progress(
-            solver, model, on_search=on_search, scale=float(unit), cancellation=cancellation
-        )
-        result = Result(
-            "cp-sat",
-            solver.status_name(status),
+        return solve(
+            builder,
+            reference,
+            unit,
+            seconds=seconds,
+            seed=seed,
             workers=workers,
-            timings={
-                "model_conversion_seconds": search_start - start,
-                "search_seconds": perf_counter() - search_start,
-            },
-            model_stats=stats,
+            started=start,
+            on_search=on_search,
+            on_model=on_model,
+            on_phase=on_phase,
+            cancellation=cancellation,
         )
-        if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-            values: list[float] = [0.0] * len(reference.names)
-            for index, variable in builder.variables.items():
-                values[index] = solver.value(variable)
-            # Restore every expanded auxiliary, even ones the compact model did
-            # not need, so the old matrix and independent evaluator can check it.
-            for index, terms in builder.products.items():
-                values[index] = int(all(values[i] for i in terms))
-            native_objective = solver.objective_value * float(unit)
-            original_objective = float(reference.profit @ values) + reference.offset
-            if abs(native_objective - original_objective) > 1e-5:
-                raise AssertionError("Compact and reference income objectives disagree")
-            result.values = values
-            result.bound = solver.best_objective_bound * float(unit)
-        return result
 
 
 class Builder:
-    def __init__(self, plan, reference):
+    def __init__(self, plan, reference, *, joint_bounds=True):
         self.plan, self.reference = plan, reference
+        self.joint_bounds = joint_bounds
         self.model = cp_model.CpModel()
         self.indices = {name: i for i, name in enumerate(reference.names)}
         if len(self.indices) != len(reference.names):
@@ -160,6 +135,8 @@ class Builder:
         self.variables, self.new_products = {}, {}
         self.fixed, self.groups = {}, []
         self.rows = []
+        self.row_supports: dict[int, tuple[int, ...]] = {}
+        self.row_constraints: dict[int, tuple[int, ...]] = {}
         self.read_constraints()
         self.group_memberships = defaultdict(list)
         for group_index, (group, _) in enumerate(self.groups):
@@ -176,7 +153,8 @@ class Builder:
         ):
             if row in plan.definition_rows:
                 continue
-            self.rows.append((indices, coefficients, lower, upper))
+            self.rows.append((row, indices, coefficients, lower, upper))
+            self.row_supports[row] = tuple(map(int, indices))
             if len(indices) == 1:
                 possible = [v for v in (0, 1) if lower <= coefficients[0] * v <= upper]
                 if len(possible) == 1:
@@ -350,11 +328,46 @@ class Builder:
         checked(lower, upper)
         variable = self.model.new_int_var(lower, upper, name)
         inactive = []
+        lower_terms, upper_terms = [], []
         for index, coefficient in group:
             choice = self.variable(index)
             self.model.add(variable == coefficient * other.variable).only_enforce_if(choice)
             inactive.append(choice.Not())
+            if self.joint_bounds:
+                ends = (coefficient * other.lower, coefficient * other.upper)
+                lower_terms.append(min(ends) * choice)
+                upper_terms.append(max(ends) * choice)
         self.model.add(variable == 0).only_enforce_if(inactive)
+        if not self.joint_bounds:
+            return variable
+        # At most one group choice is active. These unconditional inequalities
+        # expose its activity to the LP relaxation, including signed factors.
+        self.model.add(variable >= sum(lower_terms))
+        self.model.add(variable <= sum(upper_terms))
+        if len(set(coefficients[1:])) == 1:
+            coefficient = coefficients[1]
+            ends = (coefficient * other.lower, coefficient * other.upper)
+            unselected = 1 - sum(self.variable(index) for index, _ in group)
+            self.model.add(variable >= coefficient * other.variable - max(ends) * unselected)
+            self.model.add(variable <= coefficient * other.variable - min(ends) * unselected)
+        else:
+            # z = y*q with q in the coefficient interval. McCormick envelopes
+            # also link the product to y when different upgrades have different
+            # coefficients; the activity bounds above use each choice's range.
+            choice_value = sum(coefficient * self.variable(index) for index, coefficient in group)
+            lo, hi = min(coefficients), max(coefficients)
+            self.model.add(
+                variable >= other.lower * choice_value + lo * other.variable - other.lower * lo
+            )
+            self.model.add(
+                variable >= other.upper * choice_value + hi * other.variable - other.upper * hi
+            )
+            self.model.add(
+                variable <= other.upper * choice_value + lo * other.variable - other.upper * lo
+            )
+            self.model.add(
+                variable <= other.lower * choice_value + hi * other.variable - other.lower * hi
+            )
         return variable
 
     def product(self, values, name):
@@ -382,22 +395,27 @@ class Builder:
             self.model.add_multiplication_equality(variable, [value.variable for value in dynamic])
         return Value(variable, unit, lower, upper)
 
-    def build(self):
+    def add_reference_rows(self):
         from games.tw.competition import integer_row
 
-        for index in range(len(self.reference.names)):
-            if index not in self.products:
-                self.variable(index)
-        for indices, coefficients, lower, upper in self.rows:
+        for row, indices, coefficients, lower, upper in self.rows:
             bounds = [v for v in (lower, upper) if isfinite(v)]
             integers = integer_row([*coefficients, *bounds])
             expression = sum(c * self.variable(i) for i, c in zip(indices, integers, strict=False))
             position = len(indices)
+            emitted = []
             if isfinite(lower):
-                self.model.add(expression >= integers[position])
+                emitted.append(self.model.add(expression >= integers[position]).index)
                 position += 1
             if isfinite(upper):
-                self.model.add(expression <= integers[position])
+                emitted.append(self.model.add(expression <= integers[position]).index)
+            self.row_constraints[row] = tuple(emitted)
+
+    def build(self):
+        for index in range(len(self.reference.names)):
+            if index not in self.products:
+                self.variable(index)
+        self.add_reference_rows()
         economy = self.plan.economy
         extras = economy.non_tax_income()
         groups = {}
@@ -405,6 +423,8 @@ class Builder:
             tax = economy.tax_factor(region)
             keep = add({(): 1}, {term: -c for term, c in economy.corruption(region).items()})
             key = (tuple(sorted(tax.items())), tuple(sorted(keep.items())))
+            if self.joint_bounds:
+                key = (economy.owner[region.name], *key)
             wealth = groups.get(key, ({}, tax, keep))[0]
             groups[key] = (add(wealth, economy.wealth(region)), tax, keep)
         objectives = []
@@ -416,7 +436,13 @@ class Builder:
             ]
             objectives.append(self.product(factors, f"__income_{i}"))
         self.income_groups = len(groups)
-        objectives.append(self.expression(extras, "__other_income"))
+        if self.joint_bounds:
+            objectives.extend(
+                Value(self.monomial(term) if term else 1, coefficient, 0 if term else 1, 1)
+                for term, coefficient in self.simplify(extras).items()
+            )
+        else:
+            objectives.append(self.expression(extras, "__other_income"))
         unit = common_unit([value.unit for value in objectives])
         coefficients = [int(value.unit / unit) for value in objectives]
         checked(

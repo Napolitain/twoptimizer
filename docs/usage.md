@@ -322,8 +322,24 @@ at most ten seconds; Cancel may wait for that native stage to return because the
 pinned backend cannot interrupt it. Force stop remains available.
 The [Rome II joint-bounds report](rome-joint-bounds.md) gives the measured income,
 bound, gap, timings and memory, including unfinished proof statuses. Worker
-selection remains automatic. This stage is specific to Rome II; it is not a
-performance claim for Attila or Shogun 2.
+selection remains automatic. Those measurements do not establish a performance
+gain for Attila or Shogun 2.
+Eligible joint Attila CP-SAT runs use a separate preparatory stage that bounds
+connected groups without a food-price estimate. It temporarily
+relaxes only identified cross-province reference rows for bounds and projects
+their optimistic external contributions back into each group. The final search
+retains all original food, order, religious and building requirements. Combined candidates
+must pass the complete native model and expanded reference checks. Preparation
+requires at least four provinces and four connected groups, uses the same
+40-second/two-thirds allowance caps, and is skipped with less than 45 seconds
+remaining. Each group gets at most one configured second; independent components
+use one worker each, running concurrently within the machine's CPU allocation.
+Final joint search uses the full allocation. Simpler quadratic income models
+retain their expanded formulation; holdings below four provinces keep their
+original native formulation and skip this preparation. The
+[Attila report](attila-joint-bounds.md) records higher income and a tighter remaining gap in matched full-world ERE
+runs, with modestly higher wall time and memory. It does not establish time to
+a proved optimum.
 The [joint-model investigation](joint-scaling.md) records reductions in model
 construction time and the remaining difficulty of proving full-world optima.
 The [CP-SAT/HiGHS comparison](cpsat-highs-performance.md) records the supported
