@@ -5,6 +5,7 @@ from pathlib import Path
 
 MODEL_SOURCES = (
     "model.py",
+    "linear.py",
     "compiler.py",
     "optimization.py",
     "backends.py",

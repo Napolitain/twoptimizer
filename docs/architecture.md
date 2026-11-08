@@ -144,3 +144,26 @@ Shared test factories live under `tests/support`; fixtures are registered in
 regressions cover caller mutation, nested catalog writes, exports, cache refresh,
 model isolation, repeated solver builds and constant native constraints, alongside
 the existing independent economic calculations and model signatures.
+
+## Integrated solver formulations
+
+The concurrent `bd60b0c` solver changes are retained in this module structure.
+Attila's compact income formulation keeps the expanded model as its validation
+reference and reconstructs every auxiliary before checking the result. Rome's
+linear products and CP-SAT import live alongside the extracted compiler/backend
+modules, and proof indices still refer to the canonical model. The exhaustive
+layout and warm-start regressions for those formulations remain part of the suite.
+
+The integrated architecture was compared against `bd60b0c` with the same locked
+Python 3.14 environment, default scenarios, one worker and three serial samples.
+All three games produced identical result fingerprints, including income,
+status, metrics and selected buildings. Observed median seconds were:
+
+| Game | Incoming solver implementation | Integrated architecture |
+| --- | ---: | ---: |
+| Attila | 0.705 | 0.684 |
+| Rome II | 1.034 | 0.966 |
+| Shogun 2 | 0.0152 | 0.0122 |
+
+Sample ranges overlap. These measurements show no observed slowdown on the
+checked workloads; they do not establish a general speedup.

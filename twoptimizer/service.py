@@ -92,6 +92,7 @@ def source_files(game):
             for name in (
                 "model.py",
                 "compiler.py",
+                "linear.py",
                 "optimization.py",
                 "backends.py",
                 "scenario.py",
@@ -140,6 +141,7 @@ def source_files(game):
                     "attila/economy.py",
                     "attila/algebra.py",
                     "attila/compiler.py",
+                    "attila/compact.py",
                     "attila/reporting.py",
                     "attila/scenario.py",
                     "attila/scenario_validation.py",
@@ -154,6 +156,8 @@ def source_files(game):
                     "region.py",
                     "province.py",
                     "problem.py",
+                    "solver_ortools.py",
+                    "solver_cpsat.py",
                     "parser/parser.py",
                     "parser/parser_attila.py",
                 )

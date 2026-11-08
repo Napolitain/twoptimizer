@@ -92,3 +92,59 @@ def test_partial_mutation_run_fails_the_gate(monkeypatch, tmp_path):
     stats["total"] = 3
     install_runner(monkeypatch, tmp_path, stats)
     assert mutation.main() == 1
+
+
+@pytest.mark.parametrize(
+    "outcome, expected",
+    [
+        ("killed", 0),
+        ("survived", 1),
+        ("not checked", 1),
+        ("no tests", 1),
+        ("unexpected status", 1),
+    ],
+)
+def test_explicit_scope_checks_all_selected_outcomes(monkeypatch, tmp_path, outcome, expected):
+    install_runner(monkeypatch, tmp_path, successful_stats())
+    monkeypatch.setattr(sys, "argv", ["mutation.py", "--scope", "target.*", "--max-children", "2"])
+    calls = []
+
+    def run(argv, **kwargs):
+        calls.append(argv)
+        if argv[1] == "export-cicd-stats":
+            Path("mutants/mutmut-cicd-stats.json").write_text(json.dumps(successful_stats()))
+        return subprocess.CompletedProcess(
+            argv,
+            0,
+            stdout=f"target.first: killed\ntarget.second: {outcome}\nother.fn: not checked\n",
+        )
+
+    monkeypatch.setattr(mutation.subprocess, "run", run)
+    assert mutation.main() == expected
+    assert calls[0] == ["mutmut", "run", "--max-children", "2", "target.*"]
+    report = json.loads(Path("mutants/mutmut-scoped-stats.json").read_text())
+    assert ["mutmut", "results", "--all", "true"] in calls
+    assert report["total"] == 2
+    assert report["scope"] == ["target.*"]
+
+
+def test_empty_scope_never_passes(monkeypatch, tmp_path):
+    install_runner(monkeypatch, tmp_path, successful_stats())
+    monkeypatch.setattr(sys, "argv", ["mutation.py", "--scope", "missing.*"])
+
+    def run(argv, **kwargs):
+        if argv[1] == "export-cicd-stats":
+            Path("mutants/mutmut-cicd-stats.json").write_text(json.dumps(successful_stats()))
+        return subprocess.CompletedProcess(argv, 0, stdout="other.fn: killed\n")
+
+    monkeypatch.setattr(mutation.subprocess, "run", run)
+    assert mutation.main() == 1
+
+
+def test_malformed_scoped_results_fail_closed(monkeypatch):
+    def run(argv, **kwargs):
+        return subprocess.CompletedProcess(argv, 0, stdout="target.function killed\n")
+
+    monkeypatch.setattr(mutation.subprocess, "run", run)
+    with pytest.raises(ValueError, match="Unrecognized mutation result"):
+        mutation.scoped_stats(["target.*"])

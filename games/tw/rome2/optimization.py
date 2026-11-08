@@ -11,6 +11,7 @@ from ortools.sat.python import cp_model
 
 from games.tw.immutable import thaw
 from games.tw.resources import resolve_workers
+from games.tw.rome2.backends import NativeCP
 
 if TYPE_CHECKING:
     from games.tw.rome2.model import Economy
@@ -197,16 +198,19 @@ class RomeOptimizer:
         algorithm = "cp-sat"
         if not hasattr(self.economy, "_prepared"):
             self.economy.fingerprint()
-        problem = self.economy._prepared
+        canonical = self.economy._prepared
+        problem = NativeCP.from_linear(self.economy.build())
         self._cpsat_hints(incumbent, problem)
         error = problem.model.validate()
         if error:
             raise ValueError(error)
         solver = cp_model.CpSolver()
         if seconds is not None:
-            solver.parameters.max_time_in_seconds = seconds
+            solver.parameters.max_time_in_seconds = max(0.001, seconds - (perf_counter() - start))
         solver.parameters.num_search_workers = workers
         solver.parameters.random_seed = 0
+        solver.parameters.linearization_level = 2
+        search_start = perf_counter()
         status = solver.solve(problem.model)
         report = {
             "scenario": self.economy.scenario.to_dict(),
@@ -219,6 +223,11 @@ class RomeOptimizer:
                 "variables": len(problem.model.proto.variables),
                 "constraints": len(problem.model.proto.constraints),
                 "workers": workers,
+                "formulation": "linearized_income",
+                "timings": {
+                    "model_conversion_seconds": search_start - start,
+                    "search_seconds": perf_counter() - search_start,
+                },
             },
             "exclusions": dict(self.economy.exclusions),
         }
@@ -239,11 +248,14 @@ class RomeOptimizer:
             report["solver"].update(objective=objective, bound=solver.best_objective_bound / 10000)
             report.update(economics)
             report["proof_fingerprint"] = self.economy._fingerprint
-            report["selected_decision_indices"] = [
-                v.index
+            selected = {
+                v.name
                 for v in problem.variables
                 if (v.name in self.economy.decisions or v.name in self.economy.party_variables)
                 and solver.value(v)
+            }
+            report["selected_decision_indices"] = [
+                v.index for v in canonical.variables if v.name in selected
             ]
         return thaw(report)
 
@@ -252,4 +264,8 @@ class RomeOptimizer:
             values = self.economy.warm_values(incumbent)
             problem.model.clear_hints()
             for variable in problem.variables:
-                problem.model.add_hint(variable, values[variable.name])
+                if (
+                    variable.name in self.economy.decisions
+                    or variable.name in self.economy.party_variables
+                ):
+                    problem.model.add_hint(variable, values[variable.name])

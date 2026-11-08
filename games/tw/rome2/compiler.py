@@ -10,6 +10,7 @@ from ortools.linear_solver import linear_solver_pb2, pywraplp
 
 from games.tw.rome2.backends import NativeCP, NativeSCIP
 from games.tw.rome2.effects import CATEGORIES, raw_effect
+from games.tw.rome2.linear import LinearProducts, preserve_base_domain, preserve_minor_domains
 from games.tw.rome2.placement import branch
 
 if TYPE_CHECKING:
@@ -88,9 +89,9 @@ class RomeCompiler:
         food, order = terms.food, terms.order
         solver.Add(food >= 0)
         solver.Add(order >= self.economy.scenario.minimum_order)
-        aux_counter = 0
+        products = LinearProducts(self.economy, solver, choices, parties)
 
-        def selection_upper(terms):
+        def native_upper(terms):
             amounts = defaultdict(int)
             for amount, variable in terms:
                 amounts[variable_name(variable)] += amount
@@ -107,21 +108,14 @@ class RomeCompiler:
             upper += max((max(0, amounts[variable_name(v)]) for v in parties.values()), default=0)
             return upper
 
-        def selected_product(expression, selector, upper):
-            nonlocal aux_counter
-            aux_counter += 1
-            y = solver.IntVar(0, upper, f"selected_product:{aux_counter}")
-            solver.Add(y <= upper * selector)
-            solver.Add(y <= expression)
-            solver.Add(y >= expression - upper * (1 - selector))
-            return y
+        selection_upper = native_upper if native else products.selection_upper
 
         wealth, upper_wealth, combined_upper_terms = self._compile_wealth(
             terms,
             selection_upper,
             solver,
             native,
-            selected_product,
+            products.weighted_products,
         )
         total_wealth = sum(wealth)
         upper_wealth = min(upper_wealth, selection_upper(combined_upper_terms))
@@ -147,10 +141,7 @@ class RomeCompiler:
             solver.Add(rate == factor + sum(amount * variable for amount, variable in tax))
             solver.multiply(income, w, rate)
         else:
-            income = factor * total_wealth + sum(
-                amount * selected_product(total_wealth, variable, upper_wealth)
-                for amount, variable in tax
-            )
+            income = products.income(total_wealth, factor, tax, upper_wealth)
         solver.Maximize(income + sum(amount * 10000 * variable for amount, variable in flat_income))
         self.economy.decisions, self.economy.party_variables = (
             decision_names,
@@ -175,7 +166,7 @@ class RomeCompiler:
             signatures[group] = signature
 
     def _compile_wealth(
-        self, terms: EffectTerms, selection_upper, solver, native, selected_product
+        self, terms: EffectTerms, selection_upper, solver, native, weighted_products
     ):
         base, modifiers = terms.base, terms.modifiers
         minor_base, minor_modifiers = terms.minor_base, terms.minor_modifiers
@@ -212,14 +203,11 @@ class RomeCompiler:
                 )
                 solver.multiply(w, b, rate)
             else:
+                preserve_base_domain(solver, expression, base[category])
                 solver.Add(
                     w
                     == constant * expression
-                    + sum(
-                        amount * selected_product(expression, lookup[name], upper)
-                        for name, amount in grouped.items()
-                        if amount
-                    )
+                    + weighted_products(expression, modifiers[category], upper)
                 )
             wealth.append(w)
             upper_wealth += upper_category
@@ -247,13 +235,13 @@ class RomeCompiler:
                     solver.Add(r_minor == minor_constant + sum(a * v for a, v in minor_modifiers))
                     solver.multiply(extra, b_minor, r_minor)
                 else:
+                    preserve_minor_domains(
+                        solver, minor_expression, minor_base[category], minor_modifiers
+                    )
                     solver.Add(
                         extra
                         == minor_constant * minor_expression
-                        + sum(
-                            a * selected_product(minor_expression, v, minor_upper)
-                            for a, v in minor_modifiers
-                        )
+                        + weighted_products(minor_expression, minor_modifiers, minor_upper)
                     )
                 wealth.append(extra)
                 upper_wealth += extra_upper

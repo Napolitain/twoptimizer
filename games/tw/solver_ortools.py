@@ -15,6 +15,9 @@ class SolverOrTools(Solver):
         self.objective.SetMaximization()
         self.variables_list = []  # Maintain variables for retrieval
         self.constraints_list = []  # Maintain constraints for retrieval
+        self.product_definitions = {}
+        self.product_constraint_indices = set()
+        self.compact_economy = None
 
     def __iadd__(self, other):
         """Supports adding constraints or objective terms using `+=`."""
@@ -135,9 +138,27 @@ class SolverOrTools(Solver):
 
     def create_product(self, left, right, name):
         result = self.solver.BoolVar(name)
+        self.product_definitions[result.name()] = (left.name(), right.name())
         for expression in (result <= left, result <= right, result >= left + right - 1):
-            self.constraints_list.append(self.solver.Add(expression))
+            constraint = self.solver.Add(expression)
+            self.constraints_list.append(constraint)
+            self.product_constraint_indices.add(constraint.index())
         return result
+
+    def binary_model(self):
+        """Keep the reference MILP and attach an equivalent compact CP model."""
+        from games.tw.competition import BinaryModel
+
+        model = BinaryModel.from_solver(self.solver)
+        if self.compact_economy is not None:
+            from games.tw.attila.compact import CompactIncome
+
+            model.cp_sat_plan = CompactIncome(
+                self.compact_economy,
+                self.product_definitions,
+                self.product_constraint_indices,
+            )
+        return model
 
     def add_objective_terms(self, terms):
         self.solver.Maximize(self.solver.Sum(terms))

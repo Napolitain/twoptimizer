@@ -52,6 +52,28 @@ conversion/search/validation times. Attila and Shogun 2 exact solvers use sparse
 constraints, avoiding a large mostly empty matrix (the ERE/Thracia case drops
 from 153.5 MB to 0.49 MB of constraint storage).
 
+CP-SAT now uses an exact linear formulation for Rome II, with bounds and product
+constraints derived from the existing slot and branch limits. Attila factors
+shared wealth/tax/corruption calculations when income contains cubic products;
+simpler quadratic objectives keep the expanded Boolean model. Both paths retain
+the original economic evaluator and independently validate the selected layout.
+
+Python 3.12 measurements with four automatically selected CPUs, including
+repeated runs after integrating the engine API refactor:
+
+| Case | Previous solver time | Revised solver time | Full TUI worker | Proven income |
+| --- | ---: | ---: | ---: | ---: |
+| Rome II: Rome, Italia, research disabled | Unproved after 20 s | 7.5–12.4 s | 8.1–13.0 s | 9,733.80 |
+| Attila: ERE, Thracia, fertility 5, all technologies | 9.36 s | 0.34–0.38 s | 1.3–1.6 s | 24,140.375 |
+
+These are same-machine measurements; parallel search timings vary. All revised
+cases above ran without a time limit and finished `OPTIMAL`. Python 3.14 also
+proved the same incomes: 9.5–11.6 s total for Rome/Italia and about 2.2 s for
+ERE/Thracia. The broader
+[formulation comparison](../reports/solver-formulation-comparison.json) includes
+remaining hard cases: Iceni/Italia was still unproved after 20 seconds. Normal
+runs continue to completion, with automatic CPU selection and cancellation.
+
 The TUI currently configures one province/holding per run. The CLI retains joint
 province optimization, campaign JSON inputs and the other existing advanced options.
 Installed wheels include the game data; a Git checkout is not required to run them.

@@ -6,6 +6,7 @@ from dataclasses import replace
 
 import pytest
 
+from games.tw.rome2.backends import NativeCP
 from games.tw.rome2.catalog import load_data
 from games.tw.rome2.effects import CATEGORIES, fact_effect, raw_effect
 from games.tw.rome2.import_data import entity, named_regions
@@ -44,6 +45,51 @@ def test_all_exact_solvers_match_exhaustive_original_economics(tiny, algorithm):
     assert report["solver"]["bound"] == pytest.approx(best)
 
 
+def test_linear_cp_preserves_every_layout_including_branch_and_slot_limits(tiny):
+    from ortools.sat.python import cp_model
+
+    alpha = copy.deepcopy(tiny["buildings"]["rome_religious_alpha_4"])
+    alpha.update(id="rome_religious_alpha_3", level=3)
+    tiny["buildings"][alpha["id"]] = alpha
+    economy = Economy(tiny_scenario(), tiny)
+    linear = NativeCP.from_linear(economy.build())
+    variables = {v.name: v for v in linear.variables}
+    optional = [
+        "rome_religious_alpha_3",
+        "rome_religious_alpha_4",
+        "rome_religious_beta_4",
+    ]
+    for bits in itertools.product((0, 1), repeat=6):
+        layout = {
+            "capital": ["rome_city_4"]
+            + [key for key, bit in zip(optional, bits[:3], strict=True) if bit],
+            "town": ["rome_town_4"]
+            + [key for key, bit in zip(optional, bits[3:], strict=True) if bit],
+        }
+        for party in economy.parties:
+            pinned = linear.model.clone()
+            for name, (site, key) in economy.decisions.items():
+                pinned.add(
+                    pinned.get_int_var_from_proto_index(variables[name].index)
+                    == int(key in layout[site])
+                )
+            for name, index in economy.party_variables.items():
+                pinned.add(
+                    pinned.get_int_var_from_proto_index(variables[name].index)
+                    == int(index == party)
+                )
+            solver = cp_model.CpSolver()
+            solver.parameters.num_search_workers = 1
+            status = solver.solve(pinned)
+            try:
+                income = economy.evaluate(layout, party)["domestic_net_income"]
+            except ValueError:
+                assert status == cp_model.INFEASIBLE
+            else:
+                assert status == cp_model.OPTIMAL
+                assert solver.objective_value / 10000 == pytest.approx(income)
+
+
 def test_hand_calculated_category_modifiers_tax_and_corruption(tiny):
     scenario = replace(tiny_scenario(party=0), corruption_points=5)
     economy = Economy(scenario, tiny)
@@ -56,6 +102,22 @@ def test_hand_calculated_category_modifiers_tax_and_corruption(tiny):
     assert report["domestic_tax_income"] == pytest.approx(195 * 1.05)
     assert report["food_surplus"] == 3
     assert report["tax_modifier_percent_net"] == 5
+
+
+def test_linear_cp_retains_canonical_nonnegative_tax_domain(tiny):
+    from ortools.sat.python import cp_model
+
+    tiny["buildings"]["rome_religious_beta_4"]["effects"].append(
+        effect("rom_building_tax_level", -20, "this_province")
+    )
+    assert raw_effect("rom_building_tax_level", -20).kind == "tax_percent"
+    economy = Economy(tiny_scenario(tax_points=-100, party=0), tiny)
+    for problem in (economy.build(native=True), NativeCP.from_linear(economy.build())):
+        beta = next(v for v in problem.variables if v.name == "capital:rome_religious_beta_4")
+        problem.model.add(beta == 1)
+        solver = cp_model.CpSolver()
+        solver.parameters.num_search_workers = 1
+        assert solver.solve(problem.model) == cp_model.INFEASIBLE
 
 
 def test_minor_settlement_bonus_does_not_apply_to_capital(tiny):
@@ -270,12 +332,17 @@ def test_validated_warm_start_and_corruption_floor(tiny):
     scenario = replace(tiny_scenario(party=0), corruption_points=5)
     first = Economy(scenario, tiny).optimize()
     assert first["effective_corruption_points"] == 0
+    warmed = Economy(scenario, tiny).optimize("cp-sat", incumbent=first)
+    assert warmed["solver"]["status"] == "OPTIMAL"
+    assert warmed["domestic_net_income"] == first["domestic_net_income"]
     second = Economy(scenario, tiny).optimize("scip-nonlinear", incumbent=first)
     assert second["domestic_net_income"] == first["domestic_net_income"]
     bad = copy.deepcopy(first)
     bad["domestic_net_income"] += 10
     with pytest.raises(ValueError, match="Warm start"):
         Economy(scenario, tiny).optimize("scip-nonlinear", incumbent=bad)
+    with pytest.raises(ValueError, match="Warm start"):
+        Economy(scenario, tiny).optimize("cp-sat", incumbent=bad)
 
 
 def test_real_provinces_join_resources_and_scoped_modifiers():
