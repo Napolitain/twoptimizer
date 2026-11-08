@@ -10,6 +10,11 @@ editing. Inspect the branch and worktree; preserve unrelated user changes and
 keep the work focused on the requested outcome. Finish implementation,
 verification and documentation together.
 
+Review the technical assumptions behind user requests and suggest concrete
+improvements when evidence supports them. Distinguish preferences, measured
+results and hypotheses; explain material tradeoffs while continuing authorized
+work without unnecessary approval requests.
+
 Prefer small, clear changes that fit the existing design. Keep entry points thin,
 put reusable behavior in testable modules, and refactor excessive complexity
 instead of suppressing checks. Do not weaken warnings, type checks, safety rules,
