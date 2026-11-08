@@ -87,8 +87,22 @@ that there is nothing to compare. Normal run defaults remain unchanged.
 - Compare exact solvers runs CP-SAT and HiGHS on the same selected
   holding. All-faction research runs explicitly list unavailable profiles.
 
-Solves run in separate processes, so cancellation and exit stop the active solver
-while keeping completed results. Exports include scenario settings, source hashes,
+The first **Cancel** or **Esc** requests a graceful stop and prevents later batch
+cases from starting. CP-SAT stops search, independently validates its best
+candidate when one exists, and returns the layout with its bound and gap. This
+result can be inspected and exported alongside earlier completed cases. Without
+a candidate or proof, the stopped result is `UNKNOWN`; it does not establish
+infeasibility. If a proof completed before the stop took effect, its terminal
+status remains valid.
+
+While stopping, the button becomes **Force stop**. Pressing it (or **Esc** again)
+terminates the active worker and may discard its candidate. Quit also terminates
+the worker. During preparation or validation, a graceful request can take time
+to reach a stopping point. The pinned OR-Tools 9.15 HiGHS backend does not honor
+native interruption: Cancel still prevents later cases but can wait for the
+current native solve; Force stop is available to end that wait.
+
+Exports include scenario settings, source hashes,
 assumptions and the original engine result. Reports default to
 `benchmark-results/tui/`; the export dialog accepts another filename and protects
 existing JSON/CSV files unless replacement is explicitly selected. Model notes
@@ -162,9 +176,12 @@ Comparison JSON stores the cost summary, changed buildings and full baseline
 result under `raw.constraint_comparison`. CSV adds comparison status, baseline
 income, exact cost when known, lower/upper cost bounds and the observed difference.
 An empty bound or exact-cost field means unavailable, not zero.
-Cancel stops the active worker
-and preserves completed cases. The CLI retains campaign JSON inputs and its existing
-advanced options.
+The requested constraints are solved first, so cancellation can retain a layout
+that meets them. If the baseline is unfinished or skipped, the comparison remains
+bounded or unavailable; the retained layout never substitutes the relaxed baseline.
+Graceful cancellation retains any independently validated current result and
+earlier completed cases; Force stop may discard the active candidate. The CLI
+retains campaign JSON inputs and its existing advanced options.
 Installed wheels include the game data; a Git checkout is not required to run them.
 
 The preview counts selected provinces, joint/independent mode, factions, solver
@@ -183,8 +200,8 @@ The TUI reuses one engine process across a batch, so independent cases pay Pytho
 and native-library startup once. Each case still builds its own model. Solver CPU
 parallelism comes from the machine's available cores and container allocation,
 not the number of provinces. Later cases report dispatch time instead of another
-startup time. Cancel stops the active native solve; starting a new batch creates a
-fresh process.
+startup time. Cancel requests a graceful stop before the batch ends; starting a
+new batch creates a fresh process.
 
 The CLI uses the same application service as the TUI. Existing commands and
 comparison report formats remain available:
@@ -267,12 +284,16 @@ limits remain available; no limit is imposed by default. The configured time
 limit is a solver allowance, not a wall-clock deadline. Some backends charge model
 conversion against it; loading, compilation and result validation can make total
 wall time exceed it.
-Cancel also stops a case during those preparation stages.
+Cancel can also be requested during preparation; Force stop ends the active
+worker if waiting for a graceful stopping point takes too long.
 During CP-SAT search, the TUI shows candidate income, the upper bound, the gap
 and elapsed search time separately from completed, validated results. Solver
 model counts arrive before search begins. These observations do not impose a
-time limit or change the objective. Cancel retains completed cases; the active
-case's displayed candidate is not a saved result.
+time limit or change the objective. A live candidate becomes a saved result only
+after independent validation, including when CP-SAT returns it following a
+graceful Cancel. The retained bound and gap describe unresolved proof work.
+A 2% gap describes the upper bound's remaining allowance; the layout may already
+be optimal. It does not prove that another layout earns more.
 The **Runtime** tab adds time to the first observed candidate and the age of the
 last layout and bound improvements. Its clocks keep advancing during quiet
 search. Before Run, the runtime outlook uses narrowly matched historical

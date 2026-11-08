@@ -63,7 +63,15 @@ layout; click column headings to sort.
 **Ctrl+R** Run · **Esc** Cancel current batch · **Ctrl+S** Export JSON + CSV ·
 **F1** Help · **Ctrl+Q** Quit
 
-Cancellation stops the active solver process and preserves completed cases.
+Press **Cancel** once to stop CP-SAT search gracefully. Its best candidate is
+independently validated and retained with its bound and gap; later batch cases
+will not start. A stopped solve without a candidate or proof is **UNKNOWN**.
+An already completed proof retains its terminal status.
+The button becomes **Force stop**: pressing it, **Esc** again, or Quit terminates
+the worker and may discard the active candidate. Preparation and validation can
+take time to reach a stopping point. HiGHS does not honor native interruption
+in the pinned backend, so Cancel can wait for its current solve; use Force stop
+to end that wait. Earlier completed results stay available while the app is open.
 Runs have no time limit by default: they continue to an optimality or infeasibility
 proof. Enable the optional time limit to allow an earlier, unfinished result.
 CPU parallelism is selected automatically for supported backends.
@@ -80,8 +88,9 @@ Counts describe models before presolve; they do not predict runtime.
 the same settings in this session. These are observations, not an ETA. During
 CP-SAT search it shows the first candidate and time since the layout or bound
 last improved; clocks keep advancing during quiet search. A small gap or a quiet
-interval cannot predict minutes, hours or weeks to completion. Cancelled runs
-remain unfinished observations. Session timing history survives Clear results
+interval cannot predict minutes, hours or weeks to completion. A 2% gap describes
+unresolved upper-bound room; the current layout may already be optimal. Stopped runs
+without a proof remain unfinished observations. Session timing history survives Clear results
 and disappears when you quit. HiGHS does not stream candidate/bound activity here.
 
 **OPTIMAL** is a solver proof for the stated model. **FEASIBLE** is a valid layout

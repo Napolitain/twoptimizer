@@ -5,8 +5,9 @@ from twoptimizer.progress import PhaseTimer, SearchStats
 
 
 def search_observers(phase: PhaseTimer, label: str, decisions) -> dict:
+    observers = {} if phase.cancellation is None else {"cancellation": phase.cancellation}
     if phase.progress is None:
-        return {}
+        return observers
 
     def search(objective, bound, elapsed):
         # The engine observer already throttles; preserve its forced first/final events.
@@ -15,4 +16,4 @@ def search_observers(phase: PhaseTimer, label: str, decisions) -> dict:
     def model(stats):
         record_cp_result(phase, {"algorithm": "cp-sat", "model_stats": stats}, decisions())
 
-    return {"on_search": search, "on_model": model}
+    return {**observers, "on_search": search, "on_model": model}

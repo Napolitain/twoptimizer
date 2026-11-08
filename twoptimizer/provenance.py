@@ -100,6 +100,8 @@ def source_files(game):
         ]
     paths.append(ROOT / "immutable.py")
     paths.append(ROOT / "highs_backend.py")
+    paths.append(ROOT / "search_progress.py")
+    paths.append(ROOT / "cancellation.py")
     paths.append(ROOT / "maps/catalog.py")
     map_path = ROOT / game / "data/campaign_map.json"
     if map_path.exists():
@@ -116,6 +118,7 @@ def source_files(game):
         application / "holdings.py",
         application / "progress.py",
         application / "adapters" / "model_stats.py",
+        application / "adapters" / "search.py",
         application / "adapters" / f"{game}.py",
     ]
     if game == "rome2":

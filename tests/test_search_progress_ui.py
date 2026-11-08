@@ -137,13 +137,15 @@ def test_constraint_comparison_preserves_search_units_and_side_label(monkeypatch
     stats = SearchStats("CP-SAT", 90, 100, 1.25, unit="income/turn")
     completed = object()
 
-    def solve(config, progress, session):
+    def solve(config, progress, session, cancellation):
         progress(stats)
         return completed
 
     monkeypatch.setattr(service, "solve_case", solve)
     events = []
-    returned = service._comparison_side(RunConfig(), "Without requirements", events.append, None)
+    returned = service._comparison_side(
+        RunConfig(), "Without requirements", events.append, None, None
+    )
     assert returned is completed
     assert events == [SearchStats("Without requirements: CP-SAT", 90, 100, 1.25)]
 

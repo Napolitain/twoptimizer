@@ -178,9 +178,18 @@ decodes each request, invokes `solve_case` and atomically publishes its result o
 error before acknowledging the request. It does not share incumbents or proofs
 between cases. Foreground CLI cases call the same service synchronously.
 Worker startup/dispatch/wall timings belong to the execution layer;
-model and solver phase timings belong to the case. Cancelling the active TUI
-worker preserves already completed case results for viewing and export.
-Shutdown reaps the subprocess and removes its temporary files. Solver CPU
+model and solver phase timings belong to the case. The first TUI cancellation
+request prevents dispatch of later cases and asks the active solver to stop
+gracefully. CP-SAT returns its current incumbent through the ordinary independent
+validation and result-adaptation path; a validated FEASIBLE layout retains its
+bound and gap. No candidate or proof produces UNKNOWN, not INFEASIBLE. An
+already completed proof remains terminal.
+
+Force stop and shutdown terminate and reap the subprocess, which may discard
+the active incumbent. Earlier completed results remain available in the running
+UI. The pinned OR-Tools 9.15 HiGHS native solve ignores interruption; a graceful
+request stops subsequent cases but may wait for that solve to return. Temporary
+files are removed during cleanup. Solver CPU
 parallelism remains automatic from the machine's available allocation; the
 number of selected provinces does not set the solver's thread count.
 
@@ -201,7 +210,10 @@ application events. Delivery is throttled, with first candidate and final
 observations preserved. A missing candidate remains absent, and an UNKNOWN
 response's default zero is not presented as a proved bound. Model counts arrive
 before search. The TUI displays search observations separately from validated
-case results and never exports an unfinished candidate as a completed layout.
+case results. A graceful CP-SAT stop can publish a candidate only after the same
+independent validation used for ordinary solver completion. Its FEASIBLE status
+and remaining bound gap are preserved; stopping does not manufacture an
+optimality or infeasibility proof.
 
 `runtime_view.RuntimeView` owns TUI case timing and coordinates the runtime
 display without invoking solvers. `search_activity.SearchActivity` tracks best
@@ -322,7 +334,10 @@ negative-income incumbents and contradictory bounds.
 income-only inputs and typed request boundaries. `tests/test_tui_lifecycle.py`
 checks direct/worker equivalence, typed campaign serialization, portable errors,
 and cancellation of a real native worker while retaining a completed case and
-its JSON/CSV export. Upstream province-picker, border and Rome snapshot replay
+its JSON/CSV export. Cancellation regressions also exercise native CP-SAT stops,
+worker transport, retained incumbent validation, constraint comparisons and TUI
+export after stopping. Force termination remains separately tested.
+Upstream province-picker, border and Rome snapshot replay
 regressions remain in the suite.
 
 ## Repeatable performance checks

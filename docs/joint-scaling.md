@@ -145,10 +145,14 @@ Values use original income units. Events are throttled while retaining the first
 candidate and final observation. A missing incumbent remains absent; UNKNOWN
 does not create a zero bound from a solver default.
 
-Live candidates remain separate from validated results. Cancel stops the active
-case and retains completed cases; it does not save the active candidate as a
-finished layout. Solver workers remain automatic, and no time limit or relaxed
-optimality criterion was added.
+At the measured revision, live candidates remained separate from validated
+results, and Cancel terminated the active case without saving its candidate.
+The current TUI instead requests a graceful CP-SAT stop and independently
+validates any returned candidate before retaining it with the bound and gap;
+Force stop can still discard the active candidate. See [usage](usage.md) for the
+current cancellation behavior and HiGHS interruption limitation. The historical
+measurements above are unchanged. Solver workers remain automatic, and no time
+limit or relaxed optimality criterion was added by this investigation.
 
 ## Reproduction
 

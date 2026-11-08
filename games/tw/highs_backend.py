@@ -17,6 +17,7 @@ from time import perf_counter
 from ortools.math_opt import model_pb2
 from ortools.math_opt.python import mathopt
 
+from games.tw.cancellation import Cancellation
 from games.tw.resources import resolve_workers
 
 _SCHEDULER = Lock()
@@ -227,13 +228,25 @@ def _empty_model(proto, report):
     }
 
 
-def solve_highs(proto, seconds=None, workers=None, incumbent=None, seed=0):
+def solve_highs(
+    proto,
+    seconds=None,
+    workers=None,
+    incumbent=None,
+    seed=0,
+    *,
+    cancellation: Cancellation | None = None,
+):
     """Return validated values and a native bound in the linear model's units.
 
     ``bound`` is an upper bound when maximizing and a lower bound when minimizing.
     A configured allowance includes conversion. Partial hints remain optional.
+    Cancellation checkpoints stop preparation; the bundled MathOpt HiGHS backend
+    does not support interruption of an active native search.
     """
     started = perf_counter()
+    if cancellation is not None:
+        cancellation.checkpoint()
     workers = resolve_workers(workers)
     if seconds is not None and (not isfinite(seconds) or seconds <= 0):
         raise ValueError("HiGHS seconds must be positive and finite, or None")
@@ -258,13 +271,15 @@ def solve_highs(proto, seconds=None, workers=None, incumbent=None, seed=0):
         report = _empty_model(proto, report)
     else:
         with _SCHEDULER:
+            if cancellation is not None:
+                cancellation.checkpoint()
             _native_library().Highs_resetGlobalScheduler(1)
-            report = _run(proto, report, started, seconds, incumbent, seed)
+            report = _run(proto, report, started, seconds, incumbent, seed, cancellation)
     report["seconds"] = perf_counter() - started
     return report
 
 
-def _run(proto, report, started, seconds, incumbent, seed):
+def _run(proto, report, started, seconds, incumbent, seed, cancellation):
     model = _native_model(proto)
     hint = _hint(model, proto, incumbent)
     params = mathopt.SolveParameters(
@@ -274,7 +289,12 @@ def _run(proto, report, started, seconds, incumbent, seed):
     params.highs.string_options["parallel"] = "on"
     if seconds is not None:
         params.time_limit = timedelta(seconds=max(0.0, seconds - (perf_counter() - started)))
+    if cancellation is not None:
+        cancellation.checkpoint()
     search_started = perf_counter()
+    # OR-Tools 9.15's HighsSolver::Solve accepts but ignores SolveInterrupter:
+    # https://github.com/google/or-tools/blob/v9.15/ortools/math_opt/solvers/highs_solver.cc#L912
+    # Preserve any returned candidate even if cancellation arrives during search.
     result = mathopt.solve(model, mathopt.SolverType.HIGHS, params=params, model_params=hint)
     report["timings"] = {
         "model_conversion_seconds": search_started - started,

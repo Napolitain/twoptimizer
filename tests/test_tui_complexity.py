@@ -136,7 +136,7 @@ def test_live_model_counts_reset_between_cases_on_cancel_and_settings_changes():
             await app.action_cancel()
             await app.workers.wait_for_complete()
             assert len(app.results) == 1
-            assert "cancelled" in str(app.query_one("#model-size", Static).content)
+            assert "80 vars" in str(app.query_one("#model-size", Static).content)
             app._show_result(app.results[0])
             assert "80 vars" in str(app.query_one("#model-size", Static).content)
             app.query_one("#world-bonuses", Checkbox).value = False

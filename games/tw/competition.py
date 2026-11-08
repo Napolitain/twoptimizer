@@ -97,10 +97,12 @@ def integer_row(values):
     return integers
 
 
-def highs_solve(model, seconds, seed, workers=None):
+def highs_solve(model, seconds, seed, workers=None, *, cancellation=None):
     """Export sparse binary coefficients to the shared general HiGHS adapter."""
     from games.tw.highs_backend import solve_highs
 
+    if cancellation is not None:
+        cancellation.checkpoint()
     start = perf_counter()
     proto = linear_solver_pb2.MPModelProto(maximize=True, objective_offset=model.offset)
     for name, profit in zip(model.names, model.profit, strict=True):
@@ -122,7 +124,9 @@ def highs_solve(model, seconds, seed, workers=None):
         )
     exported = perf_counter() - start
     remaining = None if seconds is None else max(0.001, seconds - exported)
-    report = solve_highs(proto, seconds=remaining, workers=workers, seed=seed)
+    report = solve_highs(
+        proto, seconds=remaining, workers=workers, seed=seed, cancellation=cancellation
+    )
     result = Result(
         **{key: value for key, value in report.items() if key in Result.__dataclass_fields__}
     )
@@ -132,23 +136,7 @@ def highs_solve(model, seconds, seed, workers=None):
     return result
 
 
-def sat_solve(model, seconds, seed, workers=None, *, on_search=None, on_model=None):
-    workers = resolve_workers(workers)
-    start = perf_counter()
-    deadline = None if seconds is None else perf_counter() + seconds
-    fallback_reason = None
-    if model.cp_sat_plan is not None:
-        from games.tw.attila.compact import UnsupportedCompact
-
-        try:
-            observers = {
-                key: value
-                for key, value in (("on_search", on_search), ("on_model", on_model))
-                if value is not None
-            }
-            return model.cp_sat_plan.solve(model, seconds, seed, workers, **observers)
-        except UnsupportedCompact as error:
-            fallback_reason = str(error)
+def _binary_cp_model(model):
     problem = cp_model.CpModel()
     variables = [problem.new_bool_var(name) for name in model.names]
     for (indices, coefficients), lo, hi in zip(
@@ -165,6 +153,37 @@ def sat_solve(model, seconds, seed, workers=None, *, on_search=None, on_model=No
             problem.add(expression <= integers[offset])
     coefficients = integer_row(model.profit)
     problem.maximize(sum(c * x for c, x in zip(coefficients, variables, strict=False)))
+    nonzero = np.flatnonzero(coefficients)
+    scale = float(model.profit[nonzero[0]] / coefficients[nonzero[0]]) if len(nonzero) else 1
+    return problem, variables, scale
+
+
+def sat_solve(
+    model, seconds, seed, workers=None, *, on_search=None, on_model=None, cancellation=None
+):
+    workers = resolve_workers(workers)
+    if cancellation is not None:
+        cancellation.checkpoint()
+    start = perf_counter()
+    deadline = None if seconds is None else perf_counter() + seconds
+    fallback_reason = None
+    if model.cp_sat_plan is not None:
+        from games.tw.attila.compact import UnsupportedCompact
+
+        try:
+            observers = {
+                key: value
+                for key, value in (
+                    ("on_search", on_search),
+                    ("on_model", on_model),
+                    ("cancellation", cancellation),
+                )
+                if value is not None
+            }
+            return model.cp_sat_plan.solve(model, seconds, seed, workers, **observers)
+        except UnsupportedCompact as error:
+            fallback_reason = str(error)
+    problem, variables, scale = _binary_cp_model(model)
     solver = cp_model.CpSolver()
     if deadline is not None:
         solver.parameters.max_time_in_seconds = max(0.001, deadline - perf_counter())
@@ -177,13 +196,16 @@ def sat_solve(model, seconds, seed, workers=None, *, on_search=None, on_model=No
     }
     if on_model is not None:
         on_model(stats)
-    nonzero = np.flatnonzero(coefficients)
-    scale = float(model.profit[nonzero[0]] / coefficients[nonzero[0]]) if len(nonzero) else 1
     from games.tw.search_progress import solve_with_progress
 
     search_start = perf_counter()
     status = solve_with_progress(
-        solver, problem, on_search=on_search, scale=scale, offset=model.offset
+        solver,
+        problem,
+        on_search=on_search,
+        scale=scale,
+        offset=model.offset,
+        cancellation=cancellation,
     )
     result = Result(
         "cp-sat",
@@ -206,18 +228,38 @@ def sat_solve(model, seconds, seed, workers=None, *, on_search=None, on_model=No
 ALGORITHMS = ("cp-sat", "highs")
 
 
-def solve(model, algorithm, seconds=None, seed=0, workers=None, *, on_search=None, on_model=None):
+def solve(
+    model,
+    algorithm,
+    seconds=None,
+    seed=0,
+    workers=None,
+    *,
+    on_search=None,
+    on_model=None,
+    cancellation=None,
+):
     if algorithm not in ALGORITHMS:
         raise ValueError(f"Unknown algorithm: {algorithm}; choose cp-sat or highs")
     if seconds is not None and (seconds <= 0 or not isfinite(seconds)):
         raise ValueError("Time limit must be positive and finite")
     workers = resolve_workers(workers)
+    if cancellation is not None:
+        cancellation.checkpoint()
     start = perf_counter()
     try:
         result = (
-            sat_solve(model, seconds, seed, workers, on_search=on_search, on_model=on_model)
+            sat_solve(
+                model,
+                seconds,
+                seed,
+                workers,
+                on_search=on_search,
+                on_model=on_model,
+                cancellation=cancellation,
+            )
             if algorithm == "cp-sat"
-            else highs_solve(model, seconds, seed, workers)
+            else highs_solve(model, seconds, seed, workers, cancellation=cancellation)
         )
     except ValueError as exc:
         result = Result(algorithm, "MODEL_INVALID", detail=str(exc))

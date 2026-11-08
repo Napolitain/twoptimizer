@@ -83,6 +83,8 @@ class OptimizerApp(App):
         self.runner = None
         self.results, self.skipped = [], []
         self.busy = False
+        self.stop_requested = False
+        self.force_stopping = False
         self._loading_settings = True
         self.started = None
         self.current_case = "Ready"
@@ -390,9 +392,13 @@ class OptimizerApp(App):
 
     def _set_busy(self, busy):
         self.busy = busy
+        self.stop_requested = self.force_stopping = False
         self.query_one("#settings").disabled = busy
         self.query_one("#run", Button).disabled = busy
-        self.query_one("#cancel", Button).disabled = not busy
+        cancel = self.query_one("#cancel", Button)
+        cancel.disabled = not busy
+        cancel.label = "Cancel"
+        cancel.tooltip = "Stop the search and retain its best validated layout."
         self.query_one("#spinner").display = busy
         self.query_one("#export", Button).disabled = busy or not self.results
         self.query_one("#clear", Button).disabled = busy or not self.results
@@ -453,23 +459,25 @@ class OptimizerApp(App):
             label = "Cancelled" if runner.cancelled else "Finished"
             self.current_case = f"{label} · {len(self.results)}/{len(jobs)} cases · {errors} errors"
         finally:
-            cancelled = runner.cancelled
             await runner.stop()
             self._set_busy(False)
-            if cancelled:
-                self._reset_model_size("cancelled · select a completed result")
-            elif self.results:
+            if self.results:
                 self._show_result(self.results[-1])
+            else:
+                self._reset_model_size("cancelled · no result retained")
             self.query_one("#run-status", Static).update(
                 self.current_case + f" · {format_duration(perf_counter() - started)} elapsed"
             )
 
     def _tick(self):
         if self.busy and self.started is not None:
+            phase = self.current_phase
+            if self.stop_requested:
+                phase = "Force stopping…" if self.force_stopping else self.runtime.stop_message
             self.query_one("#run-status", Static).update(
                 f"{self.current_case}"
                 " · "
-                f"{self.current_phase}"
+                f"{phase}"
                 " · "
                 f"{format_duration(perf_counter() - self.started)} elapsed"
             )
@@ -635,13 +643,20 @@ class OptimizerApp(App):
                         "The solver proved that these requirements cannot all be satisfied."
                     ),
                     "UNKNOWN": (
-                        "No usable layout returned. Disable the optional time limit to "
-                        "continue until proved."
+                        "No usable layout returned; this does not prove infeasibility. "
+                        "Run again to search for a layout."
                     ),
                 }.get(
                     result["solver"]["status"],
                     "No validated layout was returned. See the log for details.",
                 ),
+            )
+        cancellation = result["raw"].get("cancellation", {})
+        if cancellation.get("requested"):
+            message += (
+                "\nCancellation requested; validated layout retained. See status and gap for proof."
+                if result["income"] is not None
+                else "\nCancellation requested; no validated layout retained."
             )
         self.query_one("#layout-summary", Static).update(message)
         table = self.query_one("#buildings", DataTable)
@@ -660,9 +675,17 @@ class OptimizerApp(App):
 
     async def action_cancel(self):
         if self.busy and self.runner:
-            self._reset_model_size("cancelling active case…")
-            self.query_one("#run-status", Static).update("Stopping the active solver…")
-            await self.runner.stop()
+            if self.stop_requested:
+                self.force_stopping = True
+                self._tick()
+                await self.runner.stop()
+                return
+            self.stop_requested = self.runtime.stop_requested = True
+            cancel = self.query_one("#cancel", Button)
+            cancel.label = "Force stop"
+            cancel.tooltip = "Terminate the worker; the active layout may be lost."
+            self._tick()
+            await self.runner.request_stop()
 
     @on(Button.Pressed, "#export")
     def export_button(self):

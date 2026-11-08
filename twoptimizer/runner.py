@@ -4,7 +4,8 @@ import asyncio
 import json
 import os
 import sys
-from contextlib import suppress
+from collections.abc import Generator
+from contextlib import contextmanager, suppress
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from time import perf_counter
@@ -20,10 +21,33 @@ class CaseRunner:
     def __init__(self):
         self.process = None
         self.cancelled = False
+        self._forced_stop = False
+        self._cancel_path: Path | None = None
+
+    async def request_stop(self):
+        """Stop scheduling cases and let the active solver return its best result."""
+        self.cancelled = True
+        if self._cancel_path is not None:
+            self._cancel_path.touch(exist_ok=True)
 
     async def stop(self):
+        """Force termination when quitting or abandoning a cooperative stop."""
         self.cancelled = True
+        self._forced_stop = True
         await self._reap_process()
+
+    @contextmanager
+    def _case_paths(self, config: RunConfig) -> Generator[tuple[Path, Path, Path]]:
+        with TemporaryDirectory(prefix="twoptimizer-") as directory:
+            request, result, cancel = (
+                Path(directory) / name for name in ("request.json", "result.json", "cancel")
+            )
+            request.write_text(json.dumps(config.to_dict()))
+            self._cancel_path = cancel
+            try:
+                yield request, result, cancel
+            finally:
+                self._cancel_path = None
 
     async def _reap_process(self):
         process = self.process
@@ -54,37 +78,33 @@ class CaseRunner:
                 _report_progress(record, on_log, on_progress)
             elif text:
                 on_log(text[:1000])
-        if case_id is not None and not self.cancelled:
+        if case_id is not None and not self._forced_stop:
             raise RuntimeError("Solver worker exited before completing the case; see the log.")
         return startup_seconds
 
     async def run(self, config: RunConfig, on_log, on_progress=None):
+        if self.cancelled:
+            return None
         started = perf_counter()
         startup_seconds = None
-        with TemporaryDirectory(prefix="twoptimizer-") as directory:
-            request_path, result_path = (
-                Path(directory) / "request.json",
-                Path(directory) / "result.json",
-            )
-            request_path.write_text(json.dumps(config.to_dict()))
+        with self._case_paths(config) as (request_path, result_path, cancel_path):
             process = self.process = await asyncio.create_subprocess_exec(
                 sys.executable,
                 "-m",
                 "twoptimizer.worker",
                 str(request_path),
                 str(result_path),
+                str(cancel_path),
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.STDOUT,
                 env={**os.environ, "PYTHONUNBUFFERED": "1"},
             )
             try:
-                if process.stdout is None:
-                    raise RuntimeError("Solver worker output pipe is unavailable")
-                if self.cancelled:
+                if self._forced_stop:
                     await self.stop()
                 startup_seconds = await self._read_output(process, on_log, on_progress, started)
                 await process.wait()
-                if self.cancelled:
+                if self._forced_stop:
                     return None
                 if not result_path.exists():
                     raise RuntimeError(
@@ -97,7 +117,7 @@ class CaseRunner:
                     raise deserialize_error(result)
                 if process.returncode:
                     raise RuntimeError(f"Solver worker exited with code {process.returncode}.")
-                result = _decode_result(result)
+                result = _decode_result(result, cancelled=self.cancelled)
                 result["timings"].update(worker_wall_seconds=perf_counter() - started)
                 if startup_seconds is not None:
                     result["timings"]["worker_startup_seconds"] = startup_seconds
@@ -126,6 +146,7 @@ class BatchRunner(CaseRunner):
 
     async def stop(self):
         self.cancelled = True
+        self._forced_stop = True
         await self._close_process()
 
     async def _ensure_process(self):
@@ -143,12 +164,7 @@ class BatchRunner(CaseRunner):
         return self.process
 
     async def _exchange(self, config, on_log, on_progress, started):
-        with TemporaryDirectory(prefix="twoptimizer-") as directory:
-            request_path, result_path = (
-                Path(directory) / "request.json",
-                Path(directory) / "result.json",
-            )
-            request_path.write_text(json.dumps(config.to_dict()))
+        with self._case_paths(config) as (request_path, result_path, cancel_path):
             try:
                 process = await self._ensure_process()
                 if self.cancelled:
@@ -160,19 +176,20 @@ class BatchRunner(CaseRunner):
                     "id": self._case_id,
                     "request": str(request_path),
                     "output": str(result_path),
+                    "cancel": str(cancel_path),
                 }
                 process.stdin.write((json.dumps(request) + "\n").encode())
                 await process.stdin.drain()
                 startup = await self._read_output(
                     process, on_log, on_progress, started, self._case_id
                 )
-                if self.cancelled:
+                if self._forced_stop:
                     return None
-                payload = _read_batch_result(result_path)
+                payload = _read_batch_result(result_path, cancelled=self.cancelled)
                 return payload, startup
             except BaseException as error:
                 await self._close_process()
-                if self.cancelled and isinstance(error, Exception):
+                if self._forced_stop and isinstance(error, Exception):
                     return None
                 raise
             finally:
@@ -189,7 +206,7 @@ class BatchRunner(CaseRunner):
         started = perf_counter()
         try:
             completed = await self._exchange(config, on_log, on_progress, started)
-            if completed is None:
+            if completed is None or self._forced_stop:
                 return None
             result, startup = completed
             if "error" in result:
@@ -203,12 +220,12 @@ class BatchRunner(CaseRunner):
             self._active = False
 
 
-def _read_batch_result(path: Path) -> dict[str, Any]:
+def _read_batch_result(path: Path, *, cancelled: bool = False) -> dict[str, Any]:
     try:
         payload = json.loads(path.read_text())
         if not isinstance(payload, dict):
             raise ValueError("Expected a result object")
-        return payload if "error" in payload else _decode_result(payload)
+        return payload if "error" in payload else _decode_result(payload, cancelled=cancelled)
     except (OSError, ValueError) as error:
         raise RuntimeError("Solver worker returned an invalid or missing result") from error
 
@@ -229,8 +246,15 @@ def _report_progress(record, on_log, on_progress):
     on_log(message)
 
 
-def _decode_result(payload: dict[str, Any]) -> dict[str, Any]:
+def _decode_result(payload: dict[str, Any], *, cancelled: bool = False) -> dict[str, Any]:
     try:
-        return CaseResult.from_dict(payload).to_dict()
+        result = CaseResult.from_dict(payload)
+        if cancelled:
+            result.raw["cancellation"] = {
+                **result.raw.get("cancellation", {}),
+                "requested": True,
+                "incumbent_retained": result.income is not None,
+            }
+        return result.to_dict()
     except (KeyError, TypeError, ValueError) as error:
         raise RuntimeError("Solver worker returned an invalid result object") from error

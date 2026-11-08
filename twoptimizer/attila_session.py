@@ -186,7 +186,7 @@ class AttilaSession:
         model = prepared.snapshot.model
         may_reuse = self.reuse_proofs and config.algorithm == "cp-sat"
         key = signature(model) if may_reuse else None
-        result = self.proofs.get(key) if key is not None else None
+        result = self._cached_optimum(key)
         if result is None and may_reuse and key in self.prior:
             result = _restore_proof(prepared.snapshot, self.prior[key])
         reused = result is not None
@@ -199,7 +199,7 @@ class AttilaSession:
                 workers=config.workers,
                 **observers,
             )
-        if key is not None:
+        if key is not None and result.status == "OPTIMAL":
             self.proofs[key] = result
         if (
             reused
@@ -208,6 +208,16 @@ class AttilaSession:
         ):
             raise RuntimeError("Comparison result did not validate")
         return result, key, reused
+
+    def _cached_optimum(self, key: str | None) -> Result | None:
+        if key is None:
+            return None
+        result = self.proofs.get(key)
+        if result is not None and result.status != "OPTIMAL":
+            # Interrupted searches are valid incumbents, not reusable proofs.
+            self.proofs.pop(key)
+            return None
+        return result
 
 
 def _restore_proof(snapshot: ModelSnapshot, previous: dict[str, Any]) -> Result | None:

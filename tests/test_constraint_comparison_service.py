@@ -68,8 +68,8 @@ def test_comparison_runs_both_scenarios_and_preserves_original_request(monkeypat
     result = solve_case(config, events.append)
     summary = result.raw["constraint_comparison"]
     assert len(calls) == 2 and all(not config.compare_constraints for config in calls)
-    assert calls[0].constraints.required_buildings == ()
-    assert calls[1].constraints.required_buildings == ("temple",)
+    assert calls[0].constraints.required_buildings == ("temple",)
+    assert calls[1].constraints.required_buildings == ()
     assert result.request.compare_constraints and result.income == 80
     assert summary["status"] == "exact" and summary["exact_cost"] == 20
     assert summary["baseline"]["income"] == 100

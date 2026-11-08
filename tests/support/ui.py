@@ -41,3 +41,6 @@ class QuickRunner:
 
     async def stop(self):
         self.cancelled = True
+
+    async def request_stop(self):
+        await self.stop()

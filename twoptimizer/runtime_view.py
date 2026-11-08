@@ -45,6 +45,8 @@ class RuntimeView:
         self.outcome: str | None = None
         self.phase = "Starting engine"
         self.searching = False
+        self.stop_requested = False
+        self.retained = False
 
     def preview(self, config: RunConfig, jobs: Sequence[RunConfig]) -> tuple[str, str]:
         summary = self.history.summary(jobs) or runtime_outlook(config, jobs)
@@ -55,7 +57,17 @@ class RuntimeView:
         self.job, self.started = job, now
         self.finished = self.outcome = None
         self.phase, self.searching = "Starting engine", False
+        self.stop_requested = self.retained = False
         self.search = SearchActivity()
+
+    @property
+    def stop_message(self) -> str:
+        if self.job is not None and self.job.algorithm == "highs":
+            return (
+                "Cancellation requested. HiGHS cannot interrupt native search here; "
+                "wait for its result or use Force stop."
+            )
+        return "Stopping search; validating the best layout found. Force stop may discard it."
 
     def observe(self, event: ProgressEvent, now: float) -> None:
         if self.job is None or self.finished is not None:
@@ -74,6 +86,11 @@ class RuntimeView:
         if self.job is None or self.finished is not None:
             return
         self.finished, self.outcome = now, case_status(result)
+        if result is not None:
+            self.stop_requested |= (
+                result.get("raw", {}).get("cancellation", {}).get("requested", False)
+            )
+            self.retained = self.stop_requested and result.get("income") is not None
         self.history.record(self.job, self.outcome, max(0.0, now - self.started))
         self.searching = False
 
@@ -85,6 +102,8 @@ class RuntimeView:
         if self.outcome is not None:
             return self._finished_details(elapsed)
         lines = [f"Active case: {elapsed} elapsed", "Phase: " + self.phase]
+        if self.stop_requested:
+            lines.append(self.stop_message)
         if self.job.algorithm == "highs":
             lines.append("HiGHS does not stream candidate/bound progress here; completion unknown.")
         elif self.searching:
@@ -105,4 +124,5 @@ class RuntimeView:
             "CANCELLED": "Cancelled; active case unfinished",
             "ERROR": "Case or comparison failed; inspect results and log",
         }.get(self.outcome, self.outcome)
-        return f"Last case: {elapsed} elapsed · {outcome}\n\n" + RUNTIME_NOTE
+        retained = "\nCancellation requested; validated layout retained." if self.retained else ""
+        return f"Last case: {elapsed} elapsed · {outcome}{retained}\n\n" + RUNTIME_NOTE

@@ -206,6 +206,7 @@ def test_cancel_native_worker_preserves_completed_case_and_export(tmp_path):
             assert process.returncode is None
             completed = app.results[0]
             await app.action_cancel()
+            await app.action_cancel()
             await app.workers.wait_for_complete()
             assert process.returncode is not None
             assert not app.busy and app.results == [completed]

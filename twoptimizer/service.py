@@ -4,6 +4,7 @@ from collections.abc import Callable
 from dataclasses import replace
 from math import isfinite
 
+from games.tw.cancellation import Cancellation, Cancelled
 from twoptimizer.catalog import NOTES, faction_name
 from twoptimizer.constraint_comparison import baseline_config, compare_results, has_requirements
 from twoptimizer.engines import solve_attila, solve_rome, solve_shogun
@@ -21,22 +22,57 @@ def solve_case(
     progress: Callable[[ProgressEvent], None] | None = None,
     *,
     session: RunSession | None = None,
+    cancellation: Cancellation | None = None,
 ) -> CaseResult:
-    phase = PhaseTimer(progress)
+    phase = PhaseTimer(progress, cancellation=cancellation)
     phase("request_seconds", "Validating request")
     jobs, _ = make_jobs(config)
     if len(jobs) != 1:
         raise ApplicationError("A case must receive exactly one holding, faction and solver.")
     config = jobs[0]
-    if config.compare_constraints and has_requirements(config):
-        return _solve_comparison(config, progress, session)
-    output = _solve_one(config, phase, session)
-    if config.compare_constraints:
+    try:
+        if cancellation is not None:
+            cancellation.checkpoint()
+        output = (
+            _solve_comparison(config, progress, session, cancellation)
+            if config.compare_constraints and has_requirements(config)
+            else _solve_one(config, phase, session)
+        )
+    except Cancelled as error:
+        phase()
+        output = _cancelled_result(config, phase, str(error))
+    if config.compare_constraints and not has_requirements(config):
         output.raw["constraint_comparison"] = {
             "status": "unavailable",
             "reason": "No optional building or influence requirements were selected.",
         }
+    if cancellation is not None and cancellation.requested:
+        output.raw["cancellation"] = {
+            **output.raw.get("cancellation", {}),
+            "requested": True,
+            "incumbent_retained": output.income is not None,
+        }
     return output
+
+
+def _cancelled_result(config: RunConfig, phase: PhaseTimer, reason: str) -> CaseResult:
+    return CaseResult(
+        request=config,
+        faction=faction_name(config.game, config.faction),
+        province=province_label(config),
+        solver=SolverSummary(config.algorithm, "UNKNOWN", 0, None, None),
+        income=None,
+        gap_percent=None,
+        metrics={},
+        buildings=[],
+        assumptions=NOTES[config.game],
+        source_files={},
+        raw={
+            "cancellation": {"reason": reason},
+            "model_complexity": [stats.to_dict() for stats in phase.models],
+        },
+        timings=phase.timings,
+    )
 
 
 def _solve_one(config: RunConfig, phase: PhaseTimer, session: RunSession | None) -> CaseResult:
@@ -79,13 +115,21 @@ def _solve_one(config: RunConfig, phase: PhaseTimer, session: RunSession | None)
     return output
 
 
-def _solve_comparison(config, progress, session):
-    baseline = _comparison_side(baseline_config(config), "Without requirements", progress, session)
+def _solve_comparison(config, progress, session, cancellation):
+    # Retain the requested layout if cancelled, never substitute a baseline
+    # that omits the user's building or religious requirements.
     constrained = _comparison_side(
-        replace(config, compare_constraints=False), "With requirements", progress, session
+        replace(config, compare_constraints=False),
+        "With requirements",
+        progress,
+        session,
+        cancellation,
     )
     if constrained.solver.status == "ERROR":
         raise deserialize_error(constrained.raw)
+    baseline = _comparison_side(
+        baseline_config(config), "Without requirements", progress, session, cancellation
+    )
     summary = compare_results(baseline, constrained)
     summary["baseline"] = baseline.to_dict()
     summary["constrained_timings"] = constrained.timings.copy()
@@ -114,7 +158,7 @@ def _solve_comparison(config, progress, session):
     )
 
 
-def _comparison_side(config, label, progress, session):
+def _comparison_side(config, label, progress, session, cancellation):
     def relay(event):
         if progress is not None:
             progress(
@@ -124,7 +168,7 @@ def _comparison_side(config, label, progress, session):
             )
 
     try:
-        return solve_case(config, relay, session=session)
+        return solve_case(config, relay, session=session, cancellation=cancellation)
     except ApplicationError as error:
         return error_result(config, error)
 

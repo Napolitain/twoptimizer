@@ -36,7 +36,7 @@ from twoptimizer import worker
 from twoptimizer.models import CaseResult
 from twoptimizer.progress import ModelStats
 
-def solve(config, progress):
+def solve(config, progress, *, cancellation=None):
     if config.faction == "runtime-error":
         raise RuntimeError("Controlled native failure")
     progress("Starting controlled case")
@@ -220,6 +220,8 @@ def test_cancel_force_kills_active_case_preserving_completed_tui_result(monkeypa
             assert process is not None
             with pytest.raises(RuntimeError, match="one case"):
                 await app.runner.run(RunConfig(), lambda _: None)
+            await app.action_cancel()
+            assert app.busy and process.returncode is None
             await app.action_cancel()
             await app.workers.wait_for_complete()
             assert process.returncode == -9 and not app.busy

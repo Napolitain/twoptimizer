@@ -206,7 +206,7 @@ def test_independent_validation_clears_invalid_incumbent_and_bound(monkeypatch):
 
     problem = model([1], [[1]], [0], [1])
     bogus = competition.Result("highs", "OPTIMAL", objective=1, bound=1, values=[0.5])
-    monkeypatch.setattr(competition, "highs_solve", lambda *args: bogus)
+    monkeypatch.setattr(competition, "highs_solve", lambda *args, **kwargs: bogus)
     result = solve(problem, "highs")
     assert result.status == "INVALID_SOLUTION"
     assert result.objective is result.bound is result.values is None

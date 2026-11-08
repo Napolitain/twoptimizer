@@ -39,16 +39,21 @@ class RomeOptimizer:
         *,
         on_search=None,
         on_model=None,
+        cancellation=None,
     ):
         if algorithm not in {"cp-sat", "highs"}:
             raise ValueError("Choose cp-sat or highs")
         workers = resolve_workers(workers)
+        if cancellation is not None:
+            cancellation.checkpoint()
         start = perf_counter()
         if algorithm == "cp-sat":
-            return self._optimize_cpsat(seconds, workers, incumbent, start, on_search, on_model)
-        return self._optimize_highs(seconds, workers, incumbent, start)
+            return self._optimize_cpsat(
+                seconds, workers, incumbent, start, on_search, on_model, cancellation
+            )
+        return self._optimize_highs(seconds, workers, incumbent, start, cancellation)
 
-    def _optimize_highs(self, seconds, workers, incumbent, start):
+    def _optimize_highs(self, seconds, workers, incumbent, start, cancellation=None):
         from games.tw.highs_backend import solve_highs
 
         if not hasattr(self.economy, "_prepared"):
@@ -61,6 +66,7 @@ class RomeOptimizer:
             seconds=None if seconds is None else max(0.001, seconds - (converted - start)),
             workers=workers,
             incumbent=hints,
+            cancellation=cancellation,
         )
         values = result.pop("values")
         result["seconds"] = perf_counter() - start
@@ -123,7 +129,9 @@ class RomeOptimizer:
             ],
         }
 
-    def _optimize_cpsat(self, seconds, workers, incumbent, start, on_search=None, on_model=None):
+    def _optimize_cpsat(
+        self, seconds, workers, incumbent, start, on_search=None, on_model=None, cancellation=None
+    ):
         algorithm = "cp-sat"
         if not hasattr(self.economy, "_prepared"):
             self.economy.fingerprint()
@@ -142,7 +150,13 @@ class RomeOptimizer:
         from games.tw.search_progress import solve_with_progress
 
         search_start = perf_counter()
-        status = solve_with_progress(solver, problem.model, on_search=on_search, scale=1 / 10000)
+        status = solve_with_progress(
+            solver,
+            problem.model,
+            on_search=on_search,
+            scale=1 / 10000,
+            cancellation=cancellation,
+        )
         report = {
             "scenario": self.economy.scenario.to_dict(),
             "solver": {

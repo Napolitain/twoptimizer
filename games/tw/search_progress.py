@@ -7,10 +7,13 @@ offset`` for both minimization and maximization; the scale must be positive.
 
 import math
 from collections.abc import Callable
+from contextlib import nullcontext
 from threading import Lock
 from time import monotonic
 
 from ortools.sat.python import cp_model
+
+from games.tw.cancellation import Cancellation
 
 type SearchCallback = Callable[[float | None, float | None, float], None]
 
@@ -96,6 +99,12 @@ class _SolutionObserver(cp_model.CpSolverSolutionCallback):
         self.progress.solution(self.objective_value, self.best_objective_bound)
 
 
+def _native_solve(solver, model, observer, cancellation):
+    context = nullcontext() if cancellation is None else cancellation.interrupt(solver.stop_search)
+    with context:
+        return solver.solve(model) if observer is None else solver.solve(model, observer)
+
+
 def solve_with_progress(
     solver: cp_model.CpSolver,
     model: cp_model.CpModel,
@@ -103,6 +112,7 @@ def solve_with_progress(
     on_search: SearchCallback | None = None,
     scale: float = 1.0,
     offset: float = 0.0,
+    cancellation: Cancellation | None = None,
 ):
     """Solve without changing the model or solver parameters; return native status.
 
@@ -119,7 +129,7 @@ def solve_with_progress(
     """
     _validate_conversion(scale, offset)
     if on_search is None:
-        return solver.solve(model)
+        return _native_solve(solver, model, None, cancellation)
 
     progress = _Progress(on_search, scale, offset)
     previous = solver.best_bound_callback
@@ -131,7 +141,7 @@ def solve_with_progress(
 
     try:
         solver.best_bound_callback = bound_callback
-        status = solver.solve(model, _SolutionObserver(progress))
+        status = _native_solve(solver, model, _SolutionObserver(progress), cancellation)
     finally:
         solver.best_bound_callback = previous
     progress.final(solver, status)

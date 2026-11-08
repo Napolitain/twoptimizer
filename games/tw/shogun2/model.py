@@ -333,8 +333,17 @@ class Economy:
         return buildings, slots
 
     def optimize(
-        self, algorithm="cp-sat", seconds=None, workers=None, *, on_search=None, on_model=None
+        self,
+        algorithm="cp-sat",
+        seconds=None,
+        workers=None,
+        *,
+        on_search=None,
+        on_model=None,
+        cancellation=None,
     ):
+        if cancellation is not None:
+            cancellation.checkpoint()
         result = solve(
             self.compile(),
             algorithm,
@@ -342,6 +351,7 @@ class Economy:
             workers=workers,
             on_search=on_search,
             on_model=on_model,
+            cancellation=cancellation,
         )
         report = {
             "scenario": self.scenario.to_dict(),

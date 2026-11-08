@@ -7,6 +7,8 @@ from threading import Lock
 from time import perf_counter
 from typing import Any
 
+from games.tw.cancellation import Cancellation
+
 PREFIX = "__TWOPTIMIZER_PROGRESS__ "
 
 
@@ -130,12 +132,18 @@ def decode_progress(record: dict[str, Any]) -> ProgressEvent:
 class PhaseTimer:
     """Collect phase durations and notify the optional progress observer."""
 
-    def __init__(self, progress: Callable[[ProgressEvent], None] | None = None):
+    def __init__(
+        self,
+        progress: Callable[[ProgressEvent], None] | None = None,
+        *,
+        cancellation: Cancellation | None = None,
+    ):
         self.timings: dict[str, float] = {}
         self.models: list[ModelStats] = []
         self.stage: str | None = None
         self.started = perf_counter()
         self.progress = progress
+        self.cancellation = cancellation
         self._search_emitted: dict[str, float] = {}
         self._search_lock = Lock()
 

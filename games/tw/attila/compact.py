@@ -63,9 +63,13 @@ class CompactIncome:
             name: building.lp_variable.name() for name, building in economy.by_id.items()
         }
 
-    def solve(self, reference, seconds, seed, workers, *, on_search=None, on_model=None):
+    def solve(
+        self, reference, seconds, seed, workers, *, on_search=None, on_model=None, cancellation=None
+    ):
         from games.tw.competition import Result
 
+        if cancellation is not None:
+            cancellation.checkpoint()
         start = perf_counter()
         builder = Builder(self, reference)
         if not any(
@@ -98,7 +102,9 @@ class CompactIncome:
         from games.tw.search_progress import solve_with_progress
 
         search_start = perf_counter()
-        status = solve_with_progress(solver, model, on_search=on_search, scale=float(unit))
+        status = solve_with_progress(
+            solver, model, on_search=on_search, scale=float(unit), cancellation=cancellation
+        )
         result = Result(
             "cp-sat",
             solver.status_name(status),

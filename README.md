@@ -42,6 +42,12 @@ bound and remaining gap. A candidate becomes a result after validation.
 The **Runtime** tab shows matching historical measurements, timings from earlier
 runs with the same settings in this session, and time since the candidate or
 bound last improved. These are observations, not a promised completion time.
+Press **Cancel** once to stop CP-SAT search and retain its best candidate after
+independent validation, including the remaining bound and gap. Later batch cases
+will not start. **Force stop** (Cancel again) or Quit may discard the active
+candidate. HiGHS may need to finish its current native solve before returning;
+Force stop remains available. A stopped run without a candidate or proof is `UNKNOWN`,
+not an infeasibility proof.
 
 For HoI4, select **Inspect HoI4 data…** to browse the eight major countries,
 starting armies, economic modifiers and states with mouse or keyboard.
