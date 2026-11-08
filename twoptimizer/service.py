@@ -91,6 +91,7 @@ def source_files(game):
             ROOT / "rome2" / name
             for name in (
                 "model.py",
+                "linear.py",
                 "effects.py",
                 "world.py",
                 "data/economy_catalog.json",
@@ -122,6 +123,7 @@ def source_files(game):
                 ROOT / name
                 for name in (
                     "attila/economy.py",
+                    "attila/compact.py",
                     "attila/model.py",
                     "context.py",
                     "comparison.py",
@@ -130,6 +132,8 @@ def source_files(game):
                     "region.py",
                     "province.py",
                     "problem.py",
+                    "solver_ortools.py",
+                    "solver_cpsat.py",
                     "parser/parser.py",
                     "parser/parser_attila.py",
                 )

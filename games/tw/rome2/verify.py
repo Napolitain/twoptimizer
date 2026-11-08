@@ -16,6 +16,7 @@ def verify(paths):
             (CATALOG.parent.parent / name).read_bytes()
             for name in (
                 "model.py",
+                "linear.py",
                 "effects.py",
                 "world.py",
                 "data/world.json",

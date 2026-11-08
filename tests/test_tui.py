@@ -218,6 +218,11 @@ def test_real_engine_worker(game):
         assert output["timings"]["worker_wall_seconds"] > 0
         assert output["timings"]["worker_startup_seconds"] >= 0
         assert output["solver"]["workers"] >= 1
+        if game == "attila":
+            assert output["solver"]["model_stats"]["formulation"] == "factored_income"
+            assert output["raw"]["model_size"]["cp_sat"] == output["solver"]["model_stats"]
+        if game == "rome2":
+            assert output["solver"]["formulation"] == "linearized_income"
         if output["income"] is not None:
             assert output["buildings"] and output["metrics"]["food_surplus"] >= 0
         assert runner.process is not None

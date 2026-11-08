@@ -1,0 +1,2186 @@
+{
+  "measured_at": "2026-11-08T01:31:29.008157+00:00",
+  "ortools": "9.15.6755",
+  "workers": 4,
+  "available_workers": 4,
+  "time_limit_seconds": 20,
+  "note": "Sequential same-machine measurements, seed 0. FEASIBLE means proof did not finish within the benchmark limit. Normal interactive runs remain uncapped. Build and solve times are separate for Attila. Initial measurements use Python 3.12.14 at the original API. automatic_integrated rows repeat the final API implementation on Python 3.12.14 and 3.14.9; each row records its interpreter.",
+  "cases": [
+    {
+      "game": "rome2",
+      "faction": "rom_rome",
+      "province": "Italia",
+      "research": "none",
+      "formulation": "original_native",
+      "elapsed_seconds": 20.021330888999728,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "FEASIBLE",
+        "seconds": 20.01661016600019,
+        "objective": 9733.8,
+        "bound": 12050.75,
+        "variables": 288,
+        "constraints": 131,
+        "workers": 4
+      },
+      "income": 9733.8,
+      "time_limit_seconds": 20,
+      "scenario": {
+        "faction": "rom_rome",
+        "sites": [
+          {
+            "id": "rom_italia_latium",
+            "major": true,
+            "port": false,
+            "resource": null,
+            "slots": 4
+          },
+          {
+            "id": "rom_italia_etruria",
+            "major": false,
+            "port": false,
+            "resource": "wine",
+            "slots": 2
+          },
+          {
+            "id": "rom_italia_picenum",
+            "major": false,
+            "port": true,
+            "resource": null,
+            "slots": 2
+          },
+          {
+            "id": "rom_italia_samnium",
+            "major": false,
+            "port": true,
+            "resource": "olive",
+            "slots": 2
+          }
+        ],
+        "name": "Italia",
+        "all_technologies": false,
+        "core_level": 4,
+        "maximum_level": 4,
+        "tax_points": 0,
+        "corruption_points": 0,
+        "order_offset": 0,
+        "minimum_order": 0,
+        "external_food": 0,
+        "party": null,
+        "technology_profile": "public",
+        "modifiers": [
+          {
+            "kind": "wealth_percent",
+            "value": 15,
+            "targets": [
+              "agriculture_farming",
+              "agriculture_animal_husbandry",
+              "culture_entertainment",
+              "culture_learning",
+              "industry_manufacture",
+              "industry_mining",
+              "trade_local",
+              "trade_sea",
+              "subsistence"
+            ],
+            "source_region": "rom_italia_latium",
+            "name": "Roma",
+            "scope": "province",
+            "source_url": "https://seore.org/w/%ED%86%A0%ED%83%88%20%EC%9B%8C:%20%EB%A1%9C%EB%A7%882/%EC%A7%80%EC%97%AD",
+            "source_line": 330,
+            "interpretation": "Displayed all-income bonus interpreted as additive all-source wealth; installed effect definition still needed"
+          },
+          {
+            "kind": "wealth_percent",
+            "value": 5,
+            "targets": [
+              "agriculture_farming",
+              "agriculture_animal_husbandry"
+            ],
+            "source_region": "rom_italia_samnium",
+            "name": "Mount Vesuvius",
+            "scope": "faction",
+            "source_url": "https://seore.org/w/%ED%86%A0%ED%83%88%20%EC%9B%8C:%20%EB%A1%9C%EB%A7%882/%EC%A7%80%EC%97%AD",
+            "source_line": 338,
+            "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+          }
+        ],
+        "world_profile": "community_patch18"
+      },
+      "python": "3.12.14"
+    },
+    {
+      "game": "rome2",
+      "faction": "rom_rome",
+      "province": "Italia",
+      "research": "none",
+      "formulation": "linearized_income",
+      "elapsed_seconds": 9.134544228999857,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 9.129928617000132,
+        "objective": 9733.8,
+        "bound": 9733.8,
+        "variables": 522,
+        "constraints": 1043,
+        "workers": 4,
+        "formulation": "linearized_income",
+        "timings": {
+          "model_conversion_seconds": 0.09950642200010407,
+          "search_seconds": 9.030443682999703
+        }
+      },
+      "income": 9733.8,
+      "time_limit_seconds": 20,
+      "scenario": {
+        "faction": "rom_rome",
+        "sites": [
+          {
+            "id": "rom_italia_latium",
+            "major": true,
+            "port": false,
+            "resource": null,
+            "slots": 4
+          },
+          {
+            "id": "rom_italia_etruria",
+            "major": false,
+            "port": false,
+            "resource": "wine",
+            "slots": 2
+          },
+          {
+            "id": "rom_italia_picenum",
+            "major": false,
+            "port": true,
+            "resource": null,
+            "slots": 2
+          },
+          {
+            "id": "rom_italia_samnium",
+            "major": false,
+            "port": true,
+            "resource": "olive",
+            "slots": 2
+          }
+        ],
+        "name": "Italia",
+        "all_technologies": false,
+        "core_level": 4,
+        "maximum_level": 4,
+        "tax_points": 0,
+        "corruption_points": 0,
+        "order_offset": 0,
+        "minimum_order": 0,
+        "external_food": 0,
+        "party": null,
+        "technology_profile": "public",
+        "modifiers": [
+          {
+            "kind": "wealth_percent",
+            "value": 15,
+            "targets": [
+              "agriculture_farming",
+              "agriculture_animal_husbandry",
+              "culture_entertainment",
+              "culture_learning",
+              "industry_manufacture",
+              "industry_mining",
+              "trade_local",
+              "trade_sea",
+              "subsistence"
+            ],
+            "source_region": "rom_italia_latium",
+            "name": "Roma",
+            "scope": "province",
+            "source_url": "https://seore.org/w/%ED%86%A0%ED%83%88%20%EC%9B%8C:%20%EB%A1%9C%EB%A7%882/%EC%A7%80%EC%97%AD",
+            "source_line": 330,
+            "interpretation": "Displayed all-income bonus interpreted as additive all-source wealth; installed effect definition still needed"
+          },
+          {
+            "kind": "wealth_percent",
+            "value": 5,
+            "targets": [
+              "agriculture_farming",
+              "agriculture_animal_husbandry"
+            ],
+            "source_region": "rom_italia_samnium",
+            "name": "Mount Vesuvius",
+            "scope": "faction",
+            "source_url": "https://seore.org/w/%ED%86%A0%ED%83%88%20%EC%9B%8C:%20%EB%A1%9C%EB%A7%882/%EC%A7%80%EC%97%AD",
+            "source_line": 338,
+            "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+          }
+        ],
+        "world_profile": "community_patch18"
+      },
+      "python": "3.12.14"
+    },
+    {
+      "game": "rome2",
+      "faction": "rom_rome",
+      "province": "Italia",
+      "research": "archived",
+      "formulation": "original_native",
+      "elapsed_seconds": 20.069810203999623,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "FEASIBLE",
+        "seconds": 20.06406144399989,
+        "objective": 19876.735,
+        "bound": 23754.4475,
+        "variables": 288,
+        "constraints": 131,
+        "workers": 4
+      },
+      "income": 19876.735,
+      "time_limit_seconds": 20,
+      "scenario": {
+        "faction": "rom_rome",
+        "sites": [
+          {
+            "id": "rom_italia_latium",
+            "major": true,
+            "port": false,
+            "resource": null,
+            "slots": 4
+          },
+          {
+            "id": "rom_italia_etruria",
+            "major": false,
+            "port": false,
+            "resource": "wine",
+            "slots": 2
+          },
+          {
+            "id": "rom_italia_picenum",
+            "major": false,
+            "port": true,
+            "resource": null,
+            "slots": 2
+          },
+          {
+            "id": "rom_italia_samnium",
+            "major": false,
+            "port": true,
+            "resource": "olive",
+            "slots": 2
+          }
+        ],
+        "name": "Italia",
+        "all_technologies": true,
+        "core_level": 4,
+        "maximum_level": 4,
+        "tax_points": 0,
+        "corruption_points": 0,
+        "order_offset": 0,
+        "minimum_order": 0,
+        "external_food": 0,
+        "party": null,
+        "technology_profile": "archived",
+        "modifiers": [
+          {
+            "kind": "wealth_percent",
+            "value": 15,
+            "targets": [
+              "agriculture_farming",
+              "agriculture_animal_husbandry",
+              "culture_entertainment",
+              "culture_learning",
+              "industry_manufacture",
+              "industry_mining",
+              "trade_local",
+              "trade_sea",
+              "subsistence"
+            ],
+            "source_region": "rom_italia_latium",
+            "name": "Roma",
+            "scope": "province",
+            "source_url": "https://seore.org/w/%ED%86%A0%ED%83%88%20%EC%9B%8C:%20%EB%A1%9C%EB%A7%882/%EC%A7%80%EC%97%AD",
+            "source_line": 330,
+            "interpretation": "Displayed all-income bonus interpreted as additive all-source wealth; installed effect definition still needed"
+          },
+          {
+            "kind": "wealth_percent",
+            "value": 5,
+            "targets": [
+              "agriculture_farming",
+              "agriculture_animal_husbandry"
+            ],
+            "source_region": "rom_italia_samnium",
+            "name": "Mount Vesuvius",
+            "scope": "faction",
+            "source_url": "https://seore.org/w/%ED%86%A0%ED%83%88%20%EC%9B%8C:%20%EB%A1%9C%EB%A7%882/%EC%A7%80%EC%97%AD",
+            "source_line": 338,
+            "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+          }
+        ],
+        "world_profile": "community_patch18"
+      },
+      "python": "3.12.14"
+    },
+    {
+      "game": "rome2",
+      "faction": "rom_rome",
+      "province": "Italia",
+      "research": "archived",
+      "formulation": "linearized_income",
+      "elapsed_seconds": 9.445753212999989,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 9.43127318400002,
+        "objective": 19876.735,
+        "bound": 19876.735,
+        "variables": 522,
+        "constraints": 1043,
+        "workers": 4,
+        "formulation": "linearized_income",
+        "timings": {
+          "model_conversion_seconds": 0.10366333899992242,
+          "search_seconds": 9.327630928000417
+        }
+      },
+      "income": 19876.735,
+      "time_limit_seconds": 20,
+      "scenario": {
+        "faction": "rom_rome",
+        "sites": [
+          {
+            "id": "rom_italia_latium",
+            "major": true,
+            "port": false,
+            "resource": null,
+            "slots": 4
+          },
+          {
+            "id": "rom_italia_etruria",
+            "major": false,
+            "port": false,
+            "resource": "wine",
+            "slots": 2
+          },
+          {
+            "id": "rom_italia_picenum",
+            "major": false,
+            "port": true,
+            "resource": null,
+            "slots": 2
+          },
+          {
+            "id": "rom_italia_samnium",
+            "major": false,
+            "port": true,
+            "resource": "olive",
+            "slots": 2
+          }
+        ],
+        "name": "Italia",
+        "all_technologies": true,
+        "core_level": 4,
+        "maximum_level": 4,
+        "tax_points": 0,
+        "corruption_points": 0,
+        "order_offset": 0,
+        "minimum_order": 0,
+        "external_food": 0,
+        "party": null,
+        "technology_profile": "archived",
+        "modifiers": [
+          {
+            "kind": "wealth_percent",
+            "value": 15,
+            "targets": [
+              "agriculture_farming",
+              "agriculture_animal_husbandry",
+              "culture_entertainment",
+              "culture_learning",
+              "industry_manufacture",
+              "industry_mining",
+              "trade_local",
+              "trade_sea",
+              "subsistence"
+            ],
+            "source_region": "rom_italia_latium",
+            "name": "Roma",
+            "scope": "province",
+            "source_url": "https://seore.org/w/%ED%86%A0%ED%83%88%20%EC%9B%8C:%20%EB%A1%9C%EB%A7%882/%EC%A7%80%EC%97%AD",
+            "source_line": 330,
+            "interpretation": "Displayed all-income bonus interpreted as additive all-source wealth; installed effect definition still needed"
+          },
+          {
+            "kind": "wealth_percent",
+            "value": 5,
+            "targets": [
+              "agriculture_farming",
+              "agriculture_animal_husbandry"
+            ],
+            "source_region": "rom_italia_samnium",
+            "name": "Mount Vesuvius",
+            "scope": "faction",
+            "source_url": "https://seore.org/w/%ED%86%A0%ED%83%88%20%EC%9B%8C:%20%EB%A1%9C%EB%A7%882/%EC%A7%80%EC%97%AD",
+            "source_line": 338,
+            "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+          }
+        ],
+        "world_profile": "community_patch18"
+      },
+      "python": "3.12.14"
+    },
+    {
+      "game": "rome2",
+      "faction": "rom_rome",
+      "province": "coastal",
+      "research": "none",
+      "formulation": "original_native",
+      "elapsed_seconds": 20.409772741000324,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "FEASIBLE",
+        "seconds": 20.40703000700023,
+        "objective": 4182.7,
+        "bound": 5179.6,
+        "variables": 184,
+        "constraints": 87,
+        "workers": 4
+      },
+      "income": 4182.7,
+      "time_limit_seconds": 20,
+      "scenario": {
+        "faction": "rom_rome",
+        "sites": [
+          {
+            "id": "capital",
+            "major": true,
+            "port": true,
+            "resource": null,
+            "slots": null
+          },
+          {
+            "id": "town",
+            "major": false,
+            "port": true,
+            "resource": null,
+            "slots": null
+          }
+        ],
+        "name": "coastal",
+        "all_technologies": false,
+        "core_level": 4,
+        "maximum_level": 4,
+        "tax_points": 0,
+        "corruption_points": 0,
+        "order_offset": 0,
+        "minimum_order": 0,
+        "external_food": 0,
+        "party": null,
+        "technology_profile": "public",
+        "modifiers": [],
+        "world_profile": null
+      },
+      "python": "3.12.14"
+    },
+    {
+      "game": "rome2",
+      "faction": "rom_rome",
+      "province": "coastal",
+      "research": "none",
+      "formulation": "linearized_income",
+      "elapsed_seconds": 5.629826987000342,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 5.62506533099986,
+        "objective": 4182.7,
+        "bound": 4182.7,
+        "variables": 330,
+        "constraints": 679,
+        "workers": 4,
+        "formulation": "linearized_income",
+        "timings": {
+          "model_conversion_seconds": 0.08581472299965753,
+          "search_seconds": 5.539270107999982
+        }
+      },
+      "income": 4182.7,
+      "time_limit_seconds": 20,
+      "scenario": {
+        "faction": "rom_rome",
+        "sites": [
+          {
+            "id": "capital",
+            "major": true,
+            "port": true,
+            "resource": null,
+            "slots": null
+          },
+          {
+            "id": "town",
+            "major": false,
+            "port": true,
+            "resource": null,
+            "slots": null
+          }
+        ],
+        "name": "coastal",
+        "all_technologies": false,
+        "core_level": 4,
+        "maximum_level": 4,
+        "tax_points": 0,
+        "corruption_points": 0,
+        "order_offset": 0,
+        "minimum_order": 0,
+        "external_food": 0,
+        "party": null,
+        "technology_profile": "public",
+        "modifiers": [],
+        "world_profile": null
+      },
+      "python": "3.12.14"
+    },
+    {
+      "game": "rome2",
+      "faction": "rom_rome",
+      "province": "Aegyptus",
+      "research": "none",
+      "formulation": "original_native",
+      "elapsed_seconds": 20.060812001999693,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "FEASIBLE",
+        "seconds": 20.056499627999983,
+        "objective": 9044.0,
+        "bound": 11899.85,
+        "variables": 287,
+        "constraints": 131,
+        "workers": 4
+      },
+      "income": 9044.0,
+      "time_limit_seconds": 20,
+      "scenario": {
+        "faction": "rom_rome",
+        "sites": [
+          {
+            "id": "rom_aegyptos_ta_mehu",
+            "major": true,
+            "port": true,
+            "resource": null,
+            "slots": 4
+          },
+          {
+            "id": "rom_aegyptos_ta_ament",
+            "major": false,
+            "port": false,
+            "resource": "grain",
+            "slots": 2
+          },
+          {
+            "id": "rom_aegyptos_ta_abt",
+            "major": false,
+            "port": true,
+            "resource": "grain",
+            "slots": 2
+          },
+          {
+            "id": "rom_aegyptos_ta_shemau",
+            "major": false,
+            "port": false,
+            "resource": "iron",
+            "slots": 2
+          }
+        ],
+        "name": "Aegyptus",
+        "all_technologies": false,
+        "core_level": 4,
+        "maximum_level": 4,
+        "tax_points": 0,
+        "corruption_points": 0,
+        "order_offset": 0,
+        "minimum_order": 0,
+        "external_food": 0,
+        "party": null,
+        "technology_profile": "public",
+        "modifiers": [
+          {
+            "kind": "wealth_percent",
+            "value": 15,
+            "targets": [
+              "trade_sea"
+            ],
+            "source_region": "rom_aegyptos_ta_mehu",
+            "name": "Pharos of Alexandria",
+            "scope": "faction",
+            "source_url": "https://seore.org/w/%ED%86%A0%ED%83%88%20%EC%9B%8C:%20%EB%A1%9C%EB%A7%882/%EC%A7%80%EC%97%AD",
+            "source_line": 959,
+            "interpretation": "Sea-trade bonus interpreted as maritime-commerce wealth, distinct from external tariff receipts"
+          },
+          {
+            "kind": "wealth_percent",
+            "value": 5,
+            "targets": [
+              "culture_entertainment",
+              "culture_learning"
+            ],
+            "source_region": "rom_aegyptos_ta_ament",
+            "name": "Necropolis of Giza",
+            "scope": "faction",
+            "source_url": "https://seore.org/w/%ED%86%A0%ED%83%88%20%EC%9B%8C:%20%EB%A1%9C%EB%A7%882/%EC%A7%80%EC%97%AD",
+            "source_line": 963,
+            "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+          }
+        ],
+        "world_profile": "community_patch18"
+      },
+      "python": "3.12.14"
+    },
+    {
+      "game": "rome2",
+      "faction": "rom_rome",
+      "province": "Aegyptus",
+      "research": "none",
+      "formulation": "linearized_income",
+      "elapsed_seconds": 12.861702417999823,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 12.856361062999895,
+        "objective": 9277.0,
+        "bound": 9277.0,
+        "variables": 506,
+        "constraints": 990,
+        "workers": 4,
+        "formulation": "linearized_income",
+        "timings": {
+          "model_conversion_seconds": 0.09238707899976362,
+          "search_seconds": 12.763992929999858
+        }
+      },
+      "income": 9277.0,
+      "time_limit_seconds": 20,
+      "scenario": {
+        "faction": "rom_rome",
+        "sites": [
+          {
+            "id": "rom_aegyptos_ta_mehu",
+            "major": true,
+            "port": true,
+            "resource": null,
+            "slots": 4
+          },
+          {
+            "id": "rom_aegyptos_ta_ament",
+            "major": false,
+            "port": false,
+            "resource": "grain",
+            "slots": 2
+          },
+          {
+            "id": "rom_aegyptos_ta_abt",
+            "major": false,
+            "port": true,
+            "resource": "grain",
+            "slots": 2
+          },
+          {
+            "id": "rom_aegyptos_ta_shemau",
+            "major": false,
+            "port": false,
+            "resource": "iron",
+            "slots": 2
+          }
+        ],
+        "name": "Aegyptus",
+        "all_technologies": false,
+        "core_level": 4,
+        "maximum_level": 4,
+        "tax_points": 0,
+        "corruption_points": 0,
+        "order_offset": 0,
+        "minimum_order": 0,
+        "external_food": 0,
+        "party": null,
+        "technology_profile": "public",
+        "modifiers": [
+          {
+            "kind": "wealth_percent",
+            "value": 15,
+            "targets": [
+              "trade_sea"
+            ],
+            "source_region": "rom_aegyptos_ta_mehu",
+            "name": "Pharos of Alexandria",
+            "scope": "faction",
+            "source_url": "https://seore.org/w/%ED%86%A0%ED%83%88%20%EC%9B%8C:%20%EB%A1%9C%EB%A7%882/%EC%A7%80%EC%97%AD",
+            "source_line": 959,
+            "interpretation": "Sea-trade bonus interpreted as maritime-commerce wealth, distinct from external tariff receipts"
+          },
+          {
+            "kind": "wealth_percent",
+            "value": 5,
+            "targets": [
+              "culture_entertainment",
+              "culture_learning"
+            ],
+            "source_region": "rom_aegyptos_ta_ament",
+            "name": "Necropolis of Giza",
+            "scope": "faction",
+            "source_url": "https://seore.org/w/%ED%86%A0%ED%83%88%20%EC%9B%8C:%20%EB%A1%9C%EB%A7%882/%EC%A7%80%EC%97%AD",
+            "source_line": 963,
+            "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+          }
+        ],
+        "world_profile": "community_patch18"
+      },
+      "python": "3.12.14"
+    },
+    {
+      "game": "rome2",
+      "faction": "rom_iceni",
+      "province": "Italia",
+      "research": "none",
+      "formulation": "original_native",
+      "elapsed_seconds": 20.057468317000257,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "FEASIBLE",
+        "seconds": 20.05248281499962,
+        "objective": 8066.3,
+        "bound": 11450.25,
+        "variables": 357,
+        "constraints": 162,
+        "workers": 4
+      },
+      "income": 8066.3,
+      "time_limit_seconds": 20,
+      "scenario": {
+        "faction": "rom_iceni",
+        "sites": [
+          {
+            "id": "rom_italia_latium",
+            "major": true,
+            "port": false,
+            "resource": null,
+            "slots": 4
+          },
+          {
+            "id": "rom_italia_etruria",
+            "major": false,
+            "port": false,
+            "resource": "wine",
+            "slots": 2
+          },
+          {
+            "id": "rom_italia_picenum",
+            "major": false,
+            "port": true,
+            "resource": null,
+            "slots": 2
+          },
+          {
+            "id": "rom_italia_samnium",
+            "major": false,
+            "port": true,
+            "resource": "olive",
+            "slots": 2
+          }
+        ],
+        "name": "Italia",
+        "all_technologies": false,
+        "core_level": 4,
+        "maximum_level": 4,
+        "tax_points": 0,
+        "corruption_points": 0,
+        "order_offset": 0,
+        "minimum_order": 0,
+        "external_food": 0,
+        "party": null,
+        "technology_profile": "public",
+        "modifiers": [
+          {
+            "kind": "wealth_percent",
+            "value": 15,
+            "targets": [
+              "agriculture_farming",
+              "agriculture_animal_husbandry",
+              "culture_entertainment",
+              "culture_learning",
+              "industry_manufacture",
+              "industry_mining",
+              "trade_local",
+              "trade_sea",
+              "subsistence"
+            ],
+            "source_region": "rom_italia_latium",
+            "name": "Roma",
+            "scope": "province",
+            "source_url": "https://seore.org/w/%ED%86%A0%ED%83%88%20%EC%9B%8C:%20%EB%A1%9C%EB%A7%882/%EC%A7%80%EC%97%AD",
+            "source_line": 330,
+            "interpretation": "Displayed all-income bonus interpreted as additive all-source wealth; installed effect definition still needed"
+          },
+          {
+            "kind": "wealth_percent",
+            "value": 5,
+            "targets": [
+              "agriculture_farming",
+              "agriculture_animal_husbandry"
+            ],
+            "source_region": "rom_italia_samnium",
+            "name": "Mount Vesuvius",
+            "scope": "faction",
+            "source_url": "https://seore.org/w/%ED%86%A0%ED%83%88%20%EC%9B%8C:%20%EB%A1%9C%EB%A7%882/%EC%A7%80%EC%97%AD",
+            "source_line": 338,
+            "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+          }
+        ],
+        "world_profile": "community_patch18"
+      },
+      "python": "3.12.14"
+    },
+    {
+      "game": "rome2",
+      "faction": "rom_iceni",
+      "province": "Italia",
+      "research": "none",
+      "formulation": "linearized_income",
+      "elapsed_seconds": 20.014368551999723,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "FEASIBLE",
+        "seconds": 20.005666823999945,
+        "objective": 8220.5,
+        "bound": 10837.45,
+        "variables": 642,
+        "constraints": 1229,
+        "workers": 4,
+        "formulation": "linearized_income",
+        "timings": {
+          "model_conversion_seconds": 0.16547872699993604,
+          "search_seconds": 19.840209329000118
+        }
+      },
+      "income": 8220.5,
+      "time_limit_seconds": 20,
+      "scenario": {
+        "faction": "rom_iceni",
+        "sites": [
+          {
+            "id": "rom_italia_latium",
+            "major": true,
+            "port": false,
+            "resource": null,
+            "slots": 4
+          },
+          {
+            "id": "rom_italia_etruria",
+            "major": false,
+            "port": false,
+            "resource": "wine",
+            "slots": 2
+          },
+          {
+            "id": "rom_italia_picenum",
+            "major": false,
+            "port": true,
+            "resource": null,
+            "slots": 2
+          },
+          {
+            "id": "rom_italia_samnium",
+            "major": false,
+            "port": true,
+            "resource": "olive",
+            "slots": 2
+          }
+        ],
+        "name": "Italia",
+        "all_technologies": false,
+        "core_level": 4,
+        "maximum_level": 4,
+        "tax_points": 0,
+        "corruption_points": 0,
+        "order_offset": 0,
+        "minimum_order": 0,
+        "external_food": 0,
+        "party": null,
+        "technology_profile": "public",
+        "modifiers": [
+          {
+            "kind": "wealth_percent",
+            "value": 15,
+            "targets": [
+              "agriculture_farming",
+              "agriculture_animal_husbandry",
+              "culture_entertainment",
+              "culture_learning",
+              "industry_manufacture",
+              "industry_mining",
+              "trade_local",
+              "trade_sea",
+              "subsistence"
+            ],
+            "source_region": "rom_italia_latium",
+            "name": "Roma",
+            "scope": "province",
+            "source_url": "https://seore.org/w/%ED%86%A0%ED%83%88%20%EC%9B%8C:%20%EB%A1%9C%EB%A7%882/%EC%A7%80%EC%97%AD",
+            "source_line": 330,
+            "interpretation": "Displayed all-income bonus interpreted as additive all-source wealth; installed effect definition still needed"
+          },
+          {
+            "kind": "wealth_percent",
+            "value": 5,
+            "targets": [
+              "agriculture_farming",
+              "agriculture_animal_husbandry"
+            ],
+            "source_region": "rom_italia_samnium",
+            "name": "Mount Vesuvius",
+            "scope": "faction",
+            "source_url": "https://seore.org/w/%ED%86%A0%ED%83%88%20%EC%9B%8C:%20%EB%A1%9C%EB%A7%882/%EC%A7%80%EC%97%AD",
+            "source_line": 338,
+            "interpretation": "Displayed wealth/order/tax bonus mapped to the named category and recipients"
+          }
+        ],
+        "world_profile": "community_patch18"
+      },
+      "python": "3.12.14"
+    },
+    {
+      "game": "rome2",
+      "faction": "rom_saba",
+      "province": "Arabia Felix",
+      "research": "none",
+      "formulation": "original_native",
+      "elapsed_seconds": 18.67330042100002,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 18.668946676999894,
+        "objective": 5895.396,
+        "bound": 5895.396,
+        "variables": 222,
+        "constraints": 108,
+        "workers": 4
+      },
+      "income": 5895.396,
+      "time_limit_seconds": 20,
+      "scenario": {
+        "faction": "rom_saba",
+        "sites": [
+          {
+            "id": "rom_arabia_felix_saba",
+            "major": true,
+            "port": false,
+            "resource": null,
+            "slots": 4
+          },
+          {
+            "id": "rom_arabia_felix_himyar",
+            "major": false,
+            "port": true,
+            "resource": "spice",
+            "slots": 2
+          },
+          {
+            "id": "rom_arabia_felix_maka",
+            "major": false,
+            "port": true,
+            "resource": "lead",
+            "slots": 2
+          }
+        ],
+        "name": "Arabia Felix",
+        "all_technologies": false,
+        "core_level": 4,
+        "maximum_level": 4,
+        "tax_points": 0,
+        "corruption_points": 0,
+        "order_offset": 0,
+        "minimum_order": 0,
+        "external_food": 0,
+        "party": null,
+        "technology_profile": "public",
+        "modifiers": [],
+        "world_profile": "community_patch18"
+      },
+      "python": "3.12.14"
+    },
+    {
+      "game": "rome2",
+      "faction": "rom_saba",
+      "province": "Arabia Felix",
+      "research": "none",
+      "formulation": "linearized_income",
+      "elapsed_seconds": 0.9154854569997042,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 0.9111555919998864,
+        "objective": 5895.396,
+        "bound": 5895.396,
+        "variables": 302,
+        "constraints": 471,
+        "workers": 4,
+        "formulation": "linearized_income",
+        "timings": {
+          "model_conversion_seconds": 0.05368869599988102,
+          "search_seconds": 0.8574882699999762
+        }
+      },
+      "income": 5895.396,
+      "time_limit_seconds": 20,
+      "scenario": {
+        "faction": "rom_saba",
+        "sites": [
+          {
+            "id": "rom_arabia_felix_saba",
+            "major": true,
+            "port": false,
+            "resource": null,
+            "slots": 4
+          },
+          {
+            "id": "rom_arabia_felix_himyar",
+            "major": false,
+            "port": true,
+            "resource": "spice",
+            "slots": 2
+          },
+          {
+            "id": "rom_arabia_felix_maka",
+            "major": false,
+            "port": true,
+            "resource": "lead",
+            "slots": 2
+          }
+        ],
+        "name": "Arabia Felix",
+        "all_technologies": false,
+        "core_level": 4,
+        "maximum_level": 4,
+        "tax_points": 0,
+        "corruption_points": 0,
+        "order_offset": 0,
+        "minimum_order": 0,
+        "external_food": 0,
+        "party": null,
+        "technology_profile": "public",
+        "modifiers": [],
+        "world_profile": "community_patch18"
+      },
+      "python": "3.12.14"
+    },
+    {
+      "game": "attila",
+      "faction": "ATT_FACT_EASTERN_ROMAN_EMPIRE",
+      "province": "thracia",
+      "fertility": 5,
+      "formulation": "expanded_boolean",
+      "build_seconds": 0.29310341999962475,
+      "solver": {
+        "status": "OPTIMAL",
+        "seconds": 9.356263137000042,
+        "objective": 24140.375,
+        "bound": 24140.375,
+        "timings": {
+          "model_conversion_seconds": 0.16430380400015565,
+          "search_seconds": 9.188977685999816,
+          "validation_seconds": 0.0007298320001609682
+        },
+        "model_stats": {
+          "formulation": "expanded_boolean",
+          "variables": 2580,
+          "constraints": 7442
+        }
+      },
+      "income": 24140.375,
+      "time_limit_seconds": 20,
+      "religion": "CHRIST_ORTHODOX",
+      "research": "all",
+      "city_level": 4,
+      "building_level": 1,
+      "military": false,
+      "python": "3.12.14"
+    },
+    {
+      "game": "attila",
+      "faction": "ATT_FACT_EASTERN_ROMAN_EMPIRE",
+      "province": "thracia",
+      "fertility": 5,
+      "formulation": "factored_income",
+      "build_seconds": 0.29310341999962475,
+      "solver": {
+        "status": "OPTIMAL",
+        "seconds": 1.2712695989998792,
+        "objective": 24140.375,
+        "bound": 24140.375,
+        "timings": {
+          "model_conversion_seconds": 0.059681873000045016,
+          "search_seconds": 1.2075292630001968,
+          "validation_seconds": 0.000903324999853794
+        },
+        "model_stats": {
+          "formulation": "factored_income",
+          "variables": 546,
+          "constraints": 494,
+          "reference_variables": 2580,
+          "reference_constraints": 7437,
+          "income_groups": 1
+        }
+      },
+      "income": 24140.375,
+      "time_limit_seconds": 20,
+      "religion": "CHRIST_ORTHODOX",
+      "research": "all",
+      "city_level": 4,
+      "building_level": 1,
+      "military": false,
+      "python": "3.12.14"
+    },
+    {
+      "game": "attila",
+      "faction": "ATT_FACT_EASTERN_ROMAN_EMPIRE",
+      "province": "aegyptus",
+      "fertility": 5,
+      "formulation": "expanded_boolean",
+      "build_seconds": 0.34007849499994336,
+      "solver": {
+        "status": "OPTIMAL",
+        "seconds": 9.64596783800016,
+        "objective": 23778.125,
+        "bound": 23778.125,
+        "timings": {
+          "model_conversion_seconds": 0.1852867329998844,
+          "search_seconds": 9.457303464000233,
+          "validation_seconds": 0.0005552869997700327
+        },
+        "model_stats": {
+          "formulation": "expanded_boolean",
+          "variables": 2790,
+          "constraints": 8056
+        }
+      },
+      "income": 23778.125,
+      "time_limit_seconds": 20,
+      "religion": "CHRIST_ORTHODOX",
+      "research": "all",
+      "city_level": 4,
+      "building_level": 1,
+      "military": false,
+      "python": "3.12.14"
+    },
+    {
+      "game": "attila",
+      "faction": "ATT_FACT_EASTERN_ROMAN_EMPIRE",
+      "province": "aegyptus",
+      "fertility": 5,
+      "formulation": "factored_income",
+      "build_seconds": 0.34007849499994336,
+      "solver": {
+        "status": "OPTIMAL",
+        "seconds": 1.084522239999842,
+        "objective": 23778.125,
+        "bound": 23778.125,
+        "timings": {
+          "model_conversion_seconds": 0.06547698900021715,
+          "search_seconds": 1.0159687119999035,
+          "validation_seconds": 0.00045479499976863735
+        },
+        "model_stats": {
+          "formulation": "factored_income",
+          "variables": 588,
+          "constraints": 534,
+          "reference_variables": 2790,
+          "reference_constraints": 8050,
+          "income_groups": 1
+        }
+      },
+      "income": 23778.125,
+      "time_limit_seconds": 20,
+      "religion": "CHRIST_ORTHODOX",
+      "research": "all",
+      "city_level": 4,
+      "building_level": 1,
+      "military": false,
+      "python": "3.12.14"
+    },
+    {
+      "game": "attila",
+      "faction": "ATT_FACT_WESTERN_ROMAN_EMPIRE",
+      "province": "thracia",
+      "fertility": 1,
+      "formulation": "expanded_boolean",
+      "build_seconds": 0.1596686130001217,
+      "solver": {
+        "status": "OPTIMAL",
+        "seconds": 1.891911933999836,
+        "objective": 20706.05,
+        "bound": 20706.05,
+        "timings": {
+          "model_conversion_seconds": 0.05878796799970587,
+          "search_seconds": 1.831986046000111,
+          "validation_seconds": 0.0002975750003315625
+        },
+        "model_stats": {
+          "formulation": "expanded_boolean",
+          "variables": 750,
+          "constraints": 1970
+        }
+      },
+      "income": 20706.05,
+      "time_limit_seconds": 20,
+      "religion": "CHRIST_CATHOLIC",
+      "research": "all",
+      "city_level": 4,
+      "building_level": 1,
+      "military": false,
+      "python": "3.12.14"
+    },
+    {
+      "game": "attila",
+      "faction": "ATT_FACT_WESTERN_ROMAN_EMPIRE",
+      "province": "thracia",
+      "fertility": 1,
+      "formulation": "factored_candidate_not_selected",
+      "build_seconds": 0.1596686130001217,
+      "solver": {
+        "status": "OPTIMAL",
+        "seconds": 3.6799719130003723,
+        "objective": 20706.05,
+        "bound": 20706.05,
+        "timings": {
+          "model_conversion_seconds": 0.031106830000226182,
+          "search_seconds": 3.647676625999793,
+          "validation_seconds": 0.00017795299982026336
+        },
+        "model_stats": {
+          "formulation": "factored_income",
+          "variables": 732,
+          "constraints": 683,
+          "reference_variables": 750,
+          "reference_constraints": 1966,
+          "income_groups": 1
+        }
+      },
+      "income": 20706.05,
+      "time_limit_seconds": 20,
+      "religion": "CHRIST_CATHOLIC",
+      "research": "all",
+      "city_level": 4,
+      "building_level": 1,
+      "military": false,
+      "python": "3.12.14"
+    },
+    {
+      "game": "attila",
+      "faction": "ATT_FACT_SAXONES",
+      "province": "thracia",
+      "fertility": 5,
+      "formulation": "expanded_boolean",
+      "build_seconds": 0.16670445099998688,
+      "solver": {
+        "status": "OPTIMAL",
+        "seconds": 0.5625219479998123,
+        "objective": 17537.85,
+        "bound": 17537.85,
+        "timings": {
+          "model_conversion_seconds": 0.03357429299967407,
+          "search_seconds": 0.527781455999957,
+          "validation_seconds": 0.0005601500001830573
+        },
+        "model_stats": {
+          "formulation": "expanded_boolean",
+          "variables": 586,
+          "constraints": 1428
+        }
+      },
+      "income": 17537.85,
+      "time_limit_seconds": 20,
+      "religion": "PAGAN_GERMANIC",
+      "research": "all",
+      "city_level": 4,
+      "building_level": 1,
+      "military": false,
+      "python": "3.12.14"
+    },
+    {
+      "game": "attila",
+      "faction": "ATT_FACT_SAXONES",
+      "province": "thracia",
+      "fertility": 5,
+      "formulation": "factored_candidate_not_selected",
+      "build_seconds": 0.16670445099998688,
+      "solver": {
+        "status": "OPTIMAL",
+        "seconds": 0.5693793599998571,
+        "objective": 17537.85,
+        "bound": 17537.850000000002,
+        "timings": {
+          "model_conversion_seconds": 0.02905582499988668,
+          "search_seconds": 0.5388521859999855,
+          "validation_seconds": 0.0002961140003208129
+        },
+        "model_stats": {
+          "formulation": "factored_income",
+          "variables": 578,
+          "constraints": 517,
+          "reference_variables": 586,
+          "reference_constraints": 1424,
+          "income_groups": 1
+        }
+      },
+      "income": 17537.85,
+      "time_limit_seconds": 20,
+      "religion": "PAGAN_GERMANIC",
+      "research": "all",
+      "city_level": 4,
+      "building_level": 1,
+      "military": false,
+      "python": "3.12.14"
+    },
+    {
+      "game": "rome2",
+      "faction": "rom_rome",
+      "province": "rome_main_italia",
+      "research": "none",
+      "formulation": "automatic",
+      "request": {
+        "game": "rome2",
+        "faction": "rom_rome",
+        "province": "rome_main_italia",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true
+      },
+      "time_limit_seconds": null,
+      "workers": 4,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 7.945956687000034,
+        "objective": 9733.8,
+        "bound": 9733.8,
+        "variables": 522,
+        "constraints": 1043,
+        "workers": 4,
+        "formulation": "linearized_income",
+        "timings": {
+          "model_conversion_seconds": 0.10418556000013268,
+          "search_seconds": 7.841879271999915
+        }
+      },
+      "timings": {
+        "request_seconds": 0.02728821600021547,
+        "load_engine_seconds": 0.35437473100000716,
+        "build_model_seconds": 0.00473376299987649,
+        "solve_and_check_seconds": 7.948873200999969,
+        "prepare_result_seconds": 0.007395489999908023,
+        "worker_wall_seconds": 8.457372882000072,
+        "worker_startup_seconds": 0.04443474000026981
+      },
+      "income": 9733.8,
+      "python": "3.12.14"
+    },
+    {
+      "game": "rome2",
+      "faction": "rom_rome",
+      "province": "rome_main_italia",
+      "research": "none",
+      "formulation": "automatic",
+      "request": {
+        "game": "rome2",
+        "faction": "rom_rome",
+        "province": "rome_main_italia",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true
+      },
+      "time_limit_seconds": null,
+      "workers": 4,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 7.537489674999961,
+        "objective": 9733.8,
+        "bound": 9733.8,
+        "variables": 522,
+        "constraints": 1043,
+        "workers": 4,
+        "formulation": "linearized_income",
+        "timings": {
+          "model_conversion_seconds": 0.10294584500024939,
+          "search_seconds": 7.434594469999865
+        }
+      },
+      "timings": {
+        "request_seconds": 0.02685595699995247,
+        "load_engine_seconds": 0.36797579399990354,
+        "build_model_seconds": 0.004535459000180708,
+        "solve_and_check_seconds": 7.539297866999732,
+        "prepare_result_seconds": 0.005770795999978873,
+        "worker_wall_seconds": 8.070016134999605,
+        "worker_startup_seconds": 0.0560361660000126
+      },
+      "income": 9733.8,
+      "python": "3.12.14"
+    },
+    {
+      "game": "attila",
+      "faction": "att_fact_eastern_roman_empire",
+      "province": "att_prov_thracia",
+      "research": "all",
+      "formulation": "automatic",
+      "request": {
+        "game": "attila",
+        "faction": "att_fact_eastern_roman_empire",
+        "province": "att_prov_thracia",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true
+      },
+      "time_limit_seconds": null,
+      "workers": 4,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 0.3376959719998922,
+        "objective": 24140.375,
+        "bound": 24140.375,
+        "timings": {
+          "model_conversion_seconds": 0.054502707999745326,
+          "search_seconds": 0.28124986900002114,
+          "validation_seconds": 0.00040801900013320846
+        },
+        "workers": 4,
+        "model_stats": {
+          "formulation": "factored_income",
+          "variables": 546,
+          "constraints": 494,
+          "reference_variables": 2580,
+          "reference_constraints": 7437,
+          "income_groups": 1
+        }
+      },
+      "timings": {
+        "request_seconds": 0.020113118000153918,
+        "load_engine_seconds": 0.38051943300024504,
+        "build_model_seconds": 0.28417303099968194,
+        "solve_and_check_seconds": 0.4691655940000601,
+        "prepare_result_seconds": 0.0054601490001005,
+        "worker_wall_seconds": 1.2771593179995762,
+        "worker_startup_seconds": 0.03947312399986913
+      },
+      "income": 24140.375,
+      "python": "3.12.14"
+    },
+    {
+      "game": "attila",
+      "faction": "att_fact_eastern_roman_empire",
+      "province": "att_prov_thracia",
+      "research": "all",
+      "formulation": "automatic",
+      "request": {
+        "game": "attila",
+        "faction": "att_fact_eastern_roman_empire",
+        "province": "att_prov_thracia",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true
+      },
+      "time_limit_seconds": null,
+      "workers": 4,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 0.33978155099975993,
+        "objective": 24140.375,
+        "bound": 24140.375,
+        "timings": {
+          "model_conversion_seconds": 0.05715323000003991,
+          "search_seconds": 0.2805036529998688,
+          "validation_seconds": 0.00042770900017785607
+        },
+        "workers": 4,
+        "model_stats": {
+          "formulation": "factored_income",
+          "variables": 546,
+          "constraints": 494,
+          "reference_variables": 2580,
+          "reference_constraints": 7437,
+          "income_groups": 1
+        }
+      },
+      "timings": {
+        "request_seconds": 0.019835000000057335,
+        "load_engine_seconds": 0.3939258220002557,
+        "build_model_seconds": 0.2764568819998203,
+        "solve_and_check_seconds": 0.47345511599996826,
+        "prepare_result_seconds": 0.004543889000160561,
+        "worker_wall_seconds": 1.293209031999595,
+        "worker_startup_seconds": 0.0417968829997335
+      },
+      "income": 24140.375,
+      "python": "3.12.14"
+    },
+    {
+      "game": "attila",
+      "faction": "att_fact_western_roman_empire",
+      "province": "att_prov_thracia",
+      "research": "all",
+      "formulation": "automatic",
+      "request": {
+        "game": "attila",
+        "faction": "att_fact_western_roman_empire",
+        "province": "att_prov_thracia",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "all",
+        "fertility": 1,
+        "religion": "CHRIST_CATHOLIC",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true
+      },
+      "time_limit_seconds": null,
+      "workers": 4,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 1.41616218199988,
+        "objective": 20706.05,
+        "bound": 20706.05,
+        "timings": {
+          "model_conversion_seconds": 0.04702588200007085,
+          "search_seconds": 1.3681297590001122,
+          "validation_seconds": 0.00031166999997367384
+        },
+        "workers": 4,
+        "model_stats": {
+          "formulation": "expanded_boolean",
+          "variables": 750,
+          "constraints": 1970,
+          "fallback_reason": "Expanded model retained: no cubic income products"
+        }
+      },
+      "timings": {
+        "request_seconds": 0.01895078999996258,
+        "load_engine_seconds": 0.3913588619998336,
+        "build_model_seconds": 0.16530774700004258,
+        "solve_and_check_seconds": 1.5198223470001722,
+        "prepare_result_seconds": 0.004824258999633457,
+        "worker_wall_seconds": 2.227243511999859,
+        "worker_startup_seconds": 0.04019953399983933
+      },
+      "income": 20706.05,
+      "python": "3.12.14"
+    },
+    {
+      "game": "attila",
+      "faction": "att_fact_saxones",
+      "province": "att_prov_thracia",
+      "research": "all",
+      "formulation": "automatic",
+      "request": {
+        "game": "attila",
+        "faction": "att_fact_saxones",
+        "province": "att_prov_thracia",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "all",
+        "fertility": 5,
+        "religion": "PAGAN_GERMANIC",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true
+      },
+      "time_limit_seconds": null,
+      "workers": 4,
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 0.5807055330001276,
+        "objective": 17537.85,
+        "bound": 17537.85,
+        "timings": {
+          "model_conversion_seconds": 0.03752165399964724,
+          "search_seconds": 0.5422070990002794,
+          "validation_seconds": 0.00039785799981473247
+        },
+        "workers": 4,
+        "model_stats": {
+          "formulation": "expanded_boolean",
+          "variables": 586,
+          "constraints": 1428,
+          "fallback_reason": "Expanded model retained: no cubic income products"
+        }
+      },
+      "timings": {
+        "request_seconds": 0.02789701400024569,
+        "load_engine_seconds": 0.3776035609998871,
+        "build_model_seconds": 0.18732795999994778,
+        "solve_and_check_seconds": 0.6663717169999472,
+        "prepare_result_seconds": 0.004925322999952186,
+        "worker_wall_seconds": 1.396053313000266,
+        "worker_startup_seconds": 0.04220030400028918
+      },
+      "income": 17537.85,
+      "python": "3.12.14"
+    },
+    {
+      "game": "rome2",
+      "faction": "rom_rome",
+      "province": "rome_main_italia",
+      "research": "none",
+      "formulation": "automatic_integrated",
+      "python": "3.14.9",
+      "time_limit_seconds": null,
+      "request": {
+        "game": "rome2",
+        "faction": "rom_rome",
+        "province": "rome_main_italia",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true
+      },
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 8.931184813999607,
+        "objective": 9733.8,
+        "bound": 9733.8,
+        "variables": 522,
+        "constraints": 1043,
+        "workers": 4,
+        "formulation": "linearized_income",
+        "timings": {
+          "model_conversion_seconds": 0.0891532539999389,
+          "search_seconds": 8.842053555999883
+        }
+      },
+      "timings": {
+        "request_seconds": 0.028374499000165088,
+        "load_engine_seconds": 0.3615025039998727,
+        "build_model_seconds": 0.00499224699979095,
+        "solve_and_check_seconds": 8.932859147000272,
+        "prepare_result_seconds": 0.011118301999886171,
+        "worker_wall_seconds": 9.480270539999765,
+        "worker_startup_seconds": 0.05360347100031504
+      },
+      "income": 9733.8
+    },
+    {
+      "game": "rome2",
+      "faction": "rom_rome",
+      "province": "rome_main_italia",
+      "research": "none",
+      "formulation": "automatic_integrated",
+      "python": "3.14.9",
+      "time_limit_seconds": null,
+      "request": {
+        "game": "rome2",
+        "faction": "rom_rome",
+        "province": "rome_main_italia",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true
+      },
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 11.01186874799987,
+        "objective": 9733.8,
+        "bound": 9733.8,
+        "variables": 522,
+        "constraints": 1043,
+        "workers": 4,
+        "formulation": "linearized_income",
+        "timings": {
+          "model_conversion_seconds": 0.08627527899989218,
+          "search_seconds": 10.925753278999764
+        }
+      },
+      "timings": {
+        "request_seconds": 0.030398552999940875,
+        "load_engine_seconds": 0.3672578040004737,
+        "build_model_seconds": 0.0048338970000259,
+        "solve_and_check_seconds": 11.016561440999794,
+        "prepare_result_seconds": 0.03389774300012505,
+        "worker_wall_seconds": 11.647354406999511,
+        "worker_startup_seconds": 0.05507444199974998
+      },
+      "income": 9733.8
+    },
+    {
+      "game": "attila",
+      "faction": "att_fact_eastern_roman_empire",
+      "province": "att_prov_thracia",
+      "research": "all",
+      "formulation": "automatic_integrated",
+      "python": "3.14.9",
+      "time_limit_seconds": null,
+      "request": {
+        "game": "attila",
+        "faction": "att_fact_eastern_roman_empire",
+        "province": "att_prov_thracia",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true
+      },
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 1.1848713260005752,
+        "objective": 24140.375,
+        "bound": 24140.375,
+        "timings": {
+          "model_conversion_seconds": 0.052433541999562294,
+          "search_seconds": 1.130041022000114,
+          "validation_seconds": 0.000697206000040751
+        },
+        "workers": 4,
+        "model_stats": {
+          "formulation": "factored_income",
+          "variables": 546,
+          "constraints": 494,
+          "reference_variables": 2580,
+          "reference_constraints": 7437,
+          "income_groups": 1
+        }
+      },
+      "timings": {
+        "request_seconds": 0.020559463000608957,
+        "load_engine_seconds": 0.4477097889994184,
+        "build_model_seconds": 0.2703463469997587,
+        "solve_and_check_seconds": 1.2890356470006736,
+        "prepare_result_seconds": 0.004903263999949559,
+        "worker_wall_seconds": 2.2105829379997886,
+        "worker_startup_seconds": 0.06418575200041232
+      },
+      "income": 24140.375
+    },
+    {
+      "game": "attila",
+      "faction": "att_fact_eastern_roman_empire",
+      "province": "att_prov_thracia",
+      "research": "all",
+      "formulation": "automatic_integrated",
+      "python": "3.14.9",
+      "time_limit_seconds": null,
+      "request": {
+        "game": "attila",
+        "faction": "att_fact_eastern_roman_empire",
+        "province": "att_prov_thracia",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true
+      },
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 1.2080681779998486,
+        "objective": 24140.375,
+        "bound": 24140.375,
+        "timings": {
+          "model_conversion_seconds": 0.052227173999199294,
+          "search_seconds": 1.1536972590001824,
+          "validation_seconds": 0.000528460999703384
+        },
+        "workers": 4,
+        "model_stats": {
+          "formulation": "factored_income",
+          "variables": 546,
+          "constraints": 494,
+          "reference_variables": 2580,
+          "reference_constraints": 7437,
+          "income_groups": 1
+        }
+      },
+      "timings": {
+        "request_seconds": 0.019981528999778675,
+        "load_engine_seconds": 0.4002670300005775,
+        "build_model_seconds": 0.2665057079993858,
+        "solve_and_check_seconds": 1.313037145000635,
+        "prepare_result_seconds": 0.004780638999363873,
+        "worker_wall_seconds": 2.166047551999327,
+        "worker_startup_seconds": 0.052843259999463044
+      },
+      "income": 24140.375
+    },
+    {
+      "game": "rome2",
+      "faction": "rom_rome",
+      "province": "rome_main_italia",
+      "research": "none",
+      "formulation": "automatic_integrated",
+      "python": "3.12.14",
+      "time_limit_seconds": null,
+      "request": {
+        "game": "rome2",
+        "faction": "rom_rome",
+        "province": "rome_main_italia",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true
+      },
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 7.602162774000135,
+        "objective": 9733.8,
+        "bound": 9733.8,
+        "variables": 522,
+        "constraints": 1043,
+        "workers": 4,
+        "formulation": "linearized_income",
+        "timings": {
+          "model_conversion_seconds": 0.10387268300019059,
+          "search_seconds": 7.498390884999935
+        }
+      },
+      "timings": {
+        "request_seconds": 0.027221714000006614,
+        "load_engine_seconds": 1.565322570000717,
+        "build_model_seconds": 0.004799673999514198,
+        "solve_and_check_seconds": 7.605610057999911,
+        "prepare_result_seconds": 0.016371479000554245,
+        "worker_wall_seconds": 9.363970984000844,
+        "worker_startup_seconds": 0.056171859000642144
+      },
+      "income": 9733.8
+    },
+    {
+      "game": "rome2",
+      "faction": "rom_rome",
+      "province": "rome_main_italia",
+      "research": "none",
+      "formulation": "automatic_integrated",
+      "python": "3.12.14",
+      "time_limit_seconds": null,
+      "request": {
+        "game": "rome2",
+        "faction": "rom_rome",
+        "province": "rome_main_italia",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true
+      },
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 12.417173765999905,
+        "objective": 9733.8,
+        "bound": 9733.8,
+        "variables": 522,
+        "constraints": 1043,
+        "workers": 4,
+        "formulation": "linearized_income",
+        "timings": {
+          "model_conversion_seconds": 0.09876718499981507,
+          "search_seconds": 12.31874744200013
+        }
+      },
+      "timings": {
+        "request_seconds": 0.027877184000317357,
+        "load_engine_seconds": 0.3827595519996976,
+        "build_model_seconds": 0.006026605000442942,
+        "solve_and_check_seconds": 12.421955944999354,
+        "prepare_result_seconds": 0.030225737999899138,
+        "worker_wall_seconds": 13.025082126000598,
+        "worker_startup_seconds": 0.048458638000738574
+      },
+      "income": 9733.8
+    },
+    {
+      "game": "attila",
+      "faction": "att_fact_eastern_roman_empire",
+      "province": "att_prov_thracia",
+      "research": "all",
+      "formulation": "automatic_integrated",
+      "python": "3.12.14",
+      "time_limit_seconds": null,
+      "request": {
+        "game": "attila",
+        "faction": "att_fact_eastern_roman_empire",
+        "province": "att_prov_thracia",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true
+      },
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 0.38098566999997274,
+        "objective": 24140.375,
+        "bound": 24140.375,
+        "timings": {
+          "model_conversion_seconds": 0.056395663999865064,
+          "search_seconds": 0.320505970999875,
+          "validation_seconds": 0.0011533749993759557
+        },
+        "workers": 4,
+        "model_stats": {
+          "formulation": "factored_income",
+          "variables": 546,
+          "constraints": 494,
+          "reference_variables": 2580,
+          "reference_constraints": 7437,
+          "income_groups": 1
+        }
+      },
+      "timings": {
+        "request_seconds": 0.023359363999588822,
+        "load_engine_seconds": 0.5372620200005258,
+        "build_model_seconds": 0.31966650399954233,
+        "solve_and_check_seconds": 0.5181700500006627,
+        "prepare_result_seconds": 0.006537173999277002,
+        "worker_wall_seconds": 1.5794868319999296,
+        "worker_startup_seconds": 0.05440689800070686
+      },
+      "income": 24140.375
+    },
+    {
+      "game": "attila",
+      "faction": "att_fact_eastern_roman_empire",
+      "province": "att_prov_thracia",
+      "research": "all",
+      "formulation": "automatic_integrated",
+      "python": "3.12.14",
+      "time_limit_seconds": null,
+      "request": {
+        "game": "attila",
+        "faction": "att_fact_eastern_roman_empire",
+        "province": "att_prov_thracia",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true
+      },
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 0.3590071349999562,
+        "objective": 24140.375,
+        "bound": 24140.375,
+        "timings": {
+          "model_conversion_seconds": 0.05625553499976377,
+          "search_seconds": 0.300240894000126,
+          "validation_seconds": 0.0006605649996345164
+        },
+        "workers": 4,
+        "model_stats": {
+          "formulation": "factored_income",
+          "variables": 546,
+          "constraints": 494,
+          "reference_variables": 2580,
+          "reference_constraints": 7437,
+          "income_groups": 1
+        }
+      },
+      "timings": {
+        "request_seconds": 0.02258372199958103,
+        "load_engine_seconds": 0.41849283299961826,
+        "build_model_seconds": 0.2947545680008261,
+        "solve_and_check_seconds": 0.4940613009994195,
+        "prepare_result_seconds": 0.005095926000649342,
+        "worker_wall_seconds": 1.3892967950005186,
+        "worker_startup_seconds": 0.06372079100037809
+      },
+      "income": 24140.375
+    }
+  ],
+  "baseline_revision": "02cc342",
+  "seed": 0,
+  "selection_rule": "Attila factors cubic income products; quadratic objectives keep the expanded Boolean model. WRE/Saxon factored candidate timings below motivated this rule. Rome II uses exact integer linearization with slot/branch product cuts.",
+  "method": "Sequential baseline/revised runs on one machine, CP-SAT seed 0, four workers. Original Rome II uses the unchanged canonical native integer-product model; original Attila uses the same BinaryModel with cp_sat_plan disabled. Candidate factored Attila runs deliberately include quadratic models to compare formulations before choosing the automatic rule. Final automatic runs use the full TUI subprocess path without a time limit or worker override. Each returned layout is checked by the original economic evaluator; Attila also checks the expanded constraint matrix.",
+  "pre_integration_source_files": {
+    "games/tw/attila/compact.py": "ae6dbd54746355b4a7afaf97dd332c245cfb382b34f91489c9a8dd127bcfb1a2",
+    "games/tw/competition.py": "7084af1461317aec1cfb3d2ae290d6b67f5e3b0b57910c4bf371408ffa0c2492",
+    "games/tw/rome2/model.py": "d8e998b4b2ed3cdcf2dc3e8f02adf3dd5e3a84b76f64b70a9c5758d9c47191ee"
+  },
+  "pre_integration_game_source_files": {
+    "attila": {
+      "attila/data/building_culture_variants_table.tsv": "6438a7e52babe196cfae1b52e4330159f48f119c5abd00a5b8d4d488e94a544c",
+      "attila/data/building_effects_junction_table.tsv": "dd95c690b7f7ac4e05106ebcf309628ca15aa5a1056f85507ec258ec115e55a9",
+      "attila/data/cultures_subcultures_table.tsv": "4e27ebec6dbd3c86f93f0b272602b0876333454b372a28925b3a51c604680cc7",
+      "attila/data/factions_table.tsv": "623b48208dee338dd563f5b32a49d85bd929105e72caadb56518a6575b0644a0",
+      "attila/data/provinces.tsv": "fa9b36e5ddda75fb6fa31b96218a555406d4b0047c2bf93ea0fcbbe1fa159905",
+      "attila/data/region_to_provinces_junctions_table.tsv": "f11adfa9d715e7048f1bbf3a74a6c9f64b4292ebf40075f841d9ade0bfb21770",
+      "attila/data/regions.tsv": "3bc3556d1ec349e22bf75b7ff928a1b597e77e40b6b85a3f02b84418b304d6b4",
+      "attila/data/start_pos_region_slot_templates_table.tsv": "12f34565345c74b4c432d71da7f4f8586c52c0f51723f31aa8f2efba0cbbf4d6",
+      "attila/data/online_buildings.json": "7958b74651ad52bb442e737f435079948103412f4770a818e68619fef654ac6e",
+      "attila/data/online_factions.json": "a087b6305d9bd5a3ca831a84f3261ed16ae1dd9a283169a553ef145a7adbaffe",
+      "attila/data/online_modifiers.json": "1b96106a9fbbfd616fdcf200bfecdc0772c48452eaf93bb06863ee2b22e0075e",
+      "attila/economy.py": "bc8a5e04e632f4d3500e7855c617db4a22ae0211c7cee1334fccc9a1e4781aa5",
+      "attila/compact.py": "ae6dbd54746355b4a7afaf97dd332c245cfb382b34f91489c9a8dd127bcfb1a2",
+      "problem.py": "cee7ff1a41613f2c883e45f1a2b60b4ee0285aaf260379ec5aef95a081e3f9d9",
+      "solver_ortools.py": "96d21af791c88af81ea8f3447d924f315a8a12cef0980bbe7172ba5bbaeda094",
+      "solver_cpsat.py": "7acd3605434f1749c315aca18859fcb85ba3d8d89720d35fec8baa09f48015a4",
+      "competition.py": "7084af1461317aec1cfb3d2ae290d6b67f5e3b0b57910c4bf371408ffa0c2492",
+      "sparse.py": "2d5af000000c62ba6f576d0161af388fca098047cfb9a9e56dcb2102e7d59e00",
+      "resources.py": "d38deb074849e96720488028c0aef696c68012a792d6de75e1bf99b3e17365d3"
+    },
+    "rome2": {
+      "rome2/model.py": "d8e998b4b2ed3cdcf2dc3e8f02adf3dd5e3a84b76f64b70a9c5758d9c47191ee",
+      "rome2/effects.py": "c894639ed7b39f764907582dafc60b872e274d79670f598583819b934f367172",
+      "rome2/world.py": "2301b213b6d5df0229db431960d6cc39c2ee2a53cbaf5597535422a89ba29858",
+      "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+      "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+      "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf"
+    }
+  },
+  "integration_base": "5942f2b",
+  "game_source_files": {
+    "attila": {
+      "attila/data/building_culture_variants_table.tsv": "6438a7e52babe196cfae1b52e4330159f48f119c5abd00a5b8d4d488e94a544c",
+      "attila/data/building_effects_junction_table.tsv": "dd95c690b7f7ac4e05106ebcf309628ca15aa5a1056f85507ec258ec115e55a9",
+      "attila/data/cultures_subcultures_table.tsv": "4e27ebec6dbd3c86f93f0b272602b0876333454b372a28925b3a51c604680cc7",
+      "attila/data/factions_table.tsv": "623b48208dee338dd563f5b32a49d85bd929105e72caadb56518a6575b0644a0",
+      "attila/data/provinces.tsv": "fa9b36e5ddda75fb6fa31b96218a555406d4b0047c2bf93ea0fcbbe1fa159905",
+      "attila/data/region_to_provinces_junctions_table.tsv": "f11adfa9d715e7048f1bbf3a74a6c9f64b4292ebf40075f841d9ade0bfb21770",
+      "attila/data/regions.tsv": "3bc3556d1ec349e22bf75b7ff928a1b597e77e40b6b85a3f02b84418b304d6b4",
+      "attila/data/start_pos_region_slot_templates_table.tsv": "12f34565345c74b4c432d71da7f4f8586c52c0f51723f31aa8f2efba0cbbf4d6",
+      "attila/data/online_buildings.json": "7958b74651ad52bb442e737f435079948103412f4770a818e68619fef654ac6e",
+      "attila/data/online_factions.json": "a087b6305d9bd5a3ca831a84f3261ed16ae1dd9a283169a553ef145a7adbaffe",
+      "attila/data/online_modifiers.json": "1b96106a9fbbfd616fdcf200bfecdc0772c48452eaf93bb06863ee2b22e0075e",
+      "attila/economy.py": "66c69724c12f5ca3988619bc91fcd30c7972177b781fac913e042e5bf6a67f15",
+      "attila/compact.py": "4ab185ec816b47be1b00cdd065ae27024b8405848608fb943252341a7e16ef82",
+      "attila/model.py": "3ecdcad9c29056aef774ea08eb313785862f38628247825d70d22417a2f79603",
+      "context.py": "0e0ebd31ac0e35d8dc719e721715846dd57f6febb2aa3774c41183f588d2fe51",
+      "comparison.py": "a158ce6c7d1723d8e41dc9a7f31beecfb2020adda91a4749672cc0e0736758be",
+      "building.py": "bd2cbf7d7fa018e3c58ceeba950672c772e754f0cf82db15c9ea44a5cd98bd40",
+      "entity.py": "d3fe7dfedf916f986cdff78d9ebcd3e5a89457038d0ccd0ba51b897b8305f00e",
+      "region.py": "4cb18a760d06ff477b8b77cfd99c3851afa4ac14f2b3003923ac5b9d273df990",
+      "province.py": "9aabfa210d19568e2eb472fc258c5375548effcdbe78cb8105d0c70c0fa776d9",
+      "problem.py": "c44da3db7a8c2aaea3099969005807e239337e0131f84bb5670e5fa742d08543",
+      "solver_ortools.py": "8404daf043821c9880cef8958e661d72fa4b0f70436103a7fb17195c8f179b2e",
+      "solver_cpsat.py": "348b2760d71d45a2fa0159313d37168609ab013e0a3c5b9b6f2a5e03f209568f",
+      "parser/parser.py": "52b5769932ba40985e313ed240bd277859baa08968ebf6cf6751f268c570a9fc",
+      "parser/parser_attila.py": "675c184b14ac0468829452afb5652f416b3ecec95e6ea6e22de349a0aaa73d8c",
+      "competition.py": "aeaf51d3e844feb10654cc5ef314cbd1391617804ece50b264536bb68f4aa054",
+      "sparse.py": "4847ece3e4517fd1b2631de4a036324cb795449ae1a307fc4ec7c4cbd2ef0748",
+      "resources.py": "44135c736ef6c5d4af69c27a23a200abb7a64031ec87be5ff705bf87c9767464"
+    },
+    "rome2": {
+      "rome2/model.py": "182bad2ce7342447c105a1807a5587b33daa0123ccd29a527e0b7e4d43b0ec5e",
+      "rome2/linear.py": "1c9847b860aad4a87defb7400b543afd77118a7eef075b80880f7d156b64f4f4",
+      "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+      "rome2/world.py": "5e8e74ecc0840d836ecbbeb83a40e5f8ddf647ef5580542ed92b553fec438c87",
+      "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+      "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+      "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf"
+    }
+  },
+  "validation": {
+    "pre_commit": "uv run --frozen prek run -a: passed",
+    "pre_push": "uv run --frozen prek run -a --hook-stage pre-push -v: passed",
+    "tests_passed": 410,
+    "coverage_with_branches_percent": 82.61,
+    "minimum_coverage_percent": 80,
+    "rome2_layouts_replayed": 188,
+    "historical_rome2_optimal_solver_results_verified": 73,
+    "mutation_check": {
+      "scope": [
+        "games.tw.attila.compact.x_common_unit*",
+        "games.tw.attila.compact.x_checked*"
+      ],
+      "killed": 22,
+      "total": 22,
+      "survived": 0,
+      "no_tests": 0,
+      "suspicious": 0,
+      "timeout": 0,
+      "segfault": 0,
+      "check_was_interrupted_by_user": 0
+    },
+    "mutation_command": "uv run --frozen python tools/mutation.py --scope 'games.tw.attila.compact.x_common_unit*' --scope 'games.tw.attila.compact.x_checked*' --max-children 4",
+    "mutation_scope_note": "Exact scaling and domain guards only; no complete-repository mutation sweep is claimed.",
+    "package": "uv build: source distribution and wheel built; Python 3.12 standalone wheel proved Attila income 24140.375."
+  }
+}

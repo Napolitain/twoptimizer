@@ -20,9 +20,11 @@ short CP-SAT search, then passes an independently validated layout to native
 nonlinear SCIP for an uncapped proof search. With an explicit limit it allocates
 35% to the first stage. It keeps the best income and tightest
 valid bound. `OPTIMAL` requires a solver proof; agreement alone is insufficient.
-CBC and OR-Tools SCIP use exact integer linearization. CP-SAT and native SCIP
-use integer products. Currency uses 1/10,000 units. Safe bounds and symmetry
-constraints reduce searches over interchangeable sites.
+CBC, OR-Tools SCIP and CP-SAT use exact integer linearization. Bounds respect
+the one-level-per-branch rule; additional slot/branch product constraints
+strengthen the relaxation. Native nonlinear SCIP retains integer products.
+Currency uses 1/10,000 units. The original native model remains the canonical
+identity for portable proofs; returned layouts are independently evaluated.
 
 ## Sources and corrections
 

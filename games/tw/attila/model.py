@@ -15,6 +15,7 @@ from games.tw.models.model_attila import AttilaFactions, AttilaReligion
 from games.tw.parser.parser_attila import ParserAttila
 from games.tw.problem import Problem
 from games.tw.province import Province
+from games.tw.solver_ortools import SolverOrTools
 
 if TYPE_CHECKING:
     from games.tw.attila.economy import Economy
@@ -98,8 +99,9 @@ def compile_scenario(provinces: list[Province], options: SnapshotOptions) -> Mod
         province.add_public_order_constraint()
     problem.state = ProblemState.CONSTRAINTS_ADDED
     problem.add_objective()
+    assert isinstance(problem.problem, SolverOrTools)
     return ModelSnapshot(
-        BinaryModel.from_solver(problem.problem.solver),
+        problem.problem.binary_model(),
         perf_counter() - start,
         problem.economy,
     )

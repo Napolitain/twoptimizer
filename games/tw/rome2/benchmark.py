@@ -222,6 +222,7 @@ def main(argv=None):
             (Path(__file__).parent / file).read_bytes()
             for file in (
                 "model.py",
+                "linear.py",
                 "effects.py",
                 "world.py",
                 "data/world.json",

@@ -158,6 +158,8 @@ class Problem:
             self.problem.add_objective_terms(
                 self.economy.compile(self.economy.objective(self.objective_mode), self.problem)
             )
+            if self.objective_mode == "income" and isinstance(self.problem, SolverOrTools):
+                self.problem.compact_economy = self.economy
         self.state = ProblemState.OBJECTIVE_ADDED
 
     def reset_problem(self) -> None:

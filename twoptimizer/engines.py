@@ -129,12 +129,22 @@ def solve_attila(config: RunConfig, phase: PhaseTimer) -> EngineResult:
     }
     raw["solver"] = {
         k: result[k]
-        for k in ("algorithm", "status", "seconds", "objective", "bound", "timings", "workers")
+        for k in (
+            "algorithm",
+            "status",
+            "seconds",
+            "objective",
+            "bound",
+            "timings",
+            "workers",
+            "model_stats",
+        )
     }
     raw["model_size"] = {
         "variables": len(model.names),
         "constraints": model.matrix.shape[0],
         "constraint_storage_bytes": model.matrix.nbytes,
+        "cp_sat": result.get("model_stats", {}),
     }
     income = result["objective"]
     for key in result.get("selected") or []:

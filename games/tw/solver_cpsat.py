@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-from games.tw.competition import BinaryModel, solve
+from games.tw.competition import solve
 from games.tw.solver_ortools import SolverOrTools
 
 
@@ -35,7 +35,7 @@ class SolverCpSat(SolverOrTools):
     def solve(self, seconds=None, seed=0, workers=None, **kwargs):
         if kwargs:
             raise TypeError(f"Unsupported CP-SAT options: {sorted(kwargs)}")
-        model = BinaryModel.from_solver(self.solver)
+        model = self.binary_model()
         self.result = solve(model, "cp-sat", seconds=seconds, seed=seed, workers=workers)
         if self.result.values is None:
             raise RuntimeError(

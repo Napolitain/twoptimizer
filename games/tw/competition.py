@@ -23,6 +23,7 @@ class BinaryModel:
     lower: np.ndarray
     upper: np.ndarray
     offset: float = 0
+    cp_sat_plan: object | None = field(default=None, repr=False, compare=False)
 
     @classmethod
     def from_solver(cls, solver):
@@ -82,6 +83,7 @@ class Result:
     detail: str = ""
     timings: dict[str, float] = field(default_factory=dict)
     workers: int | None = None
+    model_stats: dict = field(default_factory=dict)
 
 
 def integer_row(values):
@@ -170,6 +172,14 @@ def sat_solve(model, seconds, seed, workers=None):
     workers = resolve_workers(workers)
     start = perf_counter()
     deadline = None if seconds is None else perf_counter() + seconds
+    fallback_reason = None
+    if model.cp_sat_plan is not None:
+        from games.tw.attila.compact import UnsupportedCompact
+
+        try:
+            return model.cp_sat_plan.solve(model, seconds, seed, workers)
+        except UnsupportedCompact as error:
+            fallback_reason = str(error)
     problem = cp_model.CpModel()
     variables = [problem.new_bool_var(name) for name in model.names]
     for (indices, coefficients), lo, hi in zip(
@@ -201,7 +211,14 @@ def sat_solve(model, seconds, seed, workers=None):
             "search_seconds": perf_counter() - search_start,
         },
         workers=workers,
+        model_stats={
+            "formulation": "expanded_boolean",
+            "variables": len(variables),
+            "constraints": len(problem.proto.constraints),
+        },
     )
+    if fallback_reason is not None:
+        result.model_stats["fallback_reason"] = fallback_reason
     if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
         result.values = [solver.value(v) for v in variables]
         nonzero = np.flatnonzero(coefficients)

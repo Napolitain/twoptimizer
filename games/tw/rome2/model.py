@@ -7,6 +7,7 @@ import re
 from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass
 from fractions import Fraction
+from math import isfinite
 from pathlib import Path
 from time import perf_counter
 from typing import Any
@@ -16,6 +17,7 @@ from ortools.sat.python import cp_model
 
 from games.tw.resources import resolve_workers
 from games.tw.rome2.effects import CATEGORIES, Effect, fact_effect, raw_effect
+from games.tw.rome2.linear import LinearProducts, preserve_base_domain, preserve_minor_domains
 
 CATALOG = Path(__file__).parent / "data/economy_catalog.json"
 LOCAL_SCOPES = {
@@ -54,6 +56,42 @@ class NativeCP:
 
     def multiply(self, result, left, right):
         self.model.add_multiplication_equality(result, [left, right])
+
+    @classmethod
+    def from_linear(cls, proto):
+        """Import the exact integer linearization without floating-point scaling."""
+
+        def integer(value):
+            if not isfinite(value) or int(value) != value:
+                raise ValueError("Rome II CP-SAT requires exact integer coefficients")
+            return int(value)
+
+        problem = cls()
+        for variable in proto.variable:
+            if not variable.is_integer:
+                raise ValueError("Rome II CP-SAT requires integer variables")
+            problem.IntVar(
+                integer(variable.lower_bound),
+                integer(variable.upper_bound),
+                variable.name,
+            )
+        for row in proto.constraint:
+            expression = sum(
+                integer(amount) * problem.variables[index]
+                for index, amount in zip(row.var_index, row.coefficient, strict=True)
+            )
+            if isfinite(row.lower_bound):
+                problem.Add(expression >= integer(row.lower_bound))
+            if isfinite(row.upper_bound):
+                problem.Add(expression <= integer(row.upper_bound))
+        problem.Maximize(
+            integer(proto.objective_offset)
+            + sum(
+                integer(variable.objective_coefficient) * value
+                for variable, value in zip(proto.variable, problem.variables, strict=True)
+            )
+        )
+        return problem
 
 
 class NativeSCIP:
@@ -433,9 +471,9 @@ class Economy:
         )
         solver.Add(food >= 0)
         solver.Add(order >= self.scenario.minimum_order)
-        aux_counter = 0
+        products = LinearProducts(self, solver, choices, parties)
 
-        def selection_upper(terms):
+        def native_upper(terms):
             amounts = defaultdict(int)
             for amount, variable in terms:
                 amounts[variable_name(variable)] += amount
@@ -450,14 +488,7 @@ class Economy:
             upper += max((max(0, amounts[variable_name(v)]) for v in parties.values()), default=0)
             return upper
 
-        def selected_product(expression, selector, upper):
-            nonlocal aux_counter
-            aux_counter += 1
-            y = solver.IntVar(0, upper, f"selected_product:{aux_counter}")
-            solver.Add(y <= upper * selector)
-            solver.Add(y <= expression)
-            solver.Add(y >= expression - upper * (1 - selector))
-            return y
+        selection_upper = native_upper if native else products.selection_upper
 
         wealth, upper_wealth, combined_upper_terms = self._compile_wealth(
             base,
@@ -465,7 +496,7 @@ class Economy:
             modifiers,
             solver,
             native,
-            selected_product,
+            products.weighted_products,
             minor_base,
             minor_modifiers,
         )
@@ -493,10 +524,7 @@ class Economy:
             solver.Add(rate == factor + sum(amount * variable for amount, variable in tax))
             solver.multiply(income, w, rate)
         else:
-            income = factor * total_wealth + sum(
-                amount * selected_product(total_wealth, variable, upper_wealth)
-                for amount, variable in tax
-            )
+            income = products.income(total_wealth, factor, tax, upper_wealth)
         solver.Maximize(income + sum(amount * 10000 * variable for amount, variable in flat_income))
         self.decisions, self.party_variables = (
             decision_names,
@@ -527,7 +555,7 @@ class Economy:
         modifiers,
         solver,
         native,
-        selected_product,
+        weighted_products,
         minor_base,
         minor_modifiers,
     ):
@@ -564,14 +592,11 @@ class Economy:
                 )
                 solver.multiply(w, b, rate)
             else:
+                preserve_base_domain(solver, expression, base[category])
                 solver.Add(
                     w
                     == constant * expression
-                    + sum(
-                        amount * selected_product(expression, lookup[name], upper)
-                        for name, amount in grouped.items()
-                        if amount
-                    )
+                    + weighted_products(expression, modifiers[category], upper)
                 )
             wealth.append(w)
             upper_wealth += upper_category
@@ -599,13 +624,13 @@ class Economy:
                     solver.Add(r_minor == minor_constant + sum(a * v for a, v in minor_modifiers))
                     solver.multiply(extra, b_minor, r_minor)
                 else:
+                    preserve_minor_domains(
+                        solver, minor_expression, minor_base[category], minor_modifiers
+                    )
                     solver.Add(
                         extra
                         == minor_constant * minor_expression
-                        + sum(
-                            a * selected_product(minor_expression, v, minor_upper)
-                            for a, v in minor_modifiers
-                        )
+                        + weighted_products(minor_expression, minor_modifiers, minor_upper)
                     )
                 wealth.append(extra)
                 upper_wealth += extra_upper
@@ -1086,16 +1111,19 @@ class Economy:
         algorithm = "cp-sat"
         if not hasattr(self, "_prepared"):
             self.fingerprint()
-        problem = self._prepared
+        canonical = self._prepared
+        problem = NativeCP.from_linear(self.build())
         self._cpsat_hints(incumbent, problem)
         error = problem.model.validate()
         if error:
             raise ValueError(error)
         solver = cp_model.CpSolver()
         if seconds is not None:
-            solver.parameters.max_time_in_seconds = seconds
+            solver.parameters.max_time_in_seconds = max(0.001, seconds - (perf_counter() - start))
         solver.parameters.num_search_workers = workers
         solver.parameters.random_seed = 0
+        solver.parameters.linearization_level = 2
+        search_start = perf_counter()
         status = solver.solve(problem.model)
         report = {
             "scenario": asdict(self.scenario),
@@ -1108,6 +1136,11 @@ class Economy:
                 "variables": len(problem.model.proto.variables),
                 "constraints": len(problem.model.proto.constraints),
                 "workers": workers,
+                "formulation": "linearized_income",
+                "timings": {
+                    "model_conversion_seconds": search_start - start,
+                    "search_seconds": perf_counter() - search_start,
+                },
             },
             "exclusions": dict(self.exclusions),
         }
@@ -1128,10 +1161,13 @@ class Economy:
             report["solver"].update(objective=objective, bound=solver.best_objective_bound / 10000)
             report.update(economics)
             report["proof_fingerprint"] = self._fingerprint
-            report["selected_decision_indices"] = [
-                v.index
+            selected = {
+                v.name
                 for v in problem.variables
                 if (v.name in self.decisions or v.name in self.party_variables) and solver.value(v)
+            }
+            report["selected_decision_indices"] = [
+                v.index for v in canonical.variables if v.name in selected
             ]
         return report
 
@@ -1140,4 +1176,5 @@ class Economy:
             values = self.warm_values(incumbent)
             problem.model.clear_hints()
             for variable in problem.variables:
-                problem.model.add_hint(variable, values[variable.name])
+                if variable.name in self.decisions or variable.name in self.party_variables:
+                    problem.model.add_hint(variable, values[variable.name])
