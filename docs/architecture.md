@@ -88,6 +88,19 @@ and `joint=True` retains one combined holding in any of the three games.
 technology selections, building filters and heuristic settings. Explicit
 `to_dict`/`from_dict` methods preserve those records across worker JSON.
 
+`twoptimizer.constraint_options.ConstraintOptions` holds optional exact-building
+requirements/exclusions, Attila minimum religious influence, and Shogun faith/contact
+settings. `RunConfig.constraints` carries these through CLI/TUI requests and worker
+serialization; defaults are omitted from request JSON. The CLI helper and optional
+constraints dialog construct the same record. Adapters map it to each domain's
+scenario. Required IDs mean at least one across a joint holding, or in each
+independent case; forbidden IDs mean zero. Existing placement and modeled caps
+remain enforced. Engines compile these restrictions and independently validate
+returned or reused layouts. Attila merges requirements with advanced campaign
+rules and province targets without discarding caller input. Report metadata and
+scenario identity retain nondefault constraints so proof reuse and resume cannot
+silently cross requirements.
+
 `twoptimizer.requests.make_jobs`, exposed through `twoptimizer.service`, resolves
 province/faction identities, validates common and game-specific options, applies
 research availability rules and expands the batch. `default_config` supplies the

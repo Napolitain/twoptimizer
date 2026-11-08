@@ -11,6 +11,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from games.tw.immutable import freeze
+from games.tw.rome2 import building_constraints
 from games.tw.rome2.catalog import load_data
 from games.tw.rome2.holding_scopes import validate_economic_scope
 from games.tw.rome2.model import Economy
@@ -23,7 +24,7 @@ class HoldingScenario(Scenario):
     adjacency: tuple[tuple[str, str], ...] = ()
 
     @classmethod
-    def from_provinces(cls, provinces, adjacency):
+    def from_provinces(cls, provinces, adjacency, *, required_buildings=(), forbidden_buildings=()):
         provinces = tuple(provinces)
         if not provinces:
             raise ValueError("Joint holdings require at least one province")
@@ -50,6 +51,8 @@ class HoldingScenario(Scenario):
             adjacency=borders,
             all_technologies=provinces[0].all_technologies,
             technology_profile=provinces[0].technology_profile,
+            required_buildings=required_buildings,
+            forbidden_buildings=forbidden_buildings,
         )
 
     @classmethod
@@ -57,6 +60,8 @@ class HoldingScenario(Scenario):
         result = cls.from_provinces(
             tuple(Scenario.from_dict(p) for p in record["provinces"]),
             record["adjacency"],
+            required_buildings=record.get("required_buildings", ()),
+            forbidden_buildings=record.get("forbidden_buildings", ()),
         )
         expected = result.to_dict()
         if set(record) != set(expected) or any(
@@ -75,17 +80,26 @@ class HoldingScenario(Scenario):
             "technology_profile": self.technology_profile,
             "provinces": [province.to_dict() for province in self.provinces],
             "adjacency": [list(pair) for pair in self.adjacency],
+            **building_constraints.fields(self),
         }
 
 
 class HoldingEconomy(Economy):
     def __init__(self, scenario: HoldingScenario, data=None):
-        validated = HoldingScenario.from_provinces(scenario.provinces, scenario.adjacency)
+        validated = HoldingScenario.from_provinces(
+            scenario.provinces,
+            scenario.adjacency,
+            required_buildings=scenario.required_buildings,
+            forbidden_buildings=scenario.forbidden_buildings,
+        )
         if validated != scenario:
             raise ValueError("Use HoldingScenario.from_provinces for consistent joint settings")
         self.scenario = scenario
         self.data = load_data() if data is None else freeze(data)
-        self.locals = {p.name: Economy(p, self.data) for p in scenario.provinces}
+        self.locals = {
+            p.name: Economy(p, self.data, required_candidates=scenario.required_buildings)
+            for p in scenario.provinces
+        }
         if not self.locals:
             raise ValueError("Use HoldingScenario.from_provinces to define joint holdings")
         first = next(iter(self.locals.values()))
@@ -99,6 +113,7 @@ class HoldingEconomy(Economy):
         self.candidates = {
             site: rows for e in self.locals.values() for site, rows in e.candidates.items()
         }
+        building_constraints.validate(scenario, self.data["buildings"], self.candidates)
         for building in {
             key: row for rows in self.candidates.values() for key, row in rows.items()
         }.values():

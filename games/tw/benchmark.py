@@ -19,6 +19,7 @@ from games.tw.models.game_attila import AttilaGame
 from twoptimizer import service
 from twoptimizer.adapters.attila import comparison_report
 from twoptimizer.catalog import ROOT
+from twoptimizer.cli_constraints import add_constraint_options, read_constraints
 from twoptimizer.cli_holdings import add_holding_options, read_borders
 from twoptimizer.models import AttilaOptions, RegionFertility, RunConfig, RunRequest
 from twoptimizer.session import RunSession
@@ -39,6 +40,7 @@ def _parser():
     cli.add_argument("--seed", type=int, default=0)
     cli.add_argument("--scenario", type=Path, help="Campaign inputs and targets as JSON")
     add_holding_options(cli)
+    add_constraint_options(cli, "attila")
     cli.add_argument(
         "--workers",
         type=int,
@@ -102,6 +104,7 @@ def request_from_args(args) -> RunRequest:
         religion=args.religion,
         joint=args.joint,
         adjacency=read_borders(args, "attila"),
+        constraints=read_constraints(args, "attila"),
         attila=AttilaOptions(
             campaign=campaign,
             technologies=None if args.technology is None else tuple(args.technology),

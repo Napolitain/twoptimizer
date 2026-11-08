@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, Any
 from ortools.linear_solver import linear_solver_pb2, pywraplp
 
 from games.tw.rome2.backends import NativeCP, NativeSCIP
+from games.tw.rome2.building_constraints import install
 from games.tw.rome2.effects import CATEGORIES, raw_effect
 from games.tw.rome2.linear import LinearProducts, preserve_base_domain, preserve_minor_domains
 from games.tw.rome2.placement import branch
@@ -316,4 +317,5 @@ class RomeCompiler:
             solver.Add(sum(ordinary) <= site.capacity)
             for variables in by_branch.values():
                 solver.Add(sum(variables) <= 1)
+        install(self.economy.scenario, choices, solver)
         return choices, decision_names

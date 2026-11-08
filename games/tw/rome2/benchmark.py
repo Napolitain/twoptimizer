@@ -14,6 +14,12 @@ from games.tw.rome2.effects import fact_effect, raw_effect
 from games.tw.rome2.provenance import model_fingerprint
 from twoptimizer import service
 from twoptimizer.adapters.rome2 import prepare_scenario, request_key
+from twoptimizer.cli_constraints import (
+    add_constraint_options,
+    constraint_csv,
+    constraint_metadata,
+    read_constraints,
+)
 from twoptimizer.cli_holdings import add_holding_options, read_borders
 from twoptimizer.errors import ApplicationError
 from twoptimizer.models import RunConfig, RunRequest
@@ -159,6 +165,7 @@ def main(argv=None):
     parser.add_argument("--faction", action="append")
     parser.add_argument("--province", action="append", help="Real province name or ID; may repeat")
     add_holding_options(parser)
+    add_constraint_options(parser, "rome2")
     parser.add_argument("--no-world-bonuses", action="store_true")
     parser.add_argument("--layout", action="append", choices=["inland", "coastal", "grain"])
     parser.add_argument(
@@ -205,6 +212,7 @@ def main(argv=None):
         "model_sha256": model_hash,
         "assumptions": assumptions(args.joint),
         "coverage": audit(data),
+        **constraint_metadata(args, "rome2"),
         "excluded_playable_factions": sorted(
             {f.value for f in Rome2Factions if f.value.startswith("rom_")} - data["factions"].keys()
         ),
@@ -220,6 +228,7 @@ def main(argv=None):
         payload["cases"] = list(cases.values())
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(json.dumps(payload, indent=2) + "\n")
+        csv_constraints = constraint_csv(args, "rome2")
         fields = [
             "layout",
             "faction",
@@ -230,6 +239,7 @@ def main(argv=None):
             "food",
             "public_order",
             "seconds",
+            *csv_constraints,
         ]
         with args.output.with_suffix(".csv").open("w", newline="") as stream:
             writer = csv.DictWriter(stream, fieldnames=fields, lineterminator="\n")
@@ -237,23 +247,26 @@ def main(argv=None):
             for case in cases.values():
                 solver = case["solver"]
                 writer.writerow(
-                    dict(
-                        zip(
-                            fields,
-                            [
-                                case["layout"],
-                                case["faction_name"],
-                                solver["algorithm"],
-                                solver["status"],
-                                case.get("domestic_net_income"),
-                                solver["bound"],
-                                case.get("food_surplus"),
-                                case.get("public_order"),
-                                solver["seconds"],
-                            ],
-                            strict=False,
-                        )
-                    )
+                    {
+                        **dict(
+                            zip(
+                                fields,
+                                [
+                                    case["layout"],
+                                    case["faction_name"],
+                                    solver["algorithm"],
+                                    solver["status"],
+                                    case.get("domestic_net_income"),
+                                    solver["bound"],
+                                    case.get("food_surplus"),
+                                    case.get("public_order"),
+                                    solver["seconds"],
+                                ],
+                                strict=False,
+                            )
+                        ),
+                        **csv_constraints,
+                    }
                 )
 
     request = request_from_args(args)
@@ -307,6 +320,7 @@ def request_from_args(args) -> RunRequest:
             world_bonuses=not args.no_world_bonuses,
             joint=args.joint,
             adjacency=read_borders(args, "rome2"),
+            constraints=read_constraints(args, "rome2"),
         ),
         factions=tuple(args.faction or ()),
         provinces=tuple(args.province or args.layout or ("inland", "coastal", "grain")),
@@ -329,6 +343,11 @@ def _load_previous(args, output, source_hash, model_hash, previous):
     cases = {}
     if args.resume and output.exists():
         previous = json.loads(output.read_text())
+        if previous.get("constraints") != constraint_metadata(args, "rome2").get("constraints"):
+            raise ApplicationError(
+                "Cannot change optional constraints when resuming a report; "
+                "repeat the original constraint flags or choose a new output"
+            )
         if bool(previous.get("joint_model_sha256")) != args.joint:
             raise ApplicationError(
                 "Cannot change joint/independent ownership when resuming a report"

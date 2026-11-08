@@ -6,6 +6,7 @@ from collections import Counter
 from fractions import Fraction
 
 from games.tw.immutable import freeze
+from games.tw.rome2 import building_constraints
 from games.tw.rome2.catalog import load_data
 from games.tw.rome2.effects import CATEGORIES, Effect, fact_effect, raw_effect
 from games.tw.rome2.placement import branch, placement
@@ -33,9 +34,10 @@ def variable_name(variable):
 
 
 class Economy:
-    def __init__(self, scenario: Scenario, data: Catalog | None = None):
+    def __init__(self, scenario: Scenario, data: Catalog | None = None, *, required_candidates=()):
         self.data = load_data() if data is None else freeze(data)
         self.scenario = scenario
+        self.required_candidates = set(scenario.required_buildings) | set(required_candidates)
         self.decisions: dict[str, tuple[str, str]] = {}
         self.party_variables: dict[str, int] = {}
         self._validate_scenario(scenario)
@@ -46,6 +48,7 @@ class Economy:
         )
         self._load_parties(scenario)
         self._load_candidates(scenario)
+        building_constraints.validate(scenario, self.data["buildings"], self.candidates)
 
     def _load_candidates(self, scenario):
         self.candidates: dict[str, dict[str, BuildingRecord]] = {}
@@ -65,7 +68,9 @@ class Economy:
             choices = {
                 key: b
                 for key, b in choices.items()
-                if self.roles[(site.id, key)] != "primary" or b["level"] == primary_level
+                if self.roles[(site.id, key)] != "primary"
+                or b["level"] == primary_level
+                or key in self.required_candidates
             }
             if not any(self.roles[(site.id, k)] == "primary" for k in choices):
                 raise ValueError(
@@ -92,7 +97,7 @@ class Economy:
                 raise ValueError("Ambiguous building placement")
             if role == "primary" and building["level"] > scenario.core_level:
                 continue
-            if not any(
+            if key not in self.required_candidates and not any(
                 (e := raw_effect(x["id"], x["value"]))
                 and e.kind
                 in {
@@ -266,6 +271,7 @@ class Economy:
     def evaluate(self, layout, party) -> Economics:
         if set(layout) != set(self.candidates) or party not in self.parties:
             raise ValueError("Layout/party coverage differs")
+        building_constraints.validate_layout(self.scenario, layout)
         base = Counter()
         minor_base = Counter()
         modifiers = Counter()

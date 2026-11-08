@@ -21,6 +21,10 @@ def prepare_scenario(config: RunConfig):
             for key in config.holdings
         ),
         all_arts=config.research == "all",
+        religion=config.constraints.shogun_religion,
+        nanban_contact=config.constraints.nanban_contact,
+        required_buildings=config.constraints.required_buildings,
+        forbidden_buildings=config.constraints.forbidden_buildings,
     )
 
 

@@ -27,6 +27,7 @@ def source_files(game):
                 "holding_compiler.py",
                 "holding_evaluation.py",
                 "holding_scopes.py",
+                "building_constraints.py",
                 "data/economy_catalog.json",
                 "data/special_buildings_coverage.json",
                 "data/world.json",
@@ -42,6 +43,7 @@ def source_files(game):
                 "catalog.py",
                 "records.py",
                 "effects.py",
+                "constraints.py",
                 "data/rules.json",
             )
         ] + [
@@ -105,6 +107,7 @@ def source_files(game):
     application_paths = [
         application / "requests.py",
         application / "models.py",
+        application / "constraint_options.py",
         application / "service.py",
         application / "session.py",
         application / "holdings.py",

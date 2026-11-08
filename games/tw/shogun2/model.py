@@ -13,6 +13,7 @@ from ortools.linear_solver import pywraplp
 from games.tw.competition import BinaryModel, solve
 from games.tw.immutable import freeze
 from games.tw.shogun2.catalog import load_data
+from games.tw.shogun2.constraints import install_constraints, validate_candidates, validate_layout
 from games.tw.shogun2.effects import (
     family,
     level,
@@ -72,6 +73,7 @@ class Economy:
         self.candidates: dict[str, dict[str, PublicRecord]] = {}
 
         self._load_candidates(scenario)
+        validate_candidates(scenario, self.catalog, self.candidates)
 
     def _load_candidates(self, scenario):
         def arts_available(building, seen=frozenset()):
@@ -186,6 +188,7 @@ class Economy:
         solver.Add(sum(food) + self.arts["food"] >= 0)
         for choices in unique.values():
             solver.Add(sum(choices) <= 1)
+        install_constraints(self.scenario, variables, solver)
         lookup = {v.name(): v for v in solver.variables()}
         target = solver.Objective()
         target.SetMaximization()
@@ -234,6 +237,7 @@ class Economy:
         """Recompute original economics and constraints without product variables."""
         if set(layout) != set(self.provinces):
             raise ValueError("Layout province coverage differs")
+        validate_layout(self.scenario, layout)
         total_food = self.arts["food"]  # A faction effect, counted once.
         total_income = Fraction(0)
         unique = Counter()
@@ -331,7 +335,7 @@ class Economy:
     def optimize(self, algorithm="cp-sat", seconds=None, workers=None):
         result = solve(self.compile(), algorithm, seconds=seconds, workers=workers)
         report = {
-            "scenario": asdict(self.scenario),
+            "scenario": self.scenario.to_dict(),
             "solver": {k: v for k, v in asdict(result).items() if k != "values"},
         }
         if result.values is not None:

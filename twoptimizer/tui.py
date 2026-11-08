@@ -1,5 +1,6 @@
 """Mouse and keyboard workbench; engine work stays in cancellable processes."""
 
+from dataclasses import replace
 from time import perf_counter
 from typing import Any, ClassVar
 
@@ -22,6 +23,9 @@ from textual.widgets import (
 
 from games.tw.maps.catalog import province_borders
 from twoptimizer.catalog import EXACT, GAMES, NOTES, choices, faction_name
+from twoptimizer.constraint_catalog import building_choices
+from twoptimizer.constraint_options import ConstraintOptions
+from twoptimizer.constraint_picker import ConstraintPicker, constraint_count
 from twoptimizer.holdings import (
     BORDER_GAMES,
     named_province_choices,
@@ -77,6 +81,7 @@ class OptimizerApp(App):
         self.current_models: list[ModelStats] = []
         self.sort_column, self.sort_reverse = "income", True
         self.province_selection = ProvinceSelection()
+        self.constraint_options = ConstraintOptions()
 
     def compose(self) -> ComposeResult:
         yield from compose_workspace()
@@ -112,6 +117,7 @@ class OptimizerApp(App):
     def _configure_game(self):
         self._loading_settings = True
         self.province_selection = ProvinceSelection()
+        self.constraint_options = ConstraintOptions()
         game = str(self.query_one("#game", Select).value)
         options = choices(game)
         available = game in EXACT
@@ -164,6 +170,32 @@ class OptimizerApp(App):
         )
         self._loading_settings = False
         self._refresh_preview()
+
+    @on(Button.Pressed, "#choose-constraints")
+    def choose_constraints(self):
+        if self.busy or str(self.query_one("#game", Select).value) not in EXACT:
+            return
+        try:
+            config = self._config()
+            discovery = replace(
+                config,
+                constraints=replace(
+                    config.constraints, required_buildings=(), forbidden_buildings=()
+                ),
+            )
+            buildings = building_choices(discovery)
+        except ValueError as error:
+            self.notify(str(error), severity="error", timeout=8)
+            return
+        self.push_screen(
+            ConstraintPicker(config.game, buildings, self.constraint_options, joint=config.joint),
+            self.constraints_chosen,
+        )
+
+    def constraints_chosen(self, options):
+        if options is not None:
+            self.constraint_options = options
+            self._refresh_preview()
 
     @on(Button.Pressed, "#choose-provinces")
     def choose_provinces(self):
@@ -261,6 +293,7 @@ class OptimizerApp(App):
                 adjacency=self.province_selection.adjacency
                 if self.province_selection.joint
                 else None,
+                constraints=self.constraint_options,
             )
         except ValueError as error:
             raise ValueError("Enter numeric values for the selected settings.") from error
@@ -281,6 +314,12 @@ class OptimizerApp(App):
         if reset_model:
             self._reset_model_size("available after compilation")
         self._province_controls()
+        count = constraint_count(self.constraint_options)
+        constraint_button = self.query_one("#choose-constraints", Button)
+        constraint_button.label = (
+            f"Optional constraints… ({count})" if count else "Optional constraints…"
+        )
+        constraint_button.disabled = str(self.query_one("#game", Select).value) not in EXACT
         self.query_one("#time-options").display = self.query_one("#time-limit", Checkbox).value
         try:
             config = self._config()

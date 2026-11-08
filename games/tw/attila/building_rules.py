@@ -1,7 +1,7 @@
 """Explicit campaign limits and regional placement for Attila buildings.
 
 These are caller-supplied constraints, not inferred vanilla uniqueness rules.
-Several upgrade IDs can share one maximum, including a whole unique chain.
+Several upgrade IDs can share count limits, including a whole unique chain.
 """
 
 from dataclasses import dataclass
@@ -12,6 +12,7 @@ class BuildingRule:
     buildings: tuple[str, ...]
     maximum: int | None = None
     regions: tuple[str, ...] | None = None
+    minimum: int | None = None
 
     def __post_init__(self):
         object.__setattr__(self, "buildings", tuple(self.buildings))
@@ -27,17 +28,30 @@ def validate_records(records):
     if not isinstance(records, list):
         raise TypeError("building_rules must be a list")
     for record in records:
-        if not isinstance(record, dict) or set(record) - {"buildings", "maximum", "regions"}:
+        if not isinstance(record, dict) or set(record) - {
+            "buildings",
+            "minimum",
+            "maximum",
+            "regions",
+        }:
             raise ValueError("Unknown building rule fields")
         _identifiers(record.get("buildings"), "Building rule buildings", nonempty=True)
-        if "maximum" not in record and "regions" not in record:
-            raise ValueError("Building rules need a maximum or allowed regions")
-        if "maximum" in record:
-            maximum = record["maximum"]
-            if isinstance(maximum, bool) or not isinstance(maximum, int) or maximum < 0:
-                raise ValueError("Building rule maximum must be a nonnegative integer")
+        if not {"minimum", "maximum", "regions"} & record.keys():
+            raise ValueError("Building rules need a minimum, maximum or allowed regions")
+        _count_limits(record)
         if "regions" in record:
             _identifiers(record["regions"], "Building rule regions")
+
+
+def _count_limits(record):
+    for key in ("minimum", "maximum"):
+        if key not in record:
+            continue
+        value = record[key]
+        if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+            raise ValueError(f"Building rule {key} must be a nonnegative integer")
+    if "minimum" in record and "maximum" in record and record["minimum"] > record["maximum"]:
+        raise ValueError("Building rule minimum cannot exceed maximum")
 
 
 def _identifiers(value, label, *, nonempty=False):
@@ -68,6 +82,12 @@ def bind_records(records, provinces):
 def install_rules(economy, solver):
     for i, rule in enumerate(economy.scenario.building_rules):
         candidates = [b for b in economy.buildings if building_key(b) in rule.buildings]
+        if rule.minimum is not None:
+            solver.create_constraint(
+                f"Building_Rule_{i}_Minimum",
+                [b.variable for b in candidates],
+                constraint_fn=lambda total, minimum=rule.minimum: total >= minimum,
+            )
         if rule.maximum is not None:
             solver.create_constraint(
                 f"Building_Rule_{i}_Maximum",
@@ -97,7 +117,9 @@ def rule_report(economy, selected):
                 "maximum": rule.maximum,
                 "regions": None if rule.regions is None else list(rule.regions),
                 "selected_count": len(chosen),
-                "satisfied": (rule.maximum is None or len(chosen) <= rule.maximum)
+                **({"minimum": rule.minimum} if rule.minimum is not None else {}),
+                "satisfied": (rule.minimum is None or len(chosen) >= rule.minimum)
+                and (rule.maximum is None or len(chosen) <= rule.maximum)
                 and (rule.regions is None or all(b.region.name in rule.regions for b in chosen)),
             }
         )

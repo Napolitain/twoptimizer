@@ -27,6 +27,9 @@ Independent batches and joint holdings work in all three games. Joint Attila and
 Rome II runs use bundled campaign borders automatically; **Neighboring provinces…**
 lets you override them. **All** selects actual provinces; the joint mode shares
 the game's applicable bonuses and constraints.
+Use **Optional constraints…** to require or forbid specific buildings, set an
+Attila religious-influence minimum, or choose Shogun 2 religion and Nanban contact.
+These options retain the income objective and the game's modeled availability rules.
 The query preview shows batch scope before Run. **Model size** displays compiled
 variable and constraint counts, with separate reference and solver formulations.
 

@@ -38,6 +38,7 @@ def compose_workspace() -> ComposeResult:
                 yield Static("", id="province-summary")
                 yield Button("Multiple provinces…", id="choose-provinces")
                 yield Button("Neighboring provinces…", id="choose-borders")
+                yield Button("Optional constraints…", id="choose-constraints")
                 yield Label("Research", classes="field-label")
                 yield Select([("Loading…", "loading")], allow_blank=False, id="research")
                 with Vertical(classes="option-group", id="rome-options"):

@@ -81,6 +81,7 @@ def test_export_roundtrip_and_existing_csv_is_protected(tmp_path):
             "adjacency",
             "adjacency_mode",
             "adjacency_directed",
+            "constraints",
         ]
         row = next(reader)
         assert row["status"] == "OPTIMAL" and row["income"] == "4182.7"

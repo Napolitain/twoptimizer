@@ -75,7 +75,31 @@ def _preparation_key(config: RunConfig) -> str:
 
 
 def campaign_scenario(config: RunConfig) -> Scenario | None:
-    """Combine explicit UI borders with campaign inputs without changing either."""
+    """Merge optional requirements and map borders into caller-owned campaign inputs."""
+    campaign = _border_scenario(config)
+    options = config.constraints
+    if not (options.required_buildings or options.forbidden_buildings) and (
+        options.minimum_religious_influence is None
+    ):
+        return campaign
+    data = campaign.to_dict() if campaign is not None else {}
+    rules = data.setdefault("building_rules", [])
+    rules.extend({"buildings": [key], "minimum": 1} for key in options.required_buildings)
+    rules.extend({"buildings": [key], "maximum": 0} for key in options.forbidden_buildings)
+    if options.minimum_religious_influence is not None:
+        data.setdefault("targets", []).extend(
+            {
+                "metric": "religion:state",
+                "scope": "province",
+                "target": province,
+                "value": options.minimum_religious_influence,
+            }
+            for province in config.holdings
+        )
+    return Scenario(data)
+
+
+def _border_scenario(config: RunConfig) -> Scenario | None:
     campaign = config.attila.campaign
     if config.adjacency is None and (not config.joint or has_campaign_borders(config)):
         return campaign

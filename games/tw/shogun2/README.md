@@ -27,15 +27,32 @@ and unique-building limits: their individually optimal layouts cannot generally
 be added into one legal faction holding. JSON retains every solver case; CSV
 retains one row per clan, soil and holding, with explicit ownership and province IDs.
 
+Use the TUI's **Optional constraints…** dialog or repeat CLI `--require-building ID`
+and `--forbid-building ID` flags to require at least one or forbid every copy of an
+exact building level. Requirements apply across the joint holding, or separately
+to every independent case. Requiring `sho_buddhist_4_legendary_temple`, for example,
+forces the Famous Temple while its existing faction-wide limit still permits only
+one. Slots, food, research, clan and province restrictions remain enforced. Impossible
+requirements produce an error or infeasible case rather than unlocking a building.
+
+The dialog also exposes the existing state-faith and contact inputs. CLI
+`--religion buddhist|christian|ikko` overrides the clan's native religion;
+`--nanban-contact` makes eligible Nanban buildings available without requiring one.
+Ikko requires Ikko Ikki and vice versa. The Nanban Quarter requires Christianity;
+the Nanban chain retains its shared cap. These options keep the income objective
+and the static full-adherence assumption; they do not simulate conversion. Default
+faith and contact behavior is unchanged. CLI JSON preserves nondefault constraints
+alongside the scenario results.
+
 ## Enforced mechanics
 
 - Exactly one castle and farm per province, with dedicated road, port and
   specialty plots where available. A castle's level provides 1–5 ordinary
   town-building slots. Each town chain occupies at most one slot.
 - Specialty buildings only at their corresponding resource locations; ports
-  only on port sites. Native religious chains are used, including Otomo's
+  only on port sites. Selected-faith religious chains are used (native by default), including Otomo's
   Hospital/Jesuit branch instead of the Mission/Church/Cathedral branch. Nanban contact is off
-  in the default comparison; the Python scenario API supports it explicitly.
+  in the default comparison; the TUI, CLI and Python scenario API expose it explicitly.
 - Shared faction food must be nonnegative. Castle and market consumption
   compete with farm production. Chonindo's +2 and Sumo Tournament's -1 apply
   once to the faction, not once per province.

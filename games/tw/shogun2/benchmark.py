@@ -10,6 +10,12 @@ from pathlib import Path
 from games.tw.shogun2.catalog import CATALOG_PATH, RULES_PATH, load_data
 from games.tw.shogun2.effects import family, parse
 from twoptimizer import service
+from twoptimizer.cli_constraints import (
+    add_constraint_options,
+    constraint_csv,
+    constraint_metadata,
+    read_constraints,
+)
 from twoptimizer.models import RunConfig, RunRequest
 from twoptimizer.session import RunSession
 
@@ -45,8 +51,8 @@ def assumptions(*, joint=True):
             "agents, garrisons, honour or difficulty bonuses."
         ),
         "religion": (
-            "Each clan's native faith, 100% local adherence. No conversion "
-            "timeline or religious unrest at this snapshot."
+            "Each clan's native faith unless explicitly overridden, 100% local adherence. "
+            "No conversion timeline or religious unrest at this snapshot."
         ),
         "research_and_resources": (
             "All imported arts researched, all prerequisite construction "
@@ -54,7 +60,7 @@ def assumptions(*, joint=True):
             "food is counted once per faction."
         ),
         "eligibility": (
-            "Native religious chains, Otomo-specific Christian branch, "
+            "Selected-faith religious chains, Otomo-specific Christian branch, "
             "location-specific specialty and port plots, one chain per town slot,"
             " castle-level slot capacity, one new legendary town building of each"
             " chain per faction, one new Nanban chain. No captured unique "
@@ -154,6 +160,7 @@ def main(argv=None):
         help="Optimize each province separately",
     )
     parser.set_defaults(joint=True)
+    add_constraint_options(parser, "shogun2")
     parser.add_argument("--clan", action="append", help="Default: all 12 imported playable clans")
     parser.add_argument(
         "--algorithm",
@@ -180,7 +187,9 @@ def main(argv=None):
     args = parser.parse_args(argv)
     catalog, _ = load_data()
     request = request_from_args(args)
-    jobs, _ = service.make_jobs(request)
+    jobs, skipped = service.make_jobs(request)
+    for message in skipped:
+        print(f"Skipped: {message}", flush=True)
     provinces = list(dict.fromkeys(key for job in jobs for key in job.holdings))
     cases, rows = [], []
     first_results = {}
@@ -207,6 +216,7 @@ def main(argv=None):
                 "domestic_tax_income": first.income,
                 "food_surplus": first.metrics.get("food_surplus"),
                 "status": first.solver.status,
+                **constraint_csv(args, "shogun2"),
                 **{
                     key: result.get("provinces", {}).get(key, {}).get("tax_income")
                     for key in provinces
@@ -218,6 +228,7 @@ def main(argv=None):
         "created_at_utc": datetime.now(UTC).isoformat(),
         "assumptions": assumptions(joint=request.joint),
         "overrides": {"town_wealth": args.town_wealth, "base_tax_percent": args.tax},
+        **constraint_metadata(args, "shogun2"),
         "source_files": {
             str(p.relative_to(Path(__file__).parents[3])): hashlib.sha256(
                 p.read_bytes()
@@ -226,6 +237,7 @@ def main(argv=None):
         },
         "coverage": coverage(catalog),
         "cases": cases,
+        "skipped": skipped,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.with_suffix(".json").write_text(json.dumps(payload, indent=2) + "\n")
@@ -249,6 +261,7 @@ def request_from_args(args) -> RunRequest:
             research="all",
             town_wealth=args.town_wealth,
             tax=args.tax,
+            constraints=read_constraints(args, "shogun2"),
         ),
         factions=tuple(args.clan or ()),
         provinces=tuple(args.province or ("jap_sado", "jap_settsu", "jap_owari")),

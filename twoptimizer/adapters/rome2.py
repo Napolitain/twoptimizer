@@ -30,6 +30,14 @@ def presets(name: str) -> tuple[Site, ...]:
 
 
 def prepare_scenario(config: RunConfig) -> Scenario:
+    return replace(
+        _base_scenario(config),
+        required_buildings=config.constraints.required_buildings,
+        forbidden_buildings=config.constraints.forbidden_buildings,
+    )
+
+
+def _base_scenario(config: RunConfig) -> Scenario:
     if config.joint:
         return _joint_scenario(config)
     profile = config.research if config.research != "none" else config.technology_profile

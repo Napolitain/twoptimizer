@@ -5,6 +5,7 @@ from collections import defaultdict
 from ortools.linear_solver import linear_solver_pb2, pywraplp
 
 from games.tw.rome2.backends import NativeCP, NativeSCIP
+from games.tw.rome2.building_constraints import install
 from games.tw.rome2.compiler import EffectTerms, RomeCompiler, variable_name
 from games.tw.rome2.effects import CATEGORIES, raw_effect
 from games.tw.rome2.holding_scopes import ADJACENT_SCOPES, recipients
@@ -135,6 +136,7 @@ class HoldingCompiler:
             compiler._symmetry_constraints(selected, solver)
             choices.update(selected)
             names.update(decisions)
+        install(self.economy.scenario, choices, solver)
         parties = {i: solver.BoolVar("party:" + str(i)) for i in self.economy.parties}
         solver.Add(sum(parties.values()) == 1)
         site_index = HoldingProducts.index(self.economy, choices)

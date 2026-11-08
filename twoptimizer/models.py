@@ -4,6 +4,7 @@ from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from games.tw.attila.scenario import Scenario as CampaignScenario
+from twoptimizer.constraint_options import ConstraintOptions
 from twoptimizer.errors import ApplicationError
 
 
@@ -82,6 +83,7 @@ class RunConfig:
     adjacency: tuple[tuple[str, str], ...] | None = None
     technology_profile: str = "public"
     attila: AttilaOptions = field(default_factory=AttilaOptions)
+    constraints: ConstraintOptions = field(default_factory=ConstraintOptions)
 
     def __post_init__(self) -> None:
         if self.provinces is not None:
@@ -98,7 +100,7 @@ class RunConfig:
         data = {
             key: getattr(self, key)
             for key in self.__dataclass_fields__
-            if key not in {"technology_profile", "attila"}
+            if key not in {"technology_profile", "attila", "constraints"}
         }
         data["provinces"] = None if self.provinces is None else list(self.provinces)
         data["adjacency"] = (
@@ -108,6 +110,8 @@ class RunConfig:
             data["technology_profile"] = self.technology_profile
         if self.attila != AttilaOptions():
             data["attila"] = self.attila.to_dict()
+        if self.constraints != ConstraintOptions():
+            data["constraints"] = self.constraints.to_dict()
         return data
 
     @classmethod
@@ -121,6 +125,7 @@ class RunConfig:
                     raise ApplicationError("Provinces must be a list of province IDs.")
                 data["provinces"] = tuple(data["provinces"])
             data["attila"] = AttilaOptions.from_dict(data.get("attila", {}))
+            data["constraints"] = ConstraintOptions.from_dict(data.get("constraints", {}))
             return cls(**data)
         except (TypeError, ValueError) as error:
             raise ApplicationError(str(error)) from error

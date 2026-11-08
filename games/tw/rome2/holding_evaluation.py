@@ -3,6 +3,7 @@
 from collections import Counter
 from fractions import Fraction
 
+from games.tw.rome2.building_constraints import validate_layout
 from games.tw.rome2.effects import CATEGORIES, raw_effect
 from games.tw.rome2.holding_scopes import recipients
 
@@ -10,6 +11,7 @@ from games.tw.rome2.holding_scopes import recipients
 def evaluate(economy, layout, party):
     if set(layout) != set(economy.candidates) or party not in economy.parties:
         raise ValueError("Layout/party coverage differs")
+    validate_layout(economy.scenario, layout)
     provinces = {
         key: evaluate_province(economy, key, local, layout, party)
         for key, local in economy.locals.items()
@@ -38,6 +40,7 @@ def evaluate(economy, layout, party):
 
 
 def evaluate_province(economy, key, local, layout, party):
+    validate_layout(local.scenario, {site.id: layout[site.id] for site in local.scenario.sites})
     fixed = local.fixed + local.party_effects[party]
     base, minor, modifiers = Counter(), Counter(), Counter()
     for effect in fixed:

@@ -5,6 +5,7 @@ from dataclasses import replace
 from math import isfinite
 
 from twoptimizer.catalog import EXACT, ROOT, choices, faction_name, read
+from twoptimizer.constraint_options import ConstraintOptions
 from twoptimizer.errors import ApplicationError
 from twoptimizer.holdings import named_province_choices, validate_selection
 from twoptimizer.models import AttilaOptions, RunConfig, RunRequest
@@ -75,6 +76,9 @@ def _positive_integer(value: int | None, label: str) -> None:
 
 def validate_case(config: RunConfig) -> None:
     _validate_flags(config)
+    if not isinstance(config.constraints, ConstraintOptions):
+        raise ApplicationError("Optional constraints must use ConstraintOptions.")
+    config.constraints.validate_game(config.game)
     if config.seconds is not None and (not _finite_number(config.seconds) or config.seconds <= 0):
         raise ApplicationError("Time limit must be positive, or disabled to run to completion.")
     _positive_integer(config.workers, "Workers")
@@ -178,7 +182,27 @@ def _factions(config: RunConfig, selected: tuple[str, ...]) -> tuple[list[str], 
                     raise ApplicationError(message)
                 factions.remove(faction)
                 skipped.append(message)
-    return factions, skipped
+    factions, religious_skips = _religious_factions(config, factions, implicit)
+    return factions, skipped + religious_skips
+
+
+def _religious_factions(config, factions, implicit):
+    faith = config.constraints.shogun_religion
+    if config.game != "shogun2" or faith is None:
+        return factions, []
+    accepted, skipped = [], []
+    for faction in factions:
+        if (faction == "ikko_ikki") == (faith == "ikko"):
+            accepted.append(faction)
+            continue
+        message = (
+            f"{faction_name(config.game, faction)}: incompatible with {faith} religion; "
+            "Ikko religion and the Ikko Ikki clan must be used together."
+        )
+        if not implicit:
+            raise ApplicationError(message)
+        skipped.append(message)
+    return accepted, skipped
 
 
 def _algorithms(config: RunConfig, selected: tuple[str, ...]) -> tuple[str, ...]:

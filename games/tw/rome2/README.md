@@ -24,6 +24,16 @@ pairs. `--no-borders` explicitly models no adjacency effects;
 the independent mode remains the CLI default. Reference layouts remain separate
 synthetic scenarios and cannot form a geographic joint holding.
 
+**Optional constraints…** can require or forbid exact building IDs. CLI equivalents
+are repeatable `--require-building ID` and `--forbid-building ID` flags. For example,
+Rome can require `rome_religious_jupiter_3` in Italia. Require adds a minimum of one
+across the joint holding, or separately in each independent province; Forbid sets
+the count to zero. Different upgrade levels are distinct requirements. These rules
+retain faction and placement restrictions and the income objective. A missing
+candidate produces an error; incompatible combinations can be infeasible. Requiring
+a temple does not introduce a religion/adherence model, and excluded level-5
+monuments are not unlocked by requirements.
+
 By default the optimizer runs to an optimality/infeasibility proof with no time
 cap. `--seconds` enables an optional per-case limit. The portfolio starts with a
 short CP-SAT search, then passes an independently validated layout to native
@@ -177,6 +187,9 @@ are independently checked. Resume rejects different data/model snapshots.
 Joint reports additionally retain per-province economics, the combined realm
 income, explicit borders and a separate joint-model fingerprint. Independent
 and joint modes cannot be mixed when resuming one comparison report.
+Optional constraints are retained in report/scenario metadata. Repeat their
+original CLI flags when resuming; changing or omitting nondefault constraints
+is rejected.
 
 The checked-in coastal benchmark proves all 36 cases without research bonuses:
 Nabataea and Saba tie at 4,477.248. All 29 supported public research cases are also

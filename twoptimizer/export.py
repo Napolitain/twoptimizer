@@ -68,6 +68,7 @@ def export_session(
         "adjacency",
         "adjacency_mode",
         "adjacency_directed",
+        "constraints",
     )
     with csv_path.open("w", newline="") as stream:
         writer = csv.DictWriter(stream, fieldnames=fields)
@@ -110,6 +111,7 @@ def export_session(
                     ),
                     "adjacency_mode": row.get("raw", {}).get("map_context", {}).get("mode"),
                     "adjacency_directed": row.get("raw", {}).get("map_context", {}).get("directed"),
+                    "constraints": json.dumps(row["request"].get("constraints", {})),
                 }
             )
     return path, csv_path

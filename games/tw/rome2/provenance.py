@@ -11,6 +11,7 @@ MODEL_SOURCES = (
     "backends.py",
     "placement.py",
     "scenario.py",
+    "building_constraints.py",
     "catalog.py",
     "records.py",
     "effects.py",

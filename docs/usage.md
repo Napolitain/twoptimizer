@@ -30,6 +30,33 @@ supported parallel search remain serial. No worker count is required in the TUI;
 Three Kingdoms and HoI4 show their current readiness rather than starting an
 unsupported optimization.
 
+**Optional constraints…** opens a searchable building list. Choose a building by
+name or exact ID, then **Require** or **Forbid** it; **Remove marked** deletes chosen
+rules and **Clear all** clears these optional settings. **Apply** saves the
+options; Cancel discards edits. Require means at least one copy of that exact
+building level across a joint holding, while Forbid means zero copies. Independent
+batches apply the same requirements separately to every province/faction/solver
+case. Requiring one level does not accept a different upgrade level as a substitute.
+
+Modeled faction, placement, religion, research and unique-building limits still
+apply. Requiring a known unique building therefore forces its one allowed copy;
+it does not permit duplicates. Catalog entries may be unavailable at the selected
+locations or settings. An unavailable requirement produces an error or infeasible
+case instead of unlocking the building. Attila's imported legendary limits remain
+incomplete; advanced campaign rules can supply explicit caps. Rome II's excluded
+level-5 monuments stay unavailable.
+
+The same dialog offers game-specific religious settings:
+
+| Game | Optional setting | Meaning |
+| --- | --- | --- |
+| Attila | Minimum state-religion influence in each province | Uses the faith selected in the main settings. The minimum is a scoped sum of influence effect points, not a population-adherence percentage or conversion forecast. Leave blank for no minimum. |
+| Shogun 2 | State religion; Nanban contact established | Defaults to the clan's native faith with no contact. Faith selects eligible religious chains; Ikko requires Ikko Ikki and vice versa. Contact enables eligible Nanban candidates without requiring construction. Population conversion is not simulated. |
+| Rome II | Require a temple by its building ID | The model has no separate state-religion or religious-adherence constraint. |
+
+These optional restrictions leave income as the optimization objective. Without
+them, existing default behavior is unchanged.
+
 - Mouse clicks, wheel scrolling, arrows, Enter and Tab/Shift+Tab navigate the UI.
 - **Ctrl+R:** run; **Esc:** cancel the active batch; **Ctrl+Q:** quit.
 - **Ctrl+S:** export JSON and CSV; **F1:** keyboard help and model-status meanings.
@@ -107,6 +134,8 @@ JSON exports retain the province selection, joint mode and border inputs. Automa
 requests keep `adjacency: null`; `raw.map_context` records the resolved borders,
 source details and limitations. CSV includes the effective adjacency, its mode,
 and a direction flag; Attila campaign pairs retain source-to-recipient direction.
+Nondefault optional settings are stored in each shared JSON `request.constraints`;
+the matching CSV `constraints` column contains the same JSON object.
 Cancel stops the active worker
 and preserves completed cases. The CLI retains campaign JSON inputs and its existing
 advanced options.
@@ -161,6 +190,33 @@ uv run --locked twoptimizer rome2 --faction rom_rome \
   --province Italia --province 'Magna Graecia' --joint
 uv run --locked twoptimizer shogun2 --clan oda --province all --joint --soil native
 ```
+
+All three CLIs accept repeated `--require-building ID` and `--forbid-building ID`.
+Use the exact IDs shown in the TUI's optional-constraints catalog. For example:
+
+```sh
+uv run --locked twoptimizer attila --province Thracia --religion CHRIST_ORTHODOX \
+  --require-building att_bld_religion_orthodox_major_1 --minimum-religious-influence 5
+uv run --locked twoptimizer rome2 --faction rom_rome --province Italia \
+  --require-building rome_religious_jupiter_3
+uv run --locked twoptimizer shogun2 --clan oda --province jap_owari \
+  --province jap_settsu --joint --soil native \
+  --religion buddhist --require-building sho_buddhist_4_legendary_temple
+uv run --locked twoptimizer shogun2 --clan oda --province jap_settsu --soil native \
+  --religion christian --nanban-contact --require-building sho_port_3_nanban_trade_port
+```
+
+Attila's `--minimum-religious-influence POINTS` requires the selected faith's
+influence minimum in every selected province. Its existing `--religion` chooses
+the faith. Shogun's `--religion buddhist|christian|ikko` overrides the clan default;
+`--nanban-contact` supplies contact without forcing a port. A Buddhist clan may
+convert to Christianity in this static scenario, but Ikko's clan restriction
+remains enforced. Neither option simulates the conversion process.
+
+Rome II and Shogun CLI JSON reports retain the optional constraints alongside
+their scenario/results. When resuming a Rome II report, repeat the original
+constraint flags; resume rejects changed or omitted nondefault constraints.
+These examples run to completion unless you add an explicit `--seconds` limit.
 
 An all-province joint problem maximizes the selected realm's total income. An
 independent batch solves a separate hypothetical realm for each province; adding
@@ -524,7 +580,7 @@ The JSON keys are:
 | `resource_prices` | Revenue per exported resource unit; used only for the income objective |
 | `resource_demand` | Optional export-volume caps; surplus units have no export value |
 | `adjacency` | Source province IDs mapped to adjacent selected province IDs; lists are explicit and directed |
-| `building_rules` | Explicit construction restrictions: `buildings` lists exact IDs, `maximum` caps their combined count across the holding, `regions` optionally restricts placement |
+| `building_rules` | Explicit construction restrictions: `buildings` lists exact IDs, optional `minimum` and `maximum` bound their combined count across the holding, and `regions` optionally restricts placement |
 | `conditional_targets` | Effect IDs mapped to source-province/recipient-province lists for exceptional food-sharing/neighbor effects |
 | `targets` | Minimum required scoped effects: `metric`, `scope`, `target`, `value` |
 | `weights` | Must be absent or empty; the application optimizes income only |
@@ -537,10 +593,12 @@ Resource names include wood, wine, iron, lead, leather, marble, olive, salt, sil
 spice, dyes, gem and cloth. Prices and demand are supplied by the scenario; the
 optimizer does not invent world-market prices or trade partners.
 
-`building_rules` can express a unique building or several upgrade variants sharing
-one limit. For example, a supplied rule
-`{"buildings":["att_bld_roman_east_civic_governor_5_legendary"],"maximum":1}`
-allows at most one selected instance across the holding. This is a scenario
+`building_rules` can require a building or bound several upgrade variants sharing
+one count. For example, a supplied rule
+`{"buildings":["att_bld_roman_east_civic_governor_5_legendary"],"minimum":1,"maximum":1}`
+requires exactly one selected instance across the holding. Omitting `minimum`
+allows zero copies; `maximum: 0` forbids the listed buildings. Counts are
+nonnegative integers and the minimum cannot exceed the maximum. This is a scenario
 assumption, **not an imported vanilla cap**; reports label it
 `user_supplied_campaign_rule`. Unknown IDs, unselected regions and invalid limits
 are rejected. These rules restrict available candidates; they cannot enable a

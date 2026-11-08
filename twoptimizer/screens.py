@@ -30,6 +30,15 @@ restores automatic selection. Applying an empty custom list disables adjacency e
 single-province dropdown. Joint runs share supported faction effects and constraints.
 Use **Single province** in the picker to return to the original dropdown.
 
+**Optional constraints…** lets you search buildings by name or ID, then Require
+at least one or Forbid all copies of that exact building. Requirements apply once
+across a joint holding, or separately in every independent case. Existing placement,
+research and known unique-building limits still apply. **Clear all** restores defaults.
+Attila can require minimum state-religion influence in each province; these are
+effect points, not population percentages. Shogun 2 offers state religion and
+Nanban contact; Ikko requires Ikko Ikki. Rome II temples can be required by ID,
+but religious conversion is not modeled. Income remains the objective.
+
 Mouse clicks, wheel scrolling, **Tab / Shift+Tab**, **arrow keys** and **Enter**
 work throughout. Selects support typing to search. Click a result or move with
 the arrows to inspect its income, bound and building layout. **Enter** opens the
