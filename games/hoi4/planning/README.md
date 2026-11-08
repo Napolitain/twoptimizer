@@ -163,3 +163,8 @@ should reset past progress. `ready_at_boundary` checks completed training and
 current equipment/manpower gates without advancing another hour. Iterate only
 the horizon's work offsets, then check its final boundary; a division one hour
 short at the deadline remains unready.
+
+`construction.py` and `economy.py` add simultaneous construction, completion
+records, slot reservations, consumer-goods breakdowns and supplied power/output
+accounting. See [construction and economy arithmetic](construction-economy.md)
+for the inputs, source evidence and explicit completion-overflow policy.
