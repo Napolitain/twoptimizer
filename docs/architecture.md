@@ -437,6 +437,43 @@ linear products and CP-SAT import live alongside the extracted compiler/backend
 modules, and proof indices still refer to the canonical model. The exhaustive
 layout and warm-start regressions for those formulations remain part of the suite.
 
+For joint Rome II CP-SAT, `joint_search` can prepare certified bounds before the
+full native search. The linear holding compiler labels only the global food row
+`__realm_food`; the canonical native proof model's row remains unchanged.
+`decomposition` temporarily relaxes that tagged row for bound construction,
+propagates fixed variables, and forms connected components using every retained
+constraint. Shared variables, optional requirements and cross-province effects
+therefore continue to connect groups. This is not a split based on province names.
+
+`bound_search` uses a HiGHS continuous relaxation to suggest a nonnegative integer
+food price. That price is a heuristic; the LP objective and dual are not accepted
+as exact income certificates. Short CP-SAT searches and safe integer-domain
+bounds establish bounds on each component's income plus priced food. The resulting
+inequalities strengthen the original model, whose shared-food row stays enforced.
+All fixed objective and food contributions are included when combining the upper
+bounds. Unsupported integer scaling skips this preparation. Components without
+a completed search retain a safe domain bound rather than an assumed optimum.
+
+An assembled seed is eligible only after checking every original variable domain
+and matrix row. The owning Rome optimizer then evaluates the final layout's
+economics independently. `joint_search` retains the best available validated seed
+or native candidate and strongest certified bound. A retained seed can yield
+FEASIBLE when native search returns UNKNOWN or is cancelled before starting;
+native OPTIMAL/INFEASIBLE proofs are not inferred from partial component results.
+Reports retain the native status when it differs, bound-stage details and separate
+`bound_strengthening_seconds`, conversion and final-search timings. Source
+provenance includes the new modules while canonical proof identity stays separate.
+
+Preparation is attempted only with at least four components and enough remaining
+allowance. Its configured allowance is at most 40 seconds and, for limited runs,
+two-thirds of the remaining overall allowance. LP pricing receives at most ten
+seconds and component searches at most one second each, all sharing that same
+preparation allowance. These are solver allowances, not hard wall deadlines.
+The pinned HiGHS backend cannot interrupt an active pricing solve; cancellation
+is checked around it, and Force stop remains available. Components are processed
+serially using the same machine-derived worker allocation as the full search.
+See the [method and measurements](rome-joint-bounds.md).
+
 The integrated architecture was compared against `bd60b0c` with the same locked
 Python 3.14 environment, default scenarios, one worker and three serial samples.
 All three games produced identical result fingerprints, including income,

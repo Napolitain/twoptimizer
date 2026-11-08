@@ -494,6 +494,7 @@ class Economy:
         on_search=None,
         on_model=None,
         cancellation=None,
+        on_phase=None,
     ):
         from games.tw.rome2.optimization import RomeOptimizer
 
@@ -505,4 +506,5 @@ class Economy:
             on_search=on_search,
             on_model=on_model,
             cancellation=cancellation,
+            on_phase=on_phase,
         )

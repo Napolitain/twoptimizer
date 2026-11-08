@@ -109,7 +109,10 @@ def solve_rome(
         economy,
         config,
         **search_observers(
-            phase, "Rome II CP-SAT", lambda: len(economy.decisions) + len(economy.party_variables)
+            phase,
+            "Rome II CP-SAT",
+            lambda: len(economy.decisions) + len(economy.party_variables),
+            phases=True,
         ),
     )
     record_cp_result(phase, raw["solver"], len(economy.decisions) + len(economy.party_variables))

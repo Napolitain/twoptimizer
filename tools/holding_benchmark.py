@@ -85,6 +85,7 @@ def case_record(result):
         "gap_percent": result["gap_percent"],
         "solver_seconds": result["solver"]["seconds"],
         "solver_timings": result["solver"].get("timings", {}),
+        "joint_bound_search": result["solver"].get("joint_bound_search"),
         "effective_workers": result["solver"].get("workers"),
         "timings": result["timings"],
         "model_complexity": result["raw"].get("model_complexity", []),

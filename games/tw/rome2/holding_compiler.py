@@ -145,7 +145,10 @@ class HoldingCompiler:
             products = HoldingProducts(self.economy, scoped, choices, parties, site_index)
             incomes.append(self._income(local, terms, products, scoped, native))
             foods.append(terms.food)
-        solver.Add(sum(foods) >= 0)
+        if isinstance(solver, NativeCP):
+            solver.Add(sum(foods) >= 0)
+        else:
+            solver.Add(sum(foods) >= 0, "__realm_food")
         solver.Maximize(sum(incomes))
         self.economy.decisions = names
         self.economy.party_variables = {variable_name(v): i for i, v in parties.items()}

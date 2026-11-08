@@ -308,6 +308,22 @@ remaining cases. HiGHS currently has no live candidate/bound telemetry.
 Neither model size, gap nor a quiet interval predicts whether a proof will take
 minutes, hours or weeks. The outlook reports **unknown** without matching evidence;
 past completion times are not an ETA or a new time limit.
+Joint Rome II CP-SAT can now show a preparatory stage that estimates a shared-food
+price and bounds smaller connected groups. These bounds help the subsequent
+search of the complete model; they do not remove food, adjacency, worldwide
+bonuses or building requirements from the final solution. A combined candidate
+must satisfy the original model and pass independent economic validation.
+The preparation shares the configured solver allowance and is skipped when
+there are fewer than four connected groups or less than 45 seconds remain.
+It has a configured allowance of at most 40 seconds, further limited to two-thirds
+of the remaining allowance when a time limit is set. This does not cap an
+otherwise unlimited full solve. Its HiGHS LP price estimate has an allowance of
+at most ten seconds; Cancel may wait for that native stage to return because the
+pinned backend cannot interrupt it. Force stop remains available.
+The [Rome II joint-bounds report](rome-joint-bounds.md) gives the measured income,
+bound, gap, timings and memory, including unfinished proof statuses. Worker
+selection remains automatic. This stage is specific to Rome II; it is not a
+performance claim for Attila or Shogun 2.
 The [joint-model investigation](joint-scaling.md) records reductions in model
 construction time and the remaining difficulty of proving full-world optima.
 The [CP-SAT/HiGHS comparison](cpsat-highs-performance.md) records the supported

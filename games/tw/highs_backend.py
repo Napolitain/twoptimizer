@@ -14,6 +14,7 @@ from pathlib import Path
 from threading import Lock
 from time import perf_counter
 
+from ortools.linear_solver import linear_solver_pb2
 from ortools.math_opt import model_pb2
 from ortools.math_opt.python import mathopt
 
@@ -22,6 +23,7 @@ from games.tw.resources import resolve_workers
 
 _SCHEDULER = Lock()
 _TOLERANCE = 1e-6
+_PRICE_MAX_SECONDS = 10.0
 
 
 @cache
@@ -301,3 +303,124 @@ def _run(proto, report, started, seconds, incumbent, seed, cancellation):
         "search_seconds": perf_counter() - search_started,
     }
     return _solution(result, model, proto, report)
+
+
+def _validate_price_request(proto, row_index, seconds):
+    if isinstance(seconds, bool) or not isinstance(seconds, (int, float)):
+        raise ValueError("Price estimation seconds must be positive and finite")
+    if not isfinite(seconds) or seconds <= 0:
+        raise ValueError("Price estimation seconds must be positive and finite")
+    if not proto.maximize:
+        raise ValueError("Price estimation requires a maximization objective")
+    if isinstance(row_index, bool) or not isinstance(row_index, int):
+        raise ValueError("Price estimation row index must be an integer")
+    if not 0 <= row_index < len(proto.constraint):
+        raise ValueError("Price estimation row index is outside the model")
+    row = proto.constraint[row_index]
+    if not isfinite(row.lower_bound) or row.upper_bound != float("inf"):
+        raise ValueError("Price estimation requires a finite lower bound and no upper bound")
+
+
+def estimate_lower_bound_price(
+    proto,
+    row_index: int,
+    seconds: float,
+    workers=None,
+    *,
+    cancellation: Cancellation | None = None,
+) -> dict:
+    """Estimate a nonnegative integer penalty from a continuous relaxation.
+
+    The selected row must have only a finite lower bound in a maximization
+    model. An optimal LP's negative row dual estimates the income opportunity
+    cost of one row unit. Rounding this price is heuristic; this function returns
+    no objective or bound certificate. A later exact solver must independently
+    establish any Lagrangian bound using the returned nonnegative price.
+
+    The allowance includes conversion and scheduler waiting and is capped at
+    ten seconds. Cancellation is checked around preparation and native search;
+    the bundled MathOpt HiGHS backend cannot interrupt an active native search.
+    """
+    started = perf_counter()
+    if cancellation is not None:
+        cancellation.checkpoint()
+    _validate_price_request(proto, row_index, seconds)
+    _validate_model(proto)
+    workers = resolve_workers(workers)
+    relaxed = linear_solver_pb2.MPModelProto()
+    relaxed.CopyFrom(proto)
+    for variable in relaxed.variable:
+        variable.is_integer = False
+    model = _native_model(relaxed)
+    if cancellation is not None:
+        cancellation.checkpoint()
+    report = {
+        "status": "UNKNOWN",
+        "price": None,
+        "seconds": 0.0,
+        "workers": workers,
+        "detail": "Price estimation allowance exhausted before native search",
+        "timings": {
+            "model_conversion_seconds": perf_counter() - started,
+            "scheduler_wait_seconds": 0.0,
+            "search_seconds": 0.0,
+        },
+    }
+    allowance = min(seconds, _PRICE_MAX_SECONDS)
+    remaining = allowance - (perf_counter() - started)
+    if remaining > 0:
+        _estimate_price_under_lock(
+            model, row_index, report, started, allowance, remaining, cancellation
+        )
+    report["seconds"] = perf_counter() - started
+    return report
+
+
+def _estimate_price_under_lock(
+    model, row_index, report, started, allowance, remaining, cancellation
+):
+    waiting = perf_counter()
+    acquired = _SCHEDULER.acquire(timeout=remaining)
+    report["timings"]["scheduler_wait_seconds"] = perf_counter() - waiting
+    if not acquired:
+        return
+    try:
+        if cancellation is not None:
+            cancellation.checkpoint()
+        _native_library().Highs_resetGlobalScheduler(1)
+        params = mathopt.SolveParameters()
+        params.highs.int_options["threads"] = report["workers"]
+        params.highs.string_options["parallel"] = "on"
+        remaining = allowance - (perf_counter() - started)
+        if remaining <= 0:
+            return
+        params.time_limit = timedelta(seconds=remaining)
+        if cancellation is not None:
+            cancellation.checkpoint()
+        search_started = perf_counter()
+        # OR-Tools 9.15 ignores SolveInterrupter in HighsSolver::Solve; the
+        # finite allowance bounds this optional prepass before its next checkpoint.
+        result = mathopt.solve(model, mathopt.SolverType.HIGHS, params=params)
+        report["timings"]["search_seconds"] = perf_counter() - search_started
+        if cancellation is not None:
+            cancellation.checkpoint()
+        report.update(
+            status=_status(result.termination.reason, result.has_primal_feasible_solution()),
+            detail=result.termination.detail,
+        )
+        _price_from_dual(model, row_index, result, report)
+    finally:
+        _SCHEDULER.release()
+
+
+def _price_from_dual(model, row_index, result, report):
+    if result.termination.reason != mathopt.TerminationReason.OPTIMAL:
+        return
+    if not result.has_dual_feasible_solution():
+        report["detail"] += "; no feasible dual solution available for price estimation"
+        return
+    dual = result.dual_values(model.get_linear_constraint(row_index))
+    if not isfinite(dual):
+        report["detail"] += "; selected row dual is not finite"
+        return
+    report["price"] = max(0, round(-dual))

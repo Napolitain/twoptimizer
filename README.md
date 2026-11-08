@@ -39,6 +39,10 @@ The query preview shows batch scope before Run. **Model size** displays compiled
 variable and constraint counts, with separate reference and solver formulations.
 During CP-SAT search, a separate live line shows the candidate income, upper
 bound and remaining gap. A candidate becomes a result after validation.
+Larger joint Rome II CP-SAT runs automatically prepare bounds from smaller
+connected groups before searching the complete model. Shared food and all other
+requirements remain enforced; the [measurement report](docs/rome-joint-bounds.md)
+explains the method, observed results and limits.
 The **Runtime** tab shows matching historical measurements, timings from earlier
 runs with the same settings in this session, and time since the candidate or
 bound last improved. These are observations, not a promised completion time.
@@ -87,6 +91,7 @@ for optimization in the UI.
 - [Data preparation and coverage](games/tw/multigame/README.md)
 - [CP-SAT and HiGHS comparison](docs/cpsat-highs-performance.md)
 - [Joint Attila and Rome II performance investigation](docs/joint-scaling.md)
+- [Rome II joint bounds and measured solution quality](docs/rome-joint-bounds.md)
 - [Historical joint and independent holding benchmarks](docs/holding-performance.md)
 - [Attila special-building audit](docs/attila-special-audit.md)
 - [Rome II special-building audit](docs/rome-special-audit.md)

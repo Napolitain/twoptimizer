@@ -1,0 +1,1961 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-11-08T14:24:57.817747+00:00",
+  "comparison": {
+    "baseline_revision": "44a554cd805ebd32ad7f4fb6510f87746213baef",
+    "candidate_revision": "identified by measured installed-package source hashes",
+    "workload": "Rome II, Rome, all 57 provinces jointly; default world bonuses and automatic adjacency; no optional constraints",
+    "method": "Two serial fresh-worker samples per variant, installed production wheels outside checkout; same locked dependencies, four allocated CPUs, no profiling or coverage. Configured whole-case solver allowance 60 s, wall guard 120 s, worker RSS guard 4096 MiB. Startup included. No excluded warmups.",
+    "driver_difference": "The candidate case recorder adds joint_bound_search diagnostics; native invocation, limits and sensitivity driver are unchanged. Both exact benchmark-driver versions are embedded.",
+    "interpretation": "Compare feasible income and certified gap at the same allowance, not time to optimality. All full-world samples remain FEASIBLE. Two repeats do not establish tail latency. Memory regression is reported in the accompanying document.",
+    "command": "env/bin/python -m tools.holding_benchmark_sensitivity --game rome2 --algorithm cp-sat --mode joint --seconds-per-case 60 --wall-seconds 120 --memory-mib 4096 --revision REVISION --output-directory REPEAT_DIRECTORY",
+    "legacy_driver_warning": "The embedded sensitivity reports warn against comparing with older matrices that used different aggregate limits. These baseline/candidate runs use identical limits and form a separate matched comparison."
+  },
+  "drivers": {
+    "baseline_tools/holding_benchmark.py": {
+      "sha256": "f01feaf56e5c3e1ffee0abcc27f0a1f04007a8f516b3dc29d9653718e9d3099c",
+      "source": "\"\"\"Measure bounded, serial CLI/TUI worker workloads across supported campaigns.\n\nRun with ``uv run --frozen python -m tools.holding_benchmark --output report.json``.\nConfigured solver allowances are equal per holding, not per independent province.\nSome backends charge conversion against that allowance; native search is separate.\n\"\"\"\n\nimport argparse\nimport asyncio\nimport hashlib\nimport importlib.metadata\nimport json\nimport math\nimport os\nimport platform\nimport subprocess\nfrom collections import Counter\nfrom contextlib import suppress\nfrom dataclasses import dataclass, replace\nfrom datetime import UTC, datetime\nfrom pathlib import Path\nfrom statistics import median\nfrom time import perf_counter\n\nfrom games.tw.highs_backend import native_version\nfrom games.tw.resources import available_workers\nfrom twoptimizer.models import RunConfig\nfrom twoptimizer.progress import ModelStats\nfrom twoptimizer.requests import default_config, make_jobs\nfrom twoptimizer.runner import BatchRunner\n\nSOLVERS = (\"cp-sat\", \"highs\")\n\nPAIRS = {\n    \"attila\": (\"att_prov_thracia\", \"att_prov_macedonia\"),\n    \"rome2\": (\"rome_main_italia\", \"rome_main_magna_graecia\"),\n    \"shogun2\": (\"jap_owari\", \"jap_mikawa\"),\n}\n\n\n@dataclass(frozen=True)\nclass Limits:\n    solver_seconds: float = 6\n    wall_seconds: float = 120\n    memory_mib: float = 2048\n\n\ndef jobs_for(config: RunConfig, limits: Limits) -> list[RunConfig]:\n    jobs, skipped = make_jobs(config)\n    if skipped or not jobs:\n        raise ValueError(\"Benchmark cases must expand without skipped or empty selections\")\n    return [replace(job, seconds=limits.solver_seconds / len(jobs)) for job in jobs]\n\n\ndef worker_memory(pid: int) -> int:\n    \"\"\"Linux per-process RSS high-water mark, including native solver allocations.\"\"\"\n    try:\n        fields = dict(\n            line.split(\":\", 1) for line in Path(f\"/proc/{pid}/status\").read_text().splitlines()\n        )\n        return int(fields[\"VmHWM\"].split()[0]) * 1024\n    except OSError, KeyError, ValueError:\n        return 0\n\n\nasync def monitor(runner, state, memory_bytes):\n    while True:\n        if runner.process is not None:\n            state[\"peak_worker_rss_bytes\"] = max(\n                state[\"peak_worker_rss_bytes\"], worker_memory(runner.process.pid)\n            )\n            if state[\"peak_worker_rss_bytes\"] > memory_bytes:\n                state[\"completion\"] = \"MEMORY_LIMIT\"\n                await runner.stop()\n                return\n        await asyncio.sleep(0.05)\n\n\ndef case_record(result):\n    return {\n        \"provinces\": result[\"request\"].get(\"provinces\") or [result[\"request\"][\"province\"]],\n        \"status\": result[\"solver\"][\"status\"],\n        \"income\": result[\"income\"],\n        \"bound\": result[\"solver\"][\"bound\"],\n        \"gap_percent\": result[\"gap_percent\"],\n        \"solver_seconds\": result[\"solver\"][\"seconds\"],\n        \"solver_timings\": result[\"solver\"].get(\"timings\", {}),\n        \"effective_workers\": result[\"solver\"].get(\"workers\"),\n        \"timings\": result[\"timings\"],\n        \"model_complexity\": result[\"raw\"].get(\"model_complexity\", []),\n    }\n\n\nasync def run_sample(config, limits, *, runner_factory=BatchRunner):\n    started = perf_counter()\n    jobs = jobs_for(config, limits)\n    runner = runner_factory()\n    state = {\n        \"completion\": \"COMPLETE\",\n        \"peak_worker_rss_bytes\": 0,\n        \"requested_cases\": len(jobs),\n        \"solver_seconds_per_case\": limits.solver_seconds / len(jobs),\n        \"total_configured_solver_seconds\": limits.solver_seconds,\n        \"cases\": [],\n        \"source_files\": {},\n        \"last_progress\": None,\n        \"last_model\": None,\n    }\n\n    def progress(event):\n        key = \"last_model\" if isinstance(event, ModelStats) else \"last_progress\"\n        state[key] = event.to_dict() if isinstance(event, ModelStats) else str(event)\n\n    watcher = asyncio.create_task(monitor(runner, state, limits.memory_mib * 1024**2))\n    try:\n        async with asyncio.timeout(limits.wall_seconds):\n            await _run_jobs(runner, jobs, state, progress)\n    except TimeoutError:\n        state[\"completion\"] = \"WALL_LIMIT\"\n    except Exception as error:\n        if state[\"completion\"] == \"COMPLETE\":\n            state[\"completion\"] = \"WORKER_ERROR\"\n        state[\"error\"] = f\"{type(error).__name__}: {error}\"\n    finally:\n        if runner.process is not None:\n            state[\"peak_worker_rss_bytes\"] = max(\n                state[\"peak_worker_rss_bytes\"], worker_memory(runner.process.pid)\n            )\n        watcher.cancel()\n        with suppress(asyncio.CancelledError):\n            await watcher\n        await runner.stop()\n    state[\"wall_seconds\"] = perf_counter() - started\n    state[\"summary\"] = summarize_sample(state)\n    return state\n\n\nasync def _run_jobs(runner, jobs, state, progress):\n    for job in jobs:\n        result = await runner.run(job, lambda _: None, progress)\n        if result is None:\n            if state[\"completion\"] == \"COMPLETE\":\n                state[\"completion\"] = \"INTERRUPTED\"\n            return\n        sources = result[\"source_files\"]\n        if state[\"source_files\"] and state[\"source_files\"] != sources:\n            raise RuntimeError(\"Source files changed during the benchmark sample\")\n        state[\"source_files\"] = sources\n        state[\"cases\"].append(case_record(result))\n\n\ndef _total(cases, key):\n    values = [case[key] for case in cases]\n    return (\n        sum(values) if values and all(v is not None and math.isfinite(v) for v in values) else None\n    )\n\n\ndef _model_totals(cases):\n    result = {}\n    for stage in (\"reference\", \"solver\"):\n        stage_models = [\n            [model for model in case[\"model_complexity\"] if model[\"stage\"] == stage]\n            for case in cases\n        ]\n        for field in (\"variables\", \"constraints\"):\n            result[f\"{stage}_{field}_sum\"] = sum(\n                max((model[field] for model in models), default=0) for models in stage_models\n            )\n    return result\n\n\ndef summarize_sample(sample):\n    cases = sample[\"cases\"]\n    complete = sample[\"completion\"] == \"COMPLETE\" and len(cases) == sample[\"requested_cases\"]\n    statuses = Counter(case[\"status\"] for case in cases)\n    phase_seconds = Counter()\n    solver_timings = Counter()\n    for case in cases:\n        phase_seconds.update(case[\"timings\"])\n        solver_timings.update(case[\"solver_timings\"])\n    incomes = _total(cases, \"income\") if complete else None\n    bound = _total(cases, \"bound\") if complete else None\n    return {\n        \"completed_cases\": len(cases),\n        \"statuses\": dict(statuses),\n        \"all_optimal\": complete and set(statuses) == {\"OPTIMAL\"},\n        \"income_sum\": incomes,\n        \"bound_sum\": bound,\n        \"aggregate_gap_percent\": (\n            100 * max(0, bound - incomes) / max(1, abs(bound))\n            if incomes is not None and bound is not None\n            else None\n        ),\n        \"phase_seconds\": dict(phase_seconds),\n        \"solver_seconds\": sum(case[\"solver_seconds\"] for case in cases),\n        \"solver_timings\": dict(solver_timings),\n        \"model_preparation_seconds\": phase_seconds[\"build_model_seconds\"] if cases else None,\n        \"model_build_and_conversion_seconds\": (\n            phase_seconds[\"build_model_seconds\"] + solver_timings[\"model_conversion_seconds\"]\n            if cases and all(\"model_conversion_seconds\" in case[\"solver_timings\"] for case in cases)\n            else None\n        ),\n        \"native_search_seconds\": (\n            solver_timings[\"search_seconds\"]\n            if cases and all(\"search_seconds\" in case[\"solver_timings\"] for case in cases)\n            else None\n        ),\n        \"effective_worker_counts\": sorted(\n            {case[\"effective_workers\"] for case in cases if case[\"effective_workers\"] is not None}\n        ),\n        **_model_totals(cases),\n    }\n\n\ndef request_matrix(games, sizes, algorithms, workers):\n    for game in games:\n        for size in sizes:\n            for algorithm in algorithms:\n                if algorithm not in SOLVERS:\n                    raise ValueError(\"Choose cp-sat or highs\")\n                for joint in (False, True):\n                    yield (\n                        size,\n                        replace(\n                            default_config(game),\n                            provinces=PAIRS[game] if size == \"pair\" else (\"all\",),\n                            joint=joint,\n                            algorithm=algorithm,\n                            workers=workers,\n                        ),\n                    )\n\n\ndef environment(revision=None):\n    def optional(path):\n        try:\n            return Path(path).read_text().strip()\n        except OSError:\n            return None\n\n    return {\n        \"python\": platform.python_version(),\n        \"platform\": platform.platform(),\n        \"processor\": platform.processor(),\n        \"cpu_model\": next(\n            (\n                line.split(\":\", 1)[1].strip()\n                for line in (optional(\"/proc/cpuinfo\") or \"\").splitlines()\n                if line.startswith(\"model name\")\n            ),\n            None,\n        ),\n        \"available_workers\": available_workers(),\n        \"logical_cpus\": os.cpu_count(),\n        \"cpu_quota\": optional(\"/sys/fs/cgroup/cpu.max\"),\n        \"memory_limit_bytes\": optional(\"/sys/fs/cgroup/memory.max\"),\n        \"packages\": {\n            name: importlib.metadata.version(name) for name in (\"ortools\", \"numpy\", \"textual\")\n        },\n        \"native_solvers\": {\"highs\": native_version()},\n        \"lock_sha256\": hashlib.sha256(Path(\"uv.lock\").read_bytes()).hexdigest(),\n        \"benchmark_sha256\": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),\n        \"git_revision\": revision\n        or subprocess.check_output([\"git\", \"rev-parse\", \"HEAD\"], text=True).strip(),\n    }\n\n\ndef group_summary(samples):\n    complete = all(sample[\"completion\"] == \"COMPLETE\" for sample in samples)\n    search = [sample[\"summary\"][\"native_search_seconds\"] for sample in samples]\n    build = [sample[\"summary\"][\"model_build_and_conversion_seconds\"] for sample in samples]\n    return {\n        \"repeats\": len(samples),\n        \"completion_counts\": dict(Counter(sample[\"completion\"] for sample in samples)),\n        \"wall_seconds_min\": min(sample[\"wall_seconds\"] for sample in samples),\n        \"wall_seconds_median\": median(sample[\"wall_seconds\"] for sample in samples),\n        \"wall_seconds_max\": max(sample[\"wall_seconds\"] for sample in samples),\n        \"peak_worker_rss_mib_max\": max(sample[\"peak_worker_rss_bytes\"] for sample in samples)\n        / 1024**2,\n        \"all_repeats_optimal\": all(sample[\"summary\"][\"all_optimal\"] for sample in samples),\n        \"model_build_and_conversion_seconds_median\": (\n            median(build) if complete and all(value is not None for value in build) else None\n        ),\n        \"native_search_seconds_median\": (\n            median(search) if complete and all(value is not None for value in search) else None\n        ),\n    }\n\n\ndef parser():\n    cli = argparse.ArgumentParser(description=__doc__)\n    cli.add_argument(\"--game\", action=\"append\", choices=tuple(PAIRS))\n    cli.add_argument(\"--size\", action=\"append\", choices=(\"pair\", \"all\"))\n    cli.add_argument(\n        \"--algorithm\",\n        action=\"append\",\n        choices=SOLVERS,\n    )\n    cli.add_argument(\"--repeat\", type=int, default=2)\n    cli.add_argument(\"--workers\", type=int, default=None, help=\"Default: machine allocation\")\n    cli.add_argument(\n        \"--solver-seconds\",\n        \"--search-seconds\",\n        dest=\"solver_seconds\",\n        type=float,\n        default=6,\n        help=\"Total configured solver allowance; some backends include native conversion\",\n    )\n    cli.add_argument(\"--wall-seconds\", type=float, default=120)\n    cli.add_argument(\"--memory-mib\", type=float, default=2048)\n    cli.add_argument(\"--output\", type=Path, required=True)\n    cli.add_argument(\"--revision\", help=\"Source commit when running an installed wheel outside Git\")\n    return cli\n\n\ndef main(argv=None):\n    cli = parser()\n    args = cli.parse_args(argv)\n    values = (args.repeat, args.solver_seconds, args.wall_seconds, args.memory_mib)\n    if any(not math.isfinite(value) or value <= 0 for value in values):\n        cli.error(\"Repeat count and all resource limits must be finite and positive\")\n    if args.workers is not None and args.workers < 1:\n        cli.error(\"Workers must be positive or omitted\")\n    if not Path(\"/proc/self/status\").exists():\n        cli.error(\"This benchmark requires Linux /proc for its worker memory guard\")\n    limits = Limits(args.solver_seconds, args.wall_seconds, args.memory_mib)\n    report = {\n        \"schema_version\": 1,\n        \"created_at_utc\": datetime.now(UTC).isoformat(),\n        \"environment\": environment(args.revision),\n        \"limits\": vars(limits),\n        \"method\": [\n            \"Serial samples; fresh BatchRunner worker per sample, reused across independent cases.\",\n            \"No RunSession/proof reuse or instrumentation; ordinary Python/native solver build.\",\n            \"Samples include cold worker startup; filesystem caches may be warm on later runs.\",\n            \"Equal total configured solver allowance per holding, split across independent cases.\",\n            \"Solver allowances may include conversion; actual native search time is separate.\",\n            \"Separate wall/RSS guards cover preparation, conversion, search and validation.\",\n            \"RSS is Linux worker VmHWM sampled every 50ms; guard can overshoot between samples.\",\n            \"Independent totals describe separate hypothetical realms, not a legal joint layout.\",\n            \"Model counts sum largest observed formulation per stage/case; stages are not added.\",\n            \"Unavailable build/search splits remain null; raw phase/timing keys are retained.\",\n        ],\n        \"groups\": [],\n    }\n    matrix = request_matrix(\n        args.game or tuple(PAIRS),\n        args.size or (\"pair\", \"all\"),\n        args.algorithm or (\"cp-sat\",),\n        args.workers,\n    )\n    args.output.parent.mkdir(parents=True, exist_ok=True)\n    for size, config in matrix:\n        group = {\"size\": size, \"request\": config.to_dict(), \"samples\": []}\n        report[\"groups\"].append(group)\n        for repetition in range(args.repeat):\n            sample = asyncio.run(run_sample(config, limits))\n            group[\"samples\"].append(sample)\n            group[\"summary\"] = group_summary(group[\"samples\"])\n            args.output.write_text(json.dumps(report, indent=2, allow_nan=False) + \"\\n\")\n            print(\n                f\"{config.game} {size} {config.algorithm} \"\n                f\"{'joint' if config.joint else 'independent'} \"\n                f\"repeat {repetition + 1}: {sample['completion']} {sample['wall_seconds']:.3f}s \"\n                f\"{sample['summary']['statuses']}\",\n                flush=True,\n            )\n    return report\n\n\nif __name__ == \"__main__\":\n    main()\n"
+    },
+    "candidate_tools/holding_benchmark.py": {
+      "sha256": "4a2c82247172b71e51ac8fe25a2bb4a8709267d08a933ce50380f0c079226aa0",
+      "source": "\"\"\"Measure bounded, serial CLI/TUI worker workloads across supported campaigns.\n\nRun with ``uv run --frozen python -m tools.holding_benchmark --output report.json``.\nConfigured solver allowances are equal per holding, not per independent province.\nSome backends charge conversion against that allowance; native search is separate.\n\"\"\"\n\nimport argparse\nimport asyncio\nimport hashlib\nimport importlib.metadata\nimport json\nimport math\nimport os\nimport platform\nimport subprocess\nfrom collections import Counter\nfrom contextlib import suppress\nfrom dataclasses import dataclass, replace\nfrom datetime import UTC, datetime\nfrom pathlib import Path\nfrom statistics import median\nfrom time import perf_counter\n\nfrom games.tw.highs_backend import native_version\nfrom games.tw.resources import available_workers\nfrom twoptimizer.models import RunConfig\nfrom twoptimizer.progress import ModelStats\nfrom twoptimizer.requests import default_config, make_jobs\nfrom twoptimizer.runner import BatchRunner\n\nSOLVERS = (\"cp-sat\", \"highs\")\n\nPAIRS = {\n    \"attila\": (\"att_prov_thracia\", \"att_prov_macedonia\"),\n    \"rome2\": (\"rome_main_italia\", \"rome_main_magna_graecia\"),\n    \"shogun2\": (\"jap_owari\", \"jap_mikawa\"),\n}\n\n\n@dataclass(frozen=True)\nclass Limits:\n    solver_seconds: float = 6\n    wall_seconds: float = 120\n    memory_mib: float = 2048\n\n\ndef jobs_for(config: RunConfig, limits: Limits) -> list[RunConfig]:\n    jobs, skipped = make_jobs(config)\n    if skipped or not jobs:\n        raise ValueError(\"Benchmark cases must expand without skipped or empty selections\")\n    return [replace(job, seconds=limits.solver_seconds / len(jobs)) for job in jobs]\n\n\ndef worker_memory(pid: int) -> int:\n    \"\"\"Linux per-process RSS high-water mark, including native solver allocations.\"\"\"\n    try:\n        fields = dict(\n            line.split(\":\", 1) for line in Path(f\"/proc/{pid}/status\").read_text().splitlines()\n        )\n        return int(fields[\"VmHWM\"].split()[0]) * 1024\n    except OSError, KeyError, ValueError:\n        return 0\n\n\nasync def monitor(runner, state, memory_bytes):\n    while True:\n        if runner.process is not None:\n            state[\"peak_worker_rss_bytes\"] = max(\n                state[\"peak_worker_rss_bytes\"], worker_memory(runner.process.pid)\n            )\n            if state[\"peak_worker_rss_bytes\"] > memory_bytes:\n                state[\"completion\"] = \"MEMORY_LIMIT\"\n                await runner.stop()\n                return\n        await asyncio.sleep(0.05)\n\n\ndef case_record(result):\n    return {\n        \"provinces\": result[\"request\"].get(\"provinces\") or [result[\"request\"][\"province\"]],\n        \"status\": result[\"solver\"][\"status\"],\n        \"income\": result[\"income\"],\n        \"bound\": result[\"solver\"][\"bound\"],\n        \"gap_percent\": result[\"gap_percent\"],\n        \"solver_seconds\": result[\"solver\"][\"seconds\"],\n        \"solver_timings\": result[\"solver\"].get(\"timings\", {}),\n        \"joint_bound_search\": result[\"solver\"].get(\"joint_bound_search\"),\n        \"effective_workers\": result[\"solver\"].get(\"workers\"),\n        \"timings\": result[\"timings\"],\n        \"model_complexity\": result[\"raw\"].get(\"model_complexity\", []),\n    }\n\n\nasync def run_sample(config, limits, *, runner_factory=BatchRunner):\n    started = perf_counter()\n    jobs = jobs_for(config, limits)\n    runner = runner_factory()\n    state = {\n        \"completion\": \"COMPLETE\",\n        \"peak_worker_rss_bytes\": 0,\n        \"requested_cases\": len(jobs),\n        \"solver_seconds_per_case\": limits.solver_seconds / len(jobs),\n        \"total_configured_solver_seconds\": limits.solver_seconds,\n        \"cases\": [],\n        \"source_files\": {},\n        \"last_progress\": None,\n        \"last_model\": None,\n    }\n\n    def progress(event):\n        key = \"last_model\" if isinstance(event, ModelStats) else \"last_progress\"\n        state[key] = event.to_dict() if isinstance(event, ModelStats) else str(event)\n\n    watcher = asyncio.create_task(monitor(runner, state, limits.memory_mib * 1024**2))\n    try:\n        async with asyncio.timeout(limits.wall_seconds):\n            await _run_jobs(runner, jobs, state, progress)\n    except TimeoutError:\n        state[\"completion\"] = \"WALL_LIMIT\"\n    except Exception as error:\n        if state[\"completion\"] == \"COMPLETE\":\n            state[\"completion\"] = \"WORKER_ERROR\"\n        state[\"error\"] = f\"{type(error).__name__}: {error}\"\n    finally:\n        if runner.process is not None:\n            state[\"peak_worker_rss_bytes\"] = max(\n                state[\"peak_worker_rss_bytes\"], worker_memory(runner.process.pid)\n            )\n        watcher.cancel()\n        with suppress(asyncio.CancelledError):\n            await watcher\n        await runner.stop()\n    state[\"wall_seconds\"] = perf_counter() - started\n    state[\"summary\"] = summarize_sample(state)\n    return state\n\n\nasync def _run_jobs(runner, jobs, state, progress):\n    for job in jobs:\n        result = await runner.run(job, lambda _: None, progress)\n        if result is None:\n            if state[\"completion\"] == \"COMPLETE\":\n                state[\"completion\"] = \"INTERRUPTED\"\n            return\n        sources = result[\"source_files\"]\n        if state[\"source_files\"] and state[\"source_files\"] != sources:\n            raise RuntimeError(\"Source files changed during the benchmark sample\")\n        state[\"source_files\"] = sources\n        state[\"cases\"].append(case_record(result))\n\n\ndef _total(cases, key):\n    values = [case[key] for case in cases]\n    return (\n        sum(values) if values and all(v is not None and math.isfinite(v) for v in values) else None\n    )\n\n\ndef _model_totals(cases):\n    result = {}\n    for stage in (\"reference\", \"solver\"):\n        stage_models = [\n            [model for model in case[\"model_complexity\"] if model[\"stage\"] == stage]\n            for case in cases\n        ]\n        for field in (\"variables\", \"constraints\"):\n            result[f\"{stage}_{field}_sum\"] = sum(\n                max((model[field] for model in models), default=0) for models in stage_models\n            )\n    return result\n\n\ndef summarize_sample(sample):\n    cases = sample[\"cases\"]\n    complete = sample[\"completion\"] == \"COMPLETE\" and len(cases) == sample[\"requested_cases\"]\n    statuses = Counter(case[\"status\"] for case in cases)\n    phase_seconds = Counter()\n    solver_timings = Counter()\n    for case in cases:\n        phase_seconds.update(case[\"timings\"])\n        solver_timings.update(case[\"solver_timings\"])\n    incomes = _total(cases, \"income\") if complete else None\n    bound = _total(cases, \"bound\") if complete else None\n    return {\n        \"completed_cases\": len(cases),\n        \"statuses\": dict(statuses),\n        \"all_optimal\": complete and set(statuses) == {\"OPTIMAL\"},\n        \"income_sum\": incomes,\n        \"bound_sum\": bound,\n        \"aggregate_gap_percent\": (\n            100 * max(0, bound - incomes) / max(1, abs(bound))\n            if incomes is not None and bound is not None\n            else None\n        ),\n        \"phase_seconds\": dict(phase_seconds),\n        \"solver_seconds\": sum(case[\"solver_seconds\"] for case in cases),\n        \"solver_timings\": dict(solver_timings),\n        \"model_preparation_seconds\": phase_seconds[\"build_model_seconds\"] if cases else None,\n        \"model_build_and_conversion_seconds\": (\n            phase_seconds[\"build_model_seconds\"] + solver_timings[\"model_conversion_seconds\"]\n            if cases and all(\"model_conversion_seconds\" in case[\"solver_timings\"] for case in cases)\n            else None\n        ),\n        \"native_search_seconds\": (\n            solver_timings[\"search_seconds\"]\n            if cases and all(\"search_seconds\" in case[\"solver_timings\"] for case in cases)\n            else None\n        ),\n        \"effective_worker_counts\": sorted(\n            {case[\"effective_workers\"] for case in cases if case[\"effective_workers\"] is not None}\n        ),\n        **_model_totals(cases),\n    }\n\n\ndef request_matrix(games, sizes, algorithms, workers):\n    for game in games:\n        for size in sizes:\n            for algorithm in algorithms:\n                if algorithm not in SOLVERS:\n                    raise ValueError(\"Choose cp-sat or highs\")\n                for joint in (False, True):\n                    yield (\n                        size,\n                        replace(\n                            default_config(game),\n                            provinces=PAIRS[game] if size == \"pair\" else (\"all\",),\n                            joint=joint,\n                            algorithm=algorithm,\n                            workers=workers,\n                        ),\n                    )\n\n\ndef environment(revision=None):\n    def optional(path):\n        try:\n            return Path(path).read_text().strip()\n        except OSError:\n            return None\n\n    return {\n        \"python\": platform.python_version(),\n        \"platform\": platform.platform(),\n        \"processor\": platform.processor(),\n        \"cpu_model\": next(\n            (\n                line.split(\":\", 1)[1].strip()\n                for line in (optional(\"/proc/cpuinfo\") or \"\").splitlines()\n                if line.startswith(\"model name\")\n            ),\n            None,\n        ),\n        \"available_workers\": available_workers(),\n        \"logical_cpus\": os.cpu_count(),\n        \"cpu_quota\": optional(\"/sys/fs/cgroup/cpu.max\"),\n        \"memory_limit_bytes\": optional(\"/sys/fs/cgroup/memory.max\"),\n        \"packages\": {\n            name: importlib.metadata.version(name) for name in (\"ortools\", \"numpy\", \"textual\")\n        },\n        \"native_solvers\": {\"highs\": native_version()},\n        \"lock_sha256\": hashlib.sha256(Path(\"uv.lock\").read_bytes()).hexdigest(),\n        \"benchmark_sha256\": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),\n        \"git_revision\": revision\n        or subprocess.check_output([\"git\", \"rev-parse\", \"HEAD\"], text=True).strip(),\n    }\n\n\ndef group_summary(samples):\n    complete = all(sample[\"completion\"] == \"COMPLETE\" for sample in samples)\n    search = [sample[\"summary\"][\"native_search_seconds\"] for sample in samples]\n    build = [sample[\"summary\"][\"model_build_and_conversion_seconds\"] for sample in samples]\n    return {\n        \"repeats\": len(samples),\n        \"completion_counts\": dict(Counter(sample[\"completion\"] for sample in samples)),\n        \"wall_seconds_min\": min(sample[\"wall_seconds\"] for sample in samples),\n        \"wall_seconds_median\": median(sample[\"wall_seconds\"] for sample in samples),\n        \"wall_seconds_max\": max(sample[\"wall_seconds\"] for sample in samples),\n        \"peak_worker_rss_mib_max\": max(sample[\"peak_worker_rss_bytes\"] for sample in samples)\n        / 1024**2,\n        \"all_repeats_optimal\": all(sample[\"summary\"][\"all_optimal\"] for sample in samples),\n        \"model_build_and_conversion_seconds_median\": (\n            median(build) if complete and all(value is not None for value in build) else None\n        ),\n        \"native_search_seconds_median\": (\n            median(search) if complete and all(value is not None for value in search) else None\n        ),\n    }\n\n\ndef parser():\n    cli = argparse.ArgumentParser(description=__doc__)\n    cli.add_argument(\"--game\", action=\"append\", choices=tuple(PAIRS))\n    cli.add_argument(\"--size\", action=\"append\", choices=(\"pair\", \"all\"))\n    cli.add_argument(\n        \"--algorithm\",\n        action=\"append\",\n        choices=SOLVERS,\n    )\n    cli.add_argument(\"--repeat\", type=int, default=2)\n    cli.add_argument(\"--workers\", type=int, default=None, help=\"Default: machine allocation\")\n    cli.add_argument(\n        \"--solver-seconds\",\n        \"--search-seconds\",\n        dest=\"solver_seconds\",\n        type=float,\n        default=6,\n        help=\"Total configured solver allowance; some backends include native conversion\",\n    )\n    cli.add_argument(\"--wall-seconds\", type=float, default=120)\n    cli.add_argument(\"--memory-mib\", type=float, default=2048)\n    cli.add_argument(\"--output\", type=Path, required=True)\n    cli.add_argument(\"--revision\", help=\"Source commit when running an installed wheel outside Git\")\n    return cli\n\n\ndef main(argv=None):\n    cli = parser()\n    args = cli.parse_args(argv)\n    values = (args.repeat, args.solver_seconds, args.wall_seconds, args.memory_mib)\n    if any(not math.isfinite(value) or value <= 0 for value in values):\n        cli.error(\"Repeat count and all resource limits must be finite and positive\")\n    if args.workers is not None and args.workers < 1:\n        cli.error(\"Workers must be positive or omitted\")\n    if not Path(\"/proc/self/status\").exists():\n        cli.error(\"This benchmark requires Linux /proc for its worker memory guard\")\n    limits = Limits(args.solver_seconds, args.wall_seconds, args.memory_mib)\n    report = {\n        \"schema_version\": 1,\n        \"created_at_utc\": datetime.now(UTC).isoformat(),\n        \"environment\": environment(args.revision),\n        \"limits\": vars(limits),\n        \"method\": [\n            \"Serial samples; fresh BatchRunner worker per sample, reused across independent cases.\",\n            \"No RunSession/proof reuse or instrumentation; ordinary Python/native solver build.\",\n            \"Samples include cold worker startup; filesystem caches may be warm on later runs.\",\n            \"Equal total configured solver allowance per holding, split across independent cases.\",\n            \"Solver allowances may include conversion; actual native search time is separate.\",\n            \"Separate wall/RSS guards cover preparation, conversion, search and validation.\",\n            \"RSS is Linux worker VmHWM sampled every 50ms; guard can overshoot between samples.\",\n            \"Independent totals describe separate hypothetical realms, not a legal joint layout.\",\n            \"Model counts sum largest observed formulation per stage/case; stages are not added.\",\n            \"Unavailable build/search splits remain null; raw phase/timing keys are retained.\",\n        ],\n        \"groups\": [],\n    }\n    matrix = request_matrix(\n        args.game or tuple(PAIRS),\n        args.size or (\"pair\", \"all\"),\n        args.algorithm or (\"cp-sat\",),\n        args.workers,\n    )\n    args.output.parent.mkdir(parents=True, exist_ok=True)\n    for size, config in matrix:\n        group = {\"size\": size, \"request\": config.to_dict(), \"samples\": []}\n        report[\"groups\"].append(group)\n        for repetition in range(args.repeat):\n            sample = asyncio.run(run_sample(config, limits))\n            group[\"samples\"].append(sample)\n            group[\"summary\"] = group_summary(group[\"samples\"])\n            args.output.write_text(json.dumps(report, indent=2, allow_nan=False) + \"\\n\")\n            print(\n                f\"{config.game} {size} {config.algorithm} \"\n                f\"{'joint' if config.joint else 'independent'} \"\n                f\"repeat {repetition + 1}: {sample['completion']} {sample['wall_seconds']:.3f}s \"\n                f\"{sample['summary']['statuses']}\",\n                flush=True,\n            )\n    return report\n\n\nif __name__ == \"__main__\":\n    main()\n"
+    },
+    "tools/holding_benchmark_sensitivity.py": {
+      "sha256": "c6f0584ba85d3c1b9b15db79b6701b35ec9ecdd3742c99aed1158bf335aec3c3",
+      "source": "\"\"\"Run longer per-case solver allowances after an equal-budget benchmark matrix.\n\nThese diagnostics use different total allowances than the primary matrix.\nThey must not be presented as fair speed comparisons with that matrix.\n\"\"\"\n\nimport argparse\nimport asyncio\nimport hashlib\nimport json\nimport math\nfrom dataclasses import replace\nfrom datetime import UTC, datetime\nfrom pathlib import Path\n\nfrom tools.holding_benchmark import SOLVERS, Limits, environment, group_summary, run_sample\nfrom twoptimizer.requests import default_config, make_jobs\n\n\ndef main(argv=None):\n    cli = argparse.ArgumentParser(description=__doc__)\n    cli.add_argument(\"--game\", action=\"append\", choices=(\"attila\", \"rome2\", \"shogun2\"))\n    cli.add_argument(\"--algorithm\", choices=SOLVERS, default=\"cp-sat\")\n    cli.add_argument(\"--seconds-per-case\", type=float, default=1)\n    cli.add_argument(\"--mode\", choices=(\"independent\", \"joint\"), default=\"independent\")\n    cli.add_argument(\"--wall-seconds\", type=float, default=180)\n    cli.add_argument(\"--memory-mib\", type=float, default=2048)\n    cli.add_argument(\"--revision\")\n    cli.add_argument(\"--output-directory\", type=Path, required=True)\n    args = cli.parse_args(argv)\n    if any(\n        not math.isfinite(value) or value <= 0\n        for value in (args.seconds_per_case, args.wall_seconds, args.memory_mib)\n    ):\n        cli.error(\"Resource limits must be finite and positive\")\n    if not Path(\"/proc/self/status\").exists():\n        cli.error(\"This benchmark requires Linux /proc for its worker memory guard\")\n    args.output_directory.mkdir(parents=True, exist_ok=True)\n    for game in args.game or (\"attila\", \"rome2\"):\n        config = replace(\n            default_config(game),\n            provinces=(\"all\",),\n            algorithm=args.algorithm,\n            joint=args.mode == \"joint\",\n        )\n        count = len(make_jobs(config)[0])\n        limits = Limits(args.seconds_per_case * count, args.wall_seconds, args.memory_mib)\n        sample = asyncio.run(run_sample(config, limits))\n        report = {\n            \"schema_version\": 1,\n            \"created_at_utc\": datetime.now(UTC).isoformat(),\n            \"environment\": environment(args.revision),\n            \"sensitivity_driver_sha256\": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),\n            \"limits\": vars(limits),\n            \"method\": (\n                \"One diagnostic sample, fresh worker reused across its cases, \"\n                \"fixed per-case solver allowance (which may include conversion). \"\n                \"Different aggregate allowance from the primary matrix; no fair speed comparison.\"\n            ),\n            \"groups\": [\n                {\n                    \"size\": \"all\",\n                    \"request\": config.to_dict(),\n                    \"samples\": [sample],\n                    \"summary\": group_summary([sample]),\n                }\n            ],\n        }\n        suffix = \"-joint\" if args.mode == \"joint\" else \"\"\n        if args.algorithm != \"cp-sat\":\n            suffix += f\"-{args.algorithm}\"\n        path = args.output_directory / f\"holding-performance-sensitivity-{game}{suffix}.json\"\n        path.write_text(json.dumps(report, indent=2, allow_nan=False) + \"\\n\")\n        print(\n            f\"{game} {args.algorithm}: {sample['completion']} {sample['wall_seconds']:.3f}s \"\n            f\"{sample['summary']['statuses']}\",\n            flush=True,\n        )\n    return 0\n\n\nif __name__ == \"__main__\":\n    raise SystemExit(main())\n"
+    },
+    "rome-bound-checks.py": {
+      "sha256": "b4fb1c0ed944c566aab2184f39544a4790f51ecf085de768afa5d6a106397eaa",
+      "source": "import argparse\nimport asyncio\nimport hashlib\nimport json\nimport sys\nfrom dataclasses import replace\nfrom pathlib import Path\nfrom time import perf_counter\n\nsys.path.insert(0, str(Path.cwd()))\nfrom tools.holding_benchmark import Limits, case_record, environment, run_sample\nfrom twoptimizer.models import RunConfig\nfrom twoptimizer.progress import SearchStats\nfrom twoptimizer.requests import default_config, make_jobs\nfrom twoptimizer.runner import CaseRunner\n\n\nasync def gap_case(config):\n    runner, requested = CaseRunner(), []\n    started = perf_counter()\n\n    def progress(event):\n        if isinstance(event, SearchStats) and event.gap_percent is not None:\n            if event.gap_percent <= 2 and not requested:\n                requested.append(asyncio.create_task(runner.request_stop()))\n\n    try:\n        output = await asyncio.wait_for(runner.run(config, lambda _: None, progress), 120)\n        await asyncio.gather(*requested)\n        assert output is not None and requested and output['gap_percent'] <= 2\n        assert output['solver']['status'] in ('FEASIBLE', 'OPTIMAL')\n        assert output['buildings'] and output['metrics']['food_surplus'] >= 0\n        return {'wall_seconds': perf_counter()-started, 'case':case_record(output),\n                'source_files': output['source_files'], 'cancellation': output['raw']['cancellation']}\n    finally:\n        await runner.stop()\n\n\nparser = argparse.ArgumentParser()\nparser.add_argument('--case', choices=('single','four','gap'), required=True)\nparser.add_argument('--output', type=Path, required=True)\nparser.add_argument('--revision', required=True)\nargs = parser.parse_args()\nconfig = replace(default_config('rome2'), province='rome_main_italia')\nif args.case == 'four':\n    config = replace(config, joint=True, provinces=('rome_main_italia','rome_main_magna_graecia',\n                     'rome_main_cisalpina','rome_main_corsica_et_sardinia'))\nif args.case == 'gap':\n    config = make_jobs(replace(config, joint=True, provinces=('all',), seconds=60))[0][0]\n    sample = asyncio.run(gap_case(config))\nelse:\n    sample = asyncio.run(run_sample(config, Limits(60,120,4096)))\nreport = {'environment':environment(args.revision),'request':config.to_dict(),\n          'driver_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), 'sample':sample}\nargs.output.write_text(json.dumps(report,indent=2,allow_nan=False)+'\\n')\nprint(json.dumps({'case':args.case,'wall_seconds':sample['wall_seconds'],\n                 'summary':sample.get('summary'), 'goal_case':sample.get('case')}),flush=True)\n"
+    }
+  },
+  "full_world": {
+    "baseline": [
+      {
+        "schema_version": 1,
+        "created_at_utc": "2026-11-08T13:41:18.184734+00:00",
+        "environment": {
+          "python": "3.14.9",
+          "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+          "processor": "",
+          "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+          "available_workers": 4,
+          "logical_cpus": 5,
+          "cpu_quota": "400000 100000",
+          "memory_limit_bytes": "17179869184",
+          "packages": {
+            "ortools": "9.15.6755",
+            "numpy": "2.5.4",
+            "textual": "6.12.0"
+          },
+          "native_solvers": {
+            "highs": "1.12.0"
+          },
+          "lock_sha256": "e419355cda776f29df171e34aa6cf33a3f943b127123bd9c1c55b2521b16e2c3",
+          "benchmark_sha256": "f01feaf56e5c3e1ffee0abcc27f0a1f04007a8f516b3dc29d9653718e9d3099c",
+          "git_revision": "44a554cd805ebd32ad7f4fb6510f87746213baef"
+        },
+        "sensitivity_driver_sha256": "c6f0584ba85d3c1b9b15db79b6701b35ec9ecdd3742c99aed1158bf335aec3c3",
+        "limits": {
+          "solver_seconds": 60.0,
+          "wall_seconds": 120.0,
+          "memory_mib": 4096.0
+        },
+        "method": "One diagnostic sample, fresh worker reused across its cases, fixed per-case solver allowance (which may include conversion). Different aggregate allowance from the primary matrix; no fair speed comparison.",
+        "groups": [
+          {
+            "size": "all",
+            "request": {
+              "game": "rome2",
+              "faction": "rom_rome",
+              "province": "coastal",
+              "algorithm": "cp-sat",
+              "seconds": null,
+              "workers": null,
+              "research": "none",
+              "fertility": 5,
+              "religion": "CHRIST_ORTHODOX",
+              "soil": "native",
+              "town_wealth": 0,
+              "tax": 30,
+              "world_bonuses": true,
+              "provinces": [
+                "all"
+              ],
+              "joint": true,
+              "adjacency": null
+            },
+            "samples": [
+              {
+                "completion": "COMPLETE",
+                "peak_worker_rss_bytes": 809111552,
+                "requested_cases": 1,
+                "solver_seconds_per_case": 60.0,
+                "total_configured_solver_seconds": 60.0,
+                "cases": [
+                  {
+                    "provinces": [
+                      "rome_main_aegyptos",
+                      "rome_main_aithiops",
+                      "rome_main_africa",
+                      "rome_main_aquitania",
+                      "rome_main_arabia_felix",
+                      "rome_main_arabia_magna",
+                      "rome_main_arachosia",
+                      "rome_main_aria",
+                      "rome_main_armenia",
+                      "rome_main_asia",
+                      "rome_main_bactria",
+                      "rome_main_baetica",
+                      "rome_main_belgica",
+                      "rome_main_bithynia_et_pontus",
+                      "rome_main_bosporus",
+                      "rome_main_britannia",
+                      "rome_main_caledonia_et_hibernia",
+                      "rome_main_carmania",
+                      "rome_main_cartaginensis",
+                      "rome_main_caucasia",
+                      "rome_main_celtica",
+                      "rome_main_chorasmia",
+                      "rome_main_cilicia",
+                      "rome_main_cisalpina",
+                      "rome_main_corsica_et_sardinia",
+                      "rome_main_dacia",
+                      "rome_main_galatia_et_cappadocia",
+                      "rome_main_gedrosia",
+                      "rome_main_germania_minor",
+                      "rome_main_hellas",
+                      "rome_main_hercynia",
+                      "rome_main_illyria",
+                      "rome_main_italia",
+                      "rome_main_libue",
+                      "rome_main_lusitania",
+                      "rome_main_macedonia",
+                      "rome_main_magna_germania",
+                      "rome_main_magna_graecia",
+                      "rome_main_mauretania",
+                      "rome_main_media_magna",
+                      "rome_main_mesopotamia",
+                      "rome_main_nabataea",
+                      "rome_main_pannonia",
+                      "rome_main_parthia",
+                      "rome_main_persis",
+                      "rome_main_phazania",
+                      "rome_main_ponto_caspia",
+                      "rome_main_provincia",
+                      "rome_main_raetia_et_noricum",
+                      "rome_main_sarmatia",
+                      "rome_main_scythia",
+                      "rome_main_silesia",
+                      "rome_main_suebia",
+                      "rome_main_syria",
+                      "rome_main_tarraconensis",
+                      "rome_main_thracia",
+                      "rome_main_transoxania"
+                    ],
+                    "status": "FEASIBLE",
+                    "income": 536567.845,
+                    "bound": 790800.923,
+                    "gap_percent": 32.148808961367386,
+                    "solver_seconds": 60.076863911002874,
+                    "solver_timings": {
+                      "model_conversion_seconds": 4.045377003996691,
+                      "search_seconds": 56.03150197700597
+                    },
+                    "effective_workers": 4,
+                    "timings": {
+                      "request_seconds": 0.10713256699818885,
+                      "load_engine_seconds": 8.71619995450601e-05,
+                      "build_model_seconds": 0.25105297999834875,
+                      "solve_and_check_seconds": 62.01921053499973,
+                      "prepare_result_seconds": 0.020844680002483074,
+                      "worker_wall_seconds": 62.929363513998396,
+                      "worker_startup_seconds": 0.5188847760000499
+                    },
+                    "model_complexity": [
+                      {
+                        "label": "Rome II canonical proof model",
+                        "variables": 12818,
+                        "constraints": 6044,
+                        "formulation": "native_products",
+                        "stage": "reference",
+                        "decision_variables": 11165,
+                        "nonzeros": null,
+                        "storage_bytes": null
+                      },
+                      {
+                        "label": "Rome II linearized model",
+                        "variables": 22982,
+                        "constraints": 46265,
+                        "formulation": "linearized_income",
+                        "stage": "reference",
+                        "decision_variables": 11165,
+                        "nonzeros": 512687,
+                        "storage_bytes": null
+                      },
+                      {
+                        "label": "CP-SAT solver input",
+                        "variables": 22983,
+                        "constraints": 48965,
+                        "formulation": "linearized_income",
+                        "stage": "solver",
+                        "decision_variables": 11165,
+                        "nonzeros": null,
+                        "storage_bytes": null
+                      }
+                    ]
+                  }
+                ],
+                "source_files": {
+                  "rome2/model.py": "fa1d0647440f1dd272852403b14b79b899b62581e62bc5b02abc9f2f3bace6a5",
+                  "rome2/compiler.py": "87887664f6f93c7fde34b3d28bb7019b6bddfa8328fb3ecf5b39e3068bd2da50",
+                  "rome2/linear.py": "e190b88904b75dbde3ceb79177c1eec6425ffa704c8bc8857adc7451e5dcc87a",
+                  "rome2/optimization.py": "d673bb5536abbc1d54f0da45a0e199a9800a36422eb5c43100261d8b2ea7c9eb",
+                  "rome2/backends.py": "c8e0d06b5ce4627b250b98e9125b883d1cb7378c88cddfab1c1495701083577a",
+                  "rome2/scenario.py": "78c4a296b5984ecdcb718ee1e7d0b1e4ace87e6ec3f3ca4a10a5e639f1e884fd",
+                  "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+                  "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+                  "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+                  "rome2/provenance.py": "458f11ab6322752db1d1315a5c10ffb92dd0ee1b645f30828b005bf35527bafa",
+                  "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+                  "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+                  "rome2/holdings.py": "58f4beaeca008298f5428b4a0a44932edf0d049b1b8b1e030b3fb15a9ec17f0f",
+                  "rome2/holding_compiler.py": "2ac05b231b476e6bac70bec3762cf329aabbff53f57d4c8bf678a2fe40eedf2f",
+                  "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+                  "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+                  "rome2/building_constraints.py": "f87c6afee90906cc846712b09e0a96a64749f1ad62d4119912b07a69e1cab566",
+                  "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+                  "rome2/data/special_buildings_coverage.json": "10e91f33f67bc8296487844c7fadf2961bbf5646143e1b338eb174800fe74d68",
+                  "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+                  "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+                  "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+                  "highs_backend.py": "165c8cace6e9e382916f33a890deb0cce6ac0f88b7a3729539724d47260cec34",
+                  "search_progress.py": "a370804762b9e4beabdd5b4d6318809346dce8a6380257c2d49bb5b40b9350d8",
+                  "cancellation.py": "bd5ca92d0b26f36a197575ea01de666d7427fd4d810df9876e2ab7bce59b176e",
+                  "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+                  "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+                  "twoptimizer/requests.py": "7b50bea6099442eadecb8adb65e7f0a08f9a092bf517103026d899d3ab9383ea",
+                  "twoptimizer/models.py": "d6f596c9980df89df60fcfa09202dbf37fc00d11c2fc1dbb0ec4c6f43c8e2ed8",
+                  "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+                  "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+                  "twoptimizer/service.py": "939b18acf6580d59908b6c868f07eeaf8ae8fb40dd26e95ff7ac387caab7e949",
+                  "twoptimizer/session.py": "471e1af7f8479f468683f840b20af8c6a0878cb7de7c0e4b6456b42144e46d22",
+                  "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+                  "twoptimizer/progress.py": "cb5bb25fe597be95ef6d36078f7e9e7e4219648ceae0caa6fb08b0e2ef4710cd",
+                  "twoptimizer/adapters/model_stats.py": "e2abccb167b3ad8d9f20fef7500bd78c354307856afee4166890108286e993f4",
+                  "twoptimizer/adapters/search.py": "6cf62d63bfd388647b66b6a9cbac9fb2dc07320b38a201b48ea938ec7409af52",
+                  "twoptimizer/adapters/rome2.py": "5eadd732d8fcb0dad0d4442ae80ece00fdbb445613d1fe1b0b5f9cb9a2f91a08",
+                  "twoptimizer/adapters/rome_models.py": "2ed3186b564956dceb7aedc19bbc63912a1df27eea97b72eef76f81c07d80c85",
+                  "twoptimizer/rome_session.py": "ae3b84c20139e8a5725fca6f40f25ebf3a056e019e20c64e7b64a6f743e59dc3"
+                },
+                "last_progress": "Preparing result",
+                "last_model": {
+                  "label": "CP-SAT solver input",
+                  "variables": 22983,
+                  "constraints": 48965,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 11165,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                "wall_seconds": 62.95879754599446,
+                "summary": {
+                  "completed_cases": 1,
+                  "statuses": {
+                    "FEASIBLE": 1
+                  },
+                  "all_optimal": false,
+                  "income_sum": 536567.845,
+                  "bound_sum": 790800.923,
+                  "aggregate_gap_percent": 32.148808961367386,
+                  "phase_seconds": {
+                    "request_seconds": 0.10713256699818885,
+                    "load_engine_seconds": 8.71619995450601e-05,
+                    "build_model_seconds": 0.25105297999834875,
+                    "solve_and_check_seconds": 62.01921053499973,
+                    "prepare_result_seconds": 0.020844680002483074,
+                    "worker_wall_seconds": 62.929363513998396,
+                    "worker_startup_seconds": 0.5188847760000499
+                  },
+                  "solver_seconds": 60.076863911002874,
+                  "solver_timings": {
+                    "model_conversion_seconds": 4.045377003996691,
+                    "search_seconds": 56.03150197700597
+                  },
+                  "model_preparation_seconds": 0.25105297999834875,
+                  "model_build_and_conversion_seconds": 4.29642998399504,
+                  "native_search_seconds": 56.03150197700597,
+                  "effective_worker_counts": [
+                    4
+                  ],
+                  "reference_variables_sum": 22982,
+                  "reference_constraints_sum": 46265,
+                  "solver_variables_sum": 22983,
+                  "solver_constraints_sum": 48965
+                }
+              }
+            ],
+            "summary": {
+              "repeats": 1,
+              "completion_counts": {
+                "COMPLETE": 1
+              },
+              "wall_seconds_min": 62.95879754599446,
+              "wall_seconds_median": 62.95879754599446,
+              "wall_seconds_max": 62.95879754599446,
+              "peak_worker_rss_mib_max": 771.62890625,
+              "all_repeats_optimal": false,
+              "model_build_and_conversion_seconds_median": 4.29642998399504,
+              "native_search_seconds_median": 56.03150197700597
+            }
+          }
+        ]
+      },
+      {
+        "schema_version": 1,
+        "created_at_utc": "2026-11-08T13:42:57.931551+00:00",
+        "environment": {
+          "python": "3.14.9",
+          "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+          "processor": "",
+          "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+          "available_workers": 4,
+          "logical_cpus": 5,
+          "cpu_quota": "400000 100000",
+          "memory_limit_bytes": "17179869184",
+          "packages": {
+            "ortools": "9.15.6755",
+            "numpy": "2.5.4",
+            "textual": "6.12.0"
+          },
+          "native_solvers": {
+            "highs": "1.12.0"
+          },
+          "lock_sha256": "e419355cda776f29df171e34aa6cf33a3f943b127123bd9c1c55b2521b16e2c3",
+          "benchmark_sha256": "f01feaf56e5c3e1ffee0abcc27f0a1f04007a8f516b3dc29d9653718e9d3099c",
+          "git_revision": "44a554cd805ebd32ad7f4fb6510f87746213baef"
+        },
+        "sensitivity_driver_sha256": "c6f0584ba85d3c1b9b15db79b6701b35ec9ecdd3742c99aed1158bf335aec3c3",
+        "limits": {
+          "solver_seconds": 60.0,
+          "wall_seconds": 120.0,
+          "memory_mib": 4096.0
+        },
+        "method": "One diagnostic sample, fresh worker reused across its cases, fixed per-case solver allowance (which may include conversion). Different aggregate allowance from the primary matrix; no fair speed comparison.",
+        "groups": [
+          {
+            "size": "all",
+            "request": {
+              "game": "rome2",
+              "faction": "rom_rome",
+              "province": "coastal",
+              "algorithm": "cp-sat",
+              "seconds": null,
+              "workers": null,
+              "research": "none",
+              "fertility": 5,
+              "religion": "CHRIST_ORTHODOX",
+              "soil": "native",
+              "town_wealth": 0,
+              "tax": 30,
+              "world_bonuses": true,
+              "provinces": [
+                "all"
+              ],
+              "joint": true,
+              "adjacency": null
+            },
+            "samples": [
+              {
+                "completion": "COMPLETE",
+                "peak_worker_rss_bytes": 911515648,
+                "requested_cases": 1,
+                "solver_seconds_per_case": 60.0,
+                "total_configured_solver_seconds": 60.0,
+                "cases": [
+                  {
+                    "provinces": [
+                      "rome_main_aegyptos",
+                      "rome_main_aithiops",
+                      "rome_main_africa",
+                      "rome_main_aquitania",
+                      "rome_main_arabia_felix",
+                      "rome_main_arabia_magna",
+                      "rome_main_arachosia",
+                      "rome_main_aria",
+                      "rome_main_armenia",
+                      "rome_main_asia",
+                      "rome_main_bactria",
+                      "rome_main_baetica",
+                      "rome_main_belgica",
+                      "rome_main_bithynia_et_pontus",
+                      "rome_main_bosporus",
+                      "rome_main_britannia",
+                      "rome_main_caledonia_et_hibernia",
+                      "rome_main_carmania",
+                      "rome_main_cartaginensis",
+                      "rome_main_caucasia",
+                      "rome_main_celtica",
+                      "rome_main_chorasmia",
+                      "rome_main_cilicia",
+                      "rome_main_cisalpina",
+                      "rome_main_corsica_et_sardinia",
+                      "rome_main_dacia",
+                      "rome_main_galatia_et_cappadocia",
+                      "rome_main_gedrosia",
+                      "rome_main_germania_minor",
+                      "rome_main_hellas",
+                      "rome_main_hercynia",
+                      "rome_main_illyria",
+                      "rome_main_italia",
+                      "rome_main_libue",
+                      "rome_main_lusitania",
+                      "rome_main_macedonia",
+                      "rome_main_magna_germania",
+                      "rome_main_magna_graecia",
+                      "rome_main_mauretania",
+                      "rome_main_media_magna",
+                      "rome_main_mesopotamia",
+                      "rome_main_nabataea",
+                      "rome_main_pannonia",
+                      "rome_main_parthia",
+                      "rome_main_persis",
+                      "rome_main_phazania",
+                      "rome_main_ponto_caspia",
+                      "rome_main_provincia",
+                      "rome_main_raetia_et_noricum",
+                      "rome_main_sarmatia",
+                      "rome_main_scythia",
+                      "rome_main_silesia",
+                      "rome_main_suebia",
+                      "rome_main_syria",
+                      "rome_main_tarraconensis",
+                      "rome_main_thracia",
+                      "rome_main_transoxania"
+                    ],
+                    "status": "FEASIBLE",
+                    "income": 526175.265,
+                    "bound": 683470.205,
+                    "gap_percent": 23.01416197067434,
+                    "solver_seconds": 60.165614147997985,
+                    "solver_timings": {
+                      "model_conversion_seconds": 4.564062100995216,
+                      "search_seconds": 55.60159236600157
+                    },
+                    "effective_workers": 4,
+                    "timings": {
+                      "request_seconds": 0.10356731899810256,
+                      "load_engine_seconds": 7.418500172207132e-05,
+                      "build_model_seconds": 0.2474177839976619,
+                      "solve_and_check_seconds": 62.18523865000316,
+                      "prepare_result_seconds": 0.027465548999316525,
+                      "worker_wall_seconds": 63.08447598600469,
+                      "worker_startup_seconds": 0.50052769100148
+                    },
+                    "model_complexity": [
+                      {
+                        "label": "Rome II canonical proof model",
+                        "variables": 12818,
+                        "constraints": 6044,
+                        "formulation": "native_products",
+                        "stage": "reference",
+                        "decision_variables": 11165,
+                        "nonzeros": null,
+                        "storage_bytes": null
+                      },
+                      {
+                        "label": "Rome II linearized model",
+                        "variables": 22982,
+                        "constraints": 46265,
+                        "formulation": "linearized_income",
+                        "stage": "reference",
+                        "decision_variables": 11165,
+                        "nonzeros": 512687,
+                        "storage_bytes": null
+                      },
+                      {
+                        "label": "CP-SAT solver input",
+                        "variables": 22983,
+                        "constraints": 48965,
+                        "formulation": "linearized_income",
+                        "stage": "solver",
+                        "decision_variables": 11165,
+                        "nonzeros": null,
+                        "storage_bytes": null
+                      }
+                    ]
+                  }
+                ],
+                "source_files": {
+                  "rome2/model.py": "fa1d0647440f1dd272852403b14b79b899b62581e62bc5b02abc9f2f3bace6a5",
+                  "rome2/compiler.py": "87887664f6f93c7fde34b3d28bb7019b6bddfa8328fb3ecf5b39e3068bd2da50",
+                  "rome2/linear.py": "e190b88904b75dbde3ceb79177c1eec6425ffa704c8bc8857adc7451e5dcc87a",
+                  "rome2/optimization.py": "d673bb5536abbc1d54f0da45a0e199a9800a36422eb5c43100261d8b2ea7c9eb",
+                  "rome2/backends.py": "c8e0d06b5ce4627b250b98e9125b883d1cb7378c88cddfab1c1495701083577a",
+                  "rome2/scenario.py": "78c4a296b5984ecdcb718ee1e7d0b1e4ace87e6ec3f3ca4a10a5e639f1e884fd",
+                  "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+                  "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+                  "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+                  "rome2/provenance.py": "458f11ab6322752db1d1315a5c10ffb92dd0ee1b645f30828b005bf35527bafa",
+                  "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+                  "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+                  "rome2/holdings.py": "58f4beaeca008298f5428b4a0a44932edf0d049b1b8b1e030b3fb15a9ec17f0f",
+                  "rome2/holding_compiler.py": "2ac05b231b476e6bac70bec3762cf329aabbff53f57d4c8bf678a2fe40eedf2f",
+                  "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+                  "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+                  "rome2/building_constraints.py": "f87c6afee90906cc846712b09e0a96a64749f1ad62d4119912b07a69e1cab566",
+                  "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+                  "rome2/data/special_buildings_coverage.json": "10e91f33f67bc8296487844c7fadf2961bbf5646143e1b338eb174800fe74d68",
+                  "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+                  "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+                  "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+                  "highs_backend.py": "165c8cace6e9e382916f33a890deb0cce6ac0f88b7a3729539724d47260cec34",
+                  "search_progress.py": "a370804762b9e4beabdd5b4d6318809346dce8a6380257c2d49bb5b40b9350d8",
+                  "cancellation.py": "bd5ca92d0b26f36a197575ea01de666d7427fd4d810df9876e2ab7bce59b176e",
+                  "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+                  "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+                  "twoptimizer/requests.py": "7b50bea6099442eadecb8adb65e7f0a08f9a092bf517103026d899d3ab9383ea",
+                  "twoptimizer/models.py": "d6f596c9980df89df60fcfa09202dbf37fc00d11c2fc1dbb0ec4c6f43c8e2ed8",
+                  "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+                  "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+                  "twoptimizer/service.py": "939b18acf6580d59908b6c868f07eeaf8ae8fb40dd26e95ff7ac387caab7e949",
+                  "twoptimizer/session.py": "471e1af7f8479f468683f840b20af8c6a0878cb7de7c0e4b6456b42144e46d22",
+                  "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+                  "twoptimizer/progress.py": "cb5bb25fe597be95ef6d36078f7e9e7e4219648ceae0caa6fb08b0e2ef4710cd",
+                  "twoptimizer/adapters/model_stats.py": "e2abccb167b3ad8d9f20fef7500bd78c354307856afee4166890108286e993f4",
+                  "twoptimizer/adapters/search.py": "6cf62d63bfd388647b66b6a9cbac9fb2dc07320b38a201b48ea938ec7409af52",
+                  "twoptimizer/adapters/rome2.py": "5eadd732d8fcb0dad0d4442ae80ece00fdbb445613d1fe1b0b5f9cb9a2f91a08",
+                  "twoptimizer/adapters/rome_models.py": "2ed3186b564956dceb7aedc19bbc63912a1df27eea97b72eef76f81c07d80c85",
+                  "twoptimizer/rome_session.py": "ae3b84c20139e8a5725fca6f40f25ebf3a056e019e20c64e7b64a6f743e59dc3"
+                },
+                "last_progress": "Preparing result",
+                "last_model": {
+                  "label": "CP-SAT solver input",
+                  "variables": 22983,
+                  "constraints": 48965,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 11165,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                "wall_seconds": 63.113026624996564,
+                "summary": {
+                  "completed_cases": 1,
+                  "statuses": {
+                    "FEASIBLE": 1
+                  },
+                  "all_optimal": false,
+                  "income_sum": 526175.265,
+                  "bound_sum": 683470.205,
+                  "aggregate_gap_percent": 23.01416197067434,
+                  "phase_seconds": {
+                    "request_seconds": 0.10356731899810256,
+                    "load_engine_seconds": 7.418500172207132e-05,
+                    "build_model_seconds": 0.2474177839976619,
+                    "solve_and_check_seconds": 62.18523865000316,
+                    "prepare_result_seconds": 0.027465548999316525,
+                    "worker_wall_seconds": 63.08447598600469,
+                    "worker_startup_seconds": 0.50052769100148
+                  },
+                  "solver_seconds": 60.165614147997985,
+                  "solver_timings": {
+                    "model_conversion_seconds": 4.564062100995216,
+                    "search_seconds": 55.60159236600157
+                  },
+                  "model_preparation_seconds": 0.2474177839976619,
+                  "model_build_and_conversion_seconds": 4.8114798849928775,
+                  "native_search_seconds": 55.60159236600157,
+                  "effective_worker_counts": [
+                    4
+                  ],
+                  "reference_variables_sum": 22982,
+                  "reference_constraints_sum": 46265,
+                  "solver_variables_sum": 22983,
+                  "solver_constraints_sum": 48965
+                }
+              }
+            ],
+            "summary": {
+              "repeats": 1,
+              "completion_counts": {
+                "COMPLETE": 1
+              },
+              "wall_seconds_min": 63.113026624996564,
+              "wall_seconds_median": 63.113026624996564,
+              "wall_seconds_max": 63.113026624996564,
+              "peak_worker_rss_mib_max": 869.2890625,
+              "all_repeats_optimal": false,
+              "model_build_and_conversion_seconds_median": 4.8114798849928775,
+              "native_search_seconds_median": 55.60159236600157
+            }
+          }
+        ]
+      }
+    ],
+    "candidate": [
+      {
+        "schema_version": 1,
+        "created_at_utc": "2026-11-08T14:18:29.796625+00:00",
+        "environment": {
+          "python": "3.14.9",
+          "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+          "processor": "",
+          "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+          "available_workers": 4,
+          "logical_cpus": 5,
+          "cpu_quota": "400000 100000",
+          "memory_limit_bytes": "17179869184",
+          "packages": {
+            "ortools": "9.15.6755",
+            "numpy": "2.5.4",
+            "textual": "6.12.0"
+          },
+          "native_solvers": {
+            "highs": "1.12.0"
+          },
+          "lock_sha256": "e419355cda776f29df171e34aa6cf33a3f943b127123bd9c1c55b2521b16e2c3",
+          "benchmark_sha256": "4a2c82247172b71e51ac8fe25a2bb4a8709267d08a933ce50380f0c079226aa0",
+          "git_revision": "candidate-food-bounds-final"
+        },
+        "sensitivity_driver_sha256": "c6f0584ba85d3c1b9b15db79b6701b35ec9ecdd3742c99aed1158bf335aec3c3",
+        "limits": {
+          "solver_seconds": 60.0,
+          "wall_seconds": 120.0,
+          "memory_mib": 4096.0
+        },
+        "method": "One diagnostic sample, fresh worker reused across its cases, fixed per-case solver allowance (which may include conversion). Different aggregate allowance from the primary matrix; no fair speed comparison.",
+        "groups": [
+          {
+            "size": "all",
+            "request": {
+              "game": "rome2",
+              "faction": "rom_rome",
+              "province": "coastal",
+              "algorithm": "cp-sat",
+              "seconds": null,
+              "workers": null,
+              "research": "none",
+              "fertility": 5,
+              "religion": "CHRIST_ORTHODOX",
+              "soil": "native",
+              "town_wealth": 0,
+              "tax": 30,
+              "world_bonuses": true,
+              "provinces": [
+                "all"
+              ],
+              "joint": true,
+              "adjacency": null
+            },
+            "samples": [
+              {
+                "completion": "COMPLETE",
+                "peak_worker_rss_bytes": 1080360960,
+                "requested_cases": 1,
+                "solver_seconds_per_case": 60.0,
+                "total_configured_solver_seconds": 60.0,
+                "cases": [
+                  {
+                    "provinces": [
+                      "rome_main_aegyptos",
+                      "rome_main_aithiops",
+                      "rome_main_africa",
+                      "rome_main_aquitania",
+                      "rome_main_arabia_felix",
+                      "rome_main_arabia_magna",
+                      "rome_main_arachosia",
+                      "rome_main_aria",
+                      "rome_main_armenia",
+                      "rome_main_asia",
+                      "rome_main_bactria",
+                      "rome_main_baetica",
+                      "rome_main_belgica",
+                      "rome_main_bithynia_et_pontus",
+                      "rome_main_bosporus",
+                      "rome_main_britannia",
+                      "rome_main_caledonia_et_hibernia",
+                      "rome_main_carmania",
+                      "rome_main_cartaginensis",
+                      "rome_main_caucasia",
+                      "rome_main_celtica",
+                      "rome_main_chorasmia",
+                      "rome_main_cilicia",
+                      "rome_main_cisalpina",
+                      "rome_main_corsica_et_sardinia",
+                      "rome_main_dacia",
+                      "rome_main_galatia_et_cappadocia",
+                      "rome_main_gedrosia",
+                      "rome_main_germania_minor",
+                      "rome_main_hellas",
+                      "rome_main_hercynia",
+                      "rome_main_illyria",
+                      "rome_main_italia",
+                      "rome_main_libue",
+                      "rome_main_lusitania",
+                      "rome_main_macedonia",
+                      "rome_main_magna_germania",
+                      "rome_main_magna_graecia",
+                      "rome_main_mauretania",
+                      "rome_main_media_magna",
+                      "rome_main_mesopotamia",
+                      "rome_main_nabataea",
+                      "rome_main_pannonia",
+                      "rome_main_parthia",
+                      "rome_main_persis",
+                      "rome_main_phazania",
+                      "rome_main_ponto_caspia",
+                      "rome_main_provincia",
+                      "rome_main_raetia_et_noricum",
+                      "rome_main_sarmatia",
+                      "rome_main_scythia",
+                      "rome_main_silesia",
+                      "rome_main_suebia",
+                      "rome_main_syria",
+                      "rome_main_tarraconensis",
+                      "rome_main_thracia",
+                      "rome_main_transoxania"
+                    ],
+                    "status": "FEASIBLE",
+                    "income": 656158.25,
+                    "bound": 664550.205,
+                    "gap_percent": 1.2628022588601802,
+                    "solver_seconds": 60.072989893997146,
+                    "solver_timings": {
+                      "model_conversion_seconds": 4.3440306699922075,
+                      "bound_strengthening_seconds": 23.18953772000532,
+                      "search_seconds": 32.52714266000112
+                    },
+                    "joint_bound_search": {
+                      "status": "completed",
+                      "components": 57,
+                      "components_solved": 57,
+                      "component_statuses": {
+                        "OPTIMAL": 57
+                      },
+                      "cuts": 57,
+                      "food_price": 386146,
+                      "price_solver": {
+                        "status": "OPTIMAL",
+                        "price": 386146,
+                        "seconds": 4.986055757995928,
+                        "workers": 4,
+                        "detail": "HighsModelStatus is kOptimal",
+                        "timings": {
+                          "model_conversion_seconds": 1.4817957249979372,
+                          "scheduler_wait_seconds": 9.788599709281698e-05,
+                          "search_seconds": 3.495124292996479
+                        }
+                      },
+                      "upper_bound": 6645502092,
+                      "hint_income": 6548193300,
+                      "seconds": 23.091587106995576,
+                      "objective_unit": "1/10000 income"
+                    },
+                    "effective_workers": 4,
+                    "timings": {
+                      "request_seconds": 0.11284325400629314,
+                      "load_engine_seconds": 7.78459943830967e-05,
+                      "build_model_seconds": 0.2622336560016265,
+                      "solve_and_check_seconds": 62.08359815100266,
+                      "prepare_result_seconds": 0.025864486997306813,
+                      "worker_wall_seconds": 63.09515868599556,
+                      "worker_startup_seconds": 0.5972683539948775
+                    },
+                    "model_complexity": [
+                      {
+                        "label": "Rome II canonical proof model",
+                        "variables": 12818,
+                        "constraints": 6044,
+                        "formulation": "native_products",
+                        "stage": "reference",
+                        "decision_variables": 11165,
+                        "nonzeros": null,
+                        "storage_bytes": null
+                      },
+                      {
+                        "label": "Rome II linearized model",
+                        "variables": 22982,
+                        "constraints": 46265,
+                        "formulation": "linearized_income",
+                        "stage": "reference",
+                        "decision_variables": 11165,
+                        "nonzeros": 512687,
+                        "storage_bytes": null
+                      },
+                      {
+                        "label": "CP-SAT solver input",
+                        "variables": 22983,
+                        "constraints": 49022,
+                        "formulation": "linearized_income",
+                        "stage": "solver",
+                        "decision_variables": 11165,
+                        "nonzeros": null,
+                        "storage_bytes": null
+                      }
+                    ]
+                  }
+                ],
+                "source_files": {
+                  "rome2/model.py": "e49d58d32e935c05e0d6127f53c6bef4a423f474d20d3a1dbc2a10729456e053",
+                  "rome2/compiler.py": "87887664f6f93c7fde34b3d28bb7019b6bddfa8328fb3ecf5b39e3068bd2da50",
+                  "rome2/linear.py": "e190b88904b75dbde3ceb79177c1eec6425ffa704c8bc8857adc7451e5dcc87a",
+                  "rome2/optimization.py": "79dfce6e5d97d86f5610eb5795b4d6a35075b093ca2bd6b99ba253ab7bcf9dbd",
+                  "rome2/joint_search.py": "34c7369820fce9c3219e48c0395dab5195316de62214a72ef5c30f5b52379381",
+                  "rome2/bound_search.py": "9e8424c2461ca07146a7701068f5f6c390fb664f9db2f6494b2df91109323787",
+                  "rome2/decomposition.py": "2fee279162496448e4b08d871e0405122c10184f71105f24ce7b24477973d2ca",
+                  "rome2/backends.py": "c8e0d06b5ce4627b250b98e9125b883d1cb7378c88cddfab1c1495701083577a",
+                  "rome2/scenario.py": "78c4a296b5984ecdcb718ee1e7d0b1e4ace87e6ec3f3ca4a10a5e639f1e884fd",
+                  "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+                  "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+                  "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+                  "rome2/provenance.py": "d562ef4d18cbd983afc14174e7e76b858978d3e1382a61ccf2bc0650dc6870dd",
+                  "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+                  "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+                  "rome2/holdings.py": "58f4beaeca008298f5428b4a0a44932edf0d049b1b8b1e030b3fb15a9ec17f0f",
+                  "rome2/holding_compiler.py": "fba7c4a19037889505cb6f2404c75a9f9c8fb0d61e04fae17d0e23f85038bc41",
+                  "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+                  "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+                  "rome2/building_constraints.py": "f87c6afee90906cc846712b09e0a96a64749f1ad62d4119912b07a69e1cab566",
+                  "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+                  "rome2/data/special_buildings_coverage.json": "10e91f33f67bc8296487844c7fadf2961bbf5646143e1b338eb174800fe74d68",
+                  "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+                  "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+                  "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+                  "highs_backend.py": "e2718069877a8b699d45b9aa3557d68b426b65ebb75807fd2ba5a48ef9e0d982",
+                  "search_progress.py": "a370804762b9e4beabdd5b4d6318809346dce8a6380257c2d49bb5b40b9350d8",
+                  "cancellation.py": "bd5ca92d0b26f36a197575ea01de666d7427fd4d810df9876e2ab7bce59b176e",
+                  "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+                  "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+                  "twoptimizer/requests.py": "7b50bea6099442eadecb8adb65e7f0a08f9a092bf517103026d899d3ab9383ea",
+                  "twoptimizer/models.py": "d6f596c9980df89df60fcfa09202dbf37fc00d11c2fc1dbb0ec4c6f43c8e2ed8",
+                  "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+                  "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+                  "twoptimizer/service.py": "939b18acf6580d59908b6c868f07eeaf8ae8fb40dd26e95ff7ac387caab7e949",
+                  "twoptimizer/session.py": "471e1af7f8479f468683f840b20af8c6a0878cb7de7c0e4b6456b42144e46d22",
+                  "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+                  "twoptimizer/progress.py": "cb5bb25fe597be95ef6d36078f7e9e7e4219648ceae0caa6fb08b0e2ef4710cd",
+                  "twoptimizer/adapters/model_stats.py": "e2abccb167b3ad8d9f20fef7500bd78c354307856afee4166890108286e993f4",
+                  "twoptimizer/adapters/search.py": "bb3c85cb538b04988bb7512665e7d14a9be31262eb782af7a11e7dc67c921364",
+                  "twoptimizer/adapters/rome2.py": "2753b4a5e2102ba943b7b4848310a06b4bddc7e035a62fc5a824cd1e0a5bd5b0",
+                  "twoptimizer/adapters/rome_models.py": "2ed3186b564956dceb7aedc19bbc63912a1df27eea97b72eef76f81c07d80c85",
+                  "twoptimizer/rome_session.py": "ae3b84c20139e8a5725fca6f40f25ebf3a056e019e20c64e7b64a6f743e59dc3"
+                },
+                "last_progress": "Preparing result",
+                "last_model": {
+                  "label": "CP-SAT solver input",
+                  "variables": 22983,
+                  "constraints": 49022,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 11165,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                "wall_seconds": 63.16019703900383,
+                "summary": {
+                  "completed_cases": 1,
+                  "statuses": {
+                    "FEASIBLE": 1
+                  },
+                  "all_optimal": false,
+                  "income_sum": 656158.25,
+                  "bound_sum": 664550.205,
+                  "aggregate_gap_percent": 1.2628022588601802,
+                  "phase_seconds": {
+                    "request_seconds": 0.11284325400629314,
+                    "load_engine_seconds": 7.78459943830967e-05,
+                    "build_model_seconds": 0.2622336560016265,
+                    "solve_and_check_seconds": 62.08359815100266,
+                    "prepare_result_seconds": 0.025864486997306813,
+                    "worker_wall_seconds": 63.09515868599556,
+                    "worker_startup_seconds": 0.5972683539948775
+                  },
+                  "solver_seconds": 60.072989893997146,
+                  "solver_timings": {
+                    "model_conversion_seconds": 4.3440306699922075,
+                    "bound_strengthening_seconds": 23.18953772000532,
+                    "search_seconds": 32.52714266000112
+                  },
+                  "model_preparation_seconds": 0.2622336560016265,
+                  "model_build_and_conversion_seconds": 4.606264325993834,
+                  "native_search_seconds": 32.52714266000112,
+                  "effective_worker_counts": [
+                    4
+                  ],
+                  "reference_variables_sum": 22982,
+                  "reference_constraints_sum": 46265,
+                  "solver_variables_sum": 22983,
+                  "solver_constraints_sum": 49022
+                }
+              }
+            ],
+            "summary": {
+              "repeats": 1,
+              "completion_counts": {
+                "COMPLETE": 1
+              },
+              "wall_seconds_min": 63.16019703900383,
+              "wall_seconds_median": 63.16019703900383,
+              "wall_seconds_max": 63.16019703900383,
+              "peak_worker_rss_mib_max": 1030.3125,
+              "all_repeats_optimal": false,
+              "model_build_and_conversion_seconds_median": 4.606264325993834,
+              "native_search_seconds_median": 32.52714266000112
+            }
+          }
+        ]
+      },
+      {
+        "schema_version": 1,
+        "created_at_utc": "2026-11-08T14:19:40.074343+00:00",
+        "environment": {
+          "python": "3.14.9",
+          "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+          "processor": "",
+          "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+          "available_workers": 4,
+          "logical_cpus": 5,
+          "cpu_quota": "400000 100000",
+          "memory_limit_bytes": "17179869184",
+          "packages": {
+            "ortools": "9.15.6755",
+            "numpy": "2.5.4",
+            "textual": "6.12.0"
+          },
+          "native_solvers": {
+            "highs": "1.12.0"
+          },
+          "lock_sha256": "e419355cda776f29df171e34aa6cf33a3f943b127123bd9c1c55b2521b16e2c3",
+          "benchmark_sha256": "4a2c82247172b71e51ac8fe25a2bb4a8709267d08a933ce50380f0c079226aa0",
+          "git_revision": "candidate-food-bounds-final"
+        },
+        "sensitivity_driver_sha256": "c6f0584ba85d3c1b9b15db79b6701b35ec9ecdd3742c99aed1158bf335aec3c3",
+        "limits": {
+          "solver_seconds": 60.0,
+          "wall_seconds": 120.0,
+          "memory_mib": 4096.0
+        },
+        "method": "One diagnostic sample, fresh worker reused across its cases, fixed per-case solver allowance (which may include conversion). Different aggregate allowance from the primary matrix; no fair speed comparison.",
+        "groups": [
+          {
+            "size": "all",
+            "request": {
+              "game": "rome2",
+              "faction": "rom_rome",
+              "province": "coastal",
+              "algorithm": "cp-sat",
+              "seconds": null,
+              "workers": null,
+              "research": "none",
+              "fertility": 5,
+              "religion": "CHRIST_ORTHODOX",
+              "soil": "native",
+              "town_wealth": 0,
+              "tax": 30,
+              "world_bonuses": true,
+              "provinces": [
+                "all"
+              ],
+              "joint": true,
+              "adjacency": null
+            },
+            "samples": [
+              {
+                "completion": "COMPLETE",
+                "peak_worker_rss_bytes": 1017102336,
+                "requested_cases": 1,
+                "solver_seconds_per_case": 60.0,
+                "total_configured_solver_seconds": 60.0,
+                "cases": [
+                  {
+                    "provinces": [
+                      "rome_main_aegyptos",
+                      "rome_main_aithiops",
+                      "rome_main_africa",
+                      "rome_main_aquitania",
+                      "rome_main_arabia_felix",
+                      "rome_main_arabia_magna",
+                      "rome_main_arachosia",
+                      "rome_main_aria",
+                      "rome_main_armenia",
+                      "rome_main_asia",
+                      "rome_main_bactria",
+                      "rome_main_baetica",
+                      "rome_main_belgica",
+                      "rome_main_bithynia_et_pontus",
+                      "rome_main_bosporus",
+                      "rome_main_britannia",
+                      "rome_main_caledonia_et_hibernia",
+                      "rome_main_carmania",
+                      "rome_main_cartaginensis",
+                      "rome_main_caucasia",
+                      "rome_main_celtica",
+                      "rome_main_chorasmia",
+                      "rome_main_cilicia",
+                      "rome_main_cisalpina",
+                      "rome_main_corsica_et_sardinia",
+                      "rome_main_dacia",
+                      "rome_main_galatia_et_cappadocia",
+                      "rome_main_gedrosia",
+                      "rome_main_germania_minor",
+                      "rome_main_hellas",
+                      "rome_main_hercynia",
+                      "rome_main_illyria",
+                      "rome_main_italia",
+                      "rome_main_libue",
+                      "rome_main_lusitania",
+                      "rome_main_macedonia",
+                      "rome_main_magna_germania",
+                      "rome_main_magna_graecia",
+                      "rome_main_mauretania",
+                      "rome_main_media_magna",
+                      "rome_main_mesopotamia",
+                      "rome_main_nabataea",
+                      "rome_main_pannonia",
+                      "rome_main_parthia",
+                      "rome_main_persis",
+                      "rome_main_phazania",
+                      "rome_main_ponto_caspia",
+                      "rome_main_provincia",
+                      "rome_main_raetia_et_noricum",
+                      "rome_main_sarmatia",
+                      "rome_main_scythia",
+                      "rome_main_silesia",
+                      "rome_main_suebia",
+                      "rome_main_syria",
+                      "rome_main_tarraconensis",
+                      "rome_main_thracia",
+                      "rome_main_transoxania"
+                    ],
+                    "status": "FEASIBLE",
+                    "income": 655589.0,
+                    "bound": 665541.965,
+                    "gap_percent": 1.4954676824924131,
+                    "solver_seconds": 60.065046923999034,
+                    "solver_timings": {
+                      "model_conversion_seconds": 3.9662465950023034,
+                      "bound_strengthening_seconds": 23.263425697994535,
+                      "search_seconds": 32.823553417001676
+                    },
+                    "joint_bound_search": {
+                      "status": "completed",
+                      "components": 57,
+                      "components_solved": 57,
+                      "component_statuses": {
+                        "OPTIMAL": 55,
+                        "FEASIBLE": 2
+                      },
+                      "cuts": 57,
+                      "food_price": 386146,
+                      "price_solver": {
+                        "status": "OPTIMAL",
+                        "price": 386146,
+                        "seconds": 4.487058619997697,
+                        "workers": 4,
+                        "detail": "HighsModelStatus is kOptimal",
+                        "timings": {
+                          "model_conversion_seconds": 1.1073894610017305,
+                          "scheduler_wait_seconds": 7.85999873187393e-06,
+                          "search_seconds": 3.3728614159990684
+                        }
+                      },
+                      "upper_bound": 6655419692,
+                      "hint_income": 6542517300,
+                      "seconds": 23.182755652000196,
+                      "objective_unit": "1/10000 income"
+                    },
+                    "effective_workers": 4,
+                    "timings": {
+                      "request_seconds": 0.10427388000243809,
+                      "load_engine_seconds": 7.744399772491306e-05,
+                      "build_model_seconds": 0.23742747900541872,
+                      "solve_and_check_seconds": 61.82916285700048,
+                      "prepare_result_seconds": 0.015898724996077362,
+                      "worker_wall_seconds": 62.66025737900054,
+                      "worker_startup_seconds": 0.46327511300478363
+                    },
+                    "model_complexity": [
+                      {
+                        "label": "Rome II canonical proof model",
+                        "variables": 12818,
+                        "constraints": 6044,
+                        "formulation": "native_products",
+                        "stage": "reference",
+                        "decision_variables": 11165,
+                        "nonzeros": null,
+                        "storage_bytes": null
+                      },
+                      {
+                        "label": "Rome II linearized model",
+                        "variables": 22982,
+                        "constraints": 46265,
+                        "formulation": "linearized_income",
+                        "stage": "reference",
+                        "decision_variables": 11165,
+                        "nonzeros": 512687,
+                        "storage_bytes": null
+                      },
+                      {
+                        "label": "CP-SAT solver input",
+                        "variables": 22983,
+                        "constraints": 49022,
+                        "formulation": "linearized_income",
+                        "stage": "solver",
+                        "decision_variables": 11165,
+                        "nonzeros": null,
+                        "storage_bytes": null
+                      }
+                    ]
+                  }
+                ],
+                "source_files": {
+                  "rome2/model.py": "e49d58d32e935c05e0d6127f53c6bef4a423f474d20d3a1dbc2a10729456e053",
+                  "rome2/compiler.py": "87887664f6f93c7fde34b3d28bb7019b6bddfa8328fb3ecf5b39e3068bd2da50",
+                  "rome2/linear.py": "e190b88904b75dbde3ceb79177c1eec6425ffa704c8bc8857adc7451e5dcc87a",
+                  "rome2/optimization.py": "79dfce6e5d97d86f5610eb5795b4d6a35075b093ca2bd6b99ba253ab7bcf9dbd",
+                  "rome2/joint_search.py": "34c7369820fce9c3219e48c0395dab5195316de62214a72ef5c30f5b52379381",
+                  "rome2/bound_search.py": "9e8424c2461ca07146a7701068f5f6c390fb664f9db2f6494b2df91109323787",
+                  "rome2/decomposition.py": "2fee279162496448e4b08d871e0405122c10184f71105f24ce7b24477973d2ca",
+                  "rome2/backends.py": "c8e0d06b5ce4627b250b98e9125b883d1cb7378c88cddfab1c1495701083577a",
+                  "rome2/scenario.py": "78c4a296b5984ecdcb718ee1e7d0b1e4ace87e6ec3f3ca4a10a5e639f1e884fd",
+                  "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+                  "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+                  "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+                  "rome2/provenance.py": "d562ef4d18cbd983afc14174e7e76b858978d3e1382a61ccf2bc0650dc6870dd",
+                  "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+                  "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+                  "rome2/holdings.py": "58f4beaeca008298f5428b4a0a44932edf0d049b1b8b1e030b3fb15a9ec17f0f",
+                  "rome2/holding_compiler.py": "fba7c4a19037889505cb6f2404c75a9f9c8fb0d61e04fae17d0e23f85038bc41",
+                  "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+                  "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+                  "rome2/building_constraints.py": "f87c6afee90906cc846712b09e0a96a64749f1ad62d4119912b07a69e1cab566",
+                  "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+                  "rome2/data/special_buildings_coverage.json": "10e91f33f67bc8296487844c7fadf2961bbf5646143e1b338eb174800fe74d68",
+                  "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+                  "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+                  "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+                  "highs_backend.py": "e2718069877a8b699d45b9aa3557d68b426b65ebb75807fd2ba5a48ef9e0d982",
+                  "search_progress.py": "a370804762b9e4beabdd5b4d6318809346dce8a6380257c2d49bb5b40b9350d8",
+                  "cancellation.py": "bd5ca92d0b26f36a197575ea01de666d7427fd4d810df9876e2ab7bce59b176e",
+                  "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+                  "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+                  "twoptimizer/requests.py": "7b50bea6099442eadecb8adb65e7f0a08f9a092bf517103026d899d3ab9383ea",
+                  "twoptimizer/models.py": "d6f596c9980df89df60fcfa09202dbf37fc00d11c2fc1dbb0ec4c6f43c8e2ed8",
+                  "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+                  "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+                  "twoptimizer/service.py": "939b18acf6580d59908b6c868f07eeaf8ae8fb40dd26e95ff7ac387caab7e949",
+                  "twoptimizer/session.py": "471e1af7f8479f468683f840b20af8c6a0878cb7de7c0e4b6456b42144e46d22",
+                  "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+                  "twoptimizer/progress.py": "cb5bb25fe597be95ef6d36078f7e9e7e4219648ceae0caa6fb08b0e2ef4710cd",
+                  "twoptimizer/adapters/model_stats.py": "e2abccb167b3ad8d9f20fef7500bd78c354307856afee4166890108286e993f4",
+                  "twoptimizer/adapters/search.py": "bb3c85cb538b04988bb7512665e7d14a9be31262eb782af7a11e7dc67c921364",
+                  "twoptimizer/adapters/rome2.py": "2753b4a5e2102ba943b7b4848310a06b4bddc7e035a62fc5a824cd1e0a5bd5b0",
+                  "twoptimizer/adapters/rome_models.py": "2ed3186b564956dceb7aedc19bbc63912a1df27eea97b72eef76f81c07d80c85",
+                  "twoptimizer/rome_session.py": "ae3b84c20139e8a5725fca6f40f25ebf3a056e019e20c64e7b64a6f743e59dc3"
+                },
+                "last_progress": "Preparing result",
+                "last_model": {
+                  "label": "CP-SAT solver input",
+                  "variables": 22983,
+                  "constraints": 49022,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 11165,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                "wall_seconds": 62.68638597399695,
+                "summary": {
+                  "completed_cases": 1,
+                  "statuses": {
+                    "FEASIBLE": 1
+                  },
+                  "all_optimal": false,
+                  "income_sum": 655589.0,
+                  "bound_sum": 665541.965,
+                  "aggregate_gap_percent": 1.4954676824924131,
+                  "phase_seconds": {
+                    "request_seconds": 0.10427388000243809,
+                    "load_engine_seconds": 7.744399772491306e-05,
+                    "build_model_seconds": 0.23742747900541872,
+                    "solve_and_check_seconds": 61.82916285700048,
+                    "prepare_result_seconds": 0.015898724996077362,
+                    "worker_wall_seconds": 62.66025737900054,
+                    "worker_startup_seconds": 0.46327511300478363
+                  },
+                  "solver_seconds": 60.065046923999034,
+                  "solver_timings": {
+                    "model_conversion_seconds": 3.9662465950023034,
+                    "bound_strengthening_seconds": 23.263425697994535,
+                    "search_seconds": 32.823553417001676
+                  },
+                  "model_preparation_seconds": 0.23742747900541872,
+                  "model_build_and_conversion_seconds": 4.203674074007722,
+                  "native_search_seconds": 32.823553417001676,
+                  "effective_worker_counts": [
+                    4
+                  ],
+                  "reference_variables_sum": 22982,
+                  "reference_constraints_sum": 46265,
+                  "solver_variables_sum": 22983,
+                  "solver_constraints_sum": 49022
+                }
+              }
+            ],
+            "summary": {
+              "repeats": 1,
+              "completion_counts": {
+                "COMPLETE": 1
+              },
+              "wall_seconds_min": 62.68638597399695,
+              "wall_seconds_median": 62.68638597399695,
+              "wall_seconds_max": 62.68638597399695,
+              "peak_worker_rss_mib_max": 969.984375,
+              "all_repeats_optimal": false,
+              "model_build_and_conversion_seconds_median": 4.203674074007722,
+              "native_search_seconds_median": 32.823553417001676
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "additional_checks": {
+    "method": "One fresh-worker sample per listed variant, serial production-wheel runs. Four-province checks retain the 60 s solver allowance and 120 s/4096 MiB guards. The gap check requests cooperative cancellation on the first live gap at or below 2%, then asserts a validated FEASIBLE/OPTIMAL result with buildings and nonnegative shared food. This is one observation, not a time guarantee.",
+    "command": "env/bin/python rome-bound-checks.py --case four|gap --output OUTPUT.json --revision REVISION",
+    "four_provinces": {
+      "baseline": {
+        "environment": {
+          "python": "3.14.9",
+          "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+          "processor": "",
+          "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+          "available_workers": 4,
+          "logical_cpus": 5,
+          "cpu_quota": "400000 100000",
+          "memory_limit_bytes": "17179869184",
+          "packages": {
+            "ortools": "9.15.6755",
+            "numpy": "2.5.4",
+            "textual": "6.12.0"
+          },
+          "native_solvers": {
+            "highs": "1.12.0"
+          },
+          "lock_sha256": "e419355cda776f29df171e34aa6cf33a3f943b127123bd9c1c55b2521b16e2c3",
+          "benchmark_sha256": "f01feaf56e5c3e1ffee0abcc27f0a1f04007a8f516b3dc29d9653718e9d3099c",
+          "git_revision": "44a554c"
+        },
+        "request": {
+          "game": "rome2",
+          "faction": "rom_rome",
+          "province": "rome_main_italia",
+          "algorithm": "cp-sat",
+          "seconds": null,
+          "workers": null,
+          "research": "none",
+          "fertility": 5,
+          "religion": "CHRIST_ORTHODOX",
+          "soil": "native",
+          "town_wealth": 0,
+          "tax": 30,
+          "world_bonuses": true,
+          "provinces": [
+            "rome_main_italia",
+            "rome_main_magna_graecia",
+            "rome_main_cisalpina",
+            "rome_main_corsica_et_sardinia"
+          ],
+          "joint": true,
+          "adjacency": null
+        },
+        "driver_sha256": "b4fb1c0ed944c566aab2184f39544a4790f51ecf085de768afa5d6a106397eaa",
+        "sample": {
+          "completion": "COMPLETE",
+          "peak_worker_rss_bytes": 398467072,
+          "requested_cases": 1,
+          "solver_seconds_per_case": 60.0,
+          "total_configured_solver_seconds": 60,
+          "cases": [
+            {
+              "provinces": [
+                "rome_main_italia",
+                "rome_main_magna_graecia",
+                "rome_main_cisalpina",
+                "rome_main_corsica_et_sardinia"
+              ],
+              "status": "FEASIBLE",
+              "income": 30801.199999999997,
+              "bound": 34836.58,
+              "gap_percent": 11.583743295122554,
+              "solver_seconds": 60.14731190499879,
+              "solver_timings": {
+                "model_conversion_seconds": 0.2253485039982479,
+                "search_seconds": 59.92198390300473
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.09277797799586551,
+                "load_engine_seconds": 7.830600225133821e-05,
+                "build_model_seconds": 0.022517537996463943,
+                "solve_and_check_seconds": 60.193514566002705,
+                "prepare_result_seconds": 0.011850706003315281,
+                "worker_wall_seconds": 60.828295090999745,
+                "worker_startup_seconds": 0.5047966290003387
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 995,
+                  "constraints": 452,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 875,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 1794,
+                  "constraints": 3495,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 875,
+                  "nonzeros": 43427,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 1795,
+                  "constraints": 3608,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 875,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            }
+          ],
+          "source_files": {
+            "rome2/model.py": "fa1d0647440f1dd272852403b14b79b899b62581e62bc5b02abc9f2f3bace6a5",
+            "rome2/compiler.py": "87887664f6f93c7fde34b3d28bb7019b6bddfa8328fb3ecf5b39e3068bd2da50",
+            "rome2/linear.py": "e190b88904b75dbde3ceb79177c1eec6425ffa704c8bc8857adc7451e5dcc87a",
+            "rome2/optimization.py": "d673bb5536abbc1d54f0da45a0e199a9800a36422eb5c43100261d8b2ea7c9eb",
+            "rome2/backends.py": "c8e0d06b5ce4627b250b98e9125b883d1cb7378c88cddfab1c1495701083577a",
+            "rome2/scenario.py": "78c4a296b5984ecdcb718ee1e7d0b1e4ace87e6ec3f3ca4a10a5e639f1e884fd",
+            "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+            "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+            "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+            "rome2/provenance.py": "458f11ab6322752db1d1315a5c10ffb92dd0ee1b645f30828b005bf35527bafa",
+            "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+            "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+            "rome2/holdings.py": "58f4beaeca008298f5428b4a0a44932edf0d049b1b8b1e030b3fb15a9ec17f0f",
+            "rome2/holding_compiler.py": "2ac05b231b476e6bac70bec3762cf329aabbff53f57d4c8bf678a2fe40eedf2f",
+            "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+            "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+            "rome2/building_constraints.py": "f87c6afee90906cc846712b09e0a96a64749f1ad62d4119912b07a69e1cab566",
+            "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+            "rome2/data/special_buildings_coverage.json": "10e91f33f67bc8296487844c7fadf2961bbf5646143e1b338eb174800fe74d68",
+            "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+            "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+            "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+            "highs_backend.py": "165c8cace6e9e382916f33a890deb0cce6ac0f88b7a3729539724d47260cec34",
+            "search_progress.py": "a370804762b9e4beabdd5b4d6318809346dce8a6380257c2d49bb5b40b9350d8",
+            "cancellation.py": "bd5ca92d0b26f36a197575ea01de666d7427fd4d810df9876e2ab7bce59b176e",
+            "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+            "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+            "twoptimizer/requests.py": "7b50bea6099442eadecb8adb65e7f0a08f9a092bf517103026d899d3ab9383ea",
+            "twoptimizer/models.py": "d6f596c9980df89df60fcfa09202dbf37fc00d11c2fc1dbb0ec4c6f43c8e2ed8",
+            "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+            "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+            "twoptimizer/service.py": "939b18acf6580d59908b6c868f07eeaf8ae8fb40dd26e95ff7ac387caab7e949",
+            "twoptimizer/session.py": "471e1af7f8479f468683f840b20af8c6a0878cb7de7c0e4b6456b42144e46d22",
+            "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+            "twoptimizer/progress.py": "cb5bb25fe597be95ef6d36078f7e9e7e4219648ceae0caa6fb08b0e2ef4710cd",
+            "twoptimizer/adapters/model_stats.py": "e2abccb167b3ad8d9f20fef7500bd78c354307856afee4166890108286e993f4",
+            "twoptimizer/adapters/search.py": "6cf62d63bfd388647b66b6a9cbac9fb2dc07320b38a201b48ea938ec7409af52",
+            "twoptimizer/adapters/rome2.py": "5eadd732d8fcb0dad0d4442ae80ece00fdbb445613d1fe1b0b5f9cb9a2f91a08",
+            "twoptimizer/adapters/rome_models.py": "2ed3186b564956dceb7aedc19bbc63912a1df27eea97b72eef76f81c07d80c85",
+            "twoptimizer/rome_session.py": "ae3b84c20139e8a5725fca6f40f25ebf3a056e019e20c64e7b64a6f743e59dc3"
+          },
+          "last_progress": "Preparing result",
+          "last_model": {
+            "label": "CP-SAT solver input",
+            "variables": 1795,
+            "constraints": 3608,
+            "formulation": "linearized_income",
+            "stage": "solver",
+            "decision_variables": 875,
+            "nonzeros": null,
+            "storage_bytes": null
+          },
+          "wall_seconds": 60.84858320600324,
+          "summary": {
+            "completed_cases": 1,
+            "statuses": {
+              "FEASIBLE": 1
+            },
+            "all_optimal": false,
+            "income_sum": 30801.199999999997,
+            "bound_sum": 34836.58,
+            "aggregate_gap_percent": 11.583743295122554,
+            "phase_seconds": {
+              "request_seconds": 0.09277797799586551,
+              "load_engine_seconds": 7.830600225133821e-05,
+              "build_model_seconds": 0.022517537996463943,
+              "solve_and_check_seconds": 60.193514566002705,
+              "prepare_result_seconds": 0.011850706003315281,
+              "worker_wall_seconds": 60.828295090999745,
+              "worker_startup_seconds": 0.5047966290003387
+            },
+            "solver_seconds": 60.14731190499879,
+            "solver_timings": {
+              "model_conversion_seconds": 0.2253485039982479,
+              "search_seconds": 59.92198390300473
+            },
+            "model_preparation_seconds": 0.022517537996463943,
+            "model_build_and_conversion_seconds": 0.24786604199471185,
+            "native_search_seconds": 59.92198390300473,
+            "effective_worker_counts": [
+              4
+            ],
+            "reference_variables_sum": 1794,
+            "reference_constraints_sum": 3495,
+            "solver_variables_sum": 1795,
+            "solver_constraints_sum": 3608
+          }
+        }
+      },
+      "candidate": {
+        "environment": {
+          "python": "3.14.9",
+          "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+          "processor": "",
+          "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+          "available_workers": 4,
+          "logical_cpus": 5,
+          "cpu_quota": "400000 100000",
+          "memory_limit_bytes": "17179869184",
+          "packages": {
+            "ortools": "9.15.6755",
+            "numpy": "2.5.4",
+            "textual": "6.12.0"
+          },
+          "native_solvers": {
+            "highs": "1.12.0"
+          },
+          "lock_sha256": "e419355cda776f29df171e34aa6cf33a3f943b127123bd9c1c55b2521b16e2c3",
+          "benchmark_sha256": "4a2c82247172b71e51ac8fe25a2bb4a8709267d08a933ce50380f0c079226aa0",
+          "git_revision": "candidate-food-bounds-final"
+        },
+        "request": {
+          "game": "rome2",
+          "faction": "rom_rome",
+          "province": "rome_main_italia",
+          "algorithm": "cp-sat",
+          "seconds": null,
+          "workers": null,
+          "research": "none",
+          "fertility": 5,
+          "religion": "CHRIST_ORTHODOX",
+          "soil": "native",
+          "town_wealth": 0,
+          "tax": 30,
+          "world_bonuses": true,
+          "provinces": [
+            "rome_main_italia",
+            "rome_main_magna_graecia",
+            "rome_main_cisalpina",
+            "rome_main_corsica_et_sardinia"
+          ],
+          "joint": true,
+          "adjacency": null
+        },
+        "driver_sha256": "b4fb1c0ed944c566aab2184f39544a4790f51ecf085de768afa5d6a106397eaa",
+        "sample": {
+          "completion": "COMPLETE",
+          "peak_worker_rss_bytes": 370528256,
+          "requested_cases": 1,
+          "solver_seconds_per_case": 60.0,
+          "total_configured_solver_seconds": 60,
+          "cases": [
+            {
+              "provinces": [
+                "rome_main_italia",
+                "rome_main_magna_graecia",
+                "rome_main_cisalpina",
+                "rome_main_corsica_et_sardinia"
+              ],
+              "status": "FEASIBLE",
+              "income": 31062.399999999998,
+              "bound": 34424.08,
+              "gap_percent": 9.765489738578355,
+              "solver_seconds": 60.06669289699494,
+              "solver_timings": {
+                "model_conversion_seconds": 0.21365671600506175,
+                "bound_strengthening_seconds": 4.060445471994171,
+                "search_seconds": 55.790816255997925
+              },
+              "joint_bound_search": {
+                "status": "completed",
+                "components": 4,
+                "components_solved": 4,
+                "component_statuses": {
+                  "FEASIBLE": 3,
+                  "OPTIMAL": 1
+                },
+                "cuts": 4,
+                "food_price": 395268,
+                "price_solver": {
+                  "status": "OPTIMAL",
+                  "price": 395268,
+                  "seconds": 0.24435577900294447,
+                  "workers": 4,
+                  "detail": "HighsModelStatus is kOptimal",
+                  "timings": {
+                    "model_conversion_seconds": 0.08894041099847527,
+                    "scheduler_wait_seconds": 5.668996891472489e-06,
+                    "search_seconds": 0.15314783200301463
+                  }
+                },
+                "upper_bound": 345197052,
+                "hint_income": 280421500,
+                "seconds": 3.991483371006325,
+                "objective_unit": "1/10000 income"
+              },
+              "effective_workers": 4,
+              "timings": {
+                "request_seconds": 0.09488197100290563,
+                "load_engine_seconds": 7.931800064397976e-05,
+                "build_model_seconds": 0.021270379998895805,
+                "solve_and_check_seconds": 60.114014744001906,
+                "prepare_result_seconds": 0.013588873000117019,
+                "worker_wall_seconds": 60.689653239998734,
+                "worker_startup_seconds": 0.4419165380022605
+              },
+              "model_complexity": [
+                {
+                  "label": "Rome II canonical proof model",
+                  "variables": 995,
+                  "constraints": 452,
+                  "formulation": "native_products",
+                  "stage": "reference",
+                  "decision_variables": 875,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "Rome II linearized model",
+                  "variables": 1794,
+                  "constraints": 3495,
+                  "formulation": "linearized_income",
+                  "stage": "reference",
+                  "decision_variables": 875,
+                  "nonzeros": 43427,
+                  "storage_bytes": null
+                },
+                {
+                  "label": "CP-SAT solver input",
+                  "variables": 1795,
+                  "constraints": 3612,
+                  "formulation": "linearized_income",
+                  "stage": "solver",
+                  "decision_variables": 875,
+                  "nonzeros": null,
+                  "storage_bytes": null
+                }
+              ]
+            }
+          ],
+          "source_files": {
+            "rome2/model.py": "e49d58d32e935c05e0d6127f53c6bef4a423f474d20d3a1dbc2a10729456e053",
+            "rome2/compiler.py": "87887664f6f93c7fde34b3d28bb7019b6bddfa8328fb3ecf5b39e3068bd2da50",
+            "rome2/linear.py": "e190b88904b75dbde3ceb79177c1eec6425ffa704c8bc8857adc7451e5dcc87a",
+            "rome2/optimization.py": "79dfce6e5d97d86f5610eb5795b4d6a35075b093ca2bd6b99ba253ab7bcf9dbd",
+            "rome2/joint_search.py": "34c7369820fce9c3219e48c0395dab5195316de62214a72ef5c30f5b52379381",
+            "rome2/bound_search.py": "9e8424c2461ca07146a7701068f5f6c390fb664f9db2f6494b2df91109323787",
+            "rome2/decomposition.py": "2fee279162496448e4b08d871e0405122c10184f71105f24ce7b24477973d2ca",
+            "rome2/backends.py": "c8e0d06b5ce4627b250b98e9125b883d1cb7378c88cddfab1c1495701083577a",
+            "rome2/scenario.py": "78c4a296b5984ecdcb718ee1e7d0b1e4ace87e6ec3f3ca4a10a5e639f1e884fd",
+            "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+            "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+            "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+            "rome2/provenance.py": "d562ef4d18cbd983afc14174e7e76b858978d3e1382a61ccf2bc0650dc6870dd",
+            "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+            "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+            "rome2/holdings.py": "58f4beaeca008298f5428b4a0a44932edf0d049b1b8b1e030b3fb15a9ec17f0f",
+            "rome2/holding_compiler.py": "fba7c4a19037889505cb6f2404c75a9f9c8fb0d61e04fae17d0e23f85038bc41",
+            "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+            "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+            "rome2/building_constraints.py": "f87c6afee90906cc846712b09e0a96a64749f1ad62d4119912b07a69e1cab566",
+            "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+            "rome2/data/special_buildings_coverage.json": "10e91f33f67bc8296487844c7fadf2961bbf5646143e1b338eb174800fe74d68",
+            "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+            "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+            "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+            "highs_backend.py": "e2718069877a8b699d45b9aa3557d68b426b65ebb75807fd2ba5a48ef9e0d982",
+            "search_progress.py": "a370804762b9e4beabdd5b4d6318809346dce8a6380257c2d49bb5b40b9350d8",
+            "cancellation.py": "bd5ca92d0b26f36a197575ea01de666d7427fd4d810df9876e2ab7bce59b176e",
+            "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+            "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+            "twoptimizer/requests.py": "7b50bea6099442eadecb8adb65e7f0a08f9a092bf517103026d899d3ab9383ea",
+            "twoptimizer/models.py": "d6f596c9980df89df60fcfa09202dbf37fc00d11c2fc1dbb0ec4c6f43c8e2ed8",
+            "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+            "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+            "twoptimizer/service.py": "939b18acf6580d59908b6c868f07eeaf8ae8fb40dd26e95ff7ac387caab7e949",
+            "twoptimizer/session.py": "471e1af7f8479f468683f840b20af8c6a0878cb7de7c0e4b6456b42144e46d22",
+            "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+            "twoptimizer/progress.py": "cb5bb25fe597be95ef6d36078f7e9e7e4219648ceae0caa6fb08b0e2ef4710cd",
+            "twoptimizer/adapters/model_stats.py": "e2abccb167b3ad8d9f20fef7500bd78c354307856afee4166890108286e993f4",
+            "twoptimizer/adapters/search.py": "bb3c85cb538b04988bb7512665e7d14a9be31262eb782af7a11e7dc67c921364",
+            "twoptimizer/adapters/rome2.py": "2753b4a5e2102ba943b7b4848310a06b4bddc7e035a62fc5a824cd1e0a5bd5b0",
+            "twoptimizer/adapters/rome_models.py": "2ed3186b564956dceb7aedc19bbc63912a1df27eea97b72eef76f81c07d80c85",
+            "twoptimizer/rome_session.py": "ae3b84c20139e8a5725fca6f40f25ebf3a056e019e20c64e7b64a6f743e59dc3"
+          },
+          "last_progress": "Preparing result",
+          "last_model": {
+            "label": "CP-SAT solver input",
+            "variables": 1795,
+            "constraints": 3612,
+            "formulation": "linearized_income",
+            "stage": "solver",
+            "decision_variables": 875,
+            "nonzeros": null,
+            "storage_bytes": null
+          },
+          "wall_seconds": 60.709042066999245,
+          "summary": {
+            "completed_cases": 1,
+            "statuses": {
+              "FEASIBLE": 1
+            },
+            "all_optimal": false,
+            "income_sum": 31062.399999999998,
+            "bound_sum": 34424.08,
+            "aggregate_gap_percent": 9.765489738578355,
+            "phase_seconds": {
+              "request_seconds": 0.09488197100290563,
+              "load_engine_seconds": 7.931800064397976e-05,
+              "build_model_seconds": 0.021270379998895805,
+              "solve_and_check_seconds": 60.114014744001906,
+              "prepare_result_seconds": 0.013588873000117019,
+              "worker_wall_seconds": 60.689653239998734,
+              "worker_startup_seconds": 0.4419165380022605
+            },
+            "solver_seconds": 60.06669289699494,
+            "solver_timings": {
+              "model_conversion_seconds": 0.21365671600506175,
+              "bound_strengthening_seconds": 4.060445471994171,
+              "search_seconds": 55.790816255997925
+            },
+            "model_preparation_seconds": 0.021270379998895805,
+            "model_build_and_conversion_seconds": 0.23492709600395756,
+            "native_search_seconds": 55.790816255997925,
+            "effective_worker_counts": [
+              4
+            ],
+            "reference_variables_sum": 1794,
+            "reference_constraints_sum": 3495,
+            "solver_variables_sum": 1795,
+            "solver_constraints_sum": 3612
+          }
+        }
+      }
+    },
+    "candidate_cancel_at_two_percent": {
+      "environment": {
+        "python": "3.14.9",
+        "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+        "processor": "",
+        "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+        "available_workers": 4,
+        "logical_cpus": 5,
+        "cpu_quota": "400000 100000",
+        "memory_limit_bytes": "17179869184",
+        "packages": {
+          "ortools": "9.15.6755",
+          "numpy": "2.5.4",
+          "textual": "6.12.0"
+        },
+        "native_solvers": {
+          "highs": "1.12.0"
+        },
+        "lock_sha256": "e419355cda776f29df171e34aa6cf33a3f943b127123bd9c1c55b2521b16e2c3",
+        "benchmark_sha256": "4a2c82247172b71e51ac8fe25a2bb4a8709267d08a933ce50380f0c079226aa0",
+        "git_revision": "candidate-food-bounds-final"
+      },
+      "request": {
+        "game": "rome2",
+        "faction": "rom_rome",
+        "province": "rome_main_aegyptos",
+        "algorithm": "cp-sat",
+        "seconds": 60,
+        "workers": null,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "rome_main_aegyptos",
+          "rome_main_aithiops",
+          "rome_main_africa",
+          "rome_main_aquitania",
+          "rome_main_arabia_felix",
+          "rome_main_arabia_magna",
+          "rome_main_arachosia",
+          "rome_main_aria",
+          "rome_main_armenia",
+          "rome_main_asia",
+          "rome_main_bactria",
+          "rome_main_baetica",
+          "rome_main_belgica",
+          "rome_main_bithynia_et_pontus",
+          "rome_main_bosporus",
+          "rome_main_britannia",
+          "rome_main_caledonia_et_hibernia",
+          "rome_main_carmania",
+          "rome_main_cartaginensis",
+          "rome_main_caucasia",
+          "rome_main_celtica",
+          "rome_main_chorasmia",
+          "rome_main_cilicia",
+          "rome_main_cisalpina",
+          "rome_main_corsica_et_sardinia",
+          "rome_main_dacia",
+          "rome_main_galatia_et_cappadocia",
+          "rome_main_gedrosia",
+          "rome_main_germania_minor",
+          "rome_main_hellas",
+          "rome_main_hercynia",
+          "rome_main_illyria",
+          "rome_main_italia",
+          "rome_main_libue",
+          "rome_main_lusitania",
+          "rome_main_macedonia",
+          "rome_main_magna_germania",
+          "rome_main_magna_graecia",
+          "rome_main_mauretania",
+          "rome_main_media_magna",
+          "rome_main_mesopotamia",
+          "rome_main_nabataea",
+          "rome_main_pannonia",
+          "rome_main_parthia",
+          "rome_main_persis",
+          "rome_main_phazania",
+          "rome_main_ponto_caspia",
+          "rome_main_provincia",
+          "rome_main_raetia_et_noricum",
+          "rome_main_sarmatia",
+          "rome_main_scythia",
+          "rome_main_silesia",
+          "rome_main_suebia",
+          "rome_main_syria",
+          "rome_main_tarraconensis",
+          "rome_main_thracia",
+          "rome_main_transoxania"
+        ],
+        "joint": true,
+        "adjacency": null
+      },
+      "driver_sha256": "b4fb1c0ed944c566aab2184f39544a4790f51ecf085de768afa5d6a106397eaa",
+      "sample": {
+        "wall_seconds": 32.51151560799917,
+        "case": {
+          "provinces": [
+            "rome_main_aegyptos",
+            "rome_main_aithiops",
+            "rome_main_africa",
+            "rome_main_aquitania",
+            "rome_main_arabia_felix",
+            "rome_main_arabia_magna",
+            "rome_main_arachosia",
+            "rome_main_aria",
+            "rome_main_armenia",
+            "rome_main_asia",
+            "rome_main_bactria",
+            "rome_main_baetica",
+            "rome_main_belgica",
+            "rome_main_bithynia_et_pontus",
+            "rome_main_bosporus",
+            "rome_main_britannia",
+            "rome_main_caledonia_et_hibernia",
+            "rome_main_carmania",
+            "rome_main_cartaginensis",
+            "rome_main_caucasia",
+            "rome_main_celtica",
+            "rome_main_chorasmia",
+            "rome_main_cilicia",
+            "rome_main_cisalpina",
+            "rome_main_corsica_et_sardinia",
+            "rome_main_dacia",
+            "rome_main_galatia_et_cappadocia",
+            "rome_main_gedrosia",
+            "rome_main_germania_minor",
+            "rome_main_hellas",
+            "rome_main_hercynia",
+            "rome_main_illyria",
+            "rome_main_italia",
+            "rome_main_libue",
+            "rome_main_lusitania",
+            "rome_main_macedonia",
+            "rome_main_magna_germania",
+            "rome_main_magna_graecia",
+            "rome_main_mauretania",
+            "rome_main_media_magna",
+            "rome_main_mesopotamia",
+            "rome_main_nabataea",
+            "rome_main_pannonia",
+            "rome_main_parthia",
+            "rome_main_persis",
+            "rome_main_phazania",
+            "rome_main_ponto_caspia",
+            "rome_main_provincia",
+            "rome_main_raetia_et_noricum",
+            "rome_main_sarmatia",
+            "rome_main_scythia",
+            "rome_main_silesia",
+            "rome_main_suebia",
+            "rome_main_syria",
+            "rome_main_tarraconensis",
+            "rome_main_thracia",
+            "rome_main_transoxania"
+          ],
+          "status": "FEASIBLE",
+          "income": 654819.33,
+          "bound": 665372.656,
+          "gap_percent": 1.58607750180825,
+          "solver_seconds": 29.437834260999807,
+          "solver_timings": {
+            "model_conversion_seconds": 4.117910316999769,
+            "bound_strengthening_seconds": 20.473680914001307,
+            "search_seconds": 4.833996118999494
+          },
+          "joint_bound_search": {
+            "status": "completed",
+            "components": 57,
+            "components_solved": 57,
+            "component_statuses": {
+              "OPTIMAL": 56,
+              "FEASIBLE": 1
+            },
+            "cuts": 57,
+            "food_price": 386146,
+            "price_solver": {
+              "status": "OPTIMAL",
+              "price": 386146,
+              "seconds": 4.694790073001059,
+              "workers": 4,
+              "detail": "HighsModelStatus is kOptimal",
+              "timings": {
+                "model_conversion_seconds": 1.195437516005768,
+                "scheduler_wait_seconds": 9.119998139794916e-06,
+                "search_seconds": 3.4913444590056315
+              }
+            },
+            "upper_bound": 6653726560,
+            "hint_income": 6548193300,
+            "seconds": 20.38954794000165,
+            "objective_unit": "1/10000 income"
+          },
+          "effective_workers": 4,
+          "timings": {
+            "request_seconds": 0.11133968899957836,
+            "load_engine_seconds": 7.499200000893325e-05,
+            "build_model_seconds": 0.2462147750047734,
+            "solve_and_check_seconds": 31.330811068000912,
+            "prepare_result_seconds": 0.01805001599859679,
+            "worker_wall_seconds": 32.51023974799318,
+            "worker_startup_seconds": 0.5875901069957763
+          },
+          "model_complexity": [
+            {
+              "label": "Rome II canonical proof model",
+              "variables": 12818,
+              "constraints": 6044,
+              "formulation": "native_products",
+              "stage": "reference",
+              "decision_variables": 11165,
+              "nonzeros": null,
+              "storage_bytes": null
+            },
+            {
+              "label": "Rome II linearized model",
+              "variables": 22982,
+              "constraints": 46265,
+              "formulation": "linearized_income",
+              "stage": "reference",
+              "decision_variables": 11165,
+              "nonzeros": 512687,
+              "storage_bytes": null
+            },
+            {
+              "label": "CP-SAT solver input",
+              "variables": 22983,
+              "constraints": 49022,
+              "formulation": "linearized_income",
+              "stage": "solver",
+              "decision_variables": 11165,
+              "nonzeros": null,
+              "storage_bytes": null
+            }
+          ]
+        },
+        "source_files": {
+          "rome2/model.py": "e49d58d32e935c05e0d6127f53c6bef4a423f474d20d3a1dbc2a10729456e053",
+          "rome2/compiler.py": "87887664f6f93c7fde34b3d28bb7019b6bddfa8328fb3ecf5b39e3068bd2da50",
+          "rome2/linear.py": "e190b88904b75dbde3ceb79177c1eec6425ffa704c8bc8857adc7451e5dcc87a",
+          "rome2/optimization.py": "79dfce6e5d97d86f5610eb5795b4d6a35075b093ca2bd6b99ba253ab7bcf9dbd",
+          "rome2/joint_search.py": "34c7369820fce9c3219e48c0395dab5195316de62214a72ef5c30f5b52379381",
+          "rome2/bound_search.py": "9e8424c2461ca07146a7701068f5f6c390fb664f9db2f6494b2df91109323787",
+          "rome2/decomposition.py": "2fee279162496448e4b08d871e0405122c10184f71105f24ce7b24477973d2ca",
+          "rome2/backends.py": "c8e0d06b5ce4627b250b98e9125b883d1cb7378c88cddfab1c1495701083577a",
+          "rome2/scenario.py": "78c4a296b5984ecdcb718ee1e7d0b1e4ace87e6ec3f3ca4a10a5e639f1e884fd",
+          "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+          "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+          "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+          "rome2/provenance.py": "d562ef4d18cbd983afc14174e7e76b858978d3e1382a61ccf2bc0650dc6870dd",
+          "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+          "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+          "rome2/holdings.py": "58f4beaeca008298f5428b4a0a44932edf0d049b1b8b1e030b3fb15a9ec17f0f",
+          "rome2/holding_compiler.py": "fba7c4a19037889505cb6f2404c75a9f9c8fb0d61e04fae17d0e23f85038bc41",
+          "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+          "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+          "rome2/building_constraints.py": "f87c6afee90906cc846712b09e0a96a64749f1ad62d4119912b07a69e1cab566",
+          "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+          "rome2/data/special_buildings_coverage.json": "10e91f33f67bc8296487844c7fadf2961bbf5646143e1b338eb174800fe74d68",
+          "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+          "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+          "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+          "highs_backend.py": "e2718069877a8b699d45b9aa3557d68b426b65ebb75807fd2ba5a48ef9e0d982",
+          "search_progress.py": "a370804762b9e4beabdd5b4d6318809346dce8a6380257c2d49bb5b40b9350d8",
+          "cancellation.py": "bd5ca92d0b26f36a197575ea01de666d7427fd4d810df9876e2ab7bce59b176e",
+          "maps/catalog.py": "2c40e131495bc0510dff8bf4c2cf3562bb34a0897d0d7d75bdeff37d6175c7e9",
+          "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+          "twoptimizer/requests.py": "7b50bea6099442eadecb8adb65e7f0a08f9a092bf517103026d899d3ab9383ea",
+          "twoptimizer/models.py": "d6f596c9980df89df60fcfa09202dbf37fc00d11c2fc1dbb0ec4c6f43c8e2ed8",
+          "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+          "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+          "twoptimizer/service.py": "939b18acf6580d59908b6c868f07eeaf8ae8fb40dd26e95ff7ac387caab7e949",
+          "twoptimizer/session.py": "471e1af7f8479f468683f840b20af8c6a0878cb7de7c0e4b6456b42144e46d22",
+          "twoptimizer/holdings.py": "8805d96abaf852202ebcae7a9a729b0f7e697962b37624a3c156ea22ba516a7a",
+          "twoptimizer/progress.py": "cb5bb25fe597be95ef6d36078f7e9e7e4219648ceae0caa6fb08b0e2ef4710cd",
+          "twoptimizer/adapters/model_stats.py": "e2abccb167b3ad8d9f20fef7500bd78c354307856afee4166890108286e993f4",
+          "twoptimizer/adapters/search.py": "bb3c85cb538b04988bb7512665e7d14a9be31262eb782af7a11e7dc67c921364",
+          "twoptimizer/adapters/rome2.py": "2753b4a5e2102ba943b7b4848310a06b4bddc7e035a62fc5a824cd1e0a5bd5b0",
+          "twoptimizer/adapters/rome_models.py": "2ed3186b564956dceb7aedc19bbc63912a1df27eea97b72eef76f81c07d80c85",
+          "twoptimizer/rome_session.py": "ae3b84c20139e8a5725fca6f40f25ebf3a056e019e20c64e7b64a6f743e59dc3"
+        },
+        "cancellation": {
+          "requested": true,
+          "incumbent_retained": true
+        }
+      }
+    }
+  }
+}
