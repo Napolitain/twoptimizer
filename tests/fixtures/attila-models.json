@@ -1,0 +1,75 @@
+[
+  {
+    "faction": "ATT_FACT_EASTERN_ROMAN_EMPIRE",
+    "religion": "CHRIST_ORTHODOX",
+    "provinces": [
+      "Thracia"
+    ],
+    "fertility": 0,
+    "technologies": [],
+    "signature": "5015a5490d9ab6a5a3f3e0701818153794dd4bda14749c5663b7e44d2396c30c",
+    "variables": 211,
+    "constraints": 540
+  },
+  {
+    "faction": "ATT_FACT_EASTERN_ROMAN_EMPIRE",
+    "religion": "CHRIST_ORTHODOX",
+    "provinces": [
+      "Thracia"
+    ],
+    "fertility": 5,
+    "technologies": [],
+    "signature": "50b16c446d413e1252987470ea47742820525a4a90cc2a97230d0156aa1c2bb4",
+    "variables": 211,
+    "constraints": 540
+  },
+  {
+    "faction": "ATT_FACT_EASTERN_ROMAN_EMPIRE",
+    "religion": "CHRIST_ORTHODOX",
+    "provinces": [
+      "Thracia"
+    ],
+    "fertility": 5,
+    "technologies": null,
+    "signature": "a440009ae4eb1f1b612337cb10b235bab3a3c6020863cb504090927ffeab74ee",
+    "variables": 2580,
+    "constraints": 7437
+  },
+  {
+    "faction": "ATT_FACT_EASTERN_ROMAN_EMPIRE",
+    "religion": "CHRIST_ORTHODOX",
+    "provinces": [
+      "Aegyptus",
+      "Aethiopia"
+    ],
+    "fertility": 5,
+    "technologies": null,
+    "signature": "047c978f1fd1758d955c12d19f57b87226b527f35419ad9743de94f9e751f484",
+    "variables": 5133,
+    "constraints": 14803
+  },
+  {
+    "faction": "ATT_FACT_WESTERN_ROMAN_EMPIRE",
+    "religion": "CHRIST_CATHOLIC",
+    "provinces": [
+      "Aegyptus"
+    ],
+    "fertility": 5,
+    "technologies": null,
+    "signature": "89414c245a3482063d5f4985b0f3248629017d6956a6120184362f88805057bb",
+    "variables": 799,
+    "constraints": 2096
+  },
+  {
+    "faction": "ATT_FACT_AXUM",
+    "religion": "CHRIST_ORTHODOX",
+    "provinces": [
+      "Thracia"
+    ],
+    "fertility": 1,
+    "technologies": null,
+    "signature": "3b3719fe3c033f48a6f898629078dbd75b1394d70759b1c397a7b4e04de99ef5",
+    "variables": 2841,
+    "constraints": 8193
+  }
+]

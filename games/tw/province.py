@@ -1,8 +1,8 @@
 from games.tw.bases import ProvinceBase
 from games.tw.building import Building
+from games.tw.context import GameContext
 from games.tw.entity import Entity
 from games.tw.enums import Scope, get_hash_name
-from games.tw.games import Games
 from games.tw.region import Region
 
 
@@ -13,11 +13,12 @@ class Province(ProvinceBase, Entity):
 
     HASH_NAME = "P1"
 
-    def __init__(self, name: str, print_name: str = ""):
+    def __init__(self, name: str, print_name: str = "", *, context: GameContext | None = None):
         super().__init__()
+        self._context = context
         self.regions = []
         self.name = name
-        self.hash_name = get_hash_name("P")
+        self.hash_name = context.next_id("P") if context is not None else get_hash_name("P")
         if print_name == "":
             self.print_name = name
         else:
@@ -32,13 +33,14 @@ class Province(ProvinceBase, Entity):
         self.regions.append(region)
 
     def add_public_order_constraint(self):
-        if not Games.legacy_effects:
+        context = self.context
+        if not context.legacy_effects:
             return  # Scoped constraints are installed together by Problem.
         """
         Add public order constraint to the province.
         :return:
         """
-        Games.problem.create_constraint(
+        context.solver.create_constraint(
             name=f"{self.get_name()}_Public_Order",
             variables=[
                 building.public_order() * building.lp_variable for building in self.buildings()
@@ -47,20 +49,22 @@ class Province(ProvinceBase, Entity):
         )
 
     def add_food_constraint(self):
-        if not Games.legacy_effects:
+        context = self.context
+        if not context.legacy_effects:
             return
         """
         Add food constraint to the province.
         :return:
         """
-        Games.problem.create_constraint(
+        context.solver.create_constraint(
             name=f"{self.get_name()}_Food",
             variables=[building.food() * building.lp_variable for building in self.buildings()],
             constraint_fn=lambda expr: expr >= 0,
         )
 
     def add_sanitation_constraint(self):
-        if not Games.legacy_effects:
+        context = self.context
+        if not context.legacy_effects:
             return
         """
         Add regional sanitation constraints using building and global effects.
@@ -70,7 +74,7 @@ class Province(ProvinceBase, Entity):
         for region in self.regions:
             if any(b.lp_variable is None for b in region.buildings):
                 raise ValueError("Assign building variables before sanitation constraints")
-            Games.problem.create_constraint(
+            context.solver.create_constraint(
                 name=f"{self.get_name()}_Sanitation_Constraint_{region.name}",
                 variables=[
                     building.sanitation() * building.variable for building in region.buildings

@@ -1,21 +1,30 @@
+from games.tw.context import GameContext
 from games.tw.enums import NameType
-from games.tw.games import Games
 from games.tw.models.entity_interface import EntityInterface
 
 
 class Entity(EntityInterface):
-    def __init__(self):
+    def __init__(self, *, context: GameContext | None = None):
+        self._context = context
         self.hash_name = "None"
         self.name = "None"
         self.print_name = "None"
 
+    @property
+    def context(self) -> GameContext:
+        if self._context is not None:
+            return self._context
+        from games.tw.games import legacy_context
+
+        return legacy_context()
+
     def get_name(self, name_type: NameType | None = None):
         """
-        :param name_type: the type of name to return (default use Games.USE_NAME)
+        :param name_type: the type of name to return (default use self.context.name_type)
         :return: either the print name, name, or hash name of the entity
         """
         if name_type is None:
-            name_type = Games.USE_NAME
+            name_type = self.context.name_type
 
         if name_type == NameType.PRINT_NAME:
             return self.print_name
@@ -27,7 +36,7 @@ class Entity(EntityInterface):
             raise ValueError("Region name not set.")
 
     def get_name_output(self):
-        if Games.USE_NAME == NameType.PRINT_NAME or Games.USE_NAME == NameType.NAME:
+        if self.context.name_type == NameType.PRINT_NAME or self.context.name_type == NameType.NAME:
             return self.print_name
         else:
             return self.hash_name

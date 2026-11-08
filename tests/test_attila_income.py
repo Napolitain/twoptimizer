@@ -226,7 +226,7 @@ def test_disabled_roman_technology_is_not_an_active_bonus():
         AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
         AttilaGame.Religion.CHRIST_ORTHODOX,
     )
-    profile = technology_profile(Games.instance)
+    profile = technology_profile(parser.model_context.instance)
     assert "Improved Plumbing" in profile["disabled_legacy"]
     assert "Improved Plumbing" not in profile["active"]
     assert all(f["source"] != "Improved Plumbing" for f in profile["facts"])

@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from games.tw.building import Building
+from games.tw.context import GameContext
 from games.tw.enums import Scope
 from games.tw.models.model import RegionPort, RegionType
 from games.tw.models.model_attila import (
@@ -19,8 +20,10 @@ class ParserAttila(Parser):
         campaign: AttilaCampaign,
         faction: AttilaFactions,
         religion: AttilaReligion = AttilaReligion.CHRIST_ORTHODOX,
+        *,
+        context: GameContext | None = None,
     ):
-        super().__init__()
+        super().__init__(context=context)
         # Resolve bundled data relative to the package for installed-wheel support.
         self.game_dir = Path(__file__).resolve().parents[1] / "attila" / "data"
         self.campaign = campaign
@@ -33,10 +36,16 @@ class ParserAttila(Parser):
         )
         self.unsupported_effects = []
 
-    def get_scope(self, scope: str) -> Scope | None:
-        from games.tw.games import Games
+    @property
+    def model_context(self) -> GameContext:
+        if self.context is not None:
+            return self.context
+        from games.tw.games import legacy_context
 
-        if not Games.legacy_effects:
+        return legacy_context()
+
+    def get_scope(self, scope: str) -> Scope | None:
+        if not self.model_context.legacy_effects:
             from games.tw.attila.effects import Reach, reach
 
             return {
@@ -56,8 +65,6 @@ class ParserAttila(Parser):
         raise ValueError(f"Scope {scope} not found.")
 
     def parse_buildings_culture_variants_table(self) -> None:
-        from games.tw.games import Games
-
         # TODO: Fix religion buildings
         path_buildings_culture_variants = self.game_dir / "building_culture_variants_table.tsv"
         data = parse_tsv(path_buildings_culture_variants)
@@ -70,7 +77,7 @@ class ParserAttila(Parser):
             *_rest,
         ) in data:
             if (
-                not Games.legacy_effects
+                not self.model_context.legacy_effects
                 and "religion" in building_id1
                 and not self.building_is_of_religion(building_id1)
             ):
@@ -82,7 +89,7 @@ class ParserAttila(Parser):
                 self.building_is_of_faction(culture2, faction_id4, subculture3)
                 or self.building_is_of_religion(building_id1)
             ):
-                building = Building(building_id1, building_name6)
+                building = Building(building_id1, building_name6, context=self.context)
                 building.metadata = self.online_data["buildings"].get(building_id1)
                 self.buildings[campaign_name][building_id1] = building
 

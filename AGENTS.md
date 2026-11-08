@@ -162,3 +162,14 @@ and the `twoptimizer` console entry point.
 Keep module paths stable. Source distributions include tests and development
 configuration. Use `requirements.txt` only as a pip compatibility entry point;
 `pyproject.toml` and `uv.lock` own dependencies.
+
+## Architecture boundaries
+
+See `docs/architecture.md` for ownership rules and public compatibility interfaces.
+Pass `GameContext` explicitly in new engine code; do not add reads or writes to
+legacy `Games` state. Use `compile_scenario` and `SnapshotOptions` for reusable
+province inputs, and `ComparisonOptions` for search configuration. Keep typed
+application objects inside adapters/services and serialize at worker/export
+boundaries. Preserve the report schema and verify model signatures and solver
+results when changing compilation. Catalog records are shared read-only; decision
+containers and solver variables belong to one compiled model.

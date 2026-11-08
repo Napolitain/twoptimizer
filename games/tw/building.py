@@ -1,10 +1,10 @@
 from ortools.linear_solver import pywraplp
 from pulp import LpVariable
 
+from games.tw.context import GameContext
 from games.tw.effect import Effect
 from games.tw.entity import Entity
 from games.tw.enums import Scope, get_hash_name
-from games.tw.games import Games
 from games.tw.models.model_attila import AttilaCampaign
 
 
@@ -16,12 +16,20 @@ class Building(Effect, Entity):
 
     HASH_NAME = "B1"
 
-    def __init__(self, name: str, print_name: str | None = None, hash_name: str | None = None):
+    def __init__(
+        self,
+        name: str,
+        print_name: str | None = None,
+        hash_name: str | None = None,
+        *,
+        context: GameContext | None = None,
+    ):
         super().__init__()
+        self._context = context
         self.lp_variable: pywraplp.Variable | LpVariable | None = None
         self.name = name
         if hash_name is None:
-            self.hash_name = get_hash_name("B")
+            self.hash_name = context.next_id("B") if context is not None else get_hash_name("B")
         else:
             self.hash_name = hash_name
         if print_name is None:
@@ -43,7 +51,7 @@ class Building(Effect, Entity):
         return self.lp_variable
 
     def __copy__(self):
-        new_building = Building(self.name, self.print_name, self.hash_name)
+        new_building = Building(self.name, self.print_name, self.hash_name, context=self._context)
         new_building.lp_variable = self.lp_variable
         new_building.raw_effects = self.raw_effects.copy()
         new_building.metadata = self.metadata
@@ -105,8 +113,9 @@ class Building(Effect, Entity):
             raise ValueError(f"Unknown scope: {scope}")
 
     def _use_scoped_effects(self):
-        campaign = getattr(Games.instance, "campaign", None)
-        return not Games.legacy_effects and (
+        context = self.context
+        campaign = getattr(context.instance, "campaign", None)
+        return not context.legacy_effects and (
             campaign is None or isinstance(campaign, AttilaCampaign)
         )
 
@@ -118,9 +127,10 @@ class Building(Effect, Entity):
         return self._legacy_gdp()
 
     def fertility(self):
+        context = self.context
         if self.region is not None and self.region.fertility is not None:
             return self.region.fertility
-        return Games.fertility
+        return context.fertility
 
     def _legacy_gdp(self):
         """
@@ -128,6 +138,8 @@ class Building(Effect, Entity):
         adjusted for fertility where applicable.
         :return: total GDP value.
         """
+        context = self.context
+        game_filter = context.current().get_filter()
 
         def calculate_gdp(include_fertility=False):
             sources = [
@@ -140,9 +152,9 @@ class Building(Effect, Entity):
                 amount
                 for source in sources
                 for effect, amount in source.items()
-                if Games.current().get_filter().effect_is_gdp(effect, include_fertility)
+                if game_filter.effect_is_gdp(effect, include_fertility)
             )
-            return gdp_sum * (Games.fertility if include_fertility else 1)
+            return gdp_sum * (context.fertility if include_fertility else 1)
 
         base_gdp = calculate_gdp()
         fertility_gdp = calculate_gdp(include_fertility=True)
@@ -323,6 +335,7 @@ class Building(Effect, Entity):
         (adjusted for fertility where applicable) and subtracting food consumption values.
         :return: net food production.
         """
+        context = self.context
 
         def calculate_food(effect_type, include_fertility=False):
             sources = [
@@ -339,7 +352,7 @@ class Building(Effect, Entity):
                 and effect_type in effect
                 and (include_fertility == ("fertility" in effect))
             )
-            return food_sum * (Games.fertility if include_fertility else 1)
+            return food_sum * (context.fertility if include_fertility else 1)
 
         food_production = calculate_food("production") + calculate_food(
             "production", include_fertility=True

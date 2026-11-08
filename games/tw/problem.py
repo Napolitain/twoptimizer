@@ -3,8 +3,8 @@ from time import perf_counter_ns
 from pulp import PULP_CBC_CMD
 
 from games.tw.building import Building
+from games.tw.context import GameContext
 from games.tw.enums import ProblemState, SolverType
-from games.tw.games import Games
 from games.tw.models.model_attila import AttilaCampaign
 from games.tw.province import Province
 from games.tw.solver_cpsat import SolverCpSat
@@ -20,13 +20,21 @@ class Problem:
         adjacency=None,
         technologies=None,
         scenario=None,
+        *,
+        context: GameContext | None = None,
     ):
         """
         Init a linear programming problem.
         """
+        self._legacy = context is None
+        if context is None:
+            from games.tw.games import legacy_context
+
+            context = legacy_context()
+        self.context = context.for_problem()
         self.provinces: list[Province] = []
         if objective is None:
-            campaign = getattr(Games.instance, "campaign", None)
+            campaign = getattr(self.context.instance, "campaign", None)
             objective = (
                 "income" if campaign is None or isinstance(campaign, AttilaCampaign) else "legacy"
             )
@@ -37,13 +45,13 @@ class Problem:
         self.objective_mode = objective
         self.technologies = None if technologies is None else frozenset(technologies)
         self.technology_profile = None
-        if objective != "legacy" and getattr(Games.instance, "faction", None) is not None:
+        if objective != "legacy" and getattr(self.context.instance, "faction", None) is not None:
             from games.tw.attila.modifiers import technology_profile
             from games.tw.attila.scenario import Scenario
 
             scenario_data = scenario.data if isinstance(scenario, Scenario) else scenario or {}
             self.technology_profile = technology_profile(
-                Games.instance,
+                self.context.instance,
                 technologies,
                 scenario_data.get("technology_effects", True),
             )
@@ -52,18 +60,26 @@ class Problem:
         self.scenario = scenario
         self.adjacency = adjacency
         self.economy = None
-        Games.legacy_effects = objective == "legacy"
+        self.context.legacy_effects = objective == "legacy"
         self.solver_type = solver
         self.problem = self.get_solver()
+        self._configure_solver()
+        self.state = ProblemState.INIT
+        self.global_time = 0
+        self.context.problem = self.problem
+        if self._legacy:
+            from games.tw.games import Games
+
+            Games.problem = self.problem
+            Games.legacy_effects = self.context.legacy_effects
+
+    def _configure_solver(self) -> None:
         self.problem.technologies = self.technologies
         self.problem.disabled_technologies = (
             set(self.technology_profile["disabled_legacy"]) if self.technology_profile else set()
         )
-        self.problem.require_income_metadata = objective == "income"
+        self.problem.require_income_metadata = self.objective_mode == "income"
         self.problem.catalogue_exclusions = []
-        self.state = ProblemState.INIT
-        self.global_time = 0
-        Games.problem = self.problem
 
     def get_solver(self) -> SolverPulp | SolverOrTools | SolverCpSat:
         if self.solver_type == SolverType.PULP:
@@ -83,6 +99,10 @@ class Problem:
         :param province:
         :return:
         """
+        if not self._legacy:
+            province._context = self.context
+            for region in province.regions:
+                region._context = self.context
         self.provinces.append(province)
         self.state = ProblemState.PROVINCES_ADDED
 
@@ -91,7 +111,7 @@ class Problem:
         Add all provinces to the problem.
         :return:
         """
-        for province in Games.current().get_parser().provinces.values():
+        for province in self.context.current().get_parser().provinces.values():
             self.add_province(province)
 
     def add_buildings(self) -> None:
@@ -138,7 +158,11 @@ class Problem:
             from games.tw.attila.economy import Economy
 
             self.economy = Economy(
-                self.provinces, self.adjacency, self.scenario, self.technology_profile
+                self.provinces,
+                self.adjacency,
+                self.scenario,
+                self.technology_profile,
+                context=None if self._legacy else self.context,
             )
             self.economy.catalogue_exclusions = self.problem.catalogue_exclusions
             self.economy.install_constraints(self.problem)
@@ -149,16 +173,16 @@ class Problem:
 
     def reset_problem(self) -> None:
         self.problem = self.get_solver()
-        self.problem.technologies = self.technologies
-        self.problem.disabled_technologies = (
-            set(self.technology_profile["disabled_legacy"]) if self.technology_profile else set()
-        )
-        self.problem.require_income_metadata = self.objective_mode == "income"
-        self.problem.catalogue_exclusions = []
+        self._configure_solver()
         self.provinces = []
         self.economy = None
         self.state = ProblemState.INIT
-        Games.problem = self.problem
+        self.context.problem = self.problem
+        if self._legacy:
+            from games.tw.games import Games
+
+            Games.problem = self.problem
+            Games.legacy_effects = self.context.legacy_effects
 
     def solve(self, verbose=False, timing=False) -> None:
         """
@@ -198,7 +222,7 @@ class Problem:
         """
         if self.state != ProblemState.SOLVED:
             raise ValueError("Problem must be solved first.")
-        return self.problem.get_problem_answers(Games.current().get_parser())
+        return self.problem.get_problem_answers(self.context.current().get_parser())
 
     def print_problem_answers(self):
         """

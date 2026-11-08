@@ -8,6 +8,7 @@ if TYPE_CHECKING:
     from games.tw.province import Province
     from games.tw.region import Region
 
+from games.tw.context import GameContext
 from games.tw.enums import EntryType
 from games.tw.models.model import EntryName, FullEntryName, RegionType
 from games.tw.models.model_attila import AttilaCampaign, AttilaFactions
@@ -23,7 +24,8 @@ class Faction:
 
 
 class Parser(abc.ABC):
-    def __init__(self):
+    def __init__(self, *, context: GameContext | None = None):
+        self.context = context
         # store id to object
         self.game_dir = pathlib.Path(__file__).resolve().parents[1] / "data"
         self.campaign: AttilaCampaign | Rome2Campaign
@@ -52,7 +54,7 @@ class Parser(abc.ABC):
         for name, print_name in data:
             if self.campaign.value[1] not in name:
                 continue
-            self.provinces[name] = Province(name, print_name)
+            self.provinces[name] = Province(name, print_name, context=self.context)
 
     def parse_regions(self) -> None:
         """
@@ -65,7 +67,7 @@ class Parser(abc.ABC):
         for name, print_name in data:
             if self.campaign.value[1] not in name:
                 continue
-            self.regions[name] = Region(name, print_name)
+            self.regions[name] = Region(name, print_name, context=self.context)
 
     def parse_start_pos_tsv(self, file_tsv: pathlib.Path):
         """

@@ -248,8 +248,9 @@ def test_real_catalogue_eligibility_and_no_technology_scenario():
         AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
         AttilaGame.Religion.CHRIST_ORTHODOX,
     )
-    Problem()
+    problem = Problem(context=parser.model_context)
     p = next(p for p in parser.provinces.values() if p.print_name == "Thracia")
+    problem.add_province(p)
     try:
         for region in p.regions:
             region.add_buildings()

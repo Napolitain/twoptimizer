@@ -10,9 +10,9 @@ import json
 from math import isfinite
 from pathlib import Path
 
+from games.tw.attila.model import SnapshotOptions, compile_scenario, load_attila
 from games.tw.attila.modifiers import catalog
 from games.tw.attila.traits import profile
-from games.tw.benchmark import load_attila, snapshot
 from games.tw.competition import Result, solve
 from games.tw.models.game_attila import AttilaGame
 
@@ -120,9 +120,9 @@ def main(argv=None):
             matches = [p for p in parser.provinces.values() if name in (p.name, p.print_name)]
             if len(matches) != 1:
                 cli.error(f"Unknown or ambiguous province: {name}")
-            model, build_seconds, economy = snapshot(
-                matches[0], args.fertility, retain_economy=True
-            )
+            compiled = compile_scenario(matches, SnapshotOptions(fertility=args.fertility))
+            model, build_seconds, economy = compiled.model, compiled.build_seconds, compiled.economy
+            assert economy is not None
             key = signature(model)
             reused = key in cache
             result = cache.get(key)

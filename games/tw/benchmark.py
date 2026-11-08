@@ -3,33 +3,26 @@
 Example: python -m games.tw.benchmark --fertility 0 5 --limit 3 --output results.json
 """
 
+from __future__ import annotations
+
 import argparse
 import hashlib
 import json
-from dataclasses import asdict
 from math import isfinite
 from pathlib import Path
-from time import perf_counter
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    pass
+
 
 import ortools
 
-from games.tw.competition import ALGORITHMS, BinaryModel, solve
-from games.tw.enums import NameType, ProblemState, SolverType
-from games.tw.games import Games
+from games.tw.attila.model import SnapshotOptions, compile_scenario
+from games.tw.attila.model import load_attila as load_attila
+from games.tw.comparison import ComparisonOptions, compare_model
+from games.tw.competition import ALGORITHMS
 from games.tw.models.game_attila import AttilaGame
-from games.tw.problem import Problem
-
-
-def load_attila(faction, religion, legacy=False):
-    Games.legacy_effects = legacy
-    Games.instance = AttilaGame(faction=faction, religion=religion)
-    Games.USE_NAME = NameType.NAME
-    parser = Games.current().get_parser()
-    parser.parse_building_effects_junction_tables()
-    parser.parse_start_pos_tsv(parser.game_dir)
-    Games.buildings = parser.buildings
-    return parser
 
 
 def snapshot(
@@ -43,45 +36,20 @@ def snapshot(
     technologies=None,
     scenario=None,
 ):
-    """Use the existing engine, including its cross-region sanitation effects."""
-    start = perf_counter()
-    problem = Problem(
-        solver=SolverType.GOOGLE,
+    """Compatibility wrapper; new callers use compile_scenario and SnapshotOptions."""
+    options = SnapshotOptions(
+        fertility=fertility,
+        city_level=city_level,
+        building_level=building_level,
+        military=military,
         objective=objective,
-        technologies=technologies,
+        technologies=None if technologies is None else frozenset(technologies),
         scenario=scenario,
     )
     provinces = province if isinstance(province, list) else [province]
-    for selected_province in provinces:
-        problem.add_province(selected_province)
-    Games.fertility = fertility
-    try:
-        regions = [r for p in provinces for r in p.regions]
-        for region in regions:
-            region.buildings = []
-            region.add_buildings()
-            region.filter_city_level(city_level)
-            region.filter_building_level(building_level)
-            if not military:
-                region.filter_military()
-            region.filter_technologies()
-            problem.problem.filter_added({b.name: b for b in region.buildings})
-        for region in regions:
-            region.add_constraints()
-        for selected_province in provinces:
-            selected_province.add_sanitation_constraint()
-            selected_province.add_food_constraint()
-            selected_province.add_public_order_constraint()
-        problem.state = ProblemState.CONSTRAINTS_ADDED
-        problem.add_objective()
-        result = (
-            BinaryModel.from_solver(problem.problem.solver),
-            perf_counter() - start,
-        )
-        return (*result, problem.economy) if retain_economy else result
-    finally:
-        for selected_province in provinces:
-            selected_province.clean()
+    result = compile_scenario(provinces, options)
+    pair = result.model, result.build_seconds
+    return (*pair, result.economy) if retain_economy else pair
 
 
 def compare(
@@ -95,49 +63,20 @@ def compare(
     objective="income",
     workers=None,
 ):
-    results = [
-        solve(model, name, seconds, seed, width, restarts, workers=workers) for name in algorithms
-    ]
-    feasible = [r.objective for r in results if not r.relaxation and r.objective is not None]
-    best = max(feasible, default=None)
-    bounds = [r.bound for r in results if r.bound is not None and isfinite(r.bound)]
-    upper = min(bounds, default=None)
-    if upper is not None and best is not None and upper < best - 1e-5:
-        raise RuntimeError("Reported upper bound is below a validated feasible solution")
-    rows = []
-    for result in results:
-        row = asdict(result)
-        values = row.pop("values")
-        row["selected"] = (
-            [
-                model.names[i]
-                for i, value in enumerate(values)
-                if value > 0.5 and not model.names[i].startswith("__")
-            ]
-            if values is not None and not result.relaxation
-            else None
-        )
-        row["fractional_values"] = (
-            dict(zip(model.names, values, strict=False))
-            if values is not None and result.relaxation
-            else None
-        )
-        row["gap_to_best_percent"] = (
-            100 * max(0, best - result.objective) / max(1, abs(best))
-            if best is not None and result.objective is not None and not result.relaxation
-            else None
-        )
-        row["gap_to_bound_percent"] = (
-            100 * max(0, upper - result.objective) / max(1, abs(upper))
-            if upper is not None and result.objective is not None and not result.relaxation
-            else None
-        )
-        if economy is not None and row["selected"] is not None:
-            row["layout"] = economy.evaluate_layout(set(row["selected"]), objective)
-            if abs(row["layout"]["objective"] - result.objective) > 1e-5:
-                raise RuntimeError("Layout evaluator disagrees with the compiled objective")
-        rows.append(row)
-    return {"best_feasible": best, "upper_bound": upper, "results": rows}
+    """Compatibility wrapper for the original positional comparison API."""
+    return compare_model(
+        model,
+        ComparisonOptions(
+            algorithms=tuple(algorithms),
+            seconds=seconds,
+            seed=seed,
+            width=width,
+            restarts=restarts,
+            objective=objective,
+            workers=workers,
+        ),
+        economy,
+    )
 
 
 def _apply_region_fertility(args, parser, cli):
@@ -278,20 +217,26 @@ def main(argv=None):
         for group in [provinces] if args.joint else [[p] for p in provinces]:
             province = group[0]
             try:
-                model, build_seconds, economy = snapshot(
+                compiled = compile_scenario(
                     group,
-                    fertility,
-                    args.city_level,
-                    args.building_level,
-                    args.military,
-                    args.objective,
-                    retain_economy=True,
-                    scenario=scenario,
-                    technologies=set()
-                    if args.no_technologies
-                    else None
-                    if args.technology is None
-                    else set(args.technology),
+                    SnapshotOptions(
+                        fertility=fertility,
+                        city_level=args.city_level,
+                        building_level=args.building_level,
+                        military=args.military,
+                        objective=args.objective,
+                        scenario=scenario,
+                        technologies=frozenset()
+                        if args.no_technologies
+                        else None
+                        if args.technology is None
+                        else frozenset(args.technology),
+                    ),
+                )
+                model, build_seconds, economy = (
+                    compiled.model,
+                    compiled.build_seconds,
+                    compiled.economy,
                 )
             except (ValueError, TypeError) as error:
                 cli.error(str(error))
@@ -305,16 +250,18 @@ def main(argv=None):
                 "omitted_effects": sorted(set(economy.omitted)) if economy is not None else [],
             }
             case.update(
-                compare(
+                compare_model(
                     model,
-                    args.algorithms,
-                    args.seconds,
-                    args.seed,
-                    args.beam_width,
-                    args.restarts,
-                    economy=economy,
-                    objective=args.objective,
-                    workers=args.workers,
+                    ComparisonOptions(
+                        algorithms=tuple(args.algorithms),
+                        seconds=args.seconds,
+                        seed=args.seed,
+                        width=args.beam_width,
+                        restarts=args.restarts,
+                        objective=args.objective,
+                        workers=args.workers,
+                    ),
+                    economy,
                 )
             )
             report["cases"].append(case)

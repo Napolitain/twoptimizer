@@ -13,8 +13,8 @@ We need to optimize using linear programming the economy of a province, here usi
 # att_bld_roman_west_city_major_1
 import pathlib
 
+from games.tw.context import GameContext
 from games.tw.enums import NameType, ProblemState
-from games.tw.games import Games
 from games.tw.models.game_attila import AttilaGame
 from games.tw.problem import Problem
 
@@ -22,16 +22,17 @@ from games.tw.problem import Problem
 
 
 def main():
-    Games.legacy_effects = False
+    context = GameContext(name_type=NameType.HASH_NAME, fertility=0)
     # Create a province, with regions, and buildings constraints.
-    Games.instance = AttilaGame(
+    context.instance = AttilaGame(
+        context=context,
         campaign=AttilaGame.Campaign.ATTILA,
         faction=AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
         religion=AttilaGame.Religion.CHRIST_ORTHODOX,
     )
-    parser = Games.current().get_parser()
-    Games.buildings = parser.buildings
-    # Games.current().campaign = AttilaGame.Campaign.CHARLEMAGNE
+    parser = context.current().get_parser()
+    context.buildings = parser.buildings
+    # context.current().campaign = AttilaGame.Campaign.CHARLEMAGNE
 
     # Attila data folder
     path = pathlib.Path(__file__).parent.absolute() / "data"
@@ -39,11 +40,11 @@ def main():
     parser.parse_start_pos_tsv(path)
 
     # Linear programming problem
-    lp_problem = Problem()
+    lp_problem = Problem(context=context)
     # lp_problem.add_provinces()
 
     # Options
-    Games.USE_NAME = NameType.HASH_NAME
+    lp_problem.context.name_type = NameType.HASH_NAME
 
     for index, province in enumerate(parser.provinces.values()):
         lp_problem.reset_problem()
@@ -63,7 +64,7 @@ def main():
         lp_problem.state = ProblemState.FILTERS_ADDED
 
         # Set province wide fertility : impacts food and GDP
-        Games.fertility = 0
+        lp_problem.context.fertility = 0
 
         # Regional constraints
         for region in province.regions:
@@ -83,10 +84,10 @@ def main():
         print(f"{province.get_name_output()} : {lp_problem.problem.get_objective()}")
 
         # Print the variables equal to 1 with their respective contribution
-        if province.print_name == "Thracia" and Games.USE_NAME == NameType.NAME:
+        if province.print_name == "Thracia" and lp_problem.context.name_type == NameType.NAME:
             lp_problem.print_problem_answers()
             lp_problem.dump("attila_problem.lp")
-        if index == 0 and Games.USE_NAME == NameType.HASH_NAME:
+        if index == 0 and lp_problem.context.name_type == NameType.HASH_NAME:
             lp_problem.print_problem_answers()
             # write problem to file for debugging
             lp_problem.dump("attila_problem.lp")

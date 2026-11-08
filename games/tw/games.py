@@ -13,6 +13,8 @@ from games.tw.solver_pulp import SolverPulp
 
 
 class Games:
+    """Legacy compatibility only; new callers pass GameContext explicitly."""
+
     legacy_effects = False
     fertility = 5
     problem: SolverPulp | SolverOrTools | SolverCpSat = SolverPulp()
@@ -35,3 +37,17 @@ class Games:
         self.instance = game
         self.buildings = game.parser.buildings
         self.problem: SolverPulp | SolverOrTools | SolverCpSat = SolverPulp()
+
+
+def legacy_context():
+    """Capture legacy settings at the compatibility boundary, not in new workflows."""
+    from games.tw.context import GameContext
+
+    return GameContext(
+        instance=Games.instance,
+        buildings=Games.buildings,
+        problem=Games.problem,
+        fertility=Games.fertility,
+        legacy_effects=Games.legacy_effects,
+        name_type=Games.USE_NAME,
+    )

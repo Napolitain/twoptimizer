@@ -151,8 +151,8 @@ def test_default_cpsat_engine_all_provinces(fertility, use_hash, tmp_path):
             AttilaGame.Religion.CHRIST_ORTHODOX,
             legacy=True,
         )
-        Games.USE_NAME = NameType.HASH_NAME if use_hash else NameType.NAME
-        Games.fertility = fertility
+        parser.model_context.name_type = NameType.HASH_NAME if use_hash else NameType.NAME
+        parser.model_context.fertility = fertility
         expected = dict(
             line.split(":")
             for line in (Path(__file__).parent / f"result_fertility_{fertility}_ere.txt")
@@ -160,7 +160,7 @@ def test_default_cpsat_engine_all_provinces(fertility, use_hash, tmp_path):
             .splitlines()
         )
         expected = {k.strip(): float(v) for k, v in expected.items()}
-        problem = Problem(objective="legacy")
+        problem = Problem(objective="legacy", context=parser.model_context)
         assert problem.solver_type == SolverType.CP_SAT
         assert isinstance(problem.problem, SolverCpSat)
         with pytest.raises(RuntimeError, match="No feasible"):

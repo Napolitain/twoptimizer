@@ -1,3 +1,4 @@
+from games.tw.context import GameContext
 from games.tw.filters.filter_attila import FilterAttila
 from games.tw.models.game import Game
 from games.tw.models.model import RegionPort, RegionType
@@ -24,10 +25,12 @@ class AttilaGame(Game):
         campaign: AttilaCampaign = AttilaCampaign.ATTILA,
         faction: AttilaFactions = AttilaFactions.ATT_FACT_WESTERN_ROMAN_EMPIRE,
         religion: AttilaReligion = AttilaReligion.CHRIST_ORTHODOX,
+        *,
+        context: GameContext | None = None,
     ):
         super().__init__()
         self.campaign = campaign
         self.faction = faction
-        self.parser = ParserAttila(campaign, faction, religion)
+        self.parser = ParserAttila(campaign, faction, religion, context=context)
         self.filter = FilterAttila(faction)
         self.religion = religion

@@ -11,6 +11,7 @@ from math import isfinite, lcm
 from types import SimpleNamespace
 
 from games.tw.attila.effects import Reach, entries
+from games.tw.context import GameContext
 
 
 def rational(value):
@@ -34,7 +35,16 @@ def multiply(left, right):
 
 
 class Economy:
-    def __init__(self, provinces, adjacency=None, scenario=None, technology_profile=None):
+    def __init__(
+        self,
+        provinces,
+        adjacency=None,
+        scenario=None,
+        technology_profile=None,
+        *,
+        context: GameContext | None = None,
+    ):
+        self.context = context if context is not None else provinces[0].context
         self.catalogue_exclusions: list[dict] = []
         self.provinces = provinces
         self.regions = [r for p in provinces for r in p.regions]
@@ -71,21 +81,20 @@ class Economy:
         self._fields = {}
         self._wealth = {}
         self._metrics = {}
-        from games.tw.games import Games
-
-        state = getattr(getattr(Games.instance, "religion", None), "value", None)
+        state = getattr(getattr(self.context.instance, "religion", None), "value", None)
         self.state_religion = {"eastern": "church_east", "tengris": "tengri"}.get(state, state)
         if self.state_religion == "any":
             self.state_religion = None
         self.base_fertility = {
-            r.name: Games.fertility if r.fertility is None else r.fertility for r in self.regions
+            r.name: self.context.fertility if r.fertility is None else r.fertility
+            for r in self.regions
         }
         if any(not isfinite(value) or value < 0 for value in self.base_fertility.values()):
             raise ValueError("Fertility must be finite and nonnegative")
         from games.tw.attila.traits import profile, rules
         from games.tw.models.model import RegionType
 
-        faction = getattr(getattr(Games.instance, "faction", None), "value", None)
+        faction = getattr(getattr(self.context.instance, "faction", None), "value", None)
         self.traits = profile(faction, self.scenario.data.get("faction_traits", True))
         self.farms_without_penalties = bool(rules(self.traits, "farms_without_penalties"))
         self.campaign = self.scenario.data.get("campaign", {})
@@ -97,7 +106,7 @@ class Economy:
         from games.tw.attila.modifiers import modifier_profile
 
         self.modifiers, semantic_effects = modifier_profile(
-            Games.instance, technology_profile, self.scenario.data
+            self.context.instance, technology_profile, self.scenario.data
         )
         if semantic_effects:
             self.sources.append(
