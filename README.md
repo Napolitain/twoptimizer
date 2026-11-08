@@ -38,8 +38,9 @@ when both optima are proved; unfinished solves show bounds instead.
 The query preview shows batch scope before Run. **Model size** displays compiled
 variable and constraint counts, with separate reference and solver formulations.
 
-For HoI4, select **Inspect HoI4 data…** to browse the public country and state
-reference with mouse or keyboard. The inspector shows source coverage and gaps;
+For HoI4, select **Inspect HoI4 data…** to browse the eight major countries,
+starting armies, economic modifiers and states with mouse or keyboard.
+The inspector shows source coverage and gaps;
 the new hourly campaign optimizer is still being built.
 
 ![Interactive terminal UI](docs/tui.png)

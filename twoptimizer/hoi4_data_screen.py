@@ -10,7 +10,9 @@ from textual.widgets import Button, DataTable, Select, Static, TabbedContent, Ta
 from twoptimizer.errors import ApplicationError
 from twoptimizer.hoi4_data import (
     COUNTRIES,
+    army_summary,
     country_summary,
+    economy_summary,
     inspect_reference,
     source_summary,
     state_row,
@@ -30,7 +32,7 @@ class HoI4DataScreen(ModalScreen):
     #hoi4-country { width: 100%; }
     #hoi4-tabs { height: 1fr; }
     #hoi4-states { height: 1fr; min-height: 4; }
-    #hoi4-coverage { height: auto; }
+    #hoi4-coverage, #hoi4-army, #hoi4-economy { height: auto; }
     #hoi4-close { width: 100%; }
     """
 
@@ -54,9 +56,13 @@ class HoI4DataScreen(ModalScreen):
             )
             yield Static("", id="hoi4-country-summary", markup=False)
             with TabbedContent(id="hoi4-tabs"):
-                with TabPane("Literal state declarations", id="hoi4-state-tab"):
+                with TabPane("States", id="hoi4-state-tab"):
                     yield DataTable(id="hoi4-states", cursor_type="row")
                     yield Static("", id="hoi4-state-source", markup=False)
+                with TabPane("Army", id="hoi4-army-tab"), VerticalScroll():
+                    yield Static("", id="hoi4-army", markup=False)
+                with TabPane("Economy", id="hoi4-economy-tab"), VerticalScroll():
+                    yield Static("", id="hoi4-economy", markup=False)
                 with TabPane("Sources / coverage", id="hoi4-source-tab"), VerticalScroll():
                     yield Static("", id="hoi4-coverage", markup=False)
             yield Button("Close", id="hoi4-close", variant="primary")
@@ -79,6 +85,8 @@ class HoI4DataScreen(ModalScreen):
         table.clear()
         self.profile = {}
         self.query_one("#hoi4-state-source", Static).update("")
+        self.query_one("#hoi4-army", Static).update("Reference data unavailable.")
+        self.query_one("#hoi4-economy", Static).update("Reference data unavailable.")
         try:
             report = inspect_reference(str(self.query_one("#hoi4-country", Select).value))
         except ApplicationError as error:
@@ -88,6 +96,8 @@ class HoI4DataScreen(ModalScreen):
         self.profile = report["countries"][0]
         self.query_one("#hoi4-country-summary", Static).update(country_summary(self.profile))
         self.query_one("#hoi4-coverage", Static).update(source_summary(report))
+        self.query_one("#hoi4-army", Static).update(army_summary(self.profile))
+        self.query_one("#hoi4-economy", Static).update(economy_summary(self.profile))
         for state in self.profile["states"]:
             table.add_row(*state_row(state), key=str(state["id"]))
         self.show_state()

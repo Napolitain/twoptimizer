@@ -44,9 +44,11 @@ checks input structure, not deadline feasibility.
 The bundled reference covers France, United Kingdom, United States, Germany,
 Italy, Japan, Soviet Union and China. It contains 487 owned-state records,
 308 equipment declarations, 157 unit definitions and 55 building definitions.
-These are literal declarations from a pinned public mirror, not validated
-starting capacities. A separate partial date/DLC selection records candidate
-statements; effects and inheritance remain unevaluated. The mirror's exact patch is unverified and France's
+These literal declarations now have a derived interpretation layer: 456 equipment
+IDs (440 resolved base costs/resources), 507 selected deployed divisions, initial
+national economic modifiers, base state capacities/resources and conditional
+landmark effects. Ten guarded official patch corrections supplement the source.
+These are not validated starting capacities. The mirror's exact patch is unverified and France's
 order-of-battle files contain a malformed tail; diagnostics preserve that gap.
 
 JSON inspection includes `base_requirements` for each candidate template, with
@@ -71,6 +73,9 @@ which remaining gaps need source interpretation or actual game validation.
 - The provisional hourly arithmetic advances factory efficiency and recruitment
   progress with explicit rates and equipment/manpower gates. These helpers are
   independently tested; they are not yet a complete campaign replay or solver.
+- [Construction and economy arithmetic](planning/construction-economy.md) handles
+  simultaneous hourly construction, capacity and infrastructure limits, consumer
+  goods, and coal-era output penalties with explicit inputs and overflow policy.
 - Shared application results support ordered objectives, individual bounds and
   proof statuses without relabelling HoI4 objectives as Total War income.
 - Reference inspection uses the same application view model in the CLI and TUI.
