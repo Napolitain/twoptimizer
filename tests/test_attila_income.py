@@ -7,33 +7,32 @@ from types import SimpleNamespace
 import pytest
 
 from games.tw.attila.economy import Economy
+from games.tw.attila.model import SnapshotOptions, compile_scenario, load_attila
 from games.tw.attila.modifiers import modifier_profile, semantics, technology_profile
 from games.tw.attila.scenario import Scenario
 from games.tw.attila.tools.import_factions import parse_faction
-from games.tw.benchmark import load_attila, snapshot
 from games.tw.competition import BinaryModel, solve
 from games.tw.enums import ProblemState
-from games.tw.games import Games
 from games.tw.models.game_attila import AttilaGame
 from games.tw.problem import Problem
 from games.tw.region import Region
 from games.tw.solver_ortools import SolverOrTools
-from tests.test_attila_effects import building, province, restore_globals  # noqa: F401
+from tests.test_attila_effects import building, province
 
 NO_MODIFIERS = {"technology_effects": False, "religion_traits": False}
 
 
-def game(faction, religion="orthodox"):
-    Games.instance = SimpleNamespace(
+def game(faction, religion="orthodox", *, context):
+    context.instance = SimpleNamespace(
         faction=AttilaGame.Factions[faction], religion=SimpleNamespace(value=religion)
     )
 
 
-def test_default_income_selects_taxed_roman_wealth_over_larger_gross_wealth():
-    Games.instance = None
-    r = Region("r")
+def test_default_income_selects_taxed_roman_wealth_over_larger_gross_wealth(context):
+    context.instance = None
+    r = Region("r", context=context)
     p = province("p", r)
-    problem = Problem()
+    problem = Problem(context=context)
     assert problem.objective_mode == "income"
     problem.add_province(p)
     data = Path(__file__).parents[1] / "games/tw/attila/data/building_effects_junction_table.tsv"
@@ -85,9 +84,9 @@ def test_default_income_selects_taxed_roman_wealth_over_larger_gross_wealth():
         assert report["finances"]["total"]["net_income"] == pytest.approx(97.6)
 
 
-def test_ere_tariffs_corruption_and_upkeep_have_separate_channels():
-    game("ATT_FACT_EASTERN_ROMAN_EMPIRE")
-    r = Region("r")
+def test_ere_tariffs_corruption_and_upkeep_have_separate_channels(context):
+    game("ATT_FACT_EASTERN_ROMAN_EMPIRE", context=context)
+    r = Region("r", context=context)
     p = province("p", r)
     building(
         r,
@@ -122,9 +121,9 @@ def test_ere_tariffs_corruption_and_upkeep_have_separate_channels():
     assert interest["status"] == "excluded_by_requested_objective"
 
 
-def test_venedian_farm_bonus_and_other_income_penalties():
-    game("ATT_FACT_VENEDI")
-    r = Region("r")
+def test_venedian_farm_bonus_and_other_income_penalties(context):
+    game("ATT_FACT_VENEDI", context=context)
+    r = Region("r", context=context)
     p = province("p", r)
     for name, effect in (
         ("farm", "economy_gdp_agriculture_farming"),
@@ -139,9 +138,9 @@ def test_venedian_farm_bonus_and_other_income_penalties():
     assert e.evaluate(e.wealth(r), set(e.by_id)) == 600
 
 
-def test_garamantian_fertility_affects_food_and_wealth_and_desert_sanitation():
-    game("ATT_FACT_GARAMANTES")
-    r = Region("r")
+def test_garamantian_fertility_affects_food_and_wealth_and_desert_sanitation(context):
+    game("ATT_FACT_GARAMANTES", context=context)
+    r = Region("r", context=context)
     building(
         r,
         "farm",
@@ -155,9 +154,9 @@ def test_garamantian_fertility_affects_food_and_wealth_and_desert_sanitation():
     assert e.evaluate(e.sanitation(r), {"farm"}) == 2
 
 
-def test_venedian_farms_remove_only_their_own_order_and_squalor_penalties():
-    game("ATT_FACT_VENEDI")
-    r = Region("r")
+def test_venedian_farms_remove_only_their_own_order_and_squalor_penalties(context):
+    game("ATT_FACT_VENEDI", context=context)
+    r = Region("r", context=context)
     p = province("p", r)
     building(
         r,
@@ -176,9 +175,9 @@ def test_venedian_farms_remove_only_their_own_order_and_squalor_penalties():
     assert e.evaluate(e.sanitation(r), set(e.by_id)) == -3
 
 
-def test_sassanid_capitals_and_tribute_count_once_with_multiple_regions():
-    game("ATT_FACT_SASSANID_EMPIRE")
-    a, b = Region("a"), Region("b")
+def test_sassanid_capitals_and_tribute_count_once_with_multiple_regions(context):
+    game("ATT_FACT_SASSANID_EMPIRE", context=context)
+    a, b = Region("a", context=context), Region("b", context=context)
     e = Economy(
         [province("p", a, b)],
         scenario={
@@ -191,9 +190,13 @@ def test_sassanid_capitals_and_tribute_count_once_with_multiple_regions():
     assert e.evaluate_layout(set())["finances"]["total"]["other_recurring_income"] == 200
 
 
-def test_axum_trade_food_is_a_provincial_total_and_trade_bonus_applies_once():
-    game("ATT_FACT_AXUM")
-    a, b, c = Region("a"), Region("b"), Region("c")
+def test_axum_trade_food_is_a_provincial_total_and_trade_bonus_applies_once(context):
+    game("ATT_FACT_AXUM", context=context)
+    a, b, c = (
+        Region("a", context=context),
+        Region("b", context=context),
+        Region("c", context=context),
+    )
     e = Economy(
         [province("p", a, b), province("q", c)],
         scenario={
@@ -207,10 +210,10 @@ def test_axum_trade_food_is_a_provincial_total_and_trade_bonus_applies_once():
     assert report["finances"]["total"]["trade_income"] == 110
 
 
-def test_peace_subsidy_is_once_per_faction_not_per_province():
-    game("ATT_FACT_LAKHMIDS")
+def test_peace_subsidy_is_once_per_faction_not_per_province(context):
+    game("ATT_FACT_LAKHMIDS", context=context)
     e = Economy(
-        [province("p", Region("a")), province("q", Region("b"))],
+        [province("p", Region("a", context=context)), province("q", Region("b", context=context))],
         scenario={**NO_MODIFIERS, "campaign": {"at_peace_with_sassanids": True}},
     )
     assert e.evaluate(e.objective(), set()) == 500
@@ -226,13 +229,14 @@ def test_disabled_roman_technology_is_not_an_active_bonus():
         AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
         AttilaGame.Religion.CHRIST_ORTHODOX,
     )
-    profile = technology_profile(parser.model_context.instance)
+    profile = technology_profile(parser.context.instance)
     assert "Improved Plumbing" in profile["disabled_legacy"]
     assert "Improved Plumbing" not in profile["active"]
     assert all(f["source"] != "Improved Plumbing" for f in profile["facts"])
     # Even end-state building access must honor the known legacy disables.
     p = next(p for p in parser.provinces.values() if p.print_name == "Aegyptus")
-    _, _, economy = snapshot(p, 5, retain_economy=True)
+    economy = compile_scenario([p], SnapshotOptions(fertility=5)).economy
+    assert economy is not None
     assert economy.modifiers["technologies"]["active"] == profile["active"]
     for b in economy.buildings:
         assert b.metadata is not None
@@ -249,9 +253,11 @@ def test_disabled_roman_technology_is_not_an_active_bonus():
         ("eastern", "corruption_percent", None, -5),
     ],
 )
-def test_state_religion_economic_bonus_has_exact_imported_semantics(faith, kind, category, value):
-    game("ATT_FACT_EASTERN_ROMAN_EMPIRE", faith)
-    report, effects = modifier_profile(Games.instance, scenario={"technology_effects": False})
+def test_state_religion_economic_bonus_has_exact_imported_semantics(
+    context, faith, kind, category, value
+):
+    game("ATT_FACT_EASTERN_ROMAN_EMPIRE", faith, context=context)
+    report, effects = modifier_profile(context.instance, scenario={"technology_effects": False})
     assert len(effects) >= 1
     assert any(
         rule.kind == kind and (category is None or category in rule.categories) and amount == value

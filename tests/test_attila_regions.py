@@ -3,8 +3,8 @@
 from pathlib import Path
 from unittest import TestCase
 
+from games.tw.context import GameContext
 from games.tw.enums import NameType, ProblemState, SolverType
-from games.tw.games import Games
 from games.tw.models.game_attila import AttilaGame
 from games.tw.problem import Problem
 
@@ -13,7 +13,7 @@ from games.tw.problem import Problem
 
 class TestRegion(TestCase):
     def test_attila_regions_f5(self):
-        Games.legacy_effects = True  # Historical base-GDP fixture.
+        context = GameContext(legacy_effects=True)  # Historical base-GDP fixture.
         result = {}
         current_dir = Path(__file__).parent.absolute()
         file = current_dir / "result_fertility_5_ere.txt"
@@ -23,14 +23,15 @@ class TestRegion(TestCase):
                 result[x[0].strip()] = float(x[1].strip())
 
         # Create a province, with regions, and buildings constraints.
-        Games.instance = AttilaGame(
+        context.instance = AttilaGame(
+            context=context,
             campaign=AttilaGame.Campaign.ATTILA,
             faction=AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
             religion=AttilaGame.Religion.CHRIST_ORTHODOX,
         )
-        parser = Games.instance.get_parser()
-        Games.buildings = parser.buildings
-        # Games.instance.campaign = AttilaGame.Campaign.CHARLEMAGNE
+        parser = context.instance.get_parser()
+        context.buildings = parser.buildings
+        # context.instance.campaign = AttilaGame.Campaign.CHARLEMAGNE
 
         # Attila data folder
         path = parser.game_dir
@@ -38,10 +39,10 @@ class TestRegion(TestCase):
         parser.parse_start_pos_tsv(path)
 
         # Linear programming problem
-        lp_problem = Problem(solver=SolverType.GOOGLE, objective="legacy")
+        lp_problem = Problem(solver=SolverType.GOOGLE, objective="legacy", context=context)
 
         # Options
-        Games.USE_NAME = NameType.NAME
+        context.name_type = NameType.NAME
 
         for province in parser.provinces.values():
             lp_problem.reset_problem()
@@ -61,7 +62,7 @@ class TestRegion(TestCase):
             lp_problem.state = ProblemState.FILTERS_ADDED
 
             # Set province wide fertility : impacts food and GDP
-            Games.fertility = 5
+            lp_problem.context.fertility = 5
 
             # Regional constraints
             for region in province.regions:

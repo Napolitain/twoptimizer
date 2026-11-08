@@ -9,38 +9,14 @@ from games.tw.attila.effects import Reach, reach
 from games.tw.building import Building
 from games.tw.competition import BinaryModel, solve
 from games.tw.enums import ProblemState, Scope
-from games.tw.games import Games
 from games.tw.problem import Problem
 from games.tw.province import Province
 from games.tw.region import Region
 from games.tw.solver_ortools import SolverOrTools
 
 
-@pytest.fixture(autouse=True)
-def restore_globals():
-    previous = (
-        Games.instance,
-        Games.buildings,
-        Games.problem,
-        Games.fertility,
-        Games.USE_NAME,
-        Games.legacy_effects,
-    )
-    Games.legacy_effects = False
-    Games.fertility = 2
-    yield
-    (
-        Games.instance,
-        Games.buildings,
-        Games.problem,
-        Games.fertility,
-        Games.USE_NAME,
-        Games.legacy_effects,
-    ) = previous
-
-
 def building(region, name, *effects, upkeep=0):
-    b = Building(name)
+    b = Building(name, context=region.context)
     b.region = region
     b.metadata = {"metadata": {"upkeep": upkeep}}
     for key, scope, value in effects:
@@ -50,7 +26,7 @@ def building(region, name, *effects, upkeep=0):
 
 
 def province(name, *regions):
-    p = Province(name)
+    p = Province(name, context=regions[0].context)
     for region in regions:
         p.add_region(region)
     return p
@@ -60,8 +36,8 @@ def selected(economy):
     return set(economy.by_id)
 
 
-def test_local_province_category_and_building_bonuses():
-    r1, r2 = Region("one"), Region("two")
+def test_local_province_category_and_building_bonuses(context):
+    r1, r2 = Region("one", context=context), Region("two", context=context)
     building(r1, "factory1", ("economy_gdp_industry", "building_to_building_own", 100))
     building(r2, "factory2", ("economy_gdp_industry", "building_to_building_own", 100))
     building(r1, "farm", ("economy_gdp_agriculture_farming", "building_to_building_own", 50))
@@ -81,8 +57,8 @@ def test_local_province_category_and_building_bonuses():
     assert report["objective"] == 480
 
 
-def test_sanitation_fertility_food_and_order_are_not_double_counted():
-    r1, r2 = Region("one"), Region("two")
+def test_sanitation_fertility_food_and_order_are_not_double_counted(context):
+    r1, r2 = Region("one", context=context), Region("two", context=context)
     r1.fertility, r2.fertility = 2, 5
     building(
         r1,
@@ -119,8 +95,8 @@ def test_sanitation_fertility_food_and_order_are_not_double_counted():
     assert any("immigration" in row[2] for row in economy.omitted)
 
 
-def test_faction_and_adjacent_bonuses_have_distinct_targets():
-    regions = [Region(str(i)) for i in range(3)]
+def test_faction_and_adjacent_bonuses_have_distinct_targets(context):
+    regions = [Region(str(i), context=context) for i in range(3)]
     provinces = [province(f"p{i}", r) for i, r in enumerate(regions)]
     for i, region in enumerate(regions):
         building(
@@ -148,8 +124,8 @@ def test_faction_and_adjacent_bonuses_have_distinct_targets():
     assert reach("province_to_region_own_factionwide") == Reach.FACTION
 
 
-def test_unknown_effects_are_preserved_without_becoming_resources():
-    r = Region("one")
+def test_unknown_effects_are_preserved_without_becoming_resources(context):
+    r = Region("one", context=context)
     b = building(
         r,
         "unknown",
@@ -163,10 +139,10 @@ def test_unknown_effects_are_preserved_without_becoming_resources():
 
 
 @pytest.mark.parametrize("mode", ["wealth", "income"])
-def test_compiled_scoped_model_matches_independent_enumeration(mode):
-    r = Region("one")
+def test_compiled_scoped_model_matches_independent_enumeration(context, mode):
+    r = Region("one", context=context)
     p = province("p", r)
-    problem = Problem(objective=mode)
+    problem = Problem(objective=mode, context=context)
     problem.add_province(p)
     b = [
         building(r, "factory", ("economy_gdp_industry", "building_to_building_own", 100)),
@@ -205,8 +181,8 @@ def test_compiled_scoped_model_matches_independent_enumeration(mode):
     assert problem.economy.evaluate_layout(layout, mode)["objective"] == pytest.approx(expected)
 
 
-def test_two_canals_stack_locally_and_across_all_three_regions():
-    regions = [Region(str(i)) for i in range(3)]
+def test_two_canals_stack_locally_and_across_all_three_regions(context):
+    regions = [Region(str(i), context=context) for i in range(3)]
     for i in (0, 1):
         building(
             regions[i],
@@ -222,12 +198,12 @@ def test_two_canals_stack_locally_and_across_all_three_regions():
     ]
 
 
-def test_display_tree_does_not_make_distinct_branches_exclusive():
-    region = Region("r")
-    problem = Problem()
+def test_display_tree_does_not_make_distinct_branches_exclusive(context):
+    problem = Problem(context=context)
+    region = Region("r", context=problem.context)
     candidates = []
     for name in ("r_farm_grain_1", "r_farm_grain_2", "r_farm_cattle_1"):
-        candidate = Building(name)
+        candidate = Building(name, context=region.context)
         candidate.metadata = {"metadata": {"source_tree_group": "agriculture"}}
         assert isinstance(problem.problem, SolverOrTools)
         candidate.lp_variable = problem.problem.solver.BoolVar(name)
@@ -241,14 +217,14 @@ def test_display_tree_does_not_make_distinct_branches_exclusive():
 
 
 def test_real_catalogue_eligibility_and_no_technology_scenario():
-    from games.tw.benchmark import load_attila, snapshot
+    from games.tw.attila.model import SnapshotOptions, compile_scenario, load_attila
     from games.tw.models.game_attila import AttilaGame
 
     parser = load_attila(
         AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
         AttilaGame.Religion.CHRIST_ORTHODOX,
     )
-    problem = Problem(context=parser.model_context)
+    problem = Problem(context=parser.context)
     p = next(p for p in parser.provinces.values() if p.print_name == "Thracia")
     problem.add_province(p)
     try:
@@ -265,6 +241,6 @@ def test_real_catalogue_eligibility_and_no_technology_scenario():
                     assert "orthodox" in candidate.name
     finally:
         p.clean()
-    model, _ = snapshot(p, 5, technologies=set())
+    model = compile_scenario([p], SnapshotOptions(fertility=5, technologies=frozenset())).model
     # Level-4 cities require research; no researched technology is infeasible.
     assert solve(model, "cp-sat").status == "INFEASIBLE"

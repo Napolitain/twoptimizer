@@ -36,7 +36,7 @@ def main() -> None:
     signatures = set()
     for _ in range(args.repeat):
         started = perf_counter()
-        result = solve_case(config)
+        result = solve_case(config).to_dict()
         elapsed = perf_counter() - started
         stable = {key: result[key] for key in ("income", "metrics", "buildings")}
         stable["status"] = result["solver"]["status"]

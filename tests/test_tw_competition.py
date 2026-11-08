@@ -6,9 +6,9 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from games.tw.benchmark import compare, load_attila, snapshot
+from games.tw.attila.model import SnapshotOptions, compile_scenario, load_attila
+from games.tw.comparison import ComparisonOptions, compare_model
 from games.tw.competition import ALGORITHMS, BinaryModel, integer_row, solve
-from games.tw.games import Games
 from games.tw.models.game_attila import AttilaGame
 
 
@@ -59,7 +59,7 @@ def test_exact_methods_against_enumeration(seed):
 
 def test_greedy_counterexample_and_lp_bound():
     problem = model([100, 60, 60], [[50, 25, 25]], [-np.inf], [50])
-    report = compare(problem, ALGORITHMS, 1, 0, 128, 16)
+    report = compare_model(problem, ComparisonOptions(algorithms=tuple(ALGORITHMS), seconds=1))
     rows = {r["algorithm"]: r for r in report["results"]}
     assert rows["greedy"]["objective"] <= 120
     assert rows["beam"]["objective"] == 120
@@ -94,42 +94,28 @@ def test_validation_and_exact_scaling():
 
 
 def test_attila_snapshot_matches_saved_engine_result():
-    previous = (
-        Games.instance,
-        Games.buildings,
-        Games.problem,
-        Games.fertility,
-        Games.USE_NAME,
+    parser = load_attila(
+        AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
+        AttilaGame.Religion.CHRIST_ORTHODOX,
+        legacy=True,
     )
-    try:
-        parser = load_attila(
-            AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
-            AttilaGame.Religion.CHRIST_ORTHODOX,
-            legacy=True,
+    province = next(iter(parser.provinces.values()))
+    for fertility in (0, 5):
+        expected = dict(
+            line.split(":")
+            for line in (Path(__file__).parent / f"result_fertility_{fertility}_ere.txt")
+            .read_text()
+            .splitlines()
         )
-        province = next(iter(parser.provinces.values()))
-        for fertility in (0, 5):
-            expected = dict(
-                line.split(":")
-                for line in (Path(__file__).parent / f"result_fertility_{fertility}_ere.txt")
-                .read_text()
-                .splitlines()
-            )
-            problem, _ = snapshot(province, fertility, building_level=4, objective="legacy")
-            result = solve(problem, "cp-sat")
-            assert result.status == "OPTIMAL"
-            assert result.objective == pytest.approx(
-                float({k.strip(): v for k, v in expected.items()}[province.print_name])
-            )
-            assert all(not region.buildings for region in province.regions)
-    finally:
-        (
-            Games.instance,
-            Games.buildings,
-            Games.problem,
-            Games.fertility,
-            Games.USE_NAME,
-        ) = previous
+        problem = compile_scenario(
+            [province], SnapshotOptions(fertility=fertility, building_level=4, objective="legacy")
+        ).model
+        result = solve(problem, "cp-sat")
+        assert result.status == "OPTIMAL"
+        assert result.objective == pytest.approx(
+            float({k.strip(): v for k, v in expected.items()}[province.print_name])
+        )
+        assert all(not region.buildings for region in province.regions)
 
 
 @pytest.mark.parametrize("fertility,use_hash", [(0, False), (5, True)])
@@ -138,81 +124,63 @@ def test_default_cpsat_engine_all_provinces(fertility, use_hash, tmp_path):
     from games.tw.problem import Problem
     from games.tw.solver_cpsat import SolverCpSat
 
-    previous = (
-        Games.instance,
-        Games.buildings,
-        Games.problem,
-        Games.fertility,
-        Games.USE_NAME,
+    parser = load_attila(
+        AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
+        AttilaGame.Religion.CHRIST_ORTHODOX,
+        legacy=True,
     )
-    try:
-        parser = load_attila(
-            AttilaGame.Factions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
-            AttilaGame.Religion.CHRIST_ORTHODOX,
-            legacy=True,
-        )
-        parser.model_context.name_type = NameType.HASH_NAME if use_hash else NameType.NAME
-        parser.model_context.fertility = fertility
-        expected = dict(
-            line.split(":")
-            for line in (Path(__file__).parent / f"result_fertility_{fertility}_ere.txt")
-            .read_text()
-            .splitlines()
-        )
-        expected = {k.strip(): float(v) for k, v in expected.items()}
-        problem = Problem(objective="legacy", context=parser.model_context)
-        assert problem.solver_type == SolverType.CP_SAT
-        assert isinstance(problem.problem, SolverCpSat)
-        with pytest.raises(RuntimeError, match="No feasible"):
-            problem.problem.get_objective()
-        for province in parser.provinces.values():
-            problem.reset_problem()
-            problem.add_province(province)
-            try:
-                for region in province.regions:
-                    region.add_buildings()
-                    region.filter_city_level(4)
-                    region.filter_building_level(4)
-                    region.filter_military()
-                    problem.problem.filter_added({b.name: b for b in region.buildings})
-                for region in province.regions:
-                    region.add_constraints()
-                province.add_sanitation_constraint()
-                province.add_food_constraint()
-                province.add_public_order_constraint()
-                problem.state = ProblemState.CONSTRAINTS_ADDED
-                problem.add_objective()
-                problem.solve()
-                assert problem.problem.result is not None
-                assert problem.problem.result.status == "OPTIMAL"
-                assert problem.problem.get_objective() == pytest.approx(
-                    expected[province.print_name]
-                )
-                answers = problem.get_problem_answers()
-                selected = [v for v in problem.problem.variables() if v.solution_value() > 0.5]
-                assert len(answers) == len(selected) > 0
-                expected_answers = {}
-                for region in province.regions:
-                    for building in region.buildings:
-                        base_name = building.name.removeprefix(region.name + "_")
-                        original = parser.buildings[parser.campaign.value[1]][base_name]
-                        expected_answers[building.lp_variable.name()] = (
-                            region.get_name_output(),
-                            original.get_name_output(),
-                        )
-                assert answers == [expected_answers[v.name()] for v in selected]
-                problem.dump(str(tmp_path / "province.lp"))
-                assert (tmp_path / "province.lp").stat().st_size > 0
-            finally:
-                province.clean()
-    finally:
-        (
-            Games.instance,
-            Games.buildings,
-            Games.problem,
-            Games.fertility,
-            Games.USE_NAME,
-        ) = previous
+    parser.context.name_type = NameType.HASH_NAME if use_hash else NameType.NAME
+    parser.context.fertility = fertility
+    expected = dict(
+        line.split(":")
+        for line in (Path(__file__).parent / f"result_fertility_{fertility}_ere.txt")
+        .read_text()
+        .splitlines()
+    )
+    expected = {k.strip(): float(v) for k, v in expected.items()}
+    problem = Problem(objective="legacy", context=parser.context)
+    assert problem.solver_type == SolverType.CP_SAT
+    assert isinstance(problem.problem, SolverCpSat)
+    with pytest.raises(RuntimeError, match="No feasible"):
+        problem.problem.get_objective()
+    for province in parser.provinces.values():
+        problem.reset_problem()
+        problem.add_province(province)
+        try:
+            for region in province.regions:
+                region.add_buildings()
+                region.filter_city_level(4)
+                region.filter_building_level(4)
+                region.filter_military()
+                problem.problem.filter_added({b.name: b for b in region.buildings})
+            for region in province.regions:
+                region.add_constraints()
+            province.add_sanitation_constraint()
+            province.add_food_constraint()
+            province.add_public_order_constraint()
+            problem.state = ProblemState.CONSTRAINTS_ADDED
+            problem.add_objective()
+            problem.solve()
+            assert problem.problem.result is not None
+            assert problem.problem.result.status == "OPTIMAL"
+            assert problem.problem.get_objective() == pytest.approx(expected[province.print_name])
+            answers = problem.get_problem_answers()
+            selected = [v for v in problem.problem.variables() if v.solution_value() > 0.5]
+            assert len(answers) == len(selected) > 0
+            expected_answers = {}
+            for region in province.regions:
+                for building in region.buildings:
+                    base_name = building.name.removeprefix(region.name + "_")
+                    original = parser.buildings[parser.campaign.value[1]][base_name]
+                    expected_answers[building.lp_variable.name()] = (
+                        region.get_name_output(),
+                        original.get_name_output(),
+                    )
+            assert answers == [expected_answers[v.name()] for v in selected]
+            problem.dump(str(tmp_path / "province.lp"))
+            assert (tmp_path / "province.lp").stat().st_size > 0
+        finally:
+            province.clean()
 
 
 def test_cpsat_engine_does_not_expose_infeasible_solution():

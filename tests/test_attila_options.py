@@ -11,11 +11,11 @@ from games.tw.enums import ProblemState
 from games.tw.problem import Problem
 from games.tw.region import Region
 from games.tw.solver_ortools import SolverOrTools
-from tests.test_attila_effects import building, province, restore_globals  # noqa: F401
+from tests.test_attila_effects import building, province
 
 
-def test_scenario_clamps_offsets_targets_and_budget_against_enumeration():
-    r = Region("r")
+def test_scenario_clamps_offsets_targets_and_budget_against_enumeration(context):
+    r = Region("r", context=context)
     p = province("p", r)
     scenario = {
         "provinces": {
@@ -47,7 +47,7 @@ def test_scenario_clamps_offsets_targets_and_budget_against_enumeration():
         ],
         "project_budget": 450,
     }
-    problem = Problem(objective="income", scenario=scenario)
+    problem = Problem(objective="income", scenario=scenario, context=context)
     problem.add_province(p)
     candidates = [building(r, "factory", ("economy_gdp_industry", "building_to_building_own", 100))]
     for name in ("reducer1", "reducer2"):
@@ -115,8 +115,12 @@ def test_scenario_clamps_offsets_targets_and_budget_against_enumeration():
         assert result.bound == pytest.approx(152)
 
 
-def test_metrics_use_natural_recipient_counts_and_enable_is_boolean():
-    a, b, c = Region("a"), Region("b"), Region("c")
+def test_metrics_use_natural_recipient_counts_and_enable_is_boolean(context):
+    a, b, c = (
+        Region("a", context=context),
+        Region("b", context=context),
+        Region("c", context=context),
+    )
     ps = [province("one", a, b), province("two", c)]
     building(
         a,
@@ -140,8 +144,12 @@ def test_metrics_use_natural_recipient_counts_and_enable_is_boolean():
     assert e.evaluate(e.metric("agent_enable:spy"), selected) == 1
 
 
-def test_conditional_food_and_order_only_reach_explicit_recipients():
-    a, b, c = Region("a"), Region("b"), Region("c")
+def test_conditional_food_and_order_only_reach_explicit_recipients(context):
+    a, b, c = (
+        Region("a", context=context),
+        Region("b", context=context),
+        Region("c", context=context),
+    )
     ps = [province("one", a), province("two", b), province("three", c)]
     building(
         a,
@@ -168,8 +176,8 @@ def test_conditional_food_and_order_only_reach_explicit_recipients():
     assert any(reason == "requires_explicit_recipients" for _, _, reason in without.omitted)
 
 
-def test_metric_weight_can_change_choice_and_external_wealth_is_constant():
-    r = Region("r")
+def test_metric_weight_can_change_choice_and_external_wealth_is_constant(context):
+    r = Region("r", context=context)
     p = province("p", r)
     scenario = {
         "weights": [{"metric": "research_percent", "scope": "faction", "value": 20}],
@@ -188,7 +196,7 @@ def test_metric_weight_can_change_choice_and_external_wealth_is_constant():
             },
         ],
     }
-    problem = Problem(scenario=scenario)
+    problem = Problem(scenario=scenario, context=context)
     problem.add_province(p)
     a = building(r, "factory", ("economy_gdp_industry", "building_to_building_own", 100))
     b = building(r, "library", ("technology_research_points", "faction_to_faction_own", 6))
@@ -235,12 +243,12 @@ def test_invalid_scenario_is_rejected(data):
 
 
 @pytest.mark.parametrize("base", [0.1, 0.3])
-def test_rational_threshold_equality_and_both_clamp_boundaries(base):
+def test_rational_threshold_equality_and_both_clamp_boundaries(context, base):
     from games.tw.attila.economy import add
 
-    r = Region("r")
+    r = Region("r", context=context)
     p = province("p", r)
-    problem = Problem()
+    problem = Problem(context=context)
     for name in ("x", "y"):
         b = building(r, name)
         assert isinstance(problem.problem, SolverOrTools)
@@ -263,12 +271,12 @@ def test_rational_threshold_equality_and_both_clamp_boundaries(base):
     assert result.bound == pytest.approx(result.objective)
 
 
-def test_pulp_backend_compiles_piecewise_discount():
+def test_pulp_backend_compiles_piecewise_discount(context):
     from games.tw.enums import SolverType
 
-    r = Region("r")
+    r = Region("r", context=context)
     p = province("p", r)
-    problem = Problem(solver=SolverType.PULP)
+    problem = Problem(solver=SolverType.PULP, context=context)
     b = building(r, "x")
     b.lp_variable = problem.problem.create_variable("x", "Binary")
     e = Economy([p])
@@ -280,13 +288,11 @@ def test_pulp_backend_compiles_piecewise_discount():
     assert problem.problem.get_objective() == pytest.approx(0.15)
 
 
-def test_state_religion_influence_joins_selected_faith_without_double_counting():
+def test_state_religion_influence_joins_selected_faith_without_double_counting(context):
     from types import SimpleNamespace
 
-    from games.tw.games import Games
-
-    Games.instance = SimpleNamespace(religion=SimpleNamespace(value="orthodox"))
-    r = Region("r")
+    context.instance = SimpleNamespace(religion=SimpleNamespace(value="orthodox"))
+    r = Region("r", context=context)
     p = province("p", r)
     building(r, "church", ("religion_conversion_orthodox", "region_to_region_own", 3))
     building(r, "authority", ("religion_conversion_state", "faction_to_region_own", 1))
@@ -297,8 +303,8 @@ def test_state_religion_influence_joins_selected_faith_without_double_counting()
     assert e.evaluate(e.metric("religion:catholic"), set(e.by_id)) == 5
 
 
-def test_immigration_wealth_bonus_only_boosts_immigration_income():
-    r = Region("r")
+def test_immigration_wealth_bonus_only_boosts_immigration_income(context):
+    r = Region("r", context=context)
     p = province("p", r)
     building(r, "industry", ("economy_gdp_industry", "building_to_building_own", 1000))
     building(
@@ -358,7 +364,7 @@ def test_shipped_scenarios_bind_to_real_data(example, names):
     import json
     from pathlib import Path
 
-    from games.tw.benchmark import load_attila
+    from games.tw.attila.model import load_attila
     from games.tw.models.game_attila import AttilaGame
 
     parser = load_attila(

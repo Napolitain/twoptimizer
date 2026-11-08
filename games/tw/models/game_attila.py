@@ -29,8 +29,11 @@ class AttilaGame(Game):
         context: GameContext | None = None,
     ):
         super().__init__()
+        context = GameContext() if context is None else context
+        context.instance = self
         self.campaign = campaign
         self.faction = faction
         self.parser = ParserAttila(campaign, faction, religion, context=context)
+        context.buildings = self.parser.buildings
         self.filter = FilterAttila(faction)
         self.religion = religion

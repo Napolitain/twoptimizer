@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from games.tw.building import Building
+from games.tw.context import GameContext
 from games.tw.enums import EntryType, Scope
 from games.tw.models.model import EntryName, FullEntryName
 from games.tw.models.model_rome2 import Rome2Campaign, Rome2Factions
@@ -8,8 +9,8 @@ from games.tw.parser.parser import Faction, Parser, parse_tsv
 
 
 class ParserRome2(Parser):
-    def __init__(self, campaign: Rome2Campaign, faction: Rome2Factions):
-        super().__init__()
+    def __init__(self, campaign: Rome2Campaign, faction: Rome2Factions, *, context: GameContext):
+        super().__init__(context=context)
         # Resolve bundled data relative to the package for installed-wheel support.
         self.game_dir = Path(__file__).resolve().parents[1] / "rome2" / "data"
         self.campaign = campaign
@@ -56,7 +57,9 @@ class ParserRome2(Parser):
             if self.campaign.value[1] in name:
                 building_name = name.lower()
                 if building_name not in self.buildings[game]:
-                    self.buildings[game][building_name] = Building(building_name)
+                    self.buildings[game][building_name] = Building(
+                        building_name, context=self.context
+                    )
                 try:
                     scope_value = self.get_scope(scope)
                 except ValueError:

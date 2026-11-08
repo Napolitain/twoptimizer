@@ -4,7 +4,7 @@ from pulp import LpVariable
 from games.tw.context import GameContext
 from games.tw.effect import Effect
 from games.tw.entity import Entity
-from games.tw.enums import Scope, get_hash_name
+from games.tw.enums import Scope
 from games.tw.models.model_attila import AttilaCampaign
 
 
@@ -14,22 +14,19 @@ class Building(Effect, Entity):
     We need to create a Building class that contains a list of effects.
     """
 
-    HASH_NAME = "B1"
-
     def __init__(
         self,
         name: str,
         print_name: str | None = None,
         hash_name: str | None = None,
         *,
-        context: GameContext | None = None,
+        context: GameContext,
     ):
-        super().__init__()
-        self._context = context
+        super().__init__(context=context)
         self.lp_variable: pywraplp.Variable | LpVariable | None = None
         self.name = name
         if hash_name is None:
-            self.hash_name = context.next_id("B") if context is not None else get_hash_name("B")
+            self.hash_name = context.next_id("B")
         else:
             self.hash_name = hash_name
         if print_name is None:
@@ -51,7 +48,7 @@ class Building(Effect, Entity):
         return self.lp_variable
 
     def __copy__(self):
-        new_building = Building(self.name, self.print_name, self.hash_name, context=self._context)
+        new_building = Building(self.name, self.print_name, self.hash_name, context=self.context)
         new_building.lp_variable = self.lp_variable
         new_building.raw_effects = self.raw_effects.copy()
         new_building.metadata = self.metadata
@@ -360,14 +357,3 @@ class Building(Effect, Entity):
         food_consumption = calculate_food("consumption")
 
         return food_production - food_consumption
-
-    def increment_hash_name(self) -> str:
-        """
-        Increment the hash name of the region. Must be X1, X2... Xn.
-        :return:
-        """
-        x = Building.HASH_NAME
-        split_name = x.split("B")
-        split_name[1] = str(int(split_name[1]) + 1)
-        Building.HASH_NAME = "B".join(split_name)
-        return x

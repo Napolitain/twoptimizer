@@ -26,10 +26,8 @@ def load_attila(
 ) -> ParserAttila:
     context = GameContext(legacy_effects=legacy)
     game = AttilaGame(faction=faction, religion=religion, context=context)
-    context.instance = game
     parser = game.parser
     assert isinstance(parser, ParserAttila)
-    context.buildings = parser.buildings
     parser.parse_building_effects_junction_tables()
     parser.parse_start_pos_tsv(parser.game_dir)
     return parser

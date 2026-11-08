@@ -6,13 +6,10 @@ import hashlib
 from collections.abc import Callable
 from dataclasses import replace
 from math import isfinite
-from typing import Any
 
 from twoptimizer.catalog import EXACT, NOTES, ROOT, choices, faction_name, read
-from twoptimizer.engines import _solve_attila, _solve_rome, _solve_shogun
-from twoptimizer.export import export_session as export_session
-from twoptimizer.models import CaseResult, SolverSummary
-from twoptimizer.models import RunConfig as RunConfig
+from twoptimizer.engines import solve_attila, solve_rome, solve_shogun
+from twoptimizer.models import CaseResult, RunConfig, SolverSummary
 from twoptimizer.progress import PhaseTimer
 
 
@@ -144,21 +141,14 @@ def source_files(game):
     return {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
 
 
-def solve_case(config: RunConfig, progress: Callable[[str], None] | None = None) -> dict[str, Any]:
-    """Compatibility JSON interface used by workers and existing clients."""
-    return solve_case_model(config, progress).to_dict()
-
-
-def solve_case_model(
-    config: RunConfig, progress: Callable[[str], None] | None = None
-) -> CaseResult:
+def solve_case(config: RunConfig, progress: Callable[[str], None] | None = None) -> CaseResult:
     phase = PhaseTimer(progress)
     phase("request_seconds", "Validating request")
     jobs, _ = make_jobs(config)
     if len(jobs) != 1:
         raise ValueError("A worker must receive exactly one faction and solver.")
     phase("load_engine_seconds", "Loading engine and game data")
-    adapter = {"rome2": _solve_rome, "shogun2": _solve_shogun, "attila": _solve_attila}[config.game]
+    adapter = {"rome2": solve_rome, "shogun2": solve_shogun, "attila": solve_attila}[config.game]
     result = adapter(config, phase)
     income = result.income
     solver = SolverSummary.from_dict(result.raw["solver"])

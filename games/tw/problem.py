@@ -21,16 +21,11 @@ class Problem:
         technologies=None,
         scenario=None,
         *,
-        context: GameContext | None = None,
+        context: GameContext,
     ):
         """
         Init a linear programming problem.
         """
-        self._legacy = context is None
-        if context is None:
-            from games.tw.games import legacy_context
-
-            context = legacy_context()
         self.context = context.for_problem()
         self.provinces: list[Province] = []
         if objective is None:
@@ -67,11 +62,6 @@ class Problem:
         self.state = ProblemState.INIT
         self.global_time = 0
         self.context.problem = self.problem
-        if self._legacy:
-            from games.tw.games import Games
-
-            Games.problem = self.problem
-            Games.legacy_effects = self.context.legacy_effects
 
     def _configure_solver(self) -> None:
         self.problem.technologies = self.technologies
@@ -99,10 +89,9 @@ class Problem:
         :param province:
         :return:
         """
-        if not self._legacy:
-            province._context = self.context
-            for region in province.regions:
-                region._context = self.context
+        province.context = self.context
+        for region in province.regions:
+            region.context = self.context
         self.provinces.append(province)
         self.state = ProblemState.PROVINCES_ADDED
 
@@ -162,7 +151,7 @@ class Problem:
                 self.adjacency,
                 self.scenario,
                 self.technology_profile,
-                context=None if self._legacy else self.context,
+                context=self.context,
             )
             self.economy.catalogue_exclusions = self.problem.catalogue_exclusions
             self.economy.install_constraints(self.problem)
@@ -178,11 +167,6 @@ class Problem:
         self.economy = None
         self.state = ProblemState.INIT
         self.context.problem = self.problem
-        if self._legacy:
-            from games.tw.games import Games
-
-            Games.problem = self.problem
-            Games.legacy_effects = self.context.legacy_effects
 
     def solve(self, verbose=False, timing=False) -> None:
         """

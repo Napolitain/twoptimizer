@@ -7,7 +7,7 @@ from twoptimizer.models import BuildingSelection, EngineResult, RunConfig
 from twoptimizer.progress import PhaseTimer
 
 
-def _solve_rome(config: RunConfig, phase: PhaseTimer) -> EngineResult:
+def solve_rome(config: RunConfig, phase: PhaseTimer) -> EngineResult:
     buildings, metrics = [], {}
     from games.tw.rome2.benchmark import presets
     from games.tw.rome2.model import Economy, Scenario, load_data
@@ -60,7 +60,7 @@ def _solve_rome(config: RunConfig, phase: PhaseTimer) -> EngineResult:
     return EngineResult(raw, income, buildings, metrics)
 
 
-def _solve_shogun(config: RunConfig, phase: PhaseTimer) -> EngineResult:
+def solve_shogun(config: RunConfig, phase: PhaseTimer) -> EngineResult:
     buildings, metrics = [], {}
     from games.tw.shogun2.model import Economy, Province, Scenario, load_data
 
@@ -93,7 +93,7 @@ def _solve_shogun(config: RunConfig, phase: PhaseTimer) -> EngineResult:
     return EngineResult(raw, income, buildings, metrics)
 
 
-def _solve_attila(config: RunConfig, phase: PhaseTimer) -> EngineResult:
+def solve_attila(config: RunConfig, phase: PhaseTimer) -> EngineResult:
     buildings, metrics = [], {}
     from games.tw.attila.model import SnapshotOptions, compile_scenario, load_attila
     from games.tw.comparison import ComparisonOptions, compare_model

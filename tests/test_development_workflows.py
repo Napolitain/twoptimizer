@@ -107,15 +107,7 @@ def test_rome_requires_consistent_resume_options(argv, tmp_path):
         assert error.value.code == 2
 
 
-@pytest.fixture
-def preserve_game_state(monkeypatch):
-    from games.tw.games import Games
-
-    for name in ("instance", "problem", "buildings", "legacy_effects", "fertility", "USE_NAME"):
-        monkeypatch.setattr(Games, name, getattr(Games, name))
-
-
-def test_attila_benchmark_json_and_input_errors(tmp_path, preserve_game_state):
+def test_attila_benchmark_json_and_input_errors(tmp_path):
     from games.tw import benchmark
 
     output = tmp_path / "attila.json"
@@ -144,9 +136,7 @@ def test_attila_benchmark_json_and_input_errors(tmp_path, preserve_game_state):
         benchmark.main([*args, "--region-fertility", "bad=-1"])
 
 
-def test_attila_faction_comparison_resumes_a_validated_proof(
-    tmp_path, monkeypatch, preserve_game_state
-):
+def test_attila_faction_comparison_resumes_a_validated_proof(tmp_path, monkeypatch):
     from games.tw import faction_comparison
     from games.tw.models.game_attila import AttilaGame
 
@@ -183,12 +173,32 @@ def test_rome_source_audit_offline_retains_mismatches(tmp_path):
     assert audit_sources.observation("unmodeled military effect") is None
 
 
-def test_attila_ci_entry_point_works_outside_checkout(
-    tmp_path, monkeypatch, capsys, preserve_game_state
-):
-    import runpy
+def test_attila_cli_works_outside_checkout(tmp_path, monkeypatch, capsys):
+    from twoptimizer.__main__ import main
 
     monkeypatch.chdir(tmp_path)
-    runpy.run_module("games.tw.attila.main", run_name="__main__")
-    assert "Total solving time:" in capsys.readouterr().out
-    assert (tmp_path / "attila_problem.lp").stat().st_size > 1000
+    output = tmp_path / "attila.json"
+    assert (
+        main(
+            [
+                "attila",
+                "--province",
+                "Thracia",
+                "--fertility",
+                "5",
+                "--workers",
+                "1",
+                "--seconds",
+                "5",
+                "--output",
+                str(output),
+            ]
+        )
+        == 0
+    )
+    assert "Thracia" in capsys.readouterr().out
+    report = json.loads(output.read_text())
+    result = report["cases"][0]["results"][0]
+    assert result["status"] in {"OPTIMAL", "FEASIBLE"}
+    assert result["objective"] > 0
+    assert result["layout"]["objective"] == result["objective"]

@@ -21,7 +21,7 @@ class ParserAttila(Parser):
         faction: AttilaFactions,
         religion: AttilaReligion = AttilaReligion.CHRIST_ORTHODOX,
         *,
-        context: GameContext | None = None,
+        context: GameContext,
     ):
         super().__init__(context=context)
         # Resolve bundled data relative to the package for installed-wheel support.
@@ -36,16 +36,8 @@ class ParserAttila(Parser):
         )
         self.unsupported_effects = []
 
-    @property
-    def model_context(self) -> GameContext:
-        if self.context is not None:
-            return self.context
-        from games.tw.games import legacy_context
-
-        return legacy_context()
-
     def get_scope(self, scope: str) -> Scope | None:
-        if not self.model_context.legacy_effects:
+        if not self.context.legacy_effects:
             from games.tw.attila.effects import Reach, reach
 
             return {
@@ -77,7 +69,7 @@ class ParserAttila(Parser):
             *_rest,
         ) in data:
             if (
-                not self.model_context.legacy_effects
+                not self.context.legacy_effects
                 and "religion" in building_id1
                 and not self.building_is_of_religion(building_id1)
             ):

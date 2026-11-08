@@ -35,23 +35,31 @@ to it transfers their decision ownership to that problem. Use `compile_scenario`
 when retaining or reusing caller-owned provinces. Treat loaded catalog entries as
 read-only; changes to imported game data belong in the importer workflow.
 
-The old `Games` API and positional `benchmark.snapshot` / `benchmark.compare`
-functions remain compatibility interfaces. Code that constructs entities without
-an explicit context still reads legacy settings. New CLI/TUI compilation never
-uses or writes that state. New code should pass contexts and named options.
+Entities, parsers and `Problem` require an explicit context. `AttilaGame` and
+`Rome2Game` can create a fresh context when constructing a game; that context is
+owned by the game and never published globally. Identifiers are allocated within
+the owning context, including synthetic models in tests.
+
+The former `Games`, global identifier counters, `benchmark.snapshot` and
+`benchmark.compare` APIs have been removed. Call `compile_scenario` with
+`SnapshotOptions`, and `compare_model` with `ComparisonOptions`. Import
+`RunConfig` from `twoptimizer.models` and `export_session` from
+`twoptimizer.export`. The duplicate `games.tw.attila.main` demonstration was
+removed; use `uv run --locked twoptimizer attila` for the maintained CLI.
 
 ## Application boundaries
 
-- `twoptimizer.models` defines frozen request, building-selection, engine-result
-  solver-summary and case-result dataclasses. Frozen containers do not imply deep immutability
-  of native engine reports; those remain owned by their case.
+- `twoptimizer.models` defines frozen request, building-selection, engine-result,
+  solver-summary and case-result dataclasses. Frozen containers do not imply deep
+  immutability of native engine reports; those remain owned by their case.
 - `twoptimizer.engines` translates each game's existing output into `EngineResult`.
   Native dictionaries stay at this adapter boundary so engine-specific details
   and the existing exported format remain available.
 - `twoptimizer.service` validates requests, expands batches and coordinates one
-  typed `CaseResult` through `solve_case_model`.
-- `CaseResult.to_dict` and the compatibility `solve_case` function serialize the
-  existing worker/report schema. `twoptimizer.export` writes JSON and CSV.
+  typed `CaseResult` through `solve_case`.
+- `solve_case` returns the typed result. Workers explicitly call `CaseResult.to_dict`
+  at the JSON boundary, preserving the existing worker/report schema.
+  `twoptimizer.export` writes JSON and CSV.
 - `twoptimizer.progress` tracks phase timings and defines the worker progress
   protocol. `twoptimizer.runner` owns subprocess cancellation and reaping.
 
@@ -93,3 +101,9 @@ These overlapping ranges show no observed slowdown on that workload; they do not
 establish a general speedup or predict timings on another machine. Automatic CPU
 selection remains the application default; the benchmark pins one worker for a
 repeatable comparison.
+
+Removing the compatibility layer was compared separately against `74304d1` on
+the same workload: three serial runs per revision had identical result
+fingerprints and proved the same optimum. Median wall time was **5.70 s before /
+5.50 s after**, with ranges **5.65–6.31 s / 5.40–5.85 s**. These ranges overlap;
+the comparison shows no observed regression rather than a general speedup.

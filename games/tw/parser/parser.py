@@ -24,7 +24,7 @@ class Faction:
 
 
 class Parser(abc.ABC):
-    def __init__(self, *, context: GameContext | None = None):
+    def __init__(self, *, context: GameContext):
         self.context = context
         # store id to object
         self.game_dir = pathlib.Path(__file__).resolve().parents[1] / "data"

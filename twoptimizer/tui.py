@@ -29,8 +29,10 @@ from textual.widgets import (
 )
 
 from twoptimizer.catalog import EXACT, GAMES, NOTES, choices, faction_name
+from twoptimizer.export import export_session
+from twoptimizer.models import RunConfig
 from twoptimizer.runner import CaseRunner
-from twoptimizer.service import RunConfig, export_session, make_jobs
+from twoptimizer.service import make_jobs
 
 
 def money(value):

@@ -5,7 +5,7 @@ from games.tw.bases import RegionBase
 from games.tw.building import Building
 from games.tw.context import GameContext
 from games.tw.entity import Entity
-from games.tw.enums import NameType, get_hash_name
+from games.tw.enums import NameType
 from games.tw.models.game_attila import AttilaGame
 from games.tw.models.model import RegionPort, RegionType
 from games.tw.models.model_attila import AttilaRegionResources, AttilaReligion
@@ -16,10 +16,9 @@ class Region(RegionBase, Entity):
     A region contains buildings.
     """
 
-    def __init__(self, name: str, print_name: str = "", *, context: GameContext | None = None):
-        super().__init__()
-        self._context = context
-        self.hash_name = context.next_id("R") if context is not None else get_hash_name("R")
+    def __init__(self, name: str, print_name: str = "", *, context: GameContext):
+        super().__init__(context=context)
+        self.hash_name = context.next_id("R")
         self.fertility = None  # Explicit regional fertility; None uses the scenario value.
         self.n_buildings = (
             0  # Number of buildings that can be built in the region. NOT equal to len(buildings).
@@ -121,7 +120,7 @@ class Region(RegionBase, Entity):
         context = self.context
         deep_copy = building.__copy__()
         deep_copy.region = self
-        deep_copy._context = self._context
+        deep_copy.context = self.context
         deep_copy.name = f"{self.name}_{building.name}"
         deep_copy.hash_name = f"{self.hash_name}_{building.hash_name}"
         deep_copy.print_name = f"{self.print_name} {building.print_name}"
@@ -425,19 +424,6 @@ class Region(RegionBase, Entity):
         for i, building in reversed(list(enumerate(self.buildings))):
             if "military" in building.name:
                 self.buildings.pop(i)
-
-    HASH_NAME = "R1"
-
-    def increment_hash_name(self) -> str:
-        """
-        Increment the hash name of the region. Must be X1, X2... Xn.
-        :return:
-        """
-        x = Region.HASH_NAME
-        split_name = x.split("R")
-        split_name[1] = str(int(split_name[1]) + 1)
-        Region.HASH_NAME = "R".join(split_name)
-        return x
 
     def set_buildings_limit(self, limit: int) -> None:
         """

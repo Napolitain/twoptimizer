@@ -11,21 +11,14 @@ import pytest
 from twoptimizer import __main__ as entry
 from twoptimizer import worker
 from twoptimizer.catalog import choices
+from twoptimizer.models import RunConfig
 from twoptimizer.runner import CaseRunner
-from twoptimizer.service import RunConfig, make_jobs, solve_case
+from twoptimizer.service import make_jobs, solve_case
 from twoptimizer.tui import OptimizerApp
 
 
-@pytest.fixture
-def preserve_game_state(monkeypatch):
-    from games.tw.games import Games
-
-    for name in ("instance", "problem", "buildings", "legacy_effects", "fertility", "USE_NAME"):
-        monkeypatch.setattr(Games, name, getattr(Games, name))
-
-
 @pytest.mark.parametrize("game", ["rome2", "shogun2", "attila"])
-def test_ui_adapters_validate_real_engine_results(game, preserve_game_state):
+def test_ui_adapters_validate_real_engine_results(game):
     options = choices(game)
     config = RunConfig(
         game=game,
@@ -36,7 +29,7 @@ def test_ui_adapters_validate_real_engine_results(game, preserve_game_state):
         seconds=5,
         workers=1,
     )
-    result = solve_case(config)
+    result = solve_case(config).to_dict()
     assert result["request"] == asdict(config)
     assert result["solver"]["status"] in {"OPTIMAL", "FEASIBLE"}
     assert result["income"] > 0
@@ -48,9 +41,7 @@ def test_ui_adapters_validate_real_engine_results(game, preserve_game_state):
     json.dumps(result, allow_nan=False)
 
 
-def test_worker_success_and_error_are_portable_json(
-    tmp_path, monkeypatch, capsys, preserve_game_state
-):
+def test_worker_success_and_error_are_portable_json(tmp_path, monkeypatch, capsys):
     request, output = tmp_path / "request.json", tmp_path / "result.json"
     config = RunConfig(
         game="shogun2",

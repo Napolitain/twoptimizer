@@ -2,7 +2,7 @@ from games.tw.bases import ProvinceBase
 from games.tw.building import Building
 from games.tw.context import GameContext
 from games.tw.entity import Entity
-from games.tw.enums import Scope, get_hash_name
+from games.tw.enums import Scope
 from games.tw.region import Region
 
 
@@ -11,14 +11,11 @@ class Province(ProvinceBase, Entity):
     We need to create a Province class that contains a list of regions.
     """
 
-    HASH_NAME = "P1"
-
-    def __init__(self, name: str, print_name: str = "", *, context: GameContext | None = None):
-        super().__init__()
-        self._context = context
+    def __init__(self, name: str, print_name: str = "", *, context: GameContext):
+        super().__init__(context=context)
         self.regions = []
         self.name = name
-        self.hash_name = context.next_id("P") if context is not None else get_hash_name("P")
+        self.hash_name = context.next_id("P")
         if print_name == "":
             self.print_name = name
         else:
@@ -101,14 +98,3 @@ class Province(ProvinceBase, Entity):
         """
         for region in self.regions:
             region.buildings = []
-
-    def increment_hash_name(self) -> str:
-        """
-        Increment the hash name of the region. Must be X1, X2... Xn.
-        :return:
-        """
-        x = Province.HASH_NAME
-        split_name = x.split("P")
-        split_name[1] = str(int(split_name[1]) + 1)
-        Province.HASH_NAME = "P".join(split_name)
-        return x

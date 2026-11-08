@@ -10,73 +10,14 @@ import hashlib
 import json
 from math import isfinite
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
-
-if TYPE_CHECKING:
-    pass
-
+from typing import Any
 
 import ortools
 
-from games.tw.attila.model import SnapshotOptions, compile_scenario
-from games.tw.attila.model import load_attila as load_attila
+from games.tw.attila.model import SnapshotOptions, compile_scenario, load_attila
 from games.tw.comparison import ComparisonOptions, compare_model
 from games.tw.competition import ALGORITHMS
 from games.tw.models.game_attila import AttilaGame
-
-
-def snapshot(
-    province,
-    fertility,
-    city_level=4,
-    building_level=1,
-    military=False,
-    objective="income",
-    retain_economy=False,
-    technologies=None,
-    scenario=None,
-):
-    """Compatibility wrapper; new callers use compile_scenario and SnapshotOptions."""
-    options = SnapshotOptions(
-        fertility=fertility,
-        city_level=city_level,
-        building_level=building_level,
-        military=military,
-        objective=objective,
-        technologies=None if technologies is None else frozenset(technologies),
-        scenario=scenario,
-    )
-    provinces = province if isinstance(province, list) else [province]
-    result = compile_scenario(provinces, options)
-    pair = result.model, result.build_seconds
-    return (*pair, result.economy) if retain_economy else pair
-
-
-def compare(
-    model,
-    algorithms,
-    seconds,
-    seed,
-    width,
-    restarts,
-    economy=None,
-    objective="income",
-    workers=None,
-):
-    """Compatibility wrapper for the original positional comparison API."""
-    return compare_model(
-        model,
-        ComparisonOptions(
-            algorithms=tuple(algorithms),
-            seconds=seconds,
-            seed=seed,
-            width=width,
-            restarts=restarts,
-            objective=objective,
-            workers=workers,
-        ),
-        economy,
-    )
 
 
 def _apply_region_fertility(args, parser, cli):

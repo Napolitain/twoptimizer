@@ -13,10 +13,11 @@ from games.tw.competition import solve
 from games.tw.context import GameContext
 from games.tw.enums import NameType
 from games.tw.faction_comparison import signature
-from games.tw.games import Games
+from games.tw.models.game_attila import AttilaGame
 from games.tw.models.model_attila import AttilaFactions, AttilaReligion
+from games.tw.solver_ortools import SolverOrTools
 from twoptimizer.models import BuildingSelection, CaseResult, RunConfig
-from twoptimizer.service import solve_case_model
+from twoptimizer.service import solve_case
 
 BASELINES = json.loads((Path(__file__).parent / "fixtures/attila-models.json").read_text())
 
@@ -44,19 +45,7 @@ def test_compiled_models_match_pre_refactor_coefficients_and_bounds(case):
     assert all(not r.buildings for p in provinces for r in p.regions)
 
 
-def legacy_state():
-    return (
-        Games.instance,
-        Games.buildings,
-        Games.problem,
-        Games.fertility,
-        Games.legacy_effects,
-        Games.USE_NAME,
-    )
-
-
 def test_interleaved_games_do_not_leak_fertility_catalog_religion_or_solver():
-    before = legacy_state()
     first_parser, provinces, options = load_case(BASELINES[1])
     first = compile_scenario(provinces, options)
     first_economy = first.economy
@@ -70,15 +59,13 @@ def test_interleaved_games_do_not_leak_fertility_catalog_religion_or_solver():
     assert signature(first.model) == signature(repeated.model)
     assert signature(cold.model) != signature(first.model)
     assert first_economy.evaluate_layout(selected) == evaluated
-    assert first_parser.model_context.instance is not second_parser.model_context.instance
+    assert first_parser.context.instance is not second_parser.context.instance
     assert other.economy is not None
     assert first_economy.context.solver is not other.economy.context.solver
-    assert legacy_state() == before
-    assert all(b.region._context is first_economy.context for b in first_economy.buildings)
+    assert all(b.region.context is first_economy.context for b in first_economy.buildings)
 
 
 def test_concurrent_compilations_share_catalog_but_not_mutable_decisions():
-    before = legacy_state()
     _, provinces, warm = load_case(BASELINES[1])
     cold = SnapshotOptions(fertility=0, technologies=frozenset())
     with ThreadPoolExecutor(max_workers=2) as pool:
@@ -88,7 +75,6 @@ def test_concurrent_compilations_share_catalog_but_not_mutable_decisions():
     assert results[0].economy.context.buildings is results[1].economy.context.buildings
     assert results[0].economy.regions[0] is not results[1].economy.regions[0]
     assert all(not r.buildings for p in provinces for r in p.regions)
-    assert legacy_state() == before
 
 
 def test_failed_compilation_leaves_input_and_existing_model_usable():
@@ -127,7 +113,7 @@ def test_typed_case_serializes_the_existing_worker_and_export_schema():
         algorithm="cp-sat",
         workers=1,
     )
-    result = solve_case_model(config)
+    result = solve_case(config)
     assert isinstance(result, CaseResult)
     assert all(isinstance(b, BuildingSelection) for b in result.buildings)
     payload = result.to_dict()
@@ -152,13 +138,20 @@ def test_context_identifiers_and_solver_dependencies_are_local():
     first, second = GameContext(), GameContext()
     assert first.next_id("R") == second.next_id("R") == "R1"
     assert first.next_id("R") == "R2"
-    with pytest.raises(ValueError, match="No game selected"):
+    with pytest.raises(ValueError, match=r"^No game selected$"):
         first.current()
     with pytest.raises(ValueError, match="Create a problem"):
         _ = first.solver
+    source_solver = first.problem = SolverOrTools()
+    first.name_type = NameType.HASH_NAME
+    first.legacy_effects = True
     derived = first.for_problem(fertility=0)
+    assert derived.problem is None and first.problem is source_solver
+    assert derived.legacy_effects is True
+    inherited = first.for_problem()
+    assert inherited.fertility == first.fertility
     assert derived.fertility == 0 and first.fertility == 5
-    assert derived.name_type is NameType.NAME
+    assert derived.name_type is NameType.HASH_NAME
     assert derived.next_id("R") == "R1"
 
 
@@ -170,3 +163,15 @@ def test_empty_and_mixed_game_inputs_are_rejected_without_mutation():
     with pytest.raises(ValueError, match="same loaded game"):
         compile_scenario(first + second, options)
     assert all(not r.buildings for p in first + second for r in p.regions)
+
+
+def test_game_factories_own_their_contexts_without_a_global_selection():
+    eastern = AttilaGame(faction=AttilaFactions.ATT_FACT_EASTERN_ROMAN_EMPIRE)
+    western = AttilaGame(faction=AttilaFactions.ATT_FACT_WESTERN_ROMAN_EMPIRE)
+    assert eastern.parser.context is not western.parser.context
+    assert eastern.parser.context.current() is eastern
+    assert western.parser.context.current() is western
+    assert eastern.parser.context.buildings is eastern.parser.buildings
+    assert western.parser.context.buildings is western.parser.buildings
+    assert eastern.parser.faction is AttilaFactions.ATT_FACT_EASTERN_ROMAN_EMPIRE
+    assert western.parser.faction is AttilaFactions.ATT_FACT_WESTERN_ROMAN_EMPIRE

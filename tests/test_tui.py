@@ -9,8 +9,10 @@ import pytest
 from textual.widgets import Button, Checkbox, DataTable, Input, Select, TabbedContent
 
 from twoptimizer.catalog import choices
+from twoptimizer.export import export_session
+from twoptimizer.models import RunConfig
 from twoptimizer.runner import CaseRunner
-from twoptimizer.service import RunConfig, export_session, make_jobs
+from twoptimizer.service import make_jobs
 from twoptimizer.tui import ExportScreen, OptimizerApp
 
 
@@ -235,7 +237,9 @@ def test_parser_data_discovery_does_not_search_for_a_git_checkout(monkeypatch):
     target = object.__new__(ParserAttila)
     with monkeypatch.context() as scoped:
         scoped.setattr(Path, "exists", no_git_search)
-        Parser.__init__(target)
+        from games.tw.context import GameContext
+
+        Parser.__init__(target, context=GameContext())
     assert target.game_dir.name == "data"
     assert target.game_dir.parent.name == "tw"
 

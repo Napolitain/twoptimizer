@@ -4,19 +4,11 @@ from games.tw.models.entity_interface import EntityInterface
 
 
 class Entity(EntityInterface):
-    def __init__(self, *, context: GameContext | None = None):
-        self._context = context
+    def __init__(self, *, context: GameContext):
+        self.context = context
         self.hash_name = "None"
         self.name = "None"
         self.print_name = "None"
-
-    @property
-    def context(self) -> GameContext:
-        if self._context is not None:
-            return self._context
-        from games.tw.games import legacy_context
-
-        return legacy_context()
 
     def get_name(self, name_type: NameType | None = None):
         """

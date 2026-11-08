@@ -199,11 +199,13 @@ they are **not exclusivity constraints**. The existing per-branch level exclusio
 remain in place, allowing different branches to coexist. Complete building
 availability and slot rules still need validation against the running game.
 
-The API defaults to CP-SAT through `Problem()`. Use
-`Problem(solver=SolverType.GOOGLE)` for CBC, `SolverType.SCIP` for SCIP or
+The API defaults to CP-SAT through `Problem(context=parser.context)`. Use
+`Problem(context=parser.context, solver=SolverType.GOOGLE)` for CBC,
+`SolverType.SCIP` for SCIP or
 `SolverType.PULP` for the prior PuLP backend (`SolverType` is in `games.tw.enums`).
-`Problem(technologies={...})` restricts technologies.
-`Problem(adjacency={province_id: [neighbor_id, ...]})` supplies neighboring owned
+`Problem(context=parser.context, technologies={...})` restricts technologies.
+`Problem(context=parser.context, adjacency={province_id: [neighbor_id, ...]})`
+supplies neighboring owned
 provinces; include their decision variables in the same problem. The CP-SAT
 adapter exposes its status and bound through `problem.problem.result`; its default
 search has no time cap and selects CPU parallelism automatically. Explicit limits remain available
@@ -360,7 +362,7 @@ uv run --locked twoptimizer attila --joint --province Aegyptus --province Aethio
 research targets, export revenue and adjacency are then coupled. Faction tariffs
 are counted once, not once per province. Without `--joint`, each province is an
 independent scenario; inputs that refer to unselected places are rejected.
-The API equivalent is `Problem(scenario=...)` with all participating provinces.
+The API equivalent is `Problem(context=parser.context, scenario=...)` with all participating provinces.
 
 The JSON keys are:
 

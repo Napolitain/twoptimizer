@@ -1,3 +1,4 @@
+from games.tw.context import GameContext
 from games.tw.filters.filter_rome2 import FilterRome2
 from games.tw.models.game import Game
 from games.tw.models.model import RegionPort, RegionType
@@ -17,9 +18,14 @@ class Rome2Game(Game):
         self,
         campaign: Rome2Campaign = Rome2Campaign.ROME,
         faction: Rome2Factions = Rome2Factions.ROM_ROME,
+        *,
+        context: GameContext | None = None,
     ):
         super().__init__()
+        context = GameContext() if context is None else context
+        context.instance = self
         self.campaign = campaign
         self.faction = faction
-        self.parser = ParserRome2(campaign, faction)
+        self.parser = ParserRome2(campaign, faction, context=context)
+        context.buildings = self.parser.buildings
         self.filter = FilterRome2(faction)
