@@ -7,6 +7,7 @@ from typing import Any, ClassVar
 from textual import on, work
 from textual.app import App, ComposeResult
 from textual.binding import Binding
+from textual.screen import ModalScreen
 from textual.widgets import (
     Button,
     Checkbox,
@@ -21,8 +22,10 @@ from textual.widgets import (
 )
 
 from twoptimizer.catalog import EXACT, GAMES, NOTES, choices, faction_name
+from twoptimizer.holdings import province_label, selected_provinces
 from twoptimizer.models import RunConfig
 from twoptimizer.presentation import money, timing_summary
+from twoptimizer.province_picker import BorderPicker, ProvincePicker, ProvinceSelection
 from twoptimizer.runner import CaseRunner
 from twoptimizer.screens import ExportScreen, HelpScreen
 from twoptimizer.service import make_jobs
@@ -54,6 +57,7 @@ class OptimizerApp(App):
         self.current_case = "Ready"
         self.current_phase = ""
         self.sort_column, self.sort_reverse = "income", True
+        self.province_selection = ProvinceSelection()
 
     def compose(self) -> ComposeResult:
         yield from compose_workspace()
@@ -88,6 +92,7 @@ class OptimizerApp(App):
 
     def _configure_game(self):
         self._loading_settings = True
+        self.province_selection = ProvinceSelection()
         game = str(self.query_one("#game", Select).value)
         options = choices(game)
         available = game in EXACT
@@ -141,6 +146,57 @@ class OptimizerApp(App):
         self._loading_settings = False
         self._refresh_preview()
 
+    @on(Button.Pressed, "#choose-provinces")
+    def choose_provinces(self):
+        game = str(self.query_one("#game", Select).value)
+        if self.busy or game not in EXACT:
+            return
+        self.push_screen(
+            ProvincePicker(
+                game,
+                choices(game)["provinces"],
+                self.province_selection,
+                str(self.query_one("#province", Select).value),
+            ),
+            self.provinces_chosen,
+        )
+
+    def provinces_chosen(self, state):
+        if state is not None:
+            self.province_selection = state
+            self._refresh_preview()
+
+    @on(Button.Pressed, "#choose-borders")
+    def choose_borders(self):
+        selected = set(self.province_selection.provinces or ())
+        options = [(label, key) for label, key in choices("attila")["provinces"] if key in selected]
+        if self.busy or len(options) < 2:
+            return
+        self.push_screen(
+            BorderPicker(options, self.province_selection.adjacency), self.borders_chosen
+        )
+
+    def borders_chosen(self, borders):
+        if borders is not None:
+            self.province_selection = ProvinceSelection(
+                self.province_selection.provinces, self.province_selection.joint, borders
+            )
+            self._refresh_preview()
+
+    def _province_controls(self):
+        state = self.province_selection
+        game = str(self.query_one("#game", Select).value)
+        self.query_one("#province").display = state.provinces is None
+        self.query_one("#province-summary").display = state.provinces is not None
+        self.query_one("#province-summary", Static).update(
+            f"{len(state.provinces or ())} selected · "
+            + ("together" if state.joint else "independent")
+        )
+        self.query_one("#choose-provinces", Button).disabled = game not in EXACT
+        self.query_one("#choose-borders").display = (
+            game == "attila" and state.joint and len(state.provinces or ()) > 1
+        )
+
     def _config(self):
         def selected(name):
             return str(self.query_one("#" + name, Select).value)
@@ -167,6 +223,11 @@ class OptimizerApp(App):
                 if game == "shogun2"
                 else 0,
                 world_bonuses=self.query_one("#world-bonuses", Checkbox).value,
+                provinces=self.province_selection.provinces,
+                joint=self.province_selection.joint,
+                adjacency=self.province_selection.adjacency
+                if self.province_selection.joint
+                else None,
             )
         except ValueError as error:
             raise ValueError("Enter numeric values for the selected settings.") from error
@@ -175,23 +236,30 @@ class OptimizerApp(App):
     @on(Input.Changed)
     @on(Checkbox.Changed)
     def settings_changed(self):
-        if self._ui_ready and not self._loading_settings and not self.busy:
+        if (
+            self._ui_ready
+            and not self._loading_settings
+            and not self.busy
+            and not isinstance(self.screen, ModalScreen)
+        ):
             self._refresh_preview()
 
     def _refresh_preview(self):
+        self._province_controls()
         self.query_one("#time-options").display = self.query_one("#time-limit", Checkbox).value
         try:
             config = self._config()
-            self.query_one("#world-bonuses", Checkbox).disabled = (
-                config.game == "rome2" and config.province in {"coastal", "inland", "grain"}
-            )
+            self.query_one("#world-bonuses", Checkbox).disabled = config.game == "rome2" and set(
+                selected_provinces(config)
+            ) <= {"coastal", "inland", "grain"}
             jobs, skipped = make_jobs(config)
         except ValueError as error:
             self.query_one("#preview", Static).update(str(error))
             self.query_one("#run", Button).disabled = True
         else:
             self.query_one("#preview", Static).update(
-                f"{len(jobs)} case{'s' if len(jobs) != 1 else ''} · "
+                ("Select at least one province.\n" if not jobs else "")
+                + f"{len(jobs)} case{'s' if len(jobs) != 1 else ''} · "
                 + (
                     "until proved / cancelled"
                     if config.seconds is None
@@ -199,21 +267,25 @@ class OptimizerApp(App):
                 )
                 + (f"\n{len(skipped)} incomplete profiles excluded" if skipped else "")
             )
-            self.query_one("#run", Button).disabled = False
+            self.query_one("#run", Button).disabled = not jobs
 
     @on(Button.Pressed, "#run")
     def run_button(self):
         self.action_run()
 
     def action_run(self):
-        if self.busy:
+        if self.busy or isinstance(self.screen, ModalScreen):
             return
         try:
-            jobs, self.skipped = make_jobs(self._config())
+            jobs, skipped = make_jobs(self._config())
         except ValueError as error:
             self.notify(str(error), severity="error", timeout=8)
             return
+        if not jobs:
+            self.notify("Select at least one province before running.", severity="warning")
+            return
         self.action_clear()
+        self.skipped = skipped
         self.runner = self.runner_factory()
         self.started = perf_counter()
         self._set_busy(True)
@@ -252,6 +324,7 @@ class OptimizerApp(App):
                     " · "
                     f"{faction_name(job.game, job.faction)}"
                     " · "
+                    f"{province_label(job)} · "
                     f"{job.algorithm}"
                 )
                 self.current_phase = "Starting engine"
@@ -269,9 +342,7 @@ class OptimizerApp(App):
                     result = {
                         "request": asdict(job),
                         "faction": faction_name(job.game, job.faction),
-                        "province": {key: label for label, key in choices(job.game)["provinces"]}[
-                            job.province
-                        ],
+                        "province": province_label(job),
                         "solver": {
                             "algorithm": job.algorithm,
                             "status": "ERROR",

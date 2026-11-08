@@ -19,6 +19,16 @@ class RunConfig:
     town_wealth: float = 0
     tax: float = 30
     world_bonuses: bool = True
+    provinces: tuple[str, ...] | None = None
+    joint: bool = False
+    adjacency: tuple[tuple[str, str], ...] | None = None
+
+    def __post_init__(self):
+        # JSON uses lists; keep requests immutable after crossing the worker boundary.
+        if self.provinces is not None:
+            object.__setattr__(self, "provinces", tuple(self.provinces))
+        if self.adjacency is not None:
+            object.__setattr__(self, "adjacency", tuple(tuple(pair) for pair in self.adjacency))
 
 
 @dataclass(frozen=True, slots=True)

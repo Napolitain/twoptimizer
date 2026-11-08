@@ -74,8 +74,32 @@ ERE/Thracia. The broader
 remaining hard cases: Iceni/Italia was still unproved after 20 seconds. Normal
 runs continue to completion, with automatic CPU selection and cancellation.
 
-The TUI currently configures one province/holding per run. The CLI retains joint
-province optimization, campaign JSON inputs and the other existing advanced options.
+The original province dropdown remains the default. **Multiple provinces…**
+opens a searchable checklist: select any subset, use **All** or **None**, then
+apply. Space toggles a highlighted item; filtering preserves hidden selections.
+The selection runs for every chosen faction and solver. With none selected, Run
+is disabled and completed results remain available. **Single province** returns
+to the original dropdown; Cancel discards picker changes.
+
+By default each province is optimized independently, with one result row per
+province/faction/solver. **Optimize selected provinces together** instead creates
+one joint holding per faction/solver in Attila and Shogun 2. Attila shares faction
+effects and applies adjacency bonuses across the explicit borders; its existing
+province-level food, sanitation and order requirements still apply. Shogun 2 shares
+food and enforces unique-building limits across the holding.
+
+For joint Attila holdings, **Neighboring provinces…** edits shared borders between
+selected provinces. Add each border once: effects work in both directions. Apply
+an empty list to explicitly confirm no selected provinces are adjacent. No complete
+border map is bundled, so new selections need this input rather than inferred
+neighbors. Removing provinces prunes their borders; adding provinces requires
+confirmation again. Rome II supports independent batches; joint ownership and
+cross-province effects are not implemented in its current model.
+
+JSON exports retain the province selection, joint mode and border inputs; CSV
+includes the joint flag, province IDs and adjacency. Cancel stops the active worker
+and preserves completed cases. The CLI retains campaign JSON inputs and its existing
+advanced options.
 Installed wheels include the game data; a Git checkout is not required to run them.
 
 The new launcher also forwards CLI arguments unchanged:

@@ -22,6 +22,9 @@ Choose a game, faction and province in the terminal UI, then press **Ctrl+R** to
 run. Use **Esc** to cancel, **Ctrl+S** to export, **F1** for help and **Ctrl+Q** to
 quit. CPU selection is automatic. Solves run until optimality or infeasibility is
 proved; enable **Use a time limit** for a bounded run.
+Use **Multiple provinces…** for a searchable checklist with All/None controls.
+Independent batches work in all three games; joint holdings are available for
+Attila and Shogun 2, with explicit neighboring-province inputs for Attila.
 
 ![Interactive terminal UI](docs/tui.png)
 

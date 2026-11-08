@@ -21,6 +21,10 @@ class HelpScreen(ModalScreen):
 
 Choose a game, faction, province and solver on the left. **All factions** compares
 the same holding. **Compare exact solvers** runs each supported formulation.
+**Multiple provinces** opens a searchable checklist with All and None controls.
+Provinces run independently by default. Attila and Shogun 2 can optimize them
+together; joint Attila runs require explicit borders or confirmation of no borders.
+Use **Single province** in the picker to return to the original dropdown.
 
 Mouse clicks, wheel scrolling, **Tab / Shift+Tab**, **arrow keys** and **Enter**
 work throughout. Selects support typing to search. Click a result or move with

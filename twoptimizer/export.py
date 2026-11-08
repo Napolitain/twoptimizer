@@ -30,7 +30,9 @@ def export_session(
         "schema_version": 1,
         "created_at": datetime.now().astimezone().isoformat(),
         "scope": (
-            "Independent province cases; no cross-game ranking. OPTIMAL is a "
+            "Cases compare independent provinces or explicitly joint holdings; "
+            "see each request's joint, provinces and adjacency settings. "
+            "No cross-game ranking. OPTIMAL is a "
             "solver proof for the stated model. FEASIBLE keeps an unresolved "
             "bound. Cancelled batches may contain fewer cases than requested."
         ),
@@ -60,6 +62,9 @@ def export_session(
         "elapsed_seconds",
         "build_seconds",
         "search_seconds",
+        "joint",
+        "province_ids",
+        "adjacency",
     )
     with csv_path.open("w", newline="") as stream:
         writer = csv.DictWriter(stream, fieldnames=fields)
@@ -91,6 +96,11 @@ def export_session(
                     "elapsed_seconds": row.get("timings", {}).get("worker_wall_seconds"),
                     "build_seconds": row.get("timings", {}).get("build_model_seconds"),
                     "search_seconds": row["solver"].get("timings", {}).get("search_seconds"),
+                    "joint": row["request"].get("joint", False),
+                    "province_ids": ";".join(
+                        row["request"].get("provinces") or [row["request"]["province"]]
+                    ),
+                    "adjacency": json.dumps(row["request"].get("adjacency")),
                 }
             )
     return path, csv_path

@@ -3,6 +3,7 @@
 from typing import Any
 
 from twoptimizer.catalog import read
+from twoptimizer.holdings import adjacency_mapping, selected_provinces
 from twoptimizer.models import BuildingSelection, EngineResult, RunConfig
 from twoptimizer.progress import PhaseTimer
 
@@ -70,14 +71,17 @@ def solve_shogun(config: RunConfig, phase: PhaseTimer) -> EngineResult:
 
     data, rules = load_data()
     phase("build_model_seconds", "Preparing province model")
-    province = Province(
-        config.province,
-        town_wealth=config.town_wealth,
-        base_tax_percent=config.tax,
-        farm_multiplier={"native": None, "barren": 1, "very_fertile": 3}[config.soil],
+    provinces = tuple(
+        Province(
+            key,
+            town_wealth=config.town_wealth,
+            base_tax_percent=config.tax,
+            farm_multiplier={"native": None, "barren": 1, "very_fertile": 3}[config.soil],
+        )
+        for key in selected_provinces(config)
     )
     economy = Economy(
-        Scenario(config.faction, (province,), all_arts=config.research == "all"),
+        Scenario(config.faction, provinces, all_arts=config.research == "all"),
         data,
         rules,
     )
@@ -92,7 +96,9 @@ def solve_shogun(config: RunConfig, phase: PhaseTimer) -> EngineResult:
                     rules["provinces"][key]["name"], data["buildings"][building]["name"], building
                 )
             )
-        metrics["public_order"] = row["public_order"]
+    metrics["public_order"] = min(
+        (row["public_order"] for row in raw.get("provinces", {}).values()), default=None
+    )
     metrics["food_surplus"] = raw.get("food_surplus")
     return EngineResult(raw, income, buildings, metrics)
 
@@ -101,16 +107,18 @@ def solve_attila(config: RunConfig, phase: PhaseTimer) -> EngineResult:
     buildings, metrics = [], {}
     from games.tw.attila.model import SnapshotOptions, compile_scenario, load_attila
     from games.tw.comparison import ComparisonOptions, compare_model
+    from games.tw.immutable import thaw
     from games.tw.models.game_attila import AttilaGame
 
     parser = load_attila(AttilaGame.Factions(config.faction), AttilaGame.Religion[config.religion])
-    province = parser.provinces[config.province]
+    provinces = [parser.provinces[key] for key in selected_provinces(config)]
     phase("build_model_seconds", "Building income model")
     snapshot = compile_scenario(
-        [province],
+        provinces,
         SnapshotOptions(
             fertility=config.fertility,
             technologies=frozenset() if config.research == "none" else None,
+            scenario={"adjacency": adjacency_mapping(config)} if config.joint else None,
         ),
     )
     model, build_seconds, economy = snapshot.model, snapshot.build_seconds, snapshot.economy
@@ -130,6 +138,7 @@ def solve_attila(config: RunConfig, phase: PhaseTimer) -> EngineResult:
         **result,
         "build_seconds": build_seconds,
         "omitted_effects": sorted(set(economy.omitted)),
+        "adjacency": thaw(economy.adjacency),
     }
     raw["solver"] = {
         k: result[k]

@@ -9,6 +9,7 @@ from math import isfinite
 
 from twoptimizer.catalog import EXACT, NOTES, ROOT, choices, faction_name, read
 from twoptimizer.engines import solve_attila, solve_rome, solve_shogun
+from twoptimizer.holdings import holding_jobs, province_label, validate_selection
 from twoptimizer.models import CaseResult, RunConfig, SolverSummary
 from twoptimizer.progress import PhaseTimer
 
@@ -25,8 +26,7 @@ def make_jobs(config: RunConfig) -> tuple[list[RunConfig], list[str]]:
     ):
         raise ValueError("Workers must be a positive whole number.")
     options = choices(config.game)
-    if config.province not in {key: label for label, key in options["provinces"]}:
-        raise ValueError("Choose an available province or reference layout.")
+    validate_selection(config)
     if config.research not in {key for _, key in options["research"]}:
         raise ValueError("Choose an available research profile.")
     factions = (
@@ -42,7 +42,12 @@ def make_jobs(config: RunConfig) -> tuple[list[RunConfig], list[str]]:
         raise ValueError("Choose an available solver.")
     skipped = _research_factions(config, factions)
     _validate_game_settings(config)
-    return [replace(config, faction=f, algorithm=a) for f in factions for a in algorithms], skipped
+    return [
+        replace(holding, faction=f, algorithm=a)
+        for holding in holding_jobs(config)
+        for f in factions
+        for a in algorithms
+    ], skipped
 
 
 def _validate_game_settings(config: RunConfig) -> None:
@@ -175,7 +180,8 @@ def solve_case(config: RunConfig, progress: Callable[[str], None] | None = None)
     phase("request_seconds", "Validating request")
     jobs, _ = make_jobs(config)
     if len(jobs) != 1:
-        raise ValueError("A worker must receive exactly one faction and solver.")
+        raise ValueError("A worker must receive exactly one holding, faction and solver.")
+    config = jobs[0]
     phase("load_engine_seconds", "Loading engine and game data")
     adapter = {"rome2": solve_rome, "shogun2": solve_shogun, "attila": solve_attila}[config.game]
     result = adapter(config, phase)
@@ -190,7 +196,7 @@ def solve_case(config: RunConfig, progress: Callable[[str], None] | None = None)
     output = CaseResult(
         request=config,
         faction=faction_name(config.game, config.faction),
-        province={key: label for label, key in choices(config.game)["provinces"]}[config.province],
+        province=province_label(config),
         solver=solver,
         income=income,
         gap_percent=gap,

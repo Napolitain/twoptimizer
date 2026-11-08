@@ -57,6 +57,12 @@ removed; use `uv run --locked twoptimizer attila` for the maintained CLI.
   and the existing exported format remain available.
 - `twoptimizer.service` validates requests, expands batches and coordinates one
   typed `CaseResult` through `solve_case`.
+- `twoptimizer.holdings` expands independent province batches or preserves a
+  joint holding for supported engines. `RunConfig.provinces=None` keeps the
+  original single province; an empty tuple selects no jobs. Joint Attila borders
+  are explicit two-way links, validated before a worker starts.
+- `twoptimizer.province_picker` owns the optional selection dialogs. Adding
+  provinces invalidates cached border knowledge; removing them prunes links.
 - `solve_case` returns the typed result. Workers explicitly call `CaseResult.to_dict`
   at the JSON boundary, preserving the existing worker/report schema.
   `twoptimizer.export` writes JSON and CSV.

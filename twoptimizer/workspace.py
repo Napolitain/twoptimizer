@@ -35,6 +35,9 @@ def compose_workspace() -> ComposeResult:
                 yield Select([("Loading…", "loading")], allow_blank=False, id="faction")
                 yield Label("Province / holding", classes="field-label")
                 yield Select([("Loading…", "loading")], allow_blank=False, id="province")
+                yield Static("", id="province-summary")
+                yield Button("Multiple provinces…", id="choose-provinces")
+                yield Button("Neighboring provinces…", id="choose-borders")
                 yield Label("Research", classes="field-label")
                 yield Select([("Loading…", "loading")], allow_blank=False, id="research")
                 with Vertical(classes="option-group", id="rome-options"):

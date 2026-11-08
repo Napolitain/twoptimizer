@@ -41,3 +41,6 @@ HelpScreen VerticalScroll { height: 1fr; }
 .dialog-buttons { height: 3; }
 .dialog-buttons Button { margin-right: 1; }
 #export-error { color: #ffae9e; height: auto; margin-bottom: 1; }
+
+#province-summary { height: auto; }
+#choose-provinces, #choose-borders { width: 100%; }
