@@ -99,7 +99,6 @@ def test_worker_json_roundtrip_keeps_immutable_selection_and_borders():
     [
         ({"provinces": (ATTILA[0], ATTILA[0])}, "only once"),
         ({"provinces": ("missing",)}, "available province"),
-        ({"adjacency": None}, "Set neighboring"),
         ({"adjacency": ((ATTILA[0], ATTILA[0]),)}, "two different"),
         ({"adjacency": ((ATTILA[0], "missing"),)}, "two different"),
         ({"adjacency": ((ATTILA[0],),)}, "two different"),
@@ -143,7 +142,6 @@ def test_geographic_joint_holdings_reject_reference_layouts(selected):
 @pytest.mark.parametrize(
     "borders, message",
     [
-        (None, "Set neighboring"),
         (((ROME[0], "missing"),), "two different"),
         ((ROME, ROME[::-1]), "only once"),
     ],

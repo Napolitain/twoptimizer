@@ -9,6 +9,7 @@ from games.tw import benchmark as attila_cli
 from games.tw.rome2 import benchmark as rome_cli
 from twoptimizer.cli_holdings import add_holding_options, read_borders
 from twoptimizer.errors import ApplicationError
+from twoptimizer.holdings import resolved_borders
 from twoptimizer.models import RunConfig
 from twoptimizer.requests import make_jobs, province_id
 
@@ -49,12 +50,26 @@ def test_cli_border_read_errors_are_actionable(tmp_path):
         read_borders(args, "rome2")
 
 
-def test_attila_cli_does_not_silently_assume_missing_borders():
+def test_attila_cli_does_not_silently_assume_missing_borders(monkeypatch):
+    monkeypatch.setattr("twoptimizer.holdings.province_borders", lambda *args: None)
     args = attila_cli._parser().parse_args(
         ["--province", "Thracia", "--province", "Aegyptus", "--joint"]
     )
     with pytest.raises(ValueError, match="neighboring provinces"):
         make_jobs(attila_cli.request_from_args(args))
+
+
+@pytest.mark.parametrize("neighbor, adjacent", [("Macedonia", True), ("Aegyptus", False)])
+def test_attila_cli_uses_known_map_borders_without_manual_input(neighbor, adjacent):
+    args = attila_cli._parser().parse_args(
+        ["--province", "Thracia", "--province", neighbor, "--joint"]
+    )
+    jobs, skipped = make_jobs(attila_cli.request_from_args(args))
+    assert jobs and not skipped
+    expected = tuple(sorted(province_id("attila", name) for name in ("Thracia", neighbor)))
+    for job in jobs:
+        assert job.adjacency is None
+        assert resolved_borders(job) == ((expected,) if adjacent else ())
 
 
 @pytest.mark.parametrize("args", [["--joint"], ["--joint", "--layout", "coastal"]])

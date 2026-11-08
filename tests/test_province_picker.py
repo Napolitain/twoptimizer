@@ -87,7 +87,7 @@ def test_no_selection_does_not_clear_results_and_single_mode_can_be_restored():
     asyncio.run(exercise())
 
 
-def test_joint_attila_requires_borders_and_supports_explicit_no_neighbors():
+def test_joint_attila_uses_map_borders_and_supports_explicit_no_neighbors():
     async def exercise():
         app = OptimizerApp(runner_factory=QuickRunner)
         async with app.run_test(size=(120, 42)) as pilot:
@@ -104,7 +104,8 @@ def test_joint_attila_requires_borders_and_supports_explicit_no_neighbors():
             await pilot.click("#provinces-apply")
             await pilot.pause()
             assert app._config().joint
-            assert app.query_one("#run", Button).disabled
+            assert app._config().adjacency is None
+            assert not app.query_one("#run", Button).disabled
             await pilot.click("#choose-borders")
             await pilot.pause()
             assert isinstance(app.screen, BorderPicker)
@@ -168,12 +169,12 @@ def test_picker_actions_remain_accessible_in_a_small_terminal():
             await pilot.press("enter")
             await pilot.pause()
             assert isinstance(app.screen, BorderPicker)
-            for selector in ("#borders-apply", "#borders-cancel"):
+            for selector in ("#borders-map", "#borders-apply", "#borders-cancel"):
                 region = app.screen.query_one(selector).region
                 assert region.y >= 0 and region.bottom <= 24
-            await pilot.click("#borders-apply")
+            await pilot.click("#borders-map")
             await pilot.pause()
-            assert app._config().adjacency == ()
+            assert app._config().adjacency is None
 
     asyncio.run(exercise())
 
@@ -193,7 +194,8 @@ def test_rome_joint_mode_edits_borders_and_runs_one_shared_holding():
             await pilot.pause()
             await pilot.click("#provinces-apply")
             await pilot.pause()
-            assert app.query_one("#run", Button).disabled
+            assert not app.query_one("#run", Button).disabled
+            assert app._config().adjacency is None
             assert app.query_one("#choose-borders").display
             await pilot.click("#choose-borders")
             await pilot.pause()

@@ -96,6 +96,10 @@ def source_files(game):
             ROOT / "resources.py",
         ]
     paths.append(ROOT / "immutable.py")
+    paths.append(ROOT / "maps/catalog.py")
+    map_path = ROOT / game / "data/campaign_map.json"
+    if map_path.exists():
+        paths.append(map_path)
     hashes = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
     application = Path(__file__).parent
     application_paths = [

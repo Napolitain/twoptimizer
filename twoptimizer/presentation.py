@@ -2,7 +2,7 @@
 
 from collections.abc import Sequence
 
-from twoptimizer.holdings import BORDER_GAMES
+from twoptimizer.holdings import BORDER_GAMES, resolved_borders
 from twoptimizer.models import RunConfig
 from twoptimizer.progress import ModelStats
 
@@ -51,13 +51,23 @@ def query_summary(config: RunConfig, jobs: Sequence[RunConfig], skipped: Sequenc
         ),
     ]
     if config.joint and config.game in BORDER_GAMES and provinces > 1:
-        borders = len(config.adjacency or ())
-        lines.insert(1, f"{borders} supplied border{'s' if borders != 1 else ''}")
+        lines.insert(1, border_summary(config))
     if not jobs:
         lines.append("Select at least one province.")
     if skipped:
         lines.append(f"{len(skipped)} incomplete profiles excluded")
     return "\n".join(lines)
+
+
+def border_summary(config: RunConfig) -> str:
+    borders = len(resolved_borders(config))
+    source = "automatic"
+    if config.adjacency is not None:
+        source = "custom"
+    elif config.attila.campaign is not None and "adjacency" in config.attila.campaign.data:
+        source = "campaign"
+    kind = "map" if source == "automatic" else "supplied"
+    return f"{borders} {kind} border{'s' if borders != 1 else ''} · {source}"
 
 
 def model_size_summary(models: Sequence[ModelStats]) -> str:

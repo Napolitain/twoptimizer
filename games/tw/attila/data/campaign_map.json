@@ -1,0 +1,7227 @@
+{
+  "schema_version": 1,
+  "game": "attila",
+  "campaign": "main_attila",
+  "sources": [
+    {
+      "url": "https://twdatabase.com/attila/map",
+      "sha256": "9287986deea862325c756ca100b0457a57139571b40a2516fefa60c9d12f7dbd",
+      "bytes": 169663,
+      "retrieved_at": "2026-11-08",
+      "patch": "Steam build 25370302",
+      "description": "Factual region/province and published Borders (nb) map fields",
+      "extract_sha256": "735cbc72a4f3b37e8c163ec2c913ef46aa5aea6eb52fa82670f6e105db07b0bf"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/TW-Campaign-Map-Modding-Team/CampaignMapToolkit/d7e27bacaf9a5b4656b483b47b4e6212ad3a6cb4/Templates/main_attila_map/map.hex",
+      "sha256": "17f93e90e9024f6693e373d1145af9443a41f429055bd36e037a32fdea2c36c5",
+      "bytes": 11713950,
+      "retrieved_at": "2026-11-08",
+      "revision": "d7e27bacaf9a5b4656b483b47b4e6212ad3a6cb4",
+      "description": "Vanilla campaign raw hex map; upstream credits OtherTomCA for raw files",
+      "provenance_url": "https://github.com/TW-Campaign-Map-Modding-Team/CampaignMapToolkit/blob/d7e27bacaf9a5b4656b483b47b4e6212ad3a6cb4/README.md",
+      "extract_sha256": "2f67bddf1ce9719c2c6d597817dc4fbb2be857ff9949ed35197aaaab047c21de"
+    }
+  ],
+  "map": {
+    "width": 2400,
+    "height": 1702,
+    "coordinate_system": "Source map pixels; settlement points are not border geometry"
+  },
+  "regions": {
+    "att_reg_aegyptus_alexandria": {
+      "name": "Alexandria",
+      "province": "att_prov_aegyptus",
+      "x": 1260.3,
+      "y": 1218.9
+    },
+    "att_reg_aegyptus_berenice": {
+      "name": "Berenice",
+      "province": "att_prov_aegyptus",
+      "x": 1428.2,
+      "y": 1385.5
+    },
+    "att_reg_aegyptus_oxyrhynchus": {
+      "name": "Oxyrhynchus",
+      "province": "att_prov_aegyptus",
+      "x": 1267.4,
+      "y": 1317
+    },
+    "att_reg_aethiopia_adulis": {
+      "name": "Adulis",
+      "province": "att_prov_aethiopia",
+      "x": 1529.9,
+      "y": 1554.4
+    },
+    "att_reg_aethiopia_aksum": {
+      "name": "Aksum",
+      "province": "att_prov_aethiopia",
+      "x": 1522.8,
+      "y": 1638.2
+    },
+    "att_reg_aethiopia_pachoras": {
+      "name": "Pachoras",
+      "province": "att_prov_aethiopia",
+      "x": 1340.7,
+      "y": 1438.6
+    },
+    "att_reg_africa_carthago": {
+      "name": "Carthago",
+      "province": "att_prov_africa",
+      "x": 662.1,
+      "y": 1040.6
+    },
+    "att_reg_africa_constantina": {
+      "name": "Constantina",
+      "province": "att_prov_africa",
+      "x": 532,
+      "y": 1074.8
+    },
+    "att_reg_africa_hadrumentum": {
+      "name": "Hadrumentum",
+      "province": "att_prov_africa",
+      "x": 683.3,
+      "y": 1110.3
+    },
+    "att_reg_aquitania_avaricum": {
+      "name": "Avaricum",
+      "province": "att_prov_aquitania",
+      "x": 439.8,
+      "y": 615.4
+    },
+    "att_reg_aquitania_burdigala": {
+      "name": "Burdigala",
+      "province": "att_prov_aquitania",
+      "x": 347.6,
+      "y": 678
+    },
+    "att_reg_aquitania_elusa": {
+      "name": "Elusa",
+      "province": "att_prov_aquitania",
+      "x": 373.6,
+      "y": 740.6
+    },
+    "att_reg_arabia_felix_eudaemon": {
+      "name": "Eudaemon",
+      "province": "att_prov_arabia_felix",
+      "x": 1704.8,
+      "y": 1582.7
+    },
+    "att_reg_arabia_felix_omana": {
+      "name": "Omana",
+      "province": "att_prov_arabia_felix",
+      "x": 1957.8,
+      "y": 1354.7
+    },
+    "att_reg_arabia_felix_zafar": {
+      "name": "Zafar",
+      "province": "att_prov_arabia_felix",
+      "x": 1728.5,
+      "y": 1485.9
+    },
+    "att_reg_arabia_magna_dumatha": {
+      "name": "Dumatha",
+      "province": "att_prov_arabia_magna",
+      "x": 1584.2,
+      "y": 1208.3
+    },
+    "att_reg_arabia_magna_hira": {
+      "name": "Hira",
+      "province": "att_prov_arabia_magna",
+      "x": 1723.7,
+      "y": 1188.2
+    },
+    "att_reg_arabia_magna_yathrib": {
+      "name": "Yathrib",
+      "province": "att_prov_arabia_magna",
+      "x": 1593.7,
+      "y": 1378.4
+    },
+    "att_reg_armenia_duin": {
+      "name": "Duin",
+      "province": "att_prov_armenia",
+      "x": 1709.6,
+      "y": 855.1
+    },
+    "att_reg_armenia_payttakaran": {
+      "name": "Payttakaran",
+      "province": "att_prov_armenia",
+      "x": 1837.2,
+      "y": 883.5
+    },
+    "att_reg_armenia_tosp": {
+      "name": "Tosp",
+      "province": "att_prov_armenia",
+      "x": 1707.2,
+      "y": 920.1
+    },
+    "att_reg_asia_cyzicus": {
+      "name": "Cyzicus",
+      "province": "att_prov_asia",
+      "x": 1203.5,
+      "y": 859.9
+    },
+    "att_reg_asia_ephesus": {
+      "name": "Ephesus",
+      "province": "att_prov_asia",
+      "x": 1203.5,
+      "y": 949.6
+    },
+    "att_reg_asia_synnada": {
+      "name": "Synnada",
+      "province": "att_prov_asia",
+      "x": 1295.8,
+      "y": 903.6
+    },
+    "att_reg_asorstan_arbela": {
+      "name": "Arbela",
+      "province": "att_prov_asorstan",
+      "x": 1728.5,
+      "y": 1039.4
+    },
+    "att_reg_asorstan_ctesiphon": {
+      "name": "Ctesiphon",
+      "province": "att_prov_asorstan",
+      "x": 1733.2,
+      "y": 1107.9
+    },
+    "att_reg_asorstan_meshan": {
+      "name": "Meshan",
+      "province": "att_prov_asorstan",
+      "x": 1827.8,
+      "y": 1202.4
+    },
+    "att_reg_baetica_corduba": {
+      "name": "Corduba",
+      "province": "att_prov_baetica",
+      "x": 208.1,
+      "y": 981.5
+    },
+    "att_reg_baetica_hispalis": {
+      "name": "Hispalis",
+      "province": "att_prov_baetica",
+      "x": 167.9,
+      "y": 1020.5
+    },
+    "att_reg_baetica_malaca": {
+      "name": "Malaca",
+      "province": "att_prov_baetica",
+      "x": 212.8,
+      "y": 1040.6
+    },
+    "att_reg_belgica_augusta_treverorum": {
+      "name": "Augusta Treverorum",
+      "province": "att_prov_belgica",
+      "x": 565.1,
+      "y": 467.7
+    },
+    "att_reg_belgica_colonia_agrippina": {
+      "name": "Colonia Agrippina",
+      "province": "att_prov_belgica",
+      "x": 562.8,
+      "y": 383.9
+    },
+    "att_reg_belgica_durocorterum": {
+      "name": "Durocortorum",
+      "province": "att_prov_belgica",
+      "x": 472.9,
+      "y": 454.7
+    },
+    "att_reg_bithynia_amasea": {
+      "name": "Sinope",
+      "province": "att_prov_bithynia",
+      "x": 1442.4,
+      "y": 825.6
+    },
+    "att_reg_bithynia_ancyra": {
+      "name": "Ancyra",
+      "province": "att_prov_bithynia",
+      "x": 1380.9,
+      "y": 865.8
+    },
+    "att_reg_bithynia_nicomedia": {
+      "name": "Nicomedia",
+      "province": "att_prov_bithynia",
+      "x": 1274.5,
+      "y": 843.3
+    },
+    "att_reg_britannia_inferior_eboracum": {
+      "name": "Eboracum",
+      "province": "att_prov_britannia_inferior",
+      "x": 331,
+      "y": 268.1
+    },
+    "att_reg_britannia_inferior_lindum": {
+      "name": "Lindum",
+      "province": "att_prov_britannia_inferior",
+      "x": 350,
+      "y": 313
+    },
+    "att_reg_britannia_inferior_segontium": {
+      "name": "Segontium",
+      "province": "att_prov_britannia_inferior",
+      "x": 241.2,
+      "y": 308.3
+    },
+    "att_reg_britannia_superior_camulodunon": {
+      "name": "Camulodunum",
+      "province": "att_prov_britannia_superior",
+      "x": 418.5,
+      "y": 352
+    },
+    "att_reg_britannia_superior_corinium": {
+      "name": "Corinium",
+      "province": "att_prov_britannia_superior",
+      "x": 302.7,
+      "y": 398
+    },
+    "att_reg_britannia_superior_londinium": {
+      "name": "Londinium",
+      "province": "att_prov_britannia_superior",
+      "x": 364.1,
+      "y": 381.5
+    },
+    "att_reg_caledonia_et_hibernia_eblana": {
+      "name": "Eblana",
+      "province": "att_prov_caledonia_et_hbernia",
+      "x": 170.2,
+      "y": 294.1
+    },
+    "att_reg_caledonia_et_hibernia_eildon": {
+      "name": "Eildon",
+      "province": "att_prov_caledonia_et_hbernia",
+      "x": 279,
+      "y": 209.1
+    },
+    "att_reg_caledonia_et_hibernia_tuesis": {
+      "name": "Tuesis",
+      "province": "att_prov_caledonia_et_hbernia",
+      "x": 279,
+      "y": 138.2
+    },
+    "att_reg_cappadocia_caesarea_eusebia": {
+      "name": "Caesarea Eusebia",
+      "province": "att_prov_cappadocia",
+      "x": 1437.6,
+      "y": 910.6
+    },
+    "att_reg_cappadocia_melitene": {
+      "name": "Melitene",
+      "province": "att_prov_cappadocia",
+      "x": 1522.8,
+      "y": 908.3
+    },
+    "att_reg_cappadocia_trapezus": {
+      "name": "Trapezus",
+      "province": "att_prov_cappadocia",
+      "x": 1563,
+      "y": 826.8
+    },
+    "att_reg_carthaginensis_carthago_nova": {
+      "name": "Carthago Nova",
+      "province": "att_prov_carthaginensis",
+      "x": 307.4,
+      "y": 1026.4
+    },
+    "att_reg_carthaginensis_segobriga": {
+      "name": "Segobriga",
+      "province": "att_prov_carthaginensis",
+      "x": 305,
+      "y": 923.6
+    },
+    "att_reg_carthaginensis_toletum": {
+      "name": "Toletum",
+      "province": "att_prov_carthaginensis",
+      "x": 238.8,
+      "y": 921.3
+    },
+    "att_reg_caucasia_gabala": {
+      "name": "Gabala",
+      "province": "att_prov_caucasia",
+      "x": 1825.4,
+      "y": 830.3
+    },
+    "att_reg_caucasia_kotais": {
+      "name": "Kotais",
+      "province": "att_prov_caucasia",
+      "x": 1662.3,
+      "y": 777.2
+    },
+    "att_reg_caucasia_mtskheta": {
+      "name": "Mtskheta",
+      "province": "att_prov_caucasia",
+      "x": 1730.8,
+      "y": 787.8
+    },
+    "att_reg_cilicia_iconium": {
+      "name": "Iconium",
+      "province": "att_prov_cilicia",
+      "x": 1359.6,
+      "y": 935.5
+    },
+    "att_reg_cilicia_myra": {
+      "name": "Myra",
+      "province": "att_prov_cilicia",
+      "x": 1281.6,
+      "y": 998
+    },
+    "att_reg_cilicia_tarsus": {
+      "name": "Tarsus",
+      "province": "att_prov_cilicia",
+      "x": 1418.7,
+      "y": 979.2
+    },
+    "att_reg_dacia_apulum": {
+      "name": "Apulum",
+      "province": "att_prov_dacia",
+      "x": 1099.5,
+      "y": 614.2
+    },
+    "att_reg_dacia_petrodava": {
+      "name": "Petrodava",
+      "province": "att_prov_dacia",
+      "x": 1177.5,
+      "y": 582.3
+    },
+    "att_reg_dacia_romula": {
+      "name": "Romula",
+      "province": "att_prov_dacia",
+      "x": 1113.7,
+      "y": 692.1
+    },
+    "att_reg_dalmatia_domavia": {
+      "name": "Domavia",
+      "province": "att_prov_dalmatia",
+      "x": 948.2,
+      "y": 713.4
+    },
+    "att_reg_dalmatia_salona": {
+      "name": "Salona",
+      "province": "att_prov_dalmatia",
+      "x": 884.3,
+      "y": 731.1
+    },
+    "att_reg_dalmatia_siscia": {
+      "name": "Siscia",
+      "province": "att_prov_dalmatia",
+      "x": 886.7,
+      "y": 647.3
+    },
+    "att_reg_dardania_scupi": {
+      "name": "Scupi",
+      "province": "att_prov_dardania",
+      "x": 1023.8,
+      "y": 779.5
+    },
+    "att_reg_dardania_serdica": {
+      "name": "Serdica",
+      "province": "att_prov_dardania",
+      "x": 1075.9,
+      "y": 763
+    },
+    "att_reg_dardania_viminacium": {
+      "name": "Viminacium",
+      "province": "att_prov_dardania",
+      "x": 1038,
+      "y": 720.5
+    },
+    "att_reg_frisia_angulus": {
+      "name": "Angulus",
+      "province": "att_prov_frisia",
+      "x": 676.3,
+      "y": 265.8
+    },
+    "att_reg_frisia_flevum": {
+      "name": "Flevum",
+      "province": "att_prov_frisia",
+      "x": 546.2,
+      "y": 297.6
+    },
+    "att_reg_frisia_tulifurdum": {
+      "name": "Tulifurdum",
+      "province": "att_prov_frisia",
+      "x": 676.3,
+      "y": 339
+    },
+    "att_reg_gallaecia_asturica": {
+      "name": "Asturica",
+      "province": "att_prov_gallaecia",
+      "x": 179.7,
+      "y": 802
+    },
+    "att_reg_gallaecia_bracara": {
+      "name": "Bracara",
+      "province": "att_prov_gallaecia",
+      "x": 108.8,
+      "y": 844.5
+    },
+    "att_reg_gallaecia_brigantium": {
+      "name": "Brigantium",
+      "province": "att_prov_gallaecia",
+      "x": 115.9,
+      "y": 760.6
+    },
+    "att_reg_germania_aregelia": {
+      "name": "Aregelia",
+      "province": "att_prov_germania",
+      "x": 716.5,
+      "y": 389.8
+    },
+    "att_reg_germania_lupfurdum": {
+      "name": "Lupfurdum",
+      "province": "att_prov_germania",
+      "x": 811,
+      "y": 387.4
+    },
+    "att_reg_germania_uburzis": {
+      "name": "Uburzis",
+      "province": "att_prov_germania",
+      "x": 673.9,
+      "y": 455.9
+    },
+    "att_reg_germano_sarmatia_duna": {
+      "name": "Duna",
+      "province": "att_prov_germano-sarmatia",
+      "x": 1073.5,
+      "y": 102.8
+    },
+    "att_reg_germano_sarmatia_oium": {
+      "name": "Oium",
+      "province": "att_prov_germano-sarmatia",
+      "x": 1135,
+      "y": 339
+    },
+    "att_reg_germano_sarmatia_palteskja": {
+      "name": "Palteskja",
+      "province": "att_prov_germano-sarmatia",
+      "x": 1265,
+      "y": 245.7
+    },
+    "att_reg_gothiscandza_ascaucalis": {
+      "name": "Ascaucalis",
+      "province": "att_prov_gothiscandza",
+      "x": 886.7,
+      "y": 304.7
+    },
+    "att_reg_gothiscandza_gothiscandza": {
+      "name": "Gothiscandza",
+      "province": "att_prov_gothiscandza",
+      "x": 938.7,
+      "y": 245.7
+    },
+    "att_reg_gothiscandza_rugion": {
+      "name": "Rugion",
+      "province": "att_prov_gothiscandza",
+      "x": 780.3,
+      "y": 261
+    },
+    "att_reg_hercynia_budorgis": {
+      "name": "Budorgis",
+      "province": "att_prov_hercynia",
+      "x": 903.3,
+      "y": 398
+    },
+    "att_reg_hercynia_casurgis": {
+      "name": "Casurgis",
+      "province": "att_prov_hercynia",
+      "x": 839.4,
+      "y": 446.5
+    },
+    "att_reg_hercynia_nitrahwa": {
+      "name": "Nitrahwa",
+      "province": "att_prov_hercynia",
+      "x": 952.9,
+      "y": 519.7
+    },
+    "att_reg_hyperborea_kariskos": {
+      "name": "Kariskos",
+      "province": "att_prov_hyperborea",
+      "x": 1454.2,
+      "y": 361.4
+    },
+    "att_reg_hyperborea_moramar": {
+      "name": "Moramar",
+      "province": "att_prov_hyperborea",
+      "x": 1693,
+      "y": 230.3
+    },
+    "att_reg_hyperborea_sylis": {
+      "name": "Silys",
+      "province": "att_prov_hyperborea",
+      "x": 1629.2,
+      "y": 408.7
+    },
+    "att_reg_italia_fiorentia": {
+      "name": "Fiorentia",
+      "province": "att_prov_italia",
+      "x": 702.3,
+      "y": 737
+    },
+    "att_reg_italia_neapolis": {
+      "name": "Neapolis",
+      "province": "att_prov_italia",
+      "x": 773.2,
+      "y": 843.3
+    },
+    "att_reg_italia_roma": {
+      "name": "Roma",
+      "province": "att_prov_italia",
+      "x": 742.5,
+      "y": 806.7
+    },
+    "att_reg_khwarasan_abarshahr": {
+      "name": "Abarshahr",
+      "province": "att_prov_khwarasan",
+      "x": 2092.6,
+      "y": 1013.4
+    },
+    "att_reg_khwarasan_harey": {
+      "name": "Harev",
+      "province": "att_prov_khwarasan",
+      "x": 2158.8,
+      "y": 1048.8
+    },
+    "att_reg_khwarasan_merv": {
+      "name": "Merv",
+      "province": "att_prov_khwarasan",
+      "x": 2151.7,
+      "y": 950.8
+    },
+    "att_reg_libya_augila": {
+      "name": "Augila",
+      "province": "att_prov_libya",
+      "x": 993.1,
+      "y": 1305.1
+    },
+    "att_reg_libya_paraetonium": {
+      "name": "Paraetonium",
+      "province": "att_prov_libya",
+      "x": 1149.2,
+      "y": 1208.3
+    },
+    "att_reg_libya_ptolemais": {
+      "name": "Ptolemais",
+      "province": "att_prov_libya",
+      "x": 986,
+      "y": 1188.2
+    },
+    "att_reg_liguria_genua": {
+      "name": "Genua",
+      "province": "att_prov_liguria",
+      "x": 617.1,
+      "y": 701.6
+    },
+    "att_reg_liguria_mediolanum": {
+      "name": "Mediolanum",
+      "province": "att_prov_liguria",
+      "x": 655,
+      "y": 652
+    },
+    "att_reg_liguria_segusio": {
+      "name": "Segusio",
+      "province": "att_prov_liguria",
+      "x": 574.6,
+      "y": 682.7
+    },
+    "att_reg_lugdunensis_lugdunum": {
+      "name": "Lugdunum",
+      "province": "att_prov_lugdunensis",
+      "x": 510.7,
+      "y": 631.9
+    },
+    "att_reg_lugdunensis_rotomagus": {
+      "name": "Rotomagus",
+      "province": "att_prov_lugdunensis",
+      "x": 404.3,
+      "y": 477.2
+    },
+    "att_reg_lugdunensis_turonum": {
+      "name": "Turonum",
+      "province": "att_prov_lugdunensis",
+      "x": 399.6,
+      "y": 564.6
+    },
+    "att_reg_lusitania_emerita_augusta": {
+      "name": "Emerita Augusta",
+      "province": "att_prov_lusitania",
+      "x": 151.3,
+      "y": 950.8
+    },
+    "att_reg_lusitania_olisipo": {
+      "name": "Olisipo",
+      "province": "att_prov_lusitania",
+      "x": 63.8,
+      "y": 944.9
+    },
+    "att_reg_lusitania_pax_augusta": {
+      "name": "Pax Augusta",
+      "province": "att_prov_lusitania",
+      "x": 99.3,
+      "y": 986.2
+    },
+    "att_reg_macedonia_corinthus": {
+      "name": "Corinthus",
+      "province": "att_prov_macedonia",
+      "x": 1038,
+      "y": 944.9
+    },
+    "att_reg_macedonia_dyrrhachium": {
+      "name": "Dyrrhachium",
+      "province": "att_prov_macedonia",
+      "x": 952.9,
+      "y": 829.1
+    },
+    "att_reg_macedonia_thessalonica": {
+      "name": "Thessalonica",
+      "province": "att_prov_macedonia",
+      "x": 1049.9,
+      "y": 846.9
+    },
+    "att_reg_magna_graecia_rhegium": {
+      "name": "Rhegium",
+      "province": "att_prov_magna_graecia",
+      "x": 815.8,
+      "y": 954.3
+    },
+    "att_reg_magna_graecia_syracusae": {
+      "name": "Syracusae",
+      "province": "att_prov_magna_graecia",
+      "x": 792.1,
+      "y": 1020.5
+    },
+    "att_reg_magna_graecia_tarentum": {
+      "name": "Tarentum",
+      "province": "att_prov_magna_graecia",
+      "x": 860.7,
+      "y": 865.8
+    },
+    "att_reg_makran_harmosia": {
+      "name": "Harmosia",
+      "province": "att_prov_makran",
+      "x": 2031.1,
+      "y": 1285.1
+    },
+    "att_reg_makran_phra": {
+      "name": "Phra",
+      "province": "att_prov_makran",
+      "x": 2156.5,
+      "y": 1142.1
+    },
+    "att_reg_makran_pura": {
+      "name": "Pura",
+      "province": "att_prov_makran",
+      "x": 2121,
+      "y": 1266.2
+    },
+    "att_reg_mauretania_caesarea": {
+      "name": "Caesarea",
+      "province": "att_prov_mauretania",
+      "x": 425.6,
+      "y": 1073.6
+    },
+    "att_reg_mauretania_tamousiga": {
+      "name": "Tamousiga",
+      "province": "att_prov_mauretania",
+      "x": 52,
+      "y": 1191.8
+    },
+    "att_reg_mauretania_tingis": {
+      "name": "Tingis",
+      "province": "att_prov_mauretania",
+      "x": 156.1,
+      "y": 1104.4
+    },
+    "att_reg_maxima_sequanorum_argentoratum": {
+      "name": "Argentoratum",
+      "province": "att_prov_maxima_sequanorum",
+      "x": 605.3,
+      "y": 506.7
+    },
+    "att_reg_maxima_sequanorum_octodurus": {
+      "name": "Octodurum",
+      "province": "att_prov_maxima_sequanorum",
+      "x": 593.5,
+      "y": 621.3
+    },
+    "att_reg_maxima_sequanorum_vesontio": {
+      "name": "Vesontio",
+      "province": "att_prov_maxima_sequanorum",
+      "x": 569.9,
+      "y": 550.4
+    },
+    "att_reg_media_atropatene_ecbatana": {
+      "name": "Ecbatana",
+      "province": "att_prov_media_atropatene",
+      "x": 1818.3,
+      "y": 1032.3
+    },
+    "att_reg_media_atropatene_ganzaga": {
+      "name": "Ganzaga",
+      "province": "att_prov_media_atropatene",
+      "x": 1775.8,
+      "y": 968.5
+    },
+    "att_reg_media_atropatene_rhaga": {
+      "name": "Rhaga",
+      "province": "att_prov_media_atropatene",
+      "x": 1917.6,
+      "y": 1032.3
+    },
+    "att_reg_mediterraneus_occidentalis_ajax": {
+      "name": "Ajax",
+      "province": "att_prov_mediterraneus_occidentalis",
+      "x": 614.8,
+      "y": 813.8
+    },
+    "att_reg_mediterraneus_occidentalis_caralis": {
+      "name": "Caralis",
+      "province": "att_prov_mediterraneus_occidentalis",
+      "x": 610,
+      "y": 939
+    },
+    "att_reg_mediterraneus_occidentalis_palma": {
+      "name": "Palma",
+      "province": "att_prov_mediterraneus_occidentalis",
+      "x": 444.5,
+      "y": 974.4
+    },
+    "att_reg_mediterraneus_orientalis_constantia": {
+      "name": "Constantia",
+      "province": "att_prov_mediterraneus_orientalis",
+      "x": 1416.4,
+      "y": 1032.3
+    },
+    "att_reg_mediterraneus_orientalis_gortyna": {
+      "name": "Gortyna",
+      "province": "att_prov_mediterraneus_orientalis",
+      "x": 1127.9,
+      "y": 1065.4
+    },
+    "att_reg_mediterraneus_orientalis_rhodes": {
+      "name": "Rhodes",
+      "province": "att_prov_mediterraneus_orientalis",
+      "x": 1229.6,
+      "y": 1005.1
+    },
+    "att_reg_narbonensis_aquae_sextiae": {
+      "name": "Aquae Sextiae",
+      "province": "att_prov_narbonensis",
+      "x": 522.6,
+      "y": 751.2
+    },
+    "att_reg_narbonensis_narbo": {
+      "name": "Narbo",
+      "province": "att_prov_narbonensis",
+      "x": 456.4,
+      "y": 772.5
+    },
+    "att_reg_narbonensis_vienna": {
+      "name": "Vienna",
+      "province": "att_prov_narbonensis",
+      "x": 517.8,
+      "y": 675.6
+    },
+    "att_reg_osroene_amida": {
+      "name": "Amida",
+      "province": "att_prov_osroene",
+      "x": 1603.2,
+      "y": 939
+    },
+    "att_reg_osroene_edessa": {
+      "name": "Edessa",
+      "province": "att_prov_osroene",
+      "x": 1574.8,
+      "y": 986.2
+    },
+    "att_reg_osroene_nisibis": {
+      "name": "Nisibis",
+      "province": "att_prov_osroene",
+      "x": 1669.4,
+      "y": 998
+    },
+    "att_reg_palaestinea_aelia_capitolina": {
+      "name": "Aelia Capitolina",
+      "province": "att_prov_palaestinea",
+      "x": 1432.9,
+      "y": 1175.2
+    },
+    "att_reg_palaestinea_aila": {
+      "name": "Aila",
+      "province": "att_prov_palaestinea",
+      "x": 1435.3,
+      "y": 1235.5
+    },
+    "att_reg_palaestinea_nova_trajana_bostra": {
+      "name": "Nova Trajana Bostra",
+      "province": "att_prov_palaestinea",
+      "x": 1501.5,
+      "y": 1164.6
+    },
+    "att_reg_pannonia_savaria": {
+      "name": "Savaria",
+      "province": "att_prov_pannonia",
+      "x": 896.2,
+      "y": 578.8
+    },
+    "att_reg_pannonia_sirmium": {
+      "name": "Sirmium",
+      "province": "att_prov_pannonia",
+      "x": 1007.3,
+      "y": 679.1
+    },
+    "att_reg_pannonia_sopianae": {
+      "name": "Sopianae",
+      "province": "att_prov_pannonia",
+      "x": 957.6,
+      "y": 614.2
+    },
+    "att_reg_persis_behdeshir": {
+      "name": "Behdesir",
+      "province": "att_prov_persis",
+      "x": 2033.5,
+      "y": 1196.5
+    },
+    "att_reg_persis_siraf": {
+      "name": "Siraf",
+      "province": "att_prov_persis",
+      "x": 1908.2,
+      "y": 1268.5
+    },
+    "att_reg_persis_stakhr": {
+      "name": "Stakhr",
+      "province": "att_prov_persis",
+      "x": 1948.4,
+      "y": 1203.6
+    },
+    "att_reg_phazania_cydamus": {
+      "name": "Cydamus",
+      "province": "att_prov_phazania",
+      "x": 624.2,
+      "y": 1231.9
+    },
+    "att_reg_phazania_dimmidi": {
+      "name": "Dimmidi",
+      "province": "att_prov_phazania",
+      "x": 444.5,
+      "y": 1156.3
+    },
+    "att_reg_phazania_garama": {
+      "name": "Garama",
+      "province": "att_prov_phazania",
+      "x": 766.1,
+      "y": 1300.4
+    },
+    "att_reg_raetia_et_noricum_augusta_vindelicorum": {
+      "name": "Augusta Vindelicorum",
+      "province": "att_prov_raetia_et_noricum",
+      "x": 711.7,
+      "y": 538.6
+    },
+    "att_reg_raetia_et_noricum_iuvavum": {
+      "name": "Iuvavum",
+      "province": "att_prov_raetia_et_noricum",
+      "x": 785,
+      "y": 544.5
+    },
+    "att_reg_raetia_et_noricum_virunum": {
+      "name": "Virunum",
+      "province": "att_prov_raetia_et_noricum",
+      "x": 811,
+      "y": 595.3
+    },
+    "att_reg_sarmatia_asiatica_anacopia": {
+      "name": "Anacopia",
+      "province": "att_prov_sarmatia_asiatica",
+      "x": 1593.7,
+      "y": 731.1
+    },
+    "att_reg_sarmatia_asiatica_samandar": {
+      "name": "Samandar",
+      "province": "att_prov_sarmatia_asiatica",
+      "x": 1782.9,
+      "y": 707.5
+    },
+    "att_reg_sarmatia_asiatica_tanais": {
+      "name": "Tanais",
+      "province": "att_prov_sarmatia_asiatica",
+      "x": 1555.9,
+      "y": 589.4
+    },
+    "att_reg_sarmatia_europaea_chersonessus": {
+      "name": "Chersonessus",
+      "province": "att_prov_sarmatia_europaea",
+      "x": 1402.2,
+      "y": 687.4
+    },
+    "att_reg_sarmatia_europaea_gelonus": {
+      "name": "Gelonus",
+      "province": "att_prov_sarmatia_europaea",
+      "x": 1563,
+      "y": 479.5
+    },
+    "att_reg_sarmatia_europaea_olbia": {
+      "name": "Olbia",
+      "province": "att_prov_sarmatia_europaea",
+      "x": 1307.6,
+      "y": 600
+    },
+    "att_reg_scandza_alabu": {
+      "name": "Alabu",
+      "province": "att_prov_scandza",
+      "x": 681,
+      "y": 145.3
+    },
+    "att_reg_scandza_hafn": {
+      "name": "Hafn",
+      "province": "att_prov_scandza",
+      "x": 744.8,
+      "y": 215
+    },
+    "att_reg_scandza_hrefnesholt": {
+      "name": "Hrefnesholt",
+      "province": "att_prov_scandza",
+      "x": 721.2,
+      "y": 70.9
+    },
+    "att_reg_scythia_bolghar": {
+      "name": "Bolghar",
+      "province": "att_prov_scythia",
+      "x": 1901.1,
+      "y": 251.6
+    },
+    "att_reg_scythia_ra": {
+      "name": "Raha",
+      "province": "att_prov_scythia",
+      "x": 1801.8,
+      "y": 407.5
+    },
+    "att_reg_scythia_sarai": {
+      "name": "Sarai",
+      "province": "att_prov_scythia",
+      "x": 1941.3,
+      "y": 559.9
+    },
+    "att_reg_spahan_issatis": {
+      "name": "Issatis",
+      "province": "att_prov_spahan",
+      "x": 2012.2,
+      "y": 1129.2
+    },
+    "att_reg_spahan_spahan": {
+      "name": "Spahan",
+      "province": "att_prov_spahan",
+      "x": 1936.6,
+      "y": 1107.9
+    },
+    "att_reg_spahan_susa": {
+      "name": "Susa",
+      "province": "att_prov_spahan",
+      "x": 1865.6,
+      "y": 1145.7
+    },
+    "att_reg_syria_antiochia": {
+      "name": "Antiochia",
+      "province": "att_prov_syria",
+      "x": 1466,
+      "y": 1014.6
+    },
+    "att_reg_syria_emesa": {
+      "name": "Emesa",
+      "province": "att_prov_syria",
+      "x": 1518,
+      "y": 1068.9
+    },
+    "att_reg_syria_tyrus": {
+      "name": "Tyrus",
+      "province": "att_prov_syria",
+      "x": 1447.1,
+      "y": 1092.5
+    },
+    "att_reg_tarraconensis_caesaraugusta": {
+      "name": "Caesaraugusta",
+      "province": "att_prov_tarraconensis",
+      "x": 338.1,
+      "y": 845.7
+    },
+    "att_reg_tarraconensis_pompaelo": {
+      "name": "Pompaelo",
+      "province": "att_prov_tarraconensis",
+      "x": 309.8,
+      "y": 796.1
+    },
+    "att_reg_tarraconensis_tarraco": {
+      "name": "Tarraco",
+      "province": "att_prov_tarraconensis",
+      "x": 409.1,
+      "y": 888.2
+    },
+    "att_reg_thracia_constantinopolis": {
+      "name": "Constantinopolis",
+      "province": "att_prov_thracia",
+      "x": 1243.7,
+      "y": 818.5
+    },
+    "att_reg_thracia_marcianopolis": {
+      "name": "Marcianopolis",
+      "province": "att_prov_thracia",
+      "x": 1191.7,
+      "y": 740.6
+    },
+    "att_reg_thracia_trimontium": {
+      "name": "Trimontium",
+      "province": "att_prov_thracia",
+      "x": 1118.4,
+      "y": 791.4
+    },
+    "att_reg_transcarpathia_arheimar": {
+      "name": "Arheimar",
+      "province": "att_prov_transcarpathia",
+      "x": 1305.2,
+      "y": 433.5
+    },
+    "att_reg_transcarpathia_belz": {
+      "name": "Belz",
+      "province": "att_prov_transcarpathia",
+      "x": 1045.1,
+      "y": 424
+    },
+    "att_reg_transcarpathia_leopolis": {
+      "name": "Leopolis",
+      "province": "att_prov_transcarpathia",
+      "x": 1125.5,
+      "y": 492.5
+    },
+    "att_reg_transcaspia_dahistan": {
+      "name": "Dahistan",
+      "province": "att_prov_transcaspia",
+      "x": 2040.6,
+      "y": 874
+    },
+    "att_reg_transcaspia_kath": {
+      "name": "Kath",
+      "province": "att_prov_transcaspia",
+      "x": 2113.9,
+      "y": 776
+    },
+    "att_reg_transcaspia_siahkuh": {
+      "name": "Siahkuh",
+      "province": "att_prov_transcaspia",
+      "x": 1972,
+      "y": 724
+    },
+    "att_reg_tripolitana_leptis_magna": {
+      "name": "Leptis Magna",
+      "province": "att_prov_tripolitana",
+      "x": 825.2,
+      "y": 1200
+    },
+    "att_reg_tripolitana_macomades": {
+      "name": "Macomades",
+      "province": "att_prov_tripolitana",
+      "x": 889.1,
+      "y": 1224.8
+    },
+    "att_reg_tripolitana_sabrata": {
+      "name": "Sabrata",
+      "province": "att_prov_tripolitana",
+      "x": 702.3,
+      "y": 1174
+    },
+    "att_reg_venetia_aquileia": {
+      "name": "Aquileia",
+      "province": "att_prov_venetia",
+      "x": 780.3,
+      "y": 648.4
+    },
+    "att_reg_venetia_ravenna": {
+      "name": "Ravenna",
+      "province": "att_prov_venetia",
+      "x": 761.4,
+      "y": 724
+    },
+    "att_reg_venetia_verona": {
+      "name": "Verona",
+      "province": "att_prov_venetia",
+      "x": 725.9,
+      "y": 673.2
+    }
+  },
+  "region_borders": [
+    [
+      "att_reg_aegyptus_alexandria",
+      "att_reg_aegyptus_berenice"
+    ],
+    [
+      "att_reg_aegyptus_alexandria",
+      "att_reg_aegyptus_oxyrhynchus"
+    ],
+    [
+      "att_reg_aegyptus_alexandria",
+      "att_reg_libya_paraetonium"
+    ],
+    [
+      "att_reg_aegyptus_alexandria",
+      "att_reg_palaestinea_aelia_capitolina"
+    ],
+    [
+      "att_reg_aegyptus_alexandria",
+      "att_reg_palaestinea_aila"
+    ],
+    [
+      "att_reg_aegyptus_berenice",
+      "att_reg_aegyptus_oxyrhynchus"
+    ],
+    [
+      "att_reg_aegyptus_berenice",
+      "att_reg_aethiopia_pachoras"
+    ],
+    [
+      "att_reg_aegyptus_oxyrhynchus",
+      "att_reg_aethiopia_pachoras"
+    ],
+    [
+      "att_reg_aegyptus_oxyrhynchus",
+      "att_reg_libya_paraetonium"
+    ],
+    [
+      "att_reg_aethiopia_adulis",
+      "att_reg_aethiopia_aksum"
+    ],
+    [
+      "att_reg_aethiopia_adulis",
+      "att_reg_aethiopia_pachoras"
+    ],
+    [
+      "att_reg_aethiopia_aksum",
+      "att_reg_aethiopia_pachoras"
+    ],
+    [
+      "att_reg_africa_carthago",
+      "att_reg_africa_constantina"
+    ],
+    [
+      "att_reg_africa_carthago",
+      "att_reg_africa_hadrumentum"
+    ],
+    [
+      "att_reg_africa_constantina",
+      "att_reg_africa_hadrumentum"
+    ],
+    [
+      "att_reg_africa_constantina",
+      "att_reg_mauretania_caesarea"
+    ],
+    [
+      "att_reg_africa_constantina",
+      "att_reg_phazania_dimmidi"
+    ],
+    [
+      "att_reg_africa_hadrumentum",
+      "att_reg_phazania_cydamus"
+    ],
+    [
+      "att_reg_africa_hadrumentum",
+      "att_reg_phazania_dimmidi"
+    ],
+    [
+      "att_reg_africa_hadrumentum",
+      "att_reg_tripolitana_sabrata"
+    ],
+    [
+      "att_reg_aquitania_avaricum",
+      "att_reg_aquitania_burdigala"
+    ],
+    [
+      "att_reg_aquitania_avaricum",
+      "att_reg_aquitania_elusa"
+    ],
+    [
+      "att_reg_aquitania_avaricum",
+      "att_reg_lugdunensis_lugdunum"
+    ],
+    [
+      "att_reg_aquitania_avaricum",
+      "att_reg_lugdunensis_turonum"
+    ],
+    [
+      "att_reg_aquitania_avaricum",
+      "att_reg_narbonensis_narbo"
+    ],
+    [
+      "att_reg_aquitania_avaricum",
+      "att_reg_narbonensis_vienna"
+    ],
+    [
+      "att_reg_aquitania_burdigala",
+      "att_reg_aquitania_elusa"
+    ],
+    [
+      "att_reg_aquitania_burdigala",
+      "att_reg_lugdunensis_turonum"
+    ],
+    [
+      "att_reg_aquitania_elusa",
+      "att_reg_narbonensis_narbo"
+    ],
+    [
+      "att_reg_aquitania_elusa",
+      "att_reg_tarraconensis_pompaelo"
+    ],
+    [
+      "att_reg_arabia_felix_eudaemon",
+      "att_reg_arabia_felix_zafar"
+    ],
+    [
+      "att_reg_arabia_felix_eudaemon",
+      "att_reg_arabia_magna_yathrib"
+    ],
+    [
+      "att_reg_arabia_felix_omana",
+      "att_reg_arabia_felix_zafar"
+    ],
+    [
+      "att_reg_arabia_felix_omana",
+      "att_reg_arabia_magna_hira"
+    ],
+    [
+      "att_reg_arabia_felix_zafar",
+      "att_reg_arabia_magna_hira"
+    ],
+    [
+      "att_reg_arabia_felix_zafar",
+      "att_reg_arabia_magna_yathrib"
+    ],
+    [
+      "att_reg_arabia_magna_dumatha",
+      "att_reg_arabia_magna_hira"
+    ],
+    [
+      "att_reg_arabia_magna_dumatha",
+      "att_reg_arabia_magna_yathrib"
+    ],
+    [
+      "att_reg_arabia_magna_dumatha",
+      "att_reg_asorstan_ctesiphon"
+    ],
+    [
+      "att_reg_arabia_magna_dumatha",
+      "att_reg_osroene_edessa"
+    ],
+    [
+      "att_reg_arabia_magna_dumatha",
+      "att_reg_osroene_nisibis"
+    ],
+    [
+      "att_reg_arabia_magna_dumatha",
+      "att_reg_palaestinea_aila"
+    ],
+    [
+      "att_reg_arabia_magna_dumatha",
+      "att_reg_palaestinea_nova_trajana_bostra"
+    ],
+    [
+      "att_reg_arabia_magna_dumatha",
+      "att_reg_syria_emesa"
+    ],
+    [
+      "att_reg_arabia_magna_hira",
+      "att_reg_arabia_magna_yathrib"
+    ],
+    [
+      "att_reg_arabia_magna_hira",
+      "att_reg_asorstan_ctesiphon"
+    ],
+    [
+      "att_reg_arabia_magna_hira",
+      "att_reg_asorstan_meshan"
+    ],
+    [
+      "att_reg_armenia_duin",
+      "att_reg_armenia_payttakaran"
+    ],
+    [
+      "att_reg_armenia_duin",
+      "att_reg_armenia_tosp"
+    ],
+    [
+      "att_reg_armenia_duin",
+      "att_reg_cappadocia_trapezus"
+    ],
+    [
+      "att_reg_armenia_duin",
+      "att_reg_caucasia_gabala"
+    ],
+    [
+      "att_reg_armenia_duin",
+      "att_reg_caucasia_kotais"
+    ],
+    [
+      "att_reg_armenia_duin",
+      "att_reg_caucasia_mtskheta"
+    ],
+    [
+      "att_reg_armenia_payttakaran",
+      "att_reg_armenia_tosp"
+    ],
+    [
+      "att_reg_armenia_payttakaran",
+      "att_reg_caucasia_gabala"
+    ],
+    [
+      "att_reg_armenia_payttakaran",
+      "att_reg_media_atropatene_ganzaga"
+    ],
+    [
+      "att_reg_armenia_tosp",
+      "att_reg_cappadocia_melitene"
+    ],
+    [
+      "att_reg_armenia_tosp",
+      "att_reg_cappadocia_trapezus"
+    ],
+    [
+      "att_reg_armenia_tosp",
+      "att_reg_media_atropatene_ganzaga"
+    ],
+    [
+      "att_reg_armenia_tosp",
+      "att_reg_osroene_amida"
+    ],
+    [
+      "att_reg_armenia_tosp",
+      "att_reg_osroene_nisibis"
+    ],
+    [
+      "att_reg_asia_cyzicus",
+      "att_reg_asia_ephesus"
+    ],
+    [
+      "att_reg_asia_cyzicus",
+      "att_reg_asia_synnada"
+    ],
+    [
+      "att_reg_asia_cyzicus",
+      "att_reg_bithynia_nicomedia"
+    ],
+    [
+      "att_reg_asia_ephesus",
+      "att_reg_asia_synnada"
+    ],
+    [
+      "att_reg_asia_ephesus",
+      "att_reg_cilicia_myra"
+    ],
+    [
+      "att_reg_asia_synnada",
+      "att_reg_bithynia_ancyra"
+    ],
+    [
+      "att_reg_asia_synnada",
+      "att_reg_bithynia_nicomedia"
+    ],
+    [
+      "att_reg_asia_synnada",
+      "att_reg_cilicia_iconium"
+    ],
+    [
+      "att_reg_asia_synnada",
+      "att_reg_cilicia_myra"
+    ],
+    [
+      "att_reg_asorstan_arbela",
+      "att_reg_asorstan_ctesiphon"
+    ],
+    [
+      "att_reg_asorstan_arbela",
+      "att_reg_asorstan_meshan"
+    ],
+    [
+      "att_reg_asorstan_arbela",
+      "att_reg_media_atropatene_ecbatana"
+    ],
+    [
+      "att_reg_asorstan_arbela",
+      "att_reg_media_atropatene_ganzaga"
+    ],
+    [
+      "att_reg_asorstan_arbela",
+      "att_reg_osroene_nisibis"
+    ],
+    [
+      "att_reg_asorstan_arbela",
+      "att_reg_spahan_susa"
+    ],
+    [
+      "att_reg_asorstan_ctesiphon",
+      "att_reg_asorstan_meshan"
+    ],
+    [
+      "att_reg_asorstan_ctesiphon",
+      "att_reg_osroene_nisibis"
+    ],
+    [
+      "att_reg_asorstan_meshan",
+      "att_reg_spahan_susa"
+    ],
+    [
+      "att_reg_baetica_corduba",
+      "att_reg_baetica_hispalis"
+    ],
+    [
+      "att_reg_baetica_corduba",
+      "att_reg_baetica_malaca"
+    ],
+    [
+      "att_reg_baetica_corduba",
+      "att_reg_carthaginensis_carthago_nova"
+    ],
+    [
+      "att_reg_baetica_corduba",
+      "att_reg_carthaginensis_toletum"
+    ],
+    [
+      "att_reg_baetica_corduba",
+      "att_reg_lusitania_emerita_augusta"
+    ],
+    [
+      "att_reg_baetica_hispalis",
+      "att_reg_baetica_malaca"
+    ],
+    [
+      "att_reg_baetica_hispalis",
+      "att_reg_lusitania_emerita_augusta"
+    ],
+    [
+      "att_reg_baetica_hispalis",
+      "att_reg_lusitania_pax_augusta"
+    ],
+    [
+      "att_reg_baetica_malaca",
+      "att_reg_carthaginensis_carthago_nova"
+    ],
+    [
+      "att_reg_belgica_augusta_treverorum",
+      "att_reg_belgica_colonia_agrippina"
+    ],
+    [
+      "att_reg_belgica_augusta_treverorum",
+      "att_reg_belgica_durocorterum"
+    ],
+    [
+      "att_reg_belgica_augusta_treverorum",
+      "att_reg_germania_uburzis"
+    ],
+    [
+      "att_reg_belgica_augusta_treverorum",
+      "att_reg_lugdunensis_lugdunum"
+    ],
+    [
+      "att_reg_belgica_augusta_treverorum",
+      "att_reg_maxima_sequanorum_argentoratum"
+    ],
+    [
+      "att_reg_belgica_augusta_treverorum",
+      "att_reg_maxima_sequanorum_vesontio"
+    ],
+    [
+      "att_reg_belgica_colonia_agrippina",
+      "att_reg_belgica_durocorterum"
+    ],
+    [
+      "att_reg_belgica_colonia_agrippina",
+      "att_reg_germania_uburzis"
+    ],
+    [
+      "att_reg_belgica_durocorterum",
+      "att_reg_lugdunensis_lugdunum"
+    ],
+    [
+      "att_reg_belgica_durocorterum",
+      "att_reg_lugdunensis_rotomagus"
+    ],
+    [
+      "att_reg_bithynia_amasea",
+      "att_reg_bithynia_ancyra"
+    ],
+    [
+      "att_reg_bithynia_amasea",
+      "att_reg_bithynia_nicomedia"
+    ],
+    [
+      "att_reg_bithynia_amasea",
+      "att_reg_cappadocia_caesarea_eusebia"
+    ],
+    [
+      "att_reg_bithynia_amasea",
+      "att_reg_cappadocia_trapezus"
+    ],
+    [
+      "att_reg_bithynia_ancyra",
+      "att_reg_bithynia_nicomedia"
+    ],
+    [
+      "att_reg_bithynia_ancyra",
+      "att_reg_cappadocia_caesarea_eusebia"
+    ],
+    [
+      "att_reg_bithynia_ancyra",
+      "att_reg_cilicia_iconium"
+    ],
+    [
+      "att_reg_britannia_inferior_eboracum",
+      "att_reg_britannia_inferior_lindum"
+    ],
+    [
+      "att_reg_britannia_inferior_eboracum",
+      "att_reg_caledonia_et_hibernia_eildon"
+    ],
+    [
+      "att_reg_britannia_inferior_lindum",
+      "att_reg_britannia_inferior_segontium"
+    ],
+    [
+      "att_reg_britannia_inferior_lindum",
+      "att_reg_britannia_superior_camulodunon"
+    ],
+    [
+      "att_reg_britannia_inferior_segontium",
+      "att_reg_britannia_superior_camulodunon"
+    ],
+    [
+      "att_reg_britannia_inferior_segontium",
+      "att_reg_britannia_superior_corinium"
+    ],
+    [
+      "att_reg_britannia_superior_camulodunon",
+      "att_reg_britannia_superior_corinium"
+    ],
+    [
+      "att_reg_britannia_superior_camulodunon",
+      "att_reg_britannia_superior_londinium"
+    ],
+    [
+      "att_reg_britannia_superior_corinium",
+      "att_reg_britannia_superior_londinium"
+    ],
+    [
+      "att_reg_caledonia_et_hibernia_eildon",
+      "att_reg_caledonia_et_hibernia_tuesis"
+    ],
+    [
+      "att_reg_cappadocia_caesarea_eusebia",
+      "att_reg_cappadocia_melitene"
+    ],
+    [
+      "att_reg_cappadocia_caesarea_eusebia",
+      "att_reg_cappadocia_trapezus"
+    ],
+    [
+      "att_reg_cappadocia_caesarea_eusebia",
+      "att_reg_cilicia_iconium"
+    ],
+    [
+      "att_reg_cappadocia_caesarea_eusebia",
+      "att_reg_cilicia_tarsus"
+    ],
+    [
+      "att_reg_cappadocia_melitene",
+      "att_reg_cappadocia_trapezus"
+    ],
+    [
+      "att_reg_cappadocia_melitene",
+      "att_reg_cilicia_tarsus"
+    ],
+    [
+      "att_reg_cappadocia_melitene",
+      "att_reg_osroene_amida"
+    ],
+    [
+      "att_reg_cappadocia_melitene",
+      "att_reg_osroene_edessa"
+    ],
+    [
+      "att_reg_cappadocia_melitene",
+      "att_reg_syria_antiochia"
+    ],
+    [
+      "att_reg_cappadocia_trapezus",
+      "att_reg_caucasia_kotais"
+    ],
+    [
+      "att_reg_carthaginensis_carthago_nova",
+      "att_reg_carthaginensis_segobriga"
+    ],
+    [
+      "att_reg_carthaginensis_carthago_nova",
+      "att_reg_carthaginensis_toletum"
+    ],
+    [
+      "att_reg_carthaginensis_segobriga",
+      "att_reg_carthaginensis_toletum"
+    ],
+    [
+      "att_reg_carthaginensis_segobriga",
+      "att_reg_tarraconensis_caesaraugusta"
+    ],
+    [
+      "att_reg_carthaginensis_segobriga",
+      "att_reg_tarraconensis_tarraco"
+    ],
+    [
+      "att_reg_carthaginensis_toletum",
+      "att_reg_gallaecia_asturica"
+    ],
+    [
+      "att_reg_carthaginensis_toletum",
+      "att_reg_lusitania_emerita_augusta"
+    ],
+    [
+      "att_reg_carthaginensis_toletum",
+      "att_reg_tarraconensis_caesaraugusta"
+    ],
+    [
+      "att_reg_caucasia_gabala",
+      "att_reg_caucasia_mtskheta"
+    ],
+    [
+      "att_reg_caucasia_gabala",
+      "att_reg_sarmatia_asiatica_samandar"
+    ],
+    [
+      "att_reg_caucasia_kotais",
+      "att_reg_caucasia_mtskheta"
+    ],
+    [
+      "att_reg_caucasia_kotais",
+      "att_reg_sarmatia_asiatica_anacopia"
+    ],
+    [
+      "att_reg_caucasia_kotais",
+      "att_reg_sarmatia_asiatica_samandar"
+    ],
+    [
+      "att_reg_caucasia_mtskheta",
+      "att_reg_sarmatia_asiatica_samandar"
+    ],
+    [
+      "att_reg_cilicia_iconium",
+      "att_reg_cilicia_myra"
+    ],
+    [
+      "att_reg_cilicia_iconium",
+      "att_reg_cilicia_tarsus"
+    ],
+    [
+      "att_reg_cilicia_myra",
+      "att_reg_cilicia_tarsus"
+    ],
+    [
+      "att_reg_cilicia_tarsus",
+      "att_reg_syria_antiochia"
+    ],
+    [
+      "att_reg_dacia_apulum",
+      "att_reg_dacia_petrodava"
+    ],
+    [
+      "att_reg_dacia_apulum",
+      "att_reg_dacia_romula"
+    ],
+    [
+      "att_reg_dacia_apulum",
+      "att_reg_hercynia_nitrahwa"
+    ],
+    [
+      "att_reg_dacia_apulum",
+      "att_reg_pannonia_sirmium"
+    ],
+    [
+      "att_reg_dacia_apulum",
+      "att_reg_pannonia_sopianae"
+    ],
+    [
+      "att_reg_dacia_apulum",
+      "att_reg_transcarpathia_leopolis"
+    ],
+    [
+      "att_reg_dacia_petrodava",
+      "att_reg_dacia_romula"
+    ],
+    [
+      "att_reg_dacia_petrodava",
+      "att_reg_sarmatia_europaea_olbia"
+    ],
+    [
+      "att_reg_dacia_petrodava",
+      "att_reg_transcarpathia_leopolis"
+    ],
+    [
+      "att_reg_dalmatia_domavia",
+      "att_reg_dalmatia_salona"
+    ],
+    [
+      "att_reg_dalmatia_domavia",
+      "att_reg_dalmatia_siscia"
+    ],
+    [
+      "att_reg_dalmatia_domavia",
+      "att_reg_dardania_scupi"
+    ],
+    [
+      "att_reg_dalmatia_domavia",
+      "att_reg_dardania_viminacium"
+    ],
+    [
+      "att_reg_dalmatia_domavia",
+      "att_reg_pannonia_sirmium"
+    ],
+    [
+      "att_reg_dalmatia_salona",
+      "att_reg_dalmatia_siscia"
+    ],
+    [
+      "att_reg_dalmatia_salona",
+      "att_reg_dardania_scupi"
+    ],
+    [
+      "att_reg_dalmatia_salona",
+      "att_reg_macedonia_dyrrhachium"
+    ],
+    [
+      "att_reg_dalmatia_salona",
+      "att_reg_venetia_aquileia"
+    ],
+    [
+      "att_reg_dalmatia_siscia",
+      "att_reg_pannonia_savaria"
+    ],
+    [
+      "att_reg_dalmatia_siscia",
+      "att_reg_pannonia_sirmium"
+    ],
+    [
+      "att_reg_dalmatia_siscia",
+      "att_reg_pannonia_sopianae"
+    ],
+    [
+      "att_reg_dalmatia_siscia",
+      "att_reg_raetia_et_noricum_virunum"
+    ],
+    [
+      "att_reg_dalmatia_siscia",
+      "att_reg_venetia_aquileia"
+    ],
+    [
+      "att_reg_dardania_scupi",
+      "att_reg_dardania_serdica"
+    ],
+    [
+      "att_reg_dardania_scupi",
+      "att_reg_dardania_viminacium"
+    ],
+    [
+      "att_reg_dardania_scupi",
+      "att_reg_macedonia_dyrrhachium"
+    ],
+    [
+      "att_reg_dardania_scupi",
+      "att_reg_macedonia_thessalonica"
+    ],
+    [
+      "att_reg_dardania_serdica",
+      "att_reg_dardania_viminacium"
+    ],
+    [
+      "att_reg_dardania_serdica",
+      "att_reg_macedonia_thessalonica"
+    ],
+    [
+      "att_reg_dardania_serdica",
+      "att_reg_thracia_marcianopolis"
+    ],
+    [
+      "att_reg_dardania_serdica",
+      "att_reg_thracia_trimontium"
+    ],
+    [
+      "att_reg_dardania_viminacium",
+      "att_reg_pannonia_sirmium"
+    ],
+    [
+      "att_reg_frisia_angulus",
+      "att_reg_frisia_tulifurdum"
+    ],
+    [
+      "att_reg_frisia_angulus",
+      "att_reg_gothiscandza_rugion"
+    ],
+    [
+      "att_reg_frisia_angulus",
+      "att_reg_scandza_alabu"
+    ],
+    [
+      "att_reg_frisia_flevum",
+      "att_reg_frisia_tulifurdum"
+    ],
+    [
+      "att_reg_frisia_flevum",
+      "att_reg_germania_uburzis"
+    ],
+    [
+      "att_reg_frisia_tulifurdum",
+      "att_reg_germania_aregelia"
+    ],
+    [
+      "att_reg_frisia_tulifurdum",
+      "att_reg_germania_uburzis"
+    ],
+    [
+      "att_reg_frisia_tulifurdum",
+      "att_reg_gothiscandza_rugion"
+    ],
+    [
+      "att_reg_gallaecia_asturica",
+      "att_reg_gallaecia_bracara"
+    ],
+    [
+      "att_reg_gallaecia_asturica",
+      "att_reg_gallaecia_brigantium"
+    ],
+    [
+      "att_reg_gallaecia_asturica",
+      "att_reg_lusitania_emerita_augusta"
+    ],
+    [
+      "att_reg_gallaecia_asturica",
+      "att_reg_tarraconensis_caesaraugusta"
+    ],
+    [
+      "att_reg_gallaecia_asturica",
+      "att_reg_tarraconensis_pompaelo"
+    ],
+    [
+      "att_reg_gallaecia_bracara",
+      "att_reg_gallaecia_brigantium"
+    ],
+    [
+      "att_reg_gallaecia_bracara",
+      "att_reg_lusitania_emerita_augusta"
+    ],
+    [
+      "att_reg_gallaecia_bracara",
+      "att_reg_lusitania_olisipo"
+    ],
+    [
+      "att_reg_germania_aregelia",
+      "att_reg_germania_lupfurdum"
+    ],
+    [
+      "att_reg_germania_aregelia",
+      "att_reg_germania_uburzis"
+    ],
+    [
+      "att_reg_germania_aregelia",
+      "att_reg_gothiscandza_rugion"
+    ],
+    [
+      "att_reg_germania_aregelia",
+      "att_reg_hercynia_casurgis"
+    ],
+    [
+      "att_reg_germania_lupfurdum",
+      "att_reg_gothiscandza_ascaucalis"
+    ],
+    [
+      "att_reg_germania_lupfurdum",
+      "att_reg_gothiscandza_rugion"
+    ],
+    [
+      "att_reg_germania_lupfurdum",
+      "att_reg_hercynia_budorgis"
+    ],
+    [
+      "att_reg_germania_lupfurdum",
+      "att_reg_hercynia_casurgis"
+    ],
+    [
+      "att_reg_germania_uburzis",
+      "att_reg_hercynia_casurgis"
+    ],
+    [
+      "att_reg_germania_uburzis",
+      "att_reg_maxima_sequanorum_argentoratum"
+    ],
+    [
+      "att_reg_germania_uburzis",
+      "att_reg_maxima_sequanorum_octodurus"
+    ],
+    [
+      "att_reg_germania_uburzis",
+      "att_reg_maxima_sequanorum_vesontio"
+    ],
+    [
+      "att_reg_germania_uburzis",
+      "att_reg_raetia_et_noricum_augusta_vindelicorum"
+    ],
+    [
+      "att_reg_germano_sarmatia_duna",
+      "att_reg_germano_sarmatia_oium"
+    ],
+    [
+      "att_reg_germano_sarmatia_duna",
+      "att_reg_germano_sarmatia_palteskja"
+    ],
+    [
+      "att_reg_germano_sarmatia_oium",
+      "att_reg_germano_sarmatia_palteskja"
+    ],
+    [
+      "att_reg_germano_sarmatia_oium",
+      "att_reg_gothiscandza_gothiscandza"
+    ],
+    [
+      "att_reg_germano_sarmatia_oium",
+      "att_reg_hercynia_budorgis"
+    ],
+    [
+      "att_reg_germano_sarmatia_oium",
+      "att_reg_transcarpathia_arheimar"
+    ],
+    [
+      "att_reg_germano_sarmatia_oium",
+      "att_reg_transcarpathia_belz"
+    ],
+    [
+      "att_reg_germano_sarmatia_palteskja",
+      "att_reg_hyperborea_kariskos"
+    ],
+    [
+      "att_reg_germano_sarmatia_palteskja",
+      "att_reg_transcarpathia_arheimar"
+    ],
+    [
+      "att_reg_gothiscandza_ascaucalis",
+      "att_reg_gothiscandza_gothiscandza"
+    ],
+    [
+      "att_reg_gothiscandza_ascaucalis",
+      "att_reg_gothiscandza_rugion"
+    ],
+    [
+      "att_reg_gothiscandza_ascaucalis",
+      "att_reg_hercynia_budorgis"
+    ],
+    [
+      "att_reg_gothiscandza_gothiscandza",
+      "att_reg_hercynia_budorgis"
+    ],
+    [
+      "att_reg_hercynia_budorgis",
+      "att_reg_hercynia_casurgis"
+    ],
+    [
+      "att_reg_hercynia_budorgis",
+      "att_reg_hercynia_nitrahwa"
+    ],
+    [
+      "att_reg_hercynia_budorgis",
+      "att_reg_transcarpathia_belz"
+    ],
+    [
+      "att_reg_hercynia_casurgis",
+      "att_reg_hercynia_nitrahwa"
+    ],
+    [
+      "att_reg_hercynia_casurgis",
+      "att_reg_pannonia_savaria"
+    ],
+    [
+      "att_reg_hercynia_casurgis",
+      "att_reg_raetia_et_noricum_augusta_vindelicorum"
+    ],
+    [
+      "att_reg_hercynia_casurgis",
+      "att_reg_raetia_et_noricum_iuvavum"
+    ],
+    [
+      "att_reg_hercynia_nitrahwa",
+      "att_reg_pannonia_savaria"
+    ],
+    [
+      "att_reg_hercynia_nitrahwa",
+      "att_reg_pannonia_sopianae"
+    ],
+    [
+      "att_reg_hercynia_nitrahwa",
+      "att_reg_transcarpathia_belz"
+    ],
+    [
+      "att_reg_hercynia_nitrahwa",
+      "att_reg_transcarpathia_leopolis"
+    ],
+    [
+      "att_reg_hyperborea_kariskos",
+      "att_reg_hyperborea_moramar"
+    ],
+    [
+      "att_reg_hyperborea_kariskos",
+      "att_reg_hyperborea_sylis"
+    ],
+    [
+      "att_reg_hyperborea_kariskos",
+      "att_reg_sarmatia_europaea_gelonus"
+    ],
+    [
+      "att_reg_hyperborea_kariskos",
+      "att_reg_transcarpathia_arheimar"
+    ],
+    [
+      "att_reg_hyperborea_moramar",
+      "att_reg_hyperborea_sylis"
+    ],
+    [
+      "att_reg_hyperborea_moramar",
+      "att_reg_scythia_bolghar"
+    ],
+    [
+      "att_reg_hyperborea_moramar",
+      "att_reg_scythia_ra"
+    ],
+    [
+      "att_reg_hyperborea_sylis",
+      "att_reg_sarmatia_asiatica_samandar"
+    ],
+    [
+      "att_reg_hyperborea_sylis",
+      "att_reg_sarmatia_asiatica_tanais"
+    ],
+    [
+      "att_reg_hyperborea_sylis",
+      "att_reg_sarmatia_europaea_gelonus"
+    ],
+    [
+      "att_reg_hyperborea_sylis",
+      "att_reg_scythia_ra"
+    ],
+    [
+      "att_reg_italia_fiorentia",
+      "att_reg_italia_roma"
+    ],
+    [
+      "att_reg_italia_fiorentia",
+      "att_reg_liguria_genua"
+    ],
+    [
+      "att_reg_italia_fiorentia",
+      "att_reg_venetia_ravenna"
+    ],
+    [
+      "att_reg_italia_fiorentia",
+      "att_reg_venetia_verona"
+    ],
+    [
+      "att_reg_italia_neapolis",
+      "att_reg_italia_roma"
+    ],
+    [
+      "att_reg_italia_neapolis",
+      "att_reg_magna_graecia_rhegium"
+    ],
+    [
+      "att_reg_italia_neapolis",
+      "att_reg_magna_graecia_tarentum"
+    ],
+    [
+      "att_reg_italia_neapolis",
+      "att_reg_venetia_ravenna"
+    ],
+    [
+      "att_reg_italia_roma",
+      "att_reg_venetia_ravenna"
+    ],
+    [
+      "att_reg_khwarasan_abarshahr",
+      "att_reg_khwarasan_harey"
+    ],
+    [
+      "att_reg_khwarasan_abarshahr",
+      "att_reg_khwarasan_merv"
+    ],
+    [
+      "att_reg_khwarasan_abarshahr",
+      "att_reg_media_atropatene_rhaga"
+    ],
+    [
+      "att_reg_khwarasan_abarshahr",
+      "att_reg_spahan_issatis"
+    ],
+    [
+      "att_reg_khwarasan_abarshahr",
+      "att_reg_transcaspia_dahistan"
+    ],
+    [
+      "att_reg_khwarasan_harey",
+      "att_reg_khwarasan_merv"
+    ],
+    [
+      "att_reg_khwarasan_harey",
+      "att_reg_makran_phra"
+    ],
+    [
+      "att_reg_khwarasan_harey",
+      "att_reg_spahan_issatis"
+    ],
+    [
+      "att_reg_khwarasan_merv",
+      "att_reg_transcaspia_dahistan"
+    ],
+    [
+      "att_reg_libya_augila",
+      "att_reg_libya_paraetonium"
+    ],
+    [
+      "att_reg_libya_augila",
+      "att_reg_libya_ptolemais"
+    ],
+    [
+      "att_reg_libya_augila",
+      "att_reg_phazania_garama"
+    ],
+    [
+      "att_reg_libya_paraetonium",
+      "att_reg_libya_ptolemais"
+    ],
+    [
+      "att_reg_libya_ptolemais",
+      "att_reg_phazania_garama"
+    ],
+    [
+      "att_reg_libya_ptolemais",
+      "att_reg_tripolitana_macomades"
+    ],
+    [
+      "att_reg_liguria_genua",
+      "att_reg_liguria_mediolanum"
+    ],
+    [
+      "att_reg_liguria_genua",
+      "att_reg_liguria_segusio"
+    ],
+    [
+      "att_reg_liguria_genua",
+      "att_reg_venetia_verona"
+    ],
+    [
+      "att_reg_liguria_mediolanum",
+      "att_reg_liguria_segusio"
+    ],
+    [
+      "att_reg_liguria_mediolanum",
+      "att_reg_maxima_sequanorum_octodurus"
+    ],
+    [
+      "att_reg_liguria_mediolanum",
+      "att_reg_raetia_et_noricum_augusta_vindelicorum"
+    ],
+    [
+      "att_reg_liguria_mediolanum",
+      "att_reg_venetia_verona"
+    ],
+    [
+      "att_reg_liguria_segusio",
+      "att_reg_maxima_sequanorum_octodurus"
+    ],
+    [
+      "att_reg_liguria_segusio",
+      "att_reg_narbonensis_aquae_sextiae"
+    ],
+    [
+      "att_reg_liguria_segusio",
+      "att_reg_narbonensis_vienna"
+    ],
+    [
+      "att_reg_lugdunensis_lugdunum",
+      "att_reg_lugdunensis_rotomagus"
+    ],
+    [
+      "att_reg_lugdunensis_lugdunum",
+      "att_reg_lugdunensis_turonum"
+    ],
+    [
+      "att_reg_lugdunensis_lugdunum",
+      "att_reg_maxima_sequanorum_octodurus"
+    ],
+    [
+      "att_reg_lugdunensis_lugdunum",
+      "att_reg_maxima_sequanorum_vesontio"
+    ],
+    [
+      "att_reg_lugdunensis_lugdunum",
+      "att_reg_narbonensis_vienna"
+    ],
+    [
+      "att_reg_lugdunensis_rotomagus",
+      "att_reg_lugdunensis_turonum"
+    ],
+    [
+      "att_reg_lusitania_emerita_augusta",
+      "att_reg_lusitania_olisipo"
+    ],
+    [
+      "att_reg_lusitania_emerita_augusta",
+      "att_reg_lusitania_pax_augusta"
+    ],
+    [
+      "att_reg_lusitania_olisipo",
+      "att_reg_lusitania_pax_augusta"
+    ],
+    [
+      "att_reg_macedonia_corinthus",
+      "att_reg_macedonia_dyrrhachium"
+    ],
+    [
+      "att_reg_macedonia_corinthus",
+      "att_reg_macedonia_thessalonica"
+    ],
+    [
+      "att_reg_macedonia_dyrrhachium",
+      "att_reg_macedonia_thessalonica"
+    ],
+    [
+      "att_reg_macedonia_thessalonica",
+      "att_reg_thracia_trimontium"
+    ],
+    [
+      "att_reg_magna_graecia_rhegium",
+      "att_reg_magna_graecia_tarentum"
+    ],
+    [
+      "att_reg_makran_harmosia",
+      "att_reg_makran_pura"
+    ],
+    [
+      "att_reg_makran_harmosia",
+      "att_reg_persis_behdeshir"
+    ],
+    [
+      "att_reg_makran_harmosia",
+      "att_reg_persis_siraf"
+    ],
+    [
+      "att_reg_makran_harmosia",
+      "att_reg_persis_stakhr"
+    ],
+    [
+      "att_reg_makran_phra",
+      "att_reg_makran_pura"
+    ],
+    [
+      "att_reg_makran_phra",
+      "att_reg_persis_behdeshir"
+    ],
+    [
+      "att_reg_makran_phra",
+      "att_reg_spahan_issatis"
+    ],
+    [
+      "att_reg_makran_pura",
+      "att_reg_persis_behdeshir"
+    ],
+    [
+      "att_reg_mauretania_caesarea",
+      "att_reg_mauretania_tamousiga"
+    ],
+    [
+      "att_reg_mauretania_caesarea",
+      "att_reg_mauretania_tingis"
+    ],
+    [
+      "att_reg_mauretania_caesarea",
+      "att_reg_phazania_dimmidi"
+    ],
+    [
+      "att_reg_mauretania_tamousiga",
+      "att_reg_mauretania_tingis"
+    ],
+    [
+      "att_reg_mauretania_tamousiga",
+      "att_reg_phazania_dimmidi"
+    ],
+    [
+      "att_reg_maxima_sequanorum_argentoratum",
+      "att_reg_maxima_sequanorum_vesontio"
+    ],
+    [
+      "att_reg_maxima_sequanorum_octodurus",
+      "att_reg_maxima_sequanorum_vesontio"
+    ],
+    [
+      "att_reg_maxima_sequanorum_octodurus",
+      "att_reg_narbonensis_vienna"
+    ],
+    [
+      "att_reg_maxima_sequanorum_octodurus",
+      "att_reg_raetia_et_noricum_augusta_vindelicorum"
+    ],
+    [
+      "att_reg_media_atropatene_ecbatana",
+      "att_reg_media_atropatene_ganzaga"
+    ],
+    [
+      "att_reg_media_atropatene_ecbatana",
+      "att_reg_media_atropatene_rhaga"
+    ],
+    [
+      "att_reg_media_atropatene_ecbatana",
+      "att_reg_spahan_spahan"
+    ],
+    [
+      "att_reg_media_atropatene_ecbatana",
+      "att_reg_spahan_susa"
+    ],
+    [
+      "att_reg_media_atropatene_ganzaga",
+      "att_reg_media_atropatene_rhaga"
+    ],
+    [
+      "att_reg_media_atropatene_ganzaga",
+      "att_reg_osroene_nisibis"
+    ],
+    [
+      "att_reg_media_atropatene_rhaga",
+      "att_reg_spahan_issatis"
+    ],
+    [
+      "att_reg_media_atropatene_rhaga",
+      "att_reg_spahan_spahan"
+    ],
+    [
+      "att_reg_narbonensis_aquae_sextiae",
+      "att_reg_narbonensis_narbo"
+    ],
+    [
+      "att_reg_narbonensis_aquae_sextiae",
+      "att_reg_narbonensis_vienna"
+    ],
+    [
+      "att_reg_narbonensis_narbo",
+      "att_reg_narbonensis_vienna"
+    ],
+    [
+      "att_reg_narbonensis_narbo",
+      "att_reg_tarraconensis_pompaelo"
+    ],
+    [
+      "att_reg_narbonensis_narbo",
+      "att_reg_tarraconensis_tarraco"
+    ],
+    [
+      "att_reg_osroene_amida",
+      "att_reg_osroene_edessa"
+    ],
+    [
+      "att_reg_osroene_amida",
+      "att_reg_osroene_nisibis"
+    ],
+    [
+      "att_reg_osroene_edessa",
+      "att_reg_osroene_nisibis"
+    ],
+    [
+      "att_reg_osroene_edessa",
+      "att_reg_syria_antiochia"
+    ],
+    [
+      "att_reg_osroene_edessa",
+      "att_reg_syria_emesa"
+    ],
+    [
+      "att_reg_palaestinea_aelia_capitolina",
+      "att_reg_palaestinea_aila"
+    ],
+    [
+      "att_reg_palaestinea_aelia_capitolina",
+      "att_reg_palaestinea_nova_trajana_bostra"
+    ],
+    [
+      "att_reg_palaestinea_aelia_capitolina",
+      "att_reg_syria_tyrus"
+    ],
+    [
+      "att_reg_palaestinea_aila",
+      "att_reg_palaestinea_nova_trajana_bostra"
+    ],
+    [
+      "att_reg_palaestinea_nova_trajana_bostra",
+      "att_reg_syria_emesa"
+    ],
+    [
+      "att_reg_palaestinea_nova_trajana_bostra",
+      "att_reg_syria_tyrus"
+    ],
+    [
+      "att_reg_pannonia_savaria",
+      "att_reg_pannonia_sopianae"
+    ],
+    [
+      "att_reg_pannonia_savaria",
+      "att_reg_raetia_et_noricum_iuvavum"
+    ],
+    [
+      "att_reg_pannonia_savaria",
+      "att_reg_raetia_et_noricum_virunum"
+    ],
+    [
+      "att_reg_pannonia_sirmium",
+      "att_reg_pannonia_sopianae"
+    ],
+    [
+      "att_reg_persis_behdeshir",
+      "att_reg_persis_stakhr"
+    ],
+    [
+      "att_reg_persis_behdeshir",
+      "att_reg_spahan_issatis"
+    ],
+    [
+      "att_reg_persis_behdeshir",
+      "att_reg_spahan_spahan"
+    ],
+    [
+      "att_reg_persis_siraf",
+      "att_reg_persis_stakhr"
+    ],
+    [
+      "att_reg_persis_siraf",
+      "att_reg_spahan_susa"
+    ],
+    [
+      "att_reg_persis_stakhr",
+      "att_reg_spahan_spahan"
+    ],
+    [
+      "att_reg_persis_stakhr",
+      "att_reg_spahan_susa"
+    ],
+    [
+      "att_reg_phazania_cydamus",
+      "att_reg_phazania_dimmidi"
+    ],
+    [
+      "att_reg_phazania_cydamus",
+      "att_reg_phazania_garama"
+    ],
+    [
+      "att_reg_phazania_cydamus",
+      "att_reg_tripolitana_sabrata"
+    ],
+    [
+      "att_reg_phazania_garama",
+      "att_reg_tripolitana_leptis_magna"
+    ],
+    [
+      "att_reg_phazania_garama",
+      "att_reg_tripolitana_macomades"
+    ],
+    [
+      "att_reg_phazania_garama",
+      "att_reg_tripolitana_sabrata"
+    ],
+    [
+      "att_reg_raetia_et_noricum_augusta_vindelicorum",
+      "att_reg_raetia_et_noricum_iuvavum"
+    ],
+    [
+      "att_reg_raetia_et_noricum_augusta_vindelicorum",
+      "att_reg_venetia_verona"
+    ],
+    [
+      "att_reg_raetia_et_noricum_iuvavum",
+      "att_reg_raetia_et_noricum_virunum"
+    ],
+    [
+      "att_reg_raetia_et_noricum_iuvavum",
+      "att_reg_venetia_verona"
+    ],
+    [
+      "att_reg_raetia_et_noricum_virunum",
+      "att_reg_venetia_aquileia"
+    ],
+    [
+      "att_reg_raetia_et_noricum_virunum",
+      "att_reg_venetia_verona"
+    ],
+    [
+      "att_reg_sarmatia_asiatica_anacopia",
+      "att_reg_sarmatia_asiatica_samandar"
+    ],
+    [
+      "att_reg_sarmatia_asiatica_anacopia",
+      "att_reg_sarmatia_asiatica_tanais"
+    ],
+    [
+      "att_reg_sarmatia_asiatica_samandar",
+      "att_reg_sarmatia_asiatica_tanais"
+    ],
+    [
+      "att_reg_sarmatia_asiatica_samandar",
+      "att_reg_scythia_ra"
+    ],
+    [
+      "att_reg_sarmatia_asiatica_samandar",
+      "att_reg_scythia_sarai"
+    ],
+    [
+      "att_reg_sarmatia_asiatica_tanais",
+      "att_reg_sarmatia_europaea_gelonus"
+    ],
+    [
+      "att_reg_sarmatia_europaea_chersonessus",
+      "att_reg_sarmatia_europaea_gelonus"
+    ],
+    [
+      "att_reg_sarmatia_europaea_chersonessus",
+      "att_reg_sarmatia_europaea_olbia"
+    ],
+    [
+      "att_reg_sarmatia_europaea_gelonus",
+      "att_reg_sarmatia_europaea_olbia"
+    ],
+    [
+      "att_reg_sarmatia_europaea_gelonus",
+      "att_reg_transcarpathia_arheimar"
+    ],
+    [
+      "att_reg_sarmatia_europaea_olbia",
+      "att_reg_transcarpathia_arheimar"
+    ],
+    [
+      "att_reg_sarmatia_europaea_olbia",
+      "att_reg_transcarpathia_leopolis"
+    ],
+    [
+      "att_reg_scandza_hafn",
+      "att_reg_scandza_hrefnesholt"
+    ],
+    [
+      "att_reg_scythia_bolghar",
+      "att_reg_scythia_ra"
+    ],
+    [
+      "att_reg_scythia_bolghar",
+      "att_reg_scythia_sarai"
+    ],
+    [
+      "att_reg_scythia_ra",
+      "att_reg_scythia_sarai"
+    ],
+    [
+      "att_reg_scythia_sarai",
+      "att_reg_transcaspia_siahkuh"
+    ],
+    [
+      "att_reg_spahan_issatis",
+      "att_reg_spahan_spahan"
+    ],
+    [
+      "att_reg_spahan_spahan",
+      "att_reg_spahan_susa"
+    ],
+    [
+      "att_reg_syria_antiochia",
+      "att_reg_syria_emesa"
+    ],
+    [
+      "att_reg_syria_antiochia",
+      "att_reg_syria_tyrus"
+    ],
+    [
+      "att_reg_syria_emesa",
+      "att_reg_syria_tyrus"
+    ],
+    [
+      "att_reg_tarraconensis_caesaraugusta",
+      "att_reg_tarraconensis_pompaelo"
+    ],
+    [
+      "att_reg_tarraconensis_caesaraugusta",
+      "att_reg_tarraconensis_tarraco"
+    ],
+    [
+      "att_reg_tarraconensis_pompaelo",
+      "att_reg_tarraconensis_tarraco"
+    ],
+    [
+      "att_reg_thracia_constantinopolis",
+      "att_reg_thracia_marcianopolis"
+    ],
+    [
+      "att_reg_thracia_constantinopolis",
+      "att_reg_thracia_trimontium"
+    ],
+    [
+      "att_reg_thracia_marcianopolis",
+      "att_reg_thracia_trimontium"
+    ],
+    [
+      "att_reg_transcarpathia_arheimar",
+      "att_reg_transcarpathia_belz"
+    ],
+    [
+      "att_reg_transcarpathia_arheimar",
+      "att_reg_transcarpathia_leopolis"
+    ],
+    [
+      "att_reg_transcarpathia_belz",
+      "att_reg_transcarpathia_leopolis"
+    ],
+    [
+      "att_reg_transcaspia_dahistan",
+      "att_reg_transcaspia_kath"
+    ],
+    [
+      "att_reg_transcaspia_kath",
+      "att_reg_transcaspia_siahkuh"
+    ],
+    [
+      "att_reg_tripolitana_leptis_magna",
+      "att_reg_tripolitana_macomades"
+    ],
+    [
+      "att_reg_tripolitana_leptis_magna",
+      "att_reg_tripolitana_sabrata"
+    ],
+    [
+      "att_reg_venetia_aquileia",
+      "att_reg_venetia_verona"
+    ],
+    [
+      "att_reg_venetia_ravenna",
+      "att_reg_venetia_verona"
+    ]
+  ],
+  "province_borders": [
+    [
+      "att_prov_aegyptus",
+      "att_prov_aethiopia"
+    ],
+    [
+      "att_prov_aegyptus",
+      "att_prov_libya"
+    ],
+    [
+      "att_prov_aegyptus",
+      "att_prov_palaestinea"
+    ],
+    [
+      "att_prov_africa",
+      "att_prov_mauretania"
+    ],
+    [
+      "att_prov_africa",
+      "att_prov_phazania"
+    ],
+    [
+      "att_prov_africa",
+      "att_prov_tripolitana"
+    ],
+    [
+      "att_prov_aquitania",
+      "att_prov_lugdunensis"
+    ],
+    [
+      "att_prov_aquitania",
+      "att_prov_narbonensis"
+    ],
+    [
+      "att_prov_aquitania",
+      "att_prov_tarraconensis"
+    ],
+    [
+      "att_prov_arabia_felix",
+      "att_prov_arabia_magna"
+    ],
+    [
+      "att_prov_arabia_magna",
+      "att_prov_asorstan"
+    ],
+    [
+      "att_prov_arabia_magna",
+      "att_prov_osroene"
+    ],
+    [
+      "att_prov_arabia_magna",
+      "att_prov_palaestinea"
+    ],
+    [
+      "att_prov_arabia_magna",
+      "att_prov_syria"
+    ],
+    [
+      "att_prov_armenia",
+      "att_prov_cappadocia"
+    ],
+    [
+      "att_prov_armenia",
+      "att_prov_caucasia"
+    ],
+    [
+      "att_prov_armenia",
+      "att_prov_media_atropatene"
+    ],
+    [
+      "att_prov_armenia",
+      "att_prov_osroene"
+    ],
+    [
+      "att_prov_asia",
+      "att_prov_bithynia"
+    ],
+    [
+      "att_prov_asia",
+      "att_prov_cilicia"
+    ],
+    [
+      "att_prov_asorstan",
+      "att_prov_media_atropatene"
+    ],
+    [
+      "att_prov_asorstan",
+      "att_prov_osroene"
+    ],
+    [
+      "att_prov_asorstan",
+      "att_prov_spahan"
+    ],
+    [
+      "att_prov_baetica",
+      "att_prov_carthaginensis"
+    ],
+    [
+      "att_prov_baetica",
+      "att_prov_lusitania"
+    ],
+    [
+      "att_prov_belgica",
+      "att_prov_germania"
+    ],
+    [
+      "att_prov_belgica",
+      "att_prov_lugdunensis"
+    ],
+    [
+      "att_prov_belgica",
+      "att_prov_maxima_sequanorum"
+    ],
+    [
+      "att_prov_bithynia",
+      "att_prov_cappadocia"
+    ],
+    [
+      "att_prov_bithynia",
+      "att_prov_cilicia"
+    ],
+    [
+      "att_prov_britannia_inferior",
+      "att_prov_britannia_superior"
+    ],
+    [
+      "att_prov_britannia_inferior",
+      "att_prov_caledonia_et_hbernia"
+    ],
+    [
+      "att_prov_cappadocia",
+      "att_prov_caucasia"
+    ],
+    [
+      "att_prov_cappadocia",
+      "att_prov_cilicia"
+    ],
+    [
+      "att_prov_cappadocia",
+      "att_prov_osroene"
+    ],
+    [
+      "att_prov_cappadocia",
+      "att_prov_syria"
+    ],
+    [
+      "att_prov_carthaginensis",
+      "att_prov_gallaecia"
+    ],
+    [
+      "att_prov_carthaginensis",
+      "att_prov_lusitania"
+    ],
+    [
+      "att_prov_carthaginensis",
+      "att_prov_tarraconensis"
+    ],
+    [
+      "att_prov_caucasia",
+      "att_prov_sarmatia_asiatica"
+    ],
+    [
+      "att_prov_cilicia",
+      "att_prov_syria"
+    ],
+    [
+      "att_prov_dacia",
+      "att_prov_hercynia"
+    ],
+    [
+      "att_prov_dacia",
+      "att_prov_pannonia"
+    ],
+    [
+      "att_prov_dacia",
+      "att_prov_sarmatia_europaea"
+    ],
+    [
+      "att_prov_dacia",
+      "att_prov_transcarpathia"
+    ],
+    [
+      "att_prov_dalmatia",
+      "att_prov_dardania"
+    ],
+    [
+      "att_prov_dalmatia",
+      "att_prov_macedonia"
+    ],
+    [
+      "att_prov_dalmatia",
+      "att_prov_pannonia"
+    ],
+    [
+      "att_prov_dalmatia",
+      "att_prov_raetia_et_noricum"
+    ],
+    [
+      "att_prov_dalmatia",
+      "att_prov_venetia"
+    ],
+    [
+      "att_prov_dardania",
+      "att_prov_macedonia"
+    ],
+    [
+      "att_prov_dardania",
+      "att_prov_pannonia"
+    ],
+    [
+      "att_prov_dardania",
+      "att_prov_thracia"
+    ],
+    [
+      "att_prov_frisia",
+      "att_prov_germania"
+    ],
+    [
+      "att_prov_frisia",
+      "att_prov_gothiscandza"
+    ],
+    [
+      "att_prov_frisia",
+      "att_prov_scandza"
+    ],
+    [
+      "att_prov_gallaecia",
+      "att_prov_lusitania"
+    ],
+    [
+      "att_prov_gallaecia",
+      "att_prov_tarraconensis"
+    ],
+    [
+      "att_prov_germania",
+      "att_prov_gothiscandza"
+    ],
+    [
+      "att_prov_germania",
+      "att_prov_hercynia"
+    ],
+    [
+      "att_prov_germania",
+      "att_prov_maxima_sequanorum"
+    ],
+    [
+      "att_prov_germania",
+      "att_prov_raetia_et_noricum"
+    ],
+    [
+      "att_prov_germano-sarmatia",
+      "att_prov_gothiscandza"
+    ],
+    [
+      "att_prov_germano-sarmatia",
+      "att_prov_hercynia"
+    ],
+    [
+      "att_prov_germano-sarmatia",
+      "att_prov_hyperborea"
+    ],
+    [
+      "att_prov_germano-sarmatia",
+      "att_prov_transcarpathia"
+    ],
+    [
+      "att_prov_gothiscandza",
+      "att_prov_hercynia"
+    ],
+    [
+      "att_prov_hercynia",
+      "att_prov_pannonia"
+    ],
+    [
+      "att_prov_hercynia",
+      "att_prov_raetia_et_noricum"
+    ],
+    [
+      "att_prov_hercynia",
+      "att_prov_transcarpathia"
+    ],
+    [
+      "att_prov_hyperborea",
+      "att_prov_sarmatia_asiatica"
+    ],
+    [
+      "att_prov_hyperborea",
+      "att_prov_sarmatia_europaea"
+    ],
+    [
+      "att_prov_hyperborea",
+      "att_prov_scythia"
+    ],
+    [
+      "att_prov_hyperborea",
+      "att_prov_transcarpathia"
+    ],
+    [
+      "att_prov_italia",
+      "att_prov_liguria"
+    ],
+    [
+      "att_prov_italia",
+      "att_prov_magna_graecia"
+    ],
+    [
+      "att_prov_italia",
+      "att_prov_venetia"
+    ],
+    [
+      "att_prov_khwarasan",
+      "att_prov_makran"
+    ],
+    [
+      "att_prov_khwarasan",
+      "att_prov_media_atropatene"
+    ],
+    [
+      "att_prov_khwarasan",
+      "att_prov_spahan"
+    ],
+    [
+      "att_prov_khwarasan",
+      "att_prov_transcaspia"
+    ],
+    [
+      "att_prov_libya",
+      "att_prov_phazania"
+    ],
+    [
+      "att_prov_libya",
+      "att_prov_tripolitana"
+    ],
+    [
+      "att_prov_liguria",
+      "att_prov_maxima_sequanorum"
+    ],
+    [
+      "att_prov_liguria",
+      "att_prov_narbonensis"
+    ],
+    [
+      "att_prov_liguria",
+      "att_prov_raetia_et_noricum"
+    ],
+    [
+      "att_prov_liguria",
+      "att_prov_venetia"
+    ],
+    [
+      "att_prov_lugdunensis",
+      "att_prov_maxima_sequanorum"
+    ],
+    [
+      "att_prov_lugdunensis",
+      "att_prov_narbonensis"
+    ],
+    [
+      "att_prov_macedonia",
+      "att_prov_thracia"
+    ],
+    [
+      "att_prov_makran",
+      "att_prov_persis"
+    ],
+    [
+      "att_prov_makran",
+      "att_prov_spahan"
+    ],
+    [
+      "att_prov_mauretania",
+      "att_prov_phazania"
+    ],
+    [
+      "att_prov_maxima_sequanorum",
+      "att_prov_narbonensis"
+    ],
+    [
+      "att_prov_maxima_sequanorum",
+      "att_prov_raetia_et_noricum"
+    ],
+    [
+      "att_prov_media_atropatene",
+      "att_prov_osroene"
+    ],
+    [
+      "att_prov_media_atropatene",
+      "att_prov_spahan"
+    ],
+    [
+      "att_prov_narbonensis",
+      "att_prov_tarraconensis"
+    ],
+    [
+      "att_prov_osroene",
+      "att_prov_syria"
+    ],
+    [
+      "att_prov_palaestinea",
+      "att_prov_syria"
+    ],
+    [
+      "att_prov_pannonia",
+      "att_prov_raetia_et_noricum"
+    ],
+    [
+      "att_prov_persis",
+      "att_prov_spahan"
+    ],
+    [
+      "att_prov_phazania",
+      "att_prov_tripolitana"
+    ],
+    [
+      "att_prov_raetia_et_noricum",
+      "att_prov_venetia"
+    ],
+    [
+      "att_prov_sarmatia_asiatica",
+      "att_prov_sarmatia_europaea"
+    ],
+    [
+      "att_prov_sarmatia_asiatica",
+      "att_prov_scythia"
+    ],
+    [
+      "att_prov_sarmatia_europaea",
+      "att_prov_transcarpathia"
+    ],
+    [
+      "att_prov_scythia",
+      "att_prov_transcaspia"
+    ]
+  ],
+  "coverage": {
+    "complete": true,
+    "region_count": 186,
+    "province_count": 62,
+    "region_border_count": 388,
+    "province_border_count": 108,
+    "adjacency_kind": "raw_hex_land_borders",
+    "identity_validation": "Exact region-to-province match against bundled campaign inventory",
+    "symmetry_validated": true
+  },
+  "limitations": [
+    "Land borders only: sea travel, strait crossings and army movement connections are not inferred.",
+    "The published map has not been validated against a local installed game build.",
+    "Raw hex borders are canonical; published-map differences remain in cross_validation.",
+    "Geometric adjacency is not a claim that every game effect uses the same graph."
+  ],
+  "cross_validation": {
+    "published_region_borders": [
+      [
+        "att_reg_aegyptus_alexandria",
+        "att_reg_aegyptus_berenice"
+      ],
+      [
+        "att_reg_aegyptus_alexandria",
+        "att_reg_aegyptus_oxyrhynchus"
+      ],
+      [
+        "att_reg_aegyptus_alexandria",
+        "att_reg_libya_paraetonium"
+      ],
+      [
+        "att_reg_aegyptus_alexandria",
+        "att_reg_palaestinea_aelia_capitolina"
+      ],
+      [
+        "att_reg_aegyptus_alexandria",
+        "att_reg_palaestinea_aila"
+      ],
+      [
+        "att_reg_aegyptus_berenice",
+        "att_reg_aegyptus_oxyrhynchus"
+      ],
+      [
+        "att_reg_aegyptus_berenice",
+        "att_reg_aethiopia_pachoras"
+      ],
+      [
+        "att_reg_aegyptus_oxyrhynchus",
+        "att_reg_aethiopia_pachoras"
+      ],
+      [
+        "att_reg_aegyptus_oxyrhynchus",
+        "att_reg_libya_paraetonium"
+      ],
+      [
+        "att_reg_aethiopia_adulis",
+        "att_reg_aethiopia_aksum"
+      ],
+      [
+        "att_reg_aethiopia_adulis",
+        "att_reg_aethiopia_pachoras"
+      ],
+      [
+        "att_reg_aethiopia_aksum",
+        "att_reg_aethiopia_pachoras"
+      ],
+      [
+        "att_reg_africa_carthago",
+        "att_reg_africa_constantina"
+      ],
+      [
+        "att_reg_africa_carthago",
+        "att_reg_africa_hadrumentum"
+      ],
+      [
+        "att_reg_africa_constantina",
+        "att_reg_africa_hadrumentum"
+      ],
+      [
+        "att_reg_africa_constantina",
+        "att_reg_mauretania_caesarea"
+      ],
+      [
+        "att_reg_africa_constantina",
+        "att_reg_phazania_dimmidi"
+      ],
+      [
+        "att_reg_africa_hadrumentum",
+        "att_reg_phazania_cydamus"
+      ],
+      [
+        "att_reg_africa_hadrumentum",
+        "att_reg_phazania_dimmidi"
+      ],
+      [
+        "att_reg_africa_hadrumentum",
+        "att_reg_tripolitana_sabrata"
+      ],
+      [
+        "att_reg_aquitania_avaricum",
+        "att_reg_aquitania_burdigala"
+      ],
+      [
+        "att_reg_aquitania_avaricum",
+        "att_reg_aquitania_elusa"
+      ],
+      [
+        "att_reg_aquitania_avaricum",
+        "att_reg_lugdunensis_lugdunum"
+      ],
+      [
+        "att_reg_aquitania_avaricum",
+        "att_reg_lugdunensis_turonum"
+      ],
+      [
+        "att_reg_aquitania_avaricum",
+        "att_reg_narbonensis_narbo"
+      ],
+      [
+        "att_reg_aquitania_avaricum",
+        "att_reg_narbonensis_vienna"
+      ],
+      [
+        "att_reg_aquitania_burdigala",
+        "att_reg_aquitania_elusa"
+      ],
+      [
+        "att_reg_aquitania_burdigala",
+        "att_reg_lugdunensis_turonum"
+      ],
+      [
+        "att_reg_aquitania_elusa",
+        "att_reg_narbonensis_narbo"
+      ],
+      [
+        "att_reg_aquitania_elusa",
+        "att_reg_tarraconensis_pompaelo"
+      ],
+      [
+        "att_reg_arabia_felix_eudaemon",
+        "att_reg_arabia_felix_zafar"
+      ],
+      [
+        "att_reg_arabia_felix_eudaemon",
+        "att_reg_arabia_magna_yathrib"
+      ],
+      [
+        "att_reg_arabia_felix_omana",
+        "att_reg_arabia_felix_zafar"
+      ],
+      [
+        "att_reg_arabia_felix_omana",
+        "att_reg_arabia_magna_hira"
+      ],
+      [
+        "att_reg_arabia_felix_zafar",
+        "att_reg_arabia_magna_hira"
+      ],
+      [
+        "att_reg_arabia_felix_zafar",
+        "att_reg_arabia_magna_yathrib"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_reg_arabia_magna_hira"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_reg_arabia_magna_yathrib"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_reg_asorstan_ctesiphon"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_reg_osroene_edessa"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_reg_osroene_nisibis"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_reg_palaestinea_aila"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_reg_palaestinea_nova_trajana_bostra"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_reg_syria_emesa"
+      ],
+      [
+        "att_reg_arabia_magna_hira",
+        "att_reg_arabia_magna_yathrib"
+      ],
+      [
+        "att_reg_arabia_magna_hira",
+        "att_reg_asorstan_ctesiphon"
+      ],
+      [
+        "att_reg_arabia_magna_hira",
+        "att_reg_asorstan_meshan"
+      ],
+      [
+        "att_reg_armenia_duin",
+        "att_reg_armenia_payttakaran"
+      ],
+      [
+        "att_reg_armenia_duin",
+        "att_reg_armenia_tosp"
+      ],
+      [
+        "att_reg_armenia_duin",
+        "att_reg_cappadocia_trapezus"
+      ],
+      [
+        "att_reg_armenia_duin",
+        "att_reg_caucasia_gabala"
+      ],
+      [
+        "att_reg_armenia_duin",
+        "att_reg_caucasia_kotais"
+      ],
+      [
+        "att_reg_armenia_duin",
+        "att_reg_caucasia_mtskheta"
+      ],
+      [
+        "att_reg_armenia_payttakaran",
+        "att_reg_armenia_tosp"
+      ],
+      [
+        "att_reg_armenia_payttakaran",
+        "att_reg_caucasia_gabala"
+      ],
+      [
+        "att_reg_armenia_payttakaran",
+        "att_reg_media_atropatene_ganzaga"
+      ],
+      [
+        "att_reg_armenia_tosp",
+        "att_reg_cappadocia_melitene"
+      ],
+      [
+        "att_reg_armenia_tosp",
+        "att_reg_cappadocia_trapezus"
+      ],
+      [
+        "att_reg_armenia_tosp",
+        "att_reg_media_atropatene_ganzaga"
+      ],
+      [
+        "att_reg_armenia_tosp",
+        "att_reg_osroene_amida"
+      ],
+      [
+        "att_reg_armenia_tosp",
+        "att_reg_osroene_nisibis"
+      ],
+      [
+        "att_reg_asia_cyzicus",
+        "att_reg_asia_ephesus"
+      ],
+      [
+        "att_reg_asia_cyzicus",
+        "att_reg_asia_synnada"
+      ],
+      [
+        "att_reg_asia_cyzicus",
+        "att_reg_bithynia_nicomedia"
+      ],
+      [
+        "att_reg_asia_ephesus",
+        "att_reg_asia_synnada"
+      ],
+      [
+        "att_reg_asia_ephesus",
+        "att_reg_cilicia_myra"
+      ],
+      [
+        "att_reg_asia_synnada",
+        "att_reg_bithynia_ancyra"
+      ],
+      [
+        "att_reg_asia_synnada",
+        "att_reg_bithynia_nicomedia"
+      ],
+      [
+        "att_reg_asia_synnada",
+        "att_reg_cilicia_iconium"
+      ],
+      [
+        "att_reg_asia_synnada",
+        "att_reg_cilicia_myra"
+      ],
+      [
+        "att_reg_asorstan_arbela",
+        "att_reg_asorstan_ctesiphon"
+      ],
+      [
+        "att_reg_asorstan_arbela",
+        "att_reg_asorstan_meshan"
+      ],
+      [
+        "att_reg_asorstan_arbela",
+        "att_reg_media_atropatene_ecbatana"
+      ],
+      [
+        "att_reg_asorstan_arbela",
+        "att_reg_media_atropatene_ganzaga"
+      ],
+      [
+        "att_reg_asorstan_arbela",
+        "att_reg_osroene_nisibis"
+      ],
+      [
+        "att_reg_asorstan_arbela",
+        "att_reg_spahan_susa"
+      ],
+      [
+        "att_reg_asorstan_ctesiphon",
+        "att_reg_asorstan_meshan"
+      ],
+      [
+        "att_reg_asorstan_ctesiphon",
+        "att_reg_osroene_nisibis"
+      ],
+      [
+        "att_reg_asorstan_meshan",
+        "att_reg_spahan_susa"
+      ],
+      [
+        "att_reg_baetica_corduba",
+        "att_reg_baetica_hispalis"
+      ],
+      [
+        "att_reg_baetica_corduba",
+        "att_reg_baetica_malaca"
+      ],
+      [
+        "att_reg_baetica_corduba",
+        "att_reg_carthaginensis_carthago_nova"
+      ],
+      [
+        "att_reg_baetica_corduba",
+        "att_reg_carthaginensis_toletum"
+      ],
+      [
+        "att_reg_baetica_corduba",
+        "att_reg_lusitania_emerita_augusta"
+      ],
+      [
+        "att_reg_baetica_hispalis",
+        "att_reg_baetica_malaca"
+      ],
+      [
+        "att_reg_baetica_hispalis",
+        "att_reg_lusitania_emerita_augusta"
+      ],
+      [
+        "att_reg_baetica_hispalis",
+        "att_reg_lusitania_pax_augusta"
+      ],
+      [
+        "att_reg_baetica_malaca",
+        "att_reg_carthaginensis_carthago_nova"
+      ],
+      [
+        "att_reg_belgica_augusta_treverorum",
+        "att_reg_belgica_colonia_agrippina"
+      ],
+      [
+        "att_reg_belgica_augusta_treverorum",
+        "att_reg_belgica_durocorterum"
+      ],
+      [
+        "att_reg_belgica_augusta_treverorum",
+        "att_reg_germania_uburzis"
+      ],
+      [
+        "att_reg_belgica_augusta_treverorum",
+        "att_reg_lugdunensis_lugdunum"
+      ],
+      [
+        "att_reg_belgica_augusta_treverorum",
+        "att_reg_maxima_sequanorum_argentoratum"
+      ],
+      [
+        "att_reg_belgica_augusta_treverorum",
+        "att_reg_maxima_sequanorum_vesontio"
+      ],
+      [
+        "att_reg_belgica_colonia_agrippina",
+        "att_reg_belgica_durocorterum"
+      ],
+      [
+        "att_reg_belgica_colonia_agrippina",
+        "att_reg_germania_uburzis"
+      ],
+      [
+        "att_reg_belgica_durocorterum",
+        "att_reg_lugdunensis_lugdunum"
+      ],
+      [
+        "att_reg_belgica_durocorterum",
+        "att_reg_lugdunensis_rotomagus"
+      ],
+      [
+        "att_reg_bithynia_amasea",
+        "att_reg_bithynia_ancyra"
+      ],
+      [
+        "att_reg_bithynia_amasea",
+        "att_reg_bithynia_nicomedia"
+      ],
+      [
+        "att_reg_bithynia_amasea",
+        "att_reg_cappadocia_caesarea_eusebia"
+      ],
+      [
+        "att_reg_bithynia_amasea",
+        "att_reg_cappadocia_trapezus"
+      ],
+      [
+        "att_reg_bithynia_ancyra",
+        "att_reg_bithynia_nicomedia"
+      ],
+      [
+        "att_reg_bithynia_ancyra",
+        "att_reg_cappadocia_caesarea_eusebia"
+      ],
+      [
+        "att_reg_bithynia_ancyra",
+        "att_reg_cilicia_iconium"
+      ],
+      [
+        "att_reg_britannia_inferior_eboracum",
+        "att_reg_britannia_inferior_lindum"
+      ],
+      [
+        "att_reg_britannia_inferior_eboracum",
+        "att_reg_caledonia_et_hibernia_eildon"
+      ],
+      [
+        "att_reg_britannia_inferior_lindum",
+        "att_reg_britannia_inferior_segontium"
+      ],
+      [
+        "att_reg_britannia_inferior_lindum",
+        "att_reg_britannia_superior_camulodunon"
+      ],
+      [
+        "att_reg_britannia_inferior_segontium",
+        "att_reg_britannia_superior_camulodunon"
+      ],
+      [
+        "att_reg_britannia_inferior_segontium",
+        "att_reg_britannia_superior_corinium"
+      ],
+      [
+        "att_reg_britannia_superior_camulodunon",
+        "att_reg_britannia_superior_corinium"
+      ],
+      [
+        "att_reg_britannia_superior_camulodunon",
+        "att_reg_britannia_superior_londinium"
+      ],
+      [
+        "att_reg_britannia_superior_corinium",
+        "att_reg_britannia_superior_londinium"
+      ],
+      [
+        "att_reg_caledonia_et_hibernia_eildon",
+        "att_reg_caledonia_et_hibernia_tuesis"
+      ],
+      [
+        "att_reg_cappadocia_caesarea_eusebia",
+        "att_reg_cappadocia_melitene"
+      ],
+      [
+        "att_reg_cappadocia_caesarea_eusebia",
+        "att_reg_cappadocia_trapezus"
+      ],
+      [
+        "att_reg_cappadocia_caesarea_eusebia",
+        "att_reg_cilicia_iconium"
+      ],
+      [
+        "att_reg_cappadocia_caesarea_eusebia",
+        "att_reg_cilicia_tarsus"
+      ],
+      [
+        "att_reg_cappadocia_melitene",
+        "att_reg_cappadocia_trapezus"
+      ],
+      [
+        "att_reg_cappadocia_melitene",
+        "att_reg_cilicia_tarsus"
+      ],
+      [
+        "att_reg_cappadocia_melitene",
+        "att_reg_osroene_amida"
+      ],
+      [
+        "att_reg_cappadocia_melitene",
+        "att_reg_osroene_edessa"
+      ],
+      [
+        "att_reg_cappadocia_melitene",
+        "att_reg_syria_antiochia"
+      ],
+      [
+        "att_reg_cappadocia_trapezus",
+        "att_reg_caucasia_kotais"
+      ],
+      [
+        "att_reg_carthaginensis_carthago_nova",
+        "att_reg_carthaginensis_segobriga"
+      ],
+      [
+        "att_reg_carthaginensis_carthago_nova",
+        "att_reg_carthaginensis_toletum"
+      ],
+      [
+        "att_reg_carthaginensis_segobriga",
+        "att_reg_carthaginensis_toletum"
+      ],
+      [
+        "att_reg_carthaginensis_segobriga",
+        "att_reg_tarraconensis_caesaraugusta"
+      ],
+      [
+        "att_reg_carthaginensis_segobriga",
+        "att_reg_tarraconensis_tarraco"
+      ],
+      [
+        "att_reg_carthaginensis_toletum",
+        "att_reg_gallaecia_asturica"
+      ],
+      [
+        "att_reg_carthaginensis_toletum",
+        "att_reg_lusitania_emerita_augusta"
+      ],
+      [
+        "att_reg_carthaginensis_toletum",
+        "att_reg_tarraconensis_caesaraugusta"
+      ],
+      [
+        "att_reg_caucasia_gabala",
+        "att_reg_caucasia_mtskheta"
+      ],
+      [
+        "att_reg_caucasia_gabala",
+        "att_reg_sarmatia_asiatica_samandar"
+      ],
+      [
+        "att_reg_caucasia_kotais",
+        "att_reg_caucasia_mtskheta"
+      ],
+      [
+        "att_reg_caucasia_kotais",
+        "att_reg_sarmatia_asiatica_anacopia"
+      ],
+      [
+        "att_reg_caucasia_kotais",
+        "att_reg_sarmatia_asiatica_samandar"
+      ],
+      [
+        "att_reg_caucasia_mtskheta",
+        "att_reg_sarmatia_asiatica_samandar"
+      ],
+      [
+        "att_reg_cilicia_iconium",
+        "att_reg_cilicia_myra"
+      ],
+      [
+        "att_reg_cilicia_iconium",
+        "att_reg_cilicia_tarsus"
+      ],
+      [
+        "att_reg_cilicia_myra",
+        "att_reg_cilicia_tarsus"
+      ],
+      [
+        "att_reg_cilicia_tarsus",
+        "att_reg_syria_antiochia"
+      ],
+      [
+        "att_reg_dacia_apulum",
+        "att_reg_dacia_petrodava"
+      ],
+      [
+        "att_reg_dacia_apulum",
+        "att_reg_dacia_romula"
+      ],
+      [
+        "att_reg_dacia_apulum",
+        "att_reg_hercynia_nitrahwa"
+      ],
+      [
+        "att_reg_dacia_apulum",
+        "att_reg_pannonia_sirmium"
+      ],
+      [
+        "att_reg_dacia_apulum",
+        "att_reg_pannonia_sopianae"
+      ],
+      [
+        "att_reg_dacia_apulum",
+        "att_reg_transcarpathia_leopolis"
+      ],
+      [
+        "att_reg_dacia_petrodava",
+        "att_reg_dacia_romula"
+      ],
+      [
+        "att_reg_dacia_petrodava",
+        "att_reg_sarmatia_europaea_olbia"
+      ],
+      [
+        "att_reg_dacia_petrodava",
+        "att_reg_transcarpathia_leopolis"
+      ],
+      [
+        "att_reg_dalmatia_domavia",
+        "att_reg_dalmatia_salona"
+      ],
+      [
+        "att_reg_dalmatia_domavia",
+        "att_reg_dalmatia_siscia"
+      ],
+      [
+        "att_reg_dalmatia_domavia",
+        "att_reg_dardania_scupi"
+      ],
+      [
+        "att_reg_dalmatia_domavia",
+        "att_reg_dardania_viminacium"
+      ],
+      [
+        "att_reg_dalmatia_domavia",
+        "att_reg_pannonia_sirmium"
+      ],
+      [
+        "att_reg_dalmatia_salona",
+        "att_reg_dalmatia_siscia"
+      ],
+      [
+        "att_reg_dalmatia_salona",
+        "att_reg_dardania_scupi"
+      ],
+      [
+        "att_reg_dalmatia_salona",
+        "att_reg_macedonia_dyrrhachium"
+      ],
+      [
+        "att_reg_dalmatia_salona",
+        "att_reg_venetia_aquileia"
+      ],
+      [
+        "att_reg_dalmatia_siscia",
+        "att_reg_pannonia_savaria"
+      ],
+      [
+        "att_reg_dalmatia_siscia",
+        "att_reg_pannonia_sirmium"
+      ],
+      [
+        "att_reg_dalmatia_siscia",
+        "att_reg_pannonia_sopianae"
+      ],
+      [
+        "att_reg_dalmatia_siscia",
+        "att_reg_raetia_et_noricum_virunum"
+      ],
+      [
+        "att_reg_dalmatia_siscia",
+        "att_reg_venetia_aquileia"
+      ],
+      [
+        "att_reg_dardania_scupi",
+        "att_reg_dardania_serdica"
+      ],
+      [
+        "att_reg_dardania_scupi",
+        "att_reg_dardania_viminacium"
+      ],
+      [
+        "att_reg_dardania_scupi",
+        "att_reg_macedonia_dyrrhachium"
+      ],
+      [
+        "att_reg_dardania_scupi",
+        "att_reg_macedonia_thessalonica"
+      ],
+      [
+        "att_reg_dardania_serdica",
+        "att_reg_dardania_viminacium"
+      ],
+      [
+        "att_reg_dardania_serdica",
+        "att_reg_macedonia_thessalonica"
+      ],
+      [
+        "att_reg_dardania_serdica",
+        "att_reg_thracia_marcianopolis"
+      ],
+      [
+        "att_reg_dardania_serdica",
+        "att_reg_thracia_trimontium"
+      ],
+      [
+        "att_reg_dardania_viminacium",
+        "att_reg_pannonia_sirmium"
+      ],
+      [
+        "att_reg_frisia_angulus",
+        "att_reg_frisia_tulifurdum"
+      ],
+      [
+        "att_reg_frisia_angulus",
+        "att_reg_gothiscandza_rugion"
+      ],
+      [
+        "att_reg_frisia_angulus",
+        "att_reg_scandza_alabu"
+      ],
+      [
+        "att_reg_frisia_flevum",
+        "att_reg_frisia_tulifurdum"
+      ],
+      [
+        "att_reg_frisia_flevum",
+        "att_reg_germania_uburzis"
+      ],
+      [
+        "att_reg_frisia_tulifurdum",
+        "att_reg_germania_aregelia"
+      ],
+      [
+        "att_reg_frisia_tulifurdum",
+        "att_reg_germania_uburzis"
+      ],
+      [
+        "att_reg_frisia_tulifurdum",
+        "att_reg_gothiscandza_rugion"
+      ],
+      [
+        "att_reg_gallaecia_asturica",
+        "att_reg_gallaecia_bracara"
+      ],
+      [
+        "att_reg_gallaecia_asturica",
+        "att_reg_gallaecia_brigantium"
+      ],
+      [
+        "att_reg_gallaecia_asturica",
+        "att_reg_lusitania_emerita_augusta"
+      ],
+      [
+        "att_reg_gallaecia_asturica",
+        "att_reg_tarraconensis_caesaraugusta"
+      ],
+      [
+        "att_reg_gallaecia_asturica",
+        "att_reg_tarraconensis_pompaelo"
+      ],
+      [
+        "att_reg_gallaecia_bracara",
+        "att_reg_gallaecia_brigantium"
+      ],
+      [
+        "att_reg_gallaecia_bracara",
+        "att_reg_lusitania_emerita_augusta"
+      ],
+      [
+        "att_reg_gallaecia_bracara",
+        "att_reg_lusitania_olisipo"
+      ],
+      [
+        "att_reg_germania_aregelia",
+        "att_reg_germania_lupfurdum"
+      ],
+      [
+        "att_reg_germania_aregelia",
+        "att_reg_germania_uburzis"
+      ],
+      [
+        "att_reg_germania_aregelia",
+        "att_reg_gothiscandza_rugion"
+      ],
+      [
+        "att_reg_germania_aregelia",
+        "att_reg_hercynia_casurgis"
+      ],
+      [
+        "att_reg_germania_lupfurdum",
+        "att_reg_gothiscandza_ascaucalis"
+      ],
+      [
+        "att_reg_germania_lupfurdum",
+        "att_reg_gothiscandza_rugion"
+      ],
+      [
+        "att_reg_germania_lupfurdum",
+        "att_reg_hercynia_budorgis"
+      ],
+      [
+        "att_reg_germania_lupfurdum",
+        "att_reg_hercynia_casurgis"
+      ],
+      [
+        "att_reg_germania_uburzis",
+        "att_reg_hercynia_casurgis"
+      ],
+      [
+        "att_reg_germania_uburzis",
+        "att_reg_maxima_sequanorum_argentoratum"
+      ],
+      [
+        "att_reg_germania_uburzis",
+        "att_reg_maxima_sequanorum_octodurus"
+      ],
+      [
+        "att_reg_germania_uburzis",
+        "att_reg_maxima_sequanorum_vesontio"
+      ],
+      [
+        "att_reg_germania_uburzis",
+        "att_reg_raetia_et_noricum_augusta_vindelicorum"
+      ],
+      [
+        "att_reg_germano_sarmatia_duna",
+        "att_reg_germano_sarmatia_oium"
+      ],
+      [
+        "att_reg_germano_sarmatia_duna",
+        "att_reg_germano_sarmatia_palteskja"
+      ],
+      [
+        "att_reg_germano_sarmatia_oium",
+        "att_reg_germano_sarmatia_palteskja"
+      ],
+      [
+        "att_reg_germano_sarmatia_oium",
+        "att_reg_gothiscandza_gothiscandza"
+      ],
+      [
+        "att_reg_germano_sarmatia_oium",
+        "att_reg_hercynia_budorgis"
+      ],
+      [
+        "att_reg_germano_sarmatia_oium",
+        "att_reg_transcarpathia_arheimar"
+      ],
+      [
+        "att_reg_germano_sarmatia_oium",
+        "att_reg_transcarpathia_belz"
+      ],
+      [
+        "att_reg_germano_sarmatia_palteskja",
+        "att_reg_hyperborea_kariskos"
+      ],
+      [
+        "att_reg_germano_sarmatia_palteskja",
+        "att_reg_transcarpathia_arheimar"
+      ],
+      [
+        "att_reg_gothiscandza_ascaucalis",
+        "att_reg_gothiscandza_gothiscandza"
+      ],
+      [
+        "att_reg_gothiscandza_ascaucalis",
+        "att_reg_gothiscandza_rugion"
+      ],
+      [
+        "att_reg_gothiscandza_ascaucalis",
+        "att_reg_hercynia_budorgis"
+      ],
+      [
+        "att_reg_gothiscandza_gothiscandza",
+        "att_reg_hercynia_budorgis"
+      ],
+      [
+        "att_reg_hercynia_budorgis",
+        "att_reg_hercynia_casurgis"
+      ],
+      [
+        "att_reg_hercynia_budorgis",
+        "att_reg_hercynia_nitrahwa"
+      ],
+      [
+        "att_reg_hercynia_budorgis",
+        "att_reg_transcarpathia_belz"
+      ],
+      [
+        "att_reg_hercynia_casurgis",
+        "att_reg_hercynia_nitrahwa"
+      ],
+      [
+        "att_reg_hercynia_casurgis",
+        "att_reg_pannonia_savaria"
+      ],
+      [
+        "att_reg_hercynia_casurgis",
+        "att_reg_raetia_et_noricum_augusta_vindelicorum"
+      ],
+      [
+        "att_reg_hercynia_casurgis",
+        "att_reg_raetia_et_noricum_iuvavum"
+      ],
+      [
+        "att_reg_hercynia_nitrahwa",
+        "att_reg_pannonia_savaria"
+      ],
+      [
+        "att_reg_hercynia_nitrahwa",
+        "att_reg_pannonia_sopianae"
+      ],
+      [
+        "att_reg_hercynia_nitrahwa",
+        "att_reg_transcarpathia_belz"
+      ],
+      [
+        "att_reg_hercynia_nitrahwa",
+        "att_reg_transcarpathia_leopolis"
+      ],
+      [
+        "att_reg_hyperborea_kariskos",
+        "att_reg_hyperborea_moramar"
+      ],
+      [
+        "att_reg_hyperborea_kariskos",
+        "att_reg_hyperborea_sylis"
+      ],
+      [
+        "att_reg_hyperborea_kariskos",
+        "att_reg_sarmatia_europaea_gelonus"
+      ],
+      [
+        "att_reg_hyperborea_kariskos",
+        "att_reg_transcarpathia_arheimar"
+      ],
+      [
+        "att_reg_hyperborea_moramar",
+        "att_reg_hyperborea_sylis"
+      ],
+      [
+        "att_reg_hyperborea_moramar",
+        "att_reg_scythia_bolghar"
+      ],
+      [
+        "att_reg_hyperborea_moramar",
+        "att_reg_scythia_ra"
+      ],
+      [
+        "att_reg_hyperborea_sylis",
+        "att_reg_sarmatia_asiatica_samandar"
+      ],
+      [
+        "att_reg_hyperborea_sylis",
+        "att_reg_sarmatia_asiatica_tanais"
+      ],
+      [
+        "att_reg_hyperborea_sylis",
+        "att_reg_sarmatia_europaea_gelonus"
+      ],
+      [
+        "att_reg_hyperborea_sylis",
+        "att_reg_scythia_ra"
+      ],
+      [
+        "att_reg_italia_fiorentia",
+        "att_reg_italia_roma"
+      ],
+      [
+        "att_reg_italia_fiorentia",
+        "att_reg_liguria_genua"
+      ],
+      [
+        "att_reg_italia_fiorentia",
+        "att_reg_venetia_ravenna"
+      ],
+      [
+        "att_reg_italia_fiorentia",
+        "att_reg_venetia_verona"
+      ],
+      [
+        "att_reg_italia_neapolis",
+        "att_reg_italia_roma"
+      ],
+      [
+        "att_reg_italia_neapolis",
+        "att_reg_magna_graecia_rhegium"
+      ],
+      [
+        "att_reg_italia_neapolis",
+        "att_reg_magna_graecia_tarentum"
+      ],
+      [
+        "att_reg_italia_neapolis",
+        "att_reg_venetia_ravenna"
+      ],
+      [
+        "att_reg_italia_roma",
+        "att_reg_venetia_ravenna"
+      ],
+      [
+        "att_reg_khwarasan_abarshahr",
+        "att_reg_khwarasan_harey"
+      ],
+      [
+        "att_reg_khwarasan_abarshahr",
+        "att_reg_khwarasan_merv"
+      ],
+      [
+        "att_reg_khwarasan_abarshahr",
+        "att_reg_media_atropatene_rhaga"
+      ],
+      [
+        "att_reg_khwarasan_abarshahr",
+        "att_reg_spahan_issatis"
+      ],
+      [
+        "att_reg_khwarasan_abarshahr",
+        "att_reg_transcaspia_dahistan"
+      ],
+      [
+        "att_reg_khwarasan_harey",
+        "att_reg_khwarasan_merv"
+      ],
+      [
+        "att_reg_khwarasan_harey",
+        "att_reg_makran_phra"
+      ],
+      [
+        "att_reg_khwarasan_harey",
+        "att_reg_spahan_issatis"
+      ],
+      [
+        "att_reg_khwarasan_merv",
+        "att_reg_transcaspia_dahistan"
+      ],
+      [
+        "att_reg_libya_augila",
+        "att_reg_libya_paraetonium"
+      ],
+      [
+        "att_reg_libya_augila",
+        "att_reg_libya_ptolemais"
+      ],
+      [
+        "att_reg_libya_augila",
+        "att_reg_phazania_garama"
+      ],
+      [
+        "att_reg_libya_paraetonium",
+        "att_reg_libya_ptolemais"
+      ],
+      [
+        "att_reg_libya_ptolemais",
+        "att_reg_phazania_garama"
+      ],
+      [
+        "att_reg_libya_ptolemais",
+        "att_reg_tripolitana_macomades"
+      ],
+      [
+        "att_reg_liguria_genua",
+        "att_reg_liguria_mediolanum"
+      ],
+      [
+        "att_reg_liguria_genua",
+        "att_reg_liguria_segusio"
+      ],
+      [
+        "att_reg_liguria_genua",
+        "att_reg_venetia_verona"
+      ],
+      [
+        "att_reg_liguria_mediolanum",
+        "att_reg_liguria_segusio"
+      ],
+      [
+        "att_reg_liguria_mediolanum",
+        "att_reg_maxima_sequanorum_octodurus"
+      ],
+      [
+        "att_reg_liguria_mediolanum",
+        "att_reg_raetia_et_noricum_augusta_vindelicorum"
+      ],
+      [
+        "att_reg_liguria_mediolanum",
+        "att_reg_venetia_verona"
+      ],
+      [
+        "att_reg_liguria_segusio",
+        "att_reg_maxima_sequanorum_octodurus"
+      ],
+      [
+        "att_reg_liguria_segusio",
+        "att_reg_narbonensis_aquae_sextiae"
+      ],
+      [
+        "att_reg_liguria_segusio",
+        "att_reg_narbonensis_vienna"
+      ],
+      [
+        "att_reg_lugdunensis_lugdunum",
+        "att_reg_lugdunensis_rotomagus"
+      ],
+      [
+        "att_reg_lugdunensis_lugdunum",
+        "att_reg_lugdunensis_turonum"
+      ],
+      [
+        "att_reg_lugdunensis_lugdunum",
+        "att_reg_maxima_sequanorum_octodurus"
+      ],
+      [
+        "att_reg_lugdunensis_lugdunum",
+        "att_reg_maxima_sequanorum_vesontio"
+      ],
+      [
+        "att_reg_lugdunensis_lugdunum",
+        "att_reg_narbonensis_vienna"
+      ],
+      [
+        "att_reg_lugdunensis_rotomagus",
+        "att_reg_lugdunensis_turonum"
+      ],
+      [
+        "att_reg_lusitania_emerita_augusta",
+        "att_reg_lusitania_olisipo"
+      ],
+      [
+        "att_reg_lusitania_emerita_augusta",
+        "att_reg_lusitania_pax_augusta"
+      ],
+      [
+        "att_reg_lusitania_olisipo",
+        "att_reg_lusitania_pax_augusta"
+      ],
+      [
+        "att_reg_macedonia_corinthus",
+        "att_reg_macedonia_dyrrhachium"
+      ],
+      [
+        "att_reg_macedonia_corinthus",
+        "att_reg_macedonia_thessalonica"
+      ],
+      [
+        "att_reg_macedonia_dyrrhachium",
+        "att_reg_macedonia_thessalonica"
+      ],
+      [
+        "att_reg_macedonia_thessalonica",
+        "att_reg_thracia_trimontium"
+      ],
+      [
+        "att_reg_magna_graecia_rhegium",
+        "att_reg_magna_graecia_tarentum"
+      ],
+      [
+        "att_reg_makran_harmosia",
+        "att_reg_makran_pura"
+      ],
+      [
+        "att_reg_makran_harmosia",
+        "att_reg_persis_behdeshir"
+      ],
+      [
+        "att_reg_makran_harmosia",
+        "att_reg_persis_siraf"
+      ],
+      [
+        "att_reg_makran_harmosia",
+        "att_reg_persis_stakhr"
+      ],
+      [
+        "att_reg_makran_phra",
+        "att_reg_makran_pura"
+      ],
+      [
+        "att_reg_makran_phra",
+        "att_reg_persis_behdeshir"
+      ],
+      [
+        "att_reg_makran_phra",
+        "att_reg_spahan_issatis"
+      ],
+      [
+        "att_reg_makran_pura",
+        "att_reg_persis_behdeshir"
+      ],
+      [
+        "att_reg_mauretania_caesarea",
+        "att_reg_mauretania_tamousiga"
+      ],
+      [
+        "att_reg_mauretania_caesarea",
+        "att_reg_mauretania_tingis"
+      ],
+      [
+        "att_reg_mauretania_caesarea",
+        "att_reg_phazania_dimmidi"
+      ],
+      [
+        "att_reg_mauretania_tamousiga",
+        "att_reg_mauretania_tingis"
+      ],
+      [
+        "att_reg_mauretania_tamousiga",
+        "att_reg_phazania_dimmidi"
+      ],
+      [
+        "att_reg_maxima_sequanorum_argentoratum",
+        "att_reg_maxima_sequanorum_vesontio"
+      ],
+      [
+        "att_reg_maxima_sequanorum_octodurus",
+        "att_reg_maxima_sequanorum_vesontio"
+      ],
+      [
+        "att_reg_maxima_sequanorum_octodurus",
+        "att_reg_narbonensis_vienna"
+      ],
+      [
+        "att_reg_maxima_sequanorum_octodurus",
+        "att_reg_raetia_et_noricum_augusta_vindelicorum"
+      ],
+      [
+        "att_reg_media_atropatene_ecbatana",
+        "att_reg_media_atropatene_ganzaga"
+      ],
+      [
+        "att_reg_media_atropatene_ecbatana",
+        "att_reg_media_atropatene_rhaga"
+      ],
+      [
+        "att_reg_media_atropatene_ecbatana",
+        "att_reg_spahan_spahan"
+      ],
+      [
+        "att_reg_media_atropatene_ecbatana",
+        "att_reg_spahan_susa"
+      ],
+      [
+        "att_reg_media_atropatene_ganzaga",
+        "att_reg_media_atropatene_rhaga"
+      ],
+      [
+        "att_reg_media_atropatene_ganzaga",
+        "att_reg_osroene_nisibis"
+      ],
+      [
+        "att_reg_media_atropatene_rhaga",
+        "att_reg_spahan_issatis"
+      ],
+      [
+        "att_reg_media_atropatene_rhaga",
+        "att_reg_spahan_spahan"
+      ],
+      [
+        "att_reg_narbonensis_aquae_sextiae",
+        "att_reg_narbonensis_narbo"
+      ],
+      [
+        "att_reg_narbonensis_aquae_sextiae",
+        "att_reg_narbonensis_vienna"
+      ],
+      [
+        "att_reg_narbonensis_narbo",
+        "att_reg_narbonensis_vienna"
+      ],
+      [
+        "att_reg_narbonensis_narbo",
+        "att_reg_tarraconensis_pompaelo"
+      ],
+      [
+        "att_reg_narbonensis_narbo",
+        "att_reg_tarraconensis_tarraco"
+      ],
+      [
+        "att_reg_osroene_amida",
+        "att_reg_osroene_edessa"
+      ],
+      [
+        "att_reg_osroene_amida",
+        "att_reg_osroene_nisibis"
+      ],
+      [
+        "att_reg_osroene_edessa",
+        "att_reg_osroene_nisibis"
+      ],
+      [
+        "att_reg_osroene_edessa",
+        "att_reg_syria_antiochia"
+      ],
+      [
+        "att_reg_osroene_edessa",
+        "att_reg_syria_emesa"
+      ],
+      [
+        "att_reg_palaestinea_aelia_capitolina",
+        "att_reg_palaestinea_aila"
+      ],
+      [
+        "att_reg_palaestinea_aelia_capitolina",
+        "att_reg_palaestinea_nova_trajana_bostra"
+      ],
+      [
+        "att_reg_palaestinea_aelia_capitolina",
+        "att_reg_syria_tyrus"
+      ],
+      [
+        "att_reg_palaestinea_aila",
+        "att_reg_palaestinea_nova_trajana_bostra"
+      ],
+      [
+        "att_reg_palaestinea_nova_trajana_bostra",
+        "att_reg_syria_emesa"
+      ],
+      [
+        "att_reg_palaestinea_nova_trajana_bostra",
+        "att_reg_syria_tyrus"
+      ],
+      [
+        "att_reg_pannonia_savaria",
+        "att_reg_pannonia_sopianae"
+      ],
+      [
+        "att_reg_pannonia_savaria",
+        "att_reg_raetia_et_noricum_iuvavum"
+      ],
+      [
+        "att_reg_pannonia_savaria",
+        "att_reg_raetia_et_noricum_virunum"
+      ],
+      [
+        "att_reg_pannonia_sirmium",
+        "att_reg_pannonia_sopianae"
+      ],
+      [
+        "att_reg_persis_behdeshir",
+        "att_reg_persis_stakhr"
+      ],
+      [
+        "att_reg_persis_behdeshir",
+        "att_reg_spahan_issatis"
+      ],
+      [
+        "att_reg_persis_behdeshir",
+        "att_reg_spahan_spahan"
+      ],
+      [
+        "att_reg_persis_siraf",
+        "att_reg_persis_stakhr"
+      ],
+      [
+        "att_reg_persis_siraf",
+        "att_reg_spahan_susa"
+      ],
+      [
+        "att_reg_persis_stakhr",
+        "att_reg_spahan_spahan"
+      ],
+      [
+        "att_reg_persis_stakhr",
+        "att_reg_spahan_susa"
+      ],
+      [
+        "att_reg_phazania_cydamus",
+        "att_reg_phazania_dimmidi"
+      ],
+      [
+        "att_reg_phazania_cydamus",
+        "att_reg_phazania_garama"
+      ],
+      [
+        "att_reg_phazania_cydamus",
+        "att_reg_tripolitana_sabrata"
+      ],
+      [
+        "att_reg_phazania_garama",
+        "att_reg_tripolitana_leptis_magna"
+      ],
+      [
+        "att_reg_phazania_garama",
+        "att_reg_tripolitana_macomades"
+      ],
+      [
+        "att_reg_phazania_garama",
+        "att_reg_tripolitana_sabrata"
+      ],
+      [
+        "att_reg_raetia_et_noricum_augusta_vindelicorum",
+        "att_reg_raetia_et_noricum_iuvavum"
+      ],
+      [
+        "att_reg_raetia_et_noricum_augusta_vindelicorum",
+        "att_reg_venetia_verona"
+      ],
+      [
+        "att_reg_raetia_et_noricum_iuvavum",
+        "att_reg_raetia_et_noricum_virunum"
+      ],
+      [
+        "att_reg_raetia_et_noricum_iuvavum",
+        "att_reg_venetia_aquileia"
+      ],
+      [
+        "att_reg_raetia_et_noricum_iuvavum",
+        "att_reg_venetia_verona"
+      ],
+      [
+        "att_reg_raetia_et_noricum_virunum",
+        "att_reg_venetia_aquileia"
+      ],
+      [
+        "att_reg_sarmatia_asiatica_anacopia",
+        "att_reg_sarmatia_asiatica_samandar"
+      ],
+      [
+        "att_reg_sarmatia_asiatica_anacopia",
+        "att_reg_sarmatia_asiatica_tanais"
+      ],
+      [
+        "att_reg_sarmatia_asiatica_samandar",
+        "att_reg_sarmatia_asiatica_tanais"
+      ],
+      [
+        "att_reg_sarmatia_asiatica_samandar",
+        "att_reg_scythia_ra"
+      ],
+      [
+        "att_reg_sarmatia_asiatica_samandar",
+        "att_reg_scythia_sarai"
+      ],
+      [
+        "att_reg_sarmatia_asiatica_tanais",
+        "att_reg_sarmatia_europaea_gelonus"
+      ],
+      [
+        "att_reg_sarmatia_europaea_chersonessus",
+        "att_reg_sarmatia_europaea_gelonus"
+      ],
+      [
+        "att_reg_sarmatia_europaea_chersonessus",
+        "att_reg_sarmatia_europaea_olbia"
+      ],
+      [
+        "att_reg_sarmatia_europaea_gelonus",
+        "att_reg_sarmatia_europaea_olbia"
+      ],
+      [
+        "att_reg_sarmatia_europaea_gelonus",
+        "att_reg_transcarpathia_arheimar"
+      ],
+      [
+        "att_reg_sarmatia_europaea_olbia",
+        "att_reg_transcarpathia_arheimar"
+      ],
+      [
+        "att_reg_sarmatia_europaea_olbia",
+        "att_reg_transcarpathia_leopolis"
+      ],
+      [
+        "att_reg_scandza_hafn",
+        "att_reg_scandza_hrefnesholt"
+      ],
+      [
+        "att_reg_scythia_bolghar",
+        "att_reg_scythia_ra"
+      ],
+      [
+        "att_reg_scythia_bolghar",
+        "att_reg_scythia_sarai"
+      ],
+      [
+        "att_reg_scythia_ra",
+        "att_reg_scythia_sarai"
+      ],
+      [
+        "att_reg_scythia_sarai",
+        "att_reg_transcaspia_siahkuh"
+      ],
+      [
+        "att_reg_spahan_issatis",
+        "att_reg_spahan_spahan"
+      ],
+      [
+        "att_reg_spahan_spahan",
+        "att_reg_spahan_susa"
+      ],
+      [
+        "att_reg_syria_antiochia",
+        "att_reg_syria_emesa"
+      ],
+      [
+        "att_reg_syria_antiochia",
+        "att_reg_syria_tyrus"
+      ],
+      [
+        "att_reg_syria_emesa",
+        "att_reg_syria_tyrus"
+      ],
+      [
+        "att_reg_tarraconensis_caesaraugusta",
+        "att_reg_tarraconensis_pompaelo"
+      ],
+      [
+        "att_reg_tarraconensis_caesaraugusta",
+        "att_reg_tarraconensis_tarraco"
+      ],
+      [
+        "att_reg_tarraconensis_pompaelo",
+        "att_reg_tarraconensis_tarraco"
+      ],
+      [
+        "att_reg_thracia_constantinopolis",
+        "att_reg_thracia_marcianopolis"
+      ],
+      [
+        "att_reg_thracia_constantinopolis",
+        "att_reg_thracia_trimontium"
+      ],
+      [
+        "att_reg_thracia_marcianopolis",
+        "att_reg_thracia_trimontium"
+      ],
+      [
+        "att_reg_transcarpathia_arheimar",
+        "att_reg_transcarpathia_belz"
+      ],
+      [
+        "att_reg_transcarpathia_arheimar",
+        "att_reg_transcarpathia_leopolis"
+      ],
+      [
+        "att_reg_transcarpathia_belz",
+        "att_reg_transcarpathia_leopolis"
+      ],
+      [
+        "att_reg_transcaspia_dahistan",
+        "att_reg_transcaspia_kath"
+      ],
+      [
+        "att_reg_transcaspia_kath",
+        "att_reg_transcaspia_siahkuh"
+      ],
+      [
+        "att_reg_tripolitana_leptis_magna",
+        "att_reg_tripolitana_macomades"
+      ],
+      [
+        "att_reg_tripolitana_leptis_magna",
+        "att_reg_tripolitana_sabrata"
+      ],
+      [
+        "att_reg_venetia_aquileia",
+        "att_reg_venetia_verona"
+      ],
+      [
+        "att_reg_venetia_ravenna",
+        "att_reg_venetia_verona"
+      ]
+    ],
+    "matching_region_border_count": 387,
+    "hex_only_region_borders": [
+      [
+        "att_reg_raetia_et_noricum_virunum",
+        "att_reg_venetia_verona"
+      ]
+    ],
+    "published_only_region_borders": [
+      [
+        "att_reg_raetia_et_noricum_iuvavum",
+        "att_reg_venetia_aquileia"
+      ]
+    ],
+    "province_borders_identical": true
+  },
+  "hex_contacts": {
+    "sea_regions": [
+      "att_sea_danuvius",
+      "att_sea_lake",
+      "att_sea_mare_adriaticum",
+      "att_sea_mare_aegaeum",
+      "att_sea_mare_aegyptum",
+      "att_sea_mare_africum",
+      "att_sea_mare_balearicum",
+      "att_sea_mare_caspium",
+      "att_sea_mare_cilicium",
+      "att_sea_mare_gallicum",
+      "att_sea_mare_hibernicum",
+      "att_sea_mare_ibericum",
+      "att_sea_mare_illyricum",
+      "att_sea_mare_indicum",
+      "att_sea_mare_internum",
+      "att_sea_mare_ionium",
+      "att_sea_mare_phoenicum",
+      "att_sea_mare_rubrum",
+      "att_sea_mare_sarmaticum",
+      "att_sea_mare_suebicum",
+      "att_sea_mare_tyrrhenum",
+      "att_sea_nilos",
+      "att_sea_oceanus_atlanticus",
+      "att_sea_oceanus_britannicus",
+      "att_sea_oceanus_gallicus",
+      "att_sea_oceanus_germanicus",
+      "att_sea_pontus_cimmerius",
+      "att_sea_pontus_euxinus",
+      "att_sea_pontus_thracius",
+      "att_sea_propontis",
+      "att_sea_rhenus",
+      "att_sea_sinus_arabicus",
+      "att_sea_sinus_codanus",
+      "att_sea_sinus_persicus",
+      "att_sea_sinus_syracusanus",
+      "att_sea_syrtis_major",
+      "att_sea_syrtis_minor"
+    ],
+    "passable_land": [
+      [
+        "att_reg_aegyptus_alexandria",
+        "att_reg_aegyptus_berenice"
+      ],
+      [
+        "att_reg_aegyptus_alexandria",
+        "att_reg_aegyptus_oxyrhynchus"
+      ],
+      [
+        "att_reg_aegyptus_alexandria",
+        "att_reg_libya_paraetonium"
+      ],
+      [
+        "att_reg_aegyptus_alexandria",
+        "att_reg_palaestinea_aelia_capitolina"
+      ],
+      [
+        "att_reg_aegyptus_alexandria",
+        "att_reg_palaestinea_aila"
+      ],
+      [
+        "att_reg_aegyptus_berenice",
+        "att_reg_aegyptus_oxyrhynchus"
+      ],
+      [
+        "att_reg_aegyptus_berenice",
+        "att_reg_aethiopia_pachoras"
+      ],
+      [
+        "att_reg_aegyptus_oxyrhynchus",
+        "att_reg_aethiopia_pachoras"
+      ],
+      [
+        "att_reg_aegyptus_oxyrhynchus",
+        "att_reg_libya_paraetonium"
+      ],
+      [
+        "att_reg_aethiopia_adulis",
+        "att_reg_aethiopia_aksum"
+      ],
+      [
+        "att_reg_aethiopia_adulis",
+        "att_reg_aethiopia_pachoras"
+      ],
+      [
+        "att_reg_aethiopia_aksum",
+        "att_reg_aethiopia_pachoras"
+      ],
+      [
+        "att_reg_africa_carthago",
+        "att_reg_africa_constantina"
+      ],
+      [
+        "att_reg_africa_carthago",
+        "att_reg_africa_hadrumentum"
+      ],
+      [
+        "att_reg_africa_constantina",
+        "att_reg_africa_hadrumentum"
+      ],
+      [
+        "att_reg_africa_constantina",
+        "att_reg_mauretania_caesarea"
+      ],
+      [
+        "att_reg_africa_constantina",
+        "att_reg_phazania_dimmidi"
+      ],
+      [
+        "att_reg_africa_hadrumentum",
+        "att_reg_phazania_cydamus"
+      ],
+      [
+        "att_reg_africa_hadrumentum",
+        "att_reg_phazania_dimmidi"
+      ],
+      [
+        "att_reg_africa_hadrumentum",
+        "att_reg_tripolitana_sabrata"
+      ],
+      [
+        "att_reg_aquitania_avaricum",
+        "att_reg_aquitania_burdigala"
+      ],
+      [
+        "att_reg_aquitania_avaricum",
+        "att_reg_lugdunensis_lugdunum"
+      ],
+      [
+        "att_reg_aquitania_avaricum",
+        "att_reg_lugdunensis_turonum"
+      ],
+      [
+        "att_reg_aquitania_avaricum",
+        "att_reg_narbonensis_narbo"
+      ],
+      [
+        "att_reg_aquitania_avaricum",
+        "att_reg_narbonensis_vienna"
+      ],
+      [
+        "att_reg_aquitania_burdigala",
+        "att_reg_aquitania_elusa"
+      ],
+      [
+        "att_reg_aquitania_burdigala",
+        "att_reg_lugdunensis_turonum"
+      ],
+      [
+        "att_reg_aquitania_elusa",
+        "att_reg_narbonensis_narbo"
+      ],
+      [
+        "att_reg_aquitania_elusa",
+        "att_reg_tarraconensis_pompaelo"
+      ],
+      [
+        "att_reg_arabia_felix_eudaemon",
+        "att_reg_arabia_felix_zafar"
+      ],
+      [
+        "att_reg_arabia_felix_eudaemon",
+        "att_reg_arabia_magna_yathrib"
+      ],
+      [
+        "att_reg_arabia_felix_omana",
+        "att_reg_arabia_felix_zafar"
+      ],
+      [
+        "att_reg_arabia_felix_omana",
+        "att_reg_arabia_magna_hira"
+      ],
+      [
+        "att_reg_arabia_felix_zafar",
+        "att_reg_arabia_magna_hira"
+      ],
+      [
+        "att_reg_arabia_felix_zafar",
+        "att_reg_arabia_magna_yathrib"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_reg_arabia_magna_hira"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_reg_arabia_magna_yathrib"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_reg_asorstan_ctesiphon"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_reg_osroene_edessa"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_reg_osroene_nisibis"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_reg_palaestinea_aila"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_reg_palaestinea_nova_trajana_bostra"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_reg_syria_emesa"
+      ],
+      [
+        "att_reg_arabia_magna_hira",
+        "att_reg_arabia_magna_yathrib"
+      ],
+      [
+        "att_reg_arabia_magna_hira",
+        "att_reg_asorstan_ctesiphon"
+      ],
+      [
+        "att_reg_arabia_magna_hira",
+        "att_reg_asorstan_meshan"
+      ],
+      [
+        "att_reg_armenia_duin",
+        "att_reg_armenia_payttakaran"
+      ],
+      [
+        "att_reg_armenia_duin",
+        "att_reg_armenia_tosp"
+      ],
+      [
+        "att_reg_armenia_duin",
+        "att_reg_caucasia_kotais"
+      ],
+      [
+        "att_reg_armenia_duin",
+        "att_reg_caucasia_mtskheta"
+      ],
+      [
+        "att_reg_armenia_payttakaran",
+        "att_reg_armenia_tosp"
+      ],
+      [
+        "att_reg_armenia_payttakaran",
+        "att_reg_caucasia_gabala"
+      ],
+      [
+        "att_reg_armenia_payttakaran",
+        "att_reg_media_atropatene_ganzaga"
+      ],
+      [
+        "att_reg_armenia_tosp",
+        "att_reg_cappadocia_melitene"
+      ],
+      [
+        "att_reg_armenia_tosp",
+        "att_reg_cappadocia_trapezus"
+      ],
+      [
+        "att_reg_armenia_tosp",
+        "att_reg_media_atropatene_ganzaga"
+      ],
+      [
+        "att_reg_armenia_tosp",
+        "att_reg_osroene_amida"
+      ],
+      [
+        "att_reg_asia_cyzicus",
+        "att_reg_asia_ephesus"
+      ],
+      [
+        "att_reg_asia_cyzicus",
+        "att_reg_asia_synnada"
+      ],
+      [
+        "att_reg_asia_cyzicus",
+        "att_reg_bithynia_nicomedia"
+      ],
+      [
+        "att_reg_asia_ephesus",
+        "att_reg_asia_synnada"
+      ],
+      [
+        "att_reg_asia_ephesus",
+        "att_reg_cilicia_myra"
+      ],
+      [
+        "att_reg_asia_synnada",
+        "att_reg_bithynia_ancyra"
+      ],
+      [
+        "att_reg_asia_synnada",
+        "att_reg_bithynia_nicomedia"
+      ],
+      [
+        "att_reg_asia_synnada",
+        "att_reg_cilicia_iconium"
+      ],
+      [
+        "att_reg_asia_synnada",
+        "att_reg_cilicia_myra"
+      ],
+      [
+        "att_reg_asorstan_arbela",
+        "att_reg_asorstan_ctesiphon"
+      ],
+      [
+        "att_reg_asorstan_arbela",
+        "att_reg_asorstan_meshan"
+      ],
+      [
+        "att_reg_asorstan_arbela",
+        "att_reg_media_atropatene_ecbatana"
+      ],
+      [
+        "att_reg_asorstan_arbela",
+        "att_reg_osroene_nisibis"
+      ],
+      [
+        "att_reg_asorstan_arbela",
+        "att_reg_spahan_susa"
+      ],
+      [
+        "att_reg_asorstan_ctesiphon",
+        "att_reg_asorstan_meshan"
+      ],
+      [
+        "att_reg_asorstan_ctesiphon",
+        "att_reg_osroene_nisibis"
+      ],
+      [
+        "att_reg_asorstan_meshan",
+        "att_reg_spahan_susa"
+      ],
+      [
+        "att_reg_baetica_corduba",
+        "att_reg_baetica_hispalis"
+      ],
+      [
+        "att_reg_baetica_corduba",
+        "att_reg_baetica_malaca"
+      ],
+      [
+        "att_reg_baetica_corduba",
+        "att_reg_carthaginensis_carthago_nova"
+      ],
+      [
+        "att_reg_baetica_corduba",
+        "att_reg_carthaginensis_toletum"
+      ],
+      [
+        "att_reg_baetica_corduba",
+        "att_reg_lusitania_emerita_augusta"
+      ],
+      [
+        "att_reg_baetica_hispalis",
+        "att_reg_baetica_malaca"
+      ],
+      [
+        "att_reg_baetica_hispalis",
+        "att_reg_lusitania_emerita_augusta"
+      ],
+      [
+        "att_reg_baetica_hispalis",
+        "att_reg_lusitania_pax_augusta"
+      ],
+      [
+        "att_reg_baetica_malaca",
+        "att_reg_carthaginensis_carthago_nova"
+      ],
+      [
+        "att_reg_belgica_augusta_treverorum",
+        "att_reg_belgica_colonia_agrippina"
+      ],
+      [
+        "att_reg_belgica_augusta_treverorum",
+        "att_reg_belgica_durocorterum"
+      ],
+      [
+        "att_reg_belgica_augusta_treverorum",
+        "att_reg_germania_uburzis"
+      ],
+      [
+        "att_reg_belgica_augusta_treverorum",
+        "att_reg_lugdunensis_lugdunum"
+      ],
+      [
+        "att_reg_belgica_augusta_treverorum",
+        "att_reg_maxima_sequanorum_argentoratum"
+      ],
+      [
+        "att_reg_belgica_colonia_agrippina",
+        "att_reg_belgica_durocorterum"
+      ],
+      [
+        "att_reg_belgica_colonia_agrippina",
+        "att_reg_germania_uburzis"
+      ],
+      [
+        "att_reg_belgica_durocorterum",
+        "att_reg_lugdunensis_rotomagus"
+      ],
+      [
+        "att_reg_bithynia_amasea",
+        "att_reg_bithynia_ancyra"
+      ],
+      [
+        "att_reg_bithynia_amasea",
+        "att_reg_bithynia_nicomedia"
+      ],
+      [
+        "att_reg_bithynia_amasea",
+        "att_reg_cappadocia_caesarea_eusebia"
+      ],
+      [
+        "att_reg_bithynia_amasea",
+        "att_reg_cappadocia_trapezus"
+      ],
+      [
+        "att_reg_bithynia_ancyra",
+        "att_reg_bithynia_nicomedia"
+      ],
+      [
+        "att_reg_bithynia_ancyra",
+        "att_reg_cappadocia_caesarea_eusebia"
+      ],
+      [
+        "att_reg_bithynia_ancyra",
+        "att_reg_cilicia_iconium"
+      ],
+      [
+        "att_reg_britannia_inferior_eboracum",
+        "att_reg_britannia_inferior_lindum"
+      ],
+      [
+        "att_reg_britannia_inferior_eboracum",
+        "att_reg_caledonia_et_hibernia_eildon"
+      ],
+      [
+        "att_reg_britannia_inferior_lindum",
+        "att_reg_britannia_inferior_segontium"
+      ],
+      [
+        "att_reg_britannia_inferior_lindum",
+        "att_reg_britannia_superior_camulodunon"
+      ],
+      [
+        "att_reg_britannia_inferior_segontium",
+        "att_reg_britannia_superior_camulodunon"
+      ],
+      [
+        "att_reg_britannia_inferior_segontium",
+        "att_reg_britannia_superior_corinium"
+      ],
+      [
+        "att_reg_britannia_superior_camulodunon",
+        "att_reg_britannia_superior_corinium"
+      ],
+      [
+        "att_reg_britannia_superior_camulodunon",
+        "att_reg_britannia_superior_londinium"
+      ],
+      [
+        "att_reg_britannia_superior_corinium",
+        "att_reg_britannia_superior_londinium"
+      ],
+      [
+        "att_reg_caledonia_et_hibernia_eildon",
+        "att_reg_caledonia_et_hibernia_tuesis"
+      ],
+      [
+        "att_reg_cappadocia_caesarea_eusebia",
+        "att_reg_cappadocia_trapezus"
+      ],
+      [
+        "att_reg_cappadocia_caesarea_eusebia",
+        "att_reg_cilicia_iconium"
+      ],
+      [
+        "att_reg_cappadocia_caesarea_eusebia",
+        "att_reg_cilicia_tarsus"
+      ],
+      [
+        "att_reg_cappadocia_melitene",
+        "att_reg_cappadocia_trapezus"
+      ],
+      [
+        "att_reg_cappadocia_melitene",
+        "att_reg_osroene_amida"
+      ],
+      [
+        "att_reg_cappadocia_melitene",
+        "att_reg_syria_antiochia"
+      ],
+      [
+        "att_reg_cappadocia_trapezus",
+        "att_reg_caucasia_kotais"
+      ],
+      [
+        "att_reg_carthaginensis_carthago_nova",
+        "att_reg_carthaginensis_segobriga"
+      ],
+      [
+        "att_reg_carthaginensis_carthago_nova",
+        "att_reg_carthaginensis_toletum"
+      ],
+      [
+        "att_reg_carthaginensis_segobriga",
+        "att_reg_carthaginensis_toletum"
+      ],
+      [
+        "att_reg_carthaginensis_segobriga",
+        "att_reg_tarraconensis_caesaraugusta"
+      ],
+      [
+        "att_reg_carthaginensis_segobriga",
+        "att_reg_tarraconensis_tarraco"
+      ],
+      [
+        "att_reg_carthaginensis_toletum",
+        "att_reg_gallaecia_asturica"
+      ],
+      [
+        "att_reg_carthaginensis_toletum",
+        "att_reg_lusitania_emerita_augusta"
+      ],
+      [
+        "att_reg_carthaginensis_toletum",
+        "att_reg_tarraconensis_caesaraugusta"
+      ],
+      [
+        "att_reg_caucasia_gabala",
+        "att_reg_caucasia_mtskheta"
+      ],
+      [
+        "att_reg_caucasia_gabala",
+        "att_reg_sarmatia_asiatica_samandar"
+      ],
+      [
+        "att_reg_caucasia_kotais",
+        "att_reg_caucasia_mtskheta"
+      ],
+      [
+        "att_reg_caucasia_kotais",
+        "att_reg_sarmatia_asiatica_anacopia"
+      ],
+      [
+        "att_reg_caucasia_mtskheta",
+        "att_reg_sarmatia_asiatica_samandar"
+      ],
+      [
+        "att_reg_cilicia_iconium",
+        "att_reg_cilicia_myra"
+      ],
+      [
+        "att_reg_cilicia_myra",
+        "att_reg_cilicia_tarsus"
+      ],
+      [
+        "att_reg_cilicia_tarsus",
+        "att_reg_syria_antiochia"
+      ],
+      [
+        "att_reg_dacia_apulum",
+        "att_reg_dacia_petrodava"
+      ],
+      [
+        "att_reg_dacia_apulum",
+        "att_reg_dacia_romula"
+      ],
+      [
+        "att_reg_dacia_apulum",
+        "att_reg_hercynia_nitrahwa"
+      ],
+      [
+        "att_reg_dacia_apulum",
+        "att_reg_pannonia_sirmium"
+      ],
+      [
+        "att_reg_dacia_apulum",
+        "att_reg_pannonia_sopianae"
+      ],
+      [
+        "att_reg_dacia_apulum",
+        "att_reg_transcarpathia_leopolis"
+      ],
+      [
+        "att_reg_dacia_petrodava",
+        "att_reg_dacia_romula"
+      ],
+      [
+        "att_reg_dacia_petrodava",
+        "att_reg_sarmatia_europaea_olbia"
+      ],
+      [
+        "att_reg_dacia_petrodava",
+        "att_reg_transcarpathia_leopolis"
+      ],
+      [
+        "att_reg_dalmatia_domavia",
+        "att_reg_dalmatia_salona"
+      ],
+      [
+        "att_reg_dalmatia_domavia",
+        "att_reg_dardania_viminacium"
+      ],
+      [
+        "att_reg_dalmatia_domavia",
+        "att_reg_pannonia_sirmium"
+      ],
+      [
+        "att_reg_dalmatia_salona",
+        "att_reg_dalmatia_siscia"
+      ],
+      [
+        "att_reg_dalmatia_salona",
+        "att_reg_dardania_scupi"
+      ],
+      [
+        "att_reg_dalmatia_salona",
+        "att_reg_macedonia_dyrrhachium"
+      ],
+      [
+        "att_reg_dalmatia_salona",
+        "att_reg_venetia_aquileia"
+      ],
+      [
+        "att_reg_dalmatia_siscia",
+        "att_reg_pannonia_savaria"
+      ],
+      [
+        "att_reg_dalmatia_siscia",
+        "att_reg_pannonia_sirmium"
+      ],
+      [
+        "att_reg_dalmatia_siscia",
+        "att_reg_pannonia_sopianae"
+      ],
+      [
+        "att_reg_dalmatia_siscia",
+        "att_reg_raetia_et_noricum_virunum"
+      ],
+      [
+        "att_reg_dardania_scupi",
+        "att_reg_dardania_serdica"
+      ],
+      [
+        "att_reg_dardania_scupi",
+        "att_reg_dardania_viminacium"
+      ],
+      [
+        "att_reg_dardania_scupi",
+        "att_reg_macedonia_dyrrhachium"
+      ],
+      [
+        "att_reg_dardania_scupi",
+        "att_reg_macedonia_thessalonica"
+      ],
+      [
+        "att_reg_dardania_serdica",
+        "att_reg_dardania_viminacium"
+      ],
+      [
+        "att_reg_dardania_serdica",
+        "att_reg_macedonia_thessalonica"
+      ],
+      [
+        "att_reg_dardania_serdica",
+        "att_reg_thracia_marcianopolis"
+      ],
+      [
+        "att_reg_dardania_serdica",
+        "att_reg_thracia_trimontium"
+      ],
+      [
+        "att_reg_dardania_viminacium",
+        "att_reg_pannonia_sirmium"
+      ],
+      [
+        "att_reg_frisia_angulus",
+        "att_reg_frisia_tulifurdum"
+      ],
+      [
+        "att_reg_frisia_angulus",
+        "att_reg_gothiscandza_rugion"
+      ],
+      [
+        "att_reg_frisia_angulus",
+        "att_reg_scandza_alabu"
+      ],
+      [
+        "att_reg_frisia_flevum",
+        "att_reg_frisia_tulifurdum"
+      ],
+      [
+        "att_reg_frisia_flevum",
+        "att_reg_germania_uburzis"
+      ],
+      [
+        "att_reg_frisia_tulifurdum",
+        "att_reg_germania_aregelia"
+      ],
+      [
+        "att_reg_frisia_tulifurdum",
+        "att_reg_gothiscandza_rugion"
+      ],
+      [
+        "att_reg_gallaecia_asturica",
+        "att_reg_gallaecia_bracara"
+      ],
+      [
+        "att_reg_gallaecia_asturica",
+        "att_reg_gallaecia_brigantium"
+      ],
+      [
+        "att_reg_gallaecia_asturica",
+        "att_reg_tarraconensis_caesaraugusta"
+      ],
+      [
+        "att_reg_gallaecia_asturica",
+        "att_reg_tarraconensis_pompaelo"
+      ],
+      [
+        "att_reg_gallaecia_bracara",
+        "att_reg_gallaecia_brigantium"
+      ],
+      [
+        "att_reg_gallaecia_bracara",
+        "att_reg_lusitania_emerita_augusta"
+      ],
+      [
+        "att_reg_gallaecia_bracara",
+        "att_reg_lusitania_olisipo"
+      ],
+      [
+        "att_reg_germania_aregelia",
+        "att_reg_germania_lupfurdum"
+      ],
+      [
+        "att_reg_germania_aregelia",
+        "att_reg_germania_uburzis"
+      ],
+      [
+        "att_reg_germania_aregelia",
+        "att_reg_hercynia_casurgis"
+      ],
+      [
+        "att_reg_germania_lupfurdum",
+        "att_reg_gothiscandza_ascaucalis"
+      ],
+      [
+        "att_reg_germania_lupfurdum",
+        "att_reg_gothiscandza_rugion"
+      ],
+      [
+        "att_reg_germania_lupfurdum",
+        "att_reg_hercynia_budorgis"
+      ],
+      [
+        "att_reg_germania_lupfurdum",
+        "att_reg_hercynia_casurgis"
+      ],
+      [
+        "att_reg_germania_uburzis",
+        "att_reg_hercynia_casurgis"
+      ],
+      [
+        "att_reg_germania_uburzis",
+        "att_reg_maxima_sequanorum_argentoratum"
+      ],
+      [
+        "att_reg_germania_uburzis",
+        "att_reg_maxima_sequanorum_octodurus"
+      ],
+      [
+        "att_reg_germania_uburzis",
+        "att_reg_raetia_et_noricum_augusta_vindelicorum"
+      ],
+      [
+        "att_reg_germano_sarmatia_duna",
+        "att_reg_germano_sarmatia_oium"
+      ],
+      [
+        "att_reg_germano_sarmatia_duna",
+        "att_reg_germano_sarmatia_palteskja"
+      ],
+      [
+        "att_reg_germano_sarmatia_oium",
+        "att_reg_germano_sarmatia_palteskja"
+      ],
+      [
+        "att_reg_germano_sarmatia_oium",
+        "att_reg_gothiscandza_gothiscandza"
+      ],
+      [
+        "att_reg_germano_sarmatia_oium",
+        "att_reg_hercynia_budorgis"
+      ],
+      [
+        "att_reg_germano_sarmatia_oium",
+        "att_reg_transcarpathia_arheimar"
+      ],
+      [
+        "att_reg_germano_sarmatia_oium",
+        "att_reg_transcarpathia_belz"
+      ],
+      [
+        "att_reg_germano_sarmatia_palteskja",
+        "att_reg_hyperborea_kariskos"
+      ],
+      [
+        "att_reg_germano_sarmatia_palteskja",
+        "att_reg_transcarpathia_arheimar"
+      ],
+      [
+        "att_reg_gothiscandza_ascaucalis",
+        "att_reg_gothiscandza_gothiscandza"
+      ],
+      [
+        "att_reg_gothiscandza_ascaucalis",
+        "att_reg_gothiscandza_rugion"
+      ],
+      [
+        "att_reg_gothiscandza_ascaucalis",
+        "att_reg_hercynia_budorgis"
+      ],
+      [
+        "att_reg_hercynia_budorgis",
+        "att_reg_hercynia_nitrahwa"
+      ],
+      [
+        "att_reg_hercynia_budorgis",
+        "att_reg_transcarpathia_belz"
+      ],
+      [
+        "att_reg_hercynia_casurgis",
+        "att_reg_hercynia_nitrahwa"
+      ],
+      [
+        "att_reg_hercynia_casurgis",
+        "att_reg_raetia_et_noricum_augusta_vindelicorum"
+      ],
+      [
+        "att_reg_hercynia_casurgis",
+        "att_reg_raetia_et_noricum_iuvavum"
+      ],
+      [
+        "att_reg_hercynia_nitrahwa",
+        "att_reg_pannonia_savaria"
+      ],
+      [
+        "att_reg_hercynia_nitrahwa",
+        "att_reg_pannonia_sopianae"
+      ],
+      [
+        "att_reg_hercynia_nitrahwa",
+        "att_reg_transcarpathia_belz"
+      ],
+      [
+        "att_reg_hyperborea_kariskos",
+        "att_reg_hyperborea_moramar"
+      ],
+      [
+        "att_reg_hyperborea_kariskos",
+        "att_reg_hyperborea_sylis"
+      ],
+      [
+        "att_reg_hyperborea_kariskos",
+        "att_reg_sarmatia_europaea_gelonus"
+      ],
+      [
+        "att_reg_hyperborea_kariskos",
+        "att_reg_transcarpathia_arheimar"
+      ],
+      [
+        "att_reg_hyperborea_moramar",
+        "att_reg_hyperborea_sylis"
+      ],
+      [
+        "att_reg_hyperborea_moramar",
+        "att_reg_scythia_bolghar"
+      ],
+      [
+        "att_reg_hyperborea_moramar",
+        "att_reg_scythia_ra"
+      ],
+      [
+        "att_reg_hyperborea_sylis",
+        "att_reg_sarmatia_asiatica_samandar"
+      ],
+      [
+        "att_reg_hyperborea_sylis",
+        "att_reg_sarmatia_asiatica_tanais"
+      ],
+      [
+        "att_reg_hyperborea_sylis",
+        "att_reg_sarmatia_europaea_gelonus"
+      ],
+      [
+        "att_reg_hyperborea_sylis",
+        "att_reg_scythia_ra"
+      ],
+      [
+        "att_reg_italia_fiorentia",
+        "att_reg_italia_roma"
+      ],
+      [
+        "att_reg_italia_fiorentia",
+        "att_reg_liguria_genua"
+      ],
+      [
+        "att_reg_italia_fiorentia",
+        "att_reg_venetia_ravenna"
+      ],
+      [
+        "att_reg_italia_neapolis",
+        "att_reg_italia_roma"
+      ],
+      [
+        "att_reg_italia_neapolis",
+        "att_reg_magna_graecia_rhegium"
+      ],
+      [
+        "att_reg_italia_neapolis",
+        "att_reg_magna_graecia_tarentum"
+      ],
+      [
+        "att_reg_italia_neapolis",
+        "att_reg_venetia_ravenna"
+      ],
+      [
+        "att_reg_italia_roma",
+        "att_reg_venetia_ravenna"
+      ],
+      [
+        "att_reg_khwarasan_abarshahr",
+        "att_reg_khwarasan_harey"
+      ],
+      [
+        "att_reg_khwarasan_abarshahr",
+        "att_reg_khwarasan_merv"
+      ],
+      [
+        "att_reg_khwarasan_abarshahr",
+        "att_reg_media_atropatene_rhaga"
+      ],
+      [
+        "att_reg_khwarasan_abarshahr",
+        "att_reg_spahan_issatis"
+      ],
+      [
+        "att_reg_khwarasan_abarshahr",
+        "att_reg_transcaspia_dahistan"
+      ],
+      [
+        "att_reg_khwarasan_harey",
+        "att_reg_khwarasan_merv"
+      ],
+      [
+        "att_reg_khwarasan_harey",
+        "att_reg_makran_phra"
+      ],
+      [
+        "att_reg_khwarasan_harey",
+        "att_reg_spahan_issatis"
+      ],
+      [
+        "att_reg_khwarasan_merv",
+        "att_reg_transcaspia_dahistan"
+      ],
+      [
+        "att_reg_libya_augila",
+        "att_reg_libya_paraetonium"
+      ],
+      [
+        "att_reg_libya_augila",
+        "att_reg_libya_ptolemais"
+      ],
+      [
+        "att_reg_libya_augila",
+        "att_reg_phazania_garama"
+      ],
+      [
+        "att_reg_libya_paraetonium",
+        "att_reg_libya_ptolemais"
+      ],
+      [
+        "att_reg_libya_ptolemais",
+        "att_reg_phazania_garama"
+      ],
+      [
+        "att_reg_libya_ptolemais",
+        "att_reg_tripolitana_macomades"
+      ],
+      [
+        "att_reg_liguria_genua",
+        "att_reg_liguria_mediolanum"
+      ],
+      [
+        "att_reg_liguria_genua",
+        "att_reg_liguria_segusio"
+      ],
+      [
+        "att_reg_liguria_genua",
+        "att_reg_venetia_verona"
+      ],
+      [
+        "att_reg_liguria_mediolanum",
+        "att_reg_liguria_segusio"
+      ],
+      [
+        "att_reg_liguria_mediolanum",
+        "att_reg_maxima_sequanorum_octodurus"
+      ],
+      [
+        "att_reg_liguria_mediolanum",
+        "att_reg_raetia_et_noricum_augusta_vindelicorum"
+      ],
+      [
+        "att_reg_liguria_mediolanum",
+        "att_reg_venetia_verona"
+      ],
+      [
+        "att_reg_liguria_segusio",
+        "att_reg_narbonensis_aquae_sextiae"
+      ],
+      [
+        "att_reg_liguria_segusio",
+        "att_reg_narbonensis_vienna"
+      ],
+      [
+        "att_reg_lugdunensis_lugdunum",
+        "att_reg_lugdunensis_rotomagus"
+      ],
+      [
+        "att_reg_lugdunensis_lugdunum",
+        "att_reg_lugdunensis_turonum"
+      ],
+      [
+        "att_reg_lugdunensis_lugdunum",
+        "att_reg_maxima_sequanorum_octodurus"
+      ],
+      [
+        "att_reg_lugdunensis_lugdunum",
+        "att_reg_maxima_sequanorum_vesontio"
+      ],
+      [
+        "att_reg_lugdunensis_lugdunum",
+        "att_reg_narbonensis_vienna"
+      ],
+      [
+        "att_reg_lugdunensis_rotomagus",
+        "att_reg_lugdunensis_turonum"
+      ],
+      [
+        "att_reg_lusitania_emerita_augusta",
+        "att_reg_lusitania_olisipo"
+      ],
+      [
+        "att_reg_lusitania_emerita_augusta",
+        "att_reg_lusitania_pax_augusta"
+      ],
+      [
+        "att_reg_lusitania_olisipo",
+        "att_reg_lusitania_pax_augusta"
+      ],
+      [
+        "att_reg_macedonia_corinthus",
+        "att_reg_macedonia_dyrrhachium"
+      ],
+      [
+        "att_reg_macedonia_corinthus",
+        "att_reg_macedonia_thessalonica"
+      ],
+      [
+        "att_reg_macedonia_dyrrhachium",
+        "att_reg_macedonia_thessalonica"
+      ],
+      [
+        "att_reg_macedonia_thessalonica",
+        "att_reg_thracia_trimontium"
+      ],
+      [
+        "att_reg_magna_graecia_rhegium",
+        "att_reg_magna_graecia_tarentum"
+      ],
+      [
+        "att_reg_makran_harmosia",
+        "att_reg_makran_pura"
+      ],
+      [
+        "att_reg_makran_harmosia",
+        "att_reg_persis_behdeshir"
+      ],
+      [
+        "att_reg_makran_harmosia",
+        "att_reg_persis_siraf"
+      ],
+      [
+        "att_reg_makran_phra",
+        "att_reg_makran_pura"
+      ],
+      [
+        "att_reg_makran_phra",
+        "att_reg_persis_behdeshir"
+      ],
+      [
+        "att_reg_makran_phra",
+        "att_reg_spahan_issatis"
+      ],
+      [
+        "att_reg_makran_pura",
+        "att_reg_persis_behdeshir"
+      ],
+      [
+        "att_reg_mauretania_caesarea",
+        "att_reg_mauretania_tamousiga"
+      ],
+      [
+        "att_reg_mauretania_caesarea",
+        "att_reg_mauretania_tingis"
+      ],
+      [
+        "att_reg_mauretania_caesarea",
+        "att_reg_phazania_dimmidi"
+      ],
+      [
+        "att_reg_mauretania_tamousiga",
+        "att_reg_mauretania_tingis"
+      ],
+      [
+        "att_reg_mauretania_tamousiga",
+        "att_reg_phazania_dimmidi"
+      ],
+      [
+        "att_reg_maxima_sequanorum_argentoratum",
+        "att_reg_maxima_sequanorum_vesontio"
+      ],
+      [
+        "att_reg_maxima_sequanorum_octodurus",
+        "att_reg_maxima_sequanorum_vesontio"
+      ],
+      [
+        "att_reg_maxima_sequanorum_octodurus",
+        "att_reg_raetia_et_noricum_augusta_vindelicorum"
+      ],
+      [
+        "att_reg_media_atropatene_ecbatana",
+        "att_reg_media_atropatene_ganzaga"
+      ],
+      [
+        "att_reg_media_atropatene_ecbatana",
+        "att_reg_media_atropatene_rhaga"
+      ],
+      [
+        "att_reg_media_atropatene_ecbatana",
+        "att_reg_spahan_spahan"
+      ],
+      [
+        "att_reg_media_atropatene_ecbatana",
+        "att_reg_spahan_susa"
+      ],
+      [
+        "att_reg_media_atropatene_ganzaga",
+        "att_reg_media_atropatene_rhaga"
+      ],
+      [
+        "att_reg_media_atropatene_ganzaga",
+        "att_reg_osroene_nisibis"
+      ],
+      [
+        "att_reg_media_atropatene_rhaga",
+        "att_reg_spahan_issatis"
+      ],
+      [
+        "att_reg_media_atropatene_rhaga",
+        "att_reg_spahan_spahan"
+      ],
+      [
+        "att_reg_narbonensis_aquae_sextiae",
+        "att_reg_narbonensis_narbo"
+      ],
+      [
+        "att_reg_narbonensis_aquae_sextiae",
+        "att_reg_narbonensis_vienna"
+      ],
+      [
+        "att_reg_narbonensis_narbo",
+        "att_reg_tarraconensis_tarraco"
+      ],
+      [
+        "att_reg_osroene_amida",
+        "att_reg_osroene_edessa"
+      ],
+      [
+        "att_reg_osroene_amida",
+        "att_reg_osroene_nisibis"
+      ],
+      [
+        "att_reg_osroene_edessa",
+        "att_reg_osroene_nisibis"
+      ],
+      [
+        "att_reg_osroene_edessa",
+        "att_reg_syria_antiochia"
+      ],
+      [
+        "att_reg_osroene_edessa",
+        "att_reg_syria_emesa"
+      ],
+      [
+        "att_reg_palaestinea_aelia_capitolina",
+        "att_reg_palaestinea_aila"
+      ],
+      [
+        "att_reg_palaestinea_aelia_capitolina",
+        "att_reg_palaestinea_nova_trajana_bostra"
+      ],
+      [
+        "att_reg_palaestinea_aelia_capitolina",
+        "att_reg_syria_tyrus"
+      ],
+      [
+        "att_reg_palaestinea_aila",
+        "att_reg_palaestinea_nova_trajana_bostra"
+      ],
+      [
+        "att_reg_palaestinea_nova_trajana_bostra",
+        "att_reg_syria_emesa"
+      ],
+      [
+        "att_reg_pannonia_savaria",
+        "att_reg_pannonia_sopianae"
+      ],
+      [
+        "att_reg_pannonia_savaria",
+        "att_reg_raetia_et_noricum_iuvavum"
+      ],
+      [
+        "att_reg_pannonia_savaria",
+        "att_reg_raetia_et_noricum_virunum"
+      ],
+      [
+        "att_reg_pannonia_sirmium",
+        "att_reg_pannonia_sopianae"
+      ],
+      [
+        "att_reg_persis_behdeshir",
+        "att_reg_persis_stakhr"
+      ],
+      [
+        "att_reg_persis_behdeshir",
+        "att_reg_spahan_issatis"
+      ],
+      [
+        "att_reg_persis_siraf",
+        "att_reg_persis_stakhr"
+      ],
+      [
+        "att_reg_persis_siraf",
+        "att_reg_spahan_susa"
+      ],
+      [
+        "att_reg_persis_stakhr",
+        "att_reg_spahan_spahan"
+      ],
+      [
+        "att_reg_persis_stakhr",
+        "att_reg_spahan_susa"
+      ],
+      [
+        "att_reg_phazania_cydamus",
+        "att_reg_phazania_dimmidi"
+      ],
+      [
+        "att_reg_phazania_cydamus",
+        "att_reg_phazania_garama"
+      ],
+      [
+        "att_reg_phazania_cydamus",
+        "att_reg_tripolitana_sabrata"
+      ],
+      [
+        "att_reg_phazania_garama",
+        "att_reg_tripolitana_leptis_magna"
+      ],
+      [
+        "att_reg_phazania_garama",
+        "att_reg_tripolitana_macomades"
+      ],
+      [
+        "att_reg_phazania_garama",
+        "att_reg_tripolitana_sabrata"
+      ],
+      [
+        "att_reg_raetia_et_noricum_augusta_vindelicorum",
+        "att_reg_raetia_et_noricum_iuvavum"
+      ],
+      [
+        "att_reg_raetia_et_noricum_iuvavum",
+        "att_reg_raetia_et_noricum_virunum"
+      ],
+      [
+        "att_reg_raetia_et_noricum_iuvavum",
+        "att_reg_venetia_verona"
+      ],
+      [
+        "att_reg_raetia_et_noricum_virunum",
+        "att_reg_venetia_aquileia"
+      ],
+      [
+        "att_reg_sarmatia_asiatica_anacopia",
+        "att_reg_sarmatia_asiatica_samandar"
+      ],
+      [
+        "att_reg_sarmatia_asiatica_anacopia",
+        "att_reg_sarmatia_asiatica_tanais"
+      ],
+      [
+        "att_reg_sarmatia_asiatica_samandar",
+        "att_reg_sarmatia_asiatica_tanais"
+      ],
+      [
+        "att_reg_sarmatia_asiatica_samandar",
+        "att_reg_scythia_ra"
+      ],
+      [
+        "att_reg_sarmatia_asiatica_samandar",
+        "att_reg_scythia_sarai"
+      ],
+      [
+        "att_reg_sarmatia_asiatica_tanais",
+        "att_reg_sarmatia_europaea_gelonus"
+      ],
+      [
+        "att_reg_sarmatia_europaea_chersonessus",
+        "att_reg_sarmatia_europaea_gelonus"
+      ],
+      [
+        "att_reg_sarmatia_europaea_chersonessus",
+        "att_reg_sarmatia_europaea_olbia"
+      ],
+      [
+        "att_reg_sarmatia_europaea_gelonus",
+        "att_reg_sarmatia_europaea_olbia"
+      ],
+      [
+        "att_reg_sarmatia_europaea_gelonus",
+        "att_reg_transcarpathia_arheimar"
+      ],
+      [
+        "att_reg_sarmatia_europaea_olbia",
+        "att_reg_transcarpathia_arheimar"
+      ],
+      [
+        "att_reg_sarmatia_europaea_olbia",
+        "att_reg_transcarpathia_leopolis"
+      ],
+      [
+        "att_reg_scandza_hafn",
+        "att_reg_scandza_hrefnesholt"
+      ],
+      [
+        "att_reg_scythia_bolghar",
+        "att_reg_scythia_ra"
+      ],
+      [
+        "att_reg_scythia_bolghar",
+        "att_reg_scythia_sarai"
+      ],
+      [
+        "att_reg_scythia_ra",
+        "att_reg_scythia_sarai"
+      ],
+      [
+        "att_reg_scythia_sarai",
+        "att_reg_transcaspia_siahkuh"
+      ],
+      [
+        "att_reg_spahan_issatis",
+        "att_reg_spahan_spahan"
+      ],
+      [
+        "att_reg_spahan_spahan",
+        "att_reg_spahan_susa"
+      ],
+      [
+        "att_reg_syria_antiochia",
+        "att_reg_syria_emesa"
+      ],
+      [
+        "att_reg_syria_antiochia",
+        "att_reg_syria_tyrus"
+      ],
+      [
+        "att_reg_syria_emesa",
+        "att_reg_syria_tyrus"
+      ],
+      [
+        "att_reg_tarraconensis_caesaraugusta",
+        "att_reg_tarraconensis_pompaelo"
+      ],
+      [
+        "att_reg_tarraconensis_caesaraugusta",
+        "att_reg_tarraconensis_tarraco"
+      ],
+      [
+        "att_reg_tarraconensis_pompaelo",
+        "att_reg_tarraconensis_tarraco"
+      ],
+      [
+        "att_reg_thracia_constantinopolis",
+        "att_reg_thracia_marcianopolis"
+      ],
+      [
+        "att_reg_thracia_constantinopolis",
+        "att_reg_thracia_trimontium"
+      ],
+      [
+        "att_reg_thracia_marcianopolis",
+        "att_reg_thracia_trimontium"
+      ],
+      [
+        "att_reg_transcarpathia_arheimar",
+        "att_reg_transcarpathia_belz"
+      ],
+      [
+        "att_reg_transcarpathia_arheimar",
+        "att_reg_transcarpathia_leopolis"
+      ],
+      [
+        "att_reg_transcarpathia_belz",
+        "att_reg_transcarpathia_leopolis"
+      ],
+      [
+        "att_reg_transcaspia_dahistan",
+        "att_reg_transcaspia_kath"
+      ],
+      [
+        "att_reg_transcaspia_kath",
+        "att_reg_transcaspia_siahkuh"
+      ],
+      [
+        "att_reg_tripolitana_leptis_magna",
+        "att_reg_tripolitana_macomades"
+      ],
+      [
+        "att_reg_tripolitana_leptis_magna",
+        "att_reg_tripolitana_sabrata"
+      ],
+      [
+        "att_reg_venetia_aquileia",
+        "att_reg_venetia_verona"
+      ],
+      [
+        "att_reg_venetia_ravenna",
+        "att_reg_venetia_verona"
+      ]
+    ],
+    "sea": [
+      [
+        "att_sea_danuvius",
+        "att_sea_pontus_cimmerius"
+      ],
+      [
+        "att_sea_mare_adriaticum",
+        "att_sea_mare_ionium"
+      ],
+      [
+        "att_sea_mare_aegaeum",
+        "att_sea_mare_cilicium"
+      ],
+      [
+        "att_sea_mare_aegaeum",
+        "att_sea_mare_internum"
+      ],
+      [
+        "att_sea_mare_aegaeum",
+        "att_sea_mare_ionium"
+      ],
+      [
+        "att_sea_mare_aegaeum",
+        "att_sea_propontis"
+      ],
+      [
+        "att_sea_mare_aegyptum",
+        "att_sea_mare_internum"
+      ],
+      [
+        "att_sea_mare_aegyptum",
+        "att_sea_mare_phoenicum"
+      ],
+      [
+        "att_sea_mare_aegyptum",
+        "att_sea_nilos"
+      ],
+      [
+        "att_sea_mare_aegyptum",
+        "att_sea_syrtis_minor"
+      ],
+      [
+        "att_sea_mare_africum",
+        "att_sea_mare_balearicum"
+      ],
+      [
+        "att_sea_mare_africum",
+        "att_sea_mare_internum"
+      ],
+      [
+        "att_sea_mare_africum",
+        "att_sea_mare_tyrrhenum"
+      ],
+      [
+        "att_sea_mare_africum",
+        "att_sea_syrtis_minor"
+      ],
+      [
+        "att_sea_mare_balearicum",
+        "att_sea_mare_gallicum"
+      ],
+      [
+        "att_sea_mare_balearicum",
+        "att_sea_mare_ibericum"
+      ],
+      [
+        "att_sea_mare_cilicium",
+        "att_sea_mare_internum"
+      ],
+      [
+        "att_sea_mare_cilicium",
+        "att_sea_mare_phoenicum"
+      ],
+      [
+        "att_sea_mare_gallicum",
+        "att_sea_mare_tyrrhenum"
+      ],
+      [
+        "att_sea_mare_hibernicum",
+        "att_sea_oceanus_atlanticus"
+      ],
+      [
+        "att_sea_mare_hibernicum",
+        "att_sea_oceanus_gallicus"
+      ],
+      [
+        "att_sea_mare_hibernicum",
+        "att_sea_oceanus_germanicus"
+      ],
+      [
+        "att_sea_mare_ibericum",
+        "att_sea_oceanus_atlanticus"
+      ],
+      [
+        "att_sea_mare_indicum",
+        "att_sea_sinus_arabicus"
+      ],
+      [
+        "att_sea_mare_indicum",
+        "att_sea_sinus_persicus"
+      ],
+      [
+        "att_sea_mare_internum",
+        "att_sea_mare_ionium"
+      ],
+      [
+        "att_sea_mare_internum",
+        "att_sea_mare_phoenicum"
+      ],
+      [
+        "att_sea_mare_internum",
+        "att_sea_syrtis_minor"
+      ],
+      [
+        "att_sea_mare_ionium",
+        "att_sea_mare_tyrrhenum"
+      ],
+      [
+        "att_sea_mare_sarmaticum",
+        "att_sea_mare_suebicum"
+      ],
+      [
+        "att_sea_mare_suebicum",
+        "att_sea_oceanus_germanicus"
+      ],
+      [
+        "att_sea_oceanus_atlanticus",
+        "att_sea_oceanus_gallicus"
+      ],
+      [
+        "att_sea_oceanus_gallicus",
+        "att_sea_oceanus_germanicus"
+      ],
+      [
+        "att_sea_oceanus_gallicus",
+        "att_sea_rhenus"
+      ],
+      [
+        "att_sea_pontus_cimmerius",
+        "att_sea_pontus_euxinus"
+      ],
+      [
+        "att_sea_pontus_euxinus",
+        "att_sea_propontis"
+      ]
+    ],
+    "coastal": [
+      [
+        "att_reg_aegyptus_alexandria",
+        "att_sea_mare_aegyptum"
+      ],
+      [
+        "att_reg_aegyptus_alexandria",
+        "att_sea_mare_phoenicum"
+      ],
+      [
+        "att_reg_aegyptus_alexandria",
+        "att_sea_nilos"
+      ],
+      [
+        "att_reg_aegyptus_alexandria",
+        "att_sea_sinus_arabicus"
+      ],
+      [
+        "att_reg_aegyptus_berenice",
+        "att_sea_nilos"
+      ],
+      [
+        "att_reg_aegyptus_berenice",
+        "att_sea_sinus_arabicus"
+      ],
+      [
+        "att_reg_aegyptus_oxyrhynchus",
+        "att_sea_nilos"
+      ],
+      [
+        "att_reg_aethiopia_adulis",
+        "att_sea_sinus_arabicus"
+      ],
+      [
+        "att_reg_aethiopia_aksum",
+        "att_sea_mare_indicum"
+      ],
+      [
+        "att_reg_aethiopia_aksum",
+        "att_sea_sinus_arabicus"
+      ],
+      [
+        "att_reg_aethiopia_pachoras",
+        "att_sea_sinus_arabicus"
+      ],
+      [
+        "att_reg_africa_carthago",
+        "att_sea_mare_africum"
+      ],
+      [
+        "att_reg_africa_constantina",
+        "att_sea_mare_africum"
+      ],
+      [
+        "att_reg_africa_constantina",
+        "att_sea_mare_balearicum"
+      ],
+      [
+        "att_reg_africa_hadrumentum",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_africa_hadrumentum",
+        "att_sea_mare_africum"
+      ],
+      [
+        "att_reg_africa_hadrumentum",
+        "att_sea_syrtis_minor"
+      ],
+      [
+        "att_reg_aquitania_burdigala",
+        "att_sea_oceanus_gallicus"
+      ],
+      [
+        "att_reg_aquitania_elusa",
+        "att_sea_oceanus_gallicus"
+      ],
+      [
+        "att_reg_arabia_felix_eudaemon",
+        "att_sea_mare_indicum"
+      ],
+      [
+        "att_reg_arabia_felix_eudaemon",
+        "att_sea_sinus_arabicus"
+      ],
+      [
+        "att_reg_arabia_felix_omana",
+        "att_sea_mare_indicum"
+      ],
+      [
+        "att_reg_arabia_felix_omana",
+        "att_sea_sinus_persicus"
+      ],
+      [
+        "att_reg_arabia_felix_zafar",
+        "att_sea_mare_indicum"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_arabia_magna_dumatha",
+        "att_sea_sinus_arabicus"
+      ],
+      [
+        "att_reg_arabia_magna_hira",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_arabia_magna_hira",
+        "att_sea_sinus_persicus"
+      ],
+      [
+        "att_reg_arabia_magna_yathrib",
+        "att_sea_sinus_arabicus"
+      ],
+      [
+        "att_reg_armenia_duin",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_armenia_payttakaran",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_armenia_payttakaran",
+        "att_sea_mare_caspium"
+      ],
+      [
+        "att_reg_armenia_tosp",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_asia_cyzicus",
+        "att_sea_mare_aegaeum"
+      ],
+      [
+        "att_reg_asia_cyzicus",
+        "att_sea_propontis"
+      ],
+      [
+        "att_reg_asia_ephesus",
+        "att_sea_mare_aegaeum"
+      ],
+      [
+        "att_reg_asia_ephesus",
+        "att_sea_mare_cilicium"
+      ],
+      [
+        "att_reg_asorstan_arbela",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_asorstan_ctesiphon",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_asorstan_meshan",
+        "att_sea_sinus_persicus"
+      ],
+      [
+        "att_reg_baetica_hispalis",
+        "att_sea_mare_ibericum"
+      ],
+      [
+        "att_reg_baetica_malaca",
+        "att_sea_mare_ibericum"
+      ],
+      [
+        "att_reg_belgica_colonia_agrippina",
+        "att_sea_oceanus_gallicus"
+      ],
+      [
+        "att_reg_belgica_colonia_agrippina",
+        "att_sea_rhenus"
+      ],
+      [
+        "att_reg_belgica_durocorterum",
+        "att_sea_oceanus_gallicus"
+      ],
+      [
+        "att_reg_bithynia_amasea",
+        "att_sea_pontus_euxinus"
+      ],
+      [
+        "att_reg_bithynia_ancyra",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_bithynia_nicomedia",
+        "att_sea_pontus_euxinus"
+      ],
+      [
+        "att_reg_bithynia_nicomedia",
+        "att_sea_propontis"
+      ],
+      [
+        "att_reg_britannia_inferior_eboracum",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_britannia_inferior_eboracum",
+        "att_sea_mare_hibernicum"
+      ],
+      [
+        "att_reg_britannia_inferior_eboracum",
+        "att_sea_oceanus_germanicus"
+      ],
+      [
+        "att_reg_britannia_inferior_lindum",
+        "att_sea_mare_hibernicum"
+      ],
+      [
+        "att_reg_britannia_inferior_lindum",
+        "att_sea_oceanus_germanicus"
+      ],
+      [
+        "att_reg_britannia_inferior_segontium",
+        "att_sea_mare_hibernicum"
+      ],
+      [
+        "att_reg_britannia_superior_camulodunon",
+        "att_sea_oceanus_gallicus"
+      ],
+      [
+        "att_reg_britannia_superior_camulodunon",
+        "att_sea_oceanus_germanicus"
+      ],
+      [
+        "att_reg_britannia_superior_corinium",
+        "att_sea_mare_hibernicum"
+      ],
+      [
+        "att_reg_britannia_superior_corinium",
+        "att_sea_oceanus_gallicus"
+      ],
+      [
+        "att_reg_britannia_superior_londinium",
+        "att_sea_oceanus_gallicus"
+      ],
+      [
+        "att_reg_caledonia_et_hibernia_eblana",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_caledonia_et_hibernia_eblana",
+        "att_sea_mare_hibernicum"
+      ],
+      [
+        "att_reg_caledonia_et_hibernia_eildon",
+        "att_sea_mare_hibernicum"
+      ],
+      [
+        "att_reg_caledonia_et_hibernia_eildon",
+        "att_sea_oceanus_germanicus"
+      ],
+      [
+        "att_reg_caledonia_et_hibernia_tuesis",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_caledonia_et_hibernia_tuesis",
+        "att_sea_mare_hibernicum"
+      ],
+      [
+        "att_reg_caledonia_et_hibernia_tuesis",
+        "att_sea_oceanus_germanicus"
+      ],
+      [
+        "att_reg_cappadocia_caesarea_eusebia",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_cappadocia_trapezus",
+        "att_sea_pontus_euxinus"
+      ],
+      [
+        "att_reg_carthaginensis_carthago_nova",
+        "att_sea_mare_balearicum"
+      ],
+      [
+        "att_reg_carthaginensis_carthago_nova",
+        "att_sea_mare_ibericum"
+      ],
+      [
+        "att_reg_carthaginensis_segobriga",
+        "att_sea_mare_balearicum"
+      ],
+      [
+        "att_reg_carthaginensis_segobriga",
+        "att_sea_mare_gallicum"
+      ],
+      [
+        "att_reg_caucasia_gabala",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_caucasia_gabala",
+        "att_sea_mare_caspium"
+      ],
+      [
+        "att_reg_caucasia_kotais",
+        "att_sea_pontus_euxinus"
+      ],
+      [
+        "att_reg_cilicia_iconium",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_cilicia_myra",
+        "att_sea_mare_cilicium"
+      ],
+      [
+        "att_reg_cilicia_tarsus",
+        "att_sea_mare_cilicium"
+      ],
+      [
+        "att_reg_cilicia_tarsus",
+        "att_sea_mare_phoenicum"
+      ],
+      [
+        "att_reg_dacia_apulum",
+        "att_sea_danuvius"
+      ],
+      [
+        "att_reg_dacia_petrodava",
+        "att_sea_danuvius"
+      ],
+      [
+        "att_reg_dacia_petrodava",
+        "att_sea_pontus_cimmerius"
+      ],
+      [
+        "att_reg_dacia_romula",
+        "att_sea_danuvius"
+      ],
+      [
+        "att_reg_dalmatia_salona",
+        "att_sea_mare_adriaticum"
+      ],
+      [
+        "att_reg_dalmatia_salona",
+        "att_sea_mare_ionium"
+      ],
+      [
+        "att_reg_dardania_serdica",
+        "att_sea_danuvius"
+      ],
+      [
+        "att_reg_dardania_viminacium",
+        "att_sea_danuvius"
+      ],
+      [
+        "att_reg_frisia_angulus",
+        "att_sea_mare_suebicum"
+      ],
+      [
+        "att_reg_frisia_angulus",
+        "att_sea_oceanus_germanicus"
+      ],
+      [
+        "att_reg_frisia_flevum",
+        "att_sea_oceanus_gallicus"
+      ],
+      [
+        "att_reg_frisia_flevum",
+        "att_sea_oceanus_germanicus"
+      ],
+      [
+        "att_reg_frisia_flevum",
+        "att_sea_rhenus"
+      ],
+      [
+        "att_reg_frisia_tulifurdum",
+        "att_sea_oceanus_germanicus"
+      ],
+      [
+        "att_reg_gallaecia_asturica",
+        "att_sea_oceanus_gallicus"
+      ],
+      [
+        "att_reg_gallaecia_bracara",
+        "att_sea_oceanus_atlanticus"
+      ],
+      [
+        "att_reg_gallaecia_brigantium",
+        "att_sea_oceanus_atlanticus"
+      ],
+      [
+        "att_reg_gallaecia_brigantium",
+        "att_sea_oceanus_gallicus"
+      ],
+      [
+        "att_reg_germania_uburzis",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_germania_uburzis",
+        "att_sea_rhenus"
+      ],
+      [
+        "att_reg_germano_sarmatia_duna",
+        "att_sea_mare_sarmaticum"
+      ],
+      [
+        "att_reg_germano_sarmatia_oium",
+        "att_sea_mare_sarmaticum"
+      ],
+      [
+        "att_reg_gothiscandza_ascaucalis",
+        "att_sea_mare_suebicum"
+      ],
+      [
+        "att_reg_gothiscandza_gothiscandza",
+        "att_sea_mare_sarmaticum"
+      ],
+      [
+        "att_reg_gothiscandza_gothiscandza",
+        "att_sea_mare_suebicum"
+      ],
+      [
+        "att_reg_gothiscandza_rugion",
+        "att_sea_mare_suebicum"
+      ],
+      [
+        "att_reg_italia_fiorentia",
+        "att_sea_mare_tyrrhenum"
+      ],
+      [
+        "att_reg_italia_neapolis",
+        "att_sea_mare_adriaticum"
+      ],
+      [
+        "att_reg_italia_neapolis",
+        "att_sea_mare_tyrrhenum"
+      ],
+      [
+        "att_reg_italia_roma",
+        "att_sea_mare_tyrrhenum"
+      ],
+      [
+        "att_reg_khwarasan_abarshahr",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_khwarasan_abarshahr",
+        "att_sea_mare_caspium"
+      ],
+      [
+        "att_reg_khwarasan_harey",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_libya_augila",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_libya_paraetonium",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_libya_paraetonium",
+        "att_sea_mare_aegyptum"
+      ],
+      [
+        "att_reg_libya_ptolemais",
+        "att_sea_mare_aegyptum"
+      ],
+      [
+        "att_reg_libya_ptolemais",
+        "att_sea_syrtis_minor"
+      ],
+      [
+        "att_reg_liguria_genua",
+        "att_sea_mare_tyrrhenum"
+      ],
+      [
+        "att_reg_liguria_segusio",
+        "att_sea_mare_gallicum"
+      ],
+      [
+        "att_reg_liguria_segusio",
+        "att_sea_mare_tyrrhenum"
+      ],
+      [
+        "att_reg_lugdunensis_rotomagus",
+        "att_sea_oceanus_gallicus"
+      ],
+      [
+        "att_reg_lugdunensis_turonum",
+        "att_sea_oceanus_gallicus"
+      ],
+      [
+        "att_reg_lusitania_olisipo",
+        "att_sea_oceanus_atlanticus"
+      ],
+      [
+        "att_reg_lusitania_pax_augusta",
+        "att_sea_mare_ibericum"
+      ],
+      [
+        "att_reg_lusitania_pax_augusta",
+        "att_sea_oceanus_atlanticus"
+      ],
+      [
+        "att_reg_macedonia_corinthus",
+        "att_sea_mare_aegaeum"
+      ],
+      [
+        "att_reg_macedonia_corinthus",
+        "att_sea_mare_ionium"
+      ],
+      [
+        "att_reg_macedonia_dyrrhachium",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_macedonia_dyrrhachium",
+        "att_sea_mare_ionium"
+      ],
+      [
+        "att_reg_macedonia_thessalonica",
+        "att_sea_mare_aegaeum"
+      ],
+      [
+        "att_reg_magna_graecia_rhegium",
+        "att_sea_mare_ionium"
+      ],
+      [
+        "att_reg_magna_graecia_rhegium",
+        "att_sea_mare_tyrrhenum"
+      ],
+      [
+        "att_reg_magna_graecia_syracusae",
+        "att_sea_mare_africum"
+      ],
+      [
+        "att_reg_magna_graecia_syracusae",
+        "att_sea_mare_internum"
+      ],
+      [
+        "att_reg_magna_graecia_syracusae",
+        "att_sea_mare_ionium"
+      ],
+      [
+        "att_reg_magna_graecia_syracusae",
+        "att_sea_mare_tyrrhenum"
+      ],
+      [
+        "att_reg_magna_graecia_tarentum",
+        "att_sea_mare_adriaticum"
+      ],
+      [
+        "att_reg_magna_graecia_tarentum",
+        "att_sea_mare_ionium"
+      ],
+      [
+        "att_reg_makran_harmosia",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_makran_harmosia",
+        "att_sea_mare_indicum"
+      ],
+      [
+        "att_reg_makran_phra",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_makran_pura",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_makran_pura",
+        "att_sea_mare_indicum"
+      ],
+      [
+        "att_reg_mauretania_caesarea",
+        "att_sea_mare_balearicum"
+      ],
+      [
+        "att_reg_mauretania_caesarea",
+        "att_sea_mare_ibericum"
+      ],
+      [
+        "att_reg_mauretania_tamousiga",
+        "att_sea_oceanus_atlanticus"
+      ],
+      [
+        "att_reg_mauretania_tingis",
+        "att_sea_mare_ibericum"
+      ],
+      [
+        "att_reg_mauretania_tingis",
+        "att_sea_oceanus_atlanticus"
+      ],
+      [
+        "att_reg_maxima_sequanorum_octodurus",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_media_atropatene_ecbatana",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_media_atropatene_ganzaga",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_media_atropatene_ganzaga",
+        "att_sea_mare_caspium"
+      ],
+      [
+        "att_reg_media_atropatene_rhaga",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_media_atropatene_rhaga",
+        "att_sea_mare_caspium"
+      ],
+      [
+        "att_reg_mediterraneus_occidentalis_ajax",
+        "att_sea_mare_gallicum"
+      ],
+      [
+        "att_reg_mediterraneus_occidentalis_ajax",
+        "att_sea_mare_tyrrhenum"
+      ],
+      [
+        "att_reg_mediterraneus_occidentalis_caralis",
+        "att_sea_mare_africum"
+      ],
+      [
+        "att_reg_mediterraneus_occidentalis_caralis",
+        "att_sea_mare_balearicum"
+      ],
+      [
+        "att_reg_mediterraneus_occidentalis_caralis",
+        "att_sea_mare_gallicum"
+      ],
+      [
+        "att_reg_mediterraneus_occidentalis_caralis",
+        "att_sea_mare_tyrrhenum"
+      ],
+      [
+        "att_reg_mediterraneus_occidentalis_palma",
+        "att_sea_mare_balearicum"
+      ],
+      [
+        "att_reg_mediterraneus_orientalis_constantia",
+        "att_sea_mare_cilicium"
+      ],
+      [
+        "att_reg_mediterraneus_orientalis_constantia",
+        "att_sea_mare_phoenicum"
+      ],
+      [
+        "att_reg_mediterraneus_orientalis_gortyna",
+        "att_sea_mare_aegaeum"
+      ],
+      [
+        "att_reg_mediterraneus_orientalis_gortyna",
+        "att_sea_mare_internum"
+      ],
+      [
+        "att_reg_mediterraneus_orientalis_gortyna",
+        "att_sea_mare_ionium"
+      ],
+      [
+        "att_reg_mediterraneus_orientalis_rhodes",
+        "att_sea_mare_aegaeum"
+      ],
+      [
+        "att_reg_mediterraneus_orientalis_rhodes",
+        "att_sea_mare_cilicium"
+      ],
+      [
+        "att_reg_narbonensis_aquae_sextiae",
+        "att_sea_mare_gallicum"
+      ],
+      [
+        "att_reg_narbonensis_narbo",
+        "att_sea_mare_gallicum"
+      ],
+      [
+        "att_reg_osroene_nisibis",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_palaestinea_aelia_capitolina",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_palaestinea_aelia_capitolina",
+        "att_sea_mare_phoenicum"
+      ],
+      [
+        "att_reg_palaestinea_aila",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_palaestinea_aila",
+        "att_sea_sinus_arabicus"
+      ],
+      [
+        "att_reg_palaestinea_nova_trajana_bostra",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_pannonia_savaria",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_pannonia_sirmium",
+        "att_sea_danuvius"
+      ],
+      [
+        "att_reg_pannonia_sopianae",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_persis_siraf",
+        "att_sea_mare_indicum"
+      ],
+      [
+        "att_reg_persis_siraf",
+        "att_sea_sinus_persicus"
+      ],
+      [
+        "att_reg_raetia_et_noricum_augusta_vindelicorum",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_sarmatia_asiatica_anacopia",
+        "att_sea_pontus_cimmerius"
+      ],
+      [
+        "att_reg_sarmatia_asiatica_anacopia",
+        "att_sea_pontus_euxinus"
+      ],
+      [
+        "att_reg_sarmatia_asiatica_samandar",
+        "att_sea_mare_caspium"
+      ],
+      [
+        "att_reg_sarmatia_asiatica_tanais",
+        "att_sea_pontus_cimmerius"
+      ],
+      [
+        "att_reg_sarmatia_europaea_chersonessus",
+        "att_sea_pontus_cimmerius"
+      ],
+      [
+        "att_reg_sarmatia_europaea_gelonus",
+        "att_sea_pontus_cimmerius"
+      ],
+      [
+        "att_reg_sarmatia_europaea_olbia",
+        "att_sea_pontus_cimmerius"
+      ],
+      [
+        "att_reg_scandza_alabu",
+        "att_sea_mare_suebicum"
+      ],
+      [
+        "att_reg_scandza_alabu",
+        "att_sea_oceanus_germanicus"
+      ],
+      [
+        "att_reg_scandza_hafn",
+        "att_sea_mare_suebicum"
+      ],
+      [
+        "att_reg_scandza_hrefnesholt",
+        "att_sea_mare_sarmaticum"
+      ],
+      [
+        "att_reg_scandza_hrefnesholt",
+        "att_sea_mare_suebicum"
+      ],
+      [
+        "att_reg_scandza_hrefnesholt",
+        "att_sea_oceanus_germanicus"
+      ],
+      [
+        "att_reg_scythia_ra",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_scythia_sarai",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_scythia_sarai",
+        "att_sea_mare_caspium"
+      ],
+      [
+        "att_reg_spahan_susa",
+        "att_sea_sinus_persicus"
+      ],
+      [
+        "att_reg_syria_antiochia",
+        "att_sea_mare_phoenicum"
+      ],
+      [
+        "att_reg_syria_tyrus",
+        "att_sea_mare_phoenicum"
+      ],
+      [
+        "att_reg_tarraconensis_pompaelo",
+        "att_sea_oceanus_gallicus"
+      ],
+      [
+        "att_reg_tarraconensis_tarraco",
+        "att_sea_mare_gallicum"
+      ],
+      [
+        "att_reg_thracia_constantinopolis",
+        "att_sea_mare_aegaeum"
+      ],
+      [
+        "att_reg_thracia_constantinopolis",
+        "att_sea_pontus_euxinus"
+      ],
+      [
+        "att_reg_thracia_constantinopolis",
+        "att_sea_propontis"
+      ],
+      [
+        "att_reg_thracia_marcianopolis",
+        "att_sea_danuvius"
+      ],
+      [
+        "att_reg_thracia_marcianopolis",
+        "att_sea_pontus_cimmerius"
+      ],
+      [
+        "att_reg_thracia_marcianopolis",
+        "att_sea_pontus_euxinus"
+      ],
+      [
+        "att_reg_thracia_trimontium",
+        "att_sea_mare_aegaeum"
+      ],
+      [
+        "att_reg_transcaspia_dahistan",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_transcaspia_dahistan",
+        "att_sea_mare_caspium"
+      ],
+      [
+        "att_reg_transcaspia_kath",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_transcaspia_kath",
+        "att_sea_mare_caspium"
+      ],
+      [
+        "att_reg_transcaspia_siahkuh",
+        "att_sea_lake"
+      ],
+      [
+        "att_reg_transcaspia_siahkuh",
+        "att_sea_mare_caspium"
+      ],
+      [
+        "att_reg_tripolitana_leptis_magna",
+        "att_sea_syrtis_minor"
+      ],
+      [
+        "att_reg_tripolitana_macomades",
+        "att_sea_syrtis_minor"
+      ],
+      [
+        "att_reg_tripolitana_sabrata",
+        "att_sea_syrtis_minor"
+      ],
+      [
+        "att_reg_venetia_aquileia",
+        "att_sea_mare_adriaticum"
+      ],
+      [
+        "att_reg_venetia_ravenna",
+        "att_sea_mare_adriaticum"
+      ],
+      [
+        "att_reg_venetia_verona",
+        "att_sea_mare_adriaticum"
+      ]
+    ],
+    "description": "Geometric hex contacts, not complete travel routes. Passable land means at least one shared hex edge has two non-impassable endpoints."
+  }
+}

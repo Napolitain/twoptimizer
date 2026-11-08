@@ -95,12 +95,22 @@ single-case defaults. CLI commands supply their comparison defaults explicitly;
 their broader default batches remain intentional. `solve_case` also validates its
 single request, so direct calls and worker calls use the same rules.
 
-`twoptimizer.holdings` owns selection and border helpers.
-`twoptimizer.province_picker` owns the optional TUI selection dialogs. Adding
-provinces invalidates known borders; removing provinces prunes links. Joint TUI
-Attila and Rome II holdings require explicit border input, including an empty confirmed list
-when none are adjacent. Picker borders are two-way links. Campaign JSON can
-supply its existing directed adjacency map; no border map is inferred.
+`games.tw.maps.catalog` validates immutable campaign graphs against each game's
+canonical region/province IDs and checks the region-to-province graph projection.
+Source-specific importers retain source hashes, ID joins, geometry types and
+limitations. Contact graphs remain distinct from navigation/sea routes.
+`twoptimizer.holdings` owns selection and border resolution. For joint Attila and
+Rome II holdings, `adjacency=None` selects the bundled map's induced province
+graph; a tuple supplies custom borders and an empty tuple explicitly disables
+them. Attila's explicit campaign adjacency takes precedence over map defaults,
+and conflicting explicit inputs remain errors. Campaign JSON retains directed
+adjacency; picker borders are two-way links. Missing/incomplete map coverage
+requires an explicit override instead of silently treating every place as isolated.
+`twoptimizer.province_picker` owns the optional TUI dialogs. Automatic borders
+follow selections; custom borders are pruned on removal and flagged for review
+on expansion. **Use map borders** restores automatic mode. `raw.map_context`
+records effective borders and source evidence alongside the unchanged input
+intent. CSV exports use those effective borders.
 
 Rome II's `HoldingScenario`/`HoldingEconomy` compose the existing placement and
 solver backends. Province-specific economic expressions share one political

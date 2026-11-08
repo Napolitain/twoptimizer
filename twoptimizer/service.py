@@ -6,7 +6,7 @@ from math import isfinite
 from twoptimizer.catalog import NOTES, faction_name
 from twoptimizer.engines import solve_attila, solve_rome, solve_shogun
 from twoptimizer.errors import ApplicationError, serialize_error
-from twoptimizer.holdings import province_label
+from twoptimizer.holdings import map_context, province_label
 from twoptimizer.models import CaseResult, RunConfig, SolverSummary
 from twoptimizer.progress import PhaseTimer, ProgressEvent
 from twoptimizer.provenance import source_files
@@ -33,6 +33,7 @@ def solve_case(
     except (ValueError, TypeError) as error:
         raise ApplicationError(str(error)) from error
     result.raw["model_complexity"] = [stats.to_dict() for stats in phase.models]
+    result.raw["map_context"] = map_context(config)
     income = result.income
     solver = SolverSummary.from_dict(result.raw["solver"])
     bound = solver.bound

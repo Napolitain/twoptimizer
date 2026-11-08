@@ -1,5 +1,7 @@
 """Province selection and joint ownership shared by the TUI and worker adapters."""
 
+from games.tw.immutable import thaw
+from games.tw.maps.catalog import load_campaign_map, province_borders
 from twoptimizer.catalog import choices
 from twoptimizer.models import RunConfig
 
@@ -50,21 +52,18 @@ def validate_selection(config: RunConfig) -> tuple[str, ...]:
 
 
 def validate_borders(config: RunConfig, selected: tuple[str, ...]) -> None:
-    has_campaign_borders = (
-        config.game == "attila"
-        and config.attila.campaign is not None
-        and "adjacency" in config.attila.campaign.data
-    )
     if (
         config.joint
         and config.game in BORDER_GAMES
         and len(selected) > 1
         and config.adjacency is None
-        and not has_campaign_borders
+        and not has_campaign_borders(config)
+        and province_borders(config.game, selected) is None
     ):
         game = "Attila" if config.game == "attila" else "Rome II"
         raise ValueError(
-            f"Set neighboring provinces, or confirm no borders, before running {game} together."
+            f"No complete map covers this holding. Set neighboring provinces, "
+            f"or confirm no borders, before running {game} together."
         )
     if config.adjacency is None:
         return
@@ -82,7 +81,58 @@ def validate_borders(config: RunConfig, selected: tuple[str, ...]) -> None:
 
 def adjacency_mapping(config: RunConfig) -> dict[str, list[str]]:
     mapping = {key: [] for key in selected_provinces(config)}
-    for first, second in config.adjacency or ():
+    directed = config.adjacency is None and has_campaign_borders(config)
+    for first, second in resolved_borders(config):
         mapping[first].append(second)
-        mapping[second].append(first)
+        if not directed:
+            mapping[second].append(first)
     return mapping
+
+
+def has_campaign_borders(config: RunConfig) -> bool:
+    return (
+        config.game == "attila"
+        and config.attila.campaign is not None
+        and "adjacency" in config.attila.campaign.data
+    )
+
+
+def resolved_borders(config: RunConfig) -> tuple[tuple[str, str], ...]:
+    """Explicit overrides take precedence over campaign inputs and bundled maps."""
+    if config.adjacency is not None:
+        return config.adjacency
+    if has_campaign_borders(config):
+        assert config.attila.campaign is not None
+        mapping = config.attila.campaign.adjacency
+        return tuple(sorted((a, b) for a, neighbors in mapping.items() for b in neighbors))
+    if not config.joint or config.game not in BORDER_GAMES or len(config.holdings) < 2:
+        return ()
+    borders = province_borders(config.game, config.holdings)
+    if borders is None:
+        raise ValueError("Set neighboring provinces or supply a complete campaign map")
+    return borders
+
+
+def map_context(config: RunConfig) -> dict:
+    """Record effective borders separately from the user's automatic/custom intent."""
+    if not config.joint or config.game not in BORDER_GAMES:
+        return {"mode": "not_applied", "borders": [], "directed": False}
+    if config.adjacency is not None:
+        mode = "custom" if config.adjacency else "none"
+    elif has_campaign_borders(config):
+        mode = "campaign"
+    else:
+        mode = "map"
+    context = {
+        "mode": mode,
+        "borders": thaw(resolved_borders(config)),
+        "directed": mode == "campaign",
+    }
+    if mode == "map" and (data := load_campaign_map(config.game)) is not None:
+        context.update(
+            campaign=data["campaign"],
+            adjacency_kind=data["coverage"]["adjacency_kind"],
+            sources=thaw(data["sources"]),
+            limitations=thaw(data.get("limitations", ())),
+        )
+    return context

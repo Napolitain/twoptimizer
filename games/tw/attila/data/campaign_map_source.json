@@ -1,0 +1,2710 @@
+{
+  "schema_version": 1,
+  "source": {
+    "url": "https://twdatabase.com/attila/map",
+    "sha256": "9287986deea862325c756ca100b0457a57139571b40a2516fefa60c9d12f7dbd",
+    "bytes": 169663,
+    "retrieved_at": "2026-11-08",
+    "patch": "Steam build 25370302",
+    "description": "Factual region/province and published Borders (nb) map fields"
+  },
+  "map": {
+    "patch": "Steam build 25370302",
+    "width": 2400,
+    "height": 1702,
+    "regions": [
+      {
+        "k": "att_reg_persis_siraf",
+        "n": "Siraf",
+        "p": 47,
+        "x": 1908.2,
+        "y": 1268.5,
+        "nb": [
+          21,
+          103,
+          174
+        ]
+      },
+      {
+        "k": "att_reg_cilicia_tarsus",
+        "n": "Tarsus",
+        "p": 18,
+        "x": 1418.7,
+        "y": 979.2,
+        "nb": [
+          5,
+          26,
+          88,
+          114,
+          153
+        ]
+      },
+      {
+        "k": "att_reg_sarmatia_asiatica_anacopia",
+        "n": "Anacopia",
+        "p": 50,
+        "x": 1593.7,
+        "y": 731.1,
+        "nb": [
+          12,
+          94,
+          106
+        ]
+      },
+      {
+        "k": "att_reg_hyperborea_sylis",
+        "n": "Silys",
+        "p": 28,
+        "x": 1629.2,
+        "y": 408.7,
+        "nb": [
+          7,
+          9,
+          12,
+          51,
+          106,
+          163
+        ]
+      },
+      {
+        "k": "att_reg_dalmatia_salona",
+        "n": "Salona",
+        "p": 20,
+        "x": 884.3,
+        "y": 731.1,
+        "nb": [
+          24,
+          40,
+          108,
+          149,
+          170
+        ]
+      },
+      {
+        "k": "att_reg_syria_antiochia",
+        "n": "Antiochia",
+        "p": 55,
+        "x": 1466,
+        "y": 1014.6,
+        "nb": [
+          1,
+          6,
+          26,
+          110,
+          134
+        ]
+      },
+      {
+        "k": "att_reg_osroene_edessa",
+        "n": "Edessa",
+        "p": 44,
+        "x": 1574.8,
+        "y": 986.2,
+        "nb": [
+          5,
+          26,
+          68,
+          73,
+          78,
+          110
+        ]
+      },
+      {
+        "k": "att_reg_sarmatia_europaea_gelonus",
+        "n": "Gelonus",
+        "p": 51,
+        "x": 1563,
+        "y": 479.5,
+        "nb": [
+          3,
+          12,
+          25,
+          51,
+          137,
+          175
+        ]
+      },
+      {
+        "k": "att_reg_tripolitana_leptis_magna",
+        "n": "Leptis Magna",
+        "p": 60,
+        "x": 825.2,
+        "y": 1200,
+        "nb": [
+          13,
+          23,
+          86
+        ]
+      },
+      {
+        "k": "att_reg_hyperborea_moramar",
+        "n": "Moramar",
+        "p": 28,
+        "x": 1693,
+        "y": 230.3,
+        "nb": [
+          3,
+          51,
+          97,
+          163
+        ]
+      },
+      {
+        "k": "att_reg_thracia_marcianopolis",
+        "n": "Marcianopolis",
+        "p": 57,
+        "x": 1191.7,
+        "y": 740.6,
+        "nb": [
+          37,
+          136,
+          165
+        ]
+      },
+      {
+        "k": "att_reg_tarraconensis_caesaraugusta",
+        "n": "Caesaraugusta",
+        "p": 56,
+        "x": 338.1,
+        "y": 845.7,
+        "nb": [
+          22,
+          30,
+          36,
+          66,
+          176
+        ]
+      },
+      {
+        "k": "att_reg_sarmatia_asiatica_tanais",
+        "n": "Tanais",
+        "p": 50,
+        "x": 1555.9,
+        "y": 589.4,
+        "nb": [
+          2,
+          3,
+          7,
+          106
+        ]
+      },
+      {
+        "k": "att_reg_tripolitana_macomades",
+        "n": "Macomades",
+        "p": 60,
+        "x": 889.1,
+        "y": 1224.8,
+        "nb": [
+          8,
+          86,
+          111
+        ]
+      },
+      {
+        "k": "att_reg_asia_synnada",
+        "n": "Synnada",
+        "p": 7,
+        "x": 1295.8,
+        "y": 903.6,
+        "nb": [
+          34,
+          114,
+          122,
+          124,
+          153,
+          181
+        ]
+      },
+      {
+        "k": "att_reg_raetia_et_noricum_augusta_vindelicorum",
+        "n": "Augusta Vindelicorum",
+        "p": 48,
+        "x": 711.7,
+        "y": 538.6,
+        "nb": [
+          17,
+          33,
+          50,
+          87,
+          98,
+          130
+        ]
+      },
+      {
+        "k": "att_reg_belgica_colonia_agrippina",
+        "n": "Colonia Agrippina",
+        "p": 10,
+        "x": 562.8,
+        "y": 383.9,
+        "nb": [
+          64,
+          98,
+          155
+        ]
+      },
+      {
+        "k": "att_reg_liguria_mediolanum",
+        "n": "Mediolanum",
+        "p": 34,
+        "x": 655,
+        "y": 652,
+        "nb": [
+          15,
+          33,
+          115,
+          130,
+          177
+        ]
+      },
+      {
+        "k": "att_reg_caucasia_mtskheta",
+        "n": "Mtskheta",
+        "p": 17,
+        "x": 1730.8,
+        "y": 787.8,
+        "nb": [
+          75,
+          94,
+          106,
+          107
+        ]
+      },
+      {
+        "k": "att_reg_mediterraneus_orientalis_constantia",
+        "n": "Constantia",
+        "p": 30,
+        "x": 1416.4,
+        "y": 1032.3,
+        "nb": []
+      },
+      {
+        "k": "att_reg_mediterraneus_orientalis_rhodes",
+        "n": "Rhodes",
+        "p": 30,
+        "x": 1229.6,
+        "y": 1005.1,
+        "nb": []
+      },
+      {
+        "k": "att_reg_persis_stakhr",
+        "n": "Stakhr",
+        "p": 47,
+        "x": 1948.4,
+        "y": 1203.6,
+        "nb": [
+          0,
+          102,
+          103,
+          145,
+          174
+        ]
+      },
+      {
+        "k": "att_reg_tarraconensis_pompaelo",
+        "n": "Pompaelo",
+        "p": 56,
+        "x": 309.8,
+        "y": 796.1,
+        "nb": [
+          11,
+          30,
+          36,
+          62,
+          161
+        ]
+      },
+      {
+        "k": "att_reg_tripolitana_sabrata",
+        "n": "Sabrata",
+        "p": 60,
+        "x": 702.3,
+        "y": 1174,
+        "nb": [
+          8,
+          35,
+          86,
+          146
+        ]
+      },
+      {
+        "k": "att_reg_venetia_aquileia",
+        "n": "Aquileia",
+        "p": 61,
+        "x": 780.3,
+        "y": 648.4,
+        "nb": [
+          4,
+          33,
+          87,
+          149,
+          164
+        ]
+      },
+      {
+        "k": "att_reg_sarmatia_europaea_chersonessus",
+        "n": "Chersonessus",
+        "p": 51,
+        "x": 1402.2,
+        "y": 687.4,
+        "nb": [
+          7,
+          175
+        ]
+      },
+      {
+        "k": "att_reg_cappadocia_melitene",
+        "n": "Melitene",
+        "p": 15,
+        "x": 1522.8,
+        "y": 908.3,
+        "nb": [
+          1,
+          5,
+          6,
+          68,
+          82,
+          88,
+          139
+        ]
+      },
+      {
+        "k": "att_reg_britannia_inferior_segontium",
+        "n": "Segontium",
+        "p": 12,
+        "x": 241.2,
+        "y": 308.3,
+        "nb": [
+          56,
+          112,
+          157
+        ]
+      },
+      {
+        "k": "att_reg_caledonia_et_hibernia_eblana",
+        "n": "Eblana",
+        "p": 14,
+        "x": 170.2,
+        "y": 294.1,
+        "nb": []
+      },
+      {
+        "k": "att_reg_media_atropatene_ecbatana",
+        "n": "Ecbatana",
+        "p": 42,
+        "x": 1818.3,
+        "y": 1032.3,
+        "nb": [
+          61,
+          71,
+          74,
+          102,
+          103
+        ]
+      },
+      {
+        "k": "att_reg_tarraconensis_tarraco",
+        "n": "Tarraco",
+        "p": 56,
+        "x": 409.1,
+        "y": 888.2,
+        "nb": [
+          11,
+          22,
+          66,
+          161
+        ]
+      },
+      {
+        "k": "att_reg_transcarpathia_belz",
+        "n": "Belz",
+        "p": 58,
+        "x": 1045.1,
+        "y": 424,
+        "nb": [
+          57,
+          93,
+          137,
+          138,
+          140
+        ]
+      },
+      {
+        "k": "att_reg_venetia_ravenna",
+        "n": "Ravenna",
+        "p": 61,
+        "x": 761.4,
+        "y": 724,
+        "nb": [
+          33,
+          41,
+          53,
+          109
+        ]
+      },
+      {
+        "k": "att_reg_venetia_verona",
+        "n": "Verona",
+        "p": 61,
+        "x": 725.9,
+        "y": 673.2,
+        "nb": [
+          15,
+          17,
+          24,
+          32,
+          53,
+          87,
+          115
+        ]
+      },
+      {
+        "k": "att_reg_bithynia_ancyra",
+        "n": "Ancyra",
+        "p": 11,
+        "x": 1380.9,
+        "y": 865.8,
+        "nb": [
+          14,
+          88,
+          114,
+          124,
+          179
+        ]
+      },
+      {
+        "k": "att_reg_africa_hadrumentum",
+        "n": "Hadrumentum",
+        "p": 2,
+        "x": 683.3,
+        "y": 1110.3,
+        "nb": [
+          23,
+          72,
+          84,
+          144,
+          146
+        ]
+      },
+      {
+        "k": "att_reg_gallaecia_asturica",
+        "n": "Asturica",
+        "p": 23,
+        "x": 179.7,
+        "y": 802,
+        "nb": [
+          11,
+          22,
+          69,
+          125,
+          126,
+          176
+        ]
+      },
+      {
+        "k": "att_reg_dardania_serdica",
+        "n": "Serdica",
+        "p": 21,
+        "x": 1075.9,
+        "y": 763,
+        "nb": [
+          10,
+          38,
+          40,
+          136,
+          154
+        ]
+      },
+      {
+        "k": "att_reg_dardania_viminacium",
+        "n": "Viminacium",
+        "p": 21,
+        "x": 1038,
+        "y": 720.5,
+        "nb": [
+          37,
+          40,
+          108,
+          171
+        ]
+      },
+      {
+        "k": "att_reg_frisia_tulifurdum",
+        "n": "Tulifurdum",
+        "p": 22,
+        "x": 676.3,
+        "y": 339,
+        "nb": [
+          47,
+          98,
+          116,
+          131,
+          142
+        ]
+      },
+      {
+        "k": "att_reg_dardania_scupi",
+        "n": "Scupi",
+        "p": 21,
+        "x": 1023.8,
+        "y": 779.5,
+        "nb": [
+          4,
+          37,
+          38,
+          108,
+          154,
+          170
+        ]
+      },
+      {
+        "k": "att_reg_italia_roma",
+        "n": "Roma",
+        "p": 31,
+        "x": 742.5,
+        "y": 806.7,
+        "nb": [
+          32,
+          53,
+          109
+        ]
+      },
+      {
+        "k": "att_reg_aethiopia_aksum",
+        "n": "Aksum",
+        "p": 1,
+        "x": 1522.8,
+        "y": 1638.2,
+        "nb": [
+          43,
+          48
+        ]
+      },
+      {
+        "k": "att_reg_aethiopia_pachoras",
+        "n": "Pachoras",
+        "p": 1,
+        "x": 1340.7,
+        "y": 1438.6,
+        "nb": [
+          42,
+          48,
+          120,
+          121
+        ]
+      },
+      {
+        "k": "att_reg_khwarasan_harey",
+        "n": "Harev",
+        "p": 32,
+        "x": 2158.8,
+        "y": 1048.8,
+        "nb": [
+          45,
+          147,
+          152,
+          180
+        ]
+      },
+      {
+        "k": "att_reg_khwarasan_merv",
+        "n": "Merv",
+        "p": 32,
+        "x": 2151.7,
+        "y": 950.8,
+        "nb": [
+          44,
+          143,
+          152
+        ]
+      },
+      {
+        "k": "att_reg_britannia_superior_londinium",
+        "n": "Londinium",
+        "p": 13,
+        "x": 364.1,
+        "y": 381.5,
+        "nb": [
+          112,
+          157
+        ]
+      },
+      {
+        "k": "att_reg_frisia_flevum",
+        "n": "Flevum",
+        "p": 22,
+        "x": 546.2,
+        "y": 297.6,
+        "nb": [
+          39,
+          98
+        ]
+      },
+      {
+        "k": "att_reg_aethiopia_adulis",
+        "n": "Adulis",
+        "p": 1,
+        "x": 1529.9,
+        "y": 1554.4,
+        "nb": [
+          42,
+          43
+        ]
+      },
+      {
+        "k": "att_reg_arabia_magna_hira",
+        "n": "Hira",
+        "p": 5,
+        "x": 1723.7,
+        "y": 1188.2,
+        "nb": [
+          55,
+          65,
+          73,
+          91,
+          104,
+          159
+        ]
+      },
+      {
+        "k": "att_reg_hercynia_casurgis",
+        "n": "Casurgis",
+        "p": 27,
+        "x": 839.4,
+        "y": 446.5,
+        "nb": [
+          15,
+          57,
+          58,
+          81,
+          87,
+          93,
+          98,
+          131
+        ]
+      },
+      {
+        "k": "att_reg_hyperborea_kariskos",
+        "n": "Kariskos",
+        "p": 28,
+        "x": 1454.2,
+        "y": 361.4,
+        "nb": [
+          3,
+          7,
+          9,
+          137,
+          151
+        ]
+      },
+      {
+        "k": "att_reg_lugdunensis_turonum",
+        "n": "Turonum",
+        "p": 35,
+        "x": 399.6,
+        "y": 564.6,
+        "nb": [
+          54,
+          77,
+          105,
+          113
+        ]
+      },
+      {
+        "k": "att_reg_italia_fiorentia",
+        "n": "Fiorentia",
+        "p": 31,
+        "x": 702.3,
+        "y": 737,
+        "nb": [
+          32,
+          33,
+          41,
+          115
+        ]
+      },
+      {
+        "k": "att_reg_aquitania_avaricum",
+        "n": "Avaricum",
+        "p": 3,
+        "x": 439.8,
+        "y": 615.4,
+        "nb": [
+          52,
+          62,
+          63,
+          105,
+          113,
+          161
+        ]
+      },
+      {
+        "k": "att_reg_arabia_felix_omana",
+        "n": "Omana",
+        "p": 4,
+        "x": 1957.8,
+        "y": 1354.7,
+        "nb": [
+          49,
+          65
+        ]
+      },
+      {
+        "k": "att_reg_britannia_inferior_lindum",
+        "n": "Lindum",
+        "p": 12,
+        "x": 350,
+        "y": 313,
+        "nb": [
+          27,
+          92,
+          112
+        ]
+      },
+      {
+        "k": "att_reg_hercynia_budorgis",
+        "n": "Budorgis",
+        "p": 27,
+        "x": 903.3,
+        "y": 398,
+        "nb": [
+          31,
+          50,
+          58,
+          89,
+          93,
+          140,
+          156
+        ]
+      },
+      {
+        "k": "att_reg_germania_lupfurdum",
+        "n": "Lupfurdum",
+        "p": 24,
+        "x": 811,
+        "y": 387.4,
+        "nb": [
+          50,
+          57,
+          131,
+          142,
+          156
+        ]
+      },
+      {
+        "k": "att_reg_magna_graecia_syracusae",
+        "n": "Syracusae",
+        "p": 38,
+        "x": 792.1,
+        "y": 1020.5,
+        "nb": []
+      },
+      {
+        "k": "att_reg_maxima_sequanorum_argentoratum",
+        "n": "Argentoratum",
+        "p": 41,
+        "x": 605.3,
+        "y": 506.7,
+        "nb": [
+          98,
+          132,
+          155
+        ]
+      },
+      {
+        "k": "att_reg_media_atropatene_rhaga",
+        "n": "Rhaga",
+        "p": 42,
+        "x": 1917.6,
+        "y": 1032.3,
+        "nb": [
+          29,
+          71,
+          102,
+          152,
+          180
+        ]
+      },
+      {
+        "k": "att_reg_aquitania_elusa",
+        "n": "Elusa",
+        "p": 3,
+        "x": 373.6,
+        "y": 740.6,
+        "nb": [
+          22,
+          54,
+          105,
+          161
+        ]
+      },
+      {
+        "k": "att_reg_narbonensis_vienna",
+        "n": "Vienna",
+        "p": 43,
+        "x": 517.8,
+        "y": 675.6,
+        "nb": [
+          54,
+          113,
+          130,
+          133,
+          161,
+          177
+        ]
+      },
+      {
+        "k": "att_reg_belgica_durocorterum",
+        "n": "Durocortorum",
+        "p": 10,
+        "x": 472.9,
+        "y": 454.7,
+        "nb": [
+          16,
+          77,
+          113,
+          155
+        ]
+      },
+      {
+        "k": "att_reg_arabia_felix_zafar",
+        "n": "Zafar",
+        "p": 4,
+        "x": 1728.5,
+        "y": 1485.9,
+        "nb": [
+          49,
+          55,
+          90,
+          104
+        ]
+      },
+      {
+        "k": "att_reg_carthaginensis_segobriga",
+        "n": "Segobriga",
+        "p": 16,
+        "x": 305,
+        "y": 923.6,
+        "nb": [
+          11,
+          30,
+          99,
+          176
+        ]
+      },
+      {
+        "k": "att_reg_magna_graecia_tarentum",
+        "n": "Tarentum",
+        "p": 38,
+        "x": 860.7,
+        "y": 865.8,
+        "nb": [
+          109,
+          119
+        ]
+      },
+      {
+        "k": "att_reg_osroene_amida",
+        "n": "Amida",
+        "p": 44,
+        "x": 1603.2,
+        "y": 939,
+        "nb": [
+          6,
+          26,
+          78,
+          139
+        ]
+      },
+      {
+        "k": "att_reg_lusitania_emerita_augusta",
+        "n": "Emerita Augusta",
+        "p": 36,
+        "x": 151.3,
+        "y": 950.8,
+        "nb": [
+          36,
+          123,
+          126,
+          135,
+          167,
+          176,
+          183
+        ]
+      },
+      {
+        "k": "att_reg_libya_paraetonium",
+        "n": "Paraetonium",
+        "p": 33,
+        "x": 1149.2,
+        "y": 1208.3,
+        "nb": [
+          111,
+          117,
+          121,
+          158
+        ]
+      },
+      {
+        "k": "att_reg_media_atropatene_ganzaga",
+        "n": "Ganzaga",
+        "p": 42,
+        "x": 1775.8,
+        "y": 968.5,
+        "nb": [
+          29,
+          61,
+          74,
+          78,
+          139,
+          184
+        ]
+      },
+      {
+        "k": "att_reg_africa_constantina",
+        "n": "Constantina",
+        "p": 2,
+        "x": 532,
+        "y": 1074.8,
+        "nb": [
+          35,
+          84,
+          144,
+          160
+        ]
+      },
+      {
+        "k": "att_reg_arabia_magna_dumatha",
+        "n": "Dumatha",
+        "p": 5,
+        "x": 1584.2,
+        "y": 1208.3,
+        "nb": [
+          6,
+          49,
+          78,
+          80,
+          104,
+          110,
+          159,
+          162
+        ]
+      },
+      {
+        "k": "att_reg_asorstan_arbela",
+        "n": "Arbela",
+        "p": 8,
+        "x": 1728.5,
+        "y": 1039.4,
+        "nb": [
+          29,
+          71,
+          78,
+          91,
+          103,
+          159
+        ]
+      },
+      {
+        "k": "att_reg_armenia_duin",
+        "n": "Duin",
+        "p": 6,
+        "x": 1709.6,
+        "y": 855.1,
+        "nb": [
+          18,
+          82,
+          94,
+          107,
+          139,
+          184
+        ]
+      },
+      {
+        "k": "att_reg_dacia_apulum",
+        "n": "Apulum",
+        "p": 19,
+        "x": 1099.5,
+        "y": 614.2,
+        "nb": [
+          93,
+          138,
+          141,
+          148,
+          150,
+          171
+        ]
+      },
+      {
+        "k": "att_reg_lugdunensis_rotomagus",
+        "n": "Rotomagus",
+        "p": 35,
+        "x": 404.3,
+        "y": 477.2,
+        "nb": [
+          52,
+          64,
+          113
+        ]
+      },
+      {
+        "k": "att_reg_osroene_nisibis",
+        "n": "Nisibis",
+        "p": 44,
+        "x": 1669.4,
+        "y": 998,
+        "nb": [
+          6,
+          68,
+          71,
+          73,
+          74,
+          139,
+          159
+        ]
+      },
+      {
+        "k": "att_reg_mediterraneus_occidentalis_palma",
+        "n": "Palma",
+        "p": 29,
+        "x": 444.5,
+        "y": 974.4,
+        "nb": []
+      },
+      {
+        "k": "att_reg_palaestinea_aila",
+        "n": "Aila",
+        "p": 45,
+        "x": 1435.3,
+        "y": 1235.5,
+        "nb": [
+          73,
+          158,
+          162,
+          185
+        ]
+      },
+      {
+        "k": "att_reg_pannonia_savaria",
+        "n": "Savaria",
+        "p": 46,
+        "x": 896.2,
+        "y": 578.8,
+        "nb": [
+          50,
+          87,
+          93,
+          148,
+          149,
+          164
+        ]
+      },
+      {
+        "k": "att_reg_cappadocia_trapezus",
+        "n": "Trapezus",
+        "p": 15,
+        "x": 1563,
+        "y": 826.8,
+        "nb": [
+          26,
+          75,
+          88,
+          94,
+          139,
+          179
+        ]
+      },
+      {
+        "k": "att_reg_mediterraneus_orientalis_gortyna",
+        "n": "Gortyna",
+        "p": 30,
+        "x": 1127.9,
+        "y": 1065.4,
+        "nb": []
+      },
+      {
+        "k": "att_reg_phazania_dimmidi",
+        "n": "Dimmidi",
+        "p": 49,
+        "x": 444.5,
+        "y": 1156.3,
+        "nb": [
+          35,
+          72,
+          128,
+          146,
+          160
+        ]
+      },
+      {
+        "k": "att_reg_baetica_malaca",
+        "n": "Malaca",
+        "p": 9,
+        "x": 212.8,
+        "y": 1040.6,
+        "nb": [
+          99,
+          123,
+          183
+        ]
+      },
+      {
+        "k": "att_reg_phazania_garama",
+        "n": "Garama",
+        "p": 49,
+        "x": 766.1,
+        "y": 1300.4,
+        "nb": [
+          8,
+          13,
+          23,
+          111,
+          117,
+          146
+        ]
+      },
+      {
+        "k": "att_reg_raetia_et_noricum_iuvavum",
+        "n": "Iuvavum",
+        "p": 48,
+        "x": 785,
+        "y": 544.5,
+        "nb": [
+          15,
+          24,
+          33,
+          50,
+          81,
+          164
+        ]
+      },
+      {
+        "k": "att_reg_cappadocia_caesarea_eusebia",
+        "n": "Caesarea Eusebia",
+        "p": 15,
+        "x": 1437.6,
+        "y": 910.6,
+        "nb": [
+          1,
+          26,
+          34,
+          82,
+          114,
+          179
+        ]
+      },
+      {
+        "k": "att_reg_gothiscandza_gothiscandza",
+        "n": "Gothiscandza",
+        "p": 26,
+        "x": 938.7,
+        "y": 245.7,
+        "nb": [
+          57,
+          140,
+          156
+        ]
+      },
+      {
+        "k": "att_reg_arabia_felix_eudaemon",
+        "n": "Eudaemon",
+        "p": 4,
+        "x": 1704.8,
+        "y": 1582.7,
+        "nb": [
+          65,
+          104
+        ]
+      },
+      {
+        "k": "att_reg_asorstan_meshan",
+        "n": "Meshan",
+        "p": 8,
+        "x": 1827.8,
+        "y": 1202.4,
+        "nb": [
+          49,
+          74,
+          103,
+          159
+        ]
+      },
+      {
+        "k": "att_reg_britannia_inferior_eboracum",
+        "n": "Eboracum",
+        "p": 12,
+        "x": 331,
+        "y": 268.1,
+        "nb": [
+          56,
+          172
+        ]
+      },
+      {
+        "k": "att_reg_hercynia_nitrahwa",
+        "n": "Nitrahwa",
+        "p": 27,
+        "x": 952.9,
+        "y": 519.7,
+        "nb": [
+          31,
+          50,
+          57,
+          76,
+          81,
+          138,
+          148
+        ]
+      },
+      {
+        "k": "att_reg_caucasia_kotais",
+        "n": "Kotais",
+        "p": 17,
+        "x": 1662.3,
+        "y": 777.2,
+        "nb": [
+          2,
+          18,
+          75,
+          82,
+          106
+        ]
+      },
+      {
+        "k": "att_reg_scandza_alabu",
+        "n": "Alabu",
+        "p": 52,
+        "x": 681,
+        "y": 145.3,
+        "nb": [
+          116
+        ]
+      },
+      {
+        "k": "att_reg_scandza_hafn",
+        "n": "Hafn",
+        "p": 52,
+        "x": 744.8,
+        "y": 215,
+        "nb": [
+          178
+        ]
+      },
+      {
+        "k": "att_reg_scythia_bolghar",
+        "n": "Bolghar",
+        "p": 53,
+        "x": 1901.1,
+        "y": 251.6,
+        "nb": [
+          9,
+          100,
+          163
+        ]
+      },
+      {
+        "k": "att_reg_germania_uburzis",
+        "n": "Uburzis",
+        "p": 24,
+        "x": 673.9,
+        "y": 455.9,
+        "nb": [
+          15,
+          16,
+          39,
+          47,
+          50,
+          60,
+          130,
+          131,
+          132,
+          155
+        ]
+      },
+      {
+        "k": "att_reg_carthaginensis_carthago_nova",
+        "n": "Carthago Nova",
+        "p": 16,
+        "x": 307.4,
+        "y": 1026.4,
+        "nb": [
+          66,
+          85,
+          176,
+          183
+        ]
+      },
+      {
+        "k": "att_reg_scythia_sarai",
+        "n": "Sarai",
+        "p": 53,
+        "x": 1941.3,
+        "y": 559.9,
+        "nb": [
+          97,
+          106,
+          163,
+          182
+        ]
+      },
+      {
+        "k": "att_reg_mediterraneus_occidentalis_caralis",
+        "n": "Caralis",
+        "p": 29,
+        "x": 610,
+        "y": 939,
+        "nb": []
+      },
+      {
+        "k": "att_reg_spahan_spahan",
+        "n": "Spahan",
+        "p": 54,
+        "x": 1936.6,
+        "y": 1107.9,
+        "nb": [
+          21,
+          29,
+          61,
+          103,
+          145,
+          180
+        ]
+      },
+      {
+        "k": "att_reg_spahan_susa",
+        "n": "Susa",
+        "p": 54,
+        "x": 1865.6,
+        "y": 1145.7,
+        "nb": [
+          0,
+          21,
+          29,
+          74,
+          91,
+          102
+        ]
+      },
+      {
+        "k": "att_reg_arabia_magna_yathrib",
+        "n": "Yathrib",
+        "p": 5,
+        "x": 1593.7,
+        "y": 1378.4,
+        "nb": [
+          49,
+          65,
+          73,
+          90
+        ]
+      },
+      {
+        "k": "att_reg_aquitania_burdigala",
+        "n": "Burdigala",
+        "p": 3,
+        "x": 347.6,
+        "y": 678,
+        "nb": [
+          52,
+          54,
+          62
+        ]
+      },
+      {
+        "k": "att_reg_sarmatia_asiatica_samandar",
+        "n": "Samandar",
+        "p": 50,
+        "x": 1782.9,
+        "y": 707.5,
+        "nb": [
+          2,
+          3,
+          12,
+          18,
+          94,
+          100,
+          107,
+          163
+        ]
+      },
+      {
+        "k": "att_reg_caucasia_gabala",
+        "n": "Gabala",
+        "p": 17,
+        "x": 1825.4,
+        "y": 830.3,
+        "nb": [
+          18,
+          75,
+          106,
+          184
+        ]
+      },
+      {
+        "k": "att_reg_dalmatia_domavia",
+        "n": "Domavia",
+        "p": 20,
+        "x": 948.2,
+        "y": 713.4,
+        "nb": [
+          4,
+          38,
+          40,
+          149,
+          171
+        ]
+      },
+      {
+        "k": "att_reg_italia_neapolis",
+        "n": "Neapolis",
+        "p": 31,
+        "x": 773.2,
+        "y": 843.3,
+        "nb": [
+          32,
+          41,
+          67,
+          119
+        ]
+      },
+      {
+        "k": "att_reg_syria_emesa",
+        "n": "Emesa",
+        "p": 55,
+        "x": 1518,
+        "y": 1068.9,
+        "nb": [
+          5,
+          6,
+          73,
+          134,
+          162
+        ]
+      },
+      {
+        "k": "att_reg_libya_ptolemais",
+        "n": "Ptolemais",
+        "p": 33,
+        "x": 986,
+        "y": 1188.2,
+        "nb": [
+          13,
+          70,
+          86,
+          117
+        ]
+      },
+      {
+        "k": "att_reg_britannia_superior_camulodunon",
+        "n": "Camulodunum",
+        "p": 13,
+        "x": 418.5,
+        "y": 352,
+        "nb": [
+          27,
+          46,
+          56,
+          157
+        ]
+      },
+      {
+        "k": "att_reg_lugdunensis_lugdunum",
+        "n": "Lugdunum",
+        "p": 35,
+        "x": 510.7,
+        "y": 631.9,
+        "nb": [
+          52,
+          54,
+          63,
+          64,
+          77,
+          130,
+          132,
+          155
+        ]
+      },
+      {
+        "k": "att_reg_cilicia_iconium",
+        "n": "Iconium",
+        "p": 18,
+        "x": 1359.6,
+        "y": 935.5,
+        "nb": [
+          1,
+          14,
+          34,
+          88,
+          153
+        ]
+      },
+      {
+        "k": "att_reg_liguria_genua",
+        "n": "Genua",
+        "p": 34,
+        "x": 617.1,
+        "y": 701.6,
+        "nb": [
+          17,
+          33,
+          53,
+          177
+        ]
+      },
+      {
+        "k": "att_reg_frisia_angulus",
+        "n": "Angulus",
+        "p": 22,
+        "x": 676.3,
+        "y": 265.8,
+        "nb": [
+          39,
+          95,
+          142
+        ]
+      },
+      {
+        "k": "att_reg_libya_augila",
+        "n": "Augila",
+        "p": 33,
+        "x": 993.1,
+        "y": 1305.1,
+        "nb": [
+          70,
+          86,
+          111
+        ]
+      },
+      {
+        "k": "att_reg_macedonia_corinthus",
+        "n": "Corinthus",
+        "p": 37,
+        "x": 1038,
+        "y": 944.9,
+        "nb": [
+          154,
+          170
+        ]
+      },
+      {
+        "k": "att_reg_magna_graecia_rhegium",
+        "n": "Rhegium",
+        "p": 38,
+        "x": 815.8,
+        "y": 954.3,
+        "nb": [
+          67,
+          109
+        ]
+      },
+      {
+        "k": "att_reg_aegyptus_berenice",
+        "n": "Berenice",
+        "p": 0,
+        "x": 1428.2,
+        "y": 1385.5,
+        "nb": [
+          43,
+          121,
+          158
+        ]
+      },
+      {
+        "k": "att_reg_aegyptus_oxyrhynchus",
+        "n": "Oxyrhynchus",
+        "p": 0,
+        "x": 1267.4,
+        "y": 1317,
+        "nb": [
+          43,
+          70,
+          120,
+          158
+        ]
+      },
+      {
+        "k": "att_reg_asia_ephesus",
+        "n": "Ephesus",
+        "p": 7,
+        "x": 1203.5,
+        "y": 949.6,
+        "nb": [
+          14,
+          153,
+          181
+        ]
+      },
+      {
+        "k": "att_reg_baetica_hispalis",
+        "n": "Hispalis",
+        "p": 9,
+        "x": 167.9,
+        "y": 1020.5,
+        "nb": [
+          69,
+          85,
+          167,
+          183
+        ]
+      },
+      {
+        "k": "att_reg_bithynia_nicomedia",
+        "n": "Nicomedia",
+        "p": 11,
+        "x": 1274.5,
+        "y": 843.3,
+        "nb": [
+          14,
+          34,
+          179,
+          181
+        ]
+      },
+      {
+        "k": "att_reg_gallaecia_brigantium",
+        "n": "Brigantium",
+        "p": 23,
+        "x": 115.9,
+        "y": 760.6,
+        "nb": [
+          36,
+          126
+        ]
+      },
+      {
+        "k": "att_reg_gallaecia_bracara",
+        "n": "Bracara",
+        "p": 23,
+        "x": 108.8,
+        "y": 844.5,
+        "nb": [
+          36,
+          69,
+          125,
+          135
+        ]
+      },
+      {
+        "k": "att_reg_makran_pura",
+        "n": "Pura",
+        "p": 39,
+        "x": 2121,
+        "y": 1266.2,
+        "nb": [
+          145,
+          147,
+          174
+        ]
+      },
+      {
+        "k": "att_reg_mauretania_tamousiga",
+        "n": "Tamousiga",
+        "p": 40,
+        "x": 52,
+        "y": 1191.8,
+        "nb": [
+          84,
+          129,
+          160
+        ]
+      },
+      {
+        "k": "att_reg_mauretania_tingis",
+        "n": "Tingis",
+        "p": 40,
+        "x": 156.1,
+        "y": 1104.4,
+        "nb": [
+          128,
+          160
+        ]
+      },
+      {
+        "k": "att_reg_maxima_sequanorum_octodurus",
+        "n": "Octodurum",
+        "p": 41,
+        "x": 593.5,
+        "y": 621.3,
+        "nb": [
+          15,
+          17,
+          63,
+          98,
+          113,
+          132,
+          177
+        ]
+      },
+      {
+        "k": "att_reg_germania_aregelia",
+        "n": "Aregelia",
+        "p": 24,
+        "x": 716.5,
+        "y": 389.8,
+        "nb": [
+          39,
+          50,
+          58,
+          98,
+          142
+        ]
+      },
+      {
+        "k": "att_reg_maxima_sequanorum_vesontio",
+        "n": "Vesontio",
+        "p": 41,
+        "x": 569.9,
+        "y": 550.4,
+        "nb": [
+          60,
+          98,
+          113,
+          130,
+          155
+        ]
+      },
+      {
+        "k": "att_reg_narbonensis_aquae_sextiae",
+        "n": "Aquae Sextiae",
+        "p": 43,
+        "x": 522.6,
+        "y": 751.2,
+        "nb": [
+          63,
+          161,
+          177
+        ]
+      },
+      {
+        "k": "att_reg_syria_tyrus",
+        "n": "Tyrus",
+        "p": 55,
+        "x": 1447.1,
+        "y": 1092.5,
+        "nb": [
+          5,
+          110,
+          162,
+          185
+        ]
+      },
+      {
+        "k": "att_reg_lusitania_olisipo",
+        "n": "Olisipo",
+        "p": 36,
+        "x": 63.8,
+        "y": 944.9,
+        "nb": [
+          69,
+          126,
+          167
+        ]
+      },
+      {
+        "k": "att_reg_thracia_trimontium",
+        "n": "Trimontium",
+        "p": 57,
+        "x": 1118.4,
+        "y": 791.4,
+        "nb": [
+          10,
+          37,
+          154,
+          165
+        ]
+      },
+      {
+        "k": "att_reg_transcarpathia_arheimar",
+        "n": "Arheimar",
+        "p": 58,
+        "x": 1305.2,
+        "y": 433.5,
+        "nb": [
+          7,
+          31,
+          51,
+          138,
+          140,
+          151,
+          175
+        ]
+      },
+      {
+        "k": "att_reg_transcarpathia_leopolis",
+        "n": "Leopolis",
+        "p": 58,
+        "x": 1125.5,
+        "y": 492.5,
+        "nb": [
+          31,
+          76,
+          93,
+          137,
+          150,
+          175
+        ]
+      },
+      {
+        "k": "att_reg_armenia_tosp",
+        "n": "Tosp",
+        "p": 6,
+        "x": 1707.2,
+        "y": 920.1,
+        "nb": [
+          26,
+          68,
+          71,
+          75,
+          78,
+          82,
+          184
+        ]
+      },
+      {
+        "k": "att_reg_germano_sarmatia_oium",
+        "n": "Oium",
+        "p": 25,
+        "x": 1135,
+        "y": 339,
+        "nb": [
+          31,
+          57,
+          89,
+          137,
+          151,
+          169
+        ]
+      },
+      {
+        "k": "att_reg_dacia_romula",
+        "n": "Romula",
+        "p": 19,
+        "x": 1113.7,
+        "y": 692.1,
+        "nb": [
+          76,
+          150
+        ]
+      },
+      {
+        "k": "att_reg_gothiscandza_rugion",
+        "n": "Rugion",
+        "p": 26,
+        "x": 780.3,
+        "y": 261,
+        "nb": [
+          39,
+          58,
+          116,
+          131,
+          156
+        ]
+      },
+      {
+        "k": "att_reg_transcaspia_dahistan",
+        "n": "Dahistan",
+        "p": 59,
+        "x": 2040.6,
+        "y": 874,
+        "nb": [
+          45,
+          152,
+          166
+        ]
+      },
+      {
+        "k": "att_reg_africa_carthago",
+        "n": "Carthago",
+        "p": 2,
+        "x": 662.1,
+        "y": 1040.6,
+        "nb": [
+          35,
+          72
+        ]
+      },
+      {
+        "k": "att_reg_persis_behdeshir",
+        "n": "Behdesir",
+        "p": 47,
+        "x": 2033.5,
+        "y": 1196.5,
+        "nb": [
+          21,
+          102,
+          127,
+          147,
+          174,
+          180
+        ]
+      },
+      {
+        "k": "att_reg_phazania_cydamus",
+        "n": "Cydamus",
+        "p": 49,
+        "x": 624.2,
+        "y": 1231.9,
+        "nb": [
+          23,
+          35,
+          84,
+          86
+        ]
+      },
+      {
+        "k": "att_reg_makran_phra",
+        "n": "Phra",
+        "p": 39,
+        "x": 2156.5,
+        "y": 1142.1,
+        "nb": [
+          44,
+          127,
+          145,
+          180
+        ]
+      },
+      {
+        "k": "att_reg_pannonia_sopianae",
+        "n": "Sopianae",
+        "p": 46,
+        "x": 957.6,
+        "y": 614.2,
+        "nb": [
+          76,
+          81,
+          93,
+          149,
+          171
+        ]
+      },
+      {
+        "k": "att_reg_dalmatia_siscia",
+        "n": "Siscia",
+        "p": 20,
+        "x": 886.7,
+        "y": 647.3,
+        "nb": [
+          4,
+          24,
+          81,
+          108,
+          148,
+          164,
+          171
+        ]
+      },
+      {
+        "k": "att_reg_dacia_petrodava",
+        "n": "Petrodava",
+        "p": 19,
+        "x": 1177.5,
+        "y": 582.3,
+        "nb": [
+          76,
+          138,
+          141,
+          175
+        ]
+      },
+      {
+        "k": "att_reg_germano_sarmatia_palteskja",
+        "n": "Palteskja",
+        "p": 25,
+        "x": 1265,
+        "y": 245.7,
+        "nb": [
+          51,
+          137,
+          140,
+          169
+        ]
+      },
+      {
+        "k": "att_reg_khwarasan_abarshahr",
+        "n": "Abarshahr",
+        "p": 32,
+        "x": 2092.6,
+        "y": 1013.4,
+        "nb": [
+          44,
+          45,
+          61,
+          143,
+          180
+        ]
+      },
+      {
+        "k": "att_reg_cilicia_myra",
+        "n": "Myra",
+        "p": 18,
+        "x": 1281.6,
+        "y": 998,
+        "nb": [
+          1,
+          14,
+          114,
+          122
+        ]
+      },
+      {
+        "k": "att_reg_macedonia_thessalonica",
+        "n": "Thessalonica",
+        "p": 37,
+        "x": 1049.9,
+        "y": 846.9,
+        "nb": [
+          37,
+          40,
+          118,
+          136,
+          170
+        ]
+      },
+      {
+        "k": "att_reg_belgica_augusta_treverorum",
+        "n": "Augusta Treverorum",
+        "p": 10,
+        "x": 565.1,
+        "y": 467.7,
+        "nb": [
+          16,
+          60,
+          64,
+          98,
+          113,
+          132
+        ]
+      },
+      {
+        "k": "att_reg_gothiscandza_ascaucalis",
+        "n": "Ascaucalis",
+        "p": 26,
+        "x": 886.7,
+        "y": 304.7,
+        "nb": [
+          57,
+          58,
+          89,
+          142
+        ]
+      },
+      {
+        "k": "att_reg_britannia_superior_corinium",
+        "n": "Corinium",
+        "p": 13,
+        "x": 302.7,
+        "y": 398,
+        "nb": [
+          27,
+          46,
+          112
+        ]
+      },
+      {
+        "k": "att_reg_aegyptus_alexandria",
+        "n": "Alexandria",
+        "p": 0,
+        "x": 1260.3,
+        "y": 1218.9,
+        "nb": [
+          70,
+          80,
+          120,
+          121,
+          185
+        ]
+      },
+      {
+        "k": "att_reg_asorstan_ctesiphon",
+        "n": "Ctesiphon",
+        "p": 8,
+        "x": 1733.2,
+        "y": 1107.9,
+        "nb": [
+          49,
+          73,
+          74,
+          78,
+          91
+        ]
+      },
+      {
+        "k": "att_reg_mauretania_caesarea",
+        "n": "Caesarea",
+        "p": 40,
+        "x": 425.6,
+        "y": 1073.6,
+        "nb": [
+          72,
+          84,
+          128,
+          129
+        ]
+      },
+      {
+        "k": "att_reg_narbonensis_narbo",
+        "n": "Narbo",
+        "p": 43,
+        "x": 456.4,
+        "y": 772.5,
+        "nb": [
+          22,
+          30,
+          54,
+          62,
+          63,
+          133
+        ]
+      },
+      {
+        "k": "att_reg_palaestinea_nova_trajana_bostra",
+        "n": "Nova Trajana Bostra",
+        "p": 45,
+        "x": 1501.5,
+        "y": 1164.6,
+        "nb": [
+          73,
+          80,
+          110,
+          134,
+          185
+        ]
+      },
+      {
+        "k": "att_reg_scythia_ra",
+        "n": "Raha",
+        "p": 53,
+        "x": 1801.8,
+        "y": 407.5,
+        "nb": [
+          3,
+          9,
+          97,
+          100,
+          106
+        ]
+      },
+      {
+        "k": "att_reg_raetia_et_noricum_virunum",
+        "n": "Virunum",
+        "p": 48,
+        "x": 811,
+        "y": 595.3,
+        "nb": [
+          24,
+          81,
+          87,
+          149
+        ]
+      },
+      {
+        "k": "att_reg_thracia_constantinopolis",
+        "n": "Constantinopolis",
+        "p": 57,
+        "x": 1243.7,
+        "y": 818.5,
+        "nb": [
+          10,
+          136
+        ]
+      },
+      {
+        "k": "att_reg_transcaspia_kath",
+        "n": "Kath",
+        "p": 59,
+        "x": 2113.9,
+        "y": 776,
+        "nb": [
+          143,
+          182
+        ]
+      },
+      {
+        "k": "att_reg_lusitania_pax_augusta",
+        "n": "Pax Augusta",
+        "p": 36,
+        "x": 99.3,
+        "y": 986.2,
+        "nb": [
+          69,
+          123,
+          135
+        ]
+      },
+      {
+        "k": "att_reg_mediterraneus_occidentalis_ajax",
+        "n": "Ajax",
+        "p": 29,
+        "x": 614.8,
+        "y": 813.8,
+        "nb": []
+      },
+      {
+        "k": "att_reg_germano_sarmatia_duna",
+        "n": "Duna",
+        "p": 25,
+        "x": 1073.5,
+        "y": 102.8,
+        "nb": [
+          140,
+          151
+        ]
+      },
+      {
+        "k": "att_reg_macedonia_dyrrhachium",
+        "n": "Dyrrhachium",
+        "p": 37,
+        "x": 952.9,
+        "y": 829.1,
+        "nb": [
+          4,
+          40,
+          118,
+          154
+        ]
+      },
+      {
+        "k": "att_reg_pannonia_sirmium",
+        "n": "Sirmium",
+        "p": 46,
+        "x": 1007.3,
+        "y": 679.1,
+        "nb": [
+          38,
+          76,
+          108,
+          148,
+          149
+        ]
+      },
+      {
+        "k": "att_reg_caledonia_et_hibernia_eildon",
+        "n": "Eildon",
+        "p": 14,
+        "x": 279,
+        "y": 209.1,
+        "nb": [
+          92,
+          173
+        ]
+      },
+      {
+        "k": "att_reg_caledonia_et_hibernia_tuesis",
+        "n": "Tuesis",
+        "p": 14,
+        "x": 279,
+        "y": 138.2,
+        "nb": [
+          172
+        ]
+      },
+      {
+        "k": "att_reg_makran_harmosia",
+        "n": "Harmosia",
+        "p": 39,
+        "x": 2031.1,
+        "y": 1285.1,
+        "nb": [
+          0,
+          21,
+          127,
+          145
+        ]
+      },
+      {
+        "k": "att_reg_sarmatia_europaea_olbia",
+        "n": "Olbia",
+        "p": 51,
+        "x": 1307.6,
+        "y": 600,
+        "nb": [
+          7,
+          25,
+          137,
+          138,
+          150
+        ]
+      },
+      {
+        "k": "att_reg_carthaginensis_toletum",
+        "n": "Toletum",
+        "p": 16,
+        "x": 238.8,
+        "y": 921.3,
+        "nb": [
+          11,
+          36,
+          66,
+          69,
+          99,
+          183
+        ]
+      },
+      {
+        "k": "att_reg_liguria_segusio",
+        "n": "Segusio",
+        "p": 34,
+        "x": 574.6,
+        "y": 682.7,
+        "nb": [
+          17,
+          63,
+          115,
+          130,
+          133
+        ]
+      },
+      {
+        "k": "att_reg_scandza_hrefnesholt",
+        "n": "Hrefnesholt",
+        "p": 52,
+        "x": 721.2,
+        "y": 70.9,
+        "nb": [
+          96
+        ]
+      },
+      {
+        "k": "att_reg_bithynia_amasea",
+        "n": "Sinope",
+        "p": 11,
+        "x": 1442.4,
+        "y": 825.6,
+        "nb": [
+          34,
+          82,
+          88,
+          124
+        ]
+      },
+      {
+        "k": "att_reg_spahan_issatis",
+        "n": "Issatis",
+        "p": 54,
+        "x": 2012.2,
+        "y": 1129.2,
+        "nb": [
+          44,
+          61,
+          102,
+          145,
+          147,
+          152
+        ]
+      },
+      {
+        "k": "att_reg_asia_cyzicus",
+        "n": "Cyzicus",
+        "p": 7,
+        "x": 1203.5,
+        "y": 859.9,
+        "nb": [
+          14,
+          122,
+          124
+        ]
+      },
+      {
+        "k": "att_reg_transcaspia_siahkuh",
+        "n": "Siahkuh",
+        "p": 59,
+        "x": 1972,
+        "y": 724,
+        "nb": [
+          100,
+          166
+        ]
+      },
+      {
+        "k": "att_reg_baetica_corduba",
+        "n": "Corduba",
+        "p": 9,
+        "x": 208.1,
+        "y": 981.5,
+        "nb": [
+          69,
+          85,
+          99,
+          123,
+          176
+        ]
+      },
+      {
+        "k": "att_reg_armenia_payttakaran",
+        "n": "Payttakaran",
+        "p": 6,
+        "x": 1837.2,
+        "y": 883.5,
+        "nb": [
+          71,
+          75,
+          107,
+          139
+        ]
+      },
+      {
+        "k": "att_reg_palaestinea_aelia_capitolina",
+        "n": "Aelia Capitolina",
+        "p": 45,
+        "x": 1432.9,
+        "y": 1175.2,
+        "nb": [
+          80,
+          134,
+          158,
+          162
+        ]
+      }
+    ],
+    "provinces": [
+      {
+        "k": "att_prov_aegyptus",
+        "n": "Aegyptus"
+      },
+      {
+        "k": "att_prov_aethiopia",
+        "n": "Aethiopia"
+      },
+      {
+        "k": "att_prov_africa",
+        "n": "Africa"
+      },
+      {
+        "k": "att_prov_aquitania",
+        "n": "Aquitania"
+      },
+      {
+        "k": "att_prov_arabia_felix",
+        "n": "Arabia Felix"
+      },
+      {
+        "k": "att_prov_arabia_magna",
+        "n": "Arabia Magna"
+      },
+      {
+        "k": "att_prov_armenia",
+        "n": "Armenia"
+      },
+      {
+        "k": "att_prov_asia",
+        "n": "Asia"
+      },
+      {
+        "k": "att_prov_asorstan",
+        "n": "Asoristan"
+      },
+      {
+        "k": "att_prov_baetica",
+        "n": "Baetica"
+      },
+      {
+        "k": "att_prov_belgica",
+        "n": "Belgica"
+      },
+      {
+        "k": "att_prov_bithynia",
+        "n": "Bithynia"
+      },
+      {
+        "k": "att_prov_britannia_inferior",
+        "n": "Britannia Inferior"
+      },
+      {
+        "k": "att_prov_britannia_superior",
+        "n": "Britannia Superior"
+      },
+      {
+        "k": "att_prov_caledonia_et_hbernia",
+        "n": "Caledonia et Hibernia"
+      },
+      {
+        "k": "att_prov_cappadocia",
+        "n": "Cappadocia"
+      },
+      {
+        "k": "att_prov_carthaginensis",
+        "n": "Carthaginensis"
+      },
+      {
+        "k": "att_prov_caucasia",
+        "n": "Caucasia"
+      },
+      {
+        "k": "att_prov_cilicia",
+        "n": "Cilicia"
+      },
+      {
+        "k": "att_prov_dacia",
+        "n": "Dacia"
+      },
+      {
+        "k": "att_prov_dalmatia",
+        "n": "Dalmatia"
+      },
+      {
+        "k": "att_prov_dardania",
+        "n": "Dardania"
+      },
+      {
+        "k": "att_prov_frisia",
+        "n": "Frisia"
+      },
+      {
+        "k": "att_prov_gallaecia",
+        "n": "Gallaecia"
+      },
+      {
+        "k": "att_prov_germania",
+        "n": "Germania"
+      },
+      {
+        "k": "att_prov_germano-sarmatia",
+        "n": "Germano-Sarmatia"
+      },
+      {
+        "k": "att_prov_gothiscandza",
+        "n": "Gothiscandza"
+      },
+      {
+        "k": "att_prov_hercynia",
+        "n": "Hercynia"
+      },
+      {
+        "k": "att_prov_hyperborea",
+        "n": "Hyperborea"
+      },
+      {
+        "k": "att_prov_mediterraneus_occidentalis",
+        "n": "Insulae Occidentalis"
+      },
+      {
+        "k": "att_prov_mediterraneus_orientalis",
+        "n": "Insulae Orientalis"
+      },
+      {
+        "k": "att_prov_italia",
+        "n": "Italia"
+      },
+      {
+        "k": "att_prov_khwarasan",
+        "n": "Khwarasan"
+      },
+      {
+        "k": "att_prov_libya",
+        "n": "Libya"
+      },
+      {
+        "k": "att_prov_liguria",
+        "n": "Liguria"
+      },
+      {
+        "k": "att_prov_lugdunensis",
+        "n": "Lugdunensis"
+      },
+      {
+        "k": "att_prov_lusitania",
+        "n": "Lusitania"
+      },
+      {
+        "k": "att_prov_macedonia",
+        "n": "Macedonia"
+      },
+      {
+        "k": "att_prov_magna_graecia",
+        "n": "Magna Graecia"
+      },
+      {
+        "k": "att_prov_makran",
+        "n": "Makran"
+      },
+      {
+        "k": "att_prov_mauretania",
+        "n": "Mauretania"
+      },
+      {
+        "k": "att_prov_maxima_sequanorum",
+        "n": "Maxima Sequanorum"
+      },
+      {
+        "k": "att_prov_media_atropatene",
+        "n": "Media Atropatene"
+      },
+      {
+        "k": "att_prov_narbonensis",
+        "n": "Narbonensis"
+      },
+      {
+        "k": "att_prov_osroene",
+        "n": "Osroene"
+      },
+      {
+        "k": "att_prov_palaestinea",
+        "n": "Palaestinea"
+      },
+      {
+        "k": "att_prov_pannonia",
+        "n": "Pannonia"
+      },
+      {
+        "k": "att_prov_persis",
+        "n": "Persis"
+      },
+      {
+        "k": "att_prov_raetia_et_noricum",
+        "n": "Raetia et Noricum"
+      },
+      {
+        "k": "att_prov_phazania",
+        "n": "Sahara"
+      },
+      {
+        "k": "att_prov_sarmatia_asiatica",
+        "n": "Sarmatia Asiatica"
+      },
+      {
+        "k": "att_prov_sarmatia_europaea",
+        "n": "Sarmatia Europaea"
+      },
+      {
+        "k": "att_prov_scandza",
+        "n": "Scandza"
+      },
+      {
+        "k": "att_prov_scythia",
+        "n": "Scythia"
+      },
+      {
+        "k": "att_prov_spahan",
+        "n": "Spahan"
+      },
+      {
+        "k": "att_prov_syria",
+        "n": "Syria"
+      },
+      {
+        "k": "att_prov_tarraconensis",
+        "n": "Tarraconensis"
+      },
+      {
+        "k": "att_prov_thracia",
+        "n": "Thracia"
+      },
+      {
+        "k": "att_prov_transcarpathia",
+        "n": "Transcarpathia"
+      },
+      {
+        "k": "att_prov_transcaspia",
+        "n": "Transcaspia"
+      },
+      {
+        "k": "att_prov_tripolitana",
+        "n": "Tripolitana"
+      },
+      {
+        "k": "att_prov_venetia",
+        "n": "Venetia"
+      }
+    ]
+  }
+}

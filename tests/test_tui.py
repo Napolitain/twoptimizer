@@ -79,10 +79,13 @@ def test_export_roundtrip_and_existing_csv_is_protected(tmp_path):
             "joint",
             "province_ids",
             "adjacency",
+            "adjacency_mode",
+            "adjacency_directed",
         ]
         row = next(reader)
         assert row["status"] == "OPTIMAL" and row["income"] == "4182.7"
         assert row["time_limit_seconds"] == ""
+        assert row["adjacency_mode"] == row["adjacency_directed"] == ""
     json_path.unlink()
     with pytest.raises(FileExistsError):
         export_session(path, [result()])

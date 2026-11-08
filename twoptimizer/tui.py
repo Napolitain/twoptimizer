@@ -20,6 +20,7 @@ from textual.widgets import (
     TabbedContent,
 )
 
+from games.tw.maps.catalog import province_borders
 from twoptimizer.catalog import EXACT, GAMES, NOTES, choices, faction_name
 from twoptimizer.holdings import (
     BORDER_GAMES,
@@ -37,7 +38,12 @@ from twoptimizer.presentation import (
     timing_summary,
 )
 from twoptimizer.progress import ModelStats
-from twoptimizer.province_picker import BorderPicker, ProvincePicker, ProvinceSelection
+from twoptimizer.province_picker import (
+    USE_MAP_BORDERS,
+    BorderPicker,
+    ProvincePicker,
+    ProvinceSelection,
+)
 from twoptimizer.runner import BatchRunner
 from twoptimizer.screens import ExportScreen, HelpScreen
 from twoptimizer.service import error_result, make_jobs
@@ -187,13 +193,20 @@ class OptimizerApp(App):
         if self.busy or game not in BORDER_GAMES or len(options) < 2:
             return
         self.push_screen(
-            BorderPicker(options, self.province_selection.adjacency), self.borders_chosen
+            BorderPicker(
+                options,
+                self.province_selection.adjacency,
+                map_borders=province_borders(game, tuple(selected)),
+            ),
+            self.borders_chosen,
         )
 
     def borders_chosen(self, borders):
         if borders is not None:
             self.province_selection = ProvinceSelection(
-                self.province_selection.provinces, self.province_selection.joint, borders
+                self.province_selection.provinces,
+                self.province_selection.joint,
+                None if borders is USE_MAP_BORDERS else borders,
             )
             self._refresh_preview()
 
@@ -212,6 +225,12 @@ class OptimizerApp(App):
         )
 
     def _config(self):
+        state = self.province_selection
+        if state.joint and state.borders_need_review and len(state.provinces or ()) > 1:
+            raise ValueError(
+                "Review custom borders after adding provinces, or choose Use map borders."
+            )
+
         def selected(name):
             return str(self.query_one("#" + name, Select).value)
 

@@ -142,3 +142,45 @@ The shared public catalog has its own cached importer. Installed exports will
 let us verify patch differences, availability, effect scopes and starting
 state. They are a validation step, not a prerequisite for this declared static
 optimization.
+
+### Campaign map and adjacency
+
+[campaign_map.json](data/campaign_map.json) includes all 65 Sengoku provinces
+and 103 explicit `CAI_REGION_BOUNDARY` links, including Sado as an isolated
+province in this graph. The same graph, boundary codes, distances, AI IDs and
+coordinates were extracted from two public calendar-mod packs: an older
+build-5890 campaign and a Complete Edition conversion. The newer mod documents
+its change as the number of turns per year. Both pinned repository revisions,
+pack hashes, extracted campaign hashes, build strings and parsing references
+are retained in [campaign_adjacency_source.json](data/campaign_adjacency_source.json).
+
+The source boundary codes are preserved: 101 links have code `0`; Awa–Awaji and
+Buzen–Nagato have code `1`. Those two pairs geographically correspond to strait
+crossings, but the enum's meaning has not been independently documented, so no
+movement or bonus-propagation semantics are inferred from it. All 103 explicit
+source links are retained in the province graph.
+
+The province index separately supplies 3,107 exact display-polygon points and
+centroids, with source URL/hash and image dimensions.
+[campaign_map_source.json](data/campaign_map_source.json) preserves these fields.
+Both bundled extracts support deterministic offline regeneration:
+
+```sh
+uv run --locked python -m games.tw.shogun2.import_map --offline
+uv run --locked python -m games.tw.shogun2.import_map
+```
+
+Offline replay validates the captured boundary checksum against both recorded
+source digests. The adjacency input is an audited capture; raw-pack decoding
+is a separate audit using the referenced external parsers.
+
+The second command refreshes display geometry from the online index or cache
+and retains the bundled, pinned adjacency extract. No borders are inferred from
+polygon proximity. `coverage.complete` and `coverage.geometry_complete` describe
+complete coverage of this source campaign, not verification against the user's
+installed build. The source packs are mods; neither is a directly inspected
+vanilla installation. Sea regions/routes, hidden bases, pathfinding obstacles
+and other campaigns remain outside this province graph. Display centroids and
+engine AI positions are separate fields, neither claimed as settlement positions.
+The map does not change the income model's treatment of neighboring religious
+conversion or prove which effects propagate across each boundary.

@@ -28,7 +28,7 @@ NOTES = {
         "seven incomplete trees, including Rome. Named provinces include "
         "the declared community patch-18 regional bonus profile unless "
         "disabled. Joint holdings share food and factionwide bonuses; "
-        "adjacent effects use explicit borders. Public references are not "
+        "adjacent effects use bundled map borders or explicit overrides. Public references are not "
         "installed-patch certification. No external trade, treasury "
         "interest or campaign timeline."
     ),

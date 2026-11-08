@@ -12,6 +12,7 @@ from games.tw.rome2.world import province_scenario
 from twoptimizer.adapters.model_stats import record_cp_result
 from twoptimizer.adapters.rome_models import ObservedEconomy, ObservedHoldingEconomy
 from twoptimizer.catalog import read
+from twoptimizer.holdings import resolved_borders
 from twoptimizer.models import BuildingSelection, EngineResult, RunConfig
 from twoptimizer.progress import PhaseTimer
 from twoptimizer.rome_session import RomeSession
@@ -71,9 +72,7 @@ def _joint_scenario(config):
         )
         for key in config.holdings
     )
-    if len(provinces) > 1 and config.adjacency is None:
-        raise ValueError("Set neighboring provinces or explicitly confirm no borders")
-    return HoldingScenario.from_provinces(provinces, config.adjacency or ())
+    return HoldingScenario.from_provinces(provinces, resolved_borders(config))
 
 
 def request_key(config: RunConfig) -> str:

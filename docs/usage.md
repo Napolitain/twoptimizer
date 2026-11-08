@@ -87,28 +87,33 @@ province/faction/solver. **Optimize selected provinces together** instead create
 one joint holding per faction/solver in all three games. **All** selects named
 provinces: 62 in Attila, 57 in Rome II and 65 in Shogun 2, excluding hypothetical
 reference layouts. Attila shares faction
-effects and applies adjacency bonuses across the explicit borders; its existing
+effects and applies adjacency bonuses across the selected map borders; its existing
 province-level food, sanitation and order requirements still apply. Shogun 2 shares
 food and enforces unique-building limits across the holding. Rome II shares food,
 selects one political profile, keeps public order local, and applies factionwide
 building and owned-world bonuses across the holding.
 
-For joint Attila and Rome II holdings, **Neighboring provinces…** edits shared borders between
-selected provinces. Add each border once: effects work in both directions. Apply
-an empty list to explicitly model no adjacency effects. No complete
-border map is bundled, so new selections need this input rather than inferred
-neighbors. Removing provinces prunes their borders; adding provinces requires
-confirmation again. Shogun 2's imported neighboring effects concern religious
-conversion, outside the static full-adherence income model, so it needs no border input.
+Joint Attila and Rome II holdings use the bundled campaign's borders between
+selected provinces automatically. **Neighboring provinces…** shows these links and
+lets you edit them. Add each custom border once: effects work in both directions.
+Apply an empty list to explicitly model no adjacency effects, or choose **Use map
+borders** to restore automatic selection. Automatic borders follow selection
+changes; custom borders are pruned on removal and require review when provinces
+are added. Shogun 2's map is also bundled, but its imported neighboring effects
+concern religious conversion, outside the static full-adherence income model, so
+its optimizer needs no border input.
 
-JSON exports retain the province selection, joint mode and border inputs; CSV
-includes the joint flag, province IDs and adjacency. Cancel stops the active worker
+JSON exports retain the province selection, joint mode and border inputs. Automatic
+requests keep `adjacency: null`; `raw.map_context` records the resolved borders,
+source details and limitations. CSV includes the effective adjacency, its mode,
+and a direction flag; Attila campaign pairs retain source-to-recipient direction.
+Cancel stops the active worker
 and preserves completed cases. The CLI retains campaign JSON inputs and its existing
 advanced options.
 Installed wheels include the game data; a Git checkout is not required to run them.
 
 The preview counts selected provinces, joint/independent mode, factions, solver
-choices, expanded cases and supplied borders before Run. It does not compile
+choices, expanded cases and automatic/custom borders before Run. It does not compile
 models while editing settings. During a run, the activity area shows the latest
 model's variables and constraints. The **Model size** tab separates reference
 models from solver inputs and adds formulation, decision/auxiliary counts,
@@ -144,15 +149,16 @@ comparison commands retain their broader batch defaults.
 
 All three CLIs accept `--joint` and `--independent`. Rome II and Attila default to
 independent cases; Shogun 2 retains its joint default. Use `--province all` for all
-named provinces. Joint Attila/Rome II inputs require `--borders borders.json`, an
-explicit `--no-borders` sensitivity, or Attila's campaign `adjacency` map. A border
+named provinces. Joint Attila/Rome II runs use bundled map borders unless overridden
+by `--borders borders.json`, an explicit `--no-borders` sensitivity, or Attila's
+campaign `adjacency` map. A border
 file is a JSON list of pairs, for example `[["Italia", "Magna Graecia"]]` for Rome II;
 names and IDs are accepted. Resume retains the original ownership mode.
 
 ```sh
 uv run --locked twoptimizer rome2 --faction rom_rome --province all --independent
 uv run --locked twoptimizer rome2 --faction rom_rome \
-  --province Italia --province 'Magna Graecia' --joint --borders borders.json
+  --province Italia --province 'Magna Graecia' --joint
 uv run --locked twoptimizer shogun2 --clan oda --province all --joint --soil native
 ```
 
@@ -185,11 +191,50 @@ five-second limit. Rome II pair samples remained unproved in both modes at that
 limit; independent cases each received a separate limit, so those capped totals
 do not establish a speed comparison.
 
+### Bundled campaign geography
+
+| Game | Land regions | Provinces | Regional borders | Province borders |
+| --- | ---: | ---: | ---: | ---: |
+| Attila | 186 | 62 | 388 | 108 |
+| Rome II | 173 | 57 | 353 | 100 |
+| Shogun 2 | 65 | 65 | 103 | 103 |
+
+Attila and Rome II borders come from the vanilla raw hex maps in the
+[pinned CampaignMapToolkit archive](https://github.com/TW-Campaign-Map-Modding-Team/CampaignMapToolkit/tree/d7e27bacaf9a5b4656b483b47b4e6212ad3a6cb4/Templates),
+whose README credits OtherTomCA for the raw maps. All map region IDs match the
+optimizer catalogs. Attila's 108 province borders also agree exactly with the
+[published campaign map](https://twdatabase.com/attila/map). A single regional-edge
+swap between those sources is retained in the audit metadata; both versions
+connect the same two provinces. Canonical regional borders use the raw hex map.
+
+Shogun's graph comes from explicit `CAI_REGION_BOUNDARY` records in two pinned
+public calendar-mod campaign files:
+[Complete Edition calendar pack](https://github.com/xUHOx/SHOGUN2-CE-MOD/blob/fcaa47d2354cec7176d3fb6487b789238f82f1de/twelve-turns-per-year.pack)
+and [older calendar pack](https://github.com/PiTatva/Shogun2X/blob/98024206b891a3a4013a7c6b341f6e29bc638318/edited_mods/mod_Extended_Years_Months.pack).
+All 65 region IDs, 103 edges and their flags agree across both extracts. Numeric
+boundary kinds remain explicit, including the two nonzero-kind edges, without
+inventing their undocumented enum meanings. The
+[encyclopedia map](https://shogun2-encyclopedia.com/regions.html) contributes all 65
+display polygons; display geometry and engine coordinates are kept separately.
+
+Each `games/tw/<game>/data/campaign_map.json` records source URLs, checksums,
+coverage and limitations. Attila/Rome include separate water/coastal contact data;
+those contacts are not travel routes or trade connectivity. The border defaults
+describe the imported source maps, including impassable terrain contacts. They
+are not certification of an installed patch or every effect's in-game recipient
+rules. Only the supported base campaigns are covered; DLC maps are separate.
+Source-specific rebuild commands are documented with the Rome/Shogun models;
+Attila's factual snapshots rebuild offline with:
+
+```sh
+uv run --frozen python -m games.tw.attila.tools.import_map
+```
+
 ### Regional and worldwide coverage
 
 | Game | Neighboring effects | Special sites and shared effects |
 | --- | --- | --- |
-| Attila | Imported adjacent economic effects use explicit borders; conditional food-routing effects still need recipient inputs | Resource and church sites, factionwide modifiers, and explicit scenario construction restrictions; incomplete legendary metadata is disclosed |
+| Attila | Imported adjacent economic effects use bundled borders or overrides; conditional food-routing effects still need recipient inputs | Resource and church sites, factionwide modifiers, and explicit scenario construction restrictions; incomplete legendary metadata is disclosed |
 | Rome II | Imported adjacent food effects count owned recipient regions | Resource settlements, Marib-only dam, shared faction building bonuses and owned regional/natural wonders; 35 level-5 legendary entries remain excluded pending unlock/limit/first-builder rules |
 | Shogun 2 | Religious zeal is recognized but conversion is outside current income | All 65 province specialties/soils/ports, local special buildings, worldwide arts, shared food and legendary/Nanban limits |
 
@@ -463,7 +508,8 @@ are counted once, not once per province. Without `--joint`, each province is an
 independent scenario; inputs that refer to unselected places are rejected.
 The shared application equivalent is a `RunConfig` with `provinces`, `joint=True`
 and `AttilaOptions(campaign=Scenario(...))`, passed through `make_jobs` and
-`solve_case`. Its adjacency inputs remain explicit. Direct engine use
+`solve_case`. Bundled borders apply when adjacency is omitted; explicit campaign
+or border inputs take precedence. Direct engine use
 can also pass all participating provinces to `Problem(context=parser.context,
 scenario=...)`.
 

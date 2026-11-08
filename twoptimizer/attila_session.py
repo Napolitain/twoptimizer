@@ -17,7 +17,7 @@ from games.tw.models.game_attila import AttilaGame
 from games.tw.parser.parser_attila import ParserAttila
 from games.tw.sparse import SparseConstraints
 from twoptimizer.catalog import ROOT
-from twoptimizer.holdings import adjacency_mapping
+from twoptimizer.holdings import adjacency_mapping, has_campaign_borders
 
 if TYPE_CHECKING:
     from twoptimizer.models import RunConfig
@@ -77,7 +77,7 @@ def _preparation_key(config: RunConfig) -> str:
 def campaign_scenario(config: RunConfig) -> Scenario | None:
     """Combine explicit UI borders with campaign inputs without changing either."""
     campaign = config.attila.campaign
-    if config.adjacency is None:
+    if config.adjacency is None and (not config.joint or has_campaign_borders(config)):
         return campaign
     data = campaign.to_dict() if campaign is not None else {}
     mapping = adjacency_mapping(config)

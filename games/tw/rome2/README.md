@@ -16,10 +16,11 @@ including Kush, Masaesyli, Nabataea and Saba.
 
 The CLI and TUI both support independent and joint province runs. In the TUI,
 choose **Multiple provinces…**, select a subset or **All**, then enable
-**Optimize selected provinces together**. Enter explicit borders in
-**Neighboring provinces…**. The CLI equivalent uses repeated `--province` or
-`--province all`, `--joint`, and `--borders borders.json` (a JSON list of two-way
-province-name/ID pairs). `--no-borders` explicitly models no adjacency effects;
+**Optimize selected provinces together**. Bundled campaign borders apply automatically;
+**Neighboring provinces…** allows custom overrides or restoring the map. The CLI
+equivalent uses repeated `--province` or `--province all` with `--joint`.
+Optional `--borders borders.json` replaces the map with two-way province-name/ID
+pairs. `--no-borders` explicitly models no adjacency effects;
 the independent mode remains the CLI default. Reference layouts remain separate
 synthetic scenarios and cannot form a geographic joint holding.
 
@@ -99,6 +100,33 @@ sea-trade bonus as maritime wealth. These two interpretations still need effect
 definitions. `--no-world-bonuses` gives a resource-only sensitivity. Named holdings
 are counterfactual equal-holding comparisons, not historical starts or empire totals.
 
+### Grand Campaign map
+
+[campaign_map.json](data/campaign_map.json) covers all **173 regions / 57 provinces**,
+with **353 region borders / 100 province borders**. It is derived from the public
+Creative Assembly map asset credited to OtherTomCA in
+[CampaignMapToolkit](https://github.com/TW-Campaign-Map-Modding-Team/CampaignMapToolkit/tree/d7e27bacaf9a5b4656b483b47b4e6212ad3a6cb4).
+The importer verifies the pinned SHA-256, the binary CRC32 and every region ID
+against `world.json`; only the unplayable `rom_terra_incognita` is excluded.
+
+Borders mean shared hex edges, including impassable terrain contacts. The catalog
+also keeps 31 water-region identities, 42 water-region contacts and 208 land/water
+contacts separately. Rivers and lakes are included in the source's water list.
+These contacts do not establish sea travel, trade routes, strait crossings or the
+targeting rules of every economic effect. The raw asset has no declared game patch;
+installed-build validation remains outstanding. Position coordinates are territory
+centroids in the native hex grid, not settlement positions or boundary polygons.
+
+Reproduce the checked-in factual extract without installing the game:
+
+```sh
+curl -fL 'https://raw.githubusercontent.com/TW-Campaign-Map-Modding-Team/CampaignMapToolkit/d7e27bacaf9a5b4656b483b47b4e6212ad3a6cb4/Templates/main_rome_map/map.hex' -o /tmp/rome2-map.hex
+uv run --frozen python -m games.tw.rome2.import_map /tmp/rome2-map.hex
+```
+
+The repository bundles derived facts, not the toolkit implementation or raw map
+asset. The independent binary reader is shared with Attila map validation.
+
 ## Enforced rules and remaining scope
 
 - Nine wealth categories distinguish farming, livestock, entertainment, learning,
@@ -108,7 +136,7 @@ are counterfactual equal-holding comparisons, not historical starts or empire to
 - Tax modifiers/corruption deductions are percentage points. Corruption reductions
   cannot make corruption negative. Food and province public order must be nonnegative.
   Per-region food counts once per owned recipient. Joint holdings share food;
-  adjacent food effects reach regions across the explicitly supplied borders.
+  adjacent food effects reach regions across the selected map borders or overrides.
   Independent comparisons have no owned adjacent recipient.
 - One primary per site, one port where coastal, four ordinary capital plots and
   two ordinary town plots. Mature primaries up to level four and ordinary levels

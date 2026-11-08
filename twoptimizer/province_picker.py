@@ -8,7 +8,11 @@ from textual.containers import Horizontal, Vertical, VerticalScroll
 from textual.screen import ModalScreen
 from textual.widgets import Button, Checkbox, Input, Select, SelectionList, Static
 
+from games.tw.maps.catalog import province_borders
 from twoptimizer.holdings import BORDER_GAMES, JOINT_GAMES
+
+# None means cancel for a modal result, so automatic borders need a distinct action.
+USE_MAP_BORDERS = object()
 
 
 @dataclass(frozen=True)
@@ -16,14 +20,17 @@ class ProvinceSelection:
     provinces: tuple[str, ...] | None = None
     joint: bool = False
     adjacency: tuple[tuple[str, str], ...] | None = None
+    borders_need_review: bool = False
 
     def with_provinces(self, selected: tuple[str, ...], joint: bool):
         borders = self.adjacency
+        review = self.borders_need_review
         if not set(selected) <= set(self.provinces or ()):
+            review = review or borders is not None
             borders = None
         if borders is not None:
             borders = tuple(pair for pair in borders if set(pair) <= set(selected))
-        return ProvinceSelection(selected, joint, borders)
+        return ProvinceSelection(selected, joint, borders, review)
 
 
 class ProvincePicker(ModalScreen):
@@ -84,11 +91,23 @@ class ProvincePicker(ModalScreen):
         text = "Each province runs independently, for every selected faction and solver."
         if together:
             text = "One joint holding per faction and solver. " + (
-                "Set its neighboring provinces before running; no complete border map is bundled."
+                self.border_note()
                 if self.game in BORDER_GAMES
                 else "Shares food, faction effects and unique-building limits across the holding."
             )
         self.query_one("#joint-note", Static).update(text)
+
+    def border_note(self):
+        if self.original.adjacency is not None or self.original.borders_need_review:
+            return "Custom borders are retained; adding provinces requires a border review."
+        if province_borders(self.game, tuple(self.selected)) is not None:
+            return (
+                "Uses bundled land borders automatically; Neighboring provinces can override them."
+            )
+        return (
+            "Set neighboring provinces before running; map borders are unavailable "
+            "for this selection."
+        )
 
     @on(Input.Changed, "#province-search")
     def filter_provinces(self):
@@ -162,11 +181,14 @@ class BorderPicker(ModalScreen):
     .picker-buttons Button { width: 1fr; min-width: 12; margin-right: 1; }
     """
 
-    def __init__(self, options, borders):
+    def __init__(self, options, borders, *, map_borders=None):
         super().__init__()
         self.options = options
         self.names = {key: label for label, key in options}
-        self.borders = {tuple(sorted(pair)) for pair in borders or ()}
+        self.map_borders = map_borders
+        self.automatic = borders is None and map_borders is not None
+        effective = map_borders if self.automatic else borders
+        self.borders = {tuple(sorted(pair)) for pair in effective or ()}
 
     def compose(self):
         with Vertical(id="border-dialog"):
@@ -174,7 +196,15 @@ class BorderPicker(ModalScreen):
                 yield Static("Neighboring provinces in this holding")
                 yield Static(
                     "Add each shared border once; provinces are neighbors in both directions. "
-                    "Apply an empty list to confirm none of these provinces are adjacent."
+                    "Apply stores a custom list; an empty list disables adjacency effects."
+                )
+                yield Static(
+                    "Showing automatic map borders. Sea routes are not included."
+                    if self.automatic
+                    else "Showing custom borders. Use map borders restores automatic selection."
+                    if self.map_borders is not None
+                    else "Map borders are unavailable for this selection.",
+                    id="border-source",
                 )
                 yield Select(
                     self.options, value=self.options[0][1], allow_blank=False, id="border-first"
@@ -188,6 +218,7 @@ class BorderPicker(ModalScreen):
                 yield Static("", id="border-error")
                 yield SelectionList(id="border-list")
             with Horizontal(classes="picker-buttons"):
+                yield Button("Use map borders", id="borders-map", disabled=self.map_borders is None)
                 yield Button("Apply borders", id="borders-apply", variant="primary")
                 yield Button("Cancel", id="borders-cancel")
 
@@ -201,6 +232,12 @@ class BorderPicker(ModalScreen):
             [(f"{self.names[a]} ↔ {self.names[b]}", (a, b)) for a, b in sorted(self.borders)]
         )
 
+    def mark_custom(self):
+        self.automatic = False
+        self.query_one("#border-source", Static).update(
+            "Custom border list. Apply stores these borders for the selected provinces."
+        )
+
     @on(Button.Pressed, "#border-add")
     def add_border(self):
         first = str(self.query_one("#border-first", Select).value)
@@ -210,16 +247,23 @@ class BorderPicker(ModalScreen):
             return
         self.query_one("#border-error", Static).update("")
         self.borders.add(tuple(sorted((first, second))))
+        self.mark_custom()
         self.rebuild_list()
 
     @on(Button.Pressed, "#border-remove")
     def remove_borders(self):
         self.borders.difference_update(self.query_one("#border-list", SelectionList).selected)
+        self.mark_custom()
         self.rebuild_list()
 
     @on(Button.Pressed, "#borders-apply")
     def apply_borders(self):
         self.dismiss(tuple(sorted(self.borders)))
+
+    @on(Button.Pressed, "#borders-map")
+    def use_map_borders(self):
+        if self.map_borders is not None:
+            self.dismiss(USE_MAP_BORDERS)
 
     def action_cancel(self):
         self.dismiss(None)

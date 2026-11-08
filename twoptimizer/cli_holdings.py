@@ -10,7 +10,11 @@ from twoptimizer.requests import province_id
 
 def add_holding_options(parser: argparse.ArgumentParser) -> None:
     mode = parser.add_mutually_exclusive_group()
-    mode.add_argument("--joint", action="store_true", help="Optimize selected provinces together")
+    mode.add_argument(
+        "--joint",
+        action="store_true",
+        help="Optimize together, using bundled map borders by default",
+    )
     mode.add_argument(
         "--independent",
         dest="joint",
@@ -22,7 +26,7 @@ def add_holding_options(parser: argparse.ArgumentParser) -> None:
     borders.add_argument(
         "--borders",
         type=Path,
-        help="JSON list of neighboring province pairs, using names or IDs; each pair is two-way",
+        help="Override map borders with JSON province pairs (names or IDs); each pair is two-way",
     )
     borders.add_argument(
         "--no-borders",

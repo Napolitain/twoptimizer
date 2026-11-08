@@ -1,0 +1,4036 @@
+{
+  "schema_version": 1,
+  "game": "rome2",
+  "campaign": "main_rome",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/TW-Campaign-Map-Modding-Team/CampaignMapToolkit/d7e27bacaf9a5b4656b483b47b4e6212ad3a6cb4/Templates/main_rome_map/map.hex",
+      "sha256": "b7b753bd00f5e3311f811c3a104712272f4f2397d2c465ad6aa8f2acc844915a",
+      "bytes": 5860226,
+      "revision": "d7e27bacaf9a5b4656b483b47b4e6212ad3a6cb4",
+      "path": "Templates/main_rome_map/map.hex",
+      "git_blob_sha1": "f5797888441f28452a5711092f40e237d9887abe",
+      "patch": null,
+      "credit": "Creative Assembly / OtherTomCA; CampaignMapToolkit public map archive",
+      "provenance_url": "https://github.com/TW-Campaign-Map-Modding-Team/CampaignMapToolkit/blob/d7e27bacaf9a5b4656b483b47b4e6212ad3a6cb4/README.md",
+      "format_url": "https://github.com/TW-Campaign-Map-Modding-Team/CampaignMapToolkit/blob/d7e27bacaf9a5b4656b483b47b4e6212ad3a6cb4/FileFormatDefinitions/010_hex_editor_map_hex.bt",
+      "redistribution": "Only derived factual identities, centroids and border pairs are included; the raw map asset and toolkit implementation are not redistributed."
+    }
+  ],
+  "map": {
+    "width": 1016,
+    "height": 720,
+    "position_kind": "territory_hex_centroid",
+    "coordinates": "x=column; y=row+(column%2)/2 in native map.hex coordinates"
+  },
+  "regions": {
+    "rom_aegyptos_ta_abt": {
+      "name": "Myos Hormos",
+      "province": "rome_main_aegyptos",
+      "x": 569.8351,
+      "y": 170.974
+    },
+    "rom_aegyptos_ta_ament": {
+      "name": "Memphis",
+      "province": "rome_main_aegyptos",
+      "x": 533.1312,
+      "y": 168.0064
+    },
+    "rom_aegyptos_ta_mehu": {
+      "name": "Alexandria",
+      "province": "rome_main_aegyptos",
+      "x": 544.5083,
+      "y": 202.0734
+    },
+    "rom_aegyptos_ta_shemau": {
+      "name": "Diospolis",
+      "province": "rome_main_aegyptos",
+      "x": 572.2581,
+      "y": 130.4093
+    },
+    "rom_africa_byzacium": {
+      "name": "Thapsus",
+      "province": "rome_main_africa",
+      "x": 262.9019,
+      "y": 238.2905
+    },
+    "rom_africa_syrtis": {
+      "name": "Macomades",
+      "province": "rome_main_africa",
+      "x": 371.0534,
+      "y": 195.2551
+    },
+    "rom_africa_tripolis": {
+      "name": "Lepcis",
+      "province": "rome_main_africa",
+      "x": 312.7473,
+      "y": 212.1281
+    },
+    "rom_africa_zeugitana": {
+      "name": "Carthago",
+      "province": "rome_main_africa",
+      "x": 253.3143,
+      "y": 267.0929
+    },
+    "rom_aithiops_ityopya": {
+      "name": "Aksum",
+      "province": "rome_main_aithiops",
+      "x": 654.5743,
+      "y": 27.0797
+    },
+    "rom_aithiops_kush": {
+      "name": "Meroe",
+      "province": "rome_main_aithiops",
+      "x": 601.961,
+      "y": 59.0285
+    },
+    "rom_aithiops_medjay": {
+      "name": "Ptolemais Theron",
+      "province": "rome_main_aithiops",
+      "x": 599.9524,
+      "y": 97.6214
+    },
+    "rom_aquitania_aquitania": {
+      "name": "Burdigala",
+      "province": "rome_main_aquitania",
+      "x": 155.0446,
+      "y": 413.8669
+    },
+    "rom_aquitania_gergovia": {
+      "name": "Nemossos",
+      "province": "rome_main_aquitania",
+      "x": 189.1782,
+      "y": 441.6224
+    },
+    "rom_aquitania_pictavis": {
+      "name": "Lemonum",
+      "province": "rome_main_aquitania",
+      "x": 161.9504,
+      "y": 463.2897
+    },
+    "rom_arabia_felix_himyar": {
+      "name": "Eudaemon",
+      "province": "rome_main_arabia_felix",
+      "x": 707.4117,
+      "y": 79.5173
+    },
+    "rom_arabia_felix_maka": {
+      "name": "Maas-gat",
+      "province": "rome_main_arabia_felix",
+      "x": 812.1548,
+      "y": 127.0303
+    },
+    "rom_arabia_felix_saba": {
+      "name": "Marib",
+      "province": "rome_main_arabia_felix",
+      "x": 753.3069,
+      "y": 99.8054
+    },
+    "rom_arabia_magna_dilmun": {
+      "name": "Gerrha",
+      "province": "rome_main_arabia_magna",
+      "x": 743.5496,
+      "y": 164.5742
+    },
+    "rom_arabia_magna_kedar": {
+      "name": "Adummatu",
+      "province": "rome_main_arabia_magna",
+      "x": 689.0315,
+      "y": 216.4761
+    },
+    "rom_arabia_magna_lathrippa": {
+      "name": "Yathrib",
+      "province": "rome_main_arabia_magna",
+      "x": 691.8232,
+      "y": 144.0507
+    },
+    "rom_arachosia_arachosia": {
+      "name": "Alexandria Arachosia",
+      "province": "rome_main_arachosia",
+      "x": 950.2326,
+      "y": 241.1649
+    },
+    "rom_arachosia_paropamisadae": {
+      "name": "Kapisene",
+      "province": "rome_main_arachosia",
+      "x": 985.0158,
+      "y": 269.2107
+    },
+    "rom_aria_aria": {
+      "name": "Artacoana",
+      "province": "rome_main_aria",
+      "x": 913.636,
+      "y": 273.8338
+    },
+    "rom_aria_drangiana": {
+      "name": "Phrada",
+      "province": "rome_main_aria",
+      "x": 911.6328,
+      "y": 229.691
+    },
+    "rom_aria_margiana": {
+      "name": "Merv",
+      "province": "rome_main_aria",
+      "x": 920.7279,
+      "y": 313.2535
+    },
+    "rom_armenia_armenia": {
+      "name": "Armavir",
+      "province": "rome_main_armenia",
+      "x": 728.0,
+      "y": 358.2807
+    },
+    "rom_armenia_corduene": {
+      "name": "Tushpa",
+      "province": "rome_main_armenia",
+      "x": 709.8409,
+      "y": 329.9475
+    },
+    "rom_armenia_sophene": {
+      "name": "Arsamosata",
+      "province": "rome_main_armenia",
+      "x": 673.9055,
+      "y": 340.1377
+    },
+    "rom_asia_lydia": {
+      "name": "Ephesus",
+      "province": "rome_main_asia",
+      "x": 517.1263,
+      "y": 318.4009
+    },
+    "rom_asia_mysia": {
+      "name": "Pergamon",
+      "province": "rome_main_asia",
+      "x": 516.3575,
+      "y": 345.541
+    },
+    "rom_asia_phrygia": {
+      "name": "Pessinus",
+      "province": "rome_main_asia",
+      "x": 547.6219,
+      "y": 339.4673
+    },
+    "rom_asia_rhodes": {
+      "name": "Rhodes",
+      "province": "rome_main_asia",
+      "x": 513.6207,
+      "y": 291.0379
+    },
+    "rom_bactria_baktria": {
+      "name": "Baktra",
+      "province": "rome_main_bactria",
+      "x": 959.4803,
+      "y": 299.6776
+    },
+    "rom_bactria_tocharia": {
+      "name": "Eucratideia",
+      "province": "rome_main_bactria",
+      "x": 996.1986,
+      "y": 314.4821
+    },
+    "rom_baetica_baeturia": {
+      "name": "Kartuba",
+      "province": "rome_main_baetica",
+      "x": 71.9706,
+      "y": 302.0515
+    },
+    "rom_baetica_turdetania": {
+      "name": "Gadira",
+      "province": "rome_main_baetica",
+      "x": 89.1857,
+      "y": 284.0394
+    },
+    "rom_belgica_arduenna_silva": {
+      "name": "Treverorum",
+      "province": "rome_main_belgica",
+      "x": 233.2705,
+      "y": 517.4976
+    },
+    "rom_belgica_silva_carbonaria": {
+      "name": "Nemetocenna",
+      "province": "rome_main_belgica",
+      "x": 198.908,
+      "y": 535.4918
+    },
+    "rom_bithynia_et_pontus_bythynia": {
+      "name": "Nicomedia",
+      "province": "rome_main_bithynia_et_pontus",
+      "x": 553.9555,
+      "y": 365.3231
+    },
+    "rom_bithynia_et_pontus_paphlagonia": {
+      "name": "Sinope",
+      "province": "rome_main_bithynia_et_pontus",
+      "x": 597.0952,
+      "y": 378.4323
+    },
+    "rom_bithynia_et_pontus_pontos": {
+      "name": "Amaseia",
+      "province": "rome_main_bithynia_et_pontus",
+      "x": 643.8955,
+      "y": 361.0342
+    },
+    "rom_bithynia_et_pontus_riza": {
+      "name": "Trapezos",
+      "province": "rome_main_bithynia_et_pontus",
+      "x": 683.4148,
+      "y": 371.4669
+    },
+    "rom_bosporus_maeotia": {
+      "name": "Tanais",
+      "province": "rome_main_bosporus",
+      "x": 659.5382,
+      "y": 456.7044
+    },
+    "rom_bosporus_sindica": {
+      "name": "Phanagoria",
+      "province": "rome_main_bosporus",
+      "x": 659.7488,
+      "y": 432.3523
+    },
+    "rom_bosporus_taurica": {
+      "name": "Panticapaeum",
+      "province": "rome_main_bosporus",
+      "x": 598.8575,
+      "y": 443.3256
+    },
+    "rom_britannia_brigantia": {
+      "name": "Eborakon",
+      "province": "rome_main_britannia",
+      "x": 135.2415,
+      "y": 604.2717
+    },
+    "rom_britannia_britannia": {
+      "name": "Camulodunon",
+      "province": "rome_main_britannia",
+      "x": 155.7527,
+      "y": 569.002
+    },
+    "rom_britannia_demetia": {
+      "name": "Moridunon",
+      "province": "rome_main_britannia",
+      "x": 111.9785,
+      "y": 573.7171
+    },
+    "rom_britannia_dumnonia": {
+      "name": "Iska",
+      "province": "rome_main_britannia",
+      "x": 120.0194,
+      "y": 548.859
+    },
+    "rom_caledonia_et_hibernia_caledonia": {
+      "name": "Eildon",
+      "province": "rome_main_caledonia_et_hibernia",
+      "x": 105.0912,
+      "y": 651.589
+    },
+    "rom_caledonia_et_hibernia_hibernia": {
+      "name": "Eblana",
+      "province": "rome_main_caledonia_et_hibernia",
+      "x": 56.9165,
+      "y": 592.0885
+    },
+    "rom_carmania_eremos_karmania": {
+      "name": "Bam",
+      "province": "rome_main_carmania",
+      "x": 861.9759,
+      "y": 234.928
+    },
+    "rom_carmania_karmania": {
+      "name": "Harmozia",
+      "province": "rome_main_carmania",
+      "x": 852.4266,
+      "y": 196.812
+    },
+    "rom_cartaginensis_baleareis": {
+      "name": "Ibossim",
+      "province": "rome_main_cartaginensis",
+      "x": 188.2345,
+      "y": 309.8805
+    },
+    "rom_cartaginensis_bastetania": {
+      "name": "Qart Hadasht",
+      "province": "rome_main_cartaginensis",
+      "x": 122.76,
+      "y": 298.1617
+    },
+    "rom_cartaginensis_celtiberia": {
+      "name": "Numantia",
+      "province": "rome_main_cartaginensis",
+      "x": 104.6166,
+      "y": 341.7522
+    },
+    "rom_cartaginensis_edetania": {
+      "name": "Arse",
+      "province": "rome_main_cartaginensis",
+      "x": 139.4811,
+      "y": 331.055
+    },
+    "rom_caucasia_albania": {
+      "name": "Gabala",
+      "province": "rome_main_caucasia",
+      "x": 774.3699,
+      "y": 375.4855
+    },
+    "rom_caucasia_colchis": {
+      "name": "Phasis",
+      "province": "rome_main_caucasia",
+      "x": 699.5418,
+      "y": 402.6513
+    },
+    "rom_caucasia_iberia": {
+      "name": "Mtskheta",
+      "province": "rome_main_caucasia",
+      "x": 738.1791,
+      "y": 395.05
+    },
+    "rom_celtica_aremorica": {
+      "name": "Namnetum",
+      "province": "rome_main_celtica",
+      "x": 135.2965,
+      "y": 497.3236
+    },
+    "rom_celtica_lugdunensis": {
+      "name": "Bibracte",
+      "province": "rome_main_celtica",
+      "x": 215.6336,
+      "y": 475.2343
+    },
+    "rom_celtica_lutetia": {
+      "name": "Cenabum",
+      "province": "rome_main_celtica",
+      "x": 181.4177,
+      "y": 504.6438
+    },
+    "rom_chorasmia_korasmia": {
+      "name": "Kath",
+      "province": "rome_main_chorasmia",
+      "x": 905.0337,
+      "y": 389.3564
+    },
+    "rom_chorasmia_transcaspia": {
+      "name": "Amul",
+      "province": "rome_main_chorasmia",
+      "x": 890.018,
+      "y": 351.8618
+    },
+    "rom_cilicia_cilicia": {
+      "name": "Tarsus",
+      "province": "rome_main_cilicia",
+      "x": 599.0813,
+      "y": 308.7367
+    },
+    "rom_cilicia_cyprus": {
+      "name": "Salamis",
+      "province": "rome_main_cilicia",
+      "x": 585.9289,
+      "y": 278.9039
+    },
+    "rom_cilicia_pamphylia": {
+      "name": "Side",
+      "province": "rome_main_cilicia",
+      "x": 551.4758,
+      "y": 309.3844
+    },
+    "rom_cisalpina_insubria": {
+      "name": "Medhlan",
+      "province": "rome_main_cisalpina",
+      "x": 275.5702,
+      "y": 446.8974
+    },
+    "rom_cisalpina_liguria": {
+      "name": "Genua",
+      "province": "rome_main_cisalpina",
+      "x": 269.9262,
+      "y": 425.7428
+    },
+    "rom_cisalpina_venetia": {
+      "name": "Patavium",
+      "province": "rome_main_cisalpina",
+      "x": 322.4417,
+      "y": 447.4885
+    },
+    "rom_corsica_et_sardinia_corsica": {
+      "name": "Alalia",
+      "province": "rome_main_corsica_et_sardinia",
+      "x": 264.3244,
+      "y": 379.2991
+    },
+    "rom_corsica_et_sardinia_sardinia": {
+      "name": "Karalis",
+      "province": "rome_main_corsica_et_sardinia",
+      "x": 259.9266,
+      "y": 339.6984
+    },
+    "rom_dacia_bastarnia": {
+      "name": "Petrodava",
+      "province": "rome_main_dacia",
+      "x": 505.7763,
+      "y": 476.0733
+    },
+    "rom_dacia_dacia_inferior": {
+      "name": "Malva",
+      "province": "rome_main_dacia",
+      "x": 484.413,
+      "y": 436.3684
+    },
+    "rom_dacia_dacia_superior": {
+      "name": "Zarmizegetusa",
+      "province": "rome_main_dacia",
+      "x": 455.7711,
+      "y": 467.0432
+    },
+    "rom_galatia_et_cappadocia_cappadocia": {
+      "name": "Mazaca",
+      "province": "rome_main_galatia_et_cappadocia",
+      "x": 606.3998,
+      "y": 331.3707
+    },
+    "rom_galatia_et_cappadocia_commagene": {
+      "name": "Samosata",
+      "province": "rome_main_galatia_et_cappadocia",
+      "x": 640.9942,
+      "y": 333.3123
+    },
+    "rom_galatia_et_cappadocia_galatia": {
+      "name": "Ancyra",
+      "province": "rome_main_galatia_et_cappadocia",
+      "x": 596.0674,
+      "y": 354.4234
+    },
+    "rom_galatia_et_cappadocia_lycaonia": {
+      "name": "Iconium",
+      "province": "rome_main_galatia_et_cappadocia",
+      "x": 571.6675,
+      "y": 327.3046
+    },
+    "rom_gedrosia_gedrosia": {
+      "name": "Pura",
+      "province": "rome_main_gedrosia",
+      "x": 893.1472,
+      "y": 183.7733
+    },
+    "rom_gedrosia_rhambacia": {
+      "name": "Oraea",
+      "province": "rome_main_gedrosia",
+      "x": 939.6002,
+      "y": 190.6551
+    },
+    "rom_germania_minor_germania_inferior": {
+      "name": "Bagacum",
+      "province": "rome_main_germania_minor",
+      "x": 232.1036,
+      "y": 546.7532
+    },
+    "rom_germania_minor_germania_superior": {
+      "name": "Vesontio",
+      "province": "rome_main_germania_minor",
+      "x": 248.1896,
+      "y": 495.2462
+    },
+    "rom_hellas_attiki": {
+      "name": "Athenai",
+      "province": "rome_main_hellas",
+      "x": 459.3848,
+      "y": 326.1701
+    },
+    "rom_hellas_creta": {
+      "name": "Hierapytna",
+      "province": "rome_main_hellas",
+      "x": 475.4066,
+      "y": 275.5209
+    },
+    "rom_hellas_peloponnesos": {
+      "name": "Sparta",
+      "province": "rome_main_hellas",
+      "x": 435.1978,
+      "y": 312.0896
+    },
+    "rom_hercynia_hercynia_silva": {
+      "name": "Casurgis",
+      "province": "rome_main_hercynia",
+      "x": 350.4342,
+      "y": 524.5186
+    },
+    "rom_hercynia_luna_silva": {
+      "name": "Istros",
+      "province": "rome_main_hercynia",
+      "x": 413.2874,
+      "y": 508.3522
+    },
+    "rom_illyria_dalmatia": {
+      "name": "Delminium",
+      "province": "rome_main_illyria",
+      "x": 397.8223,
+      "y": 410.6241
+    },
+    "rom_illyria_illyria": {
+      "name": "Epidamnos",
+      "province": "rome_main_illyria",
+      "x": 412.3403,
+      "y": 389.3938
+    },
+    "rom_illyria_liburnia": {
+      "name": "Iader",
+      "province": "rome_main_illyria",
+      "x": 373.8374,
+      "y": 428.7127
+    },
+    "rom_italia_etruria": {
+      "name": "Velathri",
+      "province": "rome_main_italia",
+      "x": 299.3032,
+      "y": 405.0439
+    },
+    "rom_italia_latium": {
+      "name": "Roma",
+      "province": "rome_main_italia",
+      "x": 315.139,
+      "y": 383.2009
+    },
+    "rom_italia_picenum": {
+      "name": "Ariminum",
+      "province": "rome_main_italia",
+      "x": 320.2189,
+      "y": 410.3665
+    },
+    "rom_italia_samnium": {
+      "name": "Neapolis",
+      "province": "rome_main_italia",
+      "x": 333.9216,
+      "y": 372.5752
+    },
+    "rom_libue_cyrenaica": {
+      "name": "Cyrene",
+      "province": "rome_main_libue",
+      "x": 427.8018,
+      "y": 204.7193
+    },
+    "rom_libue_marmarica": {
+      "name": "Paraitonion",
+      "province": "rome_main_libue",
+      "x": 477.8995,
+      "y": 203.1327
+    },
+    "rom_libue_oases": {
+      "name": "Augila",
+      "province": "rome_main_libue",
+      "x": 416.8665,
+      "y": 170.9298
+    },
+    "rom_libue_siwa": {
+      "name": "Ammonium",
+      "province": "rome_main_libue",
+      "x": 482.0495,
+      "y": 176.2575
+    },
+    "rom_lusitania_celtica": {
+      "name": "Ebora",
+      "province": "rome_main_lusitania",
+      "x": 50.7343,
+      "y": 313.3618
+    },
+    "rom_lusitania_lusitania": {
+      "name": "Olisipo",
+      "province": "rome_main_lusitania",
+      "x": 53.6238,
+      "y": 339.386
+    },
+    "rom_macedonia_epeiros": {
+      "name": "Apollonia",
+      "province": "rome_main_macedonia",
+      "x": 411.7962,
+      "y": 354.6929
+    },
+    "rom_macedonia_makedonia": {
+      "name": "Pella",
+      "province": "rome_main_macedonia",
+      "x": 443.7988,
+      "y": 370.9872
+    },
+    "rom_macedonia_thessalia": {
+      "name": "Larissa",
+      "province": "rome_main_macedonia",
+      "x": 431.7698,
+      "y": 338.625
+    },
+    "rom_magna_germania_frisia": {
+      "name": "Flevum",
+      "province": "rome_main_magna_germania",
+      "x": 249.2565,
+      "y": 583.2667
+    },
+    "rom_magna_germania_silva_bacenis": {
+      "name": "Tulifurdum",
+      "province": "rome_main_magna_germania",
+      "x": 286.1404,
+      "y": 560.0834
+    },
+    "rom_magna_germania_silva_nigra": {
+      "name": "Uburzis",
+      "province": "rome_main_magna_germania",
+      "x": 286.8528,
+      "y": 514.6832
+    },
+    "rom_magna_graecia_bruttium": {
+      "name": "Cosentia",
+      "province": "rome_main_magna_graecia",
+      "x": 348.2083,
+      "y": 335.4165
+    },
+    "rom_magna_graecia_calabria": {
+      "name": "Brundisium",
+      "province": "rome_main_magna_graecia",
+      "x": 359.6372,
+      "y": 358.1349
+    },
+    "rom_magna_graecia_lilybaion": {
+      "name": "Lilybaeum",
+      "province": "rome_main_magna_graecia",
+      "x": 309.1085,
+      "y": 301.1675
+    },
+    "rom_magna_graecia_sirako": {
+      "name": "Syracusae",
+      "province": "rome_main_magna_graecia",
+      "x": 329.0491,
+      "y": 295.1302
+    },
+    "rom_mauretania_atlas": {
+      "name": "Migdol",
+      "province": "rome_main_mauretania",
+      "x": 68.273,
+      "y": 217.8065
+    },
+    "rom_mauretania_gaetulia": {
+      "name": "Dimmidi",
+      "province": "rome_main_mauretania",
+      "x": 185.2379,
+      "y": 224.8121
+    },
+    "rom_mauretania_numidia": {
+      "name": "Iol",
+      "province": "rome_main_mauretania",
+      "x": 182.5989,
+      "y": 256.0975
+    },
+    "rom_mauretania_tingitana": {
+      "name": "Tingis",
+      "province": "rome_main_mauretania",
+      "x": 101.8733,
+      "y": 244.0165
+    },
+    "rom_media_magna_atropatene": {
+      "name": "Gazaca",
+      "province": "rome_main_media_magna",
+      "x": 756.3031,
+      "y": 321.4643
+    },
+    "rom_media_magna_media": {
+      "name": "Ekbatana",
+      "province": "rome_main_media_magna",
+      "x": 772.1883,
+      "y": 289.2165
+    },
+    "rom_media_magna_rhagau": {
+      "name": "Rhaga",
+      "province": "rome_main_media_magna",
+      "x": 805.681,
+      "y": 265.0818
+    },
+    "rom_mesopotamia_athura": {
+      "name": "Hatra",
+      "province": "rome_main_mesopotamia",
+      "x": 708.7241,
+      "y": 286.7801
+    },
+    "rom_mesopotamia_babylonia": {
+      "name": "Seleucia",
+      "province": "rome_main_mesopotamia",
+      "x": 740.0575,
+      "y": 252.0076
+    },
+    "rom_mesopotamia_mesene": {
+      "name": "Charax",
+      "province": "rome_main_mesopotamia",
+      "x": 763.8497,
+      "y": 217.489
+    },
+    "rom_mesopotamia_osroene": {
+      "name": "Edessa",
+      "province": "rome_main_mesopotamia",
+      "x": 668.5552,
+      "y": 307.018
+    },
+    "rom_nabataea_havilah": {
+      "name": "Charmuthas",
+      "province": "rome_main_nabataea",
+      "x": 650.4643,
+      "y": 154.7422
+    },
+    "rom_nabataea_iudaea": {
+      "name": "Jerusalem",
+      "province": "rome_main_nabataea",
+      "x": 597.3244,
+      "y": 206.0561
+    },
+    "rom_nabataea_jordan": {
+      "name": "Petra",
+      "province": "rome_main_nabataea",
+      "x": 625.3011,
+      "y": 213.5332
+    },
+    "rom_nabataea_lihyan": {
+      "name": "Hegra",
+      "province": "rome_main_nabataea",
+      "x": 635.1805,
+      "y": 180.8055
+    },
+    "rom_pannonia_pannonia_inferior": {
+      "name": "Singidun",
+      "province": "rome_main_pannonia",
+      "x": 421.4673,
+      "y": 439.658
+    },
+    "rom_pannonia_pannonia_superior": {
+      "name": "Segestica",
+      "province": "rome_main_pannonia",
+      "x": 381.9083,
+      "y": 451.5575
+    },
+    "rom_pannonia_transdanubia": {
+      "name": "Akink",
+      "province": "rome_main_pannonia",
+      "x": 399.5092,
+      "y": 477.043
+    },
+    "rom_parthia_astauene": {
+      "name": "Nisa",
+      "province": "rome_main_parthia",
+      "x": 871.4492,
+      "y": 320.4511
+    },
+    "rom_parthia_hyrcania": {
+      "name": "Zadrakarta",
+      "province": "rome_main_parthia",
+      "x": 822.5981,
+      "y": 299.3102
+    },
+    "rom_parthia_parthia": {
+      "name": "Hecatompylos",
+      "province": "rome_main_parthia",
+      "x": 839.804,
+      "y": 275.4121
+    },
+    "rom_parthia_traxiane": {
+      "name": "Susia",
+      "province": "rome_main_parthia",
+      "x": 878.927,
+      "y": 282.3458
+    },
+    "rom_persis_elam": {
+      "name": "Susa",
+      "province": "rome_main_persis",
+      "x": 786.5675,
+      "y": 241.3509
+    },
+    "rom_persis_lyan": {
+      "name": "Gor",
+      "province": "rome_main_persis",
+      "x": 816.8038,
+      "y": 190.3299
+    },
+    "rom_persis_parsa": {
+      "name": "Persepolis",
+      "province": "rome_main_persis",
+      "x": 823.0267,
+      "y": 218.1622
+    },
+    "rom_phazania_tidamensi": {
+      "name": "Cydamus",
+      "province": "rome_main_phazania",
+      "x": 261.4362,
+      "y": 197.4754
+    },
+    "rom_phazania_zinchecra": {
+      "name": "Garama",
+      "province": "rome_main_phazania",
+      "x": 331.7801,
+      "y": 173.5866
+    },
+    "rom_ponto_caspia_cimmeria": {
+      "name": "Solokha",
+      "province": "rome_main_ponto_caspia",
+      "x": 635.39,
+      "y": 483.8657
+    },
+    "rom_ponto_caspia_didoya": {
+      "name": "Samandar",
+      "province": "rome_main_ponto_caspia",
+      "x": 736.4112,
+      "y": 461.0867
+    },
+    "rom_ponto_caspia_oium": {
+      "name": "Olbia",
+      "province": "rome_main_ponto_caspia",
+      "x": 563.193,
+      "y": 484.2574
+    },
+    "rom_ponto_caspia_zyx": {
+      "name": "Siracena",
+      "province": "rome_main_ponto_caspia",
+      "x": 700.0188,
+      "y": 442.8783
+    },
+    "rom_provincia_narbonensis": {
+      "name": "Tolosa",
+      "province": "rome_main_provincia",
+      "x": 190.4422,
+      "y": 405.4249
+    },
+    "rom_provincia_transalpina": {
+      "name": "Massalia",
+      "province": "rome_main_provincia",
+      "x": 227.9267,
+      "y": 424.0546
+    },
+    "rom_raetia_et_noricum_helvetia": {
+      "name": "Octuduron",
+      "province": "rome_main_raetia_et_noricum",
+      "x": 260.1458,
+      "y": 466.8135
+    },
+    "rom_raetia_et_noricum_noricum": {
+      "name": "Noreia",
+      "province": "rome_main_raetia_et_noricum",
+      "x": 343.6694,
+      "y": 479.6447
+    },
+    "rom_raetia_et_noricum_raetia": {
+      "name": "Koria",
+      "province": "rome_main_raetia_et_noricum",
+      "x": 302.2164,
+      "y": 483.7055
+    },
+    "rom_sarmatia_aestia": {
+      "name": "Mons Regius",
+      "province": "rome_main_sarmatia",
+      "x": 444.7548,
+      "y": 599.1143
+    },
+    "rom_sarmatia_galicia": {
+      "name": "Galic",
+      "province": "rome_main_sarmatia",
+      "x": 479.8825,
+      "y": 513.2553
+    },
+    "rom_sarmatia_pripet": {
+      "name": "Tur",
+      "province": "rome_main_sarmatia",
+      "x": 509.066,
+      "y": 542.7632
+    },
+    "rom_scythia_scythia": {
+      "name": "Gelonus",
+      "province": "rome_main_scythia",
+      "x": 774.4285,
+      "y": 516.5745
+    },
+    "rom_scythia_turan": {
+      "name": "Sarai",
+      "province": "rome_main_scythia",
+      "x": 843.4015,
+      "y": 491.8675
+    },
+    "rom_scythia_usturt": {
+      "name": "Aktau",
+      "province": "rome_main_scythia",
+      "x": 849.4311,
+      "y": 414.7675
+    },
+    "rom_silesia_leda": {
+      "name": "Belz",
+      "province": "rome_main_silesia",
+      "x": 428.1368,
+      "y": 553.2209
+    },
+    "rom_silesia_silesia": {
+      "name": "Budorgis",
+      "province": "rome_main_silesia",
+      "x": 394.424,
+      "y": 548.8838
+    },
+    "rom_suebia_bomeranorum": {
+      "name": "Ascaucalis",
+      "province": "rome_main_suebia",
+      "x": 383.9373,
+      "y": 598.5922
+    },
+    "rom_suebia_cimbria": {
+      "name": "Alabu",
+      "province": "rome_main_suebia",
+      "x": 286.9136,
+      "y": 635.0915
+    },
+    "rom_suebia_lusatia": {
+      "name": "Lupfurdum",
+      "province": "rome_main_suebia",
+      "x": 345.0054,
+      "y": 565.2612
+    },
+    "rom_suebia_rugia": {
+      "name": "Rhougion",
+      "province": "rome_main_suebia",
+      "x": 325.0321,
+      "y": 593.2575
+    },
+    "rom_syria_aram": {
+      "name": "Palmyra",
+      "province": "rome_main_syria",
+      "x": 646.5794,
+      "y": 266.6111
+    },
+    "rom_syria_eremos_syria": {
+      "name": "Dura",
+      "province": "rome_main_syria",
+      "x": 671.8312,
+      "y": 256.3742
+    },
+    "rom_syria_phonecia": {
+      "name": "Tyros",
+      "province": "rome_main_syria",
+      "x": 623.3239,
+      "y": 267.1528
+    },
+    "rom_syria_syria": {
+      "name": "Antioch",
+      "province": "rome_main_syria",
+      "x": 633.2771,
+      "y": 300.5183
+    },
+    "rom_tarraconensis_callaecia": {
+      "name": "Brigantium",
+      "province": "rome_main_tarraconensis",
+      "x": 61.1322,
+      "y": 381.0663
+    },
+    "rom_tarraconensis_cantabria": {
+      "name": "Aracillum",
+      "province": "rome_main_tarraconensis",
+      "x": 115.9641,
+      "y": 382.8929
+    },
+    "rom_tarraconensis_tarraconensis": {
+      "name": "Tarraco",
+      "province": "rome_main_tarraconensis",
+      "x": 166.8587,
+      "y": 364.1557
+    },
+    "rom_thracia_byzantion": {
+      "name": "Antheia",
+      "province": "rome_main_thracia",
+      "x": 505.9689,
+      "y": 377.4077
+    },
+    "rom_thracia_dardania": {
+      "name": "Navissos",
+      "province": "rome_main_thracia",
+      "x": 438.5309,
+      "y": 406.5179
+    },
+    "rom_thracia_moesia": {
+      "name": "Odessos",
+      "province": "rome_main_thracia",
+      "x": 499.1443,
+      "y": 413.875
+    },
+    "rom_thracia_thracia": {
+      "name": "Pulpudeva",
+      "province": "rome_main_thracia",
+      "x": 474.7364,
+      "y": 386.9253
+    },
+    "rom_transoxania_kangju": {
+      "name": "Bukhara",
+      "province": "rome_main_transoxania",
+      "x": 950.826,
+      "y": 366.6092
+    },
+    "rom_transoxania_sodgiana": {
+      "name": "Maracanda",
+      "province": "rome_main_transoxania",
+      "x": 975.7794,
+      "y": 342.66
+    }
+  },
+  "region_borders": [
+    [
+      "rom_aegyptos_ta_abt",
+      "rom_aegyptos_ta_mehu"
+    ],
+    [
+      "rom_aegyptos_ta_abt",
+      "rom_aegyptos_ta_shemau"
+    ],
+    [
+      "rom_aegyptos_ta_ament",
+      "rom_aegyptos_ta_mehu"
+    ],
+    [
+      "rom_aegyptos_ta_ament",
+      "rom_aegyptos_ta_shemau"
+    ],
+    [
+      "rom_aegyptos_ta_ament",
+      "rom_libue_siwa"
+    ],
+    [
+      "rom_aegyptos_ta_mehu",
+      "rom_libue_marmarica"
+    ],
+    [
+      "rom_aegyptos_ta_mehu",
+      "rom_libue_siwa"
+    ],
+    [
+      "rom_aegyptos_ta_mehu",
+      "rom_nabataea_iudaea"
+    ],
+    [
+      "rom_aegyptos_ta_shemau",
+      "rom_aithiops_kush"
+    ],
+    [
+      "rom_aegyptos_ta_shemau",
+      "rom_aithiops_medjay"
+    ],
+    [
+      "rom_africa_byzacium",
+      "rom_africa_tripolis"
+    ],
+    [
+      "rom_africa_byzacium",
+      "rom_africa_zeugitana"
+    ],
+    [
+      "rom_africa_byzacium",
+      "rom_mauretania_gaetulia"
+    ],
+    [
+      "rom_africa_byzacium",
+      "rom_phazania_tidamensi"
+    ],
+    [
+      "rom_africa_syrtis",
+      "rom_africa_tripolis"
+    ],
+    [
+      "rom_africa_syrtis",
+      "rom_libue_cyrenaica"
+    ],
+    [
+      "rom_africa_syrtis",
+      "rom_libue_oases"
+    ],
+    [
+      "rom_africa_syrtis",
+      "rom_phazania_zinchecra"
+    ],
+    [
+      "rom_africa_tripolis",
+      "rom_phazania_tidamensi"
+    ],
+    [
+      "rom_africa_tripolis",
+      "rom_phazania_zinchecra"
+    ],
+    [
+      "rom_africa_zeugitana",
+      "rom_mauretania_gaetulia"
+    ],
+    [
+      "rom_africa_zeugitana",
+      "rom_mauretania_numidia"
+    ],
+    [
+      "rom_aithiops_ityopya",
+      "rom_aithiops_kush"
+    ],
+    [
+      "rom_aithiops_kush",
+      "rom_aithiops_medjay"
+    ],
+    [
+      "rom_aquitania_aquitania",
+      "rom_aquitania_gergovia"
+    ],
+    [
+      "rom_aquitania_aquitania",
+      "rom_aquitania_pictavis"
+    ],
+    [
+      "rom_aquitania_aquitania",
+      "rom_provincia_narbonensis"
+    ],
+    [
+      "rom_aquitania_aquitania",
+      "rom_tarraconensis_cantabria"
+    ],
+    [
+      "rom_aquitania_aquitania",
+      "rom_tarraconensis_tarraconensis"
+    ],
+    [
+      "rom_aquitania_gergovia",
+      "rom_aquitania_pictavis"
+    ],
+    [
+      "rom_aquitania_gergovia",
+      "rom_celtica_lugdunensis"
+    ],
+    [
+      "rom_aquitania_gergovia",
+      "rom_provincia_narbonensis"
+    ],
+    [
+      "rom_aquitania_gergovia",
+      "rom_provincia_transalpina"
+    ],
+    [
+      "rom_aquitania_pictavis",
+      "rom_celtica_aremorica"
+    ],
+    [
+      "rom_aquitania_pictavis",
+      "rom_celtica_lugdunensis"
+    ],
+    [
+      "rom_aquitania_pictavis",
+      "rom_celtica_lutetia"
+    ],
+    [
+      "rom_arabia_felix_himyar",
+      "rom_arabia_felix_saba"
+    ],
+    [
+      "rom_arabia_felix_himyar",
+      "rom_arabia_magna_lathrippa"
+    ],
+    [
+      "rom_arabia_felix_maka",
+      "rom_arabia_felix_saba"
+    ],
+    [
+      "rom_arabia_felix_maka",
+      "rom_arabia_magna_dilmun"
+    ],
+    [
+      "rom_arabia_felix_saba",
+      "rom_arabia_magna_dilmun"
+    ],
+    [
+      "rom_arabia_felix_saba",
+      "rom_arabia_magna_lathrippa"
+    ],
+    [
+      "rom_arabia_magna_dilmun",
+      "rom_arabia_magna_kedar"
+    ],
+    [
+      "rom_arabia_magna_dilmun",
+      "rom_arabia_magna_lathrippa"
+    ],
+    [
+      "rom_arabia_magna_dilmun",
+      "rom_mesopotamia_mesene"
+    ],
+    [
+      "rom_arabia_magna_kedar",
+      "rom_arabia_magna_lathrippa"
+    ],
+    [
+      "rom_arabia_magna_kedar",
+      "rom_mesopotamia_athura"
+    ],
+    [
+      "rom_arabia_magna_kedar",
+      "rom_mesopotamia_babylonia"
+    ],
+    [
+      "rom_arabia_magna_kedar",
+      "rom_mesopotamia_mesene"
+    ],
+    [
+      "rom_arabia_magna_kedar",
+      "rom_nabataea_havilah"
+    ],
+    [
+      "rom_arabia_magna_kedar",
+      "rom_nabataea_jordan"
+    ],
+    [
+      "rom_arabia_magna_kedar",
+      "rom_nabataea_lihyan"
+    ],
+    [
+      "rom_arabia_magna_kedar",
+      "rom_syria_aram"
+    ],
+    [
+      "rom_arabia_magna_kedar",
+      "rom_syria_eremos_syria"
+    ],
+    [
+      "rom_arabia_magna_lathrippa",
+      "rom_nabataea_havilah"
+    ],
+    [
+      "rom_arachosia_arachosia",
+      "rom_arachosia_paropamisadae"
+    ],
+    [
+      "rom_arachosia_arachosia",
+      "rom_aria_aria"
+    ],
+    [
+      "rom_arachosia_arachosia",
+      "rom_aria_drangiana"
+    ],
+    [
+      "rom_arachosia_arachosia",
+      "rom_bactria_baktria"
+    ],
+    [
+      "rom_arachosia_arachosia",
+      "rom_gedrosia_rhambacia"
+    ],
+    [
+      "rom_arachosia_paropamisadae",
+      "rom_bactria_baktria"
+    ],
+    [
+      "rom_arachosia_paropamisadae",
+      "rom_bactria_tocharia"
+    ],
+    [
+      "rom_aria_aria",
+      "rom_aria_drangiana"
+    ],
+    [
+      "rom_aria_aria",
+      "rom_aria_margiana"
+    ],
+    [
+      "rom_aria_aria",
+      "rom_bactria_baktria"
+    ],
+    [
+      "rom_aria_aria",
+      "rom_carmania_eremos_karmania"
+    ],
+    [
+      "rom_aria_aria",
+      "rom_parthia_astauene"
+    ],
+    [
+      "rom_aria_aria",
+      "rom_parthia_traxiane"
+    ],
+    [
+      "rom_aria_drangiana",
+      "rom_carmania_eremos_karmania"
+    ],
+    [
+      "rom_aria_drangiana",
+      "rom_gedrosia_gedrosia"
+    ],
+    [
+      "rom_aria_drangiana",
+      "rom_gedrosia_rhambacia"
+    ],
+    [
+      "rom_aria_margiana",
+      "rom_bactria_baktria"
+    ],
+    [
+      "rom_aria_margiana",
+      "rom_chorasmia_transcaspia"
+    ],
+    [
+      "rom_aria_margiana",
+      "rom_parthia_astauene"
+    ],
+    [
+      "rom_aria_margiana",
+      "rom_transoxania_sodgiana"
+    ],
+    [
+      "rom_armenia_armenia",
+      "rom_armenia_corduene"
+    ],
+    [
+      "rom_armenia_armenia",
+      "rom_armenia_sophene"
+    ],
+    [
+      "rom_armenia_armenia",
+      "rom_bithynia_et_pontus_riza"
+    ],
+    [
+      "rom_armenia_armenia",
+      "rom_caucasia_albania"
+    ],
+    [
+      "rom_armenia_armenia",
+      "rom_caucasia_colchis"
+    ],
+    [
+      "rom_armenia_armenia",
+      "rom_caucasia_iberia"
+    ],
+    [
+      "rom_armenia_armenia",
+      "rom_media_magna_atropatene"
+    ],
+    [
+      "rom_armenia_corduene",
+      "rom_armenia_sophene"
+    ],
+    [
+      "rom_armenia_corduene",
+      "rom_media_magna_atropatene"
+    ],
+    [
+      "rom_armenia_corduene",
+      "rom_mesopotamia_athura"
+    ],
+    [
+      "rom_armenia_corduene",
+      "rom_mesopotamia_osroene"
+    ],
+    [
+      "rom_armenia_sophene",
+      "rom_bithynia_et_pontus_pontos"
+    ],
+    [
+      "rom_armenia_sophene",
+      "rom_bithynia_et_pontus_riza"
+    ],
+    [
+      "rom_armenia_sophene",
+      "rom_galatia_et_cappadocia_commagene"
+    ],
+    [
+      "rom_armenia_sophene",
+      "rom_mesopotamia_osroene"
+    ],
+    [
+      "rom_asia_lydia",
+      "rom_asia_mysia"
+    ],
+    [
+      "rom_asia_lydia",
+      "rom_asia_phrygia"
+    ],
+    [
+      "rom_asia_lydia",
+      "rom_cilicia_pamphylia"
+    ],
+    [
+      "rom_asia_mysia",
+      "rom_asia_phrygia"
+    ],
+    [
+      "rom_asia_mysia",
+      "rom_bithynia_et_pontus_bythynia"
+    ],
+    [
+      "rom_asia_phrygia",
+      "rom_bithynia_et_pontus_bythynia"
+    ],
+    [
+      "rom_asia_phrygia",
+      "rom_cilicia_pamphylia"
+    ],
+    [
+      "rom_asia_phrygia",
+      "rom_galatia_et_cappadocia_galatia"
+    ],
+    [
+      "rom_asia_phrygia",
+      "rom_galatia_et_cappadocia_lycaonia"
+    ],
+    [
+      "rom_bactria_baktria",
+      "rom_bactria_tocharia"
+    ],
+    [
+      "rom_bactria_baktria",
+      "rom_transoxania_sodgiana"
+    ],
+    [
+      "rom_bactria_tocharia",
+      "rom_transoxania_sodgiana"
+    ],
+    [
+      "rom_baetica_baeturia",
+      "rom_baetica_turdetania"
+    ],
+    [
+      "rom_baetica_baeturia",
+      "rom_cartaginensis_bastetania"
+    ],
+    [
+      "rom_baetica_baeturia",
+      "rom_cartaginensis_celtiberia"
+    ],
+    [
+      "rom_baetica_baeturia",
+      "rom_lusitania_celtica"
+    ],
+    [
+      "rom_baetica_turdetania",
+      "rom_cartaginensis_bastetania"
+    ],
+    [
+      "rom_belgica_arduenna_silva",
+      "rom_belgica_silva_carbonaria"
+    ],
+    [
+      "rom_belgica_arduenna_silva",
+      "rom_celtica_lugdunensis"
+    ],
+    [
+      "rom_belgica_arduenna_silva",
+      "rom_germania_minor_germania_inferior"
+    ],
+    [
+      "rom_belgica_arduenna_silva",
+      "rom_germania_minor_germania_superior"
+    ],
+    [
+      "rom_belgica_silva_carbonaria",
+      "rom_celtica_lugdunensis"
+    ],
+    [
+      "rom_belgica_silva_carbonaria",
+      "rom_celtica_lutetia"
+    ],
+    [
+      "rom_belgica_silva_carbonaria",
+      "rom_germania_minor_germania_inferior"
+    ],
+    [
+      "rom_bithynia_et_pontus_bythynia",
+      "rom_bithynia_et_pontus_paphlagonia"
+    ],
+    [
+      "rom_bithynia_et_pontus_bythynia",
+      "rom_galatia_et_cappadocia_galatia"
+    ],
+    [
+      "rom_bithynia_et_pontus_paphlagonia",
+      "rom_bithynia_et_pontus_pontos"
+    ],
+    [
+      "rom_bithynia_et_pontus_paphlagonia",
+      "rom_galatia_et_cappadocia_galatia"
+    ],
+    [
+      "rom_bithynia_et_pontus_pontos",
+      "rom_bithynia_et_pontus_riza"
+    ],
+    [
+      "rom_bithynia_et_pontus_pontos",
+      "rom_galatia_et_cappadocia_cappadocia"
+    ],
+    [
+      "rom_bithynia_et_pontus_pontos",
+      "rom_galatia_et_cappadocia_commagene"
+    ],
+    [
+      "rom_bithynia_et_pontus_pontos",
+      "rom_galatia_et_cappadocia_galatia"
+    ],
+    [
+      "rom_bithynia_et_pontus_riza",
+      "rom_caucasia_colchis"
+    ],
+    [
+      "rom_bosporus_maeotia",
+      "rom_bosporus_sindica"
+    ],
+    [
+      "rom_bosporus_maeotia",
+      "rom_ponto_caspia_cimmeria"
+    ],
+    [
+      "rom_bosporus_maeotia",
+      "rom_ponto_caspia_zyx"
+    ],
+    [
+      "rom_bosporus_sindica",
+      "rom_caucasia_colchis"
+    ],
+    [
+      "rom_bosporus_sindica",
+      "rom_ponto_caspia_zyx"
+    ],
+    [
+      "rom_bosporus_taurica",
+      "rom_ponto_caspia_cimmeria"
+    ],
+    [
+      "rom_britannia_brigantia",
+      "rom_britannia_britannia"
+    ],
+    [
+      "rom_britannia_brigantia",
+      "rom_britannia_demetia"
+    ],
+    [
+      "rom_britannia_brigantia",
+      "rom_caledonia_et_hibernia_caledonia"
+    ],
+    [
+      "rom_britannia_britannia",
+      "rom_britannia_demetia"
+    ],
+    [
+      "rom_britannia_britannia",
+      "rom_britannia_dumnonia"
+    ],
+    [
+      "rom_britannia_demetia",
+      "rom_britannia_dumnonia"
+    ],
+    [
+      "rom_carmania_eremos_karmania",
+      "rom_carmania_karmania"
+    ],
+    [
+      "rom_carmania_eremos_karmania",
+      "rom_gedrosia_gedrosia"
+    ],
+    [
+      "rom_carmania_eremos_karmania",
+      "rom_media_magna_rhagau"
+    ],
+    [
+      "rom_carmania_eremos_karmania",
+      "rom_parthia_parthia"
+    ],
+    [
+      "rom_carmania_eremos_karmania",
+      "rom_parthia_traxiane"
+    ],
+    [
+      "rom_carmania_eremos_karmania",
+      "rom_persis_parsa"
+    ],
+    [
+      "rom_carmania_karmania",
+      "rom_gedrosia_gedrosia"
+    ],
+    [
+      "rom_carmania_karmania",
+      "rom_persis_lyan"
+    ],
+    [
+      "rom_carmania_karmania",
+      "rom_persis_parsa"
+    ],
+    [
+      "rom_cartaginensis_bastetania",
+      "rom_cartaginensis_celtiberia"
+    ],
+    [
+      "rom_cartaginensis_bastetania",
+      "rom_cartaginensis_edetania"
+    ],
+    [
+      "rom_cartaginensis_celtiberia",
+      "rom_cartaginensis_edetania"
+    ],
+    [
+      "rom_cartaginensis_celtiberia",
+      "rom_lusitania_celtica"
+    ],
+    [
+      "rom_cartaginensis_celtiberia",
+      "rom_lusitania_lusitania"
+    ],
+    [
+      "rom_cartaginensis_celtiberia",
+      "rom_tarraconensis_callaecia"
+    ],
+    [
+      "rom_cartaginensis_celtiberia",
+      "rom_tarraconensis_cantabria"
+    ],
+    [
+      "rom_cartaginensis_edetania",
+      "rom_tarraconensis_cantabria"
+    ],
+    [
+      "rom_cartaginensis_edetania",
+      "rom_tarraconensis_tarraconensis"
+    ],
+    [
+      "rom_caucasia_albania",
+      "rom_caucasia_iberia"
+    ],
+    [
+      "rom_caucasia_albania",
+      "rom_media_magna_atropatene"
+    ],
+    [
+      "rom_caucasia_albania",
+      "rom_ponto_caspia_didoya"
+    ],
+    [
+      "rom_caucasia_colchis",
+      "rom_caucasia_iberia"
+    ],
+    [
+      "rom_caucasia_colchis",
+      "rom_ponto_caspia_zyx"
+    ],
+    [
+      "rom_caucasia_iberia",
+      "rom_ponto_caspia_didoya"
+    ],
+    [
+      "rom_caucasia_iberia",
+      "rom_ponto_caspia_zyx"
+    ],
+    [
+      "rom_celtica_aremorica",
+      "rom_celtica_lutetia"
+    ],
+    [
+      "rom_celtica_lugdunensis",
+      "rom_celtica_lutetia"
+    ],
+    [
+      "rom_celtica_lugdunensis",
+      "rom_germania_minor_germania_superior"
+    ],
+    [
+      "rom_celtica_lugdunensis",
+      "rom_provincia_transalpina"
+    ],
+    [
+      "rom_chorasmia_korasmia",
+      "rom_chorasmia_transcaspia"
+    ],
+    [
+      "rom_chorasmia_korasmia",
+      "rom_scythia_usturt"
+    ],
+    [
+      "rom_chorasmia_korasmia",
+      "rom_transoxania_kangju"
+    ],
+    [
+      "rom_chorasmia_transcaspia",
+      "rom_parthia_astauene"
+    ],
+    [
+      "rom_chorasmia_transcaspia",
+      "rom_scythia_usturt"
+    ],
+    [
+      "rom_chorasmia_transcaspia",
+      "rom_transoxania_kangju"
+    ],
+    [
+      "rom_chorasmia_transcaspia",
+      "rom_transoxania_sodgiana"
+    ],
+    [
+      "rom_cilicia_cilicia",
+      "rom_cilicia_pamphylia"
+    ],
+    [
+      "rom_cilicia_cilicia",
+      "rom_galatia_et_cappadocia_cappadocia"
+    ],
+    [
+      "rom_cilicia_cilicia",
+      "rom_galatia_et_cappadocia_commagene"
+    ],
+    [
+      "rom_cilicia_cilicia",
+      "rom_galatia_et_cappadocia_lycaonia"
+    ],
+    [
+      "rom_cilicia_cilicia",
+      "rom_syria_syria"
+    ],
+    [
+      "rom_cilicia_pamphylia",
+      "rom_galatia_et_cappadocia_lycaonia"
+    ],
+    [
+      "rom_cisalpina_insubria",
+      "rom_cisalpina_liguria"
+    ],
+    [
+      "rom_cisalpina_insubria",
+      "rom_cisalpina_venetia"
+    ],
+    [
+      "rom_cisalpina_insubria",
+      "rom_provincia_transalpina"
+    ],
+    [
+      "rom_cisalpina_insubria",
+      "rom_raetia_et_noricum_helvetia"
+    ],
+    [
+      "rom_cisalpina_insubria",
+      "rom_raetia_et_noricum_raetia"
+    ],
+    [
+      "rom_cisalpina_liguria",
+      "rom_cisalpina_venetia"
+    ],
+    [
+      "rom_cisalpina_liguria",
+      "rom_italia_etruria"
+    ],
+    [
+      "rom_cisalpina_liguria",
+      "rom_italia_picenum"
+    ],
+    [
+      "rom_cisalpina_liguria",
+      "rom_provincia_transalpina"
+    ],
+    [
+      "rom_cisalpina_venetia",
+      "rom_illyria_liburnia"
+    ],
+    [
+      "rom_cisalpina_venetia",
+      "rom_italia_picenum"
+    ],
+    [
+      "rom_cisalpina_venetia",
+      "rom_pannonia_pannonia_superior"
+    ],
+    [
+      "rom_cisalpina_venetia",
+      "rom_raetia_et_noricum_noricum"
+    ],
+    [
+      "rom_cisalpina_venetia",
+      "rom_raetia_et_noricum_raetia"
+    ],
+    [
+      "rom_dacia_bastarnia",
+      "rom_dacia_dacia_inferior"
+    ],
+    [
+      "rom_dacia_bastarnia",
+      "rom_dacia_dacia_superior"
+    ],
+    [
+      "rom_dacia_bastarnia",
+      "rom_ponto_caspia_oium"
+    ],
+    [
+      "rom_dacia_bastarnia",
+      "rom_sarmatia_galicia"
+    ],
+    [
+      "rom_dacia_bastarnia",
+      "rom_sarmatia_pripet"
+    ],
+    [
+      "rom_dacia_dacia_inferior",
+      "rom_dacia_dacia_superior"
+    ],
+    [
+      "rom_dacia_dacia_superior",
+      "rom_hercynia_luna_silva"
+    ],
+    [
+      "rom_dacia_dacia_superior",
+      "rom_pannonia_pannonia_inferior"
+    ],
+    [
+      "rom_dacia_dacia_superior",
+      "rom_pannonia_transdanubia"
+    ],
+    [
+      "rom_dacia_dacia_superior",
+      "rom_sarmatia_galicia"
+    ],
+    [
+      "rom_galatia_et_cappadocia_cappadocia",
+      "rom_galatia_et_cappadocia_commagene"
+    ],
+    [
+      "rom_galatia_et_cappadocia_cappadocia",
+      "rom_galatia_et_cappadocia_galatia"
+    ],
+    [
+      "rom_galatia_et_cappadocia_cappadocia",
+      "rom_galatia_et_cappadocia_lycaonia"
+    ],
+    [
+      "rom_galatia_et_cappadocia_commagene",
+      "rom_mesopotamia_osroene"
+    ],
+    [
+      "rom_galatia_et_cappadocia_commagene",
+      "rom_syria_syria"
+    ],
+    [
+      "rom_galatia_et_cappadocia_galatia",
+      "rom_galatia_et_cappadocia_lycaonia"
+    ],
+    [
+      "rom_gedrosia_gedrosia",
+      "rom_gedrosia_rhambacia"
+    ],
+    [
+      "rom_germania_minor_germania_inferior",
+      "rom_germania_minor_germania_superior"
+    ],
+    [
+      "rom_germania_minor_germania_inferior",
+      "rom_magna_germania_silva_bacenis"
+    ],
+    [
+      "rom_germania_minor_germania_superior",
+      "rom_magna_germania_silva_bacenis"
+    ],
+    [
+      "rom_germania_minor_germania_superior",
+      "rom_magna_germania_silva_nigra"
+    ],
+    [
+      "rom_germania_minor_germania_superior",
+      "rom_raetia_et_noricum_helvetia"
+    ],
+    [
+      "rom_hellas_attiki",
+      "rom_hellas_peloponnesos"
+    ],
+    [
+      "rom_hellas_attiki",
+      "rom_macedonia_thessalia"
+    ],
+    [
+      "rom_hercynia_hercynia_silva",
+      "rom_hercynia_luna_silva"
+    ],
+    [
+      "rom_hercynia_hercynia_silva",
+      "rom_magna_germania_silva_bacenis"
+    ],
+    [
+      "rom_hercynia_hercynia_silva",
+      "rom_magna_germania_silva_nigra"
+    ],
+    [
+      "rom_hercynia_hercynia_silva",
+      "rom_pannonia_transdanubia"
+    ],
+    [
+      "rom_hercynia_hercynia_silva",
+      "rom_raetia_et_noricum_noricum"
+    ],
+    [
+      "rom_hercynia_hercynia_silva",
+      "rom_raetia_et_noricum_raetia"
+    ],
+    [
+      "rom_hercynia_hercynia_silva",
+      "rom_silesia_silesia"
+    ],
+    [
+      "rom_hercynia_hercynia_silva",
+      "rom_suebia_lusatia"
+    ],
+    [
+      "rom_hercynia_luna_silva",
+      "rom_pannonia_transdanubia"
+    ],
+    [
+      "rom_hercynia_luna_silva",
+      "rom_sarmatia_galicia"
+    ],
+    [
+      "rom_hercynia_luna_silva",
+      "rom_silesia_leda"
+    ],
+    [
+      "rom_hercynia_luna_silva",
+      "rom_silesia_silesia"
+    ],
+    [
+      "rom_illyria_dalmatia",
+      "rom_illyria_illyria"
+    ],
+    [
+      "rom_illyria_dalmatia",
+      "rom_illyria_liburnia"
+    ],
+    [
+      "rom_illyria_dalmatia",
+      "rom_pannonia_pannonia_inferior"
+    ],
+    [
+      "rom_illyria_dalmatia",
+      "rom_thracia_dardania"
+    ],
+    [
+      "rom_illyria_illyria",
+      "rom_macedonia_epeiros"
+    ],
+    [
+      "rom_illyria_illyria",
+      "rom_macedonia_makedonia"
+    ],
+    [
+      "rom_illyria_illyria",
+      "rom_thracia_dardania"
+    ],
+    [
+      "rom_illyria_liburnia",
+      "rom_pannonia_pannonia_inferior"
+    ],
+    [
+      "rom_illyria_liburnia",
+      "rom_pannonia_pannonia_superior"
+    ],
+    [
+      "rom_italia_etruria",
+      "rom_italia_latium"
+    ],
+    [
+      "rom_italia_etruria",
+      "rom_italia_picenum"
+    ],
+    [
+      "rom_italia_latium",
+      "rom_italia_picenum"
+    ],
+    [
+      "rom_italia_latium",
+      "rom_italia_samnium"
+    ],
+    [
+      "rom_italia_picenum",
+      "rom_italia_samnium"
+    ],
+    [
+      "rom_italia_samnium",
+      "rom_magna_graecia_bruttium"
+    ],
+    [
+      "rom_italia_samnium",
+      "rom_magna_graecia_calabria"
+    ],
+    [
+      "rom_libue_cyrenaica",
+      "rom_libue_marmarica"
+    ],
+    [
+      "rom_libue_cyrenaica",
+      "rom_libue_oases"
+    ],
+    [
+      "rom_libue_cyrenaica",
+      "rom_libue_siwa"
+    ],
+    [
+      "rom_libue_marmarica",
+      "rom_libue_siwa"
+    ],
+    [
+      "rom_libue_oases",
+      "rom_libue_siwa"
+    ],
+    [
+      "rom_libue_oases",
+      "rom_phazania_zinchecra"
+    ],
+    [
+      "rom_lusitania_celtica",
+      "rom_lusitania_lusitania"
+    ],
+    [
+      "rom_lusitania_lusitania",
+      "rom_tarraconensis_callaecia"
+    ],
+    [
+      "rom_macedonia_epeiros",
+      "rom_macedonia_makedonia"
+    ],
+    [
+      "rom_macedonia_epeiros",
+      "rom_macedonia_thessalia"
+    ],
+    [
+      "rom_macedonia_makedonia",
+      "rom_macedonia_thessalia"
+    ],
+    [
+      "rom_macedonia_makedonia",
+      "rom_thracia_dardania"
+    ],
+    [
+      "rom_macedonia_makedonia",
+      "rom_thracia_thracia"
+    ],
+    [
+      "rom_magna_germania_frisia",
+      "rom_magna_germania_silva_bacenis"
+    ],
+    [
+      "rom_magna_germania_frisia",
+      "rom_suebia_cimbria"
+    ],
+    [
+      "rom_magna_germania_silva_bacenis",
+      "rom_magna_germania_silva_nigra"
+    ],
+    [
+      "rom_magna_germania_silva_bacenis",
+      "rom_suebia_cimbria"
+    ],
+    [
+      "rom_magna_germania_silva_bacenis",
+      "rom_suebia_lusatia"
+    ],
+    [
+      "rom_magna_germania_silva_bacenis",
+      "rom_suebia_rugia"
+    ],
+    [
+      "rom_magna_germania_silva_nigra",
+      "rom_raetia_et_noricum_helvetia"
+    ],
+    [
+      "rom_magna_germania_silva_nigra",
+      "rom_raetia_et_noricum_raetia"
+    ],
+    [
+      "rom_magna_graecia_bruttium",
+      "rom_magna_graecia_calabria"
+    ],
+    [
+      "rom_magna_graecia_lilybaion",
+      "rom_magna_graecia_sirako"
+    ],
+    [
+      "rom_mauretania_atlas",
+      "rom_mauretania_gaetulia"
+    ],
+    [
+      "rom_mauretania_atlas",
+      "rom_mauretania_tingitana"
+    ],
+    [
+      "rom_mauretania_gaetulia",
+      "rom_mauretania_numidia"
+    ],
+    [
+      "rom_mauretania_gaetulia",
+      "rom_mauretania_tingitana"
+    ],
+    [
+      "rom_mauretania_gaetulia",
+      "rom_phazania_tidamensi"
+    ],
+    [
+      "rom_mauretania_numidia",
+      "rom_mauretania_tingitana"
+    ],
+    [
+      "rom_media_magna_atropatene",
+      "rom_media_magna_media"
+    ],
+    [
+      "rom_media_magna_atropatene",
+      "rom_mesopotamia_athura"
+    ],
+    [
+      "rom_media_magna_atropatene",
+      "rom_parthia_hyrcania"
+    ],
+    [
+      "rom_media_magna_media",
+      "rom_media_magna_rhagau"
+    ],
+    [
+      "rom_media_magna_media",
+      "rom_mesopotamia_athura"
+    ],
+    [
+      "rom_media_magna_media",
+      "rom_mesopotamia_babylonia"
+    ],
+    [
+      "rom_media_magna_media",
+      "rom_parthia_hyrcania"
+    ],
+    [
+      "rom_media_magna_media",
+      "rom_persis_elam"
+    ],
+    [
+      "rom_media_magna_rhagau",
+      "rom_parthia_hyrcania"
+    ],
+    [
+      "rom_media_magna_rhagau",
+      "rom_parthia_parthia"
+    ],
+    [
+      "rom_media_magna_rhagau",
+      "rom_persis_elam"
+    ],
+    [
+      "rom_media_magna_rhagau",
+      "rom_persis_parsa"
+    ],
+    [
+      "rom_mesopotamia_athura",
+      "rom_mesopotamia_babylonia"
+    ],
+    [
+      "rom_mesopotamia_athura",
+      "rom_mesopotamia_osroene"
+    ],
+    [
+      "rom_mesopotamia_athura",
+      "rom_syria_eremos_syria"
+    ],
+    [
+      "rom_mesopotamia_babylonia",
+      "rom_mesopotamia_mesene"
+    ],
+    [
+      "rom_mesopotamia_babylonia",
+      "rom_persis_elam"
+    ],
+    [
+      "rom_mesopotamia_mesene",
+      "rom_persis_elam"
+    ],
+    [
+      "rom_mesopotamia_osroene",
+      "rom_syria_aram"
+    ],
+    [
+      "rom_mesopotamia_osroene",
+      "rom_syria_eremos_syria"
+    ],
+    [
+      "rom_mesopotamia_osroene",
+      "rom_syria_syria"
+    ],
+    [
+      "rom_nabataea_havilah",
+      "rom_nabataea_lihyan"
+    ],
+    [
+      "rom_nabataea_iudaea",
+      "rom_nabataea_jordan"
+    ],
+    [
+      "rom_nabataea_iudaea",
+      "rom_syria_phonecia"
+    ],
+    [
+      "rom_nabataea_jordan",
+      "rom_nabataea_lihyan"
+    ],
+    [
+      "rom_nabataea_jordan",
+      "rom_syria_aram"
+    ],
+    [
+      "rom_nabataea_jordan",
+      "rom_syria_phonecia"
+    ],
+    [
+      "rom_pannonia_pannonia_inferior",
+      "rom_pannonia_pannonia_superior"
+    ],
+    [
+      "rom_pannonia_pannonia_inferior",
+      "rom_pannonia_transdanubia"
+    ],
+    [
+      "rom_pannonia_pannonia_inferior",
+      "rom_thracia_dardania"
+    ],
+    [
+      "rom_pannonia_pannonia_superior",
+      "rom_pannonia_transdanubia"
+    ],
+    [
+      "rom_pannonia_pannonia_superior",
+      "rom_raetia_et_noricum_noricum"
+    ],
+    [
+      "rom_pannonia_transdanubia",
+      "rom_raetia_et_noricum_noricum"
+    ],
+    [
+      "rom_parthia_astauene",
+      "rom_parthia_hyrcania"
+    ],
+    [
+      "rom_parthia_astauene",
+      "rom_parthia_traxiane"
+    ],
+    [
+      "rom_parthia_hyrcania",
+      "rom_parthia_parthia"
+    ],
+    [
+      "rom_parthia_hyrcania",
+      "rom_parthia_traxiane"
+    ],
+    [
+      "rom_parthia_parthia",
+      "rom_parthia_traxiane"
+    ],
+    [
+      "rom_persis_elam",
+      "rom_persis_lyan"
+    ],
+    [
+      "rom_persis_elam",
+      "rom_persis_parsa"
+    ],
+    [
+      "rom_persis_lyan",
+      "rom_persis_parsa"
+    ],
+    [
+      "rom_phazania_tidamensi",
+      "rom_phazania_zinchecra"
+    ],
+    [
+      "rom_ponto_caspia_cimmeria",
+      "rom_ponto_caspia_didoya"
+    ],
+    [
+      "rom_ponto_caspia_cimmeria",
+      "rom_ponto_caspia_oium"
+    ],
+    [
+      "rom_ponto_caspia_cimmeria",
+      "rom_ponto_caspia_zyx"
+    ],
+    [
+      "rom_ponto_caspia_didoya",
+      "rom_ponto_caspia_zyx"
+    ],
+    [
+      "rom_ponto_caspia_didoya",
+      "rom_scythia_scythia"
+    ],
+    [
+      "rom_ponto_caspia_oium",
+      "rom_sarmatia_pripet"
+    ],
+    [
+      "rom_provincia_narbonensis",
+      "rom_provincia_transalpina"
+    ],
+    [
+      "rom_provincia_narbonensis",
+      "rom_tarraconensis_tarraconensis"
+    ],
+    [
+      "rom_provincia_transalpina",
+      "rom_raetia_et_noricum_helvetia"
+    ],
+    [
+      "rom_raetia_et_noricum_helvetia",
+      "rom_raetia_et_noricum_raetia"
+    ],
+    [
+      "rom_raetia_et_noricum_noricum",
+      "rom_raetia_et_noricum_raetia"
+    ],
+    [
+      "rom_sarmatia_aestia",
+      "rom_sarmatia_pripet"
+    ],
+    [
+      "rom_sarmatia_aestia",
+      "rom_silesia_leda"
+    ],
+    [
+      "rom_sarmatia_aestia",
+      "rom_suebia_bomeranorum"
+    ],
+    [
+      "rom_sarmatia_galicia",
+      "rom_sarmatia_pripet"
+    ],
+    [
+      "rom_sarmatia_galicia",
+      "rom_silesia_leda"
+    ],
+    [
+      "rom_sarmatia_pripet",
+      "rom_silesia_leda"
+    ],
+    [
+      "rom_scythia_scythia",
+      "rom_scythia_turan"
+    ],
+    [
+      "rom_scythia_turan",
+      "rom_scythia_usturt"
+    ],
+    [
+      "rom_silesia_leda",
+      "rom_silesia_silesia"
+    ],
+    [
+      "rom_silesia_leda",
+      "rom_suebia_bomeranorum"
+    ],
+    [
+      "rom_silesia_silesia",
+      "rom_suebia_bomeranorum"
+    ],
+    [
+      "rom_silesia_silesia",
+      "rom_suebia_lusatia"
+    ],
+    [
+      "rom_suebia_bomeranorum",
+      "rom_suebia_lusatia"
+    ],
+    [
+      "rom_suebia_bomeranorum",
+      "rom_suebia_rugia"
+    ],
+    [
+      "rom_suebia_cimbria",
+      "rom_suebia_rugia"
+    ],
+    [
+      "rom_suebia_lusatia",
+      "rom_suebia_rugia"
+    ],
+    [
+      "rom_syria_aram",
+      "rom_syria_eremos_syria"
+    ],
+    [
+      "rom_syria_aram",
+      "rom_syria_phonecia"
+    ],
+    [
+      "rom_syria_aram",
+      "rom_syria_syria"
+    ],
+    [
+      "rom_syria_phonecia",
+      "rom_syria_syria"
+    ],
+    [
+      "rom_tarraconensis_callaecia",
+      "rom_tarraconensis_cantabria"
+    ],
+    [
+      "rom_tarraconensis_cantabria",
+      "rom_tarraconensis_tarraconensis"
+    ],
+    [
+      "rom_thracia_byzantion",
+      "rom_thracia_moesia"
+    ],
+    [
+      "rom_thracia_byzantion",
+      "rom_thracia_thracia"
+    ],
+    [
+      "rom_thracia_dardania",
+      "rom_thracia_moesia"
+    ],
+    [
+      "rom_thracia_dardania",
+      "rom_thracia_thracia"
+    ],
+    [
+      "rom_thracia_moesia",
+      "rom_thracia_thracia"
+    ],
+    [
+      "rom_transoxania_kangju",
+      "rom_transoxania_sodgiana"
+    ]
+  ],
+  "province_borders": [
+    [
+      "rome_main_aegyptos",
+      "rome_main_aithiops"
+    ],
+    [
+      "rome_main_aegyptos",
+      "rome_main_libue"
+    ],
+    [
+      "rome_main_aegyptos",
+      "rome_main_nabataea"
+    ],
+    [
+      "rome_main_africa",
+      "rome_main_libue"
+    ],
+    [
+      "rome_main_africa",
+      "rome_main_mauretania"
+    ],
+    [
+      "rome_main_africa",
+      "rome_main_phazania"
+    ],
+    [
+      "rome_main_aquitania",
+      "rome_main_celtica"
+    ],
+    [
+      "rome_main_aquitania",
+      "rome_main_provincia"
+    ],
+    [
+      "rome_main_aquitania",
+      "rome_main_tarraconensis"
+    ],
+    [
+      "rome_main_arabia_felix",
+      "rome_main_arabia_magna"
+    ],
+    [
+      "rome_main_arabia_magna",
+      "rome_main_mesopotamia"
+    ],
+    [
+      "rome_main_arabia_magna",
+      "rome_main_nabataea"
+    ],
+    [
+      "rome_main_arabia_magna",
+      "rome_main_syria"
+    ],
+    [
+      "rome_main_arachosia",
+      "rome_main_aria"
+    ],
+    [
+      "rome_main_arachosia",
+      "rome_main_bactria"
+    ],
+    [
+      "rome_main_arachosia",
+      "rome_main_gedrosia"
+    ],
+    [
+      "rome_main_aria",
+      "rome_main_bactria"
+    ],
+    [
+      "rome_main_aria",
+      "rome_main_carmania"
+    ],
+    [
+      "rome_main_aria",
+      "rome_main_chorasmia"
+    ],
+    [
+      "rome_main_aria",
+      "rome_main_gedrosia"
+    ],
+    [
+      "rome_main_aria",
+      "rome_main_parthia"
+    ],
+    [
+      "rome_main_aria",
+      "rome_main_transoxania"
+    ],
+    [
+      "rome_main_armenia",
+      "rome_main_bithynia_et_pontus"
+    ],
+    [
+      "rome_main_armenia",
+      "rome_main_caucasia"
+    ],
+    [
+      "rome_main_armenia",
+      "rome_main_galatia_et_cappadocia"
+    ],
+    [
+      "rome_main_armenia",
+      "rome_main_media_magna"
+    ],
+    [
+      "rome_main_armenia",
+      "rome_main_mesopotamia"
+    ],
+    [
+      "rome_main_asia",
+      "rome_main_bithynia_et_pontus"
+    ],
+    [
+      "rome_main_asia",
+      "rome_main_cilicia"
+    ],
+    [
+      "rome_main_asia",
+      "rome_main_galatia_et_cappadocia"
+    ],
+    [
+      "rome_main_bactria",
+      "rome_main_transoxania"
+    ],
+    [
+      "rome_main_baetica",
+      "rome_main_cartaginensis"
+    ],
+    [
+      "rome_main_baetica",
+      "rome_main_lusitania"
+    ],
+    [
+      "rome_main_belgica",
+      "rome_main_celtica"
+    ],
+    [
+      "rome_main_belgica",
+      "rome_main_germania_minor"
+    ],
+    [
+      "rome_main_bithynia_et_pontus",
+      "rome_main_caucasia"
+    ],
+    [
+      "rome_main_bithynia_et_pontus",
+      "rome_main_galatia_et_cappadocia"
+    ],
+    [
+      "rome_main_bosporus",
+      "rome_main_caucasia"
+    ],
+    [
+      "rome_main_bosporus",
+      "rome_main_ponto_caspia"
+    ],
+    [
+      "rome_main_britannia",
+      "rome_main_caledonia_et_hibernia"
+    ],
+    [
+      "rome_main_carmania",
+      "rome_main_gedrosia"
+    ],
+    [
+      "rome_main_carmania",
+      "rome_main_media_magna"
+    ],
+    [
+      "rome_main_carmania",
+      "rome_main_parthia"
+    ],
+    [
+      "rome_main_carmania",
+      "rome_main_persis"
+    ],
+    [
+      "rome_main_cartaginensis",
+      "rome_main_lusitania"
+    ],
+    [
+      "rome_main_cartaginensis",
+      "rome_main_tarraconensis"
+    ],
+    [
+      "rome_main_caucasia",
+      "rome_main_media_magna"
+    ],
+    [
+      "rome_main_caucasia",
+      "rome_main_ponto_caspia"
+    ],
+    [
+      "rome_main_celtica",
+      "rome_main_germania_minor"
+    ],
+    [
+      "rome_main_celtica",
+      "rome_main_provincia"
+    ],
+    [
+      "rome_main_chorasmia",
+      "rome_main_parthia"
+    ],
+    [
+      "rome_main_chorasmia",
+      "rome_main_scythia"
+    ],
+    [
+      "rome_main_chorasmia",
+      "rome_main_transoxania"
+    ],
+    [
+      "rome_main_cilicia",
+      "rome_main_galatia_et_cappadocia"
+    ],
+    [
+      "rome_main_cilicia",
+      "rome_main_syria"
+    ],
+    [
+      "rome_main_cisalpina",
+      "rome_main_illyria"
+    ],
+    [
+      "rome_main_cisalpina",
+      "rome_main_italia"
+    ],
+    [
+      "rome_main_cisalpina",
+      "rome_main_pannonia"
+    ],
+    [
+      "rome_main_cisalpina",
+      "rome_main_provincia"
+    ],
+    [
+      "rome_main_cisalpina",
+      "rome_main_raetia_et_noricum"
+    ],
+    [
+      "rome_main_dacia",
+      "rome_main_hercynia"
+    ],
+    [
+      "rome_main_dacia",
+      "rome_main_pannonia"
+    ],
+    [
+      "rome_main_dacia",
+      "rome_main_ponto_caspia"
+    ],
+    [
+      "rome_main_dacia",
+      "rome_main_sarmatia"
+    ],
+    [
+      "rome_main_galatia_et_cappadocia",
+      "rome_main_mesopotamia"
+    ],
+    [
+      "rome_main_galatia_et_cappadocia",
+      "rome_main_syria"
+    ],
+    [
+      "rome_main_germania_minor",
+      "rome_main_magna_germania"
+    ],
+    [
+      "rome_main_germania_minor",
+      "rome_main_raetia_et_noricum"
+    ],
+    [
+      "rome_main_hellas",
+      "rome_main_macedonia"
+    ],
+    [
+      "rome_main_hercynia",
+      "rome_main_magna_germania"
+    ],
+    [
+      "rome_main_hercynia",
+      "rome_main_pannonia"
+    ],
+    [
+      "rome_main_hercynia",
+      "rome_main_raetia_et_noricum"
+    ],
+    [
+      "rome_main_hercynia",
+      "rome_main_sarmatia"
+    ],
+    [
+      "rome_main_hercynia",
+      "rome_main_silesia"
+    ],
+    [
+      "rome_main_hercynia",
+      "rome_main_suebia"
+    ],
+    [
+      "rome_main_illyria",
+      "rome_main_macedonia"
+    ],
+    [
+      "rome_main_illyria",
+      "rome_main_pannonia"
+    ],
+    [
+      "rome_main_illyria",
+      "rome_main_thracia"
+    ],
+    [
+      "rome_main_italia",
+      "rome_main_magna_graecia"
+    ],
+    [
+      "rome_main_libue",
+      "rome_main_phazania"
+    ],
+    [
+      "rome_main_lusitania",
+      "rome_main_tarraconensis"
+    ],
+    [
+      "rome_main_macedonia",
+      "rome_main_thracia"
+    ],
+    [
+      "rome_main_magna_germania",
+      "rome_main_raetia_et_noricum"
+    ],
+    [
+      "rome_main_magna_germania",
+      "rome_main_suebia"
+    ],
+    [
+      "rome_main_mauretania",
+      "rome_main_phazania"
+    ],
+    [
+      "rome_main_media_magna",
+      "rome_main_mesopotamia"
+    ],
+    [
+      "rome_main_media_magna",
+      "rome_main_parthia"
+    ],
+    [
+      "rome_main_media_magna",
+      "rome_main_persis"
+    ],
+    [
+      "rome_main_mesopotamia",
+      "rome_main_persis"
+    ],
+    [
+      "rome_main_mesopotamia",
+      "rome_main_syria"
+    ],
+    [
+      "rome_main_nabataea",
+      "rome_main_syria"
+    ],
+    [
+      "rome_main_pannonia",
+      "rome_main_raetia_et_noricum"
+    ],
+    [
+      "rome_main_pannonia",
+      "rome_main_thracia"
+    ],
+    [
+      "rome_main_ponto_caspia",
+      "rome_main_sarmatia"
+    ],
+    [
+      "rome_main_ponto_caspia",
+      "rome_main_scythia"
+    ],
+    [
+      "rome_main_provincia",
+      "rome_main_raetia_et_noricum"
+    ],
+    [
+      "rome_main_provincia",
+      "rome_main_tarraconensis"
+    ],
+    [
+      "rome_main_sarmatia",
+      "rome_main_silesia"
+    ],
+    [
+      "rome_main_sarmatia",
+      "rome_main_suebia"
+    ],
+    [
+      "rome_main_silesia",
+      "rome_main_suebia"
+    ]
+  ],
+  "sea_regions": {
+    "rom_riv_danuvius": {
+      "x": 488.7014,
+      "y": 426.7464
+    },
+    "rom_riv_nilos": {
+      "x": 556.9505,
+      "y": 176.5192
+    },
+    "rom_riv_rhenus": {
+      "x": 344.1959,
+      "y": 464.6655
+    },
+    "rom_sea_lake": {
+      "x": 819.9799,
+      "y": 405.1219
+    },
+    "rom_sea_mare_adriaticum": {
+      "x": 356.0561,
+      "y": 404.1969
+    },
+    "rom_sea_mare_aegaeum": {
+      "x": 465.3125,
+      "y": 327.4667
+    },
+    "rom_sea_mare_aegyptum": {
+      "x": 518.4688,
+      "y": 225.6331
+    },
+    "rom_sea_mare_africum": {
+      "x": 273.7368,
+      "y": 283.1067
+    },
+    "rom_sea_mare_carpathium": {
+      "x": 506.8243,
+      "y": 273.6437
+    },
+    "rom_sea_mare_caspium": {
+      "x": 808.3811,
+      "y": 387.5806
+    },
+    "rom_sea_mare_hibernicum": {
+      "x": 47.0704,
+      "y": 608.196
+    },
+    "rom_sea_mare_hispanum": {
+      "x": 198.6564,
+      "y": 325.5523
+    },
+    "rom_sea_mare_ibericum": {
+      "x": 143.4831,
+      "y": 274.014
+    },
+    "rom_sea_mare_indicum": {
+      "x": 893.2617,
+      "y": 70.7464
+    },
+    "rom_sea_mare_internum": {
+      "x": 382.8855,
+      "y": 266.6673
+    },
+    "rom_sea_mare_ionium": {
+      "x": 371.9527,
+      "y": 324.7571
+    },
+    "rom_sea_mare_phoenicum": {
+      "x": 588.4727,
+      "y": 261.3725
+    },
+    "rom_sea_mare_suevicum": {
+      "x": 394.3035,
+      "y": 660.9302
+    },
+    "rom_sea_mare_tyrrhenum": {
+      "x": 288.6121,
+      "y": 346.4291
+    },
+    "rom_sea_oceanus_atlanticus": {
+      "x": 25.645,
+      "y": 247.7388
+    },
+    "rom_sea_oceanus_britannicus": {
+      "x": 142.2282,
+      "y": 535.0465
+    },
+    "rom_sea_oceanus_gallicus": {
+      "x": 23.5557,
+      "y": 389.5873
+    },
+    "rom_sea_oceanus_germanicus": {
+      "x": 205.5227,
+      "y": 653.8278
+    },
+    "rom_sea_pontus_cimmerius": {
+      "x": 622.1753,
+      "y": 431.0084
+    },
+    "rom_sea_pontus_euxinus": {
+      "x": 636.7312,
+      "y": 392.6509
+    },
+    "rom_sea_pontus_thracius": {
+      "x": 551.2481,
+      "y": 415.7268
+    },
+    "rom_sea_sinus_aquitanus": {
+      "x": 93.3404,
+      "y": 453.0291
+    },
+    "rom_sea_sinus_arabicus": {
+      "x": 648.0034,
+      "y": 104.6078
+    },
+    "rom_sea_sinus_gallicus": {
+      "x": 233.4889,
+      "y": 388.2395
+    },
+    "rom_sea_sinus_persicus": {
+      "x": 804.6611,
+      "y": 172.6628
+    },
+    "rom_sea_syrtis": {
+      "x": 382.5361,
+      "y": 227.2206
+    }
+  },
+  "sea_borders": [
+    [
+      "rom_riv_danuvius",
+      "rom_sea_pontus_thracius"
+    ],
+    [
+      "rom_riv_nilos",
+      "rom_sea_mare_aegyptum"
+    ],
+    [
+      "rom_riv_rhenus",
+      "rom_sea_oceanus_britannicus"
+    ],
+    [
+      "rom_sea_mare_adriaticum",
+      "rom_sea_mare_ionium"
+    ],
+    [
+      "rom_sea_mare_aegaeum",
+      "rom_sea_mare_carpathium"
+    ],
+    [
+      "rom_sea_mare_aegaeum",
+      "rom_sea_mare_internum"
+    ],
+    [
+      "rom_sea_mare_aegaeum",
+      "rom_sea_mare_ionium"
+    ],
+    [
+      "rom_sea_mare_aegaeum",
+      "rom_sea_pontus_thracius"
+    ],
+    [
+      "rom_sea_mare_aegyptum",
+      "rom_sea_mare_carpathium"
+    ],
+    [
+      "rom_sea_mare_aegyptum",
+      "rom_sea_mare_phoenicum"
+    ],
+    [
+      "rom_sea_mare_aegyptum",
+      "rom_sea_syrtis"
+    ],
+    [
+      "rom_sea_mare_africum",
+      "rom_sea_mare_hispanum"
+    ],
+    [
+      "rom_sea_mare_africum",
+      "rom_sea_mare_ibericum"
+    ],
+    [
+      "rom_sea_mare_africum",
+      "rom_sea_mare_internum"
+    ],
+    [
+      "rom_sea_mare_africum",
+      "rom_sea_mare_ionium"
+    ],
+    [
+      "rom_sea_mare_africum",
+      "rom_sea_mare_tyrrhenum"
+    ],
+    [
+      "rom_sea_mare_africum",
+      "rom_sea_syrtis"
+    ],
+    [
+      "rom_sea_mare_carpathium",
+      "rom_sea_mare_internum"
+    ],
+    [
+      "rom_sea_mare_carpathium",
+      "rom_sea_mare_phoenicum"
+    ],
+    [
+      "rom_sea_mare_carpathium",
+      "rom_sea_syrtis"
+    ],
+    [
+      "rom_sea_mare_hibernicum",
+      "rom_sea_oceanus_britannicus"
+    ],
+    [
+      "rom_sea_mare_hibernicum",
+      "rom_sea_oceanus_gallicus"
+    ],
+    [
+      "rom_sea_mare_hibernicum",
+      "rom_sea_oceanus_germanicus"
+    ],
+    [
+      "rom_sea_mare_hibernicum",
+      "rom_sea_sinus_aquitanus"
+    ],
+    [
+      "rom_sea_mare_hispanum",
+      "rom_sea_mare_ibericum"
+    ],
+    [
+      "rom_sea_mare_hispanum",
+      "rom_sea_mare_tyrrhenum"
+    ],
+    [
+      "rom_sea_mare_hispanum",
+      "rom_sea_sinus_gallicus"
+    ],
+    [
+      "rom_sea_mare_ibericum",
+      "rom_sea_oceanus_atlanticus"
+    ],
+    [
+      "rom_sea_mare_indicum",
+      "rom_sea_sinus_arabicus"
+    ],
+    [
+      "rom_sea_mare_indicum",
+      "rom_sea_sinus_persicus"
+    ],
+    [
+      "rom_sea_mare_internum",
+      "rom_sea_mare_ionium"
+    ],
+    [
+      "rom_sea_mare_internum",
+      "rom_sea_syrtis"
+    ],
+    [
+      "rom_sea_mare_ionium",
+      "rom_sea_mare_tyrrhenum"
+    ],
+    [
+      "rom_sea_mare_suevicum",
+      "rom_sea_oceanus_germanicus"
+    ],
+    [
+      "rom_sea_mare_tyrrhenum",
+      "rom_sea_sinus_gallicus"
+    ],
+    [
+      "rom_sea_oceanus_atlanticus",
+      "rom_sea_oceanus_gallicus"
+    ],
+    [
+      "rom_sea_oceanus_britannicus",
+      "rom_sea_oceanus_germanicus"
+    ],
+    [
+      "rom_sea_oceanus_britannicus",
+      "rom_sea_sinus_aquitanus"
+    ],
+    [
+      "rom_sea_oceanus_gallicus",
+      "rom_sea_sinus_aquitanus"
+    ],
+    [
+      "rom_sea_pontus_cimmerius",
+      "rom_sea_pontus_euxinus"
+    ],
+    [
+      "rom_sea_pontus_cimmerius",
+      "rom_sea_pontus_thracius"
+    ],
+    [
+      "rom_sea_pontus_euxinus",
+      "rom_sea_pontus_thracius"
+    ]
+  ],
+  "coastal_borders": [
+    [
+      "rom_aegyptos_ta_abt",
+      "rom_riv_nilos"
+    ],
+    [
+      "rom_aegyptos_ta_abt",
+      "rom_sea_sinus_arabicus"
+    ],
+    [
+      "rom_aegyptos_ta_ament",
+      "rom_riv_nilos"
+    ],
+    [
+      "rom_aegyptos_ta_mehu",
+      "rom_riv_nilos"
+    ],
+    [
+      "rom_aegyptos_ta_mehu",
+      "rom_sea_mare_aegyptum"
+    ],
+    [
+      "rom_aegyptos_ta_mehu",
+      "rom_sea_sinus_arabicus"
+    ],
+    [
+      "rom_aegyptos_ta_shemau",
+      "rom_riv_nilos"
+    ],
+    [
+      "rom_aegyptos_ta_shemau",
+      "rom_sea_sinus_arabicus"
+    ],
+    [
+      "rom_africa_byzacium",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_africa_byzacium",
+      "rom_sea_mare_africum"
+    ],
+    [
+      "rom_africa_syrtis",
+      "rom_sea_syrtis"
+    ],
+    [
+      "rom_africa_tripolis",
+      "rom_sea_mare_africum"
+    ],
+    [
+      "rom_africa_tripolis",
+      "rom_sea_syrtis"
+    ],
+    [
+      "rom_africa_zeugitana",
+      "rom_sea_mare_africum"
+    ],
+    [
+      "rom_aithiops_ityopya",
+      "rom_sea_mare_indicum"
+    ],
+    [
+      "rom_aithiops_ityopya",
+      "rom_sea_sinus_arabicus"
+    ],
+    [
+      "rom_aithiops_kush",
+      "rom_sea_sinus_arabicus"
+    ],
+    [
+      "rom_aithiops_medjay",
+      "rom_sea_sinus_arabicus"
+    ],
+    [
+      "rom_aquitania_aquitania",
+      "rom_sea_sinus_aquitanus"
+    ],
+    [
+      "rom_aquitania_pictavis",
+      "rom_sea_sinus_aquitanus"
+    ],
+    [
+      "rom_arabia_felix_himyar",
+      "rom_sea_mare_indicum"
+    ],
+    [
+      "rom_arabia_felix_himyar",
+      "rom_sea_sinus_arabicus"
+    ],
+    [
+      "rom_arabia_felix_maka",
+      "rom_sea_mare_indicum"
+    ],
+    [
+      "rom_arabia_felix_maka",
+      "rom_sea_sinus_persicus"
+    ],
+    [
+      "rom_arabia_felix_saba",
+      "rom_sea_mare_indicum"
+    ],
+    [
+      "rom_arabia_magna_dilmun",
+      "rom_sea_sinus_persicus"
+    ],
+    [
+      "rom_arabia_magna_kedar",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_arabia_magna_lathrippa",
+      "rom_sea_sinus_arabicus"
+    ],
+    [
+      "rom_aria_aria",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_aria_drangiana",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_armenia_armenia",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_armenia_corduene",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_asia_lydia",
+      "rom_sea_mare_aegaeum"
+    ],
+    [
+      "rom_asia_lydia",
+      "rom_sea_mare_carpathium"
+    ],
+    [
+      "rom_asia_mysia",
+      "rom_sea_mare_aegaeum"
+    ],
+    [
+      "rom_asia_rhodes",
+      "rom_sea_mare_carpathium"
+    ],
+    [
+      "rom_baetica_baeturia",
+      "rom_sea_oceanus_atlanticus"
+    ],
+    [
+      "rom_baetica_turdetania",
+      "rom_sea_mare_ibericum"
+    ],
+    [
+      "rom_baetica_turdetania",
+      "rom_sea_oceanus_atlanticus"
+    ],
+    [
+      "rom_belgica_silva_carbonaria",
+      "rom_sea_oceanus_britannicus"
+    ],
+    [
+      "rom_bithynia_et_pontus_bythynia",
+      "rom_sea_mare_aegaeum"
+    ],
+    [
+      "rom_bithynia_et_pontus_bythynia",
+      "rom_sea_pontus_thracius"
+    ],
+    [
+      "rom_bithynia_et_pontus_paphlagonia",
+      "rom_sea_pontus_euxinus"
+    ],
+    [
+      "rom_bithynia_et_pontus_paphlagonia",
+      "rom_sea_pontus_thracius"
+    ],
+    [
+      "rom_bithynia_et_pontus_pontos",
+      "rom_sea_pontus_euxinus"
+    ],
+    [
+      "rom_bithynia_et_pontus_riza",
+      "rom_sea_pontus_euxinus"
+    ],
+    [
+      "rom_bosporus_maeotia",
+      "rom_sea_pontus_cimmerius"
+    ],
+    [
+      "rom_bosporus_sindica",
+      "rom_sea_pontus_cimmerius"
+    ],
+    [
+      "rom_bosporus_sindica",
+      "rom_sea_pontus_euxinus"
+    ],
+    [
+      "rom_bosporus_taurica",
+      "rom_sea_pontus_cimmerius"
+    ],
+    [
+      "rom_bosporus_taurica",
+      "rom_sea_pontus_thracius"
+    ],
+    [
+      "rom_britannia_brigantia",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_britannia_brigantia",
+      "rom_sea_mare_hibernicum"
+    ],
+    [
+      "rom_britannia_brigantia",
+      "rom_sea_oceanus_germanicus"
+    ],
+    [
+      "rom_britannia_britannia",
+      "rom_sea_oceanus_britannicus"
+    ],
+    [
+      "rom_britannia_britannia",
+      "rom_sea_oceanus_germanicus"
+    ],
+    [
+      "rom_britannia_demetia",
+      "rom_sea_mare_hibernicum"
+    ],
+    [
+      "rom_britannia_dumnonia",
+      "rom_sea_mare_hibernicum"
+    ],
+    [
+      "rom_britannia_dumnonia",
+      "rom_sea_oceanus_britannicus"
+    ],
+    [
+      "rom_caledonia_et_hibernia_caledonia",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_caledonia_et_hibernia_caledonia",
+      "rom_sea_mare_hibernicum"
+    ],
+    [
+      "rom_caledonia_et_hibernia_caledonia",
+      "rom_sea_oceanus_germanicus"
+    ],
+    [
+      "rom_caledonia_et_hibernia_hibernia",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_caledonia_et_hibernia_hibernia",
+      "rom_sea_mare_hibernicum"
+    ],
+    [
+      "rom_carmania_karmania",
+      "rom_sea_sinus_persicus"
+    ],
+    [
+      "rom_cartaginensis_baleareis",
+      "rom_sea_mare_hispanum"
+    ],
+    [
+      "rom_cartaginensis_bastetania",
+      "rom_sea_mare_hispanum"
+    ],
+    [
+      "rom_cartaginensis_bastetania",
+      "rom_sea_mare_ibericum"
+    ],
+    [
+      "rom_cartaginensis_edetania",
+      "rom_sea_mare_hispanum"
+    ],
+    [
+      "rom_caucasia_albania",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_caucasia_albania",
+      "rom_sea_mare_caspium"
+    ],
+    [
+      "rom_caucasia_colchis",
+      "rom_sea_pontus_euxinus"
+    ],
+    [
+      "rom_caucasia_iberia",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_celtica_aremorica",
+      "rom_sea_oceanus_britannicus"
+    ],
+    [
+      "rom_celtica_aremorica",
+      "rom_sea_sinus_aquitanus"
+    ],
+    [
+      "rom_celtica_lugdunensis",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_celtica_lutetia",
+      "rom_sea_oceanus_britannicus"
+    ],
+    [
+      "rom_chorasmia_korasmia",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_chorasmia_transcaspia",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_chorasmia_transcaspia",
+      "rom_sea_mare_caspium"
+    ],
+    [
+      "rom_cilicia_cilicia",
+      "rom_sea_mare_carpathium"
+    ],
+    [
+      "rom_cilicia_cilicia",
+      "rom_sea_mare_phoenicum"
+    ],
+    [
+      "rom_cilicia_cyprus",
+      "rom_sea_mare_phoenicum"
+    ],
+    [
+      "rom_cilicia_pamphylia",
+      "rom_sea_mare_carpathium"
+    ],
+    [
+      "rom_cisalpina_liguria",
+      "rom_sea_sinus_gallicus"
+    ],
+    [
+      "rom_cisalpina_venetia",
+      "rom_sea_mare_adriaticum"
+    ],
+    [
+      "rom_corsica_et_sardinia_corsica",
+      "rom_sea_mare_tyrrhenum"
+    ],
+    [
+      "rom_corsica_et_sardinia_sardinia",
+      "rom_sea_mare_tyrrhenum"
+    ],
+    [
+      "rom_dacia_bastarnia",
+      "rom_riv_danuvius"
+    ],
+    [
+      "rom_dacia_dacia_inferior",
+      "rom_riv_danuvius"
+    ],
+    [
+      "rom_dacia_dacia_superior",
+      "rom_riv_danuvius"
+    ],
+    [
+      "rom_galatia_et_cappadocia_cappadocia",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_galatia_et_cappadocia_galatia",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_galatia_et_cappadocia_lycaonia",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_gedrosia_gedrosia",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_gedrosia_gedrosia",
+      "rom_sea_mare_indicum"
+    ],
+    [
+      "rom_gedrosia_gedrosia",
+      "rom_sea_sinus_persicus"
+    ],
+    [
+      "rom_gedrosia_rhambacia",
+      "rom_sea_mare_indicum"
+    ],
+    [
+      "rom_germania_minor_germania_inferior",
+      "rom_riv_rhenus"
+    ],
+    [
+      "rom_germania_minor_germania_inferior",
+      "rom_sea_oceanus_britannicus"
+    ],
+    [
+      "rom_germania_minor_germania_superior",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_hellas_attiki",
+      "rom_sea_mare_aegaeum"
+    ],
+    [
+      "rom_hellas_attiki",
+      "rom_sea_mare_carpathium"
+    ],
+    [
+      "rom_hellas_attiki",
+      "rom_sea_mare_ionium"
+    ],
+    [
+      "rom_hellas_creta",
+      "rom_sea_mare_carpathium"
+    ],
+    [
+      "rom_hellas_peloponnesos",
+      "rom_sea_mare_aegaeum"
+    ],
+    [
+      "rom_hellas_peloponnesos",
+      "rom_sea_mare_ionium"
+    ],
+    [
+      "rom_illyria_dalmatia",
+      "rom_sea_mare_adriaticum"
+    ],
+    [
+      "rom_illyria_illyria",
+      "rom_sea_mare_adriaticum"
+    ],
+    [
+      "rom_illyria_illyria",
+      "rom_sea_mare_ionium"
+    ],
+    [
+      "rom_illyria_liburnia",
+      "rom_sea_mare_adriaticum"
+    ],
+    [
+      "rom_italia_etruria",
+      "rom_sea_mare_tyrrhenum"
+    ],
+    [
+      "rom_italia_etruria",
+      "rom_sea_sinus_gallicus"
+    ],
+    [
+      "rom_italia_latium",
+      "rom_sea_mare_tyrrhenum"
+    ],
+    [
+      "rom_italia_picenum",
+      "rom_sea_mare_adriaticum"
+    ],
+    [
+      "rom_italia_samnium",
+      "rom_sea_mare_adriaticum"
+    ],
+    [
+      "rom_italia_samnium",
+      "rom_sea_mare_tyrrhenum"
+    ],
+    [
+      "rom_libue_cyrenaica",
+      "rom_sea_mare_aegyptum"
+    ],
+    [
+      "rom_libue_cyrenaica",
+      "rom_sea_syrtis"
+    ],
+    [
+      "rom_libue_marmarica",
+      "rom_sea_mare_aegyptum"
+    ],
+    [
+      "rom_libue_oases",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_libue_siwa",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_lusitania_celtica",
+      "rom_sea_oceanus_atlanticus"
+    ],
+    [
+      "rom_lusitania_celtica",
+      "rom_sea_oceanus_gallicus"
+    ],
+    [
+      "rom_lusitania_lusitania",
+      "rom_sea_oceanus_gallicus"
+    ],
+    [
+      "rom_macedonia_epeiros",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_macedonia_epeiros",
+      "rom_sea_mare_ionium"
+    ],
+    [
+      "rom_macedonia_makedonia",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_macedonia_makedonia",
+      "rom_sea_mare_aegaeum"
+    ],
+    [
+      "rom_macedonia_thessalia",
+      "rom_sea_mare_aegaeum"
+    ],
+    [
+      "rom_macedonia_thessalia",
+      "rom_sea_mare_ionium"
+    ],
+    [
+      "rom_magna_germania_frisia",
+      "rom_riv_rhenus"
+    ],
+    [
+      "rom_magna_germania_frisia",
+      "rom_sea_oceanus_britannicus"
+    ],
+    [
+      "rom_magna_germania_frisia",
+      "rom_sea_oceanus_germanicus"
+    ],
+    [
+      "rom_magna_germania_silva_bacenis",
+      "rom_riv_rhenus"
+    ],
+    [
+      "rom_magna_germania_silva_nigra",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_magna_graecia_bruttium",
+      "rom_sea_mare_ionium"
+    ],
+    [
+      "rom_magna_graecia_bruttium",
+      "rom_sea_mare_tyrrhenum"
+    ],
+    [
+      "rom_magna_graecia_calabria",
+      "rom_sea_mare_adriaticum"
+    ],
+    [
+      "rom_magna_graecia_calabria",
+      "rom_sea_mare_ionium"
+    ],
+    [
+      "rom_magna_graecia_lilybaion",
+      "rom_sea_mare_africum"
+    ],
+    [
+      "rom_magna_graecia_lilybaion",
+      "rom_sea_mare_ionium"
+    ],
+    [
+      "rom_magna_graecia_lilybaion",
+      "rom_sea_mare_tyrrhenum"
+    ],
+    [
+      "rom_magna_graecia_sirako",
+      "rom_sea_mare_internum"
+    ],
+    [
+      "rom_magna_graecia_sirako",
+      "rom_sea_mare_ionium"
+    ],
+    [
+      "rom_magna_graecia_sirako",
+      "rom_sea_mare_tyrrhenum"
+    ],
+    [
+      "rom_mauretania_atlas",
+      "rom_sea_oceanus_atlanticus"
+    ],
+    [
+      "rom_mauretania_numidia",
+      "rom_sea_mare_africum"
+    ],
+    [
+      "rom_mauretania_numidia",
+      "rom_sea_mare_ibericum"
+    ],
+    [
+      "rom_mauretania_tingitana",
+      "rom_sea_mare_ibericum"
+    ],
+    [
+      "rom_mauretania_tingitana",
+      "rom_sea_oceanus_atlanticus"
+    ],
+    [
+      "rom_media_magna_atropatene",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_media_magna_atropatene",
+      "rom_sea_mare_caspium"
+    ],
+    [
+      "rom_media_magna_rhagau",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_mesopotamia_athura",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_mesopotamia_babylonia",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_mesopotamia_mesene",
+      "rom_sea_sinus_persicus"
+    ],
+    [
+      "rom_nabataea_havilah",
+      "rom_sea_sinus_arabicus"
+    ],
+    [
+      "rom_nabataea_iudaea",
+      "rom_riv_rhenus"
+    ],
+    [
+      "rom_nabataea_iudaea",
+      "rom_sea_mare_aegyptum"
+    ],
+    [
+      "rom_nabataea_iudaea",
+      "rom_sea_mare_phoenicum"
+    ],
+    [
+      "rom_nabataea_iudaea",
+      "rom_sea_sinus_arabicus"
+    ],
+    [
+      "rom_nabataea_jordan",
+      "rom_riv_rhenus"
+    ],
+    [
+      "rom_nabataea_jordan",
+      "rom_sea_sinus_arabicus"
+    ],
+    [
+      "rom_nabataea_lihyan",
+      "rom_sea_sinus_arabicus"
+    ],
+    [
+      "rom_pannonia_pannonia_inferior",
+      "rom_riv_danuvius"
+    ],
+    [
+      "rom_pannonia_transdanubia",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_parthia_astauene",
+      "rom_sea_mare_caspium"
+    ],
+    [
+      "rom_parthia_hyrcania",
+      "rom_sea_mare_caspium"
+    ],
+    [
+      "rom_parthia_traxiane",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_persis_elam",
+      "rom_sea_sinus_persicus"
+    ],
+    [
+      "rom_persis_lyan",
+      "rom_sea_sinus_persicus"
+    ],
+    [
+      "rom_ponto_caspia_cimmeria",
+      "rom_sea_pontus_cimmerius"
+    ],
+    [
+      "rom_ponto_caspia_cimmeria",
+      "rom_sea_pontus_thracius"
+    ],
+    [
+      "rom_ponto_caspia_didoya",
+      "rom_sea_mare_caspium"
+    ],
+    [
+      "rom_ponto_caspia_oium",
+      "rom_riv_danuvius"
+    ],
+    [
+      "rom_ponto_caspia_oium",
+      "rom_sea_pontus_thracius"
+    ],
+    [
+      "rom_provincia_narbonensis",
+      "rom_sea_sinus_gallicus"
+    ],
+    [
+      "rom_provincia_transalpina",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_provincia_transalpina",
+      "rom_sea_sinus_gallicus"
+    ],
+    [
+      "rom_raetia_et_noricum_helvetia",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_raetia_et_noricum_raetia",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_riv_danuvius",
+      "rom_thracia_dardania"
+    ],
+    [
+      "rom_riv_danuvius",
+      "rom_thracia_moesia"
+    ],
+    [
+      "rom_sarmatia_aestia",
+      "rom_sea_mare_suevicum"
+    ],
+    [
+      "rom_scythia_scythia",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_scythia_scythia",
+      "rom_sea_mare_caspium"
+    ],
+    [
+      "rom_scythia_turan",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_scythia_turan",
+      "rom_sea_mare_caspium"
+    ],
+    [
+      "rom_scythia_usturt",
+      "rom_sea_lake"
+    ],
+    [
+      "rom_scythia_usturt",
+      "rom_sea_mare_caspium"
+    ],
+    [
+      "rom_sea_lake",
+      "rom_transoxania_kangju"
+    ],
+    [
+      "rom_sea_lake",
+      "rom_transoxania_sodgiana"
+    ],
+    [
+      "rom_sea_mare_aegaeum",
+      "rom_thracia_byzantion"
+    ],
+    [
+      "rom_sea_mare_aegaeum",
+      "rom_thracia_thracia"
+    ],
+    [
+      "rom_sea_mare_hispanum",
+      "rom_tarraconensis_tarraconensis"
+    ],
+    [
+      "rom_sea_mare_phoenicum",
+      "rom_syria_phonecia"
+    ],
+    [
+      "rom_sea_mare_phoenicum",
+      "rom_syria_syria"
+    ],
+    [
+      "rom_sea_mare_suevicum",
+      "rom_suebia_bomeranorum"
+    ],
+    [
+      "rom_sea_mare_suevicum",
+      "rom_suebia_cimbria"
+    ],
+    [
+      "rom_sea_mare_suevicum",
+      "rom_suebia_rugia"
+    ],
+    [
+      "rom_sea_oceanus_gallicus",
+      "rom_tarraconensis_callaecia"
+    ],
+    [
+      "rom_sea_oceanus_germanicus",
+      "rom_suebia_cimbria"
+    ],
+    [
+      "rom_sea_pontus_thracius",
+      "rom_thracia_byzantion"
+    ],
+    [
+      "rom_sea_pontus_thracius",
+      "rom_thracia_moesia"
+    ],
+    [
+      "rom_sea_sinus_aquitanus",
+      "rom_tarraconensis_callaecia"
+    ],
+    [
+      "rom_sea_sinus_aquitanus",
+      "rom_tarraconensis_cantabria"
+    ],
+    [
+      "rom_sea_sinus_gallicus",
+      "rom_tarraconensis_tarraconensis"
+    ]
+  ],
+  "coverage": {
+    "complete": true,
+    "region_count": 173,
+    "province_count": 57,
+    "region_border_count": 353,
+    "province_border_count": 100,
+    "sea_region_count": 31,
+    "sea_border_count": 42,
+    "coastal_border_count": 208,
+    "adjacency_kind": "hex_land_borders",
+    "identity_validation": "173/173 existing world region IDs match exactly",
+    "excluded_regions": [
+      "rom_terra_incognita"
+    ],
+    "method": "Unique region pairs sharing one of six hex edges; no row wrapping",
+    "source_crc32_verified": true
+  },
+  "limitations": [
+    "The public CA map source has no declared game patch and is not verified against an installed build.",
+    "Land borders include impassable terrain contacts. They describe geography; they do not certify each economic effect's in-game target semantics.",
+    "Sea and coastal borders are geometric contacts, including river/lake regions; they are not movement links, strait crossings, port access or trade routes.",
+    "Coordinates are territory centroids, not settlement positions or map polygons.",
+    "Only the Grand Campaign is covered; DLC campaign maps are separate sources."
+  ]
+}

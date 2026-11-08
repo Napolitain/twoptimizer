@@ -1,0 +1,1041 @@
+{
+  "boundaries": [
+    {
+      "a": "jap_aki",
+      "b": "jap_bingo",
+      "distance": 28.56939125061035,
+      "kind": 0
+    },
+    {
+      "a": "jap_aki",
+      "b": "jap_iwami",
+      "distance": 8.720245361328125,
+      "kind": 0
+    },
+    {
+      "a": "jap_aki",
+      "b": "jap_suo",
+      "distance": 18.152889251708984,
+      "kind": 0
+    },
+    {
+      "a": "jap_awa",
+      "b": "jap_awaji",
+      "distance": 1.0,
+      "kind": 1
+    },
+    {
+      "a": "jap_awa",
+      "b": "jap_iyo",
+      "distance": 5.9070281982421875,
+      "kind": 0
+    },
+    {
+      "a": "jap_awa",
+      "b": "jap_sanuki",
+      "distance": 14.774232864379883,
+      "kind": 0
+    },
+    {
+      "a": "jap_awa",
+      "b": "jap_tosa",
+      "distance": 5.518889427185059,
+      "kind": 0
+    },
+    {
+      "a": "jap_bingo",
+      "b": "jap_bitchu",
+      "distance": 20.5723876953125,
+      "kind": 0
+    },
+    {
+      "a": "jap_bitchu",
+      "b": "jap_bizen",
+      "distance": 24.826175689697266,
+      "kind": 0
+    },
+    {
+      "a": "jap_bizen",
+      "b": "jap_harima",
+      "distance": 20.219024658203125,
+      "kind": 0
+    },
+    {
+      "a": "jap_bizen",
+      "b": "jap_mimasaka",
+      "distance": 6.836464881896973,
+      "kind": 0
+    },
+    {
+      "a": "jap_bungo",
+      "b": "jap_buzen",
+      "distance": 11.899953842163086,
+      "kind": 0
+    },
+    {
+      "a": "jap_bungo",
+      "b": "jap_higo",
+      "distance": 13.01310920715332,
+      "kind": 0
+    },
+    {
+      "a": "jap_bungo",
+      "b": "jap_hyuga",
+      "distance": 7.678194046020508,
+      "kind": 0
+    },
+    {
+      "a": "jap_bungo",
+      "b": "jap_tsukushi",
+      "distance": 3.7499122619628906,
+      "kind": 0
+    },
+    {
+      "a": "jap_buzen",
+      "b": "jap_nagato",
+      "distance": 1.0,
+      "kind": 1
+    },
+    {
+      "a": "jap_buzen",
+      "b": "jap_tsukushi",
+      "distance": 2.941378593444824,
+      "kind": 0
+    },
+    {
+      "a": "jap_echigo",
+      "b": "jap_etchu",
+      "distance": 8.241859436035156,
+      "kind": 0
+    },
+    {
+      "a": "jap_echigo",
+      "b": "jap_fukushima",
+      "distance": 3.5817904472351074,
+      "kind": 0
+    },
+    {
+      "a": "jap_echigo",
+      "b": "jap_kozuke",
+      "distance": 10.2530517578125,
+      "kind": 0
+    },
+    {
+      "a": "jap_echigo",
+      "b": "jap_north_shinano",
+      "distance": 7.920217514038086,
+      "kind": 0
+    },
+    {
+      "a": "jap_echigo",
+      "b": "jap_uzen",
+      "distance": 7.495999336242676,
+      "kind": 0
+    },
+    {
+      "a": "jap_echizen",
+      "b": "jap_kaga",
+      "distance": 8.725053787231445,
+      "kind": 0
+    },
+    {
+      "a": "jap_echizen",
+      "b": "jap_omi",
+      "distance": 15.801974296569824,
+      "kind": 0
+    },
+    {
+      "a": "jap_echizen",
+      "b": "jap_wakasa",
+      "distance": 7.890676021575928,
+      "kind": 0
+    },
+    {
+      "a": "jap_etchu",
+      "b": "jap_hida",
+      "distance": 6.771430969238281,
+      "kind": 0
+    },
+    {
+      "a": "jap_etchu",
+      "b": "jap_kaga",
+      "distance": 4.929688453674316,
+      "kind": 0
+    },
+    {
+      "a": "jap_etchu",
+      "b": "jap_noto",
+      "distance": 35.89424514770508,
+      "kind": 0
+    },
+    {
+      "a": "jap_fukushima",
+      "b": "jap_hitachi",
+      "distance": 12.459970474243164,
+      "kind": 0
+    },
+    {
+      "a": "jap_fukushima",
+      "b": "jap_miyagi",
+      "distance": 11.887828826904297,
+      "kind": 0
+    },
+    {
+      "a": "jap_fukushima",
+      "b": "jap_shimotsuke",
+      "distance": 19.87969970703125,
+      "kind": 0
+    },
+    {
+      "a": "jap_fukushima",
+      "b": "jap_uzen",
+      "distance": 4.475358963012695,
+      "kind": 0
+    },
+    {
+      "a": "jap_harima",
+      "b": "jap_mimasaka",
+      "distance": 5.827750205993652,
+      "kind": 0
+    },
+    {
+      "a": "jap_harima",
+      "b": "jap_settsu",
+      "distance": 14.733543395996094,
+      "kind": 0
+    },
+    {
+      "a": "jap_hida",
+      "b": "jap_north_shinano",
+      "distance": 10.793527603149414,
+      "kind": 0
+    },
+    {
+      "a": "jap_higo",
+      "b": "jap_satsuma",
+      "distance": 14.558870315551758,
+      "kind": 0
+    },
+    {
+      "a": "jap_higo",
+      "b": "jap_tsukushi",
+      "distance": 17.091941833496094,
+      "kind": 0
+    },
+    {
+      "a": "jap_hitachi",
+      "b": "jap_shimosa",
+      "distance": 42.48109436035156,
+      "kind": 0
+    },
+    {
+      "a": "jap_hitachi",
+      "b": "jap_shimotsuke",
+      "distance": 63.67378234863281,
+      "kind": 0
+    },
+    {
+      "a": "jap_hizen",
+      "b": "jap_tsukushi",
+      "distance": 21.094846725463867,
+      "kind": 0
+    },
+    {
+      "a": "jap_hoki",
+      "b": "jap_inaba",
+      "distance": 15.959253311157227,
+      "kind": 0
+    },
+    {
+      "a": "jap_hoki",
+      "b": "jap_izumo",
+      "distance": 21.82178497314453,
+      "kind": 0
+    },
+    {
+      "a": "jap_hoki",
+      "b": "jap_mimasaka",
+      "distance": 19.88233757019043,
+      "kind": 0
+    },
+    {
+      "a": "jap_hyuga",
+      "b": "jap_osumi",
+      "distance": 27.087432861328125,
+      "kind": 0
+    },
+    {
+      "a": "jap_hyuga",
+      "b": "jap_satsuma",
+      "distance": 5.630143165588379,
+      "kind": 0
+    },
+    {
+      "a": "jap_iga",
+      "b": "jap_omi",
+      "distance": 24.509496688842773,
+      "kind": 0
+    },
+    {
+      "a": "jap_iga",
+      "b": "jap_yamashiro",
+      "distance": 5.405156135559082,
+      "kind": 0
+    },
+    {
+      "a": "jap_iga",
+      "b": "jap_yamato",
+      "distance": 13.780588150024414,
+      "kind": 0
+    },
+    {
+      "a": "jap_inaba",
+      "b": "jap_mimasaka",
+      "distance": 2.215277671813965,
+      "kind": 0
+    },
+    {
+      "a": "jap_inaba",
+      "b": "jap_tajima",
+      "distance": 14.18499755859375,
+      "kind": 0
+    },
+    {
+      "a": "jap_ise",
+      "b": "jap_mino",
+      "distance": 20.822729110717773,
+      "kind": 0
+    },
+    {
+      "a": "jap_ise",
+      "b": "jap_omi",
+      "distance": 12.430294036865234,
+      "kind": 0
+    },
+    {
+      "a": "jap_ise",
+      "b": "jap_owari",
+      "distance": 2.3683674335479736,
+      "kind": 0
+    },
+    {
+      "a": "jap_ise",
+      "b": "jap_yamato",
+      "distance": 4.483709335327148,
+      "kind": 0
+    },
+    {
+      "a": "jap_iwami",
+      "b": "jap_izumo",
+      "distance": 14.074880599975586,
+      "kind": 0
+    },
+    {
+      "a": "jap_iwami",
+      "b": "jap_nagato",
+      "distance": 16.334476470947266,
+      "kind": 0
+    },
+    {
+      "a": "jap_iwate",
+      "b": "jap_miyagi",
+      "distance": 23.511674880981445,
+      "kind": 0
+    },
+    {
+      "a": "jap_iwate",
+      "b": "jap_ugo",
+      "distance": 40.655887603759766,
+      "kind": 0
+    },
+    {
+      "a": "jap_iyo",
+      "b": "jap_sanuki",
+      "distance": 5.739230155944824,
+      "kind": 0
+    },
+    {
+      "a": "jap_iyo",
+      "b": "jap_tosa",
+      "distance": 15.255288124084473,
+      "kind": 0
+    },
+    {
+      "a": "jap_izu",
+      "b": "jap_sagami",
+      "distance": 7.45844841003418,
+      "kind": 0
+    },
+    {
+      "a": "jap_izu",
+      "b": "jap_suruga",
+      "distance": 13.860755920410156,
+      "kind": 0
+    },
+    {
+      "a": "jap_kaga",
+      "b": "jap_noto",
+      "distance": 11.978401184082031,
+      "kind": 0
+    },
+    {
+      "a": "jap_kai",
+      "b": "jap_musashi",
+      "distance": 4.1327619552612305,
+      "kind": 0
+    },
+    {
+      "a": "jap_kai",
+      "b": "jap_north_shinano",
+      "distance": 7.43656063079834,
+      "kind": 0
+    },
+    {
+      "a": "jap_kai",
+      "b": "jap_suruga",
+      "distance": 2.8272042274475098,
+      "kind": 0
+    },
+    {
+      "a": "jap_kawachi",
+      "b": "jap_kii",
+      "distance": 11.747419357299805,
+      "kind": 0
+    },
+    {
+      "a": "jap_kawachi",
+      "b": "jap_settsu",
+      "distance": 33.59623718261719,
+      "kind": 0
+    },
+    {
+      "a": "jap_kawachi",
+      "b": "jap_yamashiro",
+      "distance": 10.704723358154297,
+      "kind": 0
+    },
+    {
+      "a": "jap_kawachi",
+      "b": "jap_yamato",
+      "distance": 33.77489471435547,
+      "kind": 0
+    },
+    {
+      "a": "jap_kazusa",
+      "b": "jap_shimosa",
+      "distance": 39.612396240234375,
+      "kind": 0
+    },
+    {
+      "a": "jap_kii",
+      "b": "jap_settsu",
+      "distance": 28.746570587158203,
+      "kind": 0
+    },
+    {
+      "a": "jap_kii",
+      "b": "jap_yamato",
+      "distance": 8.543292045593262,
+      "kind": 0
+    },
+    {
+      "a": "jap_kozuke",
+      "b": "jap_musashi",
+      "distance": 39.937705993652344,
+      "kind": 0
+    },
+    {
+      "a": "jap_kozuke",
+      "b": "jap_north_shinano",
+      "distance": 7.324617385864258,
+      "kind": 0
+    },
+    {
+      "a": "jap_kozuke",
+      "b": "jap_shimosa",
+      "distance": 6.643442153930664,
+      "kind": 0
+    },
+    {
+      "a": "jap_kozuke",
+      "b": "jap_shimotsuke",
+      "distance": 26.549571990966797,
+      "kind": 0
+    },
+    {
+      "a": "jap_mikawa",
+      "b": "jap_mino",
+      "distance": 4.968061923980713,
+      "kind": 0
+    },
+    {
+      "a": "jap_mikawa",
+      "b": "jap_owari",
+      "distance": 32.36442947387695,
+      "kind": 0
+    },
+    {
+      "a": "jap_mikawa",
+      "b": "jap_totomi",
+      "distance": 23.236337661743164,
+      "kind": 0
+    },
+    {
+      "a": "jap_mino",
+      "b": "jap_omi",
+      "distance": 12.084209442138672,
+      "kind": 0
+    },
+    {
+      "a": "jap_mino",
+      "b": "jap_owari",
+      "distance": 21.127471923828125,
+      "kind": 0
+    },
+    {
+      "a": "jap_mino",
+      "b": "jap_south_shinano",
+      "distance": 27.73714256286621,
+      "kind": 0
+    },
+    {
+      "a": "jap_miyagi",
+      "b": "jap_uzen",
+      "distance": 3.584191083908081,
+      "kind": 0
+    },
+    {
+      "a": "jap_musashi",
+      "b": "jap_sagami",
+      "distance": 24.258935928344727,
+      "kind": 0
+    },
+    {
+      "a": "jap_musashi",
+      "b": "jap_shimosa",
+      "distance": 38.8358268737793,
+      "kind": 0
+    },
+    {
+      "a": "jap_nagato",
+      "b": "jap_suo",
+      "distance": 10.073225975036621,
+      "kind": 0
+    },
+    {
+      "a": "jap_north_shinano",
+      "b": "jap_south_shinano",
+      "distance": 11.797811508178711,
+      "kind": 0
+    },
+    {
+      "a": "jap_omi",
+      "b": "jap_wakasa",
+      "distance": 17.166152954101562,
+      "kind": 0
+    },
+    {
+      "a": "jap_omi",
+      "b": "jap_yamashiro",
+      "distance": 28.00697135925293,
+      "kind": 0
+    },
+    {
+      "a": "jap_osumi",
+      "b": "jap_satsuma",
+      "distance": 4.682247161865234,
+      "kind": 0
+    },
+    {
+      "a": "jap_sagami",
+      "b": "jap_suruga",
+      "distance": 16.049057006835938,
+      "kind": 0
+    },
+    {
+      "a": "jap_settsu",
+      "b": "jap_tamba",
+      "distance": 15.775186538696289,
+      "kind": 0
+    },
+    {
+      "a": "jap_settsu",
+      "b": "jap_yamashiro",
+      "distance": 2.339442729949951,
+      "kind": 0
+    },
+    {
+      "a": "jap_shimosa",
+      "b": "jap_shimotsuke",
+      "distance": 24.469297409057617,
+      "kind": 0
+    },
+    {
+      "a": "jap_suruga",
+      "b": "jap_totomi",
+      "distance": 13.753000259399414,
+      "kind": 0
+    },
+    {
+      "a": "jap_tajima",
+      "b": "jap_tamba",
+      "distance": 11.237958908081055,
+      "kind": 0
+    },
+    {
+      "a": "jap_tajima",
+      "b": "jap_tango",
+      "distance": 28.471935272216797,
+      "kind": 0
+    },
+    {
+      "a": "jap_tamba",
+      "b": "jap_tango",
+      "distance": 8.642646789550781,
+      "kind": 0
+    },
+    {
+      "a": "jap_tamba",
+      "b": "jap_yamashiro",
+      "distance": 2.372410774230957,
+      "kind": 0
+    },
+    {
+      "a": "jap_tango",
+      "b": "jap_wakasa",
+      "distance": 7.525579452514648,
+      "kind": 0
+    },
+    {
+      "a": "jap_ugo",
+      "b": "jap_uzen",
+      "distance": 18.68497085571289,
+      "kind": 0
+    },
+    {
+      "a": "jap_yamashiro",
+      "b": "jap_yamato",
+      "distance": 22.767452239990234,
+      "kind": 0
+    }
+  ],
+  "campaign": "jap_shogun",
+  "extraction": {
+    "boundary_records": "CAI_WORLD_REGION_BOUNDARIES[]/CAI_REGION_BOUNDARY fields 0/1 are region AI IDs; field 2 is distance; field 3 is retained as numeric kind.",
+    "distance_documentation_url": "https://github.com/taw/etwng/blob/293968d6f5619f90fdc8d6524925ca351a22ff88/esfxml/lib/esf_semantic_converter.rb#L1522",
+    "filter": "Keep both endpoints in the 65 canonical Sengoku province keys. Exclude sea regions and hidden jap_waco_base/jap_nanban_base.",
+    "parser_sources": [
+      "https://github.com/Psychocrysma/Total-War-Shogun-2-Fixing-and-Convenience-project/blob/c0e72325aacb6614ccba2c936c838c020fa54651/tools/esf.py",
+      "https://github.com/Psychocrysma/Total-War-Shogun-2-Fixing-and-Convenience-project/blob/c0e72325aacb6614ccba2c936c838c020fa54651/tools/pfh.py",
+      "https://github.com/nblvguohao/shogun2/blob/077278fccaf8efca5ce0cfda6344e0cc2d3711cd/tools/pfhs.py"
+    ],
+    "raw_boundary_count": 282,
+    "raw_cai_region_count": 114,
+    "region_manager_record_count": 67,
+    "region_records": "CAI_WORLD_REGIONS[]/CAI_BDI_COMPONENT first uint32 supplies AI ID; sibling CAI_REGION field 10 supplies canonical key and fields 4/5 supply map x/y."
+  },
+  "game": "shogun2",
+  "limitations": [
+    "Both public packs are mods rather than a directly verified vanilla installation. Their complete Sengoku adjacency graphs, source kinds, distances, AI IDs and coordinates agree exactly; this does not verify the user installed build.",
+    "The numeric boundary-kind enum is not independently documented here. Kind 1 occurs on Awa-Awaji and Buzen-Nagato, geographically consistent with strait crossings, but all 103 source edges are retained without inferring bonus or movement semantics from the kind.",
+    "This snapshot covers playable province adjacency only. It omits sea regions, sea routes, hidden bases, pathfinding obstacles and other campaigns.",
+    "Map adjacency alone does not establish which effects propagate across each edge, and does not add neighboring religious conversion to the static income model."
+  ],
+  "regions": {
+    "jap_aki": {
+      "ai_id": 268,
+      "x": -151.98760986328125,
+      "y": -93.15880584716797
+    },
+    "jap_awa": {
+      "ai_id": 366,
+      "x": -95.7952880859375,
+      "y": -138.73802185058594
+    },
+    "jap_awaji": {
+      "ai_id": 373,
+      "x": -84.64698028564453,
+      "y": -130.9865264892578
+    },
+    "jap_bingo": {
+      "ai_id": 265,
+      "x": -128.4125518798828,
+      "y": -101.17353820800781
+    },
+    "jap_bitchu": {
+      "ai_id": 406,
+      "x": -113.49491882324219,
+      "y": -103.04032897949219
+    },
+    "jap_bizen": {
+      "ai_id": 403,
+      "x": -99.86634826660156,
+      "y": -107.26437377929688
+    },
+    "jap_bungo": {
+      "ai_id": 384,
+      "x": -192.68609619140625,
+      "y": -126.09534454345703
+    },
+    "jap_buzen": {
+      "ai_id": 473,
+      "x": -202.9532470703125,
+      "y": -94.71405792236328
+    },
+    "jap_echigo": {
+      "ai_id": 315,
+      "x": 82.95633697509766,
+      "y": -76.08279418945312
+    },
+    "jap_echizen": {
+      "ai_id": 303,
+      "x": -17.76874542236328,
+      "y": -91.60149383544922
+    },
+    "jap_etchu": {
+      "ai_id": 133,
+      "x": 28.43271255493164,
+      "y": -84.35189819335938
+    },
+    "jap_fukushima": {
+      "ai_id": 116,
+      "x": 115.02766418457031,
+      "y": -93.08163452148438
+    },
+    "jap_harima": {
+      "ai_id": 400,
+      "x": -72.38195037841797,
+      "y": -118.14196014404297
+    },
+    "jap_hida": {
+      "ai_id": 431,
+      "x": 17.383018493652344,
+      "y": -101.68634033203125
+    },
+    "jap_higo": {
+      "ai_id": 100,
+      "x": -224.07400512695312,
+      "y": -123.14845275878906
+    },
+    "jap_hitachi": {
+      "ai_id": 218,
+      "x": 109.8906021118164,
+      "y": -139.8915252685547
+    },
+    "jap_hizen": {
+      "ai_id": 342,
+      "x": -228.14317321777344,
+      "y": -105.15032958984375
+    },
+    "jap_hoki": {
+      "ai_id": 397,
+      "x": -95.57859802246094,
+      "y": -79.19741821289062
+    },
+    "jap_hyuga": {
+      "ai_id": 322,
+      "x": -202.92196655273438,
+      "y": -146.51596069335938
+    },
+    "jap_iga": {
+      "ai_id": 423,
+      "x": -36.4949951171875,
+      "y": -135.98312377929688
+    },
+    "jap_inaba": {
+      "ai_id": 125,
+      "x": -78.0535888671875,
+      "y": -84.829345703125
+    },
+    "jap_ise": {
+      "ai_id": 242,
+      "x": -31.518836975097656,
+      "y": -147.51010131835938
+    },
+    "jap_iwami": {
+      "ai_id": 287,
+      "x": -148.33250427246094,
+      "y": -76.66258239746094
+    },
+    "jap_iwate": {
+      "ai_id": 171,
+      "x": 187.48439025878906,
+      "y": -26.896808624267578
+    },
+    "jap_iyo": {
+      "ai_id": 75,
+      "x": -141.13319396972656,
+      "y": -117.2332534790039
+    },
+    "jap_izu": {
+      "ai_id": 226,
+      "x": 43.67932891845703,
+      "y": -166.96865844726562
+    },
+    "jap_izumo": {
+      "ai_id": 393,
+      "x": -113.03843688964844,
+      "y": -68.91133117675781
+    },
+    "jap_kaga": {
+      "ai_id": 130,
+      "x": 2.939739227294922,
+      "y": -81.97708129882812
+    },
+    "jap_kai": {
+      "ai_id": 444,
+      "x": 44.94398498535156,
+      "y": -137.80593872070312
+    },
+    "jap_kawachi": {
+      "ai_id": 418,
+      "x": -56.53026580810547,
+      "y": -132.27340698242188
+    },
+    "jap_kazusa": {
+      "ai_id": 221,
+      "x": 83.95631408691406,
+      "y": -166.90625
+    },
+    "jap_kii": {
+      "ai_id": 246,
+      "x": -71.81498718261719,
+      "y": -140.84707641601562
+    },
+    "jap_kozuke": {
+      "ai_id": 453,
+      "x": 71.76337432861328,
+      "y": -119.81741333007812
+    },
+    "jap_mikawa": {
+      "ai_id": 233,
+      "x": -5.645198822021484,
+      "y": -144.0625
+    },
+    "jap_mimasaka": {
+      "ai_id": 261,
+      "x": -94.58193969726562,
+      "y": -92.44891357421875
+    },
+    "jap_mino": {
+      "ai_id": 426,
+      "x": -8.99751091003418,
+      "y": -118.67107391357422
+    },
+    "jap_miyagi": {
+      "ai_id": 163,
+      "x": 153.69422912597656,
+      "y": -77.65794372558594
+    },
+    "jap_musashi": {
+      "ai_id": 439,
+      "x": 76.72029113769531,
+      "y": -153.43197631835938
+    },
+    "jap_nagato": {
+      "ai_id": 282,
+      "x": -169.39083862304688,
+      "y": -80.67131042480469
+    },
+    "jap_north_shinano": {
+      "ai_id": 88,
+      "x": 36.85374450683594,
+      "y": -109.82093811035156
+    },
+    "jap_noto": {
+      "ai_id": 309,
+      "x": 20.77490997314453,
+      "y": -67.96736907958984
+    },
+    "jap_omi": {
+      "ai_id": 106,
+      "x": -36.873931884765625,
+      "y": -125.08018493652344
+    },
+    "jap_osumi": {
+      "ai_id": 329,
+      "x": -236.4943389892578,
+      "y": -165.91104125976562
+    },
+    "jap_owari": {
+      "ai_id": 237,
+      "x": -11.283418655395508,
+      "y": -128.21676635742188
+    },
+    "jap_sado": {
+      "ai_id": 350,
+      "x": 81.21734619140625,
+      "y": -54.256919860839844
+    },
+    "jap_sagami": {
+      "ai_id": 449,
+      "x": 56.65907287597656,
+      "y": -156.8502197265625
+    },
+    "jap_sanuki": {
+      "ai_id": 361,
+      "x": -108.06539916992188,
+      "y": -120.85237121582031
+    },
+    "jap_satsuma": {
+      "ai_id": 336,
+      "x": -248.96292114257812,
+      "y": -161.16610717773438
+    },
+    "jap_settsu": {
+      "ai_id": 258,
+      "x": -60.555999755859375,
+      "y": -122.20555114746094
+    },
+    "jap_shimosa": {
+      "ai_id": 96,
+      "x": 89.85044860839844,
+      "y": -156.823974609375
+    },
+    "jap_shimotsuke": {
+      "ai_id": 111,
+      "x": 96.95111083984375,
+      "y": -124.688232421875
+    },
+    "jap_south_shinano": {
+      "ai_id": 464,
+      "x": 18.941650390625,
+      "y": -134.95401000976562
+    },
+    "jap_suo": {
+      "ai_id": 275,
+      "x": -179.48953247070312,
+      "y": -94.06575775146484
+    },
+    "jap_suruga": {
+      "ai_id": 228,
+      "x": 28.872650146484375,
+      "y": -156.13629150390625
+    },
+    "jap_tajima": {
+      "ai_id": 292,
+      "x": -64.66546630859375,
+      "y": -91.33243560791016
+    },
+    "jap_tamba": {
+      "ai_id": 409,
+      "x": -48.3662109375,
+      "y": -111.96623229980469
+    },
+    "jap_tango": {
+      "ai_id": 413,
+      "x": -53.48243713378906,
+      "y": -95.31343841552734
+    },
+    "jap_tosa": {
+      "ai_id": 354,
+      "x": -132.79074096679688,
+      "y": -138.16754150390625
+    },
+    "jap_totomi": {
+      "ai_id": 435,
+      "x": 4.7322540283203125,
+      "y": -155.3531494140625
+    },
+    "jap_tsukushi": {
+      "ai_id": 376,
+      "x": -219.1787872314453,
+      "y": -98.14991760253906
+    },
+    "jap_ugo": {
+      "ai_id": 178,
+      "x": 163.78228759765625,
+      "y": -5.127246856689453
+    },
+    "jap_uzen": {
+      "ai_id": 137,
+      "x": 141.31307983398438,
+      "y": -67.580810546875
+    },
+    "jap_wakasa": {
+      "ai_id": 297,
+      "x": -34.30879211425781,
+      "y": -106.0986328125
+    },
+    "jap_yamashiro": {
+      "ai_id": 420,
+      "x": -45.13064193725586,
+      "y": -122.23399353027344
+    },
+    "jap_yamato": {
+      "ai_id": 252,
+      "x": -50.07184600830078,
+      "y": -144.13320922851562
+    }
+  },
+  "schema_version": 1,
+  "sources": [
+    {
+      "description_url": "https://github.com/xUHOx/SHOGUN2-CE-MOD/blob/fcaa47d2354cec7176d3fb6487b789238f82f1de/README.md",
+      "download_url": "https://raw.githubusercontent.com/xUHOx/SHOGUN2-CE-MOD/fcaa47d2354cec7176d3fb6487b789238f82f1de/twelve-turns-per-year.pack",
+      "extracted_boundaries_sha256": "f605dc3e503d8ad7433a0366d16296d44175f5668af9b414ab5fc3f7c10233af",
+      "name": "12 turns per Year, Complete Edition conversion",
+      "original_mod_description_quote": "This very simple mod change the number of turns per year",
+      "original_mod_description_scope": "Original author describes a change from four to twelve turns per year for Shogun 2 and Rise of the Samurai, and no other changes.",
+      "original_mod_description_url": "https://steamcommunity.com/sharedfiles/filedetails/?id=141938812",
+      "pack_bytes": 3418725,
+      "pack_format": "PFHs",
+      "pack_sha256": "07296e84d08435920b851a6182c49b8fa650bf523d80a313d47737eb400ccf09",
+      "revision": "fcaa47d2354cec7176d3fb6487b789238f82f1de",
+      "startpos_build": [
+        "NO BUILD ID - NOT DAILY BUILD",
+        "v2.0.0  Build DEV"
+      ],
+      "startpos_bytes": 1751487,
+      "startpos_path": "campaigns/jap_shogun/startpos.esf",
+      "startpos_sha256": "d268c6f363aa1e728aaef709ce1ad96561b4c131c4e3707ab5245efe0b1bdb56",
+      "url": "https://github.com/xUHOx/SHOGUN2-CE-MOD/blob/fcaa47d2354cec7176d3fb6487b789238f82f1de/twelve-turns-per-year.pack"
+    },
+    {
+      "download_url": "https://raw.githubusercontent.com/PiTatva/Shogun2X/98024206b891a3a4013a7c6b341f6e29bc638318/edited_mods/mod_Extended_Years_Months.pack",
+      "extracted_boundaries_sha256": "f605dc3e503d8ad7433a0366d16296d44175f5668af9b414ab5fc3f7c10233af",
+      "name": "Shogun2X Extended Years Months, second public pack cross-check",
+      "pack_bytes": 11792411,
+      "pack_format": "PFH3",
+      "pack_sha256": "98937876fa4a34336a0bff5f4fd2a445851a8331e71a3f62c31c4baaecb9f28b",
+      "revision": "98024206b891a3a4013a7c6b341f6e29bc638318",
+      "startpos_build": [
+        "Total War: Shogun 2 (1.1.0)(Debug; Build(5890*)(Otomo); 14/11/2012 19:25) Changelist(360545)",
+        "v1.1.0  Build 5890.360545 (modded)"
+      ],
+      "startpos_bytes": 1607577,
+      "startpos_path": "campaigns/jap_shogun/startpos.esf",
+      "startpos_sha256": "cf672c0b4dd88117e4596f69e55f8790eff6eb9819f70bfedf28272734bf9e38",
+      "url": "https://github.com/PiTatva/Shogun2X/blob/98024206b891a3a4013a7c6b341f6e29bc638318/edited_mods/mod_Extended_Years_Months.pack"
+    }
+  ],
+  "verification": {
+    "boundary_count": 103,
+    "boundary_kind_counts": {
+      "0": 101,
+      "1": 2
+    },
+    "canonical_region_coverage_complete": true,
+    "checksum_serialization": "Sort each endpoint pair lexicographically as a<b, sort the list by (a,b), retain exactly fields a,b,kind,distance; SHA-256 of UTF-8 json.dumps(boundaries, sort_keys=True, separators=(comma, colon)), default ensure_ascii=True and no newline.",
+    "graph_basis": "Explicit engine CAI_REGION_BOUNDARY records; no geographic proximity or polygon-distance inference.",
+    "isolated_regions": [
+      "jap_sado"
+    ],
+    "nonzero_kind_pairs": [
+      [
+        "jap_awa",
+        "jap_awaji"
+      ],
+      [
+        "jap_buzen",
+        "jap_nagato"
+      ]
+    ],
+    "normalized_boundaries_sha256": "f605dc3e503d8ad7433a0366d16296d44175f5668af9b414ab5fc3f7c10233af",
+    "region_count": 65,
+    "source_ai_ids_equal": true,
+    "source_boundary_distances_equal": true,
+    "source_coordinates_equal": true,
+    "source_graphs_equal": true
+  }
+}

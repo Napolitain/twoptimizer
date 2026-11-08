@@ -23,7 +23,9 @@ Choose a game, faction, province and solver on the left. **All factions** compar
 the same holding. **Compare exact solvers** runs each supported formulation.
 **Multiple provinces** opens a searchable checklist with All and None controls.
 Provinces run independently by default. All three games can optimize them together;
-joint Attila and Rome II runs require explicit borders or confirmation of no borders.
+joint Attila and Rome II runs use bundled land borders when a complete map is available.
+**Neighboring provinces** lets you inspect or override them; **Use map borders**
+restores automatic selection. Applying an empty custom list disables adjacency effects.
 **All** selects every named province; hypothetical reference layouts stay in the
 single-province dropdown. Joint runs share supported faction effects and constraints.
 Use **Single province** in the picker to return to the original dropdown.

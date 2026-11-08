@@ -32,6 +32,7 @@ def export_session(
         "scope": (
             "Cases compare independent provinces or explicitly joint holdings; "
             "see each request's joint, provinces and adjacency settings. "
+            "Automatic effective borders are recorded in raw.map_context. "
             "No cross-game ranking. OPTIMAL is a "
             "solver proof for the stated model. FEASIBLE keeps an unresolved "
             "bound. Cancelled batches may contain fewer cases than requested."
@@ -65,6 +66,8 @@ def export_session(
         "joint",
         "province_ids",
         "adjacency",
+        "adjacency_mode",
+        "adjacency_directed",
     )
     with csv_path.open("w", newline="") as stream:
         writer = csv.DictWriter(stream, fieldnames=fields)
@@ -100,7 +103,13 @@ def export_session(
                     "province_ids": ";".join(
                         row["request"].get("provinces") or [row["request"]["province"]]
                     ),
-                    "adjacency": json.dumps(row["request"].get("adjacency")),
+                    "adjacency": json.dumps(
+                        row.get("raw", {})
+                        .get("map_context", {})
+                        .get("borders", row["request"].get("adjacency"))
+                    ),
+                    "adjacency_mode": row.get("raw", {}).get("map_context", {}).get("mode"),
+                    "adjacency_directed": row.get("raw", {}).get("map_context", {}).get("directed"),
                 }
             )
     return path, csv_path
