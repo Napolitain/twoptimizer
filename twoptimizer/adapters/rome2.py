@@ -7,9 +7,10 @@ from dataclasses import replace
 from typing import TYPE_CHECKING
 
 from games.tw.rome2.catalog import load_data
-from games.tw.rome2.model import Economy
 from games.tw.rome2.scenario import Scenario, Site
 from games.tw.rome2.world import province_scenario
+from twoptimizer.adapters.model_stats import record_cp_result
+from twoptimizer.adapters.rome_models import ObservedEconomy, ObservedHoldingEconomy
 from twoptimizer.catalog import read
 from twoptimizer.models import BuildingSelection, EngineResult, RunConfig
 from twoptimizer.progress import PhaseTimer
@@ -87,15 +88,16 @@ def solve_rome(
     phase("build_model_seconds", "Preparing province model")
     scenario = prepare_scenario(config)
     if config.joint:
-        from games.tw.rome2.holdings import HoldingEconomy, HoldingScenario
+        from games.tw.rome2.holdings import HoldingScenario
 
         assert isinstance(scenario, HoldingScenario)
-        economy = HoldingEconomy(scenario, data)
+        economy = ObservedHoldingEconomy(scenario, data, phase, config.algorithm)
     else:
-        economy = Economy(scenario, data)
+        economy = ObservedEconomy(scenario, data, phase, config.algorithm)
     phase("solve_and_check_seconds", "Solving and validating")
     state = RomeSession() if session is None else session.rome
     raw = state.solve(economy, config)
+    record_cp_result(phase, raw["solver"], len(economy.decisions) + len(economy.party_variables))
     phase("prepare_result_seconds", "Preparing result")
     world = read("rome2/data/world.json")["regions"]
     buildings = [

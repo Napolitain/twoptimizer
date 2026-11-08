@@ -128,11 +128,28 @@ never becomes process-global, and each independently compiled model owns its
 decision containers.
 
 `twoptimizer.runner` owns process creation, captured native output, progress
-transport, termination and reaping. The worker only decodes one request, invokes
-`solve_case` and encodes its result or error. Foreground CLI cases call the same
-service synchronously. Worker startup/wall timings belong to the execution layer;
+transport, termination and reaping. The TUI's `BatchRunner` reuses one subprocess
+for sequential cases, retaining imports and immutable catalogs while building a
+fresh model for each case. `CaseRunner` retains its one-shot API. The worker
+decodes each request, invokes `solve_case` and atomically publishes its result or
+error before acknowledging the request. It does not share incumbents or proofs
+between cases. Foreground CLI cases call the same service synchronously.
+Worker startup/dispatch/wall timings belong to the execution layer;
 model and solver phase timings belong to the case. Cancelling the active TUI
 worker preserves already completed case results for viewing and export.
+Shutdown reaps the subprocess and removes its temporary files. Solver CPU
+parallelism remains automatic from the machine's available allocation; the
+number of selected provinces does not set the solver's thread count.
+
+`progress.ModelStats` carries observed compilation sizes alongside string phase
+events. Adapter observers return existing engine models untouched, with no extra
+compilation or global monkeypatching. Rome's canonical proof model stays distinct
+from its linearized search model; Attila's compact solver counts are distinguished
+from its expanded validation model. The service retains these observations in
+`raw.model_complexity`, preserving native `model_stats` report fields. The UI
+preview expands requests only; model counts arrive through worker events and are
+restored from saved results. Counts are before presolve, and sparse matrix bytes
+are not an estimate of solver memory or runtime.
 
 `ApplicationError` identifies invalid requests across direct and subprocess
 execution; its message and code survive worker transport. Runtime failures remain
@@ -149,7 +166,7 @@ time limit and uses automatic workers.
 
 | Interface | Default scope | Additional supported inputs |
 | --- | --- | --- |
-| TUI | Rome II, Rome, coastal reference, portfolio, research disabled | Independent province batches; joint Attila/Shogun holdings and Attila border picker; one/all factions; solver comparison; game research profiles; Attila fertility/religion; Shogun soil, wealth and tax; Rome world bonuses |
+| TUI | Rome II, Rome, coastal reference, portfolio, research disabled | Independent or joint holdings in all three games; Attila/Rome border picker; one/all factions; solver comparison; model-size details; game research profiles; Attila fertility/religion; Shogun soil, wealth and tax; Rome world bonuses |
 | `attila` | ERE, Orthodox; every province independently at fertility 0 and 5; CP-SAT; all technologies | Repeated provinces and optional joint ownership/limit; campaign JSON and target constraints; named technology subset; regional fertility; city/building levels and military eligibility; exact solvers, heuristics and GLOP bound; seed, beam width and restarts |
 | `attila-factions` | Settled playable factions; independent Aegyptus, Thracia and Germania; fertility 5; Orthodox; all technologies; CP-SAT | Province selection, religion, fertility, NPC factions with horde exclusions, validated proof reuse and resume |
 | `rome2` | All imported factions on independent inland/coastal/grain reference layouts; portfolio; research bonuses disabled | Repeated named provinces/layouts, factions and solvers; public/archived research; world bonuses; resume/fill-missing, warm hints and portable proof reuse |

@@ -1,0 +1,354 @@
+{
+  "date": "2026-11-08",
+  "python": "3.14.9",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "method": [
+    "Serial same-machine runs, no coverage, tests or other benchmark jobs during these samples.",
+    "Fresh parent process for each sample; timings begin before make_jobs and include per-case request/result I/O.",
+    "CaseRunner starts a subprocess per case; BatchRunner reuses one subprocess across cases and is stopped in finally.",
+    "Identical Shogun 2 Oda/all arts/native soil/town wealth 0/tax 30%, all 65 provinces; no solver time cap.",
+    "One solver worker fixed for before/after comparison; automatic selection measured separately chose four.",
+    "No shared RunSession, incumbents or optimality proofs between independent cases.",
+    "After-change per-case holdings, status, income and metrics match the corresponding before-change sample."
+  ],
+  "interpretation": [
+    "Independent cases represent separate hypothetical realms. Their income sum does not enforce shared food or unique-building limits.",
+    "Joint and independent modes solve different mathematical problems; their objectives are not a before/after performance comparison.",
+    "Counts are aggregate across independent cases versus one joint model, before presolve.",
+    "Joint search is harder here despite similar aggregate counts; model size alone cannot predict runtime.",
+    "This is a Shogun sample, not an all-province optimality result for Attila or Rome II.",
+    "Before parent-only RSS and after separately measured worker RSS are not a comparable memory benchmark."
+  ],
+  "reproduce": [
+    "Build RunConfig from a sample request and expand it with twoptimizer.service.make_jobs.",
+    "In one asyncio event loop, instantiate the sample runner class once and await runner.run(job, lambda line: None) serially for all jobs.",
+    "Always await runner.stop() in finally. Use a fresh Python process for each sample. Compare every case status, income and metrics within the same ownership mode."
+  ],
+  "samples": [
+    {
+      "sample": "before_independent",
+      "route": "CaseRunner subprocess",
+      "request": {
+        "game": "shogun2",
+        "faction": "oda",
+        "province": "coastal",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": 1,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "all"
+        ],
+        "joint": false,
+        "adjacency": null
+      },
+      "cases": 65,
+      "summary": {
+        "wall_seconds": 39.590078347999224,
+        "case_wall_seconds": 39.53469063299053,
+        "phase_seconds": {
+          "solve_and_check_seconds": 1.2418420819976745,
+          "load_engine_seconds": 0.2562161720088625,
+          "request_seconds": 0.5857572090080794,
+          "worker_startup_seconds": 30.841734554995128,
+          "build_model_seconds": 0.12520822399346798,
+          "worker_wall_seconds": 39.49344713300343,
+          "prepare_result_seconds": 0.07288392500049667
+        },
+        "solver_seconds": 0.5208026739946945,
+        "statuses": {
+          "OPTIMAL": 65
+        },
+        "all_optimal": true,
+        "income_sum": 222711.298,
+        "peak_rss_kib": 129988
+      }
+    },
+    {
+      "sample": "before_joint",
+      "route": "CaseRunner subprocess",
+      "request": {
+        "game": "shogun2",
+        "faction": "oda",
+        "province": "coastal",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": 1,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "all"
+        ],
+        "joint": true,
+        "adjacency": null
+      },
+      "cases": 1,
+      "summary": {
+        "wall_seconds": 8.259987302999434,
+        "case_wall_seconds": 8.257348801000262,
+        "phase_seconds": {
+          "load_engine_seconds": 0.003502772999127046,
+          "prepare_result_seconds": 0.0019361079994268948,
+          "request_seconds": 0.008237530000769766,
+          "solve_and_check_seconds": 7.645822357000725,
+          "worker_startup_seconds": 0.4824155949991109,
+          "build_model_seconds": 0.008864036999511882,
+          "worker_wall_seconds": 8.256375979999575
+        },
+        "solver_seconds": 7.127263200000016,
+        "statuses": {
+          "OPTIMAL": 1
+        },
+        "all_optimal": true,
+        "income_sum": 84071.498,
+        "peak_rss_kib": 131108
+      }
+    },
+    {
+      "sample": "after_independent_1",
+      "route": "BatchRunner subprocess",
+      "request": {
+        "game": "shogun2",
+        "faction": "oda",
+        "province": "coastal",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": 1,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "all"
+        ],
+        "joint": false,
+        "adjacency": null
+      },
+      "cases": 65,
+      "summary": {
+        "wall_seconds": 1.751166990999991,
+        "case_wall_seconds": 1.6907005280099838,
+        "phase_seconds": {
+          "solve_and_check_seconds": 1.0157185259922699,
+          "worker_startup_seconds": 0.4799823120010842,
+          "worker_dispatch_seconds": 0.03356538000116416,
+          "request_seconds": 0.015729718999864417,
+          "build_model_seconds": 0.04119417600486486,
+          "load_engine_seconds": 0.008923679000872653,
+          "worker_wall_seconds": 1.688410696995561,
+          "prepare_result_seconds": 0.058158134008408524
+        },
+        "solver_seconds": 0.4121780829918862,
+        "native_search_seconds": 0.2358995610011334,
+        "model_conversion_seconds": 0.16263944699858257,
+        "statuses": {
+          "OPTIMAL": 65
+        },
+        "all_optimal": true,
+        "income_sum": 222711.298,
+        "baseline_income_status_metrics_equal": true,
+        "worker_processes": 1,
+        "startup_events": 1,
+        "dispatch_events": 64,
+        "native_variable_sum": 3491,
+        "native_constraint_sum": 5616,
+        "parent_peak_rss_kib": 130124,
+        "worker_peak_rss_kib": 141468,
+        "effective_solver_worker_counts": [
+          1
+        ],
+        "baseline_income_status_equal": true
+      }
+    },
+    {
+      "sample": "after_independent_2",
+      "route": "BatchRunner subprocess",
+      "request": {
+        "game": "shogun2",
+        "faction": "oda",
+        "province": "coastal",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": 1,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "all"
+        ],
+        "joint": false,
+        "adjacency": null
+      },
+      "cases": 65,
+      "summary": {
+        "wall_seconds": 1.7238656640001864,
+        "case_wall_seconds": 1.6633486629998515,
+        "phase_seconds": {
+          "solve_and_check_seconds": 0.9982662079946749,
+          "worker_startup_seconds": 0.47335237600054825,
+          "build_model_seconds": 0.0401340119951783,
+          "load_engine_seconds": 0.009477059005803312,
+          "worker_dispatch_seconds": 0.03493829400576942,
+          "request_seconds": 0.014625175999753992,
+          "worker_wall_seconds": 1.6608626500001265,
+          "prepare_result_seconds": 0.055753129008735414
+        },
+        "solver_seconds": 0.4067918920027296,
+        "native_search_seconds": 0.23113471300348465,
+        "model_conversion_seconds": 0.16260327300187782,
+        "statuses": {
+          "OPTIMAL": 65
+        },
+        "all_optimal": true,
+        "income_sum": 222711.298,
+        "baseline_income_status_metrics_equal": true,
+        "baseline_income_status_equal": true,
+        "worker_processes": 1,
+        "effective_solver_worker_counts": [
+          1
+        ],
+        "startup_events": 1,
+        "dispatch_events": 64,
+        "native_variable_sum": 3491,
+        "native_constraint_sum": 5616,
+        "parent_peak_rss_kib": 130196,
+        "worker_peak_rss_kib": 141420
+      }
+    },
+    {
+      "sample": "after_joint",
+      "route": "BatchRunner subprocess",
+      "request": {
+        "game": "shogun2",
+        "faction": "oda",
+        "province": "coastal",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": 1,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "all"
+        ],
+        "joint": true,
+        "adjacency": null
+      },
+      "cases": 1,
+      "summary": {
+        "wall_seconds": 8.467127398998855,
+        "case_wall_seconds": 8.449737464999998,
+        "phase_seconds": {
+          "worker_startup_seconds": 0.6464097349999065,
+          "request_seconds": 0.011214069998459308,
+          "worker_wall_seconds": 8.449533723000059,
+          "build_model_seconds": 0.010328553998988355,
+          "solve_and_check_seconds": 7.770702670999526,
+          "prepare_result_seconds": 0.0027471740013425006,
+          "load_engine_seconds": 0.0039005120015644934
+        },
+        "solver_seconds": 7.247699838000699,
+        "native_search_seconds": 7.108222439001111,
+        "model_conversion_seconds": 0.13513931600027718,
+        "statuses": {
+          "OPTIMAL": 1
+        },
+        "all_optimal": true,
+        "income_sum": 84071.498,
+        "baseline_income_status_metrics_equal": true,
+        "worker_processes": 1,
+        "startup_events": 1,
+        "dispatch_events": 0,
+        "native_variable_sum": 3491,
+        "native_constraint_sum": 5360,
+        "parent_peak_rss_kib": 129780,
+        "worker_peak_rss_kib": 178912,
+        "effective_solver_worker_counts": [
+          1
+        ],
+        "baseline_income_status_equal": true
+      }
+    },
+    {
+      "sample": "after_independent_automatic_cpus",
+      "route": "BatchRunner subprocess",
+      "request": {
+        "game": "shogun2",
+        "faction": "oda",
+        "province": "coastal",
+        "algorithm": "cp-sat",
+        "seconds": null,
+        "workers": null,
+        "research": "all",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "all"
+        ],
+        "joint": false,
+        "adjacency": null
+      },
+      "cases": 65,
+      "summary": {
+        "wall_seconds": 1.903755955001543,
+        "case_wall_seconds": 1.843707933998303,
+        "phase_seconds": {
+          "worker_dispatch_seconds": 0.03713754099953803,
+          "worker_wall_seconds": 1.841388360995552,
+          "load_engine_seconds": 0.010584575995380874,
+          "build_model_seconds": 0.04162860998985707,
+          "request_seconds": 0.016484102003232692,
+          "solve_and_check_seconds": 1.1589585190140497,
+          "worker_startup_seconds": 0.48104424700068193,
+          "prepare_result_seconds": 0.05790564299786638
+        },
+        "solver_seconds": 0.5434368869991886,
+        "native_search_seconds": 0.365212373995746,
+        "model_conversion_seconds": 0.1646676939981262,
+        "statuses": {
+          "OPTIMAL": 65
+        },
+        "all_optimal": true,
+        "income_sum": 222711.298,
+        "baseline_income_status_metrics_equal": true,
+        "baseline_income_status_equal": true,
+        "worker_processes": 1,
+        "effective_solver_worker_counts": [
+          4
+        ],
+        "startup_events": 1,
+        "dispatch_events": 64,
+        "native_variable_sum": 3491,
+        "native_constraint_sum": 5616,
+        "parent_peak_rss_kib": 130156,
+        "worker_peak_rss_kib": 144800
+      }
+    }
+  ]
+}

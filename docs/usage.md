@@ -85,7 +85,8 @@ to the original dropdown; Cancel discards picker changes.
 By default each province is optimized independently, with one result row per
 province/faction/solver. **Optimize selected provinces together** instead creates
 one joint holding per faction/solver in all three games. **All** selects named
-provinces (57 in Rome II), excluding hypothetical reference layouts. Attila shares faction
+provinces: 62 in Attila, 57 in Rome II and 65 in Shogun 2, excluding hypothetical
+reference layouts. Attila shares faction
 effects and applies adjacency bonuses across the explicit borders; its existing
 province-level food, sanitation and order requirements still apply. Shogun 2 shares
 food and enforces unique-building limits across the holding. Rome II shares food,
@@ -105,6 +106,25 @@ includes the joint flag, province IDs and adjacency. Cancel stops the active wor
 and preserves completed cases. The CLI retains campaign JSON inputs and its existing
 advanced options.
 Installed wheels include the game data; a Git checkout is not required to run them.
+
+The preview counts selected provinces, joint/independent mode, factions, solver
+choices, expanded cases and supplied borders before Run. It does not compile
+models while editing settings. During a run, the activity area shows the latest
+model's variables and constraints. The **Model size** tab separates reference
+models from solver inputs and adds formulation, decision/auxiliary counts,
+nonzero coefficients and constraint-matrix storage wherever those are known.
+Reference counts appear after compilation; some native CP-SAT counts become
+available after search. All counts describe inputs before presolve. Matrix storage
+is not total solver RAM, and variable/constraint counts do not predict runtime.
+Selecting a completed row restores its recorded counts; JSON exports retain them
+under each case's `raw.model_complexity` without changing native solver metadata.
+
+The TUI reuses one engine process across a batch, so independent cases pay Python
+and native-library startup once. Each case still builds its own model. Solver CPU
+parallelism comes from the machine's available cores and container allocation,
+not the number of provinces. Later cases report dispatch time instead of another
+startup time. Cancel stops the active native solve; starting a new batch creates a
+fresh process.
 
 The CLI uses the same application service as the TUI. Existing commands and
 comparison report formats remain available:
@@ -143,6 +163,27 @@ Joint problems can take longer to prove optimal. Cancellation and optional time
 limits remain available; no limit is imposed by default. A solver time limit
 limits search, not catalog loading, model compilation or result validation;
 Cancel also stops a case during those preparation stages.
+
+For a measured all-65-province Shogun 2 case (Oda, all arts, native soil,
+CP-SAT, one solver worker), independent TUI batches fell from **39.59 seconds**
+with a subprocess per case to **1.72–1.75 seconds** with one reused process.
+The joint holding took **8.47 seconds**. Every case finished `OPTIMAL`; per-case
+income and metrics were unchanged by process reuse. Automatic CPU selection
+chose four workers on this machine and finished the independent batch in
+**1.90 seconds**. These are same-machine observations, not runtime guarantees.
+The [measurement record](../reports/tui-batch-performance.json) includes settings,
+timings and reproduction steps.
+
+Independent cases have only 44–76 variables each in that Shogun example. Summed
+across cases, they have 3,491 variables and 5,616 constraints; the joint model has
+3,491 variables and 5,360 constraints but a harder connected search. Shared food,
+building limits and bonuses matter more than raw counts alone. Attila and Rome II
+support all-province joint inputs too, but their full-map time to proven optimality
+has not been established. A two-province Attila sample proved both independent
+cases in 2.96 seconds while the joint case remained only `FEASIBLE` at its
+five-second limit. Rome II pair samples remained unproved in both modes at that
+limit; independent cases each received a separate limit, so those capped totals
+do not establish a speed comparison.
 
 ### Regional and worldwide coverage
 

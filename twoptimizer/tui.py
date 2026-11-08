@@ -28,9 +28,17 @@ from twoptimizer.holdings import (
     selected_provinces,
 )
 from twoptimizer.models import RunConfig
-from twoptimizer.presentation import money, timing_summary
+from twoptimizer.presentation import (
+    MODEL_SIZE_NOTE,
+    model_details,
+    model_size_summary,
+    money,
+    query_summary,
+    timing_summary,
+)
+from twoptimizer.progress import ModelStats
 from twoptimizer.province_picker import BorderPicker, ProvincePicker, ProvinceSelection
-from twoptimizer.runner import CaseRunner
+from twoptimizer.runner import BatchRunner
 from twoptimizer.screens import ExportScreen, HelpScreen
 from twoptimizer.service import error_result, make_jobs
 from twoptimizer.workspace import compose_workspace
@@ -49,7 +57,7 @@ class OptimizerApp(App):
     ]
     CSS_PATH = "workspace.tcss"
 
-    def __init__(self, runner_factory=CaseRunner):
+    def __init__(self, runner_factory=BatchRunner):
         super().__init__()
         self._ui_ready = False
         self.runner_factory = runner_factory
@@ -60,6 +68,7 @@ class OptimizerApp(App):
         self.started = None
         self.current_case = "Ready"
         self.current_phase = ""
+        self.current_models: list[ModelStats] = []
         self.sort_column, self.sort_reverse = "income", True
         self.province_selection = ProvinceSelection()
 
@@ -249,7 +258,9 @@ class OptimizerApp(App):
         ):
             self._refresh_preview()
 
-    def _refresh_preview(self):
+    def _refresh_preview(self, *, reset_model=True):
+        if reset_model:
+            self._reset_model_size("available after compilation")
         self._province_controls()
         self.query_one("#time-options").display = self.query_one("#time-limit", Checkbox).value
         try:
@@ -262,16 +273,7 @@ class OptimizerApp(App):
             self.query_one("#preview", Static).update(str(error))
             self.query_one("#run", Button).disabled = True
         else:
-            self.query_one("#preview", Static).update(
-                ("Select at least one province.\n" if not jobs else "")
-                + f"{len(jobs)} case{'s' if len(jobs) != 1 else ''} · "
-                + (
-                    "until proved / cancelled"
-                    if config.seconds is None
-                    else f"{config.seconds:g}s limit each"
-                )
-                + (f"\n{len(skipped)} incomplete profiles excluded" if skipped else "")
-            )
+            self.query_one("#preview", Static).update(query_summary(config, jobs, skipped))
             self.query_one("#run", Button).disabled = not jobs
 
     @on(Button.Pressed, "#run")
@@ -308,7 +310,7 @@ class OptimizerApp(App):
         self.query_one("#export", Button).disabled = busy or not self.results
         self.query_one("#clear", Button).disabled = busy or not self.results
         if not busy:
-            self._refresh_preview()
+            self._refresh_preview(reset_model=False)
 
     @work(exclusive=True, group="solve")
     async def _solve(self, jobs):
@@ -333,6 +335,7 @@ class OptimizerApp(App):
                     f"{job.algorithm}"
                 )
                 self.current_phase = "Starting engine"
+                self._reset_model_size("compiling this case…")
                 self._tick()
                 log.write(self.current_case)
                 try:
@@ -357,8 +360,13 @@ class OptimizerApp(App):
             label = "Cancelled" if runner.cancelled else "Finished"
             self.current_case = f"{label} · {len(self.results)}/{len(jobs)} cases · {errors} errors"
         finally:
+            cancelled = runner.cancelled
             await runner.stop()
             self._set_busy(False)
+            if cancelled:
+                self._reset_model_size("cancelled · select a completed result")
+            elif self.results:
+                self._show_result(self.results[-1])
             self.query_one("#run-status", Static).update(
                 self.current_case + f" · {perf_counter() - started:.1f}s elapsed"
             )
@@ -375,8 +383,24 @@ class OptimizerApp(App):
             )
 
     def _phase_changed(self, phase):
+        if isinstance(phase, ModelStats):
+            self.current_models.append(phase)
+            self._show_model_size(self.current_models, "Active · " + self.current_case)
+            return
         self.current_phase = phase
         self._tick()
+
+    def _reset_model_size(self, message):
+        self.current_models = []
+        self.query_one("#model-size", Static).update("Model size: " + message)
+        self.query_one("#model-details", Static).update(
+            message.capitalize() + "\n\n" + MODEL_SIZE_NOTE
+        )
+
+    def _show_model_size(self, models, title, *, selected=False):
+        if not selected or not self.busy:
+            self.query_one("#model-size", Static).update(model_size_summary(models))
+        self.query_one("#model-details", Static).update(model_details(models, title))
 
     def _add_result(self, result):
         table = self.query_one("#results", DataTable)
@@ -451,6 +475,11 @@ class OptimizerApp(App):
             + "\nArrow keys browse · Enter opens buildings · click headings to sort"
             + ("\n" + timing_summary(result) if result.get("timings") else "")
         )
+        self._show_model_size(
+            [ModelStats.from_dict(item) for item in result["raw"].get("model_complexity", [])],
+            "Selected · " + label,
+            selected=True,
+        )
         metrics = result["metrics"]
         food, order = metrics.get("food_surplus"), metrics.get("public_order")
         message = label + (
@@ -490,6 +519,7 @@ class OptimizerApp(App):
 
     async def action_cancel(self):
         if self.busy and self.runner:
+            self._reset_model_size("cancelling active case…")
             self.query_one("#run-status", Static).update("Stopping the active solver…")
             await self.runner.stop()
 
@@ -516,6 +546,7 @@ class OptimizerApp(App):
         if self.busy:
             return
         self.results = []
+        self._reset_model_size("available after compilation")
         self.query_one("#results", DataTable).clear()
         self.query_one("#buildings", DataTable).clear()
         for key in ("income", "bound", "status"):

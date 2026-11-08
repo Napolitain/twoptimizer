@@ -26,6 +26,8 @@ Use **Multiple provinces…** for a searchable checklist with All/None controls.
 Independent batches and joint holdings work in all three games. Joint Attila and
 Rome II runs take explicit neighboring-province inputs. **All** selects actual
 provinces; the joint mode shares the game's applicable bonuses and constraints.
+The query preview shows batch scope before Run. **Model size** displays compiled
+variable and constraint counts, with separate reference and solver formulations.
 
 ![Interactive terminal UI](docs/tui.png)
 

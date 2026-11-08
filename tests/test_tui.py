@@ -13,6 +13,7 @@ from tests.support.ui import QuickRunner, result
 from twoptimizer.catalog import choices
 from twoptimizer.export import export_session
 from twoptimizer.models import RunConfig
+from twoptimizer.progress import ModelStats
 from twoptimizer.runner import CaseRunner
 from twoptimizer.screens import ExportScreen
 from twoptimizer.service import make_jobs
@@ -200,7 +201,8 @@ def test_real_engine_worker(game):
 
     async def exercise():
         runner = CaseRunner()
-        output = await runner.run(config, lambda _: None)
+        events = []
+        output = await runner.run(config, lambda _: None, on_progress=events.append)
         assert output["solver"]["status"] in {
             "OPTIMAL",
             "FEASIBLE",
@@ -212,8 +214,19 @@ def test_real_engine_worker(game):
         assert output["timings"]["worker_wall_seconds"] > 0
         assert output["timings"]["worker_startup_seconds"] >= 0
         assert output["solver"]["workers"] >= 1
+        recorded = [event.to_dict() for event in events if isinstance(event, ModelStats)]
+        assert recorded == output["raw"]["model_complexity"]
+        assert {row["stage"] for row in recorded} == {"reference", "solver"}
+        native = recorded[-1]
+        solver_stats = output["solver"].get("model_stats") or output["solver"]
+        assert (native["variables"], native["constraints"]) == (
+            solver_stats["variables"],
+            solver_stats["constraints"],
+        )
         if game == "attila":
             assert output["solver"]["model_stats"]["formulation"] == "factored_income"
+            assert native["decision_variables"] is None
+            assert output["raw"]["model_stats"] == output["solver"]["model_stats"]
             assert output["raw"]["model_size"]["cp_sat"] == output["solver"]["model_stats"]
         if game == "rome2":
             assert output["solver"]["formulation"] == "linearized_income"

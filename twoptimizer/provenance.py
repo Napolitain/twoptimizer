@@ -104,8 +104,12 @@ def source_files(game):
         application / "service.py",
         application / "session.py",
         application / "holdings.py",
+        application / "progress.py",
+        application / "adapters" / "model_stats.py",
         application / "adapters" / f"{game}.py",
     ]
+    if game == "rome2":
+        application_paths.append(application / "adapters" / "rome_models.py")
     if game in {"attila", "rome2"}:
         application_paths.append(
             application / ("attila_session.py" if game == "attila" else "rome_session.py")

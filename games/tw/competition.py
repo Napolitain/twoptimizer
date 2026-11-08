@@ -213,7 +213,7 @@ def sat_solve(model, seconds, seed, workers=None):
         workers=workers,
         model_stats={
             "formulation": "expanded_boolean",
-            "variables": len(variables),
+            "variables": len(problem.proto.variables),
             "constraints": len(problem.proto.constraints),
         },
     )

@@ -60,8 +60,10 @@ def test_native_proof_without_cp_fingerprint_is_not_reused(monkeypatch, tmp_path
     calls = []
 
     class NativeResult:
-        def __init__(self, scenario, data):
+        def __init__(self, scenario, data, phase, algorithm):
             self.scenario = scenario
+            self.decisions = {}
+            self.party_variables = {}
 
         def fingerprint(self):
             return "identical-cp-model"
@@ -84,7 +86,7 @@ def test_native_proof_without_cp_fingerprint_is_not_reused(monkeypatch, tmp_path
         def reuse_optimum(self, reference):
             pytest.fail("Native optimum had no portable CP proof/layout metadata")
 
-    monkeypatch.setattr(rome2, "Economy", NativeResult)
+    monkeypatch.setattr(rome2, "ObservedEconomy", NativeResult)
     result = benchmark.main(
         [
             "--faction",

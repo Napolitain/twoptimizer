@@ -1,4 +1,4 @@
-"""One isolated engine invocation; native solver output cannot corrupt the TUI."""
+"""Isolated engine cases, optionally sharing imports in a sequential batch."""
 
 import json
 import sys
@@ -7,26 +7,50 @@ from pathlib import Path
 
 from twoptimizer.errors import serialize_error
 from twoptimizer.models import RunConfig
-from twoptimizer.progress import PREFIX
+from twoptimizer.progress import PREFIX, encode_progress
 from twoptimizer.service import solve_case
 
 
-def main():
-    request_path, output_path = map(Path, sys.argv[1:])
+def emit(record):
+    # Native libraries may leave an unterminated stdout fragment before a frame.
+    print("\n" + PREFIX + json.dumps(record), flush=True)
+
+
+def run_case(request_path: Path, output_path: Path) -> int:
+    """Write one complete result atomically, without retaining model/session state."""
     try:
 
-        def progress(phase):
-            print(PREFIX + json.dumps({"phase": phase}), flush=True)
+        def progress(event):
+            emit(encode_progress(event))
 
         result = solve_case(
             RunConfig.from_dict(json.loads(request_path.read_text())), progress=progress
         )
-        output_path.write_text(json.dumps(result.to_dict(), allow_nan=False))
-        return 0
+        payload = json.dumps(result.to_dict(), allow_nan=False)
+        status = 0
     except Exception as error:
-        output_path.write_text(json.dumps(serialize_error(error)))
+        payload = json.dumps(serialize_error(error))
         traceback.print_exc()
-        return 1
+        status = 1
+    temporary = output_path.with_suffix(".tmp")
+    temporary.write_text(payload)
+    temporary.replace(output_path)
+    return status
+
+
+def batch_main() -> int:
+    """A completed case may fail; malformed transport ends the worker."""
+    for line in sys.stdin:
+        request = json.loads(line)
+        run_case(Path(request["request"]), Path(request["output"]))
+        emit({"completed": request["id"]})
+    return 0
+
+
+def main():
+    if sys.argv[1:] == ["--batch"]:
+        return batch_main()
+    return run_case(*map(Path, sys.argv[1:]))
 
 
 if __name__ == "__main__":

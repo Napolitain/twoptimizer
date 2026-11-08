@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, Any
 from games.tw.comparison import ComparisonOptions, report_results
 from games.tw.competition import Result
 from games.tw.immutable import thaw
+from twoptimizer.adapters.model_stats import record_binary, record_cp_result
 from twoptimizer.attila_session import AttilaSession
 from twoptimizer.models import BuildingSelection, CaseResult, EngineResult, RunConfig
 from twoptimizer.progress import PhaseTimer
@@ -26,11 +27,17 @@ def solve_attila(
     snapshot = prepared.snapshot
     economy = snapshot.economy
     assert economy is not None
+    decisions = len(economy.by_id)
+    record_binary(
+        phase, snapshot.model, "Attila expanded income model", decisions, config.algorithm
+    )
     phase("solve_and_check_seconds", "Solving and validating")
     result, fingerprint, reused = state.solve(config, prepared)
     row = report_results(
         snapshot.model, [result], ComparisonOptions(algorithms=(config.algorithm,)), economy
     )["results"][0]
+    if not reused:
+        record_cp_result(phase, {"model_stats": result.model_stats}, decisions)
     phase("prepare_result_seconds", "Preparing result")
     raw = {
         **row,

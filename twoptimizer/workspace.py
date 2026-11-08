@@ -112,6 +112,16 @@ def compose_workspace() -> ComposeResult:
                     )
                     yield DataTable(id="buildings", cursor_type="row", zebra_stripes=True)
                 with (
+                    TabPane("Model size", id="complexity-pane"),
+                    VerticalScroll(id="complexity-scroll"),
+                ):
+                    yield Static(
+                        "Run a case to compile its model counts.\n\n"
+                        "Model size does not predict runtime or guarantee a quick proof.",
+                        id="model-details",
+                        markup=False,
+                    )
+                with (
                     TabPane("Model notes", id="notes-pane"),
                     VerticalScroll(id="notes-scroll"),
                 ):
@@ -125,6 +135,7 @@ def compose_workspace() -> ComposeResult:
                     id="run-status",
                     markup=False,
                 )
+            yield Static("Model size: available after compilation", id="model-size", markup=False)
             yield ProgressBar(total=1, show_eta=False, show_percentage=False, id="progress")
             with Horizontal(id="table-actions"):
                 yield Button("Export JSON + CSV", id="export", disabled=True)

@@ -8,7 +8,7 @@ from twoptimizer.engines import solve_attila, solve_rome, solve_shogun
 from twoptimizer.errors import ApplicationError, serialize_error
 from twoptimizer.holdings import province_label
 from twoptimizer.models import CaseResult, RunConfig, SolverSummary
-from twoptimizer.progress import PhaseTimer
+from twoptimizer.progress import PhaseTimer, ProgressEvent
 from twoptimizer.provenance import source_files
 from twoptimizer.requests import make_jobs as make_jobs
 from twoptimizer.session import RunSession
@@ -16,7 +16,7 @@ from twoptimizer.session import RunSession
 
 def solve_case(
     config: RunConfig,
-    progress: Callable[[str], None] | None = None,
+    progress: Callable[[ProgressEvent], None] | None = None,
     *,
     session: RunSession | None = None,
 ) -> CaseResult:
@@ -32,6 +32,7 @@ def solve_case(
         result = adapter(config, phase, session)
     except (ValueError, TypeError) as error:
         raise ApplicationError(str(error)) from error
+    result.raw["model_complexity"] = [stats.to_dict() for stats in phase.models]
     income = result.income
     solver = SolverSummary.from_dict(result.raw["solver"])
     bound = solver.bound
