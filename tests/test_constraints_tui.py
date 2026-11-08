@@ -84,6 +84,11 @@ def test_religious_options_apply_and_clear_without_changing_defaults(game):
                 await pilot.click("#constraints-apply")
                 assert app.selected == "pending"
                 assert "nonnegative" in str(picker.query_one("#constraint-error", Static).content)
+                # A second click is ignored while Textual's pressed effect is active.
+                # Wait for the actual widget duration before correcting and reapplying.
+                await pilot.pause(
+                    picker.query_one("#constraints-apply", Button).active_effect_duration
+                )
                 picker.query_one("#constraint-influence", Input).value = "5"
             elif game == "shogun2":
                 picker.query_one("#constraint-faith", Select).value = "christian"
