@@ -3,7 +3,7 @@ name = "napolitain-twoptimizer"
 version = "1.5.0"
 description = "Total War economic optimizers with CLI and interactive terminal UI"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 authors = [{ name = "Maxime Boucher", email = "mxboucher@gmail.com" }]
 dependencies = [
     "numpy>=2.0.2",
@@ -39,7 +39,7 @@ source-include = ["tests/**", "tools/**", "reports/**", "docs/**", "uv.lock", "A
                   ".github/**", ".gitignore", "flake.nix", "flake.lock"]
 
 [tool.ruff]
-target-version = "py312"
+target-version = "py314"
 line-length = 100
 show-fixes = true
 
@@ -51,6 +51,9 @@ select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF", "C901"]
 
 [tool.ruff.lint.mccabe]
 max-complexity = 10
+
+[tool.ty.environment]
+python-version = "3.14"
 
 [tool.ty.terminal]
 error-on-warning = true

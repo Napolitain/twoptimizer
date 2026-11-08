@@ -18,7 +18,7 @@ def _quota_paths():
                     paths.extend(
                         root.joinpath(*parts[:i], "cpu.max") for i in range(1, len(parts) + 1)
                     )
-    except (OSError, ValueError):
+    except OSError, ValueError:
         pass
     return paths
 
@@ -36,14 +36,14 @@ def available_workers():
             quota, period = path.read_text().split()
             if quota != "max" and int(quota) > 0 and int(period) > 0:
                 counts.append(ceil(int(quota) / int(period)))
-        except (OSError, ValueError):
+        except OSError, ValueError:
             pass
     try:
         quota = int(Path("/sys/fs/cgroup/cpu/cpu.cfs_quota_us").read_text())
         period = int(Path("/sys/fs/cgroup/cpu/cpu.cfs_period_us").read_text())
         if quota > 0 and period > 0:
             counts.append(ceil(quota / period))
-    except (OSError, ValueError):
+    except OSError, ValueError:
         pass
     return max(1, min(counts, default=1))
 

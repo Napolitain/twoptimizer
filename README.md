@@ -16,7 +16,7 @@ uv run --locked twoptimizer
 ```
 
 `uv` automatically sets up Python and installs the locked dependencies. The
-project defaults to Python 3.14.
+project requires Python 3.14 or newer; development and CI target Python 3.14.
 
 Choose a game, faction and province in the terminal UI, then press **Ctrl+R** to
 run. Use **Esc** to cancel, **Ctrl+S** to export, **F1** for help and **Ctrl+Q** to

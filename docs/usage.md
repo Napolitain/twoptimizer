@@ -58,8 +58,9 @@ shared wealth/tax/corruption calculations when income contains cubic products;
 simpler quadratic objectives keep the expanded Boolean model. Both paths retain
 the original economic evaluator and independently validate the selected layout.
 
-Python 3.12 measurements with four automatically selected CPUs, including
-repeated runs after integrating the engine API refactor:
+Historical Python 3.12 measurements with four automatically selected CPUs,
+including repeated runs after integrating the engine API refactor (the project
+now targets Python 3.14 and requires Python >=3.14):
 
 | Case | Previous solver time | Revised solver time | Full TUI worker | Proven income |
 | --- | ---: | ---: | ---: | ---: |

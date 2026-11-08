@@ -1,13 +1,13 @@
 {
   "source_reports": {
-    "reports/rome2-income-comparison.json": "bb4834605d52c65f4eba43db3ad23d8ed7163ca2531b98491893dcbc8eb160e2",
-    "reports/rome2-solver-comparison.json": "56c8cd711103b48ce7fdda7d4d7b5b02711794fc684660bc8643370fe3efb330",
-    "reports/rome2-resource-comparison.json": "6de8481ad1b52203f36fcbc775573507805d3e5b2742b14dfce2e95ee576d3e9",
-    "reports/rome2-province-comparison.json": "5508ceca1b62bb5a339afb1c37ebf05792ff488286992c3d6b27308e6c9699ba",
-    "reports/rome2-research-comparison.json": "76ea6350a86d43d9093e7a3dc0cb1704d7f0f4a32f6f678fb1f1e4e4d5be5f59"
+    "reports/rome2-income-comparison.json": "7a8ef6f1dec26dcd11e36ead766aa9646e2b2bd6ffaab1d7c29b74645fe5e296",
+    "reports/rome2-solver-comparison.json": "94d72b629292bd8b331e684eb7af425f145f49ae58e52dbc3d001a223700a917",
+    "reports/rome2-resource-comparison.json": "af62c860829af844f911bf5d7d8b67d6132fcbaa2f15f1223644afd9a6ad2682",
+    "reports/rome2-province-comparison.json": "1fa28423c7013edd79e0fad1a5e5b45775e57c2912973dd7163ceb70b1260327",
+    "reports/rome2-research-comparison.json": "c2d11623b389bb8da96d50b337b5abd8bbadc8c3db4bbb01a5eda6e4a8352b31"
   },
   "catalog_sha256": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
-  "model_sha256": "bcb41d2a876971f726120f089b505633c018c9557913a0b7556f43d2f1ac784f",
+  "model_sha256": "069b34def898d0a76bbcff8fd1ef47269db33a32b777caf958e2e9b993d526b7",
   "note": "Ranks compare only the covered factions in each declared scenario. Bounds overlapping a rival's income leave the ranking uncertain; ties use competition ranks. Model optimality does not certify current in-game fidelity.",
   "rows": [
     {

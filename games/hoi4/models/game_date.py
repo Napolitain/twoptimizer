@@ -49,7 +49,7 @@ class GameDate:
         return datetime(self.year, self.month, self.day, self.hour)
 
     @classmethod
-    def from_datetime(cls, dt: datetime) -> "GameDate":
+    def from_datetime(cls, dt: datetime) -> GameDate:
         """
         Create GameDate from Python datetime.
 
@@ -61,7 +61,7 @@ class GameDate:
         """
         return cls(year=dt.year, month=dt.month, day=dt.day, hour=dt.hour)
 
-    def add_days(self, days: int) -> "GameDate":
+    def add_days(self, days: int) -> GameDate:
         """
         Add days to this date.
 
@@ -74,7 +74,7 @@ class GameDate:
         dt = self.to_datetime() + timedelta(days=days)
         return GameDate.from_datetime(dt)
 
-    def add_hours(self, hours: int) -> "GameDate":
+    def add_hours(self, hours: int) -> GameDate:
         """
         Add hours to this date.
 
@@ -87,7 +87,7 @@ class GameDate:
         dt = self.to_datetime() + timedelta(hours=hours)
         return GameDate.from_datetime(dt)
 
-    def days_until(self, other: "GameDate") -> int:
+    def days_until(self, other: GameDate) -> int:
         """
         Calculate days between this date and another.
 
@@ -100,7 +100,7 @@ class GameDate:
         delta = other.to_datetime() - self.to_datetime()
         return delta.days
 
-    def hours_until(self, other: "GameDate") -> int:
+    def hours_until(self, other: GameDate) -> int:
         """
         Calculate hours between this date and another.
 
@@ -113,19 +113,19 @@ class GameDate:
         delta = other.to_datetime() - self.to_datetime()
         return int(delta.total_seconds() / 3600)
 
-    def __lt__(self, other: "GameDate") -> bool:
+    def __lt__(self, other: GameDate) -> bool:
         """Compare if this date is before another."""
         return self.to_datetime() < other.to_datetime()
 
-    def __le__(self, other: "GameDate") -> bool:
+    def __le__(self, other: GameDate) -> bool:
         """Compare if this date is before or equal to another."""
         return self.to_datetime() <= other.to_datetime()
 
-    def __gt__(self, other: "GameDate") -> bool:
+    def __gt__(self, other: GameDate) -> bool:
         """Compare if this date is after another."""
         return self.to_datetime() > other.to_datetime()
 
-    def __ge__(self, other: "GameDate") -> bool:
+    def __ge__(self, other: GameDate) -> bool:
         """Compare if this date is after or equal to another."""
         return self.to_datetime() >= other.to_datetime()
 

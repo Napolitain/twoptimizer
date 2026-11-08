@@ -142,7 +142,7 @@ def _source_digest():
 
 def _run_cases(jobs, joint, algorithm_count):
     session = RunSession()
-    for group in batched(jobs, algorithm_count):
+    for group in batched(jobs, algorithm_count, strict=False):
         case = comparison_report(
             [service.solve_case(job, session=session) for job in group], joint=joint
         )

@@ -158,7 +158,7 @@ time limit and uses automatic workers.
 The shared request supports advanced CLI cases even though the TUI does not expose
 all of those controls. Adding an interface option should translate into these
 requests rather than introduce another engine orchestration path. Solver
-mathematics, independent evaluation, bundled game data and Python 3.12 support
+mathematics, independent evaluation, bundled game data and Python 3.14 targeting
 remain in their existing engine/build boundaries.
 
 ## Regression evidence

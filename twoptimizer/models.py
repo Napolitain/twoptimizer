@@ -46,7 +46,7 @@ class AttilaOptions:
         }
 
     @classmethod
-    def from_dict(cls, payload: dict[str, Any]) -> "AttilaOptions":
+    def from_dict(cls, payload: dict[str, Any]) -> AttilaOptions:
         if not isinstance(payload, dict):
             raise ApplicationError("Attila options must be a JSON object.")
         data = dict(payload)
@@ -111,7 +111,7 @@ class RunConfig:
         return data
 
     @classmethod
-    def from_dict(cls, payload: dict[str, Any]) -> "RunConfig":
+    def from_dict(cls, payload: dict[str, Any]) -> RunConfig:
         try:
             if not isinstance(payload, dict):
                 raise ApplicationError("A request must be a JSON object.")
@@ -157,7 +157,7 @@ class SolverSummary:
     details: dict[str, Any] = field(default_factory=dict)
 
     @classmethod
-    def from_dict(cls, report: dict[str, Any]) -> "SolverSummary":
+    def from_dict(cls, report: dict[str, Any]) -> SolverSummary:
         fields = {
             key: report[key] for key in ("algorithm", "status", "seconds", "objective", "bound")
         }
@@ -217,7 +217,7 @@ class CaseResult:
         }
 
     @classmethod
-    def from_dict(cls, payload: dict[str, Any]) -> "CaseResult":
+    def from_dict(cls, payload: dict[str, Any]) -> CaseResult:
         data = dict(payload)
         data["request"] = RunConfig.from_dict(data["request"])
         data["solver"] = SolverSummary.from_dict(data["solver"])

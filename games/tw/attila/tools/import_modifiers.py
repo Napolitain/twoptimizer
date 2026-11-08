@@ -53,14 +53,14 @@ def documents(html):
             continue
         try:
             push = json.loads(script[len("self.__next_f.push(") :].rstrip(";)"))
-        except (ValueError, TypeError):
+        except ValueError, TypeError:
             continue
         if len(push) != 2 or push[0] != 1 or not isinstance(push[1], str):
             continue
         for line in push[1].splitlines():
             try:
                 yield json.loads(line.split(":", 1)[1])
-            except (ValueError, IndexError):
+            except ValueError, IndexError:
                 continue
 
 

@@ -35,7 +35,7 @@ class FrozenMap[K, V](Mapping[K, V]):
     def __len__(self) -> int:
         return len(self.__values)
 
-    def __deepcopy__(self, memo: dict) -> "FrozenMap[K, V]":
+    def __deepcopy__(self, memo: dict) -> FrozenMap[K, V]:
         return self
 
 

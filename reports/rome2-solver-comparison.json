@@ -2,7 +2,7 @@
   "schema_version": 1,
   "created_at_utc": "2026-11-07T13:47:10.221163+00:00",
   "catalog_sha256": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
-  "model_sha256": "bcb41d2a876971f726120f089b505633c018c9557913a0b7556f43d2f1ac784f",
+  "model_sha256": "069b34def898d0a76bbcff8fd1ef47269db33a32b777caf958e2e9b993d526b7",
   "assumptions": {
     "objective": "Current domestic provincial tax receipts less modeled building maintenance, excluding external trade, armies, agents and construction spending.",
     "reference_holdings": "Controlled two-settlement provinces: inland, coastal, and coastal with a grain-producing minor core. These are explicit layouts, not historical starting provinces.",
@@ -14416,5 +14416,14 @@
     "identical_canonical_models": 12,
     "feasible_layouts_replayed": 12,
     "method": "Compared pre-refactor and current canonical CP-SAT model fingerprints for every case; independently replayed stored layouts and portable optimum metadata. Historical objectives, bounds, statuses, selected layouts and timings are retained. This updates source provenance after module moves; it is not a new solve."
+  },
+  "python314_annotation_update": {
+    "verified_at_utc": "2026-11-08T03:55:46.903484+00:00",
+    "baseline_revision": "72627051aede8e5b15d12ca5bd529ae6e4828613",
+    "from_model_sha256": "bcb41d2a876971f726120f089b505633c018c9557913a0b7556f43d2f1ac784f",
+    "to_model_sha256": "069b34def898d0a76bbcff8fd1ef47269db33a32b777caf958e2e9b993d526b7",
+    "identical_canonical_models": 12,
+    "feasible_layouts_replayed": 12,
+    "method": "Removed the quoted FrozenMap return annotation for the Python 3.14 target. Compared canonical CP-SAT model fingerprints and independently evaluated stored layouts before and after that annotation-only source change for every case. Objectives, bounds, statuses, layouts and historical timings are retained; this is not a new solve."
   }
 }

@@ -149,8 +149,9 @@ workflow. Coverage output is not optimization training data.
 ## Repository-specific constraints
 
 Use the existing isolated checkout; do not create a Git worktree unless the user
-requests one. Python 3.14 is the default; Python 3.12 remains supported and tested
-in CI. Ruff targets Python 3.12 syntax to retain that compatibility.
+requests one. Python 3.14 is the supported development and CI target, and the
+package requires Python >=3.14. Ruff and ty target Python 3.14. Do not retain
+Python 3.12 compatibility workarounds or add an older-Python CI matrix.
 
 Do not reformat bundled game data, reports or legacy solver-result fixtures.
 Their tabs, BOMs, empty fields and byte hashes carry source or provenance meaning.

@@ -83,7 +83,7 @@ class Modifier:
         """
         return self.effects.copy()
 
-    def combine_with(self, other: "Modifier") -> "Modifier":
+    def combine_with(self, other: Modifier) -> Modifier:
         """
         Combine this modifier with another modifier.
 
