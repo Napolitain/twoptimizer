@@ -87,6 +87,16 @@ class Scenario:
         object.__setattr__(self, "sites", tuple(self.sites))
         object.__setattr__(self, "modifiers", tuple(self.modifiers))
 
+    @classmethod
+    def from_dict(cls, record):
+        """Restore typed sites and modifiers at the saved-report JSON boundary."""
+        data = dict(record)
+        data["sites"] = tuple(Site(**site) for site in data["sites"])
+        data["modifiers"] = tuple(
+            ScenarioModifier.from_dict(modifier) for modifier in data.get("modifiers", ())
+        )
+        return cls(**data)
+
     def to_dict(self) -> dict:
         data = asdict(self)
         data["modifiers"] = [modifier.to_dict() for modifier in self.modifiers]

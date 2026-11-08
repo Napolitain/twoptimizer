@@ -2,7 +2,7 @@
   "schema_version": 1,
   "created_at_utc": "2026-11-07T14:04:53.984710+00:00",
   "catalog_sha256": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
-  "model_sha256": "610ab5a30b1da26f701950ff3e057ad936c1051e27bd1421ef56b4bfc4c93ce2",
+  "model_sha256": "bcb41d2a876971f726120f089b505633c018c9557913a0b7556f43d2f1ac784f",
   "assumptions": {
     "objective": "Current domestic provincial tax receipts less modeled building maintenance, excluding external trade, armies, agents and construction spending.",
     "reference_holdings": "Controlled two-settlement provinces: inland, coastal, and coastal with a grain-producing minor core. These are explicit layouts, not historical starting provinces.",
@@ -18090,5 +18090,15 @@
     "canonical_models_checked": 29,
     "feasible_layouts_replayed": 29,
     "method": "Original and revised canonical CP-SAT model fingerprints match exactly for every case. Replayed each stored layout with unchanged economics. Alternative linearization only adds implied bounds and product constraints. Historical solver statuses, bounds, layouts and timings are retained; this migration is not a new solve."
+  },
+  "domain_refactor_update": {
+    "verified_at_utc": "2026-11-08T02:48:18.393510+00:00",
+    "baseline_revision": "bd60b0c",
+    "domain_revision": "9171afe",
+    "from_model_sha256": "610ab5a30b1da26f701950ff3e057ad936c1051e27bd1421ef56b4bfc4c93ce2",
+    "to_model_sha256": "bcb41d2a876971f726120f089b505633c018c9557913a0b7556f43d2f1ac784f",
+    "identical_canonical_models": 29,
+    "feasible_layouts_replayed": 29,
+    "method": "Compared pre-refactor and current canonical CP-SAT model fingerprints for every case; independently replayed stored layouts and portable optimum metadata. Historical objectives, bounds, statuses, selected layouts and timings are retained. This updates source provenance after module moves; it is not a new solve."
   }
 }

@@ -8,7 +8,7 @@ from pathlib import Path
 from games.tw.rome2.catalog import CATALOG, load_data
 from games.tw.rome2.model import Economy
 from games.tw.rome2.provenance import model_fingerprint
-from games.tw.rome2.scenario import Scenario, Site
+from games.tw.rome2.scenario import Scenario
 
 
 def verify(paths):
@@ -27,9 +27,7 @@ def verify(paths):
         for case in report["cases"]:
             if "sites" not in case:
                 continue
-            raw = dict(case["scenario"])
-            raw["sites"] = tuple(Site(**row) for row in raw["sites"])
-            economy = Economy(Scenario(**raw), data)
+            economy = Economy(Scenario.from_dict(case["scenario"]), data)
             layout = {key: row["buildings"] for key, row in case["sites"].items()}
             checked = economy.evaluate(layout, case["party_index"])
             _verify_economics(checked, case, path)
