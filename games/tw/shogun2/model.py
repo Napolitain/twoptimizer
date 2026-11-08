@@ -332,8 +332,17 @@ class Economy:
             raise ValueError("Castle has too few town slots")
         return buildings, slots
 
-    def optimize(self, algorithm="cp-sat", seconds=None, workers=None):
-        result = solve(self.compile(), algorithm, seconds=seconds, workers=workers)
+    def optimize(
+        self, algorithm="cp-sat", seconds=None, workers=None, *, on_search=None, on_model=None
+    ):
+        result = solve(
+            self.compile(),
+            algorithm,
+            seconds=seconds,
+            workers=workers,
+            on_search=on_search,
+            on_model=on_model,
+        )
         report = {
             "scenario": self.scenario.to_dict(),
             "solver": {k: v for k, v in asdict(result).items() if k != "values"},

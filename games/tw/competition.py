@@ -132,7 +132,7 @@ def highs_solve(model, seconds, seed, workers=None):
     return result
 
 
-def sat_solve(model, seconds, seed, workers=None):
+def sat_solve(model, seconds, seed, workers=None, *, on_search=None, on_model=None):
     workers = resolve_workers(workers)
     start = perf_counter()
     deadline = None if seconds is None else perf_counter() + seconds
@@ -141,7 +141,12 @@ def sat_solve(model, seconds, seed, workers=None):
         from games.tw.attila.compact import UnsupportedCompact
 
         try:
-            return model.cp_sat_plan.solve(model, seconds, seed, workers)
+            observers = {
+                key: value
+                for key, value in (("on_search", on_search), ("on_model", on_model))
+                if value is not None
+            }
+            return model.cp_sat_plan.solve(model, seconds, seed, workers, **observers)
         except UnsupportedCompact as error:
             fallback_reason = str(error)
     problem = cp_model.CpModel()
@@ -165,8 +170,21 @@ def sat_solve(model, seconds, seed, workers=None):
         solver.parameters.max_time_in_seconds = max(0.001, deadline - perf_counter())
     solver.parameters.num_search_workers = workers
     solver.parameters.random_seed = seed
+    stats = {
+        "formulation": "expanded_boolean",
+        "variables": len(problem.proto.variables),
+        "constraints": len(problem.proto.constraints),
+    }
+    if on_model is not None:
+        on_model(stats)
+    nonzero = np.flatnonzero(coefficients)
+    scale = float(model.profit[nonzero[0]] / coefficients[nonzero[0]]) if len(nonzero) else 1
+    from games.tw.search_progress import solve_with_progress
+
     search_start = perf_counter()
-    status = solver.solve(problem)
+    status = solve_with_progress(
+        solver, problem, on_search=on_search, scale=scale, offset=model.offset
+    )
     result = Result(
         "cp-sat",
         solver.status_name(status),
@@ -175,18 +193,12 @@ def sat_solve(model, seconds, seed, workers=None):
             "search_seconds": perf_counter() - search_start,
         },
         workers=workers,
-        model_stats={
-            "formulation": "expanded_boolean",
-            "variables": len(problem.proto.variables),
-            "constraints": len(problem.proto.constraints),
-        },
+        model_stats=stats,
     )
     if fallback_reason is not None:
         result.model_stats["fallback_reason"] = fallback_reason
     if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
         result.values = [solver.value(v) for v in variables]
-        nonzero = np.flatnonzero(coefficients)
-        scale = float(model.profit[nonzero[0]] / coefficients[nonzero[0]]) if len(nonzero) else 1
         result.bound = solver.best_objective_bound * scale + model.offset
     return result
 
@@ -194,7 +206,7 @@ def sat_solve(model, seconds, seed, workers=None):
 ALGORITHMS = ("cp-sat", "highs")
 
 
-def solve(model, algorithm, seconds=None, seed=0, workers=None):
+def solve(model, algorithm, seconds=None, seed=0, workers=None, *, on_search=None, on_model=None):
     if algorithm not in ALGORITHMS:
         raise ValueError(f"Unknown algorithm: {algorithm}; choose cp-sat or highs")
     if seconds is not None and (seconds <= 0 or not isfinite(seconds)):
@@ -203,7 +215,7 @@ def solve(model, algorithm, seconds=None, seed=0, workers=None):
     start = perf_counter()
     try:
         result = (
-            sat_solve(model, seconds, seed, workers)
+            sat_solve(model, seconds, seed, workers, on_search=on_search, on_model=on_model)
             if algorithm == "cp-sat"
             else highs_solve(model, seconds, seed, workers)
         )

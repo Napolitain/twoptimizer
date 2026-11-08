@@ -11,6 +11,7 @@ from games.tw.rome2.scenario import Scenario, Site
 from games.tw.rome2.world import province_scenario
 from twoptimizer.adapters.model_stats import record_cp_result
 from twoptimizer.adapters.rome_models import ObservedEconomy, ObservedHoldingEconomy
+from twoptimizer.adapters.search import search_observers
 from twoptimizer.catalog import read
 from twoptimizer.holdings import resolved_borders
 from twoptimizer.models import BuildingSelection, EngineResult, RunConfig
@@ -104,7 +105,13 @@ def solve_rome(
         economy = ObservedEconomy(scenario, data, phase, config.algorithm)
     phase("solve_and_check_seconds", "Solving and validating")
     state = RomeSession() if session is None else session.rome
-    raw = state.solve(economy, config)
+    raw = state.solve(
+        economy,
+        config,
+        **search_observers(
+            phase, "Rome II CP-SAT", lambda: len(economy.decisions) + len(economy.party_variables)
+        ),
+    )
     record_cp_result(phase, raw["solver"], len(economy.decisions) + len(economy.party_variables))
     phase("prepare_result_seconds", "Preparing result")
     world = read("rome2/data/world.json")["regions"]

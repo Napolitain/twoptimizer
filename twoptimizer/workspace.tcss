@@ -29,6 +29,7 @@ DataTable { height: 1fr; background: #101b2c; }
 #run-status { width: 1fr; height: 2; padding-left: 1; }
 #activity { height: 2; }
 #model-size { height: auto; padding: 0 1; color: #b4c9dd; }
+#search-progress { display: none; height: auto; padding: 0 1; color: #f6d484; }
 #complexity-scroll { height: 1fr; padding: 1; }
 #model-details { height: auto; color: #b4c9dd; }
 #spinner { width: 5; height: 2; }

@@ -45,9 +45,10 @@ from twoptimizer.presentation import (
     model_size_summary,
     money,
     query_summary,
+    search_summary,
     timing_summary,
 )
-from twoptimizer.progress import ModelStats
+from twoptimizer.progress import ModelStats, SearchStats
 from twoptimizer.province_picker import (
     USE_MAP_BORDERS,
     BorderPicker,
@@ -85,6 +86,7 @@ class OptimizerApp(App):
         self.current_case = "Ready"
         self.current_phase = ""
         self.current_models: list[ModelStats] = []
+        self.current_search: SearchStats | None = None
         self.sort_column, self.sort_reverse = "income", True
         self.province_selection = ProvinceSelection()
         self.constraint_options = ConstraintOptions()
@@ -381,6 +383,7 @@ class OptimizerApp(App):
         self.query_one("#export", Button).disabled = busy or not self.results
         self.query_one("#clear", Button).disabled = busy or not self.results
         if not busy:
+            self._reset_search()
             self._refresh_preview(reset_model=False)
 
     @work(exclusive=True, group="solve")
@@ -407,6 +410,7 @@ class OptimizerApp(App):
                 )
                 self.current_phase = "Starting engine"
                 self._reset_model_size("compiling this case…")
+                self._reset_search()
                 self._tick()
                 log.write(self.current_case)
                 try:
@@ -454,12 +458,24 @@ class OptimizerApp(App):
             )
 
     def _phase_changed(self, phase):
+        if isinstance(phase, SearchStats):
+            if self.is_running and self.busy:
+                self.current_search = phase
+                self.query_one("#search-progress", Static).update(search_summary(phase))
+                self.query_one("#search-progress").display = True
+            return
         if isinstance(phase, ModelStats):
             self.current_models.append(phase)
             self._show_model_size(self.current_models, "Active · " + self.current_case)
             return
         self.current_phase = phase
+        self._reset_search()
         self._tick()
+
+    def _reset_search(self):
+        self.current_search = None
+        self.query_one("#search-progress").display = False
+        self.query_one("#search-progress", Static).update("")
 
     def _reset_model_size(self, message):
         self.current_models = []
@@ -624,6 +640,7 @@ class OptimizerApp(App):
         if self.busy:
             return
         self.results = []
+        self._reset_search()
         self._reset_model_size("available after compilation")
         self.query_one("#results", DataTable).clear()
         self.query_one("#buildings", DataTable).clear()

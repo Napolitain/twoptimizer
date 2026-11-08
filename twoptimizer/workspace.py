@@ -150,6 +150,7 @@ def compose_workspace() -> ComposeResult:
                     markup=False,
                 )
             yield Static("Model size: available after compilation", id="model-size", markup=False)
+            yield Static("", id="search-progress", markup=False)
             yield ProgressBar(total=1, show_eta=False, show_percentage=False, id="progress")
             with Horizontal(id="table-actions"):
                 yield Button("Export JSON + CSV", id="export", disabled=True)

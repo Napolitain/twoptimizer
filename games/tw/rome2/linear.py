@@ -24,6 +24,22 @@ class LinearProducts:
         self.choices, self.parties = choices, parties
         self.counter = 0
         self.groups = list(self.selection_groups())
+        self.named_groups = [
+            (tuple(variable_name(variable) for variable in variables), capacity, exact)
+            for variables, capacity, exact in self.groups
+        ]
+        self.groups_by_choice = defaultdict(list)
+        for index, (names, _, _) in enumerate(self.named_groups):
+            for name in names:
+                self.groups_by_choice[name].append(index)
+        # An exact singleton choice is already one in every feasible layout.
+        # Keep its decision variable for replay/proof identity, but do not add
+        # a redundant auxiliary variable for wealth multiplied by that choice.
+        self.forced_choices = {
+            names[0]
+            for names, capacity, exact in self.named_groups
+            if exact and capacity == 1 and len(names) == 1
+        }
 
     def site_groups(self, site):
         from games.tw.rome2.placement import branch
@@ -67,6 +83,8 @@ class LinearProducts:
         return maximum(roles["primary"]) + maximum(roles["port"]) + sum(ordinary[: site.capacity])
 
     def selected_product(self, expression, selector, upper):
+        if variable_name(selector) in self.forced_choices:
+            return expression
         self.counter += 1
         result = self.solver.IntVar(0, upper, f"selected_product:{self.counter}")
         self.solver.Add(result <= upper * selector)
@@ -96,8 +114,11 @@ class LinearProducts:
     def strengthen(self, expression, products):
         # Multiply each existing selection rule by the same nonnegative wealth.
         # This strengthens fractional bounds and preserves every integer layout.
-        for variables, capacity, exact in self.groups:
-            names = [variable_name(variable) for variable in variables]
+        # Most province expressions touch only a few holding-wide groups. Use
+        # cached membership, retaining the original group and summand order.
+        touched = {index for name in products for index in self.groups_by_choice.get(name, ())}
+        for index in sorted(touched):
+            names, capacity, exact = self.named_groups[index]
             present = [products[name] for name in names if name in products]
             if len(present) > capacity:
                 self.solver.Add(sum(present) <= capacity * expression)

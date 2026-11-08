@@ -3,12 +3,14 @@
 from dataclasses import replace
 from fractions import Fraction
 from itertools import product
+from types import SimpleNamespace
 
+import numpy as np
 import pytest
 from ortools.sat.python import cp_model
 
 from games.tw.attila.compact import LIMIT, Builder, UnsupportedCompact, checked, common_unit
-from games.tw.competition import solve
+from games.tw.competition import BinaryModel, solve
 from games.tw.enums import NameType, ProblemState
 from games.tw.problem import Problem
 from games.tw.region import Region
@@ -121,13 +123,28 @@ def test_every_layout_matches_reference_with_scopes_clamps_and_other_income(name
         else:
             assert status == cp_model.INFEASIBLE
     assert feasible_incomes
-    compact_result = solve(reference, "cp-sat", workers=1)
+    observations, models = [], []
+    compact_result = solve(
+        reference,
+        "cp-sat",
+        workers=1,
+        on_search=lambda *row: observations.append(row),
+        on_model=models.append,
+    )
     expanded_result = solve(replace(reference, cp_sat_plan=None), "cp-sat", workers=1)
     for result in (compact_result, expanded_result):
         assert result.status == "OPTIMAL"
         assert result.objective == pytest.approx(max(feasible_incomes))
         assert result.bound == pytest.approx(result.objective)
     assert compact_result.model_stats["formulation"] == "factored_income"
+    assert unit != 1  # This fixture exercises conversion from a nontrivial native income unit.
+    assert models == [compact_result.model_stats]
+    assert observations[-1][:2] == pytest.approx((max(feasible_incomes), max(feasible_incomes)))
+    for objective, bound, _ in observations:
+        if objective is not None:
+            assert any(objective == pytest.approx(income) for income in feasible_incomes)
+        if bound is not None:
+            assert bound >= max(feasible_incomes) - 1e-9
 
 
 def test_unsupported_compact_scaling_falls_back_to_reference(monkeypatch, context):
@@ -173,3 +190,102 @@ def test_quadratic_income_keeps_the_expanded_formulation(context):
     assert result.objective == result.bound == 120
     assert result.model_stats["formulation"] == "expanded_boolean"
     assert "no cubic" in result.model_stats["fallback_reason"]
+
+
+def _selector_builder(*, capacity=1):
+    names = ("wealth_a", "wealth_b", "tax_a", "tax_b", "keep_a", "keep_b")
+    reference = BinaryModel(
+        names=names,
+        profit=np.zeros(6),
+        matrix=np.array([[0, 0, 1, 1, 0, 0], [0, 0, 0, 0, 1, 1]]),
+        lower=np.array([-np.inf, -np.inf]),
+        upper=np.array([capacity, capacity]),
+    )
+    plan = SimpleNamespace(definitions={}, definition_rows=(), aliases={})
+    builder = Builder(plan, reference)
+    for index in range(6):
+        builder.variable(index)
+    builder.model.add(builder.variable(2) + builder.variable(3) <= capacity)
+    builder.model.add(builder.variable(4) + builder.variable(5) <= capacity)
+    return builder
+
+
+def _check_selector_layouts(builder, value, expected, capacity=1):
+    assert builder.model.validate() == ""
+    for bits in product((0, 1), repeat=6):
+        pinned = builder.model.clone()
+        for index, bit in enumerate(bits):
+            variable = builder.variables[index]
+            pinned.add(pinned.get_int_var_from_proto_index(variable.index) == bit)
+        solver = cp_model.CpSolver()
+        solver.parameters.num_search_workers = 1
+        status = solver.solve(pinned)
+        if bits[2] + bits[3] > capacity or bits[4] + bits[5] > capacity:
+            assert status == cp_model.INFEASIBLE
+        else:
+            assert status == cp_model.OPTIMAL
+            assert solver.value(value.variable) * value.unit == expected(bits)
+
+
+def test_exclusive_tax_and_keep_values_use_exact_signed_linear_branches():
+    builder = _selector_builder()
+    wealth = builder.expression({(): 3, ("wealth_a",): -7, ("wealth_b",): 11}, "wealth")
+    tax = builder.expression(
+        {(): Fraction(3, 2), ("tax_a",): Fraction(1, 4), ("tax_b",): Fraction(-5, 2)}, "tax"
+    )
+    keep = builder.expression({(): 1, ("keep_a",): -1, ("keep_b",): 2}, "keep")
+    assert wealth.selector is not None and len(wealth.selector.groups) == 2
+    assert tax.selector is not None and len(tax.selector.groups) == 1
+    assert keep.selector is not None and len(keep.selector.groups) == 1
+    income = builder.product([wealth, tax, keep], "income")
+    assert not any(row.has_int_prod() for row in builder.model.proto.constraints)
+    _check_selector_layouts(
+        builder,
+        income,
+        lambda b: (
+            (3 - 7 * b[0] + 11 * b[1])
+            * (Fraction(3, 2) + Fraction(1, 4) * b[2] - Fraction(5, 2) * b[3])
+            * (1 - b[4] + 2 * b[5])
+        ),
+    )
+
+
+def test_nonlinear_factors_retain_generic_product():
+    builder = _selector_builder(capacity=2)
+    wealth = builder.expression({("wealth_a", "wealth_b"): 2}, "wealth")
+    tax = builder.expression({(): 1, ("tax_a", "tax_b"): 3}, "tax")
+    assert wealth.selector is tax.selector is None
+    builder.product([wealth, tax], "income")
+    assert any(row.has_int_prod() for row in builder.model.proto.constraints)
+
+
+def test_nonexclusive_tax_choices_remain_independent_instead_of_becoming_one_chain():
+    builder = _selector_builder(capacity=2)
+    wealth = builder.expression({(): 3, ("wealth_a", "wealth_b"): 2}, "wealth")
+    tax = builder.expression({(): 1, ("tax_a",): 2, ("tax_b",): -3}, "tax")
+    assert tax.selector is not None and len(tax.selector.groups) == 2
+    income = builder.product([wealth, tax], "income")
+    _check_selector_layouts(
+        builder,
+        income,
+        lambda b: (3 + 2 * b[0] * b[1]) * (1 + 2 * b[2] - 3 * b[3]),
+        capacity=2,
+    )
+
+
+def test_indexed_cardinality_pruning_matches_all_original_groups():
+    builder = _selector_builder()
+    for bits in product((0, 1), repeat=6):
+        indices = frozenset(index for index, bit in enumerate(bits) if bit)
+        assert builder.violates_groups(indices) == any(
+            len(indices & group) > capacity for group, capacity in builder.groups
+        )
+
+
+def test_single_boolean_selector_and_repeated_factor_keep_multiplicity():
+    builder = _selector_builder()
+    factor = builder.expression({(): -2, ("wealth_a",): 3}, "factor")
+    assert factor.selector is not None
+    squared = builder.product([factor, factor], "square")
+    assert not any(row.has_int_prod() for row in builder.model.proto.constraints)
+    _check_selector_layouts(builder, squared, lambda bits: (-2 + 3 * bits[0]) ** 2)

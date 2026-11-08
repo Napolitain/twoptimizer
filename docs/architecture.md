@@ -194,6 +194,15 @@ preview expands requests only; model counts arrive through worker events and are
 restored from saved results. Counts are before presolve, and sparse matrix bytes
 are not an estimate of solver memory or runtime.
 
+`progress.SearchStats` transports CP-SAT candidate income, objective bound and
+elapsed search time. `games.tw.search_progress` observes native callbacks and
+converts scaled objectives back to income units; adapters translate them into
+application events. Delivery is throttled, with first candidate and final
+observations preserved. A missing candidate remains absent, and an UNKNOWN
+response's default zero is not presented as a proved bound. Model counts arrive
+before search. The TUI displays search observations separately from validated
+case results and never exports an unfinished candidate as a completed layout.
+
 `ApplicationError` identifies invalid requests across direct and subprocess
 execution; its message and code survive worker transport. Runtime failures remain
 failures rather than solver feasibility claims. `service.error_result` constructs

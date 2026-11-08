@@ -4,7 +4,7 @@ from collections.abc import Sequence
 
 from twoptimizer.holdings import BORDER_GAMES, resolved_borders
 from twoptimizer.models import RunConfig
-from twoptimizer.progress import ModelStats
+from twoptimizer.progress import ModelStats, SearchStats
 
 MODEL_SIZE_NOTE = (
     "Counts describe the formulation before presolve. Model size does not predict "
@@ -15,6 +15,20 @@ MODEL_SIZE_NOTE = (
 
 def money(value):
     return "—" if value is None else f"{value:,.3f}"
+
+
+def search_summary(stats: SearchStats) -> str:
+    """Keep unfinished candidates separate from independently checked results."""
+    bound_label = "upper bound" if stats.sense == "maximize" else "lower bound"
+    candidate = "not found" if stats.objective is None else money(stats.objective)
+    bound = "unknown" if stats.bound is None else money(stats.bound)
+    gap = "unknown" if stats.gap_percent is None else f"{stats.gap_percent:.2f}%"
+    units = f" {stats.unit}" if stats.unit else ""
+    return (
+        f"{stats.label} · solver candidate: {candidate}{units}\n"
+        f"{bound_label.capitalize()}: {bound} · gap: {gap}\n"
+        f"Search {stats.elapsed_seconds:.1f}s · unfinished; validation pending"
+    )
 
 
 def primary_metric(result: dict) -> dict:

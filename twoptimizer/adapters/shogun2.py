@@ -1,6 +1,7 @@
 """Prepare jointly owned Shogun 2 holdings and adapt their evaluated income."""
 
 from twoptimizer.adapters.model_stats import record_binary, record_cp_result
+from twoptimizer.adapters.search import search_observers
 from twoptimizer.models import BuildingSelection, EngineResult, RunConfig
 from twoptimizer.progress import PhaseTimer
 
@@ -48,7 +49,12 @@ def solve_shogun(config: RunConfig, phase: PhaseTimer, session=None) -> EngineRe
     phase("build_model_seconds", "Preparing province model")
     economy = ObservedEconomy(prepare_scenario(config), data, rules)
     phase("solve_and_check_seconds", "Solving and validating")
-    raw = economy.optimize(config.algorithm, config.seconds, config.workers)
+    raw = economy.optimize(
+        config.algorithm,
+        config.seconds,
+        config.workers,
+        **search_observers(phase, "Shogun 2 CP-SAT", lambda: len(economy.decision_names)),
+    )
     record_cp_result(phase, raw["solver"], len(economy.decision_names))
     phase("prepare_result_seconds", "Preparing result")
     buildings = [

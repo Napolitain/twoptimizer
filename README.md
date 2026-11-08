@@ -37,6 +37,8 @@ inspect changed buildings in the **Constraint cost** tab. Exact loss is reported
 when both optima are proved; unfinished solves show bounds instead.
 The query preview shows batch scope before Run. **Model size** displays compiled
 variable and constraint counts, with separate reference and solver formulations.
+During CP-SAT search, a separate live line shows the candidate income, upper
+bound and remaining gap. A candidate becomes a result after validation.
 
 For HoI4, select **Inspect HoI4 data…** to browse the eight major countries,
 starting armies, economic modifiers and states with mouse or keyboard.
@@ -75,6 +77,7 @@ for optimization in the UI.
 - [HoI4 development status, public data and hourly planning](games/hoi4/README.md)
 - [Data preparation and coverage](games/tw/multigame/README.md)
 - [CP-SAT and HiGHS comparison](docs/cpsat-highs-performance.md)
+- [Joint Attila and Rome II performance investigation](docs/joint-scaling.md)
 - [Historical joint and independent holding benchmarks](docs/holding-performance.md)
 - [Attila special-building audit](docs/attila-special-audit.md)
 - [Rome II special-building audit](docs/rome-special-audit.md)

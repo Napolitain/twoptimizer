@@ -7,10 +7,11 @@ cannot be inferred from the catalog are explicit scenario inputs.
 
 from collections import defaultdict
 from fractions import Fraction
+from itertools import chain
 from math import isfinite, lcm
 from types import SimpleNamespace
 
-from games.tw.attila.algebra import Indicator, Polynomial, add, multiply, rational
+from games.tw.attila.algebra import Indicator, Polynomial, add, multiply, rational, sum_polynomials
 from games.tw.attila.compiler import PolynomialCompiler
 from games.tw.attila.effect_index import EffectIndex
 from games.tw.attila.effects import Reach, entries
@@ -525,35 +526,41 @@ class Economy:
                 continue
             if b.metadata is None:
                 raise ValueError(f"Missing imported upkeep metadata for {b.name}")
-            total = add(total, {(b.get_name(),): b.metadata["metadata"]["upkeep"]})
+            amount = rational(b.metadata["metadata"]["upkeep"])
+            if amount:
+                total[(b.get_name(),)] = amount
         return total
 
     def objective(self, mode="income"):
         if mode not in {"wealth", "income"}:
             raise ValueError("Unknown economy objective")
-        total = {}
-        for region in self.regions:
-            total = add(
-                total,
-                self.tax_income(region) if mode == "income" else self.wealth(region),
-            )
-        if mode == "income":
-            total = add(total, {k: -v for k, v in self.upkeep().items()})
-            total = add(total, self.export_income())
-            total = add(total, self.other_income())
+        regional = (
+            self.tax_income(region) if mode == "income" else self.wealth(region)
+            for region in self.regions
+        )
+        extra = self._income_extras() if mode == "income" else self._objective_weights()
+        return sum_polynomials(chain(regional, extra))
+
+    def non_tax_income(self):
+        """Exact objective remainder without expanding and subtracting all regional taxes."""
+        return sum_polynomials(self._income_extras())
+
+    def _income_extras(self):
+        yield {k: -v for k, v in self.upkeep().items()}
+        yield self.export_income()
+        yield self.other_income()
+        yield from self._objective_weights()
+
+    def _objective_weights(self):
         for weight in self.scenario.weights:
-            total = add(
-                total,
-                multiply(
-                    self.metric(
-                        weight.metric,
-                        weight.scope,
-                        weight.recipient,
-                    ),
-                    {(): weight.value},
+            yield multiply(
+                self.metric(
+                    weight.metric,
+                    weight.scope,
+                    weight.recipient,
                 ),
+                {(): weight.value},
             )
-        return total
 
     def compile(self, terms, solver):
         return self.compiler.compile(terms, solver)

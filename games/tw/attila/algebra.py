@@ -1,7 +1,7 @@
 """Exact sparse Boolean polynomials used by the Attila economic rules."""
 
 from collections import defaultdict
-from collections.abc import Mapping
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
 from fractions import Fraction
 
@@ -28,6 +28,19 @@ def add(left: Polynomial, right: Polynomial) -> dict[Monomial, Fraction]:
     for key, value in right.items():
         result[key] += rational(value)
     return {key: value for key, value in result.items() if value}
+
+
+def sum_polynomials(polynomials: Iterable[Polynomial]) -> dict[Monomial, Fraction]:
+    """Accumulate exact terms once, preserving repeated-add order and zero removal."""
+    result: dict[Monomial, Fraction] = {}
+    for polynomial in polynomials:
+        for term, coefficient in polynomial.items():
+            value = result.get(term, Fraction()) + rational(coefficient)
+            if value:
+                result[term] = value
+            else:
+                result.pop(term, None)
+    return result
 
 
 def multiply(left: Polynomial, right: Polynomial) -> dict[Monomial, Fraction]:

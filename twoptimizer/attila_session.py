@@ -180,7 +180,9 @@ class AttilaSession:
         self._prepared_key, self._prepared = key, prepared
         return prepared
 
-    def solve(self, config: RunConfig, prepared: PreparedAttila) -> tuple[Result, str | None, bool]:
+    def solve(
+        self, config: RunConfig, prepared: PreparedAttila, **observers
+    ) -> tuple[Result, str | None, bool]:
         model = prepared.snapshot.model
         may_reuse = self.reuse_proofs and config.algorithm == "cp-sat"
         key = signature(model) if may_reuse else None
@@ -195,6 +197,7 @@ class AttilaSession:
                 seconds=config.seconds,
                 seed=config.attila.seed,
                 workers=config.workers,
+                **observers,
             )
         if key is not None:
             self.proofs[key] = result

@@ -37,7 +37,7 @@ def record_binary(
 
 
 def record_cp_result(phase: PhaseTimer, solver: dict, decisions: int) -> None:
-    """Native CP counts are available after search; never borrow reused proof counts."""
+    """Record actual native inputs before/after search; omit reused proof counts."""
     if solver.get("algorithm") != "cp-sat" or "proof_reused_from" in solver:
         return
     for stage in solver.get("stages", [solver]):

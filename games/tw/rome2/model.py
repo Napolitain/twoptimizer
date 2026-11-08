@@ -484,7 +484,18 @@ class Economy:
         values["income_ten_thousandths"] = total * values["tax_factor"]
         return values
 
-    def optimize(self, algorithm="cp-sat", seconds=None, workers=None, incumbent=None):
+    def optimize(
+        self,
+        algorithm="cp-sat",
+        seconds=None,
+        workers=None,
+        incumbent=None,
+        *,
+        on_search=None,
+        on_model=None,
+    ):
         from games.tw.rome2.optimization import RomeOptimizer
 
-        return RomeOptimizer(self).optimize(algorithm, seconds, workers, incumbent)
+        return RomeOptimizer(self).optimize(
+            algorithm, seconds, workers, incumbent, on_search=on_search, on_model=on_model
+        )

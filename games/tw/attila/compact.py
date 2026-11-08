@@ -2,7 +2,8 @@
 
 The original expanded MILP remains the reference for independent validation.
 Only its explicit AND definitions are replaced. All other constraints are kept;
-native integer products replace expanded cubic income terms.
+exclusive-choice linear branches and native integer products replace expanded
+cubic income terms.
 """
 
 from collections import defaultdict
@@ -24,11 +25,21 @@ class UnsupportedCompact(ValueError):
 
 
 @dataclass(frozen=True)
+class Selector:
+    """An affine factor partitioned into proved exclusive groups or singletons."""
+
+    baseline: int
+    choices: tuple[tuple[int, int], ...]
+    groups: tuple[tuple[tuple[int, int], ...], ...]
+
+
+@dataclass(frozen=True)
 class Value:
     variable: object
     unit: Fraction
     lower: int
     upper: int
+    selector: Selector | None = None
 
 
 def common_unit(values):
@@ -52,7 +63,7 @@ class CompactIncome:
             name: building.lp_variable.name() for name, building in economy.by_id.items()
         }
 
-    def solve(self, reference, seconds, seed, workers):
+    def solve(self, reference, seconds, seed, workers, *, on_search=None, on_model=None):
         from games.tw.competition import Result
 
         start = perf_counter()
@@ -74,8 +85,20 @@ class CompactIncome:
         solver.parameters.linearization_level = 2
         if seconds is not None:
             solver.parameters.max_time_in_seconds = max(0.001, seconds - (perf_counter() - start))
+        stats = {
+            "formulation": "factored_income",
+            "variables": len(model.proto.variables),
+            "constraints": len(model.proto.constraints),
+            "reference_variables": len(reference.names),
+            "reference_constraints": len(reference.lower),
+            "income_groups": builder.income_groups,
+        }
+        if on_model is not None:
+            on_model(stats)
+        from games.tw.search_progress import solve_with_progress
+
         search_start = perf_counter()
-        status = solver.solve(model)
+        status = solve_with_progress(solver, model, on_search=on_search, scale=float(unit))
         result = Result(
             "cp-sat",
             solver.status_name(status),
@@ -84,14 +107,7 @@ class CompactIncome:
                 "model_conversion_seconds": search_start - start,
                 "search_seconds": perf_counter() - search_start,
             },
-            model_stats={
-                "formulation": "factored_income",
-                "variables": len(model.proto.variables),
-                "constraints": len(model.proto.constraints),
-                "reference_variables": len(reference.names),
-                "reference_constraints": len(reference.lower),
-                "income_groups": builder.income_groups,
-            },
+            model_stats=stats,
         )
         if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
             values: list[float] = [0.0] * len(reference.names)
@@ -139,6 +155,10 @@ class Builder:
         self.fixed, self.groups = {}, []
         self.rows = []
         self.read_constraints()
+        self.group_memberships = defaultdict(list)
+        for group_index, (group, _) in enumerate(self.groups):
+            for index in group:
+                self.group_memberships[index].append(group_index)
         self.ones = {i for i, value in self.fixed.items() if value}
         self.zeros = {i for i, value in self.fixed.items() if not value}
         self.income_groups = 0
@@ -189,20 +209,31 @@ class Builder:
         simplified = defaultdict(Fraction)
         for monomial, coefficient in terms.items():
             term = frozenset(self.indices[self.plan.aliases.get(name, name)] for name in monomial)
-            if term & self.zeros or any(
-                len(term & group) > capacity for group, capacity in self.groups
-            ):
+            if term & self.zeros or self.violates_groups(term):
                 continue
             simplified[tuple(sorted(term - self.ones))] += rational(coefficient)
         return {term: value for term, value in simplified.items() if value}
+
+    def violates_groups(self, term):
+        counts = defaultdict(int)
+        for index in term:
+            for group_index in self.group_memberships.get(index, ()):
+                counts[group_index] += 1
+                if counts[group_index] > self.groups[group_index][1]:
+                    return True
+        return False
 
     def selection_upper(self, weights):
         """Safe bound from a disjoint cover of existing slot/chain constraints."""
         remaining = {i: c for i, c in weights.items() if c > 0}
         bound = 0
+        relevant = sorted(
+            {group for index in remaining for group in self.group_memberships.get(index, ())}
+        )
         while remaining:
             best, gain = None, 0
-            for group, capacity in self.groups:
+            for group_index in relevant:
+                group, capacity = self.groups[group_index]
                 free = max(0, capacity - len(group & self.ones))
                 entries = [(i, remaining[i]) for i in group if i in remaining]
                 top = sum(sorted((c for _, c in entries), reverse=True)[:free])
@@ -244,7 +275,81 @@ class Builder:
             variable
             == sum(c * (self.monomial(term) if term else 1) for term, c in integers.items())
         )
-        return Value(variable, unit, lower, upper)
+        return Value(variable, unit, lower, upper, self.selector(integers))
+
+    def selector(self, polynomial):
+        """Recognize only choices justified by existing reference constraints."""
+        choices = tuple((term[0], value) for term, value in polynomial.items() if term)
+        if not choices or any(len(term) > 1 for term in polynomial):
+            return None
+        return Selector(polynomial.get((), 0), choices, self.selector_groups(choices))
+
+    def selector_groups(self, choices):
+        remaining = dict(choices)
+        groups = []
+        candidates = {
+            group
+            for index in remaining
+            for group in self.group_memberships.get(index, ())
+            if self.groups[group][1] == 1
+        }
+        for group_index in sorted(
+            candidates, key=lambda index: (-len(self.groups[index][0] & remaining.keys()), index)
+        ):
+            selected = tuple(
+                (index, remaining[index])
+                for index in sorted(self.groups[group_index][0])
+                if index in remaining
+            )
+            if len(selected) > 1:
+                groups.append(selected)
+                for index, _ in selected:
+                    del remaining[index]
+        groups.extend(((index, coefficient),) for index, coefficient in remaining.items())
+        return tuple(groups)
+
+    def selector_product(self, variable, values, name):
+        selected_index = min(
+            (index for index, value in enumerate(values) if value.selector is not None),
+            key=lambda index: (
+                len(values[index].selector.choices),
+                len(values[index].selector.groups),
+            ),
+            default=None,
+        )
+        if selected_index is None:
+            return False
+        selected = values[selected_index]
+        remaining = [
+            Value(value.variable, Fraction(1), value.lower, value.upper, value.selector)
+            for index, value in enumerate(values)
+            if index != selected_index
+        ]
+        other = self.product(remaining, name + "__base")
+        assert selected.selector is not None and other.unit == 1
+        terms = [selected.selector.baseline * other.variable]
+        for group_index, group in enumerate(selected.selector.groups):
+            terms.append(self.selector_group(other, group, f"{name}__choice_{group_index}"))
+        self.model.add(variable == sum(terms))
+        return True
+
+    def selector_group(self, other, group, name):
+        coefficients = (0, *(coefficient for _, coefficient in group))
+        endpoints = [
+            endpoint * coefficient
+            for endpoint in (other.lower, other.upper)
+            for coefficient in coefficients
+        ]
+        lower, upper = min(endpoints), max(endpoints)
+        checked(lower, upper)
+        variable = self.model.new_int_var(lower, upper, name)
+        inactive = []
+        for index, coefficient in group:
+            choice = self.variable(index)
+            self.model.add(variable == coefficient * other.variable).only_enforce_if(choice)
+            inactive.append(choice.Not())
+        self.model.add(variable == 0).only_enforce_if(inactive)
+        return variable
 
     def product(self, values, name):
         unit = prod((value.unit for value in values), start=Fraction(1))
@@ -260,14 +365,15 @@ class Builder:
             return Value(1, unit, 1, 1)
         if len(dynamic) == 1:
             value = dynamic[0]
-            return Value(value.variable, unit, value.lower, value.upper)
+            return Value(value.variable, unit, value.lower, value.upper, value.selector)
         lower, upper = 1, 1
         for value in dynamic:
             ends = [a * b for a in (lower, upper) for b in (value.lower, value.upper)]
             lower, upper = min(ends), max(ends)
         checked(lower, upper)
         variable = self.model.new_int_var(lower, upper, name)
-        self.model.add_multiplication_equality(variable, [value.variable for value in dynamic])
+        if not self.selector_product(variable, dynamic, name):
+            self.model.add_multiplication_equality(variable, [value.variable for value in dynamic])
         return Value(variable, unit, lower, upper)
 
     def build(self):
@@ -287,10 +393,9 @@ class Builder:
             if isfinite(upper):
                 self.model.add(expression <= integers[position])
         economy = self.plan.economy
-        extras = economy.objective("income")
+        extras = economy.non_tax_income()
         groups = {}
         for region in economy.regions:
-            extras = add(extras, {term: -c for term, c in economy.tax_income(region).items()})
             tax = economy.tax_factor(region)
             keep = add({(): 1}, {term: -c for term, c in economy.corruption(region).items()})
             key = (tuple(sorted(tax.items())), tuple(sorted(keep.items())))

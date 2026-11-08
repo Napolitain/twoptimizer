@@ -15,17 +15,37 @@ if TYPE_CHECKING:
     from games.tw.rome2.model import Economy
 
 
+def _native_statistics(problem, observer):
+    stats = {
+        "formulation": "linearized_income",
+        "variables": len(problem.model.proto.variables),
+        "constraints": len(problem.model.proto.constraints),
+    }
+    if observer is not None:
+        observer(stats)
+    return stats
+
+
 class RomeOptimizer:
     def __init__(self, economy: Economy):
         self.economy = economy
 
-    def optimize(self, algorithm="cp-sat", seconds=None, workers=None, incumbent=None):
+    def optimize(
+        self,
+        algorithm="cp-sat",
+        seconds=None,
+        workers=None,
+        incumbent=None,
+        *,
+        on_search=None,
+        on_model=None,
+    ):
         if algorithm not in {"cp-sat", "highs"}:
             raise ValueError("Choose cp-sat or highs")
         workers = resolve_workers(workers)
         start = perf_counter()
         if algorithm == "cp-sat":
-            return self._optimize_cpsat(seconds, workers, incumbent, start)
+            return self._optimize_cpsat(seconds, workers, incumbent, start, on_search, on_model)
         return self._optimize_highs(seconds, workers, incumbent, start)
 
     def _optimize_highs(self, seconds, workers, incumbent, start):
@@ -103,7 +123,7 @@ class RomeOptimizer:
             ],
         }
 
-    def _optimize_cpsat(self, seconds, workers, incumbent, start):
+    def _optimize_cpsat(self, seconds, workers, incumbent, start, on_search=None, on_model=None):
         algorithm = "cp-sat"
         if not hasattr(self.economy, "_prepared"):
             self.economy.fingerprint()
@@ -118,8 +138,11 @@ class RomeOptimizer:
         solver.parameters.num_search_workers = workers
         solver.parameters.random_seed = 0
         solver.parameters.linearization_level = 2
+        stats = _native_statistics(problem, on_model)
+        from games.tw.search_progress import solve_with_progress
+
         search_start = perf_counter()
-        status = solver.solve(problem.model)
+        status = solve_with_progress(solver, problem.model, on_search=on_search, scale=1 / 10000)
         report = {
             "scenario": self.economy.scenario.to_dict(),
             "solver": {
@@ -128,10 +151,8 @@ class RomeOptimizer:
                 "seconds": perf_counter() - start,
                 "objective": None,
                 "bound": None,
-                "variables": len(problem.model.proto.variables),
-                "constraints": len(problem.model.proto.constraints),
+                **stats,
                 "workers": workers,
-                "formulation": "linearized_income",
                 "timings": {
                     "model_conversion_seconds": search_start - start,
                     "search_seconds": perf_counter() - search_start,

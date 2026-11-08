@@ -268,6 +268,13 @@ limit is a solver allowance, not a wall-clock deadline. Some backends charge mod
 conversion against it; loading, compilation and result validation can make total
 wall time exceed it.
 Cancel also stops a case during those preparation stages.
+During CP-SAT search, the TUI shows candidate income, the upper bound, the gap
+and elapsed search time separately from completed, validated results. Solver
+model counts arrive before search begins. These observations do not impose a
+time limit or change the objective. Cancel retains completed cases; the active
+case's displayed candidate is not a saved result.
+The [joint-model investigation](joint-scaling.md) records reductions in model
+construction time and the remaining difficulty of proving full-world optima.
 The [CP-SAT/HiGHS comparison](cpsat-highs-performance.md) records the supported
 backends on paired provinces. The [earlier holding report](holding-performance.md)
 also covers all provinces and retired backends. Both retain resource limits and

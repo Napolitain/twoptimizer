@@ -71,7 +71,7 @@ class RomeSession:
                 return False
         return previous["solver"]["status"] == "OPTIMAL"
 
-    def solve(self, economy: Economy, config: RunConfig) -> dict[str, Any]:
+    def solve(self, economy: Economy, config: RunConfig, **observers) -> dict[str, Any]:
         scenario = economy.scenario.to_dict()
         key = json.dumps([scenario, config.algorithm], sort_keys=True)
         seeds = [
@@ -90,6 +90,7 @@ class RomeSession:
                 config.seconds,
                 config.workers,
                 incumbent=seed if config.algorithm in {"cp-sat", "highs"} else None,
+                **observers,
             )
         )
         if (

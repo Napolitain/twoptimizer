@@ -12,7 +12,8 @@ from typing import Any
 
 from twoptimizer.errors import deserialize_error
 from twoptimizer.models import CaseResult, RunConfig
-from twoptimizer.progress import PREFIX, ModelStats, decode_progress
+from twoptimizer.presentation import search_summary
+from twoptimizer.progress import PREFIX, ModelStats, SearchStats, decode_progress
 
 
 class CaseRunner:
@@ -216,12 +217,16 @@ def _report_progress(record, on_log, on_progress):
     event = decode_progress(record)
     if on_progress is not None:
         on_progress(event)
-    on_log(
-        f"Model: {event.label} — {event.variables:,} variables, "
-        f"{event.constraints:,} constraints ({event.stage})"
-        if isinstance(event, ModelStats)
-        else "Phase: " + event
-    )
+    if isinstance(event, ModelStats):
+        message = (
+            f"Model: {event.label} — {event.variables:,} variables, "
+            f"{event.constraints:,} constraints ({event.stage})"
+        )
+    elif isinstance(event, SearchStats):
+        message = search_summary(event).replace("\n", " · ")
+    else:
+        message = "Phase: " + event
+    on_log(message)
 
 
 def _decode_result(payload: dict[str, Any]) -> dict[str, Any]:

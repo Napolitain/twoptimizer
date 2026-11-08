@@ -10,7 +10,7 @@ from twoptimizer.engines import solve_attila, solve_rome, solve_shogun
 from twoptimizer.errors import ApplicationError, deserialize_error, serialize_error
 from twoptimizer.holdings import map_context, province_label
 from twoptimizer.models import CaseResult, RunConfig, SolverSummary
-from twoptimizer.progress import ModelStats, PhaseTimer, ProgressEvent
+from twoptimizer.progress import ModelStats, PhaseTimer, ProgressEvent, SearchStats
 from twoptimizer.provenance import source_files
 from twoptimizer.requests import make_jobs as make_jobs
 from twoptimizer.session import RunSession
@@ -119,7 +119,7 @@ def _comparison_side(config, label, progress, session):
         if progress is not None:
             progress(
                 replace(event, label=f"{label}: {event.label}")
-                if isinstance(event, ModelStats)
+                if isinstance(event, (ModelStats, SearchStats))
                 else f"{label}: {event}"
             )
 

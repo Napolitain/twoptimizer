@@ -13,7 +13,7 @@ from twoptimizer.adapters.rome2 import prepare_scenario
 from twoptimizer.adapters.rome_models import ObservedEconomy, ObservedHoldingEconomy
 from twoptimizer.catalog import choices
 from twoptimizer.models import RunConfig
-from twoptimizer.progress import ModelStats, PhaseTimer
+from twoptimizer.progress import ModelStats, PhaseTimer, SearchStats
 from twoptimizer.service import solve_case
 
 
@@ -33,12 +33,23 @@ def test_compiled_model_sizes_are_published_before_native_search(game, monkeypat
     class SearchReached(Exception):
         pass
 
-    def search(_solver, _model):
+    def search(_solver, model, callback=None):
         compiled = [event for event in events if isinstance(event, ModelStats)]
-        assert compiled
+        references = [row for row in compiled if row.stage == "reference"]
+        native = [row for row in compiled if row.stage == "solver"]
+        assert references and len(native) == 1
+        assert compiled[-1] == native[0]
+        assert native[0].variables == len(model.proto.variables)
+        assert native[0].constraints == len(model.proto.constraints)
         assert all(row.variables > 0 and row.constraints > 0 for row in compiled)
-        assert all(0 < row.decision_variables <= row.variables for row in compiled)
-        assert compiled[-1].stage == "reference"
+        for row in compiled:
+            if row.stage == "solver" and row.formulation == "factored_income":
+                assert row.decision_variables is None
+            else:
+                assert row.decision_variables is not None
+                assert 0 < row.decision_variables <= row.variables
+        assert isinstance(callback, cp_model.CpSolverSolutionCallback)
+        assert not any(isinstance(event, SearchStats) for event in events)
         raise SearchReached
 
     monkeypatch.setattr(cp_model.CpSolver, "solve", search)
@@ -67,9 +78,13 @@ def test_rome_observers_preserve_models_and_distinguish_solver_inputs(joint, nat
     if native:
         assert str(actual.model.proto) == str(baseline.model.proto)
         assert row.stage == "reference"
+        assert row.variables == len(baseline.model.proto.variables)
+        assert row.constraints == len(baseline.model.proto.constraints)
     else:
         assert actual == baseline
         assert row.stage == "solver"
+        assert row.variables == len(baseline.variable)
+        assert row.constraints == len(baseline.constraint)
         assert row.nonzeros == sum(len(c.var_index) for c in baseline.constraint)
 
 

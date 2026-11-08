@@ -10,6 +10,7 @@ from games.tw.comparison import ComparisonOptions, report_results
 from games.tw.competition import Result
 from games.tw.immutable import thaw
 from twoptimizer.adapters.model_stats import record_binary, record_cp_result
+from twoptimizer.adapters.search import search_observers
 from twoptimizer.attila_session import AttilaSession
 from twoptimizer.models import BuildingSelection, CaseResult, EngineResult, RunConfig
 from twoptimizer.progress import PhaseTimer
@@ -32,7 +33,9 @@ def solve_attila(
         phase, snapshot.model, "Attila expanded income model", decisions, config.algorithm
     )
     phase("solve_and_check_seconds", "Solving and validating")
-    result, fingerprint, reused = state.solve(config, prepared)
+    result, fingerprint, reused = state.solve(
+        config, prepared, **search_observers(phase, "Attila CP-SAT", lambda: decisions)
+    )
     row = report_results(
         snapshot.model, [result], ComparisonOptions(algorithms=(config.algorithm,)), economy
     )["results"][0]
