@@ -37,6 +37,14 @@ jobs:
                   "$RUNNER_TEMP/wheel-env/bin/python" - <<'PYTHON'
                   from twoptimizer.tui import OptimizerApp
                   assert callable(OptimizerApp)
+                  from twoptimizer.hoi4_data import inspect_reference
+                  reference = inspect_reference("all")
+                  assert len(reference["countries"]) == 8
+                  assert reference["scenario_ready"] is False
+                  from games.hoi4.planning import CampaignDate, HourlyHorizon
+                  start = CampaignDate.parse("1936.2.28.23")
+                  end = CampaignDate.parse("1936.3.1.1")
+                  assert HourlyHorizon(start, end).hours == 2
                   from games.tw.shogun2.model import Economy
                   from games.tw.shogun2.scenario import Province, Scenario
                   provinces = tuple(Province(p) for p in ("jap_sado", "jap_settsu", "jap_owari"))

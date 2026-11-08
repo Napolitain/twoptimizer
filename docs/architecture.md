@@ -58,7 +58,7 @@ removed; use `uv run --locked twoptimizer attila` for the maintained CLI.
 
 ## Application boundaries
 
-Both interfaces optimize **income only**. Attila's `--objective income` remains
+Total War cases in both interfaces optimize **income only**. Attila's `--objective income` remains
 accepted; wealth, legacy and campaign objective weights are rejected by the
 application. Lower-level domain APIs retain their existing modes for engine
 regressions and direct use.
@@ -234,6 +234,37 @@ all of those controls. Adding an interface option should translate into these
 requests rather than introduce another engine orchestration path. Solver
 mathematics, independent evaluation, bundled game data and Python 3.14 targeting
 remain in their existing engine/build boundaries.
+
+## HoI4 ingestion and planning boundaries
+
+`games.hoi4.data_pipeline` reads source syntax and records literal facts with
+source hashes and explicit diagnostics. Parsing a file does not execute its
+conditions, effects or defaults. The requested latest-stable/all-gameplay-DLC
+target is separate from the imported mirror's unverified patch identity.
+`twoptimizer.hoi4_data.inspect_reference` supplies the same caller-owned report
+to the `hoi4 data` CLI and TUI inspector. This read-only route does not invoke
+`solve_case` or enable the historical production experiment as a campaign solver.
+
+`games.hoi4.planning` owns the new hourly inputs. Its no-leap calendar and
+half-open intervals make a deadline boundary explicit without selecting the
+order in which economic subsystems update. User-approved scope is construction,
+production allocation and recruitment against a supplied dated research/focus/law
+plan. Model approximations and concrete objective definitions remain explicit
+decisions; a parsable planning input is not proof of a playable scenario.
+The current agreed objective is final usable civilian construction capacity,
+subject to reserve-equipment and fully equipped, trained division deadlines.
+There is no secondary spending objective. Provisional hourly efficiency
+integration and training only after full equipment have been approved; their
+small arithmetic helpers still require callers to supply effective rates and
+eligibility, and do not constitute a complete campaign transition engine.
+
+`ObjectiveSummary` carries ordered objectives with labels, units, direction,
+value, bound and individual proof status. A proved primary objective can coexist
+with an unfinished secondary objective. Overall `OPTIMAL` requires all reported
+priorities to be proved, and a later priority cannot be proved before an earlier
+one. `RunSession` compares proved prefixes only for matching requests, source
+snapshots and objective identities. Existing Total War results omit empty
+objective lists, preserving their JSON and CSV shapes.
 
 ## Regression evidence
 

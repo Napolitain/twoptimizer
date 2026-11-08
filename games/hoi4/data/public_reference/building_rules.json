@@ -1,0 +1,5591 @@
+{
+  "schema_version": 1,
+  "semantics": "Literal source declarations only; not usable capacity or a fully resolved 1936 snapshot. Base declarations do not apply conditions or dated history. Optional source_selection records conservative control-flow choices separately. Effects, defaults, inheritance and load order are not executed. The public mirror's exact game patch and vanilla fidelity are unverified.",
+  "source_revision": "e249d22284449ece5416b41e68c4d73f2b79e3cc",
+  "source_repository": "https://github.com/BanderaModding/vanilla-fin-hoi4",
+  "buildings": [
+    {
+      "id": "infrastructure",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 34,
+      "declarations": [
+        {
+          "field": "base_cost",
+          "value": 6000,
+          "line": 35
+        },
+        {
+          "field": "icon_frame",
+          "value": 3,
+          "line": 36
+        },
+        {
+          "field": "infrastructure",
+          "value": true,
+          "line": 37
+        },
+        {
+          "field": "value",
+          "value": 1,
+          "line": 38
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 40
+        },
+        {
+          "field": "allied_build",
+          "value": true,
+          "line": 41
+        },
+        {
+          "field": "affects_energy",
+          "value": true,
+          "line": 42
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 44
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 45,
+          "declarations": [
+            {
+              "field": "state_max",
+              "value": 5,
+              "line": 46
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 48
+        }
+      ]
+    },
+    {
+      "id": "arms_factory",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 55,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 6,
+          "line": 56
+        },
+        {
+          "field": "base_cost",
+          "value": 7200,
+          "line": 57
+        },
+        {
+          "field": "base_cost_conversion",
+          "value": 4000,
+          "line": 58
+        },
+        {
+          "field": "military_production",
+          "value": 1,
+          "line": 59
+        },
+        {
+          "field": "disabled_in_dmz",
+          "value": true,
+          "line": 60
+        },
+        {
+          "field": "icon_frame",
+          "value": 2,
+          "line": 61
+        },
+        {
+          "field": "value",
+          "value": 8,
+          "line": 62
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 63
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 64,
+          "declarations": [
+            {
+              "field": "shares_slots",
+              "value": true,
+              "line": 65
+            },
+            {
+              "field": "state_max",
+              "value": 20,
+              "line": 66
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": []
+    },
+    {
+      "id": "industrial_complex",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 70,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 6,
+          "line": 71
+        },
+        {
+          "field": "base_cost",
+          "value": 10800,
+          "line": 72
+        },
+        {
+          "field": "base_cost_conversion",
+          "value": 9000,
+          "line": 73
+        },
+        {
+          "field": "general_production",
+          "value": 1,
+          "line": 74
+        },
+        {
+          "field": "icon_frame",
+          "value": 1,
+          "line": 75
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 76
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 77
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 78,
+          "declarations": [
+            {
+              "field": "shares_slots",
+              "value": true,
+              "line": 79
+            },
+            {
+              "field": "state_max",
+              "value": 20,
+              "line": 80
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": []
+    },
+    {
+      "id": "air_base",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 84,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 85
+        },
+        {
+          "field": "base_cost",
+          "value": 1250,
+          "line": 86
+        },
+        {
+          "field": "icon_frame",
+          "value": 5,
+          "line": 87
+        },
+        {
+          "field": "air_base",
+          "value": true,
+          "line": 88
+        },
+        {
+          "field": "value",
+          "value": 1,
+          "line": 89
+        },
+        {
+          "field": "damage_factor",
+          "value": 0.5,
+          "line": 90
+        },
+        {
+          "field": "allied_build",
+          "value": true,
+          "line": 91
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 92
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 93,
+          "declarations": [
+            {
+              "field": "state_max",
+              "value": 10,
+              "line": 94
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": []
+    },
+    {
+      "id": "supply_node",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 98,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 99
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 100
+        },
+        {
+          "field": "disabled_in_dmz",
+          "value": true,
+          "line": 101
+        },
+        {
+          "field": "icon_frame",
+          "value": 15,
+          "line": 102
+        },
+        {
+          "field": "centered",
+          "value": true,
+          "line": 103
+        },
+        {
+          "field": "supply_node",
+          "value": true,
+          "line": 104
+        },
+        {
+          "field": "damage_factor",
+          "value": 0.1,
+          "line": 105
+        },
+        {
+          "field": "allied_build",
+          "value": true,
+          "line": 106
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 107
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 108
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 109,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 110
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "tags",
+          "operator": "=",
+          "line": 112
+        }
+      ]
+    },
+    {
+      "id": "rail_way",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 115,
+      "declarations": [
+        {
+          "field": "base_cost",
+          "value": 170,
+          "line": 116
+        },
+        {
+          "field": "per_level_extra_cost",
+          "value": 130,
+          "line": 117
+        },
+        {
+          "field": "disabled_in_dmz",
+          "value": true,
+          "line": 118
+        },
+        {
+          "field": "icon_frame",
+          "value": 16,
+          "line": 119
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 120
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 121,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 122
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": []
+    },
+    {
+      "id": "naval_facility",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 126,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 127
+        },
+        {
+          "field": "base_cost",
+          "value": 12000,
+          "line": 128
+        },
+        {
+          "field": "per_controlled_building_extra_cost",
+          "value": 5000,
+          "line": 129
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 130
+        },
+        {
+          "field": "icon_frame",
+          "value": 18,
+          "line": 131
+        },
+        {
+          "field": "value",
+          "value": 1,
+          "line": 132
+        },
+        {
+          "field": "spawn_point",
+          "value": "naval_base_spawn",
+          "line": 133
+        },
+        {
+          "field": "disabled_in_dmz",
+          "value": true,
+          "line": 136
+        },
+        {
+          "field": "need_supply",
+          "value": true,
+          "line": 137
+        },
+        {
+          "field": "need_detection",
+          "value": true,
+          "line": 138
+        },
+        {
+          "field": "detecting_intel_type",
+          "value": "navy",
+          "line": 139
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 140
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_specialization_naval",
+          "line": 141
+        },
+        {
+          "field": "only_costal",
+          "value": true,
+          "line": 147
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 142,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 143
+            },
+            {
+              "field": "state_max",
+              "value": 1,
+              "line": 144
+            },
+            {
+              "field": "group_by",
+              "value": "special_project_facility",
+              "line": 145
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "specialization",
+          "operator": "=",
+          "line": 134
+        },
+        {
+          "field": "tags",
+          "operator": "=",
+          "line": 135
+        }
+      ]
+    },
+    {
+      "id": "naval_base",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 150,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 151
+        },
+        {
+          "field": "show_on_map_meshes",
+          "value": 3,
+          "line": 152
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 153
+        },
+        {
+          "field": "base_cost",
+          "value": 5000,
+          "line": 154
+        },
+        {
+          "field": "per_level_extra_cost",
+          "value": 1000,
+          "line": 155
+        },
+        {
+          "field": "spawn_point",
+          "value": "naval_base_spawn",
+          "line": 156
+        },
+        {
+          "field": "only_costal",
+          "value": true,
+          "line": 157
+        },
+        {
+          "field": "is_port",
+          "value": true,
+          "line": 158
+        },
+        {
+          "field": "icon_frame",
+          "value": 6,
+          "line": 159
+        },
+        {
+          "field": "value",
+          "value": 1,
+          "line": 160
+        },
+        {
+          "field": "allied_build",
+          "value": true,
+          "line": 162
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 163
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 164,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 10,
+              "line": 165
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "tags",
+          "operator": "=",
+          "line": 161
+        }
+      ]
+    },
+    {
+      "id": "bunker",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 169,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 170
+        },
+        {
+          "field": "has_destroyed_mesh",
+          "value": true,
+          "line": 171
+        },
+        {
+          "field": "base_cost",
+          "value": 500,
+          "line": 172
+        },
+        {
+          "field": "per_level_extra_cost",
+          "value": 500,
+          "line": 173
+        },
+        {
+          "field": "disabled_in_dmz",
+          "value": true,
+          "line": 174
+        },
+        {
+          "field": "icon_frame",
+          "value": 7,
+          "line": 175
+        },
+        {
+          "field": "land_fort",
+          "value": 1,
+          "line": 176
+        },
+        {
+          "field": "value",
+          "value": 1,
+          "line": 177
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 178
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 179,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 10,
+              "line": 180
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": []
+    },
+    {
+      "id": "coastal_bunker",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 184,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 185
+        },
+        {
+          "field": "has_destroyed_mesh",
+          "value": true,
+          "line": 186
+        },
+        {
+          "field": "base_cost",
+          "value": 500,
+          "line": 187
+        },
+        {
+          "field": "per_level_extra_cost",
+          "value": 500,
+          "line": 188
+        },
+        {
+          "field": "disabled_in_dmz",
+          "value": true,
+          "line": 189
+        },
+        {
+          "field": "only_costal",
+          "value": true,
+          "line": 190
+        },
+        {
+          "field": "icon_frame",
+          "value": 8,
+          "line": 191
+        },
+        {
+          "field": "naval_fort",
+          "value": 1,
+          "line": 192
+        },
+        {
+          "field": "value",
+          "value": 1,
+          "line": 193
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 194
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 195,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 10,
+              "line": 196
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": []
+    },
+    {
+      "id": "stronghold_network",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 200,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 202
+        },
+        {
+          "field": "has_destroyed_mesh",
+          "value": true,
+          "line": 203
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 204
+        },
+        {
+          "field": "disabled_in_dmz",
+          "value": true,
+          "line": 205
+        },
+        {
+          "field": "icon_frame",
+          "value": 23,
+          "line": 206
+        },
+        {
+          "field": "value",
+          "value": 1,
+          "line": 207
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 208
+        },
+        {
+          "field": "hide_if_missing_tech",
+          "value": true,
+          "line": 213
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 214
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 209,
+          "declarations": [
+            {
+              "field": "state_max",
+              "value": 1,
+              "line": 210
+            },
+            {
+              "field": "shares_slots",
+              "value": true,
+              "line": 211
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 201
+        },
+        {
+          "field": "state_modifiers",
+          "operator": "=",
+          "line": 215
+        }
+      ]
+    },
+    {
+      "id": "dockyard",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 225,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 226
+        },
+        {
+          "field": "show_on_map_meshes",
+          "value": 3,
+          "line": 227
+        },
+        {
+          "field": "base_cost",
+          "value": 6400,
+          "line": 228
+        },
+        {
+          "field": "only_costal",
+          "value": true,
+          "line": 229
+        },
+        {
+          "field": "naval_production",
+          "value": 1,
+          "line": 230
+        },
+        {
+          "field": "icon_frame",
+          "value": 4,
+          "line": 231
+        },
+        {
+          "field": "only_costal",
+          "value": true,
+          "line": 232
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 233
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 235
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 236,
+          "declarations": [
+            {
+              "field": "shares_slots",
+              "value": true,
+              "line": 237
+            },
+            {
+              "field": "state_max",
+              "value": 20,
+              "line": 238
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "tags",
+          "operator": "=",
+          "line": 234
+        }
+      ]
+    },
+    {
+      "id": "anti_air_building",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 243,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 3,
+          "line": 244
+        },
+        {
+          "field": "base_cost",
+          "value": 2500,
+          "line": 245
+        },
+        {
+          "field": "icon_frame",
+          "value": 9,
+          "line": 246
+        },
+        {
+          "field": "anti_air",
+          "value": true,
+          "line": 247
+        },
+        {
+          "field": "disabled_in_dmz",
+          "value": true,
+          "line": 248
+        },
+        {
+          "field": "air_defence",
+          "value": 1,
+          "line": 249
+        },
+        {
+          "field": "damage_factor",
+          "value": 0.1,
+          "line": 250
+        },
+        {
+          "field": "value",
+          "value": 1,
+          "line": 251
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 252
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 253,
+          "declarations": [
+            {
+              "field": "state_max",
+              "value": 5,
+              "line": 254
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": []
+    },
+    {
+      "id": "synthetic_refinery",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 258,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 259
+        },
+        {
+          "field": "base_cost",
+          "value": 14500,
+          "line": 260
+        },
+        {
+          "field": "icon_frame",
+          "value": 10,
+          "line": 261
+        },
+        {
+          "field": "local_resources_rubber",
+          "value": 1,
+          "line": 263
+        },
+        {
+          "field": "refinery",
+          "value": true,
+          "line": 264
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 265
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 266
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 268
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 276,
+          "declarations": [
+            {
+              "field": "shares_slots",
+              "value": true,
+              "line": 277
+            },
+            {
+              "field": "state_max",
+              "value": 3,
+              "line": 278
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 270
+        }
+      ]
+    },
+    {
+      "id": "fuel_silo",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 282,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 283
+        },
+        {
+          "field": "base_cost",
+          "value": 5000,
+          "line": 284
+        },
+        {
+          "field": "icon_frame",
+          "value": 14,
+          "line": 285
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 286
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 287
+        },
+        {
+          "field": "fuel_silo",
+          "value": true,
+          "line": 288
+        },
+        {
+          "field": "per_level_extra_cost",
+          "value": -500,
+          "line": 289
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 290
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 297,
+          "declarations": [
+            {
+              "field": "shares_slots",
+              "value": true,
+              "line": 298
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 291
+        }
+      ]
+    },
+    {
+      "id": "radar_station",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 302,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 303
+        },
+        {
+          "field": "base_cost",
+          "value": 3375,
+          "line": 304
+        },
+        {
+          "field": "icon_frame",
+          "value": 11,
+          "line": 305
+        },
+        {
+          "field": "radar",
+          "value": true,
+          "line": 306
+        },
+        {
+          "field": "damage_factor",
+          "value": 0.5,
+          "line": 307
+        },
+        {
+          "field": "value",
+          "value": 4,
+          "line": 308
+        },
+        {
+          "field": "centered",
+          "value": true,
+          "line": 309
+        },
+        {
+          "field": "allied_build",
+          "value": true,
+          "line": 310
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 311
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 312,
+          "declarations": [
+            {
+              "field": "state_max",
+              "value": 6,
+              "line": 313
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": []
+    },
+    {
+      "id": "mega_gun_emplacement",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 317,
+      "declarations": [
+        {
+          "field": "hide_if_missing_tech",
+          "value": true,
+          "line": 319
+        },
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 320
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 321
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 322
+        },
+        {
+          "field": "icon_frame",
+          "value": 24,
+          "line": 323
+        },
+        {
+          "field": "value",
+          "value": 1,
+          "line": 324
+        },
+        {
+          "field": "disabled_in_dmz",
+          "value": true,
+          "line": 325
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 326
+        },
+        {
+          "field": "gun_emplacement",
+          "value": true,
+          "line": 327
+        },
+        {
+          "field": "spawn_point",
+          "value": "rocket_site_spawn",
+          "line": 328
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 329,
+          "declarations": [
+            {
+              "field": "state_max",
+              "value": 1,
+              "line": 330
+            },
+            {
+              "field": "shares_slots",
+              "value": true,
+              "line": 331
+            },
+            {
+              "field": "exclusive_with",
+              "value": "rocket_site",
+              "line": 332
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 318
+        }
+      ]
+    },
+    {
+      "id": "rocket_site",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 338,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 339
+        },
+        {
+          "field": "base_cost",
+          "value": 6400,
+          "line": 340
+        },
+        {
+          "field": "icon_frame",
+          "value": 12,
+          "line": 341
+        },
+        {
+          "field": "rocket_production",
+          "value": 0,
+          "line": 342
+        },
+        {
+          "field": "rocket_launch_capacity",
+          "value": 1,
+          "line": 343
+        },
+        {
+          "field": "value",
+          "value": 1,
+          "line": 344
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 346
+        },
+        {
+          "field": "disabled_in_dmz",
+          "value": true,
+          "line": 347
+        },
+        {
+          "field": "spawn_point",
+          "value": "rocket_site_spawn",
+          "line": 348
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 349,
+          "declarations": [
+            {
+              "field": "state_max",
+              "value": 3,
+              "line": 350
+            },
+            {
+              "field": "shares_slots",
+              "value": true,
+              "line": 351
+            },
+            {
+              "field": "exclusive_with",
+              "value": "mega_gun_emplacement",
+              "line": 352
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "tags",
+          "operator": "=",
+          "line": 345
+        }
+      ]
+    },
+    {
+      "id": "naval_supply_hub",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 356,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 357
+        },
+        {
+          "field": "base_cost",
+          "value": 12500,
+          "line": 358
+        },
+        {
+          "field": "icon_frame",
+          "value": 28,
+          "line": 359
+        },
+        {
+          "field": "disabled_in_dmz",
+          "value": true,
+          "line": 360
+        },
+        {
+          "field": "naval_supply_hub",
+          "value": true,
+          "line": 361
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 362
+        },
+        {
+          "field": "only_costal",
+          "value": true,
+          "line": 363
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 371,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 372
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "tags",
+          "operator": "=",
+          "line": 364
+        },
+        {
+          "field": "building_prerequisite",
+          "operator": "=",
+          "line": 365
+        }
+      ]
+    },
+    {
+      "id": "naval_headquarters",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 376,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 378
+        },
+        {
+          "field": "base_cost",
+          "value": 10000,
+          "line": 379
+        },
+        {
+          "field": "per_controlled_building_extra_cost",
+          "value": 5000,
+          "line": 380
+        },
+        {
+          "field": "icon_frame",
+          "value": 29,
+          "line": 381
+        },
+        {
+          "field": "value",
+          "value": 1,
+          "line": 382
+        },
+        {
+          "field": "naval_headquarter",
+          "value": true,
+          "line": 383
+        },
+        {
+          "field": "disabled_in_dmz",
+          "value": true,
+          "line": 384
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 385
+        },
+        {
+          "field": "only_costal",
+          "value": true,
+          "line": 386
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 394,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 395
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 377
+        },
+        {
+          "field": "tags",
+          "operator": "=",
+          "line": 387
+        },
+        {
+          "field": "building_prerequisite",
+          "operator": "=",
+          "line": 388
+        },
+        {
+          "field": "modules",
+          "operator": "=",
+          "line": 397
+        }
+      ]
+    },
+    {
+      "id": "nuclear_reactor",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 402,
+      "declarations": [
+        {
+          "field": "hide_if_missing_tech",
+          "value": true,
+          "line": 403
+        },
+        {
+          "field": "spawn_point",
+          "value": "nuclear_reactor_spawn",
+          "line": 408
+        },
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 409
+        },
+        {
+          "field": "base_cost",
+          "value": 30000,
+          "line": 410
+        },
+        {
+          "field": "icon_frame",
+          "value": 13,
+          "line": 411
+        },
+        {
+          "field": "nuclear_reactor",
+          "value": true,
+          "line": 412
+        },
+        {
+          "field": "value",
+          "value": 10,
+          "line": 413
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 415
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 426,
+          "declarations": [
+            {
+              "field": "state_max",
+              "value": 1,
+              "line": 427
+            },
+            {
+              "field": "shares_slots",
+              "value": true,
+              "line": 428
+            },
+            {
+              "field": "group_by",
+              "value": "reactors",
+              "line": 429
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "missing_tech_loc",
+          "operator": "=",
+          "line": 404
+        },
+        {
+          "field": "tags",
+          "operator": "=",
+          "line": 414
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 417
+        }
+      ]
+    },
+    {
+      "id": "nuclear_reactor_heavy_water",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 433,
+      "declarations": [
+        {
+          "field": "hide_if_missing_tech",
+          "value": true,
+          "line": 434
+        },
+        {
+          "field": "spawn_point",
+          "value": "nuclear_reactor_spawn",
+          "line": 439
+        },
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 440
+        },
+        {
+          "field": "base_cost",
+          "value": 25000,
+          "line": 441
+        },
+        {
+          "field": "icon_frame",
+          "value": 13,
+          "line": 442
+        },
+        {
+          "field": "nuclear_reactor",
+          "value": true,
+          "line": 443
+        },
+        {
+          "field": "value",
+          "value": 10,
+          "line": 444
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 445
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 456,
+          "declarations": [
+            {
+              "field": "state_max",
+              "value": 1,
+              "line": 457
+            },
+            {
+              "field": "shares_slots",
+              "value": true,
+              "line": 458
+            },
+            {
+              "field": "group_by",
+              "value": "reactors",
+              "line": 459
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "missing_tech_loc",
+          "operator": "=",
+          "line": 435
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 447
+        }
+      ]
+    },
+    {
+      "id": "commercial_nuclear_reactor",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 463,
+      "declarations": [
+        {
+          "field": "hide_if_missing_tech",
+          "value": true,
+          "line": 465
+        },
+        {
+          "field": "spawn_point",
+          "value": "nuclear_reactor_spawn",
+          "line": 470
+        },
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 471
+        },
+        {
+          "field": "base_cost",
+          "value": 35000,
+          "line": 472
+        },
+        {
+          "field": "icon_frame",
+          "value": 27,
+          "line": 473
+        },
+        {
+          "field": "nuclear_reactor",
+          "value": true,
+          "line": 474
+        },
+        {
+          "field": "affects_energy",
+          "value": true,
+          "line": 475
+        },
+        {
+          "field": "value",
+          "value": 10,
+          "line": 476
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 477
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 493,
+          "declarations": [
+            {
+              "field": "state_max",
+              "value": 1,
+              "line": 494
+            },
+            {
+              "field": "shares_slots",
+              "value": true,
+              "line": 495
+            },
+            {
+              "field": "group_by",
+              "value": "reactors",
+              "line": 496
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 464
+        },
+        {
+          "field": "missing_tech_loc",
+          "operator": "=",
+          "line": 466
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 479
+        },
+        {
+          "field": "state_modifiers",
+          "operator": "=",
+          "line": 486
+        }
+      ]
+    },
+    {
+      "id": "nuclear_facility",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 500,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 501
+        },
+        {
+          "field": "base_cost",
+          "value": 15000,
+          "line": 502
+        },
+        {
+          "field": "per_controlled_building_extra_cost",
+          "value": 5000,
+          "line": 503
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 504
+        },
+        {
+          "field": "icon_frame",
+          "value": 20,
+          "line": 505
+        },
+        {
+          "field": "value",
+          "value": 1,
+          "line": 506
+        },
+        {
+          "field": "spawn_point",
+          "value": "special_project_facility_spawn",
+          "line": 507
+        },
+        {
+          "field": "need_supply",
+          "value": true,
+          "line": 509
+        },
+        {
+          "field": "need_detection",
+          "value": true,
+          "line": 510
+        },
+        {
+          "field": "disabled_in_dmz",
+          "value": true,
+          "line": 512
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 513
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_specialization_nuclear",
+          "line": 514
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 526,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 527
+            },
+            {
+              "field": "state_max",
+              "value": 1,
+              "line": 528
+            },
+            {
+              "field": "group_by",
+              "value": "special_project_facility",
+              "line": 529
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "specialization",
+          "operator": "=",
+          "line": 508
+        },
+        {
+          "field": "tags",
+          "operator": "=",
+          "line": 511
+        }
+      ]
+    },
+    {
+      "id": "air_facility",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 533,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 534
+        },
+        {
+          "field": "base_cost",
+          "value": 12000,
+          "line": 535
+        },
+        {
+          "field": "per_controlled_building_extra_cost",
+          "value": 5000,
+          "line": 536
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 537
+        },
+        {
+          "field": "icon_frame",
+          "value": 17,
+          "line": 538
+        },
+        {
+          "field": "value",
+          "value": 1,
+          "line": 539
+        },
+        {
+          "field": "spawn_point",
+          "value": "special_project_facility_spawn",
+          "line": 540
+        },
+        {
+          "field": "need_supply",
+          "value": true,
+          "line": 543
+        },
+        {
+          "field": "need_detection",
+          "value": true,
+          "line": 544
+        },
+        {
+          "field": "detecting_intel_type",
+          "value": "airforce",
+          "line": 545
+        },
+        {
+          "field": "disabled_in_dmz",
+          "value": true,
+          "line": 546
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 547
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_specialization_air",
+          "line": 548
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 549,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 550
+            },
+            {
+              "field": "state_max",
+              "value": 1,
+              "line": 551
+            },
+            {
+              "field": "group_by",
+              "value": "special_project_facility",
+              "line": 552
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "specialization",
+          "operator": "=",
+          "line": 541
+        },
+        {
+          "field": "tags",
+          "operator": "=",
+          "line": 542
+        }
+      ]
+    },
+    {
+      "id": "land_facility",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 556,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 557
+        },
+        {
+          "field": "base_cost",
+          "value": 12000,
+          "line": 558
+        },
+        {
+          "field": "per_controlled_building_extra_cost",
+          "value": 5000,
+          "line": 559
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 560
+        },
+        {
+          "field": "icon_frame",
+          "value": 19,
+          "line": 561
+        },
+        {
+          "field": "value",
+          "value": 1,
+          "line": 562
+        },
+        {
+          "field": "spawn_point",
+          "value": "special_project_facility_spawn",
+          "line": 563
+        },
+        {
+          "field": "disabled_in_dmz",
+          "value": true,
+          "line": 566
+        },
+        {
+          "field": "need_supply",
+          "value": true,
+          "line": 567
+        },
+        {
+          "field": "need_detection",
+          "value": true,
+          "line": 568
+        },
+        {
+          "field": "detecting_intel_type",
+          "value": "army",
+          "line": 569
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 570
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_specialization_land",
+          "line": 571
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 572,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 573
+            },
+            {
+              "field": "state_max",
+              "value": 1,
+              "line": 574
+            },
+            {
+              "field": "group_by",
+              "value": "special_project_facility",
+              "line": 575
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "specialization",
+          "operator": "=",
+          "line": 564
+        },
+        {
+          "field": "tags",
+          "operator": "=",
+          "line": 565
+        }
+      ]
+    },
+    {
+      "id": "dam",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 579,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 580
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 581
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 582
+        },
+        {
+          "field": "icon_frame",
+          "value": 26,
+          "line": 583
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 584
+        },
+        {
+          "field": "spawn_point",
+          "value": "dam_spawn",
+          "line": 586
+        },
+        {
+          "field": "damage_factor",
+          "value": -1,
+          "line": 587
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 588
+        },
+        {
+          "field": "affects_energy",
+          "value": true,
+          "line": 589
+        },
+        {
+          "field": "need_detection",
+          "value": true,
+          "line": 590
+        },
+        {
+          "field": "detecting_intel_type",
+          "value": "civilian",
+          "line": 591
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 594
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_dam_icon_small",
+          "line": 595
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 599
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 596,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 597
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "tags",
+          "operator": "=",
+          "line": 585
+        },
+        {
+          "field": "province_damage_modifiers",
+          "operator": "=",
+          "line": 592
+        },
+        {
+          "field": "state_modifiers",
+          "operator": "=",
+          "line": 600
+        }
+      ]
+    },
+    {
+      "id": "dam_mountain",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 607,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 608
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 609
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 610
+        },
+        {
+          "field": "icon_frame",
+          "value": 26,
+          "line": 611
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 612
+        },
+        {
+          "field": "spawn_point",
+          "value": "dam_spawn",
+          "line": 614
+        },
+        {
+          "field": "damage_factor",
+          "value": -1,
+          "line": 615
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 616
+        },
+        {
+          "field": "affects_energy",
+          "value": true,
+          "line": 617
+        },
+        {
+          "field": "need_detection",
+          "value": true,
+          "line": 618
+        },
+        {
+          "field": "detecting_intel_type",
+          "value": "civilian",
+          "line": 619
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 621
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_dam_icon_small",
+          "line": 622
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 626
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 623,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 624
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "tags",
+          "operator": "=",
+          "line": 613
+        },
+        {
+          "field": "province_damage_modifiers",
+          "operator": "=",
+          "line": 620
+        },
+        {
+          "field": "state_modifiers",
+          "operator": "=",
+          "line": 627
+        }
+      ]
+    },
+    {
+      "id": "cataract_dam_mountain",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 635,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 636
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 637
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 638
+        },
+        {
+          "field": "icon_frame",
+          "value": 26,
+          "line": 639
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 640
+        },
+        {
+          "field": "spawn_point",
+          "value": "dam_spawn",
+          "line": 642
+        },
+        {
+          "field": "damage_factor",
+          "value": -1,
+          "line": 643
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 644
+        },
+        {
+          "field": "affects_energy",
+          "value": true,
+          "line": 645
+        },
+        {
+          "field": "need_detection",
+          "value": true,
+          "line": 646
+        },
+        {
+          "field": "detecting_intel_type",
+          "value": "civilian",
+          "line": 647
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 649
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_dam_icon_small",
+          "line": 650
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 654
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 651,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 652
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "tags",
+          "operator": "=",
+          "line": 641
+        },
+        {
+          "field": "province_damage_modifiers",
+          "operator": "=",
+          "line": 648
+        },
+        {
+          "field": "state_modifiers",
+          "operator": "=",
+          "line": 655
+        }
+      ]
+    },
+    {
+      "id": "canal_kiel",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 663,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 664
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 665
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 666
+        },
+        {
+          "field": "icon_frame",
+          "value": 25,
+          "line": 667
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 668
+        },
+        {
+          "field": "spawn_point",
+          "value": "locks_spawn",
+          "line": 670
+        },
+        {
+          "field": "damage_factor",
+          "value": -1,
+          "line": 671
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 672
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 673
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 675
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_canal_icon_small",
+          "line": 676
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 680
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 677,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 678
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "tags",
+          "operator": "=",
+          "line": 669
+        },
+        {
+          "field": "state_damage_modifier",
+          "operator": "=",
+          "line": 674
+        },
+        {
+          "field": "state_modifiers",
+          "operator": "=",
+          "line": 681
+        }
+      ]
+    },
+    {
+      "id": "canal_panama",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 686,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 687
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 688
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 689
+        },
+        {
+          "field": "icon_frame",
+          "value": 1,
+          "line": 690
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 691
+        },
+        {
+          "field": "spawn_point",
+          "value": "locks_spawn",
+          "line": 693
+        },
+        {
+          "field": "damage_factor",
+          "value": -1,
+          "line": 694
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 695
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 696
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 698
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_canal_icon_small",
+          "line": 699
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 703
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 700,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 701
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "tags",
+          "operator": "=",
+          "line": 692
+        },
+        {
+          "field": "state_damage_modifier",
+          "operator": "=",
+          "line": 697
+        },
+        {
+          "field": "state_modifiers",
+          "operator": "=",
+          "line": 704
+        }
+      ]
+    },
+    {
+      "id": "energy_infrastructure",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 711,
+      "declarations": [
+        {
+          "field": "base_cost",
+          "value": 12000,
+          "line": 712
+        },
+        {
+          "field": "icon_frame",
+          "value": 30,
+          "line": 713
+        },
+        {
+          "field": "value",
+          "value": 1,
+          "line": 714
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 716
+        },
+        {
+          "field": "affects_energy",
+          "value": true,
+          "line": 717
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 719
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 720,
+          "declarations": [
+            {
+              "field": "state_max",
+              "value": 1,
+              "line": 721
+            },
+            {
+              "field": "shares_slots",
+              "value": true,
+              "line": 722
+            },
+            {
+              "field": "group_by",
+              "value": "infrastructure_keystone",
+              "line": 723
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "state_modifiers",
+          "operator": "=",
+          "line": 725
+        }
+      ]
+    },
+    {
+      "id": "industrial_infrastructure",
+      "source": {
+        "path": "common/buildings/00_buildings.txt",
+        "sha256": "9fa27d266f726de04c71311551698c6466257636dcc34d2573a3568d397bd539",
+        "bytes": 16866
+      },
+      "line": 730,
+      "declarations": [
+        {
+          "field": "base_cost",
+          "value": 12000,
+          "line": 731
+        },
+        {
+          "field": "icon_frame",
+          "value": 31,
+          "line": 732
+        },
+        {
+          "field": "value",
+          "value": 1,
+          "line": 733
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 735
+        },
+        {
+          "field": "infrastructure_construction_effect",
+          "value": true,
+          "line": 738
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 739,
+          "declarations": [
+            {
+              "field": "state_max",
+              "value": 1,
+              "line": 740
+            },
+            {
+              "field": "shares_slots",
+              "value": true,
+              "line": 741
+            },
+            {
+              "field": "group_by",
+              "value": "infrastructure_keystone",
+              "line": 742
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "state_modifiers",
+          "operator": "=",
+          "line": 744
+        }
+      ]
+    },
+    {
+      "id": "landmark_big_ben",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 37,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 39
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 40
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 41
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 42
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 43
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 45
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 46
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 47
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 48
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 49
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_big_ben_icon_small",
+          "line": 50
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 54
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 55
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 56
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 51,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 52
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 38
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 57
+        }
+      ]
+    },
+    {
+      "id": "landmark_colosseum",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 65,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 67
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 68
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 69
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 70
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 71
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 73
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 74
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 75
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 76
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 77
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_colosseum_icon_small",
+          "line": 78
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 82
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 83
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 84
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 79,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 80
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 66
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 85
+        }
+      ]
+    },
+    {
+      "id": "landmark_cristo_redentor",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 93,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 95
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 96
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 97
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 98
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 99
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 101
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 102
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 103
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 104
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 105
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_cristo_redentor_icon_small",
+          "line": 106
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 110
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 111
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 112
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 107,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 108
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 94
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 113
+        }
+      ]
+    },
+    {
+      "id": "landmark_eiffel_tower",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 121,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 123
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 124
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 125
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 126
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 127
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 129
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 130
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 131
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 132
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 133
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_eiffel_tower_icon_small",
+          "line": 134
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 138
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 139
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 140
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 135,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 136
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 122
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 141
+        }
+      ]
+    },
+    {
+      "id": "landmark_statue_of_liberty",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 149,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 151
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 152
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 153
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 154
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 155
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 156
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 157
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 158
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 159
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 160
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_statue_of_liberty_icon_small",
+          "line": 161
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 165
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 166
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 167
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 162,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 163
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 150
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 168
+        }
+      ]
+    },
+    {
+      "id": "landmark_kremlin",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 178,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 180
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 181
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 182
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 183
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 184
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 186
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 187
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 188
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 189
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 190
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_kremlin_icon_small",
+          "line": 191
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 195
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 196
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 197
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 192,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 193
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 179
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 198
+        }
+      ]
+    },
+    {
+      "id": "landmark_hofburg_palace",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 206,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 208
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 209
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 210
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 211
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 212
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 214
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 215
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 216
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 217
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 218
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_hofburg_palace_icon_small",
+          "line": 219
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 223
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 224
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 225
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 220,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 221
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 207
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 226
+        }
+      ]
+    },
+    {
+      "id": "landmark_berlin_reichstag",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 234,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 236
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 237
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 238
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 239
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 240
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 241
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 242
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 243
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_berlin_reichstag_icon_small",
+          "line": 244
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 245
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 246
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 250
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 251
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 252
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 247,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 248
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 235
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 253
+        }
+      ]
+    },
+    {
+      "id": "landmark_berlin_volkshalle",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 261,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 263
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 264
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 265
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 266
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 267
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 268
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 269
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 270
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_volkshalle_small",
+          "line": 271
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 272
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 273
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 277
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 278
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 279
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 274,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 275
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 262
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 280
+        }
+      ]
+    },
+    {
+      "id": "landmark_taj_mahal",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 289,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 291
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 292
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 293
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 294
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 295
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 297
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 298
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 299
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 300
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 301
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_taj_mahal_icon_small",
+          "line": 302
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 306
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 307
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 308
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 303,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 304
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 290
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 309
+        }
+      ]
+    },
+    {
+      "id": "landmark_sadabad_complex",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 317,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 319
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 320
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 321
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 322
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 323
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 325
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 326
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 327
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 328
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 329
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_sadabad_complex_icon_small",
+          "line": 330
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 334
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 335
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 336
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 331,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 332
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 318
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 337
+        }
+      ]
+    },
+    {
+      "id": "landmark_hagia_sophia",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 345,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 347
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 348
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 349
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 350
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 351
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 353
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 354
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 355
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 356
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 357
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_haga_sofia_icon_small",
+          "line": 358
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 362
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 363
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 364
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 359,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 360
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 346
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 365
+        }
+      ]
+    },
+    {
+      "id": "landmark_forbidden_city",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 373,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 375
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 376
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 377
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 378
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 379
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 381
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 382
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 383
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 384
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 385
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_forbidden_city_icon_small",
+          "line": 386
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 390
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 391
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 392
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 387,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 388
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 374
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 393
+        }
+      ]
+    },
+    {
+      "id": "landmark_nanjing_presidential_palace",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 401,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 403
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 404
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 405
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 406
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 407
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 409
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 410
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 411
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 412
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 413
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_nanjing_presidential_palace_icon_small",
+          "line": 414
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 418
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 419
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 420
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 415,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 416
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 402
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 421
+        }
+      ]
+    },
+    {
+      "id": "landmark_nanjing_presidential_palace_prc",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 429,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 431
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 432
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 433
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 434
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 435
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 437
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 438
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 439
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 440
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 441
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_nanjing_presidential_palace_icon_small",
+          "line": 442
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 446
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 447
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 448
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 443,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 444
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 430
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 449
+        }
+      ]
+    },
+    {
+      "id": "landmark_nanjing_presidential_palace_gen",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 457,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 459
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 460
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 461
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 462
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 463
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 465
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 466
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 467
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 468
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 469
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_nanjing_presidential_palace_icon_small",
+          "line": 470
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 474
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 475
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 476
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 471,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 472
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 458
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 477
+        }
+      ]
+    },
+    {
+      "id": "landmark_great_wall_section",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 485,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 487
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 488
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 489
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 490
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 491
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 493
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 494
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 495
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 496
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 497
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_the_great_wall_icon_small",
+          "line": 498
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 502
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 503
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 504
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 499,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 500
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 505
+        }
+      ]
+    },
+    {
+      "id": "landmark_tokyo_imperial_palace",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 513,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 515
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 516
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 517
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 518
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 519
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 520
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 521
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 522
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_tokyo_imperial_palace_icon_small",
+          "line": 523
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 524
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 525
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 529
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 530
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 531
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 526,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 527
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 514
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 532
+        }
+      ]
+    },
+    {
+      "id": "landmark_national_diet",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 540,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 542
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 543
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 544
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 545
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 546
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 547
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 548
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 549
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_national_diet_icon_small",
+          "line": 550
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 551
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 552
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 556
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 557
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 558
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 553,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 554
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 541
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 559
+        }
+      ]
+    },
+    {
+      "id": "landmark_hakko_ichiu",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 568,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 570
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 571
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 572
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 573
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 574
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 575
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 576
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 577
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_hakko_ichiu_monument_icon_small",
+          "line": 578
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 579
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 580
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 584
+        },
+        {
+          "field": "drawn_at_distance",
+          "value": true,
+          "line": 585
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 586
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 581,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 582
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 569
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 587
+        }
+      ]
+    },
+    {
+      "id": "landmark_prague_castle",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 596,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 598
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 599
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 600
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 601
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 602
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 604
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 605
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 606
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 607
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 608
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_prague_castle_icon_small",
+          "line": 609
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 613
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 614
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 610,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 611
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 597
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 615
+        }
+      ]
+    },
+    {
+      "id": "landmark_bojnice_castle",
+      "source": {
+        "path": "common/buildings/01_landmark_buildings.txt",
+        "sha256": "9528c42836e08ba01019d62d42607d0d5fb2473b8aa7aa7cb852d95e7a08002c",
+        "bytes": 17236
+      },
+      "line": 624,
+      "declarations": [
+        {
+          "field": "show_on_map",
+          "value": 1,
+          "line": 626
+        },
+        {
+          "field": "base_cost",
+          "value": 20000,
+          "line": 627
+        },
+        {
+          "field": "damage_factor",
+          "value": 0,
+          "line": 628
+        },
+        {
+          "field": "icon_frame",
+          "value": 22,
+          "line": 629
+        },
+        {
+          "field": "value",
+          "value": 5,
+          "line": 630
+        },
+        {
+          "field": "is_buildable",
+          "value": false,
+          "line": 632
+        },
+        {
+          "field": "disable_grow_animation",
+          "value": true,
+          "line": 633
+        },
+        {
+          "field": "spawn_point",
+          "value": "landmark_spawn",
+          "line": 634
+        },
+        {
+          "field": "repair_speed_factor",
+          "value": "@landmark_repair_speed_factor",
+          "line": 635
+        },
+        {
+          "field": "only_display_if_exists",
+          "value": true,
+          "line": 636
+        },
+        {
+          "field": "special_icon",
+          "value": "GFX_bojnice_castle_icon_small",
+          "line": 637
+        },
+        {
+          "field": "always_shown",
+          "value": true,
+          "line": 641
+        },
+        {
+          "field": "show_modifier",
+          "value": true,
+          "line": 642
+        }
+      ],
+      "level_cap": [
+        {
+          "line": 638,
+          "declarations": [
+            {
+              "field": "province_max",
+              "value": 1,
+              "line": 639
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "dlc_allowed",
+          "operator": "=",
+          "line": 625
+        },
+        {
+          "field": "country_modifiers",
+          "operator": "=",
+          "line": 643
+        }
+      ]
+    }
+  ],
+  "state_categories": [
+    {
+      "id": "city",
+      "source": {
+        "path": "common/state_category/city.txt",
+        "sha256": "3e1784b33228df0979b5fa7b9773ebc4d71919ff4d19b160a13f99640b60c9ea",
+        "bytes": 85
+      },
+      "line": 2,
+      "declarations": [
+        {
+          "field": "local_building_slots",
+          "value": 6,
+          "line": 3
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "color",
+          "operator": "=",
+          "line": 5
+        }
+      ]
+    },
+    {
+      "id": "enclave",
+      "source": {
+        "path": "common/state_category/enclave.txt",
+        "sha256": "b6cb079716098c03518ddb108287a91b1295a30d36a1f510139ab184617dd1f5",
+        "bytes": 88
+      },
+      "line": 2,
+      "declarations": [
+        {
+          "field": "local_building_slots",
+          "value": 0,
+          "line": 3
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "color",
+          "operator": "=",
+          "line": 5
+        }
+      ]
+    },
+    {
+      "id": "large_city",
+      "source": {
+        "path": "common/state_category/large_city.txt",
+        "sha256": "6c55cfd2fa0fd0a2453dd740d493f3a9767f871d523c71342d765d4d2e946530",
+        "bytes": 91
+      },
+      "line": 2,
+      "declarations": [
+        {
+          "field": "local_building_slots",
+          "value": 8,
+          "line": 3
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "color",
+          "operator": "=",
+          "line": 5
+        }
+      ]
+    },
+    {
+      "id": "large_island",
+      "source": {
+        "path": "common/state_category/large_island.txt",
+        "sha256": "e9cacb3f9575b42c7066fb29c46cf0ea1b6194c19c5828d58267ab6de468577e",
+        "bytes": 182
+      },
+      "line": 2,
+      "declarations": [
+        {
+          "field": "local_building_slots",
+          "value": 3,
+          "line": 3
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "buildings_max_level",
+          "operator": "=",
+          "line": 5
+        },
+        {
+          "field": "color",
+          "operator": "=",
+          "line": 10
+        }
+      ]
+    },
+    {
+      "id": "large_town",
+      "source": {
+        "path": "common/state_category/large_town.txt",
+        "sha256": "686aaacd91223123faec8632bb4fb42b1c2c5a86cddcc9e99086d2956d2c7ccf",
+        "bytes": 93
+      },
+      "line": 2,
+      "declarations": [
+        {
+          "field": "local_building_slots",
+          "value": 5,
+          "line": 3
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "color",
+          "operator": "=",
+          "line": 5
+        }
+      ]
+    },
+    {
+      "id": "megalopolis",
+      "source": {
+        "path": "common/state_category/megalopolis.txt",
+        "sha256": "56b5906f1e6e8c036a1303f8950939bebd952ca308f4dc410a7abbb48b47e224",
+        "bytes": 97
+      },
+      "line": 2,
+      "declarations": [
+        {
+          "field": "local_building_slots",
+          "value": 12,
+          "line": 3
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "color",
+          "operator": "=",
+          "line": 5
+        }
+      ]
+    },
+    {
+      "id": "metropolis",
+      "source": {
+        "path": "common/state_category/metropolis.txt",
+        "sha256": "d096bf86f16960683dae0e1baf0919c394f27eab642920a160ba2912ad3b231e",
+        "bytes": 101
+      },
+      "line": 2,
+      "declarations": [
+        {
+          "field": "local_building_slots",
+          "value": 10,
+          "line": 3
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "color",
+          "operator": "=",
+          "line": 7
+        }
+      ]
+    },
+    {
+      "id": "pastoral",
+      "source": {
+        "path": "common/state_category/pastoral.txt",
+        "sha256": "bda757dcb15929e1e24f6d79e4495c0c6d9f4d6bc92232aaf1e9bd6422d65654",
+        "bytes": 92
+      },
+      "line": 2,
+      "declarations": [
+        {
+          "field": "local_building_slots",
+          "value": 1,
+          "line": 3
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "color",
+          "operator": "=",
+          "line": 5
+        }
+      ]
+    },
+    {
+      "id": "rural",
+      "source": {
+        "path": "common/state_category/rural.txt",
+        "sha256": "8e40823087bbb0e4bc868a1f605665f90eda402d539dded61a7637c62b53d3dc",
+        "bytes": 88
+      },
+      "line": 2,
+      "declarations": [
+        {
+          "field": "local_building_slots",
+          "value": 2,
+          "line": 3
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "color",
+          "operator": "=",
+          "line": 5
+        }
+      ]
+    },
+    {
+      "id": "small_island",
+      "source": {
+        "path": "common/state_category/small_island.txt",
+        "sha256": "100864fc1a89d4e05bf29c02c13abf86492b38acc9262953f9c18bd49b7cc49a",
+        "bytes": 181
+      },
+      "line": 2,
+      "declarations": [
+        {
+          "field": "local_building_slots",
+          "value": 1,
+          "line": 3
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "buildings_max_level",
+          "operator": "=",
+          "line": 5
+        },
+        {
+          "field": "color",
+          "operator": "=",
+          "line": 9
+        }
+      ]
+    },
+    {
+      "id": "tiny_island",
+      "source": {
+        "path": "common/state_category/tiny_island.txt",
+        "sha256": "e77e8ba08ad76c9060b2f71b70a4bd9626a0710fd7dee4ed45dedb8e6c91840c",
+        "bytes": 173
+      },
+      "line": 2,
+      "declarations": [
+        {
+          "field": "local_building_slots",
+          "value": 0,
+          "line": 3
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "buildings_max_level",
+          "operator": "=",
+          "line": 5
+        },
+        {
+          "field": "color",
+          "operator": "=",
+          "line": 10
+        }
+      ]
+    },
+    {
+      "id": "town",
+      "source": {
+        "path": "common/state_category/town.txt",
+        "sha256": "d7f241504d1fd421fb057abeb2e736c38c7f54c34968e515d3661348bcd11509",
+        "bytes": 87
+      },
+      "line": 2,
+      "declarations": [
+        {
+          "field": "local_building_slots",
+          "value": 4,
+          "line": 3
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "color",
+          "operator": "=",
+          "line": 5
+        }
+      ]
+    },
+    {
+      "id": "wasteland",
+      "source": {
+        "path": "common/state_category/wasteland.txt",
+        "sha256": "1fd1baf944d934ddd3be3fab110cfe698d679c277949dd3ce33ac938716cdda4",
+        "bytes": 92
+      },
+      "line": 2,
+      "declarations": [
+        {
+          "field": "local_building_slots",
+          "value": 0,
+          "line": 3
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "color",
+          "operator": "=",
+          "line": 5
+        }
+      ]
+    }
+  ],
+  "numeric_defines": {
+    "source": {
+      "path": "common/defines/00_defines.lua",
+      "sha256": "405a24ce579815443cafe052cff1361e20c712ca8182e3f10ccbf45330dd4be4",
+      "bytes": 405669
+    },
+    "declarations": [
+      {
+        "field": "MAX_CIV_FACTORIES_PER_LINE",
+        "value": 15,
+        "line": 613
+      },
+      {
+        "field": "RESOURCE_TO_ENERGY_COEFFICIENT",
+        "value": 9.0,
+        "line": 624
+      },
+      {
+        "field": "BASE_COUNTRY_ENERGY_PRODUCTION",
+        "value": 10.0,
+        "line": 625
+      },
+      {
+        "field": "ENERGY_SCALING_COST_BY_FACTORY_COUNT",
+        "value": 0.0225,
+        "line": 626
+      },
+      {
+        "field": "BASE_ENERGY_COST",
+        "value": 0.25,
+        "line": 627
+      },
+      {
+        "field": "ENERGY_COST_CAP",
+        "value": 6.6,
+        "line": 628
+      },
+      {
+        "field": "ENERGY_SCALE_PER_TRADE_FACTORY_EXPORT",
+        "value": 0.25,
+        "line": 629
+      },
+      {
+        "field": "BASE_FACTORY_SPEED",
+        "value": 4,
+        "line": 630
+      },
+      {
+        "field": "BASE_FACTORY_SPEED_MIL",
+        "value": 3.5,
+        "line": 631
+      },
+      {
+        "field": "BASE_FACTORY_SPEED_NAV",
+        "value": 2.0,
+        "line": 632
+      },
+      {
+        "field": "BASE_FACTORY_START_EFFICIENCY_FACTOR",
+        "value": 10,
+        "line": 633
+      },
+      {
+        "field": "POWERED_FACTORY_SPEED",
+        "value": 5,
+        "line": 634
+      },
+      {
+        "field": "POWERED_FACTORY_SPEED_MIL",
+        "value": 4.5,
+        "line": 635
+      },
+      {
+        "field": "POWERED_FACTORY_SPEED_NAV",
+        "value": 2.5,
+        "line": 636
+      },
+      {
+        "field": "BASE_FACTORY_MAX_EFFICIENCY_FACTOR",
+        "value": 50,
+        "line": 637
+      },
+      {
+        "field": "BASE_FACTORY_EFFICIENCY_GAIN",
+        "value": 1,
+        "line": 638
+      },
+      {
+        "field": "BASE_FACTORY_EFFICIENCY_BALANCE_FACTOR",
+        "value": 0.1,
+        "line": 639
+      },
+      {
+        "field": "MIN_POSSIBLE_TRAINING_MANPOWER",
+        "value": 100000,
+        "line": 651
+      },
+      {
+        "field": "MIN_FIELD_TO_TRAINING_MANPOWER_RATIO",
+        "value": 0.75,
+        "line": 652
+      },
+      {
+        "field": "INFRA_MAX_CONSTRUCTION_COST_EFFECT",
+        "value": 1,
+        "line": 655
+      },
+      {
+        "field": "PRODUCTION_RESOURCE_LACK_PENALTY",
+        "value": -0.05,
+        "line": 656
+      },
+      {
+        "field": "BASE_DEPLOYMENT_TRAINING",
+        "value": 1,
+        "line": 764
+      },
+      {
+        "field": "MIN_DIVISION_DEPLOYMENT_TRAINING",
+        "value": 0.2,
+        "line": 1133
+      }
+    ],
+    "semantics": "Selected literal assignments only; Lua is not executed."
+  }
+}

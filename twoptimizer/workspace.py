@@ -32,6 +32,7 @@ def compose_workspace() -> ComposeResult:
                 yield Label("SCENARIO", classes="section-title")
                 yield Label("Game", classes="field-label")
                 yield Select(GAMES, value="rome2", allow_blank=False, id="game")
+                yield Button("Inspect HoI4 data…", id="hoi4-data")
                 yield Label("Faction / clan", classes="field-label")
                 yield Select([("Loading…", "loading")], allow_blank=False, id="faction")
                 yield Label("Province / holding", classes="field-label")

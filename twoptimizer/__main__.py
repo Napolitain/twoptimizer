@@ -10,6 +10,7 @@ COMMANDS = {
     "shogun2": "games.tw.shogun2.benchmark",
     "attila": "games.tw.benchmark",
     "attila-factions": "games.tw.faction_comparison",
+    "hoi4": "games.hoi4.cli",
 }
 
 
@@ -34,7 +35,9 @@ def main(argv=None):
             " interactive terminal UI.\n\nCLI commands:\n  rome2             Rome"
             " II comparisons\n  shogun2           Shogun 2 comparisons\n  attila"
             "            Attila province optimization\n  attila-factions   "
-            "Attila faction comparisons\n\nUse twoptimizer GAME --help for "
+            "Attila faction comparisons\n  hoi4 data         HoI4 public reference data"
+            "\n  hoi4 plan-check   Review hourly planning input structure"
+            "\n\nUse twoptimizer GAME --help for "
             "existing CLI options."
         )
         return 0

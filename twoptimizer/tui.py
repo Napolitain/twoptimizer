@@ -31,6 +31,7 @@ from twoptimizer.comparison_presentation import (
 from twoptimizer.constraint_catalog import building_choices
 from twoptimizer.constraint_options import ConstraintOptions
 from twoptimizer.constraint_picker import ConstraintPicker, constraint_count
+from twoptimizer.hoi4_data_screen import HoI4DataScreen
 from twoptimizer.holdings import (
     BORDER_GAMES,
     named_province_choices,
@@ -130,6 +131,7 @@ class OptimizerApp(App):
         game = str(self.query_one("#game", Select).value)
         options = choices(game)
         available = game in EXACT
+        self.query_one("#hoi4-data").display = game == "hoi4"
         self.query_one("#rome-options").display = game == "rome2"
         self.query_one("#attila-options").display = game == "attila"
         self.query_one("#shogun-options").display = game == "shogun2"
@@ -171,6 +173,11 @@ class OptimizerApp(App):
         )
         self._loading_settings = False
         self._refresh_preview()
+
+    @on(Button.Pressed, "#hoi4-data")
+    def inspect_hoi4_data(self):
+        if not self.busy and str(self.query_one("#game", Select).value) == "hoi4":
+            self.push_screen(HoI4DataScreen())
 
     @on(Button.Pressed, "#choose-constraints")
     def choose_constraints(self):

@@ -13,7 +13,7 @@ GAMES = [
     ("Attila", "attila"),
     ("Shogun 2", "shogun2"),
     ("Three Kingdoms · data incomplete", "three_kingdoms"),
-    ("Hearts of Iron IV · redesign pending", "hoi4"),
+    ("Hearts of Iron IV · reference data", "hoi4"),
 ]
 EXACT = {
     "rome2": ("cp-sat", "highs"),
@@ -58,9 +58,10 @@ NOTES = {
         "optimizer is available yet."
     ),
     "hoi4": (
-        "The existing experiments remain available in the repository. A "
-        "faithful time-based economy optimizer is pending redesign; they "
-        "are not presented here as a finished solver."
+        "Inspect HoI4 data opens public source facts for eight major countries, "
+        "with literal state declarations, source hashes and unresolved coverage. "
+        "The source patch is unverified. Hourly planning is under development; "
+        "no validated starting scenario or gameplay optimizer is available yet."
     ),
 }
 

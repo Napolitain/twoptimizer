@@ -22,6 +22,12 @@ class HelpScreen(ModalScreen):
 Choose a game, faction, province and solver on the left. **All factions** compares
 the same holding. **CP-SAT** is the default; **HiGHS** is the alternative mixed-integer
 solver. **Compare exact solvers** runs both supported solvers.
+
+For **Hearts of Iron IV**, use **Inspect HoI4 data…** to browse eight countries,
+literal state declarations and source diagnostics. Missing declarations show **—**;
+they are not assumed to be zero. The public source patch and gameplay scenarios
+remain unverified, so optimization stays unavailable. **Esc** closes the inspector.
+
 **Multiple provinces** opens a searchable checklist with All and None controls.
 Provinces run independently by default. All three games can optimize them together;
 joint Attila and Rome II runs use bundled land borders when a complete map is available.

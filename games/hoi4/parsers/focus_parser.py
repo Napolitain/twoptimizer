@@ -4,22 +4,39 @@ Focus tree parser for HOI4 national focus trees.
 Parses national focus data from games/hoi4/data/national_focus/*.txt files.
 """
 
+from pathlib import Path
 from typing import Any
 
+from games.hoi4.data_pipeline.legacy import legacy_object
+from games.hoi4.data_pipeline.syntax import Block, Document, parse_file, parse_script
 from games.hoi4.models.focus import Focus, FocusFilterCategory, FocusTree
-from games.hoi4.parsers.base_parser import BaseParser
+from games.hoi4.parsers.base_parser import BaseParser, ParseError
 
 
 class FocusParser(BaseParser):
     """
     Parser for HOI4 national focus tree files.
 
-    Extracts focus tree structure and individual focuses.
+    Extracts a legacy display view of focus tree structure and individual focuses.
+
+    The original ordered syntax is available in ``documents``. Legacy Focus
+    prerequisites are flattened and its numeric defaults remain unchanged;
+    conditions, effects, dynamic costs and DLC selection are not evaluated.
+    This compatibility view is not an executable gameplay model.
     """
 
     def __init__(self):
         super().__init__()
         self.focus_trees: dict[str, FocusTree] = {}
+        self.documents: dict[str, Document] = {}
+
+    def parse_file(self, file_path: Path) -> dict[str, Any]:
+        """Read bytes strictly so source hashes also preserve BOMs and newlines."""
+        self.current_file = file_path
+        try:
+            return self._consume_document(parse_file(file_path))
+        except (OSError, ValueError) as error:
+            raise ParseError(f"Error parsing {file_path}: {error}") from error
 
     def _parse_content(self, content: str) -> dict[str, Any]:
         """
@@ -31,40 +48,22 @@ class FocusParser(BaseParser):
         Returns:
             Dictionary of focus tree definitions
         """
-        lines = self._split_lines(content)
-        parsed_data = {}
+        return self._consume_document(
+            parse_script(content, source=str(self.current_file or "<memory>"))
+        )
 
-        i = 0
-        while i < len(lines):
-            line = self._clean_line(lines[i])
-
-            if not line:
-                i += 1
-                continue
-
-            # Look for main "focus_tree" block
-            if line.startswith("focus_tree") and "=" in line:
-                if line.endswith("{"):
-                    block_data, next_i = self._parse_block(lines, i + 1)
-                    parsed_data["focus_tree"] = block_data
-                    i = next_i
-                else:
-                    _, value = self._parse_key_value(line, lines, i)
-                    if isinstance(value, dict):
-                        parsed_data["focus_tree"] = value
-                    i += 1
-                break
-
-            i += 1
-
-        # Process focus tree data
-        if "focus_tree" in parsed_data:
-            tree = self._process_focus_tree(parsed_data["focus_tree"])
-            if tree:
+    def _consume_document(self, document: Document) -> dict[str, Any]:
+        self.documents[document.source] = document
+        for block in document.root.assignments("focus_tree"):
+            if isinstance(block, Block):
+                tree_data = legacy_object(block)
+                tree_data["focus"] = [
+                    legacy_object(focus)
+                    for focus in block.assignments("focus")
+                    if isinstance(focus, Block)
+                ]
+                tree = self._process_focus_tree(tree_data)
                 self.focus_trees[tree.id] = tree
-        else:
-            print(f"Warning: No 'focus_tree' block found in file {self.current_file}")
-
         return self.focus_trees
 
     def _process_focus_tree(self, tree_data: dict[str, Any]) -> FocusTree:
@@ -186,7 +185,7 @@ class FocusParser(BaseParser):
         search_filters = []
         if "search_filters" in focus_data:
             filters = focus_data["search_filters"]
-            if isinstance(filters, dict):
+            if isinstance(filters, (dict, list)):
                 for filter_name in filters:
                     try:
                         category = FocusFilterCategory(filter_name)

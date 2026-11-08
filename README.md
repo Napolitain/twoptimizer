@@ -38,6 +38,10 @@ when both optima are proved; unfinished solves show bounds instead.
 The query preview shows batch scope before Run. **Model size** displays compiled
 variable and constraint counts, with separate reference and solver formulations.
 
+For HoI4, select **Inspect HoI4 data…** to browse the public country and state
+reference with mouse or keyboard. The inspector shows source coverage and gaps;
+the new hourly campaign optimizer is still being built.
+
 ![Interactive terminal UI](docs/tui.png)
 
 ## Command line
@@ -48,6 +52,8 @@ Run from the repository directory:
 uv run --locked twoptimizer rome2 --faction rom_rome --layout coastal --seconds 15
 uv run --locked twoptimizer shogun2 --clan oda --soil native --seconds 15
 uv run --locked twoptimizer attila --province Thracia --fertility 5 --seconds 15
+uv run --locked twoptimizer hoi4 data --country FRA
+uv run --locked twoptimizer hoi4 data --country all --json --output hoi4-data.json
 ```
 
 `--seconds` sets an optional per-case time limit; omit it to run to completion.
@@ -65,6 +71,7 @@ for optimization in the UI.
 - [Usage, scenarios, exports and model assumptions](docs/usage.md)
 - [Rome II model](games/tw/rome2/README.md)
 - [Shogun 2 model](games/tw/shogun2/README.md)
+- [HoI4 development status, public data and hourly planning](games/hoi4/README.md)
 - [Data preparation and coverage](games/tw/multigame/README.md)
 - [CP-SAT and HiGHS comparison](docs/cpsat-highs-performance.md)
 - [Historical joint and independent holding benchmarks](docs/holding-performance.md)

@@ -1,0 +1,5743 @@
+{
+  "schema_version": 1,
+  "tag": "CHI",
+  "name": "China",
+  "semantics": "Literal source declarations only; not usable capacity or a fully resolved 1936 snapshot. Base declarations do not apply conditions or dated history. Optional source_selection records conservative control-flow choices separately. Effects, defaults, inheritance and load order are not executed. The public mirror's exact game patch and vanilla fidelity are unverified.",
+  "source_revision": "e249d22284449ece5416b41e68c4d73f2b79e3cc",
+  "source_repository": "https://github.com/BanderaModding/vanilla-fin-hoi4",
+  "source": {
+    "path": "history/countries/CHI - China.txt",
+    "sha256": "2d51c3b3b00155f67aeb2b0238646df8d7777a616f4a0bba33b54a1f8de03146",
+    "bytes": 31425
+  },
+  "country_declarations": [
+    {
+      "field": "capital",
+      "value": 1035,
+      "line": 1
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_weng_wenhao",
+      "line": 164
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_random_prince_of_terror",
+      "line": 165
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_chiang_kaishek",
+      "line": 166
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_wang_jingwei",
+      "line": 167
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_tu_yuming",
+      "line": 168
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_hsueh_yueh",
+      "line": 169
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_tai_anlan",
+      "line": 170
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_wang_yaowu",
+      "line": 171
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_sun_li_jen",
+      "line": 172
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_hu_zongnan",
+      "line": 173
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_wei_lihuang",
+      "line": 174
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_chen_cheng",
+      "line": 175
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_wang_shuming",
+      "line": 176
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_zhou_zhirou",
+      "line": 177
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_xiao_yisu",
+      "line": 178
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_chen_shaokuan",
+      "line": 179
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_he_yingqin",
+      "line": 180
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_gao_zhihang",
+      "line": 181
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_h_h_kung",
+      "line": 182
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_chen_guofu",
+      "line": 183
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_chiang_ching_kuo",
+      "line": 184
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_chen_yi",
+      "line": 185
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_soong_mei_ling",
+      "line": 186
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_lin_sen",
+      "line": 187
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_wang_ganchang",
+      "line": 188
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_dai_li",
+      "line": 189
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_t_v_soong",
+      "line": 190
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_alexander_von_falkenhausen",
+      "line": 191
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_claire_lee_chennault",
+      "line": 192
+    },
+    {
+      "field": "recruit_character",
+      "value": "CHI_kwong_jiang",
+      "line": 193
+    },
+    {
+      "field": "set_stability",
+      "value": 0.2,
+      "line": 207
+    },
+    {
+      "field": "set_war_support",
+      "value": 0.32,
+      "line": 208
+    },
+    {
+      "field": "set_grand_doctrine",
+      "value": "mass_assault",
+      "line": 217
+    },
+    {
+      "field": "set_grand_doctrine",
+      "value": "new_fleet_in_being",
+      "line": 218
+    },
+    {
+      "field": "save_global_event_target_as",
+      "value": "WTT_current_china_leader",
+      "line": 696
+    },
+    {
+      "field": "set_convoys",
+      "value": 40,
+      "line": 698
+    }
+  ],
+  "unresolved_country_statements": [
+    {
+      "field": "IF",
+      "operator": "=",
+      "line": 3
+    },
+    {
+      "field": "if",
+      "operator": "=",
+      "line": 65
+    },
+    {
+      "field": "if",
+      "operator": "=",
+      "line": 72
+    },
+    {
+      "field": "IF",
+      "operator": "=",
+      "line": 92
+    },
+    {
+      "field": "if",
+      "operator": "=",
+      "line": 195
+    },
+    {
+      "field": "set_technology",
+      "operator": "=",
+      "line": 210
+    },
+    {
+      "field": "if",
+      "operator": "=",
+      "line": 220
+    },
+    {
+      "field": "if",
+      "operator": "=",
+      "line": 233
+    },
+    {
+      "field": "if",
+      "operator": "=",
+      "line": 241
+    },
+    {
+      "field": "IF",
+      "operator": "=",
+      "line": 253
+    },
+    {
+      "field": "600",
+      "operator": "=",
+      "line": 280
+    },
+    {
+      "field": "749",
+      "operator": "=",
+      "line": 283
+    },
+    {
+      "field": "606",
+      "operator": "=",
+      "line": 286
+    },
+    {
+      "field": "607",
+      "operator": "=",
+      "line": 289
+    },
+    {
+      "field": "620",
+      "operator": "=",
+      "line": 292
+    },
+    {
+      "field": "602",
+      "operator": "=",
+      "line": 295
+    },
+    {
+      "field": "750",
+      "operator": "=",
+      "line": 298
+    },
+    {
+      "field": "744",
+      "operator": "=",
+      "line": 301
+    },
+    {
+      "field": "605",
+      "operator": "=",
+      "line": 304
+    },
+    {
+      "field": "748",
+      "operator": "=",
+      "line": 307
+    },
+    {
+      "field": "603",
+      "operator": "=",
+      "line": 310
+    },
+    {
+      "field": "615",
+      "operator": "=",
+      "line": 313
+    },
+    {
+      "field": "622",
+      "operator": "=",
+      "line": 316
+    },
+    {
+      "field": "325",
+      "operator": "=",
+      "line": 319
+    },
+    {
+      "field": "747",
+      "operator": "=",
+      "line": 322
+    },
+    {
+      "field": "1032",
+      "operator": "=",
+      "line": 325
+    },
+    {
+      "field": "283",
+      "operator": "=",
+      "line": 328
+    },
+    {
+      "field": "753",
+      "operator": "=",
+      "line": 334
+    },
+    {
+      "field": "599",
+      "operator": "=",
+      "line": 337
+    },
+    {
+      "field": "1045",
+      "operator": "=",
+      "line": 340
+    },
+    {
+      "field": "616",
+      "operator": "=",
+      "line": 343
+    },
+    {
+      "field": "1044",
+      "operator": "=",
+      "line": 346
+    },
+    {
+      "field": "IF",
+      "operator": "=",
+      "line": 349
+    },
+    {
+      "field": "613",
+      "operator": "=",
+      "line": 616
+    },
+    {
+      "field": "608",
+      "operator": "=",
+      "line": 624
+    },
+    {
+      "field": "615",
+      "operator": "=",
+      "line": 632
+    },
+    {
+      "field": "715",
+      "operator": "=",
+      "line": 640
+    },
+    {
+      "field": "1036",
+      "operator": "=",
+      "line": 648
+    },
+    {
+      "field": "716",
+      "operator": "=",
+      "line": 656
+    },
+    {
+      "field": "1035",
+      "operator": "=",
+      "line": 664
+    },
+    {
+      "field": "613",
+      "operator": "=",
+      "line": 672
+    },
+    {
+      "field": "596",
+      "operator": "=",
+      "line": 680
+    },
+    {
+      "field": "600",
+      "operator": "=",
+      "line": 688
+    },
+    {
+      "field": "1939.1.1",
+      "operator": "=",
+      "line": 700
+    },
+    {
+      "field": "set_politics",
+      "operator": "=",
+      "line": 874
+    },
+    {
+      "field": "add_opinion_modifier",
+      "operator": "=",
+      "line": 882
+    },
+    {
+      "field": "if",
+      "operator": "=",
+      "line": 886
+    },
+    {
+      "field": "if",
+      "operator": "=",
+      "line": 889
+    }
+  ],
+  "states": [
+    {
+      "id": 1034,
+      "name_key": "STATE_1034",
+      "category": "town",
+      "manpower": 2472157,
+      "source": {
+        "path": "history/states/1034 - Suzhou.txt",
+        "sha256": "024b9f2f1ff0fc843a7f949ea7ef30bc56c48e80cab6fa76510a323b45c618d8",
+        "bytes": 444
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 11
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 12
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 13
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 15,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 16
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [
+        {
+          "line": 6,
+          "declarations": [],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 19
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 23
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 27
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 32
+        }
+      ]
+    },
+    {
+      "id": 1035,
+      "name_key": "STATE_1035",
+      "category": "large_town",
+      "manpower": 8652549,
+      "source": {
+        "path": "history/states/1035 - Nanjing.txt",
+        "sha256": "d894d9fb66e9882162802da89ae7251b63ffcb3beaf6b53417bceb67c118e2b7",
+        "bytes": 648
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 11
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 12
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 13
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 15,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 16
+            },
+            {
+              "field": "industrial_complex",
+              "value": 2,
+              "line": 17
+            }
+          ],
+          "unresolved_statements": [
+            {
+              "field": "11913",
+              "operator": "=",
+              "line": 18
+            }
+          ]
+        }
+      ],
+      "resource_blocks": [
+        {
+          "line": 6,
+          "declarations": [],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 28
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 31
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 36
+        }
+      ]
+    },
+    {
+      "id": 1036,
+      "name_key": "STATE_1036",
+      "category": "city",
+      "manpower": 5108320,
+      "source": {
+        "path": "history/states/1036 - Wuhan.txt",
+        "sha256": "d101c113c63f32f0fbf5363305aab6e75ed401053d3a2d071d477e06b7a8000a",
+        "bytes": 835
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 7
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 8
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 9
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 11,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 12
+            },
+            {
+              "field": "arms_factory",
+              "value": 1,
+              "line": 13
+            },
+            {
+              "field": "industrial_complex",
+              "value": 1,
+              "line": 14
+            },
+            {
+              "field": "air_base",
+              "value": 1,
+              "line": 15
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 18
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 22
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 26
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 46
+        }
+      ]
+    },
+    {
+      "id": 1037,
+      "name_key": "STATE_1037",
+      "category": "city",
+      "manpower": 31777980,
+      "source": {
+        "path": "history/states/1037 - Chongqing.txt",
+        "sha256": "1b853d4a8823d9cbe1a9135a27a6cc6b5c5c1c78e7e50ff97c09edb898ccc856",
+        "bytes": 946
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 9
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 10
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 11
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 13,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 14
+            },
+            {
+              "field": "arms_factory",
+              "value": 1,
+              "line": 15
+            },
+            {
+              "field": "industrial_complex",
+              "value": 1,
+              "line": 16
+            },
+            {
+              "field": "air_base",
+              "value": 2,
+              "line": 17
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [
+        {
+          "line": 4,
+          "declarations": [],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 20
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 24
+        },
+        {
+          "field": "1936.1.1",
+          "operator": "=",
+          "line": 28
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 38
+        },
+        {
+          "field": "1939.1.1",
+          "operator": "=",
+          "line": 49
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 60
+        }
+      ]
+    },
+    {
+      "id": 1038,
+      "name_key": "STATE_1038",
+      "category": "rural",
+      "manpower": 25582133,
+      "source": {
+        "path": "history/states/1038 - Jinan.txt",
+        "sha256": "11b5c6c26d739e75018513add6618c8443eca5bd3237ce9b983eaa84147590c0",
+        "bytes": 843
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 14
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 15
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 16
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 36,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 37
+            },
+            {
+              "field": "industrial_complex",
+              "value": 1,
+              "line": 38
+            },
+            {
+              "field": "air_base",
+              "value": 3,
+              "line": 39
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [
+        {
+          "line": 8,
+          "declarations": [],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_history_statements": [
+        {
+          "field": "1936.1.1",
+          "operator": "=",
+          "line": 18
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 28
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 32
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 42
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 53
+        }
+      ]
+    },
+    {
+      "id": 1039,
+      "name_key": "STATE_1039",
+      "category": "pastoral",
+      "manpower": 367500,
+      "source": {
+        "path": "history/states/1039 - Hebei-Chahar.txt",
+        "sha256": "14cb44335e5b781cffdd7decedd6137663a24764c777ef81e323bba4db989d46",
+        "bytes": 735
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 10
+        },
+        {
+          "field": "add_core_of",
+          "value": "MEN",
+          "line": 11
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 12
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 13
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 25,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 1,
+              "line": 26
+            }
+          ],
+          "unresolved_statements": [
+            {
+              "field": "1590",
+              "operator": "=",
+              "line": 27
+            }
+          ]
+        }
+      ],
+      "resource_blocks": [],
+      "unresolved_history_statements": [
+        {
+          "field": "1936.1.1",
+          "operator": "=",
+          "line": 15
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 37
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 41
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 48
+        }
+      ]
+    },
+    {
+      "id": 1041,
+      "name_key": "STATE_1041",
+      "category": "town",
+      "manpower": 5448874,
+      "source": {
+        "path": "history/states/1041 - Chengdu.txt",
+        "sha256": "d5f8f4e72eea238990053ad441f54e044e725efcda9ae153fb882ae5a7e88332",
+        "bytes": 930
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 10
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 11
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 12
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 14,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 15
+            },
+            {
+              "field": "arms_factory",
+              "value": 1,
+              "line": 16
+            },
+            {
+              "field": "industrial_complex",
+              "value": 1,
+              "line": 17
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [
+        {
+          "line": 4,
+          "declarations": [
+            {
+              "field": "steel",
+              "value": 4,
+              "line": 5
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 20
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 24
+        },
+        {
+          "field": "1936.1.1",
+          "operator": "=",
+          "line": 28
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 38
+        },
+        {
+          "field": "1939.1.1",
+          "operator": "=",
+          "line": 49
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 60
+        }
+      ]
+    },
+    {
+      "id": 595,
+      "name_key": "STATE_595",
+      "category": "town",
+      "manpower": 11755600,
+      "source": {
+        "path": "history/states/595-Fujian.txt",
+        "sha256": "235e53586df25bbfd57d677a5ea75c44f9180c3864875126495cb993dc8750c3",
+        "bytes": 795
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 14
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 15
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 16
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 18,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 19
+            },
+            {
+              "field": "industrial_complex",
+              "value": 1,
+              "line": 20
+            }
+          ],
+          "unresolved_statements": [
+            {
+              "field": "7071",
+              "operator": "=",
+              "line": 21
+            },
+            {
+              "field": "4196",
+              "operator": "=",
+              "line": 26
+            }
+          ]
+        }
+      ],
+      "resource_blocks": [
+        {
+          "line": 8,
+          "declarations": [
+            {
+              "field": "tungsten",
+              "value": 15,
+              "line": 9
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 33
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 37
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 41
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 49
+        }
+      ]
+    },
+    {
+      "id": 596,
+      "name_key": "STATE_596",
+      "category": "town",
+      "manpower": 21230700,
+      "source": {
+        "path": "history/states/596-Zhejiang.txt",
+        "sha256": "ded343d17d8612b18d36c93ceea891a1844bf40fab71c24327d80aac51c43162",
+        "bytes": 1186
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 9
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 10
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 11
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 29,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 31
+            },
+            {
+              "field": "air_base",
+              "value": 1,
+              "line": 32
+            }
+          ],
+          "unresolved_statements": [
+            {
+              "field": "7191",
+              "operator": "=",
+              "line": 34
+            },
+            {
+              "field": "9974",
+              "operator": "=",
+              "line": 39
+            },
+            {
+              "field": "1055",
+              "operator": "=",
+              "line": 44
+            }
+          ]
+        }
+      ],
+      "resource_blocks": [],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 13
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 17
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 21
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 25
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 51
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 66
+        }
+      ]
+    },
+    {
+      "id": 597,
+      "name_key": "STATE_597",
+      "category": "rural",
+      "manpower": 12791066,
+      "source": {
+        "path": "history/states/597-Shandong.txt",
+        "sha256": "c6f191154158b93a27f079d7621ddc9e3e25b0edd353ce32c502253924990293",
+        "bytes": 849
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 14
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 15
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 16
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 36,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 37
+            }
+          ],
+          "unresolved_statements": [
+            {
+              "field": "4205",
+              "operator": "=",
+              "line": 39
+            },
+            {
+              "field": "1104",
+              "operator": "=",
+              "line": 45
+            }
+          ]
+        }
+      ],
+      "resource_blocks": [
+        {
+          "line": 8,
+          "declarations": [
+            {
+              "field": "aluminium",
+              "value": 8,
+              "line": 9
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_history_statements": [
+        {
+          "field": "1936.1.1",
+          "operator": "=",
+          "line": 18
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 28
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 32
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 53
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 63
+        }
+      ]
+    },
+    {
+      "id": 598,
+      "name_key": "STATE_598",
+      "category": "town",
+      "manpower": 23669300,
+      "source": {
+        "path": "history/states/598-Jiansu.txt",
+        "sha256": "9ad212225ffc32bd4e1d6841acbba17fd6a1e6aed15d4873029feb156be074ad",
+        "bytes": 602
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 10
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 11
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 12
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 26,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 27
+            },
+            {
+              "field": "dockyard",
+              "value": 1,
+              "line": 28
+            }
+          ],
+          "unresolved_statements": [
+            {
+              "field": "1029",
+              "operator": "=",
+              "line": 29
+            }
+          ]
+        }
+      ],
+      "resource_blocks": [],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 14
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 18
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 22
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 34
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 39
+        }
+      ]
+    },
+    {
+      "id": 600,
+      "name_key": "STATE_600",
+      "category": "town",
+      "manpower": 15820400,
+      "source": {
+        "path": "history/states/600-Jiangxi.txt",
+        "sha256": "29efe05af62ac6f25be4442849d5b75338176abf16afb1d8e32a2ee95ffc59ba",
+        "bytes": 920
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 6
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 7
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 8
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 10,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 1,
+              "line": 11
+            },
+            {
+              "field": "industrial_complex",
+              "value": 1,
+              "line": 12
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 15
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 19
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 23
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 41
+        }
+      ]
+    },
+    {
+      "id": 602,
+      "name_key": "STATE_602",
+      "category": "town",
+      "manpower": 20293700,
+      "source": {
+        "path": "history/states/602-China 2.txt",
+        "sha256": "418738a52d90d35322a16c5f9fd2e36628827b45f0acc6f46ac0826d14d38a84",
+        "bytes": 736
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 10
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 11
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 12
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 14,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 15
+            },
+            {
+              "field": "industrial_complex",
+              "value": 1,
+              "line": 16
+            },
+            {
+              "field": "arms_factory",
+              "value": 1,
+              "line": 17
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [
+        {
+          "line": 4,
+          "declarations": [
+            {
+              "field": "tungsten",
+              "value": 6.0,
+              "line": 5
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_history_statements": [
+        {
+          "field": "1939.1.1",
+          "operator": "=",
+          "line": 19
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 29
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 33
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 39
+        }
+      ]
+    },
+    {
+      "id": 603,
+      "name_key": "STATE_603",
+      "category": "town",
+      "manpower": 7543200,
+      "source": {
+        "path": "history/states/603-China 3.txt",
+        "sha256": "870f7aaa71abb3440267b2bbea48a35279e2f0febfe4e3ff99b0b817c889e38c",
+        "bytes": 583
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 6
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 7
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 8
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 9,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 1,
+              "line": 10
+            },
+            {
+              "field": "industrial_complex",
+              "value": 1,
+              "line": 11
+            },
+            {
+              "field": "arms_factory",
+              "value": 2,
+              "line": 12
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [
+        {
+          "line": 36,
+          "declarations": [
+            {
+              "field": "coal",
+              "value": 3,
+              "line": 37
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_history_statements": [
+        {
+          "field": "1939.1.1",
+          "operator": "=",
+          "line": 15
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 25
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 31
+        }
+      ]
+    },
+    {
+      "id": 605,
+      "name_key": "STATE_605",
+      "category": "rural",
+      "manpower": 2724437,
+      "source": {
+        "path": "history/states/605-China 5.txt",
+        "sha256": "4c0302ceae5a486aea43a7fdb143700f62d71d6d5b5296026097895d8f591e72",
+        "bytes": 885
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 10
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 11
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 12
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 18,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 19
+            },
+            {
+              "field": "arms_factory",
+              "value": 1,
+              "line": 20
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [
+        {
+          "line": 4,
+          "declarations": [
+            {
+              "field": "steel",
+              "value": 10,
+              "line": 5
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 14
+        },
+        {
+          "field": "1936.1.1",
+          "operator": "=",
+          "line": 23
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 33
+        },
+        {
+          "field": "1939.1.1",
+          "operator": "=",
+          "line": 44
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 55
+        }
+      ]
+    },
+    {
+      "id": 606,
+      "name_key": "STATE_606",
+      "category": "town",
+      "manpower": 18265400,
+      "source": {
+        "path": "history/states/606-China 6.txt",
+        "sha256": "e234cd66a1fa814f59dcaa473c075f8be4e97a9f7c44069e94227ee7697791f5",
+        "bytes": 741
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 10
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 11
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 12
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 14,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 15
+            },
+            {
+              "field": "industrial_complex",
+              "value": 1,
+              "line": 16
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [
+        {
+          "line": 4,
+          "declarations": [
+            {
+              "field": "steel",
+              "value": 11.0,
+              "line": 5
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 19
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 23
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 31
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 45
+        }
+      ]
+    },
+    {
+      "id": 607,
+      "name_key": "STATE_607",
+      "category": "town",
+      "manpower": 34289800,
+      "source": {
+        "path": "history/states/607-China 7.txt",
+        "sha256": "6acacd3ee5eb2f82d1ef48bbb2f277de8198ce80f034dc8486086c7d15757603",
+        "bytes": 1235
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 11
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 12
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 13
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 15,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 16
+            },
+            {
+              "field": "industrial_complex",
+              "value": 1,
+              "line": 17
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 20
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 24
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 28
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 32
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 57
+        }
+      ]
+    },
+    {
+      "id": 608,
+      "name_key": "STATE_608",
+      "category": "large_city",
+      "manpower": 9648400,
+      "source": {
+        "path": "history/states/608-Beijing.txt",
+        "sha256": "69d0c64dc14ae0e51d4dddbb46b5c35e01db7c7a83e27500c11fffb704146c89",
+        "bytes": 958
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 11
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 12
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 13
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 25,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 3,
+              "line": 26
+            },
+            {
+              "field": "industrial_complex",
+              "value": 2,
+              "line": 27
+            },
+            {
+              "field": "air_base",
+              "value": 3,
+              "line": 28
+            }
+          ],
+          "unresolved_statements": [
+            {
+              "field": "9843",
+              "operator": "=",
+              "line": 30
+            },
+            {
+              "field": "10068",
+              "operator": "=",
+              "line": 39
+            }
+          ]
+        }
+      ],
+      "resource_blocks": [],
+      "unresolved_history_statements": [
+        {
+          "field": "1936.1.1",
+          "operator": "=",
+          "line": 15
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 44
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 48
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 52
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 56
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 62
+        }
+      ]
+    },
+    {
+      "id": 613,
+      "name_key": "STATE_613",
+      "category": "large_city",
+      "manpower": 6180392,
+      "source": {
+        "path": "history/states/613-China 12.txt",
+        "sha256": "0dbf960c1def98a4ee9011cc092e52dec5477f1ecdb89a82b5a0f3cefdc31ae7",
+        "bytes": 514
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 10
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 11
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 12
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 14,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 3,
+              "line": 15
+            },
+            {
+              "field": "air_base",
+              "value": 6,
+              "line": 16
+            },
+            {
+              "field": "dockyard",
+              "value": 1,
+              "line": 17
+            },
+            {
+              "field": "arms_factory",
+              "value": 2,
+              "line": 18
+            }
+          ],
+          "unresolved_statements": [
+            {
+              "field": "7014",
+              "operator": "=",
+              "line": 19
+            }
+          ]
+        }
+      ],
+      "resource_blocks": [],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 26
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 30
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 35
+        }
+      ]
+    },
+    {
+      "id": 614,
+      "name_key": "STATE_614",
+      "category": "town",
+      "manpower": 18434900,
+      "source": {
+        "path": "history/states/614-China 13.txt",
+        "sha256": "e6b1e902b1e00de2765214d8cbb1919ebdc490de85bab264303832fad1d2ed48",
+        "bytes": 635
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 15
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 16
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 17
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 33,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 34
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [
+        {
+          "line": 7,
+          "declarations": [
+            {
+              "field": "coal",
+              "value": 5,
+              "line": 8
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 19
+        },
+        {
+          "field": "1936.1.1",
+          "operator": "=",
+          "line": 23
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 37
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 43
+        }
+      ]
+    },
+    {
+      "id": 620,
+      "name_key": "STATE_620",
+      "category": "town",
+      "manpower": 20433280,
+      "source": {
+        "path": "history/states/620-China 17.txt",
+        "sha256": "04ce2a63bd9a0072b359c23c539a04f246eef2139025d4fcfd46fc98e7a3266c",
+        "bytes": 786
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 7
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 8
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 9
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 11,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 1,
+              "line": 12
+            },
+            {
+              "field": "arms_factory",
+              "value": 1,
+              "line": 13
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 16
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 20
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 24
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 43
+        }
+      ]
+    },
+    {
+      "id": 743,
+      "name_key": "STATE_743",
+      "category": "large_town",
+      "manpower": 385000,
+      "source": {
+        "path": "history/states/743-Qingdao.txt",
+        "sha256": "295f58063563eafeab3fff3058310db9091f62bb05105cc04d6a5a07ed582559",
+        "bytes": 574
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 11
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 12
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 13
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 25,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 3,
+              "line": 27
+            },
+            {
+              "field": "industrial_complex",
+              "value": 1,
+              "line": 28
+            },
+            {
+              "field": "air_base",
+              "value": 1,
+              "line": 29
+            }
+          ],
+          "unresolved_statements": [
+            {
+              "field": "10000",
+              "operator": "=",
+              "line": 31
+            }
+          ]
+        }
+      ],
+      "resource_blocks": [],
+      "unresolved_history_statements": [
+        {
+          "field": "IF",
+          "operator": "=",
+          "line": 14
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 21
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 39
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 45
+        }
+      ]
+    },
+    {
+      "id": 744,
+      "name_key": "STATE_744",
+      "category": "town",
+      "manpower": 9000000,
+      "source": {
+        "path": "history/states/744-Xian.txt",
+        "sha256": "a82074fb34f3009f54290c4a568e20509ea43a7afce62e5dd52fe8f4e14eb1ab",
+        "bytes": 726
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 14
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 15
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 16
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 42,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 43
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [
+        {
+          "line": 8,
+          "declarations": [
+            {
+              "field": "steel",
+              "value": 2,
+              "line": 9
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_history_statements": [
+        {
+          "field": "1936.1.1",
+          "operator": "=",
+          "line": 17
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 27
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 38
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 48
+        }
+      ]
+    },
+    {
+      "id": 748,
+      "name_key": "STATE_748",
+      "category": "pastoral",
+      "manpower": 1500000,
+      "source": {
+        "path": "history/states/748-Zunyi.txt",
+        "sha256": "b7b1e8f4789af45d141383f968f1012875633665fcf026a1fac04b85041ece37",
+        "bytes": 402
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 8
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 9
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 10
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 11,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 1,
+              "line": 12
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 15
+        },
+        {
+          "field": "1939.1.1",
+          "operator": "=",
+          "line": 18
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 4
+        }
+      ]
+    },
+    {
+      "id": 749,
+      "name_key": "STATE_749",
+      "category": "town",
+      "manpower": 5000000,
+      "source": {
+        "path": "history/states/749-Huangshan.txt",
+        "sha256": "d692ca3d12b197bf4508cca310b2d8f3bb142cf5dd856397f58c6ce946c35bbb",
+        "bytes": 589
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 11
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 12
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 13
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 14,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 15
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 17
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 21
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 4
+        }
+      ]
+    },
+    {
+      "id": 750,
+      "name_key": "STATE_750",
+      "category": "town",
+      "manpower": 8000000,
+      "source": {
+        "path": "history/states/750-Changde.txt",
+        "sha256": "1a149dff8b0b0855a1dcedf2bfaf14ff4bc7e70b85b20a0d242c47327738300f",
+        "bytes": 562
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 11
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 12
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 13
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 14,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 2,
+              "line": 15
+            },
+            {
+              "field": "industrial_complex",
+              "value": 1,
+              "line": 16
+            },
+            {
+              "field": "arms_factory",
+              "value": 1,
+              "line": 17
+            },
+            {
+              "field": "air_base",
+              "value": 2,
+              "line": 18
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 20
+        },
+        {
+          "field": "1939.1.1",
+          "operator": "=",
+          "line": 23
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 4
+        }
+      ]
+    },
+    {
+      "id": 751,
+      "name_key": "STATE_751",
+      "category": "pastoral",
+      "manpower": 300000,
+      "source": {
+        "path": "history/states/751-Liangshan.txt",
+        "sha256": "96eaa7a1ca5f4df75f3fea59c18615de3e53b294a70cf7ac740a6cfb9fb95433",
+        "bytes": 809
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 11
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 12
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 13
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 15,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 1,
+              "line": 16
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 19
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 23
+        },
+        {
+          "field": "1936.1.1",
+          "operator": "=",
+          "line": 27
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 37
+        },
+        {
+          "field": "1939.1.1",
+          "operator": "=",
+          "line": 48
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 58
+        }
+      ]
+    },
+    {
+      "id": 752,
+      "name_key": "STATE_752",
+      "category": "pastoral",
+      "manpower": 300000,
+      "source": {
+        "path": "history/states/752-Chamdo.txt",
+        "sha256": "91a5e9748be710dd05de5149ae718b0dea5da727a252b5cdb6cbd29fee5dc69a",
+        "bytes": 824
+      },
+      "history_declarations": [
+        {
+          "field": "owner",
+          "value": "CHI",
+          "line": 10
+        },
+        {
+          "field": "add_core_of",
+          "value": "CHI",
+          "line": 11
+        },
+        {
+          "field": "add_core_of",
+          "value": "PRC",
+          "line": 12
+        }
+      ],
+      "base_building_blocks": [
+        {
+          "line": 22,
+          "declarations": [
+            {
+              "field": "infrastructure",
+              "value": 1,
+              "line": 23
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "resource_blocks": [],
+      "unresolved_history_statements": [
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 14
+        },
+        {
+          "field": "victory_points",
+          "operator": "=",
+          "line": 18
+        },
+        {
+          "field": "1936.1.1",
+          "operator": "=",
+          "line": 26
+        },
+        {
+          "field": "1938.10.25",
+          "operator": "=",
+          "line": 36
+        },
+        {
+          "field": "1939.1.1",
+          "operator": "=",
+          "line": 47
+        }
+      ],
+      "unresolved_state_statements": [
+        {
+          "field": "provinces",
+          "operator": "=",
+          "line": 57
+        }
+      ]
+    }
+  ],
+  "literal_state_totals": {
+    "state_count": 28,
+    "industrial_complex": 16,
+    "arms_factory": 11,
+    "dockyard": 2
+  },
+  "oob_candidates": [
+    {
+      "source": {
+        "path": "history/units/CHI_1936.txt",
+        "sha256": "969d4c285c67da7561ab1b79352f48dfbf3bf923adc68ab060ffbc7bebd196b8",
+        "bytes": 15359
+      },
+      "branch_selected": false,
+      "parse_diagnostics": [],
+      "templates": [
+        {
+          "name": "Juntuán",
+          "line": 1,
+          "declarations": [
+            {
+              "field": "name",
+              "value": "Juntuán",
+              "line": 2
+            },
+            {
+              "field": "division_names_group",
+              "value": "CHI_INF_01",
+              "line": 3
+            },
+            {
+              "field": "priority",
+              "value": 0,
+              "line": 12
+            }
+          ],
+          "regiments": [
+            {
+              "unit": "infantry",
+              "line": 6,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 0,
+                  "line": 6
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 6
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 7,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 0,
+                  "line": 7
+                },
+                {
+                  "field": "y",
+                  "value": 1,
+                  "line": 7
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 8,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 1,
+                  "line": 8
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 8
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 9,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 1,
+                  "line": 9
+                },
+                {
+                  "field": "y",
+                  "value": 1,
+                  "line": 9
+                }
+              ]
+            }
+          ],
+          "support": [],
+          "unresolved_statements": []
+        },
+        {
+          "name": "Sanjiao Jun",
+          "line": 14,
+          "declarations": [
+            {
+              "field": "name",
+              "value": "Sanjiao Jun",
+              "line": 15
+            },
+            {
+              "field": "division_names_group",
+              "value": "CHI_INF_01",
+              "line": 16
+            }
+          ],
+          "regiments": [
+            {
+              "unit": "infantry",
+              "line": 19,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 0,
+                  "line": 19
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 19
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 20,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 0,
+                  "line": 20
+                },
+                {
+                  "field": "y",
+                  "value": 1,
+                  "line": 20
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 21,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 1,
+                  "line": 21
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 21
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 22,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 1,
+                  "line": 22
+                },
+                {
+                  "field": "y",
+                  "value": 1,
+                  "line": 22
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 23,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 2,
+                  "line": 23
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 23
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 24,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 2,
+                  "line": 24
+                },
+                {
+                  "field": "y",
+                  "value": 1,
+                  "line": 24
+                }
+              ]
+            }
+          ],
+          "support": [],
+          "unresolved_statements": []
+        },
+        {
+          "name": "Qibing Jun",
+          "line": 27,
+          "declarations": [
+            {
+              "field": "name",
+              "value": "Qibing Jun",
+              "line": 28
+            },
+            {
+              "field": "division_names_group",
+              "value": "CHI_CAV_01",
+              "line": 29
+            }
+          ],
+          "regiments": [
+            {
+              "unit": "cavalry",
+              "line": 32,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 0,
+                  "line": 32
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 32
+                }
+              ]
+            },
+            {
+              "unit": "cavalry",
+              "line": 33,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 0,
+                  "line": 33
+                },
+                {
+                  "field": "y",
+                  "value": 1,
+                  "line": 33
+                }
+              ]
+            },
+            {
+              "unit": "cavalry",
+              "line": 34,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 1,
+                  "line": 34
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 34
+                }
+              ]
+            },
+            {
+              "unit": "cavalry",
+              "line": 35,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 1,
+                  "line": 35
+                },
+                {
+                  "field": "y",
+                  "value": 1,
+                  "line": 35
+                }
+              ]
+            }
+          ],
+          "support": [],
+          "unresolved_statements": []
+        }
+      ],
+      "production_lines": [
+        {
+          "line": 607,
+          "declarations": [
+            {
+              "field": "requested_factories",
+              "value": 2,
+              "line": 612
+            },
+            {
+              "field": "progress",
+              "value": 0.5,
+              "line": 613
+            },
+            {
+              "field": "efficiency",
+              "value": 90,
+              "line": 614
+            },
+            {
+              "field": "industrial_manufacturer",
+              "value": "mio:CHI_hanyan_arsenal_organization",
+              "line": 615
+            }
+          ],
+          "equipment_blocks": [
+            {
+              "line": 608,
+              "declarations": [
+                {
+                  "field": "type",
+                  "value": "infantry_equipment_0",
+                  "line": 609
+                },
+                {
+                  "field": "creator",
+                  "value": "CHI",
+                  "line": 610
+                }
+              ],
+              "unresolved_statements": []
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "units",
+          "operator": "=",
+          "line": 40
+        },
+        {
+          "field": "instant_effect",
+          "operator": "=",
+          "line": 606
+        }
+      ]
+    },
+    {
+      "source": {
+        "path": "history/units/CHI_1936_air_bba.txt",
+        "sha256": "1f5184fd3504bee78b7b8ab8be151d329fd00736992c15ef72e85a01cc8ab0db",
+        "bytes": 1090
+      },
+      "branch_selected": false,
+      "parse_diagnostics": [],
+      "templates": [],
+      "production_lines": [],
+      "unresolved_statements": [
+        {
+          "field": "air_wings",
+          "operator": "=",
+          "line": 5
+        }
+      ]
+    },
+    {
+      "source": {
+        "path": "history/units/CHI_1936_air_legacy.txt",
+        "sha256": "9402d3ff3278559b0113290f2f11f55ec9427ea5582b922f246acb946ed18e7b",
+        "bytes": 720
+      },
+      "branch_selected": false,
+      "parse_diagnostics": [],
+      "templates": [],
+      "production_lines": [
+        {
+          "line": 21,
+          "declarations": [
+            {
+              "field": "requested_factories",
+              "value": 1,
+              "line": 26
+            },
+            {
+              "field": "progress",
+              "value": 0.55,
+              "line": 27
+            },
+            {
+              "field": "efficiency",
+              "value": 100,
+              "line": 28
+            }
+          ],
+          "equipment_blocks": [
+            {
+              "line": 22,
+              "declarations": [
+                {
+                  "field": "type",
+                  "value": "fighter_equipment_0",
+                  "line": 23
+                },
+                {
+                  "field": "creator",
+                  "value": "CHI",
+                  "line": 24
+                }
+              ],
+              "unresolved_statements": []
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "air_wings",
+          "operator": "=",
+          "line": 5
+        },
+        {
+          "field": "instant_effect",
+          "operator": "=",
+          "line": 20
+        }
+      ]
+    },
+    {
+      "source": {
+        "path": "history/units/CHI_1936_naval_legacy.txt",
+        "sha256": "e11428ca406aa092534b1338fb180cec64730c22001b2ca99e649842d28bc2ba",
+        "bytes": 1261
+      },
+      "branch_selected": false,
+      "parse_diagnostics": [],
+      "templates": [],
+      "production_lines": [
+        {
+          "line": 25,
+          "declarations": [
+            {
+              "field": "requested_factories",
+              "value": 1,
+              "line": 30
+            },
+            {
+              "field": "progress",
+              "value": 0.33,
+              "line": 31
+            },
+            {
+              "field": "amount",
+              "value": 1,
+              "line": 32
+            }
+          ],
+          "equipment_blocks": [
+            {
+              "line": 26,
+              "declarations": [
+                {
+                  "field": "type",
+                  "value": "light_cruiser_1",
+                  "line": 27
+                },
+                {
+                  "field": "creator",
+                  "value": "CHI",
+                  "line": 28
+                }
+              ],
+              "unresolved_statements": []
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "units",
+          "operator": "=",
+          "line": 1
+        },
+        {
+          "field": "instant_effect",
+          "operator": "=",
+          "line": 22
+        }
+      ]
+    },
+    {
+      "source": {
+        "path": "history/units/CHI_1936_naval_mtg.txt",
+        "sha256": "a0548229b70710cd6b29bcac2c8f206a9ab15f040a91fb3d7e50466360826668",
+        "bytes": 2163
+      },
+      "branch_selected": false,
+      "parse_diagnostics": [],
+      "templates": [],
+      "production_lines": [
+        {
+          "line": 31,
+          "declarations": [
+            {
+              "field": "name",
+              "value": "Pinghai",
+              "line": 37
+            },
+            {
+              "field": "requested_factories",
+              "value": 1,
+              "line": 38
+            },
+            {
+              "field": "progress",
+              "value": 0.56,
+              "line": 39
+            },
+            {
+              "field": "amount",
+              "value": 1,
+              "line": 40
+            }
+          ],
+          "equipment_blocks": [
+            {
+              "line": 32,
+              "declarations": [
+                {
+                  "field": "type",
+                  "value": "ship_hull_cruiser_1",
+                  "line": 33
+                },
+                {
+                  "field": "creator",
+                  "value": "CHI",
+                  "line": 34
+                },
+                {
+                  "field": "version_name",
+                  "value": "Ninghai Class",
+                  "line": 35
+                }
+              ],
+              "unresolved_statements": []
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "units",
+          "operator": "=",
+          "line": 1
+        },
+        {
+          "field": "instant_effect",
+          "operator": "=",
+          "line": 28
+        }
+      ]
+    },
+    {
+      "source": {
+        "path": "history/units/CHI_1936_sea.txt",
+        "sha256": "a1d8098aecb7759f6702bc66788e530e31281f297780a9af39a8056e31207a82",
+        "bytes": 17918
+      },
+      "branch_selected": false,
+      "parse_diagnostics": [],
+      "templates": [
+        {
+          "name": "Juntuán",
+          "line": 1,
+          "declarations": [
+            {
+              "field": "name",
+              "value": "Juntuán",
+              "line": 2
+            },
+            {
+              "field": "division_names_group",
+              "value": "CHI_INF_01",
+              "line": 3
+            },
+            {
+              "field": "template_counter",
+              "value": 118,
+              "line": 4
+            },
+            {
+              "field": "role",
+              "value": "garrison",
+              "line": 5
+            },
+            {
+              "field": "priority",
+              "value": 0,
+              "line": 13
+            }
+          ],
+          "regiments": [
+            {
+              "unit": "infantry",
+              "line": 7,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 0,
+                  "line": 7
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 7
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 8,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 0,
+                  "line": 8
+                },
+                {
+                  "field": "y",
+                  "value": 1,
+                  "line": 8
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 9,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 1,
+                  "line": 9
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 9
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 10,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 1,
+                  "line": 10
+                },
+                {
+                  "field": "y",
+                  "value": 1,
+                  "line": 10
+                }
+              ]
+            }
+          ],
+          "support": [],
+          "unresolved_statements": []
+        },
+        {
+          "name": "Sanjiao Jun",
+          "line": 15,
+          "declarations": [
+            {
+              "field": "name",
+              "value": "Sanjiao Jun",
+              "line": 16
+            },
+            {
+              "field": "division_names_group",
+              "value": "CHI_INF_01",
+              "line": 17
+            }
+          ],
+          "regiments": [
+            {
+              "unit": "infantry",
+              "line": 20,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 0,
+                  "line": 20
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 20
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 21,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 0,
+                  "line": 21
+                },
+                {
+                  "field": "y",
+                  "value": 1,
+                  "line": 21
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 22,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 1,
+                  "line": 22
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 22
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 23,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 1,
+                  "line": 23
+                },
+                {
+                  "field": "y",
+                  "value": 1,
+                  "line": 23
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 24,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 2,
+                  "line": 24
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 24
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 25,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 2,
+                  "line": 25
+                },
+                {
+                  "field": "y",
+                  "value": 1,
+                  "line": 25
+                }
+              ]
+            }
+          ],
+          "support": [],
+          "unresolved_statements": []
+        },
+        {
+          "name": "Juntuán Reformed",
+          "line": 28,
+          "declarations": [
+            {
+              "field": "name",
+              "value": "Juntuán Reformed",
+              "line": 29
+            },
+            {
+              "field": "template_counter",
+              "value": 119,
+              "line": 30
+            },
+            {
+              "field": "division_names_group",
+              "value": "CHI_INF_01",
+              "line": 31
+            },
+            {
+              "field": "override_model",
+              "value": "CHI_infantry_alt_0_entity",
+              "line": 32
+            }
+          ],
+          "regiments": [
+            {
+              "unit": "infantry",
+              "line": 35,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 0,
+                  "line": 35
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 35
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 36,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 0,
+                  "line": 36
+                },
+                {
+                  "field": "y",
+                  "value": 1,
+                  "line": 36
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 37,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 1,
+                  "line": 37
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 37
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 38,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 1,
+                  "line": 38
+                },
+                {
+                  "field": "y",
+                  "value": 1,
+                  "line": 38
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 39,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 2,
+                  "line": 39
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 39
+                }
+              ]
+            },
+            {
+              "unit": "infantry",
+              "line": 40,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 2,
+                  "line": 40
+                },
+                {
+                  "field": "y",
+                  "value": 1,
+                  "line": 40
+                }
+              ]
+            }
+          ],
+          "support": [
+            {
+              "unit": "artillery",
+              "line": 43,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 0,
+                  "line": 43
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 43
+                }
+              ]
+            }
+          ],
+          "unresolved_statements": []
+        },
+        {
+          "name": "Qibing Jun",
+          "line": 46,
+          "declarations": [
+            {
+              "field": "name",
+              "value": "Qibing Jun",
+              "line": 47
+            },
+            {
+              "field": "division_names_group",
+              "value": "CHI_CAV_01",
+              "line": 48
+            }
+          ],
+          "regiments": [
+            {
+              "unit": "cavalry",
+              "line": 51,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 0,
+                  "line": 51
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 51
+                }
+              ]
+            },
+            {
+              "unit": "cavalry",
+              "line": 52,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 0,
+                  "line": 52
+                },
+                {
+                  "field": "y",
+                  "value": 1,
+                  "line": 52
+                }
+              ]
+            },
+            {
+              "unit": "cavalry",
+              "line": 53,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 1,
+                  "line": 53
+                },
+                {
+                  "field": "y",
+                  "value": 0,
+                  "line": 53
+                }
+              ]
+            },
+            {
+              "unit": "cavalry",
+              "line": 54,
+              "position_declarations": [
+                {
+                  "field": "x",
+                  "value": 1,
+                  "line": 54
+                },
+                {
+                  "field": "y",
+                  "value": 1,
+                  "line": 54
+                }
+              ]
+            }
+          ],
+          "support": [],
+          "unresolved_statements": []
+        }
+      ],
+      "production_lines": [
+        {
+          "line": 850,
+          "declarations": [
+            {
+              "field": "requested_factories",
+              "value": 2,
+              "line": 855
+            },
+            {
+              "field": "progress",
+              "value": 0.1,
+              "line": 856
+            },
+            {
+              "field": "efficiency",
+              "value": 10,
+              "line": 857
+            },
+            {
+              "field": "industrial_manufacturer",
+              "value": "mio:CHI_hanyan_arsenal_organization_sea",
+              "line": 858
+            }
+          ],
+          "equipment_blocks": [
+            {
+              "line": 851,
+              "declarations": [
+                {
+                  "field": "type",
+                  "value": "infantry_equipment_0",
+                  "line": 852
+                },
+                {
+                  "field": "creator",
+                  "value": "CHI",
+                  "line": 853
+                }
+              ],
+              "unresolved_statements": []
+            }
+          ],
+          "unresolved_statements": []
+        }
+      ],
+      "unresolved_statements": [
+        {
+          "field": "units",
+          "operator": "=",
+          "line": 59
+        },
+        {
+          "field": "instant_effect",
+          "operator": "=",
+          "line": 849
+        }
+      ]
+    }
+  ],
+  "source_selection": {
+    "start": {
+      "year": 1936,
+      "month": 1,
+      "day": 1,
+      "hour": 12
+    },
+    "enabled_gameplay_dlc": [
+      "Arms Against Tyranny",
+      "Battle for the Bosporus",
+      "By Blood Alone",
+      "Death or Dishonor",
+      "Gotterdammerung",
+      "Graveyard of Empires",
+      "La Resistance",
+      "Man the Guns",
+      "No Compromise, No Surrender",
+      "No Step Back",
+      "Peace For Our Time",
+      "Poland: United and Ready",
+      "Thunder at Our Gates",
+      "Together for Victory",
+      "Trial of Allegiance",
+      "Waking the Tiger"
+    ],
+    "semantics": "Selected source candidates only; game effects are not executed.",
+    "candidate_scalars": [
+      {
+        "field": "capital",
+        "value": 1035,
+        "line": 1
+      },
+      {
+        "field": "set_oob",
+        "value": "CHI_1936_sea",
+        "line": 7
+      },
+      {
+        "field": "set_naval_oob",
+        "value": "CHI_1936_naval_mtg",
+        "line": 67
+      },
+      {
+        "field": "set_air_oob",
+        "value": "CHI_1936_air_bba",
+        "line": 74
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_carsun_chang",
+        "line": 96
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_soong_ching_ling",
+        "line": 97
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_zhang_fakui",
+        "line": 98
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_feng_yuxiang",
+        "line": 99
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_jiang_guangnai",
+        "line": 100
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_cai_tingkai",
+        "line": 101
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_chen_mingshu",
+        "line": 102
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_chan_chak",
+        "line": 103
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_chen_lifu",
+        "line": 104
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_du_yuesheng",
+        "line": 105
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_huang_jinrong",
+        "line": 106
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_chu_minying",
+        "line": 107
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_mei_siping",
+        "line": 108
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_zhou_fohai",
+        "line": 109
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_hu_hanmin",
+        "line": 110
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_zou_lu",
+        "line": 111
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_y_c_james_yen",
+        "line": 112
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_liang_shuming",
+        "line": 113
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_zou_taofen",
+        "line": 114
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_tao_xingzhi",
+        "line": 115
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_shen_junru",
+        "line": 116
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_shi_liang",
+        "line": 117
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_chang_kia_ngau",
+        "line": 118
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_wong_tsu",
+        "line": 119
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_chu_chia_jen",
+        "line": 120
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_dai_jitao",
+        "line": 121
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_zhang_guotao_kmt",
+        "line": 122
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_jiang_baili",
+        "line": 123
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_zhang_zhizhong",
+        "line": 124
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_chen_bijun",
+        "line": 125
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_chen_gongbo",
+        "line": 126
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_gao_zongwu",
+        "line": 127
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_wang_chonghui",
+        "line": 128
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_mao_renfeng",
+        "line": 129
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_hsu_huang_sheng",
+        "line": 130
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_xu_tingyao",
+        "line": 131
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_zhu_shaoliang",
+        "line": 133
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_jiang_dingwen",
+        "line": 134
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_jiang_dingwen_admiral",
+        "line": 135
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_zheng_qi",
+        "line": 136
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_shen_honglie",
+        "line": 137
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_gui_yongqing",
+        "line": 138
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_chen_qingyun",
+        "line": 139
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_teng_chie",
+        "line": 140
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_huang_qixiang",
+        "line": 141
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_ju_zheng",
+        "line": 142
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_li_huang",
+        "line": 143
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_zhang_qun",
+        "line": 144
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_sun_fo",
+        "line": 145
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_zhang_lan",
+        "line": 146
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_symeon_du",
+        "line": 147
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_zhu_jiahua",
+        "line": 148
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_weng_wenhao",
+        "line": 164
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_random_prince_of_terror",
+        "line": 165
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_chiang_kaishek",
+        "line": 166
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_wang_jingwei",
+        "line": 167
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_tu_yuming",
+        "line": 168
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_hsueh_yueh",
+        "line": 169
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_tai_anlan",
+        "line": 170
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_wang_yaowu",
+        "line": 171
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_sun_li_jen",
+        "line": 172
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_hu_zongnan",
+        "line": 173
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_wei_lihuang",
+        "line": 174
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_chen_cheng",
+        "line": 175
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_wang_shuming",
+        "line": 176
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_zhou_zhirou",
+        "line": 177
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_xiao_yisu",
+        "line": 178
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_chen_shaokuan",
+        "line": 179
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_he_yingqin",
+        "line": 180
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_gao_zhihang",
+        "line": 181
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_h_h_kung",
+        "line": 182
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_chen_guofu",
+        "line": 183
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_chiang_ching_kuo",
+        "line": 184
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_chen_yi",
+        "line": 185
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_soong_mei_ling",
+        "line": 186
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_lin_sen",
+        "line": 187
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_wang_ganchang",
+        "line": 188
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_dai_li",
+        "line": 189
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_t_v_soong",
+        "line": 190
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_alexander_von_falkenhausen",
+        "line": 191
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_claire_lee_chennault",
+        "line": 192
+      },
+      {
+        "field": "recruit_character",
+        "value": "CHI_kwong_jiang",
+        "line": 193
+      },
+      {
+        "field": "set_stability",
+        "value": 0.2,
+        "line": 207
+      },
+      {
+        "field": "set_war_support",
+        "value": 0.32,
+        "line": 208
+      },
+      {
+        "field": "set_grand_doctrine",
+        "value": "mass_assault",
+        "line": 217
+      },
+      {
+        "field": "set_grand_doctrine",
+        "value": "new_fleet_in_being",
+        "line": 218
+      },
+      {
+        "field": "save_global_event_target_as",
+        "value": "WTT_current_china_leader",
+        "line": 696
+      },
+      {
+        "field": "set_convoys",
+        "value": 40,
+        "line": 698
+      }
+    ],
+    "oob_references": [
+      {
+        "field": "set_oob",
+        "value": "CHI_1936_sea",
+        "line": 7
+      },
+      {
+        "field": "set_naval_oob",
+        "value": "CHI_1936_naval_mtg",
+        "line": 67
+      },
+      {
+        "field": "set_air_oob",
+        "value": "CHI_1936_air_bba",
+        "line": 74
+      }
+    ],
+    "technology_blocks": [
+      {
+        "line": 75,
+        "declarations": [
+          {
+            "field": "iw_small_airframe",
+            "value": 1,
+            "line": 76
+          },
+          {
+            "field": "aa_lmg",
+            "value": 1,
+            "line": 77
+          },
+          {
+            "field": "engines_1",
+            "value": 1,
+            "line": 78
+          },
+          {
+            "field": "iw_medium_airframe",
+            "value": 1,
+            "line": 79
+          },
+          {
+            "field": "bba_early_transport_plane",
+            "value": 1,
+            "line": 80
+          }
+        ],
+        "unresolved_statements": []
+      },
+      {
+        "line": 210,
+        "declarations": [
+          {
+            "field": "infantry_weapons",
+            "value": 1,
+            "line": 211
+          },
+          {
+            "field": "gw_artillery",
+            "value": 1,
+            "line": 212
+          },
+          {
+            "field": "interwar_antiair",
+            "value": 1,
+            "line": 213
+          },
+          {
+            "field": "basic_train",
+            "value": 1,
+            "line": 214
+          }
+        ],
+        "unresolved_statements": []
+      },
+      {
+        "line": 224,
+        "declarations": [
+          {
+            "field": "gwtank_chassis",
+            "value": 1,
+            "line": 225
+          }
+        ],
+        "unresolved_statements": []
+      },
+      {
+        "line": 243,
+        "declarations": [
+          {
+            "field": "basic_naval_mines",
+            "value": 1,
+            "line": 244
+          },
+          {
+            "field": "early_ship_hull_light",
+            "value": 1,
+            "line": 245
+          },
+          {
+            "field": "early_ship_hull_cruiser",
+            "value": 1,
+            "line": 246
+          },
+          {
+            "field": "basic_battery",
+            "value": 1,
+            "line": 247
+          },
+          {
+            "field": "basic_torpedo",
+            "value": 1,
+            "line": 248
+          },
+          {
+            "field": "coastal_defense_ships",
+            "value": 1,
+            "line": 249
+          }
+        ],
+        "unresolved_statements": []
+      },
+      {
+        "line": 372,
+        "declarations": [
+          {
+            "field": "tech_support",
+            "value": 1,
+            "line": 373
+          },
+          {
+            "field": "tech_trucks",
+            "value": 1,
+            "line": 374
+          }
+        ],
+        "unresolved_statements": []
+      }
+    ],
+    "idea_operations": [
+      {
+        "operation": "add_ideas",
+        "line": 385,
+        "identifiers": [
+          "CHI_whampoa_military_academy_spirit"
+        ],
+        "unresolved_statements": [
+          {
+            "field": null,
+            "operator": null,
+            "line": 386
+          }
+        ]
+      }
+    ],
+    "blockers": [],
+    "decisions": [
+      {
+        "field": "IF",
+        "outcome": "true",
+        "line": 3
+      },
+      {
+        "field": "if",
+        "outcome": "true",
+        "line": 11
+      },
+      {
+        "field": "if",
+        "outcome": "true",
+        "line": 65
+      },
+      {
+        "field": "if",
+        "outcome": "true",
+        "line": 72
+      },
+      {
+        "field": "IF",
+        "outcome": "true",
+        "line": 92
+      },
+      {
+        "field": "if",
+        "outcome": "true",
+        "line": 195
+      },
+      {
+        "field": "if",
+        "outcome": "true",
+        "line": 220
+      },
+      {
+        "field": "if",
+        "outcome": "false",
+        "line": 233
+      },
+      {
+        "field": "if",
+        "outcome": "true",
+        "line": 241
+      },
+      {
+        "field": "IF",
+        "outcome": "true",
+        "line": 253
+      },
+      {
+        "field": "IF",
+        "outcome": "true",
+        "line": 349
+      },
+      {
+        "field": "IF",
+        "outcome": "true",
+        "line": 381
+      },
+      {
+        "field": "1939.1.1",
+        "outcome": "false",
+        "line": 700
+      },
+      {
+        "field": "if",
+        "outcome": "false",
+        "line": 886
+      },
+      {
+        "field": "if",
+        "outcome": "true",
+        "line": 889
+      }
+    ],
+    "unexecuted_statements": [
+      {
+        "field": "capital",
+        "line": 1
+      },
+      {
+        "field": "set_oob",
+        "line": 7
+      },
+      {
+        "field": "create_equipment_variant",
+        "line": 15
+      },
+      {
+        "field": "create_equipment_variant",
+        "line": 32
+      },
+      {
+        "field": "add_equipment_to_stockpile",
+        "line": 51
+      },
+      {
+        "field": "add_equipment_to_stockpile",
+        "line": 57
+      },
+      {
+        "field": "set_naval_oob",
+        "line": 67
+      },
+      {
+        "field": "set_air_oob",
+        "line": 74
+      },
+      {
+        "field": "set_technology",
+        "line": 75
+      },
+      {
+        "field": "recruit_character",
+        "line": 96
+      },
+      {
+        "field": "recruit_character",
+        "line": 97
+      },
+      {
+        "field": "recruit_character",
+        "line": 98
+      },
+      {
+        "field": "recruit_character",
+        "line": 99
+      },
+      {
+        "field": "recruit_character",
+        "line": 100
+      },
+      {
+        "field": "recruit_character",
+        "line": 101
+      },
+      {
+        "field": "recruit_character",
+        "line": 102
+      },
+      {
+        "field": "recruit_character",
+        "line": 103
+      },
+      {
+        "field": "recruit_character",
+        "line": 104
+      },
+      {
+        "field": "recruit_character",
+        "line": 105
+      },
+      {
+        "field": "recruit_character",
+        "line": 106
+      },
+      {
+        "field": "recruit_character",
+        "line": 107
+      },
+      {
+        "field": "recruit_character",
+        "line": 108
+      },
+      {
+        "field": "recruit_character",
+        "line": 109
+      },
+      {
+        "field": "recruit_character",
+        "line": 110
+      },
+      {
+        "field": "recruit_character",
+        "line": 111
+      },
+      {
+        "field": "recruit_character",
+        "line": 112
+      },
+      {
+        "field": "recruit_character",
+        "line": 113
+      },
+      {
+        "field": "recruit_character",
+        "line": 114
+      },
+      {
+        "field": "recruit_character",
+        "line": 115
+      },
+      {
+        "field": "recruit_character",
+        "line": 116
+      },
+      {
+        "field": "recruit_character",
+        "line": 117
+      },
+      {
+        "field": "recruit_character",
+        "line": 118
+      },
+      {
+        "field": "recruit_character",
+        "line": 119
+      },
+      {
+        "field": "recruit_character",
+        "line": 120
+      },
+      {
+        "field": "recruit_character",
+        "line": 121
+      },
+      {
+        "field": "recruit_character",
+        "line": 122
+      },
+      {
+        "field": "recruit_character",
+        "line": 123
+      },
+      {
+        "field": "recruit_character",
+        "line": 124
+      },
+      {
+        "field": "recruit_character",
+        "line": 125
+      },
+      {
+        "field": "recruit_character",
+        "line": 126
+      },
+      {
+        "field": "recruit_character",
+        "line": 127
+      },
+      {
+        "field": "recruit_character",
+        "line": 128
+      },
+      {
+        "field": "recruit_character",
+        "line": 129
+      },
+      {
+        "field": "recruit_character",
+        "line": 130
+      },
+      {
+        "field": "recruit_character",
+        "line": 131
+      },
+      {
+        "field": "recruit_character",
+        "line": 133
+      },
+      {
+        "field": "recruit_character",
+        "line": 134
+      },
+      {
+        "field": "recruit_character",
+        "line": 135
+      },
+      {
+        "field": "recruit_character",
+        "line": 136
+      },
+      {
+        "field": "recruit_character",
+        "line": 137
+      },
+      {
+        "field": "recruit_character",
+        "line": 138
+      },
+      {
+        "field": "recruit_character",
+        "line": 139
+      },
+      {
+        "field": "recruit_character",
+        "line": 140
+      },
+      {
+        "field": "recruit_character",
+        "line": 141
+      },
+      {
+        "field": "recruit_character",
+        "line": 142
+      },
+      {
+        "field": "recruit_character",
+        "line": 143
+      },
+      {
+        "field": "recruit_character",
+        "line": 144
+      },
+      {
+        "field": "recruit_character",
+        "line": 145
+      },
+      {
+        "field": "recruit_character",
+        "line": 146
+      },
+      {
+        "field": "recruit_character",
+        "line": 147
+      },
+      {
+        "field": "recruit_character",
+        "line": 148
+      },
+      {
+        "field": "recruit_character",
+        "line": 164
+      },
+      {
+        "field": "recruit_character",
+        "line": 165
+      },
+      {
+        "field": "recruit_character",
+        "line": 166
+      },
+      {
+        "field": "recruit_character",
+        "line": 167
+      },
+      {
+        "field": "recruit_character",
+        "line": 168
+      },
+      {
+        "field": "recruit_character",
+        "line": 169
+      },
+      {
+        "field": "recruit_character",
+        "line": 170
+      },
+      {
+        "field": "recruit_character",
+        "line": 171
+      },
+      {
+        "field": "recruit_character",
+        "line": 172
+      },
+      {
+        "field": "recruit_character",
+        "line": 173
+      },
+      {
+        "field": "recruit_character",
+        "line": 174
+      },
+      {
+        "field": "recruit_character",
+        "line": 175
+      },
+      {
+        "field": "recruit_character",
+        "line": 176
+      },
+      {
+        "field": "recruit_character",
+        "line": 177
+      },
+      {
+        "field": "recruit_character",
+        "line": 178
+      },
+      {
+        "field": "recruit_character",
+        "line": 179
+      },
+      {
+        "field": "recruit_character",
+        "line": 180
+      },
+      {
+        "field": "recruit_character",
+        "line": 181
+      },
+      {
+        "field": "recruit_character",
+        "line": 182
+      },
+      {
+        "field": "recruit_character",
+        "line": 183
+      },
+      {
+        "field": "recruit_character",
+        "line": 184
+      },
+      {
+        "field": "recruit_character",
+        "line": 185
+      },
+      {
+        "field": "recruit_character",
+        "line": 186
+      },
+      {
+        "field": "recruit_character",
+        "line": 187
+      },
+      {
+        "field": "recruit_character",
+        "line": 188
+      },
+      {
+        "field": "recruit_character",
+        "line": 189
+      },
+      {
+        "field": "recruit_character",
+        "line": 190
+      },
+      {
+        "field": "recruit_character",
+        "line": 191
+      },
+      {
+        "field": "recruit_character",
+        "line": 192
+      },
+      {
+        "field": "recruit_character",
+        "line": 193
+      },
+      {
+        "field": "CHI_chen_shaokuan",
+        "line": 199
+      },
+      {
+        "field": "CHI_zhang_zhizhong",
+        "line": 202
+      },
+      {
+        "field": "set_stability",
+        "line": 207
+      },
+      {
+        "field": "set_war_support",
+        "line": 208
+      },
+      {
+        "field": "set_technology",
+        "line": 210
+      },
+      {
+        "field": "set_grand_doctrine",
+        "line": 217
+      },
+      {
+        "field": "set_grand_doctrine",
+        "line": 218
+      },
+      {
+        "field": "set_technology",
+        "line": 224
+      },
+      {
+        "field": "set_technology",
+        "line": 243
+      },
+      {
+        "field": "create_operative_leader",
+        "line": 258
+      },
+      {
+        "field": "create_operative_leader",
+        "line": 268
+      },
+      {
+        "field": "600",
+        "line": 280
+      },
+      {
+        "field": "749",
+        "line": 283
+      },
+      {
+        "field": "606",
+        "line": 286
+      },
+      {
+        "field": "607",
+        "line": 289
+      },
+      {
+        "field": "620",
+        "line": 292
+      },
+      {
+        "field": "602",
+        "line": 295
+      },
+      {
+        "field": "750",
+        "line": 298
+      },
+      {
+        "field": "744",
+        "line": 301
+      },
+      {
+        "field": "605",
+        "line": 304
+      },
+      {
+        "field": "748",
+        "line": 307
+      },
+      {
+        "field": "603",
+        "line": 310
+      },
+      {
+        "field": "615",
+        "line": 313
+      },
+      {
+        "field": "622",
+        "line": 316
+      },
+      {
+        "field": "325",
+        "line": 319
+      },
+      {
+        "field": "747",
+        "line": 322
+      },
+      {
+        "field": "1032",
+        "line": 325
+      },
+      {
+        "field": "283",
+        "line": 328
+      },
+      {
+        "field": "753",
+        "line": 334
+      },
+      {
+        "field": "599",
+        "line": 337
+      },
+      {
+        "field": "1045",
+        "line": 340
+      },
+      {
+        "field": "616",
+        "line": 343
+      },
+      {
+        "field": "1044",
+        "line": 346
+      },
+      {
+        "field": "set_popularities",
+        "line": 353
+      },
+      {
+        "field": "add_dynamic_modifier",
+        "line": 363
+      },
+      {
+        "field": "add_dynamic_modifier",
+        "line": 364
+      },
+      {
+        "field": "add_dynamic_modifier",
+        "line": 365
+      },
+      {
+        "field": "add_dynamic_modifier",
+        "line": 366
+      },
+      {
+        "field": "add_dynamic_modifier",
+        "line": 368
+      },
+      {
+        "field": "add_dynamic_modifier",
+        "line": 369
+      },
+      {
+        "field": "set_technology",
+        "line": 372
+      },
+      {
+        "field": "add_dynamic_modifier",
+        "line": 377
+      },
+      {
+        "field": "add_ideas",
+        "line": 385
+      },
+      {
+        "field": "set_variable",
+        "line": 391
+      },
+      {
+        "field": "set_variable",
+        "line": 392
+      },
+      {
+        "field": "set_variable",
+        "line": 393
+      },
+      {
+        "field": "set_variable",
+        "line": 394
+      },
+      {
+        "field": "set_variable",
+        "line": 395
+      },
+      {
+        "field": "set_variable",
+        "line": 396
+      },
+      {
+        "field": "set_variable",
+        "line": 398
+      },
+      {
+        "field": "set_variable",
+        "line": 399
+      },
+      {
+        "field": "set_variable",
+        "line": 400
+      },
+      {
+        "field": "set_variable",
+        "line": 402
+      },
+      {
+        "field": "set_variable",
+        "line": 403
+      },
+      {
+        "field": "set_variable",
+        "line": 404
+      },
+      {
+        "field": "set_variable",
+        "line": 406
+      },
+      {
+        "field": "set_variable",
+        "line": 407
+      },
+      {
+        "field": "set_variable",
+        "line": 409
+      },
+      {
+        "field": "set_variable",
+        "line": 410
+      },
+      {
+        "field": "set_variable",
+        "line": 411
+      },
+      {
+        "field": "set_variable",
+        "line": 413
+      },
+      {
+        "field": "set_variable",
+        "line": 414
+      },
+      {
+        "field": "set_variable",
+        "line": 415
+      },
+      {
+        "field": "set_variable",
+        "line": 417
+      },
+      {
+        "field": "set_variable",
+        "line": 418
+      },
+      {
+        "field": "set_variable",
+        "line": 419
+      },
+      {
+        "field": "set_variable",
+        "line": 420
+      },
+      {
+        "field": "set_variable",
+        "line": 421
+      },
+      {
+        "field": "set_variable",
+        "line": 422
+      },
+      {
+        "field": "set_variable",
+        "line": 423
+      },
+      {
+        "field": "set_variable",
+        "line": 424
+      },
+      {
+        "field": "set_variable",
+        "line": 425
+      },
+      {
+        "field": "set_variable",
+        "line": 426
+      },
+      {
+        "field": "set_variable",
+        "line": 427
+      },
+      {
+        "field": "set_variable",
+        "line": 428
+      },
+      {
+        "field": "set_variable",
+        "line": 429
+      },
+      {
+        "field": "set_variable",
+        "line": 431
+      },
+      {
+        "field": "set_variable",
+        "line": 432
+      },
+      {
+        "field": "set_variable",
+        "line": 433
+      },
+      {
+        "field": "set_variable",
+        "line": 434
+      },
+      {
+        "field": "set_variable",
+        "line": 435
+      },
+      {
+        "field": "set_variable",
+        "line": 436
+      },
+      {
+        "field": "set_variable",
+        "line": 437
+      },
+      {
+        "field": "set_variable",
+        "line": 438
+      },
+      {
+        "field": "set_variable",
+        "line": 439
+      },
+      {
+        "field": "set_variable",
+        "line": 440
+      },
+      {
+        "field": "set_variable",
+        "line": 441
+      },
+      {
+        "field": "set_variable",
+        "line": 442
+      },
+      {
+        "field": "set_variable",
+        "line": 443
+      },
+      {
+        "field": "set_variable",
+        "line": 444
+      },
+      {
+        "field": "set_variable",
+        "line": 446
+      },
+      {
+        "field": "set_variable",
+        "line": 447
+      },
+      {
+        "field": "set_variable",
+        "line": 448
+      },
+      {
+        "field": "set_variable",
+        "line": 449
+      },
+      {
+        "field": "set_variable",
+        "line": 450
+      },
+      {
+        "field": "set_variable",
+        "line": 451
+      },
+      {
+        "field": "set_variable",
+        "line": 453
+      },
+      {
+        "field": "set_variable",
+        "line": 454
+      },
+      {
+        "field": "set_variable",
+        "line": 455
+      },
+      {
+        "field": "set_variable",
+        "line": 456
+      },
+      {
+        "field": "set_variable",
+        "line": 457
+      },
+      {
+        "field": "set_variable",
+        "line": 458
+      },
+      {
+        "field": "set_variable",
+        "line": 459
+      },
+      {
+        "field": "set_variable",
+        "line": 460
+      },
+      {
+        "field": "set_variable",
+        "line": 461
+      },
+      {
+        "field": "set_variable",
+        "line": 462
+      },
+      {
+        "field": "set_variable",
+        "line": 463
+      },
+      {
+        "field": "set_variable",
+        "line": 464
+      },
+      {
+        "field": "set_variable",
+        "line": 466
+      },
+      {
+        "field": "set_variable",
+        "line": 467
+      },
+      {
+        "field": "set_variable",
+        "line": 468
+      },
+      {
+        "field": "set_variable",
+        "line": 469
+      },
+      {
+        "field": "set_variable",
+        "line": 470
+      },
+      {
+        "field": "set_variable",
+        "line": 471
+      },
+      {
+        "field": "set_variable",
+        "line": 473
+      },
+      {
+        "field": "set_variable",
+        "line": 474
+      },
+      {
+        "field": "set_variable",
+        "line": 475
+      },
+      {
+        "field": "set_variable",
+        "line": 476
+      },
+      {
+        "field": "set_variable",
+        "line": 478
+      },
+      {
+        "field": "set_variable",
+        "line": 479
+      },
+      {
+        "field": "set_variable",
+        "line": 480
+      },
+      {
+        "field": "set_variable",
+        "line": 481
+      },
+      {
+        "field": "set_variable",
+        "line": 482
+      },
+      {
+        "field": "set_variable",
+        "line": 484
+      },
+      {
+        "field": "set_variable",
+        "line": 485
+      },
+      {
+        "field": "set_variable",
+        "line": 486
+      },
+      {
+        "field": "set_variable",
+        "line": 487
+      },
+      {
+        "field": "set_variable",
+        "line": 488
+      },
+      {
+        "field": "set_variable",
+        "line": 489
+      },
+      {
+        "field": "set_variable",
+        "line": 490
+      },
+      {
+        "field": "set_variable",
+        "line": 491
+      },
+      {
+        "field": "set_variable",
+        "line": 492
+      },
+      {
+        "field": "set_variable",
+        "line": 494
+      },
+      {
+        "field": "set_variable",
+        "line": 495
+      },
+      {
+        "field": "set_variable",
+        "line": 496
+      },
+      {
+        "field": "set_variable",
+        "line": 497
+      },
+      {
+        "field": "set_variable",
+        "line": 498
+      },
+      {
+        "field": "set_variable",
+        "line": 499
+      },
+      {
+        "field": "set_variable",
+        "line": 500
+      },
+      {
+        "field": "set_variable",
+        "line": 501
+      },
+      {
+        "field": "set_variable",
+        "line": 503
+      },
+      {
+        "field": "set_variable",
+        "line": 504
+      },
+      {
+        "field": "set_variable",
+        "line": 505
+      },
+      {
+        "field": "set_variable",
+        "line": 506
+      },
+      {
+        "field": "set_variable",
+        "line": 507
+      },
+      {
+        "field": "set_variable",
+        "line": 509
+      },
+      {
+        "field": "set_variable",
+        "line": 511
+      },
+      {
+        "field": "set_variable",
+        "line": 513
+      },
+      {
+        "field": "set_variable",
+        "line": 514
+      },
+      {
+        "field": "set_variable",
+        "line": 515
+      },
+      {
+        "field": "set_variable",
+        "line": 518
+      },
+      {
+        "field": "set_variable",
+        "line": 519
+      },
+      {
+        "field": "set_variable",
+        "line": 520
+      },
+      {
+        "field": "set_variable",
+        "line": 521
+      },
+      {
+        "field": "set_variable",
+        "line": 522
+      },
+      {
+        "field": "set_variable",
+        "line": 523
+      },
+      {
+        "field": "set_variable",
+        "line": 524
+      },
+      {
+        "field": "set_variable",
+        "line": 525
+      },
+      {
+        "field": "set_variable",
+        "line": 526
+      },
+      {
+        "field": "set_variable",
+        "line": 527
+      },
+      {
+        "field": "set_variable",
+        "line": 529
+      },
+      {
+        "field": "set_variable",
+        "line": 530
+      },
+      {
+        "field": "set_variable",
+        "line": 531
+      },
+      {
+        "field": "set_variable",
+        "line": 532
+      },
+      {
+        "field": "set_variable",
+        "line": 535
+      },
+      {
+        "field": "set_variable",
+        "line": 538
+      },
+      {
+        "field": "set_variable",
+        "line": 541
+      },
+      {
+        "field": "set_variable",
+        "line": 542
+      },
+      {
+        "field": "set_variable",
+        "line": 544
+      },
+      {
+        "field": "set_variable",
+        "line": 547
+      },
+      {
+        "field": "multiply_variable",
+        "line": 548
+      },
+      {
+        "field": "set_variable",
+        "line": 551
+      },
+      {
+        "field": "multiply_variable",
+        "line": 552
+      },
+      {
+        "field": "set_variable",
+        "line": 555
+      },
+      {
+        "field": "set_variable",
+        "line": 557
+      },
+      {
+        "field": "set_variable",
+        "line": 559
+      },
+      {
+        "field": "set_variable",
+        "line": 560
+      },
+      {
+        "field": "set_variable",
+        "line": 563
+      },
+      {
+        "field": "set_variable",
+        "line": 564
+      },
+      {
+        "field": "set_variable",
+        "line": 567
+      },
+      {
+        "field": "set_variable",
+        "line": 570
+      },
+      {
+        "field": "set_variable",
+        "line": 571
+      },
+      {
+        "field": "set_variable",
+        "line": 572
+      },
+      {
+        "field": "set_variable",
+        "line": 575
+      },
+      {
+        "field": "set_variable",
+        "line": 578
+      },
+      {
+        "field": "set_variable",
+        "line": 579
+      },
+      {
+        "field": "set_variable",
+        "line": 580
+      },
+      {
+        "field": "set_variable",
+        "line": 582
+      },
+      {
+        "field": "613",
+        "line": 584
+      },
+      {
+        "field": "set_variable",
+        "line": 588
+      },
+      {
+        "field": "613",
+        "line": 616
+      },
+      {
+        "field": "608",
+        "line": 624
+      },
+      {
+        "field": "615",
+        "line": 632
+      },
+      {
+        "field": "715",
+        "line": 640
+      },
+      {
+        "field": "1036",
+        "line": 648
+      },
+      {
+        "field": "716",
+        "line": 656
+      },
+      {
+        "field": "1035",
+        "line": 664
+      },
+      {
+        "field": "613",
+        "line": 672
+      },
+      {
+        "field": "596",
+        "line": 680
+      },
+      {
+        "field": "600",
+        "line": 688
+      },
+      {
+        "field": "save_global_event_target_as",
+        "line": 696
+      },
+      {
+        "field": "set_convoys",
+        "line": 698
+      },
+      {
+        "field": "set_politics",
+        "line": 874
+      },
+      {
+        "field": "add_opinion_modifier",
+        "line": 882
+      },
+      {
+        "field": "create_equipment_variant",
+        "line": 892
+      },
+      {
+        "field": "create_equipment_variant",
+        "line": 909
+      },
+      {
+        "field": "create_equipment_variant",
+        "line": 927
+      },
+      {
+        "field": "create_equipment_variant",
+        "line": 950
+      }
+    ],
+    "fully_resolved_country": false
+  }
+}
