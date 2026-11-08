@@ -1,5 +1,9 @@
 # Phase 3 Implementation Summary
 
+> Historical implementation notes. The current production allocator solves its
+> linear model with HiGHS; earlier references to GLOP/OR-Tools solving describe
+> the original implementation. OR-Tools remains the model-construction API.
+
 ## Overview
 Phase 3 implements the national focus tree system for Hearts of Iron IV, providing models and parsers for focus progression, prerequisites, and strategic planning.
 

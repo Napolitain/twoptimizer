@@ -26,7 +26,7 @@ def provinces():
     )
 
 
-@pytest.mark.parametrize("algorithm", ["cp-sat", "cbc", "scip", "scip-nonlinear", "portfolio"])
+@pytest.mark.parametrize("algorithm", ["cp-sat", "highs"])
 def test_joint_backends_match_exhaustive_economics(algorithm):
     data = tiny_catalog()
     data["buildings"]["rome_religious_alpha_4"]["effects"][0]["scope"] = "in_all_your_regions"
@@ -134,7 +134,7 @@ def test_warm_start_and_portable_proof_replay_joint_layout():
     scenario = HoldingScenario.from_provinces(provinces(), ())
     economy = HoldingEconomy(scenario, tiny_catalog())
     result = economy.optimize("cp-sat", workers=1)
-    for algorithm in ("cp-sat", "scip-nonlinear"):
+    for algorithm in ("cp-sat", "highs"):
         new = HoldingEconomy(scenario, tiny_catalog()).optimize(
             algorithm, workers=1, incumbent=result
         )
@@ -253,7 +253,7 @@ def test_indexed_selection_bound_preserves_signed_duplicate_terms():
     from games.tw.rome2.linear import LinearProducts
 
     economy = HoldingEconomy(HoldingScenario.from_provinces(provinces(), ()), tiny_catalog())
-    solver = pywraplp.Solver.CreateSolver("CBC")
+    solver = pywraplp.Solver.CreateSolver("SAT")
     choices = {}
     for local in economy.locals.values():
         selected, _ = RomeCompiler(local)._compile_choices(solver)

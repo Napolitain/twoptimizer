@@ -18,6 +18,7 @@ MODEL_SOURCES = (
     "world.py",
     "provenance.py",
     "../immutable.py",
+    "../highs_backend.py",
     "data/world.json",
     "data/world_modifiers.json",
 )

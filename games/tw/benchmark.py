@@ -65,8 +65,6 @@ def _parser():
         help="No researched technologies (default: all available)",
     )
     cli.add_argument("--region-fertility", action="append", default=[], metavar="REGION=VALUE")
-    cli.add_argument("--beam-width", type=int, default=128)
-    cli.add_argument("--restarts", type=int, default=16)
     cli.add_argument("--city-level", type=int, choices=range(1, 5), default=4)
     cli.add_argument("--building-level", type=int, choices=range(1, 5), default=1)
     cli.add_argument("--military", action="store_true", help="Include military buildings")
@@ -114,8 +112,6 @@ def request_from_args(args) -> RunRequest:
             building_level=args.building_level,
             military=args.military,
             seed=args.seed,
-            beam_width=args.beam_width,
-            restarts=args.restarts,
         ),
     )
     return RunRequest(

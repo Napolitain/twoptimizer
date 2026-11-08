@@ -1,5 +1,9 @@
 # Implementation Summary: HoI4 Production Optimization
 
+> Historical implementation notes. The current production allocator solves its
+> linear model with HiGHS; earlier references to GLOP/OR-Tools solving describe
+> the original implementation. OR-Tools remains the model-construction API.
+
 ## Issue Addressed
 **Issue**: Continue adding details for Hoi4 implementation
 **Focus**: Optimize number of factories, weapons output, by specific date

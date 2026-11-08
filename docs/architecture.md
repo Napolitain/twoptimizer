@@ -85,7 +85,7 @@ and soil. `RunConfig.provinces=None` uses the single `province`; an empty tuple
 selects no jobs. With multiple provinces, `joint=False` creates independent cases
 and `joint=True` retains one combined holding in any of the three games.
 `AttilaOptions` carries typed campaign inputs, region fertility overrides,
-technology selections, building filters and heuristic settings. Explicit
+technology selections, building filters and a random seed. Explicit
 `to_dict`/`from_dict` methods preserve those records across worker JSON.
 
 `twoptimizer.constraint_options.ConstraintOptions` holds optional exact-building
@@ -157,8 +157,8 @@ engine. It turns the independently evaluated native report into `EngineResult`.
 `solve_case` constructs `CaseResult` with income, status, objective, bound, layouts,
 metrics, assumptions, source hashes and phase timings. Native dictionaries remain
 at the adapter/report boundary and belong to that case. Frozen dataclasses do not
-make those native reports deeply immutable. A relaxed LP objective supplies a
-bound, not a feasible income or building layout.
+make those native reports deeply immutable. Solver upper bounds remain separate
+from independently evaluated feasible income.
 
 An optional, caller-owned `RunSession` retains Attila model preparation and
 validated faction proofs, and Rome II incumbents and portable proofs. It also
@@ -206,13 +206,23 @@ comparison formats.
 All interfaces default to no time limit and automatic CPU selection. Explicit
 `--seconds` and `--workers` remain available in the CLI. The TUI exposes an optional
 time limit and uses automatic workers.
+CP-SAT is the default and HiGHS is the supported alternative across all three
+games. The shared HiGHS adapter consumes the linear model, retains integer domains,
+and returns statuses, incumbents, bounds and conversion/search timings. Rome's
+CP-SAT path retains its canonical proof model and linear product formulation.
+HiGHS runs through OR-Tools MathOpt using the shared library bundled with OR-Tools;
+there is no standalone `highspy` dependency. The adapter serializes its native
+calls and resets the bundled HiGHS thread scheduler before each solve so changing
+worker limits in a reused process takes effect. Both MIP gap tolerances are zero.
+Retired solver names are rejected at current request boundaries. Historical
+report labels describe their original execution and are not rewritten.
 
 | Interface | Default scope | Additional supported inputs |
 | --- | --- | --- |
-| TUI | Rome II, Rome, coastal reference, portfolio, research disabled | Independent or joint holdings in all three games; Attila/Rome border picker; one/all factions; solver comparison; model-size details; game research profiles; Attila fertility/religion; Shogun soil, wealth and tax; Rome world bonuses |
-| `attila` | ERE, Orthodox; every province independently at fertility 0 and 5; CP-SAT; all technologies | Repeated provinces and optional joint ownership/limit; campaign JSON and target constraints; named technology subset; regional fertility; city/building levels and military eligibility; exact solvers, heuristics and GLOP bound; seed, beam width and restarts |
+| TUI | Rome II, Rome, coastal reference, CP-SAT, research disabled | Independent or joint holdings in all three games; Attila/Rome border picker; one/all factions; solver comparison; model-size details; game research profiles; Attila fertility/religion; Shogun soil, wealth and tax; Rome world bonuses |
+| `attila` | ERE, Orthodox; every province independently at fertility 0 and 5; CP-SAT; all technologies | Repeated provinces and optional joint ownership/limit; campaign JSON and target constraints; named technology subset; regional fertility; city/building levels and military eligibility; CP-SAT or HiGHS; random seed |
 | `attila-factions` | Settled playable factions; independent Aegyptus, Thracia and Germania; fertility 5; Orthodox; all technologies; CP-SAT | Province selection, religion, fertility, NPC factions with horde exclusions, validated proof reuse and resume |
-| `rome2` | All imported factions on independent inland/coastal/grain reference layouts; portfolio; research bonuses disabled | Repeated named provinces/layouts, factions and solvers; public/archived research; world bonuses; resume/fill-missing, warm hints and portable proof reuse |
+| `rome2` | All imported factions on independent inland/coastal/grain reference layouts; CP-SAT; research bonuses disabled | Repeated named provinces/layouts, factions and solvers; public/archived research; world bonuses; resume/fill-missing, warm hints and portable proof reuse |
 | `shogun2` | All imported clans jointly owning Sado, Settsu and Owari; native/barren/very fertile soil comparisons; CP-SAT; all arts | Repeated joint provinces, clans, soils and exact solvers; fixed town wealth and tax |
 
 The TUI and the `attila`, `rome2` and `shogun2` commands also expose optional
@@ -239,7 +249,7 @@ validation. Existing fixture, CLI, worker, TUI and export tests remain in place.
 
 `tests/test_application_cli.py` and `tests/test_attila_application.py` compare
 CLI requests with the shared service and direct engine compilation, including
-joint holdings, campaign inputs, region fertility, technology subsets and LP
+joint holdings, campaign inputs, region fertility, technology subsets and solver
 bounds. Assertions compare income and proof semantics rather than timings or
 building choices among tied optima. Resume tests cover validated proof replay,
 negative-income incumbents and contradictory bounds.

@@ -31,9 +31,7 @@ def test_sparse_duplicate_terms_empty_rows_columns_and_fingerprints():
             sparse[invalid]
 
 
-@pytest.mark.parametrize(
-    "algorithm", ["cp-sat", "cbc", "scip", "glop", "beam", "greedy", "multistart"]
-)
+@pytest.mark.parametrize("algorithm", ["cp-sat", "highs"])
 def test_sparse_solvers_match_dense_and_uncapped_calls_complete(algorithm):
     dense = np.array([[2.0, 2.0], [1.0, 0.0]])
     sparse = SparseConstraints([([0, 1], [2.0, 2.0]), ([0], [1.0])], 2)
@@ -65,7 +63,7 @@ def test_exact_solve_and_hashing_never_materialize_dense_storage(monkeypatch):
 
     monkeypatch.setattr(sparse, "toarray", forbidden)
     signature(model)
-    for algorithm in ("cp-sat", "cbc", "scip", "glop"):
+    for algorithm in ("cp-sat", "highs"):
         assert solve(model, algorithm, seconds=None).status == "OPTIMAL"
 
 

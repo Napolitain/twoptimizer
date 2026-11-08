@@ -7,9 +7,7 @@ requires-python = ">=3.14"
 authors = [{ name = "Maxime Boucher", email = "mxboucher@gmail.com" }]
 dependencies = [
     "numpy>=2.0.2",
-    "ortools>=9.10,<10",
-    "pulp>=2.7,<4",
-    "pyscipopt>=6,<7",
+    "ortools>=9.15.6755,<10",
     "textual>=6,<7",
 ]
 

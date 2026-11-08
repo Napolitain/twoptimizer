@@ -5,7 +5,7 @@ This test suite covers:
 - GameDate and GameClock (time simulation)
 - Equipment models and database
 - Production and ProductionLine models
-- ProductionOptimizer with OR-Tools integration
+- ProductionOptimizer with HiGHS integration
 """
 
 import unittest
@@ -370,6 +370,32 @@ class TestProductionOptimizer(unittest.TestCase):
             # Should allocate all factories
             total_allocated = sum(result.factory_allocations.values())
             self.assertAlmostEqual(total_allocated, 10.0, places=1)
+
+    def test_highs_retains_continuous_allocations_and_both_objective_directions(self):
+        optimizer = ProductionOptimizer()
+        start, target = GameDate(1936, 1, 1), GameDate(1937, 1, 1)
+        infantry, artillery = create_infantry_equipment(), create_artillery()
+        goals = [
+            ProductionGoal(infantry, 1000, target),
+            ProductionGoal(artillery, 500, target),
+        ]
+        for maximize, objective in ((False, 1400), (True, 100)):
+            with self.subTest(maximize=maximize):
+                result = optimizer.optimize_production(
+                    3,
+                    0,
+                    goals,
+                    start,
+                    available_resources={"steel": 100},
+                    maximize_total_output=maximize,
+                )
+                self.assertEqual(result.status, "OPTIMAL")
+                self.assertAlmostEqual(result.objective_value, objective)
+                self.assertAlmostEqual(result.get_output(infantry.name), 100)
+                self.assertAlmostEqual(result.get_output(artillery.name), 0)
+                self.assertAlmostEqual(result.resource_usage["steel"], 100)
+                self.assertGreater(result.get_allocation(infantry.name), 0)
+                self.assertLess(result.get_allocation(infantry.name), 1)
 
 
 if __name__ == "__main__":

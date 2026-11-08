@@ -1,6 +1,10 @@
 # Hearts of Iron IV Optimization Module
 
-This module provides data structures and functionality for optimizing Hearts of Iron IV gameplay, including factory production, infrastructure, and military production using OR-Tools.
+This module provides data structures and functionality for optimizing Hearts of Iron IV gameplay, including factory production, infrastructure, and military production using a HiGHS linear program.
+
+The legacy production-allocation model uses OR-Tools to construct its linear
+model and HiGHS to solve it. This backend change does not add a dynamic campaign
+optimizer; HoI4 remains unavailable in the main TUI.
 
 ## Overview
 
@@ -17,7 +21,7 @@ The HoI4 module allows you to:
 - Aggregate statistics across entire factions
 - **NEW**: Simulate game time with historical dates
 - **NEW**: Model military equipment production with resource costs
-- **NEW**: Optimize factory allocation using OR-Tools
+- **NEW**: Optimize factory allocation using HiGHS
 - **NEW**: Plan production to meet targets by specific dates
 - **NEW**: Model factory efficiency growth over time
 
@@ -433,14 +437,14 @@ Total: **111 tests, all passing**
 - **Time simulation** with historical dates
 - **Equipment models** for all unit types
 - **Production system** with efficiency modeling
-- **OR-Tools integration** for optimization
+- **HiGHS integration** for linear optimization
 - **Multi-objective** factory allocation
 - **Resource-constrained** optimization
 
 ## Future Development
 
 ### Completed
-1. ✅ **Factory Optimization**: OR-Tools determines optimal allocation
+1. ✅ **Factory Optimization**: HiGHS determines optimal allocation
 2. ✅ **Production Scheduling**: Optimal military production by target date
 3. ✅ **Resource Management**: Resource-constrained optimization
 4. ✅ **Multi-objective Optimization**: Weighted production goals

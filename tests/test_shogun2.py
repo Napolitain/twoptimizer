@@ -168,7 +168,7 @@ def test_unresearched_arts_do_not_unlock_advanced_buildings(data):
     assert "sho_farming_1_rice_paddies" in economy.candidates["jap_sado"]
 
 
-@pytest.mark.parametrize("algorithm", ["cp-sat", "cbc", "scip"])
+@pytest.mark.parametrize("algorithm", ["cp-sat", "highs"])
 def test_exact_solvers_match_exhaustive_original_formulas(data, algorithm):
     catalog, rules = thaw(data)
     ids = [
@@ -223,8 +223,9 @@ def test_exact_solvers_match_exhaustive_original_formulas(data, algorithm):
         ),
     ],
 )
-def test_full_three_province_solution_is_proved_and_re_evaluated(data, clan, expected):
-    report = Economy(scenario(clan), *data).optimize()
+@pytest.mark.parametrize("algorithm", ["cp-sat", "highs"])
+def test_full_three_province_solution_is_proved_and_re_evaluated(data, clan, expected, algorithm):
+    report = Economy(scenario(clan), *data).optimize(algorithm, workers=1)
     assert report["solver"]["status"] == "OPTIMAL"
     assert report["domestic_tax_income"] == pytest.approx(expected)
     assert report["food_surplus"] >= 0

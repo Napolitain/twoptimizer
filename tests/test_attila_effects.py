@@ -154,7 +154,7 @@ def test_compiled_scoped_model_matches_independent_enumeration(context, mode):
             income = wealth * (1 + 0.2 * tax) - 40 * bonus - 20 * tax
             candidates.append(wealth if mode == "wealth" else income)
     expected = max(candidates)
-    for algorithm in ("cp-sat", "cbc", "scip"):
+    for algorithm in ("cp-sat", "highs"):
         result = solve(exported, algorithm, seconds=5)
         assert result.status == "OPTIMAL"
         assert result.objective == pytest.approx(expected)

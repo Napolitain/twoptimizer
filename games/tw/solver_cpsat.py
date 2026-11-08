@@ -16,17 +16,19 @@ class SolutionVariable:
 
     def solution_value(self):
         if self.value is None:
-            raise RuntimeError("No feasible CP-SAT solution is available")
+            raise RuntimeError("No feasible solver solution is available")
         return self.value
 
 
 class SolverCpSat(SolverOrTools):
     """Reuse linear expression construction, then solve with native CP-SAT.
 
-    The inherited MPSolver only builds/exports the binary model; CBC is never
-    invoked. Decimal coefficients are scaled exactly and the returned layout
-    is validated against the original coefficients before it is exposed.
+    The inherited SAT MPSolver only builds/exports the binary model. Decimal
+    coefficients are scaled exactly and the returned layout is validated against
+    the original coefficients before it is exposed.
     """
+
+    algorithm = "cp-sat"
 
     def __init__(self):
         super().__init__()
@@ -34,12 +36,12 @@ class SolverCpSat(SolverOrTools):
 
     def solve(self, seconds=None, seed=0, workers=None, **kwargs):
         if kwargs:
-            raise TypeError(f"Unsupported CP-SAT options: {sorted(kwargs)}")
+            raise TypeError(f"Unsupported {self.algorithm} options: {sorted(kwargs)}")
         model = self.binary_model()
-        self.result = solve(model, "cp-sat", seconds=seconds, seed=seed, workers=workers)
+        self.result = solve(model, self.algorithm, seconds=seconds, seed=seed, workers=workers)
         if self.result.values is None:
             raise RuntimeError(
-                f"CP-SAT returned {self.result.status}: "
+                f"{self.algorithm} returned {self.result.status}: "
                 f"{self.result.detail or 'no feasible layout available'}"
             )
         return self.result.status
@@ -53,5 +55,5 @@ class SolverCpSat(SolverOrTools):
 
     def get_objective(self):
         if self.result is None or self.result.objective is None:
-            raise RuntimeError("No feasible CP-SAT solution is available")
+            raise RuntimeError("No feasible solver solution is available")
         return self.result.objective

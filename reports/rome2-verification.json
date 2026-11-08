@@ -2,14 +2,14 @@
   "verified_feasible_layouts": 188,
   "optimal_solver_results": 73,
   "catalog_sha256": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
-  "model_sha256": "d4081a5f2e3d4173a1becd0036c1e2e72b4fbf35a13da97f01b9cd31092ffe8a",
+  "model_sha256": "e7236da019caf43dd6c28562d720c4acb1055541a08b0ead974cba3c6db8b7b7",
   "source_reports": {
-    "reports/rome2-income-comparison.json": "8f9cc83f943ab7a5840ddf8d051899b6d06664aee078ada2d39c935b3602c0e1",
-    "reports/rome2-marib-comparison.json": "b0a0a47c1725e439f1388f5d0f23be8eb2e2e2cea09fbec818f1d656fccfb766",
-    "reports/rome2-province-comparison.json": "bff2b74e2526fe45d53eb6b1768f4a05936e7650cd12820747fd64fc3ff751b0",
-    "reports/rome2-research-comparison.json": "02f4041da4f27ed3a352733e9a9ee10a4fd0e9603c25c3e37dd52f550cd16f86",
-    "reports/rome2-resource-comparison.json": "cab398955d8916a68c9cd2f0dcdeebffc296541a0f5428b3a34d5714a05419d1",
-    "reports/rome2-solver-comparison.json": "776620fa6ca76891c87f8e3ab639bbec60bbce018ea627bd6bd9d5bc2c54e8e3"
+    "reports/rome2-income-comparison.json": "4b0e2f8badda3d61ff145b17be33c48020fb1b68974d284334f7e7a464e09622",
+    "reports/rome2-marib-comparison.json": "0ec40588fe63f4cb832282de2d7a96e582e77c327b77d360253afdd4823c40b5",
+    "reports/rome2-province-comparison.json": "f9c3c599d1aed61c8d002d4a492c140e4db3d1e3e3daa66953d4ce41efd31947",
+    "reports/rome2-research-comparison.json": "7b7360ba0cdddd8766012ce2063316604c998044ad9d41220222128d4f0cc7e4",
+    "reports/rome2-resource-comparison.json": "e88437fa3c2974fa60d7965d41525980f5b334f7cf25d8f78ced07d052fa6fb9",
+    "reports/rome2-solver-comparison.json": "a03561ae91f475a1e652132e53ac03a9bbc9545ba1cc571286a7e0345750c314"
   },
   "scope": "Replays eligibility, slots, branches, parties, economics, food/order, objective, upper-bound consistency and portable proof metadata. Does not independently reproduce solver proofs or validate against the installed game."
 }

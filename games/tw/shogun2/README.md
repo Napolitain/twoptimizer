@@ -8,7 +8,7 @@ claim to have verified the current patch.
 ```sh
 .venv/bin/python -m games.tw.shogun2.benchmark
 .venv/bin/python -m games.tw.shogun2.benchmark --soil native \
-  --algorithm cp-sat --algorithm cbc --algorithm scip
+  --algorithm cp-sat --algorithm highs
 .venv/bin/python -m games.tw.shogun2.benchmark --clan chosokabe \
   --province jap_owari --province jap_settsu --town-wealth 1000
 .venv/bin/python -m games.tw.shogun2.benchmark --clan oda --province all --joint --soil native
@@ -19,7 +19,8 @@ The default compares all 12 playable clans with joint ownership of Sado,
 Settsu and Owari. Sado has barren soil and gold; Settsu has average soil and
 philosophical tradition; Owari has very fertile soil. Two sensitivity cases
 replace every province's soil multiplier with barren (1) or very fertile (3).
-The default solver is CP-SAT and runs to completion without a time cap.
+The supported solvers are CP-SAT and HiGHS. CP-SAT is the default and runs to
+completion without a time cap.
 `--seconds` explicitly enables an optional per-case time limit.
 `--joint` is the default; `--independent` solves each selected province separately.
 `--province all` selects all 65 provinces. Independent cases reset faction food
@@ -103,8 +104,9 @@ the scenario needs.
 
 The checked-in [CSV](../../../reports/shogun2-income-comparison.csv) and
 [full report](../../../reports/shogun2-income-comparison.json) contain 36
-clan/soil cases, each solved with CP-SAT, CBC and SCIP. Every solver proved
-optimal and agreed with the other two. Selected layouts are independently
+clan/soil cases from the historical CP-SAT/CBC/SCIP comparison. Every solver proved
+optimal and agreed with the other two. CBC and SCIP are now retired; these saved
+results preserve their original provenance and do not measure HiGHS. Selected layouts are independently
 checked against the original economic formulas and constraints. A reduced
 model is also checked by exhaustive enumeration in the test suite.
 

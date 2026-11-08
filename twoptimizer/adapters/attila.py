@@ -37,7 +37,9 @@ def solve_attila(
         snapshot.model, [result], ComparisonOptions(algorithms=(config.algorithm,)), economy
     )["results"][0]
     if not reused:
-        record_cp_result(phase, {"model_stats": result.model_stats}, decisions)
+        record_cp_result(
+            phase, {"algorithm": result.algorithm, "model_stats": result.model_stats}, decisions
+        )
     phase("prepare_result_seconds", "Preparing result")
     raw = {
         **row,

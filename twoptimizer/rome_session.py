@@ -80,7 +80,8 @@ class RomeSession:
             if "sites" in case and _same_scenario(case["scenario"], scenario)
         ]
         seed = max(seeds, key=lambda case: case["domestic_net_income"], default=None)
-        fingerprint = economy.fingerprint() if config.algorithm in {"cp-sat", "portfolio"} else None
+        # Run HiGHS on comparison requests; reuse canonical proofs for CP-SAT only.
+        fingerprint = economy.fingerprint() if config.algorithm == "cp-sat" else None
         result = (
             economy.reuse_optimum(self.proofs[fingerprint])
             if fingerprint in self.proofs
@@ -88,9 +89,7 @@ class RomeSession:
                 config.algorithm,
                 config.seconds,
                 config.workers,
-                incumbent=seed
-                if config.algorithm in {"cp-sat", "scip-nonlinear", "portfolio"}
-                else None,
+                incumbent=seed if config.algorithm in {"cp-sat", "highs"} else None,
             )
         )
         if (

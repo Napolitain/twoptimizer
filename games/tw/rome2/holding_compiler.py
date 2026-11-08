@@ -4,7 +4,7 @@ from collections import defaultdict
 
 from ortools.linear_solver import linear_solver_pb2, pywraplp
 
-from games.tw.rome2.backends import NativeCP, NativeSCIP
+from games.tw.rome2.backends import NativeCP
 from games.tw.rome2.building_constraints import install
 from games.tw.rome2.compiler import EffectTerms, RomeCompiler, variable_name
 from games.tw.rome2.effects import CATEGORIES, raw_effect
@@ -121,13 +121,10 @@ class HoldingCompiler:
         return effects
 
     def build(self, native=False):
-        solver = (
-            NativeSCIP()
-            if native == "scip-nonlinear"
-            else NativeCP()
-            if native
-            else pywraplp.Solver.CreateSolver("CBC")
-        )
+        if not isinstance(native, bool):
+            raise ValueError("Native compilation must be a boolean CP-SAT selection")
+        # MPSolver supplies expressions and protobuf export here; it never solves.
+        solver = NativeCP() if native else pywraplp.Solver.CreateSolver("SAT")
         choices, names = {}, {}
         for local in self.economy.locals.values():
             compiler = RomeCompiler(local)

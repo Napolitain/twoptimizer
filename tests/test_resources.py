@@ -47,7 +47,9 @@ def test_auto_workers_and_advanced_override(monkeypatch):
     model = BinaryModel(
         ("x",), np.array([1.0]), np.array([[1.0]]), np.array([0.0]), np.array([1.0])
     )
-    assert solve(model, "cp-sat").workers == 3
-    assert solve(model, "cp-sat", workers=1).workers == 1
-    assert solve(model, "cbc").workers == 1
-    assert solve(model, "scip").workers == 3
+    for algorithm in ("cp-sat", "highs"):
+        automatic = solve(model, algorithm)
+        explicit = solve(model, algorithm, workers=1)
+        assert automatic.workers == 3 and explicit.workers == 1
+        assert automatic.status == explicit.status == "OPTIMAL"
+        assert automatic.objective == explicit.objective == 1

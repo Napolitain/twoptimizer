@@ -22,11 +22,14 @@ from pathlib import Path
 from statistics import median
 from time import perf_counter
 
+from games.tw.highs_backend import native_version
 from games.tw.resources import available_workers
 from twoptimizer.models import RunConfig
 from twoptimizer.progress import ModelStats
 from twoptimizer.requests import default_config, make_jobs
 from twoptimizer.runner import BatchRunner
+
+SOLVERS = ("cp-sat", "highs")
 
 PAIRS = {
     "attila": ("att_prov_thracia", "att_prov_macedonia"),
@@ -214,8 +217,8 @@ def request_matrix(games, sizes, algorithms, workers):
     for game in games:
         for size in sizes:
             for algorithm in algorithms:
-                if algorithm in {"portfolio", "scip-nonlinear"} and game != "rome2":
-                    continue
+                if algorithm not in SOLVERS:
+                    raise ValueError("Choose cp-sat or highs")
                 for joint in (False, True):
                     yield (
                         size,
@@ -253,9 +256,9 @@ def environment(revision=None):
         "cpu_quota": optional("/sys/fs/cgroup/cpu.max"),
         "memory_limit_bytes": optional("/sys/fs/cgroup/memory.max"),
         "packages": {
-            name: importlib.metadata.version(name)
-            for name in ("ortools", "pyscipopt", "numpy", "textual")
+            name: importlib.metadata.version(name) for name in ("ortools", "numpy", "textual")
         },
+        "native_solvers": {"highs": native_version()},
         "lock_sha256": hashlib.sha256(Path("uv.lock").read_bytes()).hexdigest(),
         "benchmark_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "git_revision": revision
@@ -292,7 +295,7 @@ def parser():
     cli.add_argument(
         "--algorithm",
         action="append",
-        choices=("cp-sat", "cbc", "scip", "portfolio", "scip-nonlinear"),
+        choices=SOLVERS,
     )
     cli.add_argument("--repeat", type=int, default=2)
     cli.add_argument("--workers", type=int, default=None, help="Default: machine allocation")

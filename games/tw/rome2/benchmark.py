@@ -174,7 +174,7 @@ def main(argv=None):
     parser.add_argument(
         "--algorithm",
         action="append",
-        choices=["cp-sat", "cbc", "scip", "scip-nonlinear", "portfolio"],
+        choices=["cp-sat", "highs"],
     )
     parser.add_argument(
         "--seconds",
@@ -318,7 +318,7 @@ def request_from_args(args) -> RunRequest:
             game="rome2",
             faction="all",
             province="coastal",
-            algorithm="portfolio",
+            algorithm="cp-sat",
             seconds=args.seconds,
             workers=args.workers,
             research=args.technology_profile if args.all_technologies else "none",

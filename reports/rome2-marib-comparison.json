@@ -2,7 +2,7 @@
   "schema_version": 1,
   "created_at_utc": "2026-11-07T14:02:00.035926+00:00",
   "catalog_sha256": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
-  "model_sha256": "d4081a5f2e3d4173a1becd0036c1e2e72b4fbf35a13da97f01b9cd31092ffe8a",
+  "model_sha256": "e7236da019caf43dd6c28562d720c4acb1055541a08b0ead974cba3c6db8b7b7",
   "assumptions": {
     "objective": "Current domestic provincial tax receipts less modeled building maintenance, excluding external trade, armies, agents and construction spending.",
     "reference_holdings": "Controlled two-settlement provinces: inland, coastal, and coastal with a grain-producing minor core. These are explicit layouts, not historical starting provinces.",
@@ -12723,5 +12723,15 @@
     "identical_canonical_models": 1,
     "feasible_layouts_replayed": 1,
     "method": "Compared all pre-change and revised canonical CP-SAT model fingerprints with retained_buildings absent. Independently replayed stored layouts with unchanged economics. The optional field preserves candidate domains when relaxing user requirements; default models, historical objectives, bounds, statuses, layouts and timings are unchanged. This is not a new solve."
+  },
+  "cp_sat_highs_backend_update": {
+    "verified_at_utc": "2026-11-08T06:19:24.230558+00:00",
+    "baseline_revision": "9442527",
+    "from_model_sha256": "d4081a5f2e3d4173a1becd0036c1e2e72b4fbf35a13da97f01b9cd31092ffe8a",
+    "to_model_sha256": "e7236da019caf43dd6c28562d720c4acb1055541a08b0ead974cba3c6db8b7b7",
+    "identical_canonical_models": 1,
+    "identical_linear_models": 1,
+    "feasible_layouts_replayed": 1,
+    "method": "Compared all pre-change and revised canonical CP-SAT fingerprints and exact linear model protobuf hashes after replacing the CBC expression container with SAT and removing executable CBC, SCIP and portfolio backends. HiGHS consumes the unchanged linearization. Independently replayed saved layouts with unchanged economics. Historical objectives, bounds, statuses, layouts and timings remain unchanged; archived solver names describe their original executions. This metadata migration is not a new solve."
   }
 }

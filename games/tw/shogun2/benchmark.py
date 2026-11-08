@@ -167,7 +167,7 @@ def main(argv=None):
     parser.add_argument(
         "--algorithm",
         action="append",
-        choices=["cp-sat", "cbc", "scip"],
+        choices=["cp-sat", "highs"],
         help="Repeat to cross-check exact solvers",
     )
     parser.add_argument("--soil", action="append", choices=["native", "barren", "very_fertile"])

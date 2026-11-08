@@ -17,8 +17,6 @@ class ComparisonOptions:
     algorithms: tuple[str, ...] = ("cp-sat",)
     seconds: float | None = None
     seed: int = 0
-    width: int = 128
-    restarts: int = 16
     objective: str = "income"
     workers: int | None = None
 
@@ -34,8 +32,6 @@ def compare_model(
             name,
             options.seconds,
             options.seed,
-            options.width,
-            options.restarts,
             workers=options.workers,
         )
         for name in options.algorithms

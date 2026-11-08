@@ -153,18 +153,10 @@ class OptimizerApp(App):
                     ([("All factions / clans", "all"), *values]) if field == "faction" else values
                 )
                 widget.value = options["default_" + field]
-            solvers = [("CP-SAT", "cp-sat"), ("CBC", "cbc"), ("SCIP · MILP", "scip")]
-            if game == "rome2":
-                solvers = [
-                    ("Portfolio · CP-SAT + SCIP", "portfolio"),
-                    *solvers,
-                    ("SCIP · nonlinear", "scip-nonlinear"),
-                ]
+            solvers = [("CP-SAT", "cp-sat"), ("HiGHS", "highs")]
             solvers.append(("Compare exact solvers", "compare"))
             self.query_one("#algorithm", Select).set_options(solvers)
-            self.query_one("#algorithm", Select).value = (
-                "portfolio" if game == "rome2" else "cp-sat"
-            )
+            self.query_one("#algorithm", Select).value = "cp-sat"
         self.query_one("#model-notes", Markdown).update(
             "# "
             + {key: label for label, key in GAMES}[game]

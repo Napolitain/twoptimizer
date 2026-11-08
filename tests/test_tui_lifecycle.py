@@ -99,8 +99,6 @@ def test_worker_decodes_typed_campaign_inputs_before_invoking_case_service(tmp_p
             city_level=3,
             military=True,
             seed=7,
-            beam_width=32,
-            restarts=4,
         ),
     )
     captured = []
@@ -143,12 +141,13 @@ def test_worker_decodes_typed_campaign_inputs_before_invoking_case_service(tmp_p
 
 
 @pytest.mark.parametrize("provinces", [None, ("jap_owari", "jap_sado")])
-def test_worker_roundtrip_preserves_economic_proof_and_provenance(provinces):
+@pytest.mark.parametrize("algorithm", ["cp-sat", "highs"])
+def test_worker_roundtrip_preserves_economic_proof_and_provenance(provinces, algorithm):
     config = RunConfig(
         game="shogun2",
         faction="oda",
         province="jap_owari",
-        algorithm="cp-sat",
+        algorithm=algorithm,
         research="all",
         workers=1,
         tax=35,
@@ -188,7 +187,7 @@ def test_cancel_native_worker_preserves_completed_case_and_export(tmp_path):
                 def progress(phase):
                     if on_progress is not None:
                         on_progress(phase)
-                    if config.algorithm == "cbc" and phase == "Solving and validating":
+                    if config.algorithm == "highs" and phase == "Solving and validating":
                         solving_second.set()
 
                 return await super().run(replace(config, workers=1), on_log, progress)

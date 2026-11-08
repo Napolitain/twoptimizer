@@ -28,7 +28,7 @@ def record_binary(
             len(model.names),
             matrix.shape[0],
             formulation="expanded_boolean",
-            stage="solver" if algorithm in {"cbc", "scip", "glop"} else "reference",
+            stage="solver" if algorithm == "highs" else "reference",
             decision_variables=decisions,
             nonzeros=nonzeros,
             storage_bytes=matrix.nbytes,
@@ -38,7 +38,7 @@ def record_binary(
 
 def record_cp_result(phase: PhaseTimer, solver: dict, decisions: int) -> None:
     """Native CP counts are available after search; never borrow reused proof counts."""
-    if "proof_reused_from" in solver:
+    if solver.get("algorithm") != "cp-sat" or "proof_reused_from" in solver:
         return
     for stage in solver.get("stages", [solver]):
         stats = stage.get("model_stats") or stage

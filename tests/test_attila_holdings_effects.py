@@ -44,7 +44,7 @@ def _joint_model(context, rules):
     return BinaryModel.from_solver(problem.problem.solver), problem.economy
 
 
-@pytest.mark.parametrize("algorithm", ["cp-sat", "cbc", "scip"])
+@pytest.mark.parametrize("algorithm", ["cp-sat", "highs"])
 def test_joint_limit_and_location_change_optimal_layout(context, algorithm):
     model, economy = _joint_model(
         context, [{"buildings": ["wonder"], "maximum": 1, "regions": ["two"]}]

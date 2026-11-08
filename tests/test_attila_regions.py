@@ -8,8 +8,6 @@ from games.tw.enums import NameType, ProblemState, SolverType
 from games.tw.models.game_attila import AttilaGame
 from games.tw.problem import Problem
 
-# PuLP is a linear and mixed integer programming modeler written in Python.
-
 
 class TestRegion(TestCase):
     def test_attila_regions_f5(self):
@@ -39,7 +37,7 @@ class TestRegion(TestCase):
         parser.parse_start_pos_tsv(path)
 
         # Linear programming problem
-        lp_problem = Problem(solver=SolverType.GOOGLE, objective="legacy", context=context)
+        lp_problem = Problem(solver=SolverType.HIGHS, objective="legacy", context=context)
 
         # Options
         context.name_type = NameType.NAME

@@ -35,7 +35,7 @@ def small_holding():
     return Scenario("oda", provinces), catalog, rules
 
 
-@pytest.mark.parametrize("algorithm", ["cp-sat", "cbc", "scip"])
+@pytest.mark.parametrize("algorithm", ["cp-sat", "highs"])
 def test_required_unique_building_is_built_once_across_holding(small_holding, algorithm):
     base, catalog, rules = small_holding
     scenario = replace(base, required_buildings=(TEMPLE,), forbidden_buildings=(STEALTH,))

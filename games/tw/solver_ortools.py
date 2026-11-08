@@ -7,10 +7,12 @@ from games.tw.solver import Solver
 
 
 class SolverOrTools(Solver):
-    def __init__(self, backend="CBC"):
-        self.solver = pywraplp.Solver.CreateSolver(backend)
+    def __init__(self):
+        # SAT supplies the linear expression container only. Native solving
+        # belongs to the explicit CP-SAT/HiGHS wrappers and their validation.
+        self.solver = pywraplp.Solver.CreateSolver("SAT")
         if self.solver is None:
-            raise ValueError(f"OR-Tools backend {backend} is unavailable")
+            raise ValueError("OR-Tools SAT model container is unavailable")
         self.objective = self.solver.Objective()
         self.objective.SetMaximization()
         self.variables_list = []  # Maintain variables for retrieval
@@ -52,12 +54,12 @@ class SolverOrTools(Solver):
         return self.constraints_list
 
     def solve(self, **kwargs):
-        """Solves the optimization problem."""
-        return self.solver.Solve(**kwargs)
+        """Construction-only base; choose an explicit validated native wrapper."""
+        raise NotImplementedError("Choose SolverCpSat or SolverHighs")
 
     def get_objective(self):
-        """Returns the current objective function."""
-        return self.solver.Objective().Value()
+        """Only native wrappers expose independently validated objectives."""
+        raise NotImplementedError("Choose SolverCpSat or SolverHighs")
 
     def create_variable(self, name: str, cat: str) -> None:
         self.variables_list.append((name, cat))

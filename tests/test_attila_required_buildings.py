@@ -48,7 +48,7 @@ def _model(context, rules, *, cubic=False, unavailable=False):
     return problem.problem.binary_model(), problem.economy
 
 
-@pytest.mark.parametrize("algorithm", ["cp-sat", "cbc", "scip", "greedy", "beam", "multistart"])
+@pytest.mark.parametrize("algorithm", ["cp-sat", "highs"])
 def test_required_unique_building_changes_income_and_retains_placement(context, algorithm):
     model, economy = _model(
         context,
@@ -74,7 +74,7 @@ def test_minimum_is_shared_across_ids_and_omitting_it_preserves_choices(context)
     assert solve(shared, "cp-sat", workers=1).objective == pytest.approx(175)
 
 
-@pytest.mark.parametrize("algorithm", ["cp-sat", "cbc", "scip"])
+@pytest.mark.parametrize("algorithm", ["cp-sat", "highs"])
 @pytest.mark.parametrize("unavailable", [False, True])
 def test_impossible_required_building_is_infeasible_not_silently_dropped(
     context, algorithm, unavailable
@@ -94,7 +94,7 @@ def test_compact_income_keeps_required_counts(context):
     result = solve(model, "cp-sat", seconds=5, workers=1)
     assert result.status == "OPTIMAL"
     assert result.model_stats["formulation"] == "factored_income"
-    assert result.objective == pytest.approx(solve(model, "cbc", workers=1).objective)
+    assert result.objective == pytest.approx(solve(model, "highs", workers=1).objective)
     assert result.values is not None
     selected = {name for name, value in zip(model.names, result.values, strict=True) if value > 0.5}
     rule = economy.evaluate_layout(selected)["assumptions"]["building_rules"][0]

@@ -69,8 +69,7 @@ def _preparation_key(config: RunConfig) -> str:
     for key in ("algorithm", "seconds", "workers"):
         record.pop(key)
     # Search knobs do not change the compiled economic model.
-    for key in ("seed", "beam_width", "restarts"):
-        record["attila"].pop(key)
+    record["attila"].pop("seed")
     return json.dumps(record, sort_keys=True)
 
 
@@ -195,8 +194,6 @@ class AttilaSession:
                 config.algorithm,
                 seconds=config.seconds,
                 seed=config.attila.seed,
-                width=config.attila.beam_width,
-                restarts=config.attila.restarts,
                 workers=config.workers,
             )
         if key is not None:

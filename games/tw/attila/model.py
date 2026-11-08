@@ -74,7 +74,7 @@ def compile_scenario(provinces: list[Province], options: SnapshotOptions) -> Mod
     start = perf_counter()
     context = source.for_problem(fertility=options.fertility)
     problem = Problem(
-        solver=SolverType.GOOGLE,
+        solver=SolverType.CP_SAT,
         objective=options.objective,
         technologies=options.technologies,
         scenario=options.scenario,

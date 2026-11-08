@@ -3,6 +3,9 @@
 Measured on 2026-11-08 against installed-wheel commit
 `6e03a72f0f56a9f26266fa875f0e265143eea5a7`. This is a baseline for the existing
 models, before the optional constraint comparison and special-building audit changes.
+This is a **historical benchmark**: current releases support only CP-SAT and
+HiGHS. The CBC, SCIP and portfolio observations below retain their original
+meaning; no HiGHS performance was measured in this baseline.
 
 All 65 Shogun provinces solved independently to optimality in 1.84–1.90 seconds.
 Joint ownership was substantially harder: one run proved optimal in 8.05 seconds;
@@ -130,7 +133,9 @@ remaining difficult search, not a certified best whole-world layout.
 The next performance target is Attila's joint model construction/conversion,
 followed by stronger joint search formulations or incumbents for Attila and Rome.
 Two repeats, one faction per game, and short allowances do not justify changing
-the default backend globally. Full-world CBC/SCIP runs were omitted to keep this
+the default backend globally. The later restriction to CP-SAT/HiGHS simplifies
+maintenance; it is not a conclusion that CP-SAT wins every workload. Full-world
+CBC/SCIP runs were omitted to keep this
 diagnostic bounded; all three were compared on the representative pairs. These
 measurements concern the current bundled model, not validation against installed
 game files or an economy ranking across games.
@@ -155,19 +160,18 @@ unknown native conversion timing stays null. `summary_revision` identifies that
 summary code; numeric case observations and the original execution hash remain
 unchanged.
 
-To rerun against the current checkout (Linux `/proc` required):
+To measure the two supported solvers against the current checkout (Linux `/proc`
+required), write new reports. These commands do not reproduce the retired-backend
+rows above:
 
 ```sh
 uv run --frozen python -m tools.holding_benchmark --size pair \
-  --algorithm cp-sat --algorithm cbc --algorithm scip --repeat 2 \
+  --algorithm cp-sat --algorithm highs --repeat 2 \
   --solver-seconds 6 --wall-seconds 90 --memory-mib 2048 \
   --output /tmp/holding-pairs.json
 uv run --frozen python -m tools.holding_benchmark --size all \
   --algorithm cp-sat --repeat 2 --solver-seconds 12 --wall-seconds 120 \
   --memory-mib 2048 --output /tmp/holding-all.json
-uv run --frozen python -m tools.holding_benchmark --game rome2 --size pair \
-  --algorithm portfolio --algorithm scip-nonlinear --repeat 2 \
-  --solver-seconds 6 --wall-seconds 90 --output /tmp/holding-rome-alternatives.json
 uv run --frozen python -m tools.holding_benchmark_sensitivity \
   --game attila --game rome2 --seconds-per-case 1 --wall-seconds 180 \
   --output-directory /tmp/holding-sensitivity
@@ -183,5 +187,7 @@ The measured baseline used a `git archive` extraction of the stated commit,
 Python 3.14 virtual environment and `--revision 6e03a72f0f56a9f26266fa875f0e265143eea5a7`.
 Imports were verified to resolve to installed `site-packages`; concurrent native
 solver tests were paused. Reproducing that baseline requires those pinned sources,
-not the subsequently edited checkout. The archived execution driver used
+not the subsequently edited checkout. For retired backends, use the historical
+driver and dependency environment (the driver is preserved in commit `6c2faed`);
+the current driver rejects those solver names. The archived execution driver used
 `--search-seconds`, retained as an alias for the clearer `--solver-seconds`.

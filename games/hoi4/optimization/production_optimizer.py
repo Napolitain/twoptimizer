@@ -1,12 +1,14 @@
 """
 Production optimizer for HOI4.
 
-Uses OR-Tools to optimize factory allocation and production schedules.
+Uses HiGHS to optimize a continuous factory-allocation model.
 """
 
 from dataclasses import dataclass, field
 
-from ortools.linear_solver import pywraplp
+from ortools.linear_solver import linear_solver_pb2, pywraplp
+
+from games.tw.highs_backend import solve_highs
 
 from ..models.equipment import Equipment, EquipmentCategory
 from ..models.game_date import GameDate
@@ -96,11 +98,6 @@ class ProductionOptimizer:
         self.variables = {}
         self.constraints = {}
 
-    def _solver_objective(self):
-        if self.solver is None:
-            raise RuntimeError("Initialize the production solver first")
-        return self.solver.Objective().Value()
-
     def _calculate_average_efficiency(self, efficiency_modifiers: float = 0.0) -> float:
         """
         Calculate the average efficiency over a production period.
@@ -154,8 +151,8 @@ class ProductionOptimizer:
 
         start_time = time.time()
 
-        # Create solver
-        self.solver = pywraplp.Solver.CreateSolver("GLOP")
+        # OR-Tools holds the linear model; only HiGHS solves it.
+        self.solver = pywraplp.Solver.CreateSolver("SAT")
         if not self.solver:
             return OptimizationResult(
                 status="SOLVER_NOT_AVAILABLE", objective_value=0.0, is_optimal=False
@@ -223,11 +220,12 @@ class ProductionOptimizer:
 
             objective.SetMinimization()
 
-        # Solve
-        status = self.solver.Solve()
+        proto = linear_solver_pb2.MPModelProto()
+        self.solver.ExportModelToProto(proto)
+        solution = solve_highs(proto)
 
         # Extract results
-        result = self._extract_results(goals, start_date, efficiency_modifiers, status)
+        result = self._extract_results(goals, start_date, efficiency_modifiers, solution)
         result.execution_time = time.time() - start_time
 
         return result
@@ -325,7 +323,7 @@ class ProductionOptimizer:
         goals: list[ProductionGoal],
         start_date: GameDate,
         efficiency_modifiers: float,
-        status: int,
+        solution: dict,
     ) -> OptimizationResult:
         """
         Extract results from solved model.
@@ -334,32 +332,23 @@ class ProductionOptimizer:
             goals: Production goals
             start_date: Production start date
             efficiency_modifiers: Efficiency bonuses
-            status: Solver status
+            solution: Validated HiGHS result in model variable order
 
         Returns:
             OptimizationResult with allocations and output
         """
-        status_names = {
-            pywraplp.Solver.OPTIMAL: "OPTIMAL",
-            pywraplp.Solver.FEASIBLE: "FEASIBLE",
-            pywraplp.Solver.INFEASIBLE: "INFEASIBLE",
-            pywraplp.Solver.UNBOUNDED: "UNBOUNDED",
-            pywraplp.Solver.ABNORMAL: "ABNORMAL",
-            pywraplp.Solver.NOT_SOLVED: "NOT_SOLVED",
-        }
-
-        status_name = status_names.get(status, "UNKNOWN")
-        is_optimal = status == pywraplp.Solver.OPTIMAL
+        status_name = solution["status"]
+        is_optimal = status_name == "OPTIMAL"
 
         factory_allocations = {}
         expected_output = {}
         resource_usage = {}
 
-        if status == pywraplp.Solver.OPTIMAL or status == pywraplp.Solver.FEASIBLE:
+        if status_name in {"OPTIMAL", "FEASIBLE"}:
             # Extract variable values
             for goal in goals:
                 eq_name = goal.equipment.name
-                factories = self.variables[eq_name].solution_value()
+                factories = solution["values"][self.variables[eq_name].index()]
                 factory_allocations[eq_name] = factories
 
                 # Calculate expected output
@@ -380,8 +369,8 @@ class ProductionOptimizer:
 
         return OptimizationResult(
             status=status_name,
-            objective_value=self._solver_objective()
-            if status in [pywraplp.Solver.OPTIMAL, pywraplp.Solver.FEASIBLE]
+            objective_value=solution["objective"]
+            if status_name in {"OPTIMAL", "FEASIBLE"}
             else 0.0,
             factory_allocations=factory_allocations,
             expected_output=expected_output,

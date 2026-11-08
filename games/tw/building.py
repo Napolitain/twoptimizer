@@ -1,5 +1,4 @@
 from ortools.linear_solver import pywraplp
-from pulp import LpVariable
 
 from games.tw.context import GameContext
 from games.tw.effect import Effect
@@ -23,7 +22,7 @@ class Building(Effect, Entity):
         context: GameContext,
     ):
         super().__init__(context=context)
-        self.lp_variable: pywraplp.Variable | LpVariable | None = None
+        self.lp_variable: pywraplp.Variable | None = None
         self.name = name
         if hash_name is None:
             self.hash_name = context.next_id("B")

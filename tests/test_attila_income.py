@@ -71,7 +71,7 @@ def test_default_income_selects_taxed_roman_wealth_over_larger_gross_wealth(cont
     problem.state = ProblemState.CONSTRAINTS_ADDED
     problem.add_objective()
     model = BinaryModel.from_solver(problem.problem.solver)
-    for algorithm in ("cp-sat", "cbc", "scip"):
+    for algorithm in ("cp-sat", "highs"):
         result = solve(model, algorithm)
         assert result.status == "OPTIMAL"
         assert result.objective == pytest.approx(97.6)

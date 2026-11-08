@@ -17,6 +17,8 @@ uv run --locked twoptimizer
 
 `uv` automatically sets up Python and installs the locked dependencies. The
 project requires Python 3.14 or newer; development and CI target Python 3.14.
+CP-SAT is the default solver; HiGHS is the alternative in all three games.
+Both backends come with the locked OR-Tools dependency.
 
 Choose a game, faction and province in the terminal UI, then press **Ctrl+R** to
 run. Use **Esc** to cancel, **Ctrl+S** to export, **F1** for help and **Ctrl+Q** to

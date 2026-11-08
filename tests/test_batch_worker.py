@@ -41,7 +41,7 @@ def solve(config, progress):
         raise RuntimeError("Controlled native failure")
     progress("Starting controlled case")
     progress(ModelStats("Test model", 5, 4, stage="solver"))
-    if config.algorithm == "cbc":
+    if config.algorithm == "highs":
         signal.signal(signal.SIGTERM, signal.SIG_IGN)
         progress("Blocking native case")
         while True:

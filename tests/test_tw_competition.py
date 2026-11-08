@@ -47,39 +47,41 @@ def test_exact_methods_against_enumeration(seed):
         np.add(totals, [0, 1, 2, 0]),
     )
     expected = enumerate_optimum(problem)
-    for algorithm in ("cbc", "scip", "cp-sat", "beam"):
-        result = solve(problem, algorithm, width=128)
-        if result.status == "UNAVAILABLE":
-            continue
+    for algorithm in ALGORITHMS:
+        result = solve(problem, algorithm)
         assert result.objective == pytest.approx(expected), (algorithm, result)
         assert problem.feasible(result.values)
         if result.bound is not None:
             assert result.bound == pytest.approx(expected)
 
 
-def test_greedy_counterexample_and_lp_bound():
+def test_exact_methods_agree_on_knapsack_bound_and_integrality():
     problem = model([100, 60, 60], [[50, 25, 25]], [-np.inf], [50])
-    report = compare_model(problem, ComparisonOptions(algorithms=tuple(ALGORITHMS), seconds=1))
-    rows = {r["algorithm"]: r for r in report["results"]}
-    assert rows["greedy"]["objective"] <= 120
-    assert rows["beam"]["objective"] == 120
-    assert rows["multistart"]["objective"] == 120
+    report = compare_model(problem, ComparisonOptions(algorithms=ALGORITHMS, seconds=1))
     assert report["upper_bound"] == pytest.approx(120)
+    assert {row["algorithm"] for row in report["results"]} == {"cp-sat", "highs"}
+    assert all(row["objective"] == 120 for row in report["results"])
     fractional = model([10, 9], [[2, 2]], [-np.inf], [3])
-    relaxation = solve(fractional, "glop")
-    assert relaxation.relaxation
-    assert relaxation.bound == pytest.approx(14.5)
-    assert not fractional.feasible(relaxation.values)
-    assert fractional.feasible(relaxation.values, integral=False)
+    for algorithm in ALGORITHMS:
+        result = solve(fractional, algorithm)
+        assert result.objective == result.bound == pytest.approx(10)
+        assert not result.relaxation and fractional.feasible(result.values)
+    assert not fractional.feasible([1, 0.5])
+    assert fractional.feasible([1, 0.5], integral=False)
 
 
-def test_infeasible_is_distinct_from_heuristic_failure():
+def test_infeasible_has_no_incumbent_or_objective():
     problem = model([1], [[1]], [2], [np.inf])
-    for algorithm in ("cbc", "cp-sat"):
+    for algorithm in ALGORITHMS:
         result = solve(problem, algorithm)
         assert result.status == "INFEASIBLE"
-        assert result.objective is None
-    assert solve(problem, "greedy").status == "NO_SOLUTION_FOUND"
+        assert result.objective is None and result.values is None
+
+
+@pytest.mark.parametrize("algorithm", ["cbc", "scip", "glop", "greedy", "beam", "multistart"])
+def test_removed_algorithms_are_rejected(algorithm):
+    with pytest.raises(ValueError, match="choose cp-sat or highs"):
+        solve(model([1], [[1]], [0], [1]), algorithm)
 
 
 def test_validation_and_exact_scaling():
@@ -90,7 +92,7 @@ def test_validation_and_exact_scaling():
     for values in ([0.5], [2], [float("nan")], []):
         assert not problem.feasible(values)
     with pytest.raises(ValueError):
-        solve(problem, "greedy", seconds=0)
+        solve(problem, "cp-sat", seconds=0)
 
 
 def test_attila_snapshot_matches_saved_engine_result():
@@ -183,13 +185,28 @@ def test_default_cpsat_engine_all_provinces(fertility, use_hash, tmp_path):
             province.clean()
 
 
-def test_cpsat_engine_does_not_expose_infeasible_solution():
+@pytest.mark.parametrize("algorithm", ["cp-sat", "highs"])
+def test_native_engine_does_not_expose_infeasible_solution(algorithm):
     from games.tw.solver_cpsat import SolverCpSat
+    from games.tw.solver_highs import SolverHighs
 
-    solver = SolverCpSat()
+    solver = SolverCpSat() if algorithm == "cp-sat" else SolverHighs()
     x = solver.solver.BoolVar("x")
     solver.solver.Add(x >= 2)
     with pytest.raises(RuntimeError, match="INFEASIBLE"):
         solver.solve()
     with pytest.raises(RuntimeError, match="No feasible"):
         solver.get_objective()
+    with pytest.raises(RuntimeError, match="No feasible"):
+        solver.variables()[0].solution_value()
+
+
+def test_independent_validation_clears_invalid_incumbent_and_bound(monkeypatch):
+    from games.tw import competition
+
+    problem = model([1], [[1]], [0], [1])
+    bogus = competition.Result("highs", "OPTIMAL", objective=1, bound=1, values=[0.5])
+    monkeypatch.setattr(competition, "highs_solve", lambda *args: bogus)
+    result = solve(problem, "highs")
+    assert result.status == "INVALID_SOLUTION"
+    assert result.objective is result.bound is result.values is None

@@ -1,15 +1,13 @@
 from time import perf_counter_ns
 
-from pulp import PULP_CBC_CMD
-
 from games.tw.building import Building
 from games.tw.context import GameContext
 from games.tw.enums import ProblemState, SolverType
 from games.tw.models.model_attila import AttilaCampaign
 from games.tw.province import Province
 from games.tw.solver_cpsat import SolverCpSat
+from games.tw.solver_highs import SolverHighs
 from games.tw.solver_ortools import SolverOrTools
-from games.tw.solver_pulp import SolverPulp
 
 
 class Problem:
@@ -71,17 +69,12 @@ class Problem:
         self.problem.require_income_metadata = self.objective_mode == "income"
         self.problem.catalogue_exclusions = []
 
-    def get_solver(self) -> SolverPulp | SolverOrTools | SolverCpSat:
-        if self.solver_type == SolverType.PULP:
-            return SolverPulp()
-        elif self.solver_type == SolverType.SCIP:
-            return SolverOrTools("SCIP")
-        elif self.solver_type == SolverType.GOOGLE:
-            return SolverOrTools()
-        elif self.solver_type == SolverType.CP_SAT:
+    def get_solver(self) -> SolverCpSat | SolverHighs:
+        if self.solver_type == SolverType.CP_SAT:
             return SolverCpSat()
-        else:
-            raise ValueError("Unknown solver.")
+        if self.solver_type == SolverType.HIGHS:
+            return SolverHighs()
+        raise ValueError("Choose SolverType.CP_SAT or SolverType.HIGHS")
 
     def add_province(self, province: Province) -> None:
         """
@@ -178,10 +171,7 @@ class Problem:
         if self.state != ProblemState.OBJECTIVE_ADDED:
             raise ValueError("Objective must be added first.")
         start_time = perf_counter_ns()
-        if self.solver_type == SolverType.PULP:
-            self.problem.solve(solver=PULP_CBC_CMD(msg=verbose))
-        else:
-            self.problem.solve()
+        self.problem.solve()
         end_time = perf_counter_ns()
         if timing:
             print(f"Solving time: {(end_time - start_time) / 1_000_000_000} seconds")
@@ -230,7 +220,5 @@ class Problem:
                 raise ValueError("Unsupported file format. Use '.lp' or '.mps'.")
             with open(path, "w") as file:
                 file.write(model_str)
-        elif self.solver_type == SolverType.PULP:
-            self.problem.solver.writeLP(path)
         else:
             raise ValueError("Unknown solver.")

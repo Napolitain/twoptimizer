@@ -40,7 +40,7 @@ def test_independent_batch_is_the_complete_province_faction_solver_product(selec
         (province, key, solver)
         for province in selected
         for _, key in choices("shogun2")["factions"]
-        for solver in ("cp-sat", "cbc", "scip")
+        for solver in ("cp-sat", "highs")
     }
     assert len(jobs) == len(expected)
     assert {(j.province, j.faction, j.algorithm) for j in jobs} == expected

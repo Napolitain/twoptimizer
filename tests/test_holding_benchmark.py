@@ -1,6 +1,7 @@
 """Fair search budgets and safe incomplete-sample reporting without solver timing tests."""
 
 import asyncio
+import json
 from dataclasses import replace
 from types import SimpleNamespace
 
@@ -8,6 +9,7 @@ import pytest
 
 from tests.support.ui import result
 from tools import holding_benchmark as benchmark
+from tools import holding_benchmark_sensitivity as sensitivity
 from twoptimizer.progress import ModelStats
 from twoptimizer.requests import default_config
 
@@ -27,13 +29,25 @@ def test_joint_and_independent_workloads_share_one_configured_search_allowance(g
 
 def test_matrix_keeps_only_supported_backends_and_distinguishes_ownership():
     rows = list(
-        benchmark.request_matrix(
-            ("attila", "rome2", "shogun2"), ("pair",), ("cp-sat", "portfolio", "scip-nonlinear"), 1
-        )
+        benchmark.request_matrix(("attila", "rome2", "shogun2"), ("pair",), ("cp-sat", "highs"), 1)
     )
-    assert len(rows) == 10
+    assert len(rows) == 12
     assert all(config.workers == 1 and len(config.holdings) == 2 for _, config in rows)
-    assert all(config.game == "rome2" for _, config in rows if config.algorithm != "cp-sat")
+    assert {(config.game, config.algorithm, config.joint) for _, config in rows} == {
+        (game, algorithm, joint)
+        for game in ("attila", "rome2", "shogun2")
+        for algorithm in ("cp-sat", "highs")
+        for joint in (False, True)
+    }
+
+
+@pytest.mark.parametrize("algorithm", ["cbc", "scip", "portfolio", "scip-nonlinear", "glop"])
+def test_retired_solver_names_are_rejected_before_benchmark_work(algorithm, tmp_path):
+    with pytest.raises(ValueError, match="cp-sat or highs"):
+        list(benchmark.request_matrix(("rome2",), ("pair",), (algorithm,), 1))
+    with pytest.raises(SystemExit):
+        benchmark.main(["--algorithm", algorithm, "--output", str(tmp_path / "never.json")])
+    assert not (tmp_path / "never.json").exists()
 
 
 class Runner:
@@ -133,3 +147,36 @@ def test_invalid_resource_limits_stop_before_any_work(flag, value, tmp_path):
     with pytest.raises(SystemExit):
         benchmark.main([flag, value, "--output", str(tmp_path / "never.json")])
     assert not (tmp_path / "never.json").exists()
+
+
+def test_highs_diagnostic_preserves_existing_cp_sat_report(monkeypatch, tmp_path):
+    cp_report = tmp_path / "holding-performance-sensitivity-shogun2.json"
+    cp_report.write_text("Existing CP-SAT observation")
+    monkeypatch.setattr(benchmark, "worker_memory", lambda pid: 0)
+    monkeypatch.setattr(sensitivity, "environment", lambda revision: {"revision": revision})
+
+    async def run_sample(config, limits):
+        assert config.algorithm == "highs"
+        return await benchmark.run_sample(config, limits, runner_factory=Runner)
+
+    monkeypatch.setattr(sensitivity, "run_sample", run_sample)
+    assert (
+        sensitivity.main(
+            [
+                "--game",
+                "shogun2",
+                "--algorithm",
+                "highs",
+                "--output-directory",
+                str(tmp_path),
+            ]
+        )
+        == 0
+    )
+    report = json.loads(
+        (tmp_path / "holding-performance-sensitivity-shogun2-highs.json").read_text()
+    )
+    assert cp_report.read_text() == "Existing CP-SAT observation"
+    assert report["groups"][0]["request"]["algorithm"] == "highs"
+    assert report["groups"][0]["samples"][0]["requested_cases"] == 65
+    assert report["groups"][0]["samples"][0]["completion"] == "COMPLETE"

@@ -20,7 +20,8 @@ class HelpScreen(ModalScreen):
                 yield Markdown("""# Using twoptimizer
 
 Choose a game, faction, province and solver on the left. **All factions** compares
-the same holding. **Compare exact solvers** runs each supported formulation.
+the same holding. **CP-SAT** is the default; **HiGHS** is the alternative mixed-integer
+solver. **Compare exact solvers** runs both supported solvers.
 **Multiple provinces** opens a searchable checklist with All and None controls.
 Provinces run independently by default. All three games can optimize them together;
 joint Attila and Rome II runs use bundled land borders when a complete map is available.

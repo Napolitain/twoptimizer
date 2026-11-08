@@ -13,13 +13,14 @@ from dataclasses import replace
 from datetime import UTC, datetime
 from pathlib import Path
 
-from tools.holding_benchmark import Limits, environment, group_summary, run_sample
+from tools.holding_benchmark import SOLVERS, Limits, environment, group_summary, run_sample
 from twoptimizer.requests import default_config, make_jobs
 
 
 def main(argv=None):
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument("--game", action="append", choices=("attila", "rome2", "shogun2"))
+    cli.add_argument("--algorithm", choices=SOLVERS, default="cp-sat")
     cli.add_argument("--seconds-per-case", type=float, default=1)
     cli.add_argument("--mode", choices=("independent", "joint"), default="independent")
     cli.add_argument("--wall-seconds", type=float, default=180)
@@ -37,7 +38,10 @@ def main(argv=None):
     args.output_directory.mkdir(parents=True, exist_ok=True)
     for game in args.game or ("attila", "rome2"):
         config = replace(
-            default_config(game), provinces=("all",), algorithm="cp-sat", joint=args.mode == "joint"
+            default_config(game),
+            provinces=("all",),
+            algorithm=args.algorithm,
+            joint=args.mode == "joint",
         )
         count = len(make_jobs(config)[0])
         limits = Limits(args.seconds_per_case * count, args.wall_seconds, args.memory_mib)
@@ -63,10 +67,12 @@ def main(argv=None):
             ],
         }
         suffix = "-joint" if args.mode == "joint" else ""
+        if args.algorithm != "cp-sat":
+            suffix += f"-{args.algorithm}"
         path = args.output_directory / f"holding-performance-sensitivity-{game}{suffix}.json"
         path.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
         print(
-            f"{game}: {sample['completion']} {sample['wall_seconds']:.3f}s "
+            f"{game} {args.algorithm}: {sample['completion']} {sample['wall_seconds']:.3f}s "
             f"{sample['summary']['statuses']}",
             flush=True,
         )

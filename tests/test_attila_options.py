@@ -108,7 +108,7 @@ def test_scenario_clamps_offsets_targets_and_budget_against_enumeration(context)
         assert layout["public_order"]["p"] == pytest.approx(20 - 10 * factor)
         assert layout["project_cost"] == pytest.approx(1000 * factor)
         assert layout["corruption_percent"]["r"] == pytest.approx(50 * factor)
-    for name in ("cp-sat", "cbc", "scip"):
+    for name in ("cp-sat", "highs"):
         result = solve(model, name)
         assert result.status == "OPTIMAL"
         assert result.objective == pytest.approx(152)
@@ -271,20 +271,18 @@ def test_rational_threshold_equality_and_both_clamp_boundaries(context, base):
     assert result.bound == pytest.approx(result.objective)
 
 
-def test_pulp_backend_compiles_piecewise_discount(context):
+def test_highs_backend_compiles_piecewise_discount(context):
     from games.tw.enums import SolverType
 
     r = Region("r", context=context)
     p = province("p", r)
-    problem = Problem(solver=SolverType.PULP, context=context)
+    problem = Problem(solver=SolverType.HIGHS, context=context)
     b = building(r, "x")
-    b.lp_variable = problem.problem.create_variable("x", "Binary")
+    b.lp_variable = problem.problem.solver.BoolVar("x")
     e = Economy([p])
     terms = e.cap(e.floor_zero({(): 0.3, ("x",): -0.2}), 0.15)
     problem.problem.add_objective_terms(e.compile(terms, problem.problem))
-    from pulp import PULP_CBC_CMD
-
-    problem.problem.solve(solver=PULP_CBC_CMD(msg=False))
+    problem.problem.solve(workers=1)
     assert problem.problem.get_objective() == pytest.approx(0.15)
 
 

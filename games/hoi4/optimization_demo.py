@@ -105,7 +105,7 @@ def demo_equipment_and_production():
 
 
 def demo_production_optimization():
-    """Demonstrate production optimization with OR-Tools."""
+    """Demonstrate production optimization with HiGHS."""
     print("=" * 70)
     print("PRODUCTION OPTIMIZATION DEMO")
     print("=" * 70)

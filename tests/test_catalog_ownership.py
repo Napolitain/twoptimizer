@@ -218,26 +218,12 @@ def test_file_catalog_cache_detects_size_changes_with_preserved_timestamp(tmp_pa
 def test_repeated_native_and_linear_builds_have_independent_accumulators(tiny):
     scenario = RomeScenario("rom_rome", (Site("capital", major=True), Site("town")))
     economy = RomeEconomy(scenario, tiny)
-    reports = [economy.optimize(algorithm, workers=1) for algorithm in ("cp-sat", "cbc", "cp-sat")]
+    reports = [
+        economy.optimize(algorithm, workers=1) for algorithm in ("cp-sat", "highs", "cp-sat")
+    ]
     assert all(row["solver"]["status"] == "OPTIMAL" for row in reports)
     assert len({row["domestic_net_income"] for row in reports}) == 1
     assert reports[0]["proof_fingerprint"] == reports[2]["proof_fingerprint"]
-
-
-def test_native_scip_constant_constraints_keep_boolean_semantics():
-    from games.tw.rome2.backends import NativeSCIP
-
-    backend = NativeSCIP()
-    variable = backend.BoolVar("selected")
-    backend.Add(True)
-    backend.Add(variable == 1)
-    backend.Maximize(variable)
-    backend.model.optimize()
-    assert str(backend.model.getStatus()) == "optimal"
-    backend.model.freeTransform()
-    backend.Add(False)
-    backend.model.optimize()
-    assert str(backend.model.getStatus()) == "infeasible"
 
 
 def test_modifier_roundtrip_preserves_explicit_null_source_fields():

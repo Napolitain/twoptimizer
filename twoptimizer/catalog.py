@@ -16,9 +16,9 @@ GAMES = [
     ("Hearts of Iron IV · redesign pending", "hoi4"),
 ]
 EXACT = {
-    "rome2": ("cp-sat", "cbc", "scip", "scip-nonlinear"),
-    "shogun2": ("cp-sat", "cbc", "scip"),
-    "attila": ("cp-sat", "cbc", "scip"),
+    "rome2": ("cp-sat", "highs"),
+    "shogun2": ("cp-sat", "highs"),
+    "attila": ("cp-sat", "highs"),
 }
 NOTES = {
     "rome2": (

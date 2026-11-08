@@ -20,7 +20,7 @@ def default_config(game: str) -> RunConfig:
         faction=options["default_faction"],
         province=options["default_province"],
         research=options["default_research"],
-        algorithm="portfolio" if game == "rome2" else "cp-sat",
+        algorithm="cp-sat",
     )
 
 
@@ -118,8 +118,6 @@ def _validate_attila(config: RunConfig) -> None:
     for value in (options.city_level, options.building_level):
         if isinstance(value, bool) or not isinstance(value, int) or value not in range(1, 5):
             raise ApplicationError("City and building levels must be whole numbers from 1 to 4.")
-    _positive_integer(options.beam_width, "Beam width")
-    _positive_integer(options.restarts, "Restarts")
     if isinstance(options.seed, bool) or not isinstance(options.seed, int):
         raise ApplicationError("Seed must be a whole number.")
     if options.campaign is not None and options.campaign.weights:
@@ -209,14 +207,10 @@ def _religious_factions(config, factions, implicit):
 
 
 def _algorithms(config: RunConfig, selected: tuple[str, ...]) -> tuple[str, ...]:
-    allowed = (*EXACT[config.game], "portfolio") if config.game == "rome2" else EXACT[config.game]
-    if config.game == "attila":
-        from games.tw.competition import ALGORITHMS
-
-        allowed = ALGORITHMS
+    allowed = EXACT[config.game]
     algorithms = EXACT[config.game] if selected == ("compare",) else selected
     if any(algorithm not in allowed for algorithm in algorithms):
-        raise ApplicationError("Choose an available solver.")
+        raise ApplicationError("Supported solvers are CP-SAT and HiGHS; choose cp-sat or highs.")
     return tuple(algorithms)
 
 

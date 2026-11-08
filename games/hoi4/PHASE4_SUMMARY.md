@@ -1,5 +1,9 @@
 # Phase 4 Implementation Summary
 
+> Historical implementation notes. The current production allocator solves its
+> linear model with HiGHS; earlier references to GLOP/OR-Tools solving describe
+> the original implementation. OR-Tools remains the model-construction API.
+
 ## Overview
 Phase 4 implements the essential optimization capabilities for Hearts of Iron IV, focusing on factory production, weapons output, and time-based planning as requested in the issue.
 

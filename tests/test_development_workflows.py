@@ -39,16 +39,14 @@ def test_shogun_benchmark_agrees_across_backends(tmp_path, capsys):
             "--algorithm",
             "cp-sat",
             "--algorithm",
-            "cbc",
-            "--algorithm",
-            "scip",
+            "highs",
             "--output",
             str(output),
         ]
     )
     report = json.loads(output.with_suffix(".json").read_text())
     cases = report["cases"]
-    assert len(cases) == 3
+    assert len(cases) == 2
     for case in cases:
         assert case["solver"]["status"] == "OPTIMAL"
         assert case["domestic_tax_income"] == pytest.approx(7688.06)

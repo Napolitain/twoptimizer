@@ -4,7 +4,7 @@ These subclasses return the engine's models untouched. In particular the
 canonical proof model is distinct from the linearization used by CP-SAT.
 """
 
-from games.tw.rome2.backends import NativeCP, NativeSCIP
+from games.tw.rome2.backends import NativeCP
 from games.tw.rome2.holdings import HoldingEconomy
 from games.tw.rome2.model import Economy
 from twoptimizer.progress import ModelStats, PhaseTimer
@@ -20,22 +20,13 @@ def record_build(phase: PhaseTimer, economy: Economy, model, algorithm: str) -> 
             formulation="native_products",
             decision_variables=decisions,
         )
-    elif isinstance(model, NativeSCIP):
-        stats = ModelStats(
-            "SCIP nonlinear solver input",
-            len(model.variables),
-            model.model.getNConss(),
-            formulation="native_products",
-            stage="solver",
-            decision_variables=decisions,
-        )
     else:
         stats = ModelStats(
             "Rome II linearized model",
             len(model.variable),
             len(model.constraint),
             formulation="linearized_income",
-            stage="solver" if algorithm in {"cbc", "scip"} else "reference",
+            stage="solver" if algorithm == "highs" else "reference",
             decision_variables=decisions,
             nonzeros=sum(len(row.var_index) for row in model.constraint),
         )

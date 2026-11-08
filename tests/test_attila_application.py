@@ -30,24 +30,13 @@ def _config(**changes):
     )
 
 
-def test_cli_and_direct_case_have_the_same_income_and_relaxation_semantics():
+def test_cli_and_direct_case_have_the_same_income_and_exact_solver_semantics():
     report = benchmark.main(
-        [
-            "--province",
-            "Thracia",
-            "--fertility",
-            "5",
-            "--workers",
-            "1",
-            "--algorithms",
-            "cp-sat",
-            "glop",
-        ]
+        ["--province", "Thracia", "--fertility", "5", "--workers", "1", "--algorithms", "cp-sat"]
     )
     case = report["cases"][0]
-    exact, relaxation = case["results"]
+    exact = case["results"][0]
     direct = service.solve_case(_config())
-    relaxed = service.solve_case(_config(algorithm="glop"))
     assert direct.income == pytest.approx(24140.375)
     assert exact["objective"] == direct.income
     assert exact["layout"]["finances"]["total"]["net_income"] == direct.income
@@ -56,15 +45,8 @@ def test_cli_and_direct_case_have_the_same_income_and_relaxation_semantics():
     assert case["best_feasible"] == direct.income
     assert case["upper_bound"] == direct.solver.bound
     assert exact["gap_to_bound_percent"] == 0
-    assert relaxation["relaxation"] is True
-    assert relaxation["selected"] is None
-    assert relaxation["fractional_values"]
-    assert relaxation["gap_to_bound_percent"] is None
-    assert relaxed.income is None
-    assert relaxed.gap_percent is None
-    assert relaxed.buildings == []
-    assert relaxed.solver.bound is not None and direct.income is not None
-    assert relaxed.solver.bound >= direct.income
+    assert exact["relaxation"] is False
+    assert exact["selected"]
 
 
 def test_advanced_cli_compiles_the_same_joint_campaign_model(tmp_path):
@@ -96,12 +78,8 @@ def test_advanced_cli_compiles_the_same_joint_campaign_model(tmp_path):
             "--military",
             "--seed",
             "7",
-            "--beam-width",
-            "64",
-            "--restarts",
-            "3",
             "--algorithms",
-            "glop",
+            "highs",
             "--workers",
             "1",
         ]
@@ -114,7 +92,7 @@ def test_advanced_cli_compiles_the_same_joint_campaign_model(tmp_path):
     assert set(job.holdings) == {"att_prov_aegyptus", "att_prov_aethiopia"}
     assert job.attila.technologies == ("Moulded Architecture",)
     assert job.attila.region_fertility == (RegionFertility("Alexandria", 2),)
-    assert (job.attila.seed, job.attila.beam_width, job.attila.restarts) == (7, 64, 3)
+    assert job.attila.seed == 7
     assert job.attila.campaign is not None
     assert job.attila.campaign.to_dict() == data
     prepared = AttilaSession().prepare(job)
@@ -218,7 +196,7 @@ def test_comparison_compiles_once_and_revalidates_saved_proofs(monkeypatch):
     session = RunSession(attila=state)
     first = service.solve_case(config, session=session)
     prepared = state.prepare(config)
-    assert state.prepare(replace(config, algorithm="glop", seconds=3)) is prepared
+    assert state.prepare(replace(config, algorithm="highs", seconds=3)) is prepared
     row = faction_report(first)
     prior = {row["signature"]: row}
     restored = RunSession(attila=AttilaSession(reuse_proofs=True, prior=prior))

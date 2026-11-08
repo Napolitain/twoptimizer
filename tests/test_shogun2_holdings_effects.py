@@ -59,11 +59,15 @@ def test_adjacency_facts_are_recognized_as_conversion_not_income(fact, effect):
     assert "outside the static income" in coverage["effect_disposition"][effect.kind]
 
 
-def test_independent_optima_cannot_be_summed_into_one_legal_holding():
+@pytest.mark.parametrize("algorithm", ["cp-sat", "highs"])
+def test_independent_optima_cannot_be_summed_into_one_legal_holding(algorithm):
     catalog, _ = load_data()
     provinces = (Province("jap_sado"), Province("jap_owari"))
-    separate = [Economy(Scenario("oda", (province,))).optimize(workers=1) for province in provinces]
-    together = Economy(Scenario("oda", provinces)).optimize(workers=1)
+    separate = [
+        Economy(Scenario("oda", (province,))).optimize(algorithm, workers=1)
+        for province in provinces
+    ]
+    together = Economy(Scenario("oda", provinces)).optimize(algorithm, workers=1)
     assert all(report["solver"]["status"] == "OPTIMAL" for report in [*separate, together])
     assert (
         sum(report["domestic_tax_income"] for report in separate) > together["domestic_tax_income"]
@@ -125,7 +129,7 @@ def test_independent_cli_keeps_every_province_in_json_and_csv(tmp_path):
             "--algorithm",
             "cp-sat",
             "--algorithm",
-            "cbc",
+            "highs",
             "--workers",
             "1",
             "--output",

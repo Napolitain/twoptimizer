@@ -14,10 +14,10 @@ if TYPE_CHECKING:
     from games.tw.catalog import BuildingTemplate
     from games.tw.models.game import Game
     from games.tw.solver_cpsat import SolverCpSat
+    from games.tw.solver_highs import SolverHighs
     from games.tw.solver_ortools import SolverOrTools
-    from games.tw.solver_pulp import SolverPulp
 
-    type Solver = SolverPulp | SolverOrTools | SolverCpSat
+    type Solver = SolverOrTools | SolverCpSat | SolverHighs
 
 
 @dataclass(eq=False, slots=True)

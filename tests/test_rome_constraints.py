@@ -26,7 +26,7 @@ def province(site="capital", **kwargs):
     )
 
 
-@pytest.mark.parametrize("algorithm", ["cp-sat", "cbc", "scip", "scip-nonlinear", "portfolio"])
+@pytest.mark.parametrize("algorithm", ["cp-sat", "highs"])
 @pytest.mark.parametrize("joint", [False, True])
 def test_exact_backends_obey_required_and_forbidden_buildings(algorithm, joint):
     data = tiny_catalog()

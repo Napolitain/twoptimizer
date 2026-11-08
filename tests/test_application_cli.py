@@ -6,6 +6,7 @@ from dataclasses import replace
 
 import pytest
 
+from games.tw import benchmark as attila_cli
 from games.tw.rome2 import benchmark as rome_cli
 from games.tw.rome2.model import Economy
 from games.tw.rome2.scenario import Scenario, Site
@@ -57,12 +58,13 @@ def test_rome_cli_and_terminal_request_share_economics_and_native_report(tmp_pat
     assert float(rows[0]["income"]) == pytest.approx(result.income)
 
 
-def test_shogun_cli_and_terminal_request_share_economics(tmp_path):
+@pytest.mark.parametrize("algorithm", ["cp-sat", "highs"])
+def test_shogun_cli_and_terminal_request_share_economics(tmp_path, algorithm):
     config = RunConfig(
         game="shogun2",
         faction="oda",
         province="jap_owari",
-        algorithm="cp-sat",
+        algorithm=algorithm,
         research="all",
         workers=1,
         town_wealth=100,
@@ -77,6 +79,8 @@ def test_shogun_cli_and_terminal_request_share_economics(tmp_path):
             "jap_owari",
             "--soil",
             "native",
+            "--algorithm",
+            algorithm,
             "--workers",
             "1",
             "--town-wealth",
@@ -243,16 +247,16 @@ def test_rome_session_reuses_only_portable_proofs_and_supplies_validated_hints(t
     assert reused["solver"]["proof_reused_from"] == "rom_rome"
     assert reused["solver"]["seconds"] == 0
 
-    nonlinear = Economy(scenario, tiny)
-    optimize = nonlinear.optimize
+    linear = Economy(scenario, tiny)
+    optimize = linear.optimize
     hints = []
 
     def capture_hint(algorithm, seconds, workers, incumbent=None):
         hints.append(incumbent)
         return optimize(algorithm, seconds, workers, incumbent=incumbent)
 
-    monkeypatch.setattr(nonlinear, "optimize", capture_hint)
-    checked = session.solve(nonlinear, replace(config, algorithm="scip-nonlinear"))
+    monkeypatch.setattr(linear, "optimize", capture_hint)
+    checked = session.solve(linear, replace(config, algorithm="highs"))
     assert hints and hints[0]["domestic_net_income"] == first["domestic_net_income"]
     assert checked["solver"]["status"] == "OPTIMAL"
     assert checked["domestic_net_income"] == first["domestic_net_income"]
@@ -264,3 +268,17 @@ def test_disabled_rome_research_preserves_explicit_profile():
     assert scenario.technology_profile == "archived"
     assert not scenario.all_technologies
     assert json.loads(request_key(config))[0] == scenario.to_dict()
+
+
+@pytest.mark.parametrize(
+    "cli, option",
+    [(attila_cli, "--algorithms"), (rome_cli, "--algorithm"), (shogun_cli, "--algorithm")],
+)
+@pytest.mark.parametrize(
+    "algorithm",
+    ["cbc", "scip", "portfolio", "scip-nonlinear", "glop", "greedy", "beam", "multistart"],
+)
+def test_cli_rejects_retired_solver_choices(cli, option, algorithm):
+    with pytest.raises(SystemExit) as rejected:
+        cli.main([option, algorithm])
+    assert rejected.value.code == 2

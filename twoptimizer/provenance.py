@@ -89,6 +89,7 @@ def source_files(game):
                     "problem.py",
                     "solver_ortools.py",
                     "solver_cpsat.py",
+                    "solver_highs.py",
                     "parser/parser.py",
                     "parser/parser_attila.py",
                 )
@@ -98,6 +99,7 @@ def source_files(game):
             ROOT / "resources.py",
         ]
     paths.append(ROOT / "immutable.py")
+    paths.append(ROOT / "highs_backend.py")
     paths.append(ROOT / "maps/catalog.py")
     map_path = ROOT / game / "data/campaign_map.json"
     if map_path.exists():

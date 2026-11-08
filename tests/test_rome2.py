@@ -25,7 +25,7 @@ def tiny_scenario(**kwargs):
     )
 
 
-@pytest.mark.parametrize("algorithm", ["cp-sat", "cbc", "scip", "scip-nonlinear", "portfolio"])
+@pytest.mark.parametrize("algorithm", ["cp-sat", "highs"])
 def test_all_exact_solvers_match_exhaustive_original_economics(tiny, algorithm):
     economy = Economy(tiny_scenario(), tiny)
     best = 0
@@ -127,7 +127,7 @@ def test_minor_settlement_bonus_does_not_apply_to_capital(tiny):
     economy = Economy(tiny_scenario(party=0), tiny)
     report = economy.evaluate({"capital": ["rome_city_4"], "town": ["rome_town_4"]}, 0)
     assert report["modified_wealth"] == 150 * 1.1 + 50 * 0.2
-    for algorithm in ("cp-sat", "cbc", "scip"):
+    for algorithm in ("cp-sat", "highs"):
         result = Economy(
             replace(
                 tiny_scenario(party=0),
@@ -316,7 +316,7 @@ def test_food_reserves_is_food_and_edicts_remain_conditional(tiny):
     )
 
 
-@pytest.mark.parametrize("algorithm", ["cp-sat", "cbc", "scip", "scip-nonlinear", "portfolio"])
+@pytest.mark.parametrize("algorithm", ["cp-sat", "highs"])
 def test_maintenance_is_deducted_once_after_tax(tiny, algorithm):
     tiny["buildings"]["rome_city_4"]["effects"].append(
         effect("dk_building_gdp_maintenance", -20, "this_faction")
@@ -335,12 +335,12 @@ def test_validated_warm_start_and_corruption_floor(tiny):
     warmed = Economy(scenario, tiny).optimize("cp-sat", incumbent=first)
     assert warmed["solver"]["status"] == "OPTIMAL"
     assert warmed["domestic_net_income"] == first["domestic_net_income"]
-    second = Economy(scenario, tiny).optimize("scip-nonlinear", incumbent=first)
+    second = Economy(scenario, tiny).optimize("highs", incumbent=first)
     assert second["domestic_net_income"] == first["domestic_net_income"]
     bad = copy.deepcopy(first)
     bad["domestic_net_income"] += 10
     with pytest.raises(ValueError, match="Warm start"):
-        Economy(scenario, tiny).optimize("scip-nonlinear", incumbent=bad)
+        Economy(scenario, tiny).optimize("highs", incumbent=bad)
     with pytest.raises(ValueError, match="Warm start"):
         Economy(scenario, tiny).optimize("cp-sat", incumbent=bad)
 
@@ -401,3 +401,37 @@ def test_dlc_temples_missing_from_public_index_are_recovered():
     )
     saba = Economy(province_scenario("Arabia Felix", "rom_saba"))
     assert "dk_saba_marib_dam_3" in saba.candidates["rom_arabia_felix_saba"]
+
+
+@pytest.mark.parametrize("algorithm", ["cbc", "scip", "scip-nonlinear", "portfolio", "glop"])
+def test_removed_backends_fail_before_model_construction(tiny, algorithm, monkeypatch):
+    economy = Economy(tiny_scenario(), tiny)
+
+    def unexpected_build(*args, **kwargs):
+        pytest.fail("Unsupported algorithms must be rejected before compilation")
+
+    monkeypatch.setattr(economy, "build", unexpected_build)
+    with pytest.raises(ValueError, match="cp-sat or highs"):
+        economy.optimize(algorithm)
+
+
+def test_highs_proof_reuses_the_canonical_model_and_rechecks_layout(tiny):
+    scenario = tiny_scenario()
+    reference = Economy(scenario, tiny).optimize("highs", workers=1)
+    assert reference["solver"]["status"] == "OPTIMAL"
+    reused = Economy(scenario, tiny).reuse_optimum(reference)
+    assert reused["domestic_net_income"] == reference["domestic_net_income"]
+    assert reused["solver"]["proof_reused_from"] == "rom_rome"
+    assert reused["proof_fingerprint"] == Economy(scenario, tiny).fingerprint()
+    with pytest.raises(ValueError, match="compiled model"):
+        Economy(replace(scenario, tax_points=1), tiny).reuse_optimum(reference)
+
+
+@pytest.mark.parametrize("algorithm", ["cp-sat", "highs"])
+def test_impossible_food_requirement_returns_no_income(tiny, algorithm):
+    result = Economy(replace(tiny_scenario(), external_food=-100), tiny).optimize(
+        algorithm, workers=1
+    )
+    assert result["solver"]["status"] == "INFEASIBLE"
+    assert result["solver"]["objective"] is None
+    assert "domestic_net_income" not in result

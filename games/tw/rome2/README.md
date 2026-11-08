@@ -9,7 +9,7 @@ including Kush, Masaesyli, Nabataea and Saba.
 .venv/bin/python -m games.tw.rome2.benchmark --province Italia --province Africa \
   --province Aegyptus --seconds 15
 .venv/bin/python -m games.tw.rome2.benchmark --faction rom_rome --layout coastal \
-  --algorithm cp-sat --algorithm cbc --algorithm scip --algorithm scip-nonlinear
+  --algorithm cp-sat --algorithm highs
 .venv/bin/python -m games.tw.rome2.benchmark --layout coastal --all-technologies
 .venv/bin/python -m games.tw.rome2.summarize
 ```
@@ -34,17 +34,15 @@ candidate produces an error; incompatible combinations can be infeasible. Requir
 a temple does not introduce a religion/adherence model, and excluded level-5
 monuments are not unlocked by requirements.
 
-By default the optimizer runs to an optimality/infeasibility proof with no time
-cap. `--seconds` enables an optional per-case limit. The portfolio starts with a
-short CP-SAT search, then passes an independently validated layout to native
-nonlinear SCIP for an uncapped proof search. With an explicit limit it allocates
-35% to the first stage. It keeps the best income and tightest
-valid bound. `OPTIMAL` requires a solver proof; agreement alone is insufficient.
-CBC, OR-Tools SCIP and CP-SAT use exact integer linearization. Bounds respect
-the one-level-per-branch rule; additional slot/branch product constraints
-strengthen the relaxation. Native nonlinear SCIP retains integer products.
-Currency uses 1/10,000 units. The original native model remains the canonical
-identity for portable proofs; returned layouts are independently evaluated.
+CP-SAT is the default solver; HiGHS is the supported alternative. Both run to
+an optimality/infeasibility proof without a time cap unless `--seconds` sets an
+explicit per-case allowance. Both solve integer linearizations of the same
+objective and constraints. Bounds respect the one-level-per-branch rule;
+additional slot/branch product constraints strengthen the formulation.
+`OPTIMAL` requires a solver proof; agreement alone is insufficient. Currency uses
+1/10,000 units. The native CP-SAT model remains the canonical identity for portable
+proofs, and returned layouts are independently evaluated. CBC, SCIP and the
+portfolio are retired; saved reports retain the backends that originally ran.
 
 ## Sources and corrections
 

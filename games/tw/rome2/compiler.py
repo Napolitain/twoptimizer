@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any
 
 from ortools.linear_solver import linear_solver_pb2, pywraplp
 
-from games.tw.rome2.backends import NativeCP, NativeSCIP
+from games.tw.rome2.backends import NativeCP
 from games.tw.rome2.building_constraints import install
 from games.tw.rome2.effects import CATEGORIES, raw_effect
 from games.tw.rome2.linear import LinearProducts, preserve_base_domain, preserve_minor_domains
@@ -45,13 +45,10 @@ class RomeCompiler:
         self.economy = economy
 
     def build(self, native=False):
-        solver = (
-            NativeSCIP()
-            if native == "scip-nonlinear"
-            else NativeCP()
-            if native
-            else pywraplp.Solver.CreateSolver("CBC")
-        )
+        if not isinstance(native, bool):
+            raise ValueError("Native compilation must be a boolean CP-SAT selection")
+        # MPSolver supplies expressions and protobuf export here; it never solves.
+        solver = NativeCP() if native else pywraplp.Solver.CreateSolver("SAT")
         choices, decision_names = self._compile_choices(solver)
         parties = {i: solver.BoolVar("party:" + str(i)) for i in self.economy.parties}
         solver.Add(sum(parties.values()) == 1)

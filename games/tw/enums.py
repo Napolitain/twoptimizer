@@ -48,7 +48,5 @@ class ProblemState(enum.Enum):
 
 
 class SolverType(enum.Enum):
-    PULP = 0
-    SCIP = 1
-    GOOGLE = 2
     CP_SAT = 3
+    HIGHS = 4

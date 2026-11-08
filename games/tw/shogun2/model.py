@@ -137,7 +137,7 @@ class Economy:
         )
 
     def compile(self):
-        solver = pywraplp.Solver.CreateSolver("CBC")
+        solver = pywraplp.Solver.CreateSolver("SAT")
         variables = {}
         unique = defaultdict(list)
         objective = defaultdict(Fraction)

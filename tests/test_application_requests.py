@@ -19,6 +19,7 @@ def test_default_requests_are_valid_unlimited_and_roundtrip(game):
     jobs, skipped = make_jobs(config)
     assert jobs == [config] and not skipped
     assert config.seconds is None and config.workers is None
+    assert config.algorithm == "cp-sat"
     assert RunConfig.from_dict(json.loads(json.dumps(config.to_dict()))) == config
 
 
@@ -29,7 +30,7 @@ def test_joint_and_independent_expansion_remain_distinct():
         config,
         factions=("oda", "takeda"),
         provinces=selected,
-        algorithms=("cp-sat", "cbc"),
+        algorithms=("cp-sat", "highs"),
         soils=("native", "barren"),
     )
     separate, _ = make_jobs(request)
@@ -38,7 +39,7 @@ def test_joint_and_independent_expansion_remain_distinct():
         (p, f, a, s)
         for p in selected
         for f in ("oda", "takeda")
-        for a in ("cp-sat", "cbc")
+        for a in ("cp-sat", "highs")
         for s in ("native", "barren")
     }
     together, _ = make_jobs(replace(request, joint=True))
@@ -66,8 +67,6 @@ def test_invalid_worker_counts_are_rejected_at_the_shared_boundary(value):
         AttilaOptions(city_level=0),
         AttilaOptions(city_level=True),
         AttilaOptions(building_level=5),
-        AttilaOptions(beam_width=0),
-        AttilaOptions(restarts=-1),
         AttilaOptions.from_dict({"seed": 1.5}),
         AttilaOptions(region_fertility=(RegionFertility("region", float("nan")),)),
     ],
@@ -125,7 +124,7 @@ def test_session_detects_conflicting_optimal_income_without_comparing_tied_layou
     proof = replace(base, income=100, solver=replace(base.solver, status="OPTIMAL"))
     session = RunSession()
     session.record(proof)
-    session.record(replace(proof, request=replace(config, algorithm="cbc", workers=1)))
+    session.record(replace(proof, request=replace(config, algorithm="highs", workers=1)))
     with pytest.raises(RuntimeError, match="disagree"):
         session.record(replace(proof, income=101))
 
@@ -168,3 +167,28 @@ def test_numeric_request_fields_reject_boolean_values(game, fields):
 def test_technology_list_cannot_be_coerced_from_a_string():
     with pytest.raises(ApplicationError, match="list of names"):
         RunConfig.from_dict({"attila": {"technologies": "one technology"}})
+
+
+@pytest.mark.parametrize("game", ["attila", "rome2", "shogun2"])
+@pytest.mark.parametrize(
+    "algorithm",
+    ["cbc", "scip", "scip-nonlinear", "portfolio", "glop", "greedy", "beam", "multistart"],
+)
+def test_retired_solver_requests_are_rejected_instead_of_silently_redirected(game, algorithm):
+    config = replace(default_config(game), algorithm=algorithm)
+    with pytest.raises(ApplicationError, match="Supported solvers are CP-SAT and HiGHS"):
+        make_jobs(config)
+
+
+@pytest.mark.parametrize("game", ["attila", "rome2", "shogun2"])
+def test_exact_comparison_expands_only_supported_solvers(game):
+    config = replace(default_config(game), algorithm="compare")
+    jobs, skipped = make_jobs(config)
+    assert [job.algorithm for job in jobs] == ["cp-sat", "highs"]
+    assert not skipped
+
+
+@pytest.mark.parametrize("field", ["beam_width", "restarts"])
+def test_retired_heuristic_options_are_rejected_on_the_wire(field):
+    with pytest.raises(ApplicationError, match="unexpected keyword"):
+        RunConfig.from_dict({"attila": {field: 3}})

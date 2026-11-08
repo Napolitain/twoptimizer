@@ -47,9 +47,9 @@ def test_compiled_model_sizes_are_published_before_native_search(game, monkeypat
 
 
 @pytest.mark.parametrize("joint", [False, True])
-@pytest.mark.parametrize("native", [False, True, "scip-nonlinear"])
+@pytest.mark.parametrize("native", [False, True])
 def test_rome_observers_preserve_models_and_distinguish_solver_inputs(joint, native):
-    config = RunConfig(faction="rom_rome", province="Italia", algorithm="cbc")
+    config = RunConfig(faction="rom_rome", province="Italia", algorithm="highs")
     if joint:
         config = replace(config, provinces=("Italia", "Magna Graecia"), joint=True, adjacency=())
     scenario = prepare_scenario(config)
@@ -64,11 +64,7 @@ def test_rome_observers_preserve_models_and_distinguish_solver_inputs(joint, nat
     baseline, actual = original.build(native), observed.build(native)
     row = timer.models[-1]
     assert row.decision_variables == len(observed.decisions) + len(observed.party_variables)
-    if native == "scip-nonlinear":
-        assert row.stage == "solver"
-        assert row.constraints == baseline.model.getNConss() == actual.model.getNConss()
-        assert row.variables == len(baseline.variables) == len(actual.variables)
-    elif native:
+    if native:
         assert str(actual.model.proto) == str(baseline.model.proto)
         assert row.stage == "reference"
     else:

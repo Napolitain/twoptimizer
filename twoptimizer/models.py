@@ -25,8 +25,6 @@ class AttilaOptions:
     building_level: int = 1
     military: bool = False
     seed: int = 0
-    beam_width: int = 128
-    restarts: int = 16
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -40,8 +38,6 @@ class AttilaOptions:
                     "building_level",
                     "military",
                     "seed",
-                    "beam_width",
-                    "restarts",
                 )
             },
         }
@@ -68,7 +64,7 @@ class RunConfig:
     game: str = "rome2"
     faction: str = "rom_rome"
     province: str = "coastal"
-    algorithm: str = "portfolio"
+    algorithm: str = "cp-sat"
     seconds: float | None = None
     workers: int | None = None
     research: str = "none"

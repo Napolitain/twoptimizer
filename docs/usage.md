@@ -19,14 +19,14 @@ The Textual interface supports Attila, Rome II and Shogun 2. Choose a faction or
 all factions, a province, research profile and solver with clickable,
 searchable dropdowns. Attila adds fertility/religion; Shogun 2 adds soil, town
 wealth and tax; Rome II offers regional bonuses and explicit research profiles.
-The default is a Rome II coastal reference case using the CP-SAT/SCIP portfolio.
+The default is a Rome II coastal reference case using CP-SAT. The supported
+solvers are **CP-SAT** and **HiGHS** in all three games.
 Runs have **no time limit by default**: they continue until the solver proves
 optimality or infeasibility. Cancel remains available. The optional **Use a time
 limit** checkbox enables early termination when explicitly requested.
-CPU parallelism is automatic: CP-SAT and supported SCIP interfaces use available
-CPUs while respecting process affinity and container quotas. Backends without
-supported parallel search remain serial. No worker count is required in the TUI;
-`--workers` remains an optional CLI override.
+CPU selection is automatic for both solvers, respecting process affinity and
+container quotas. The solver decides how much parallel work the model supports.
+No worker count is required in the TUI; `--workers` remains an optional CLI override.
 Three Kingdoms and HoI4 show their current readiness rather than starting an
 unsupported optimization.
 
@@ -84,7 +84,7 @@ that there is nothing to compare. Normal run defaults remain unchanged.
 - **Ctrl+S:** export JSON and CSV; **F1:** keyboard help and model-status meanings.
 - Result rows show income, status, bound gap and timing. Click a heading to sort;
   select a row to inspect it, or press Enter to open its building layout.
-- Compare exact solvers runs the supported formulations on the same selected
+- Compare exact solvers runs CP-SAT and HiGHS on the same selected
   holding. All-faction research runs explicitly list unavailable profiles.
 
 Solves run in separate processes, so cancellation and exit stop the active solver
@@ -356,7 +356,7 @@ by these audits.
 ```sh
 uv run --locked twoptimizer rome2 --layout coastal --seconds 15
 uv run --locked twoptimizer rome2 --faction rom_rome \
-  --layout coastal --algorithm cp-sat --algorithm scip --algorithm cbc
+  --layout coastal --algorithm cp-sat --algorithm highs
 ```
 
 The [Rome II model](../games/tw/rome2/README.md) uses raw repository effects and
@@ -371,7 +371,7 @@ and slots; historical starting worlds and current patch fidelity are not assumed
 ```sh
 uv run --locked twoptimizer shogun2
 uv run --locked twoptimizer shogun2 --soil native \
-  --algorithm cp-sat --algorithm cbc --algorithm scip
+  --algorithm cp-sat --algorithm highs
 ```
 
 The [model and assumptions](../games/tw/shogun2/README.md) cover jointly owned
@@ -482,9 +482,8 @@ remain in place, allowing different branches to coexist. Complete building
 availability and slot rules still need validation against the running game.
 
 The API defaults to CP-SAT through `Problem(context=parser.context)`. Use
-`Problem(context=parser.context, solver=SolverType.GOOGLE)` for CBC,
-`SolverType.SCIP` for SCIP or
-`SolverType.PULP` for the prior PuLP backend (`SolverType` is in `games.tw.enums`).
+`Problem(context=parser.context, solver=SolverType.HIGHS)` for HiGHS, or
+`SolverType.CP_SAT` explicitly (`SolverType` is in `games.tw.enums`).
 `Problem(context=parser.context, technologies={...})` restricts technologies.
 `Problem(context=parser.context, adjacency={province_id: [neighbor_id, ...]})`
 supplies neighboring owned
@@ -551,29 +550,31 @@ before accepting refreshed data. These are third-party reference checks, not
 in-game validation. The source's game data remains attributable to its owners.
 For a future authoritative local export, [RPFM supports TSV export](https://frodo45127.github.io/rpfm/manual/editors/db.html).
 
-## Compare algorithms
+## Compare solvers
 
 ```sh
 uv run --locked twoptimizer attila --limit 6 --seconds 5 \
-  --algorithms cp-sat cbc scip --output benchmark-results/comparison.json
-uv run --locked twoptimizer attila --limit 3 --seconds 5 \
-  --algorithms cp-sat cbc scip greedy beam multistart glop
+  --algorithms cp-sat highs --output benchmark-results/comparison.json
 ```
 
-All competitors receive the same model. CBC and SCIP solve its integer
-linearization; CP-SAT uses exact decimal integer scaling; GLOP solves its
-continuous relaxation for an upper bound. Greedy and beam search use LP guidance;
-multistart adds shuffled orders and feasible local improvement. Heuristics can
-fail to find a solution, and never establish infeasibility or optimality.
+Both solvers optimize the same economic rules. CP-SAT uses exact decimal integer
+scaling; HiGHS solves the linear mixed-integer formulation. Returned layouts are
+checked against the model and independently evaluated. Both can return feasible
+layouts before proving optimality when an explicit time limit is enabled.
 
-Timing includes each algorithm's private model construction and LP guidance.
-Shared engine compilation is recorded separately. Budgets are cooperative;
-validation and solver shutdown add overhead. Timing is machine- and
-version-dependent: repeat runs for performance conclusions.
+Timing includes each solver's private model conversion and search. Shared engine
+compilation is recorded separately. Limits are cooperative; validation and solver
+shutdown add overhead. Repeat measurements with the same scenarios and machine
+before drawing performance conclusions. Supporting two solvers reduces the
+maintenance surface; it does not assert that one is fastest on every model.
 
-Earlier measurements in Git history concern the old base-GDP model. They do not
-establish performance for the revised scoped economy. Generated results are kept
-under the git-ignored `benchmark-results/` directory.
+CBC, SCIP, the portfolio, GLOP and heuristic solver modes are retired. Current
+requests must name `cp-sat` or `highs`; rerun an old request with one of those
+solvers into a new report. Remove retired `beam_width` and `restarts` settings
+from older serialized Attila requests. Historical reports retain their original solver names,
+results and timings. Historical benchmark reproduction requires the recorded
+revision and dependency lock, not the current checkout. Generated new results
+are kept under the git-ignored `benchmark-results/` directory.
 
 ## Scope and validation
 

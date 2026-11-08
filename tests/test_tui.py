@@ -22,8 +22,8 @@ from twoptimizer.tui import OptimizerApp
 
 def test_all_factions_and_solver_comparisons_expand_explicitly():
     jobs, skipped = make_jobs(RunConfig(faction="all", algorithm="compare"))
-    assert len(jobs) == 36 * 4 and not skipped
-    assert {j.algorithm for j in jobs} == {"cp-sat", "cbc", "scip", "scip-nonlinear"}
+    assert len(jobs) == 36 * 2 and not skipped
+    assert {j.algorithm for j in jobs} == {"cp-sat", "highs"}
     researched, skipped = make_jobs(RunConfig(faction="all", research="public"))
     assert len(researched) == 29 and len(skipped) == 7
     assert all(j.research == "public" for j in researched)
@@ -99,7 +99,7 @@ def test_keyboard_mouse_game_changes_run_layout_and_export(tmp_path):
         app = OptimizerApp(runner_factory=QuickRunner)
         async with app.run_test(size=(120, 42)) as pilot:
             await pilot.pause()
-            assert app.query_one("#algorithm", Select).value == "portfolio"
+            assert app.query_one("#algorithm", Select).value == "cp-sat"
             assert app._config().seconds is None
             assert app._config().workers is None
             assert not app.query("#workers")
@@ -124,8 +124,8 @@ def test_keyboard_mouse_game_changes_run_layout_and_export(tmp_path):
             await pilot.click("#run")
             await app.workers.wait_for_complete()
             await pilot.pause()
-            assert len(app.results) == 4
-            assert app.query_one("#results", DataTable).row_count == 4
+            assert len(app.results) == 2
+            assert app.query_one("#results", DataTable).row_count == 2
             assert not app.busy
             app.query_one("#results", DataTable).focus()
             await pilot.press("down", "enter")
@@ -307,3 +307,22 @@ def test_cli_dispatch_and_no_parameter_launch(monkeypatch):
     monkeypatch.setattr(entry.sys.stdout, "isatty", lambda: True)
     monkeypatch.setattr(tui.OptimizerApp, "run", lambda self: opened.append(True))
     assert entry.main([]) == 0 and opened == [True]
+
+
+def test_each_game_offers_highs_and_defaults_to_cp_sat():
+    async def exercise():
+        app = OptimizerApp(runner_factory=QuickRunner)
+        async with app.run_test(size=(110, 40)) as pilot:
+            for game in ("rome2", "attila", "shogun2"):
+                app.query_one("#game", Select).value = game
+                await pilot.pause()
+                selector = app.query_one("#algorithm", Select)
+                assert selector.value == "cp-sat"
+                selector.value = "highs"
+                await pilot.pause()
+                assert app._config().algorithm == "highs"
+                selector.value = "compare"
+                await pilot.pause()
+                assert [job.algorithm for job in make_jobs(app._config())[0]] == ["cp-sat", "highs"]
+
+    asyncio.run(exercise())
