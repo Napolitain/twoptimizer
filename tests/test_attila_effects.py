@@ -8,28 +8,11 @@ from games.tw.attila.economy import Economy
 from games.tw.attila.effects import Reach, reach
 from games.tw.building import Building
 from games.tw.competition import BinaryModel, solve
-from games.tw.enums import ProblemState, Scope
+from games.tw.enums import ProblemState
 from games.tw.problem import Problem
-from games.tw.province import Province
 from games.tw.region import Region
 from games.tw.solver_ortools import SolverOrTools
-
-
-def building(region, name, *effects, upkeep=0):
-    b = Building(name, context=region.context)
-    b.region = region
-    b.metadata = {"metadata": {"upkeep": upkeep}}
-    for key, scope, value in effects:
-        b.add_effect("att_effect_" + key, Scope.REGION, value, raw_scope=scope)
-    region.buildings.append(b)
-    return b
-
-
-def province(name, *regions):
-    p = Province(name, context=regions[0].context)
-    for region in regions:
-        p.add_region(region)
-    return p
+from tests.support.attila import building, province
 
 
 def selected(economy):

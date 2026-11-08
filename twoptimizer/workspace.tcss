@@ -1,0 +1,43 @@
+Screen { background: #0c1423; }
+Header { background: #14243a; color: #e3eefa; }
+Footer { background: #14243a; }
+#workspace { height: 1fr; }
+#left { width: 36; min-width: 30; background: #101e31; border-right: solid #28405c; }
+#settings { height: 1fr; padding: 1 2; }
+.section-title { color: #68dfcb; text-style: bold; margin-top: 1; }
+.field-label { color: #aec3db; margin-top: 1; height: 1; }
+Select, Input { width: 100%; }
+.option-group { height: auto; }
+#preview { height: auto; min-height: 2; padding: 0 2; color: #b3c5da; }
+#buttons { height: 3; padding: 0 1; }
+#buttons Button { width: 1fr; min-width: 10; margin: 0 1; }
+#right { width: 1fr; padding: 0 1; }
+#intro { height: 2; padding: 0 1; color: #a9bdd6; }
+#stats { height: 5; }
+.stat { width: 1fr; padding: 0 1; border: round #28405c; background: #101e31; }
+.stat Label { color: #9ab1cd; height: 1; }
+.stat Static { color: #e4f8f3; text-style: bold; height: 1; }
+#tabs { height: 1fr; }
+TabPane { padding: 0; }
+DataTable { height: 1fr; background: #101b2c; }
+#selection { height: auto; min-height: 2; padding: 0 1; color: #b4c9dd; }
+#layout-summary { height: auto; padding: 0 1; color: #b4c9dd; }
+#run-status { width: 1fr; height: 2; padding-left: 1; }
+#activity { height: 2; }
+#spinner { width: 5; height: 2; }
+#progress { height: 1; margin: 0 1; }
+#table-actions { height: 3; }
+#table-actions Button { margin-right: 1; }
+#log { height: 1fr; }
+#notes-scroll { height: 1fr; padding: 0 1; }
+HelpScreen, ExportScreen { align: center middle; background: #020814 75%; }
+#dialog {
+    width: 76; max-width: 96%; height: auto; max-height: 90%;
+    background: #14243a; border: round #68dfcb; padding: 1 2;
+}
+HelpScreen #dialog { height: 28; }
+HelpScreen VerticalScroll { height: 1fr; }
+.dialog-title { text-style: bold; color: #68dfcb; margin-bottom: 1; }
+.dialog-buttons { height: 3; }
+.dialog-buttons Button { margin-right: 1; }
+#export-error { color: #ffae9e; height: auto; margin-bottom: 1; }

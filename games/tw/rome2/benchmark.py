@@ -10,8 +10,11 @@ from math import isfinite
 from pathlib import Path
 
 from games.tw.models.model_rome2 import Rome2Factions
+from games.tw.rome2.catalog import CATALOG, load_data
 from games.tw.rome2.effects import fact_effect, raw_effect
-from games.tw.rome2.model import CATALOG, Economy, Scenario, Site, load_data
+from games.tw.rome2.model import Economy
+from games.tw.rome2.provenance import model_fingerprint
+from games.tw.rome2.scenario import Scenario, Site
 from games.tw.rome2.world import province_scenario
 
 
@@ -109,7 +112,7 @@ def audit(data):
             }
     facts = []
     for key, faction in data["factions"].items():
-        for text in faction["traits"]["culture_facts"] + [
+        for text in list(faction["traits"]["culture_facts"]) + [
             text for p in faction["traits"]["parties"] if p["playable"] for text in p["facts"]
         ]:
             effect = fact_effect(text)
@@ -217,18 +220,7 @@ def main(argv=None):
     _validate_run_options(args, parser)
     data = load_data()
     source_hash = hashlib.sha256(CATALOG.read_bytes()).hexdigest()
-    model_hash = hashlib.sha256(
-        b"".join(
-            (Path(__file__).parent / file).read_bytes()
-            for file in (
-                "model.py",
-                "effects.py",
-                "world.py",
-                "data/world.json",
-                "data/world_modifiers.json",
-            )
-        )
-    ).hexdigest()
+    model_hash = model_fingerprint()
     output = args.output.with_suffix(".json")
     cases = {}
     previous = {}

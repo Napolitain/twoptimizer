@@ -11,7 +11,7 @@ from games.tw.enums import ProblemState
 from games.tw.problem import Problem
 from games.tw.region import Region
 from games.tw.solver_ortools import SolverOrTools
-from tests.test_attila_effects import building, province
+from tests.support.attila import building, province
 
 
 def test_scenario_clamps_offsets_targets_and_budget_against_enumeration(context):
@@ -244,7 +244,7 @@ def test_invalid_scenario_is_rejected(data):
 
 @pytest.mark.parametrize("base", [0.1, 0.3])
 def test_rational_threshold_equality_and_both_clamp_boundaries(context, base):
-    from games.tw.attila.economy import add
+    from games.tw.attila.algebra import add
 
     r = Region("r", context=context)
     p = province("p", r)

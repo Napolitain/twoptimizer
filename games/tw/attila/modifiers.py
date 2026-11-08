@@ -1,12 +1,11 @@
 """Translate source-backed technology and religion facts, retaining omissions."""
 
-import json
 import re
-from functools import lru_cache
 from pathlib import Path
 
 from games.tw.attila.effects import Reach, Rule
 from games.tw.attila.tools.import_online import economic_observations
+from games.tw.immutable import read_catalog
 
 CULTURE_TREES = dict(
     zip(
@@ -78,9 +77,8 @@ RELIGION_KEYS = dict(
 )
 
 
-@lru_cache(maxsize=1)
 def catalog():
-    return json.loads((Path(__file__).parent / "data/online_modifiers.json").read_text())
+    return read_catalog(Path(__file__).parent / "data/online_modifiers.json")
 
 
 def technology_profile(game, researched=None, enabled=True):

@@ -1,9 +1,10 @@
-import json
 from pathlib import Path
 
 from games.tw.building import Building
+from games.tw.catalog import BuildingTemplate
 from games.tw.context import GameContext
 from games.tw.enums import Scope
+from games.tw.immutable import freeze, read_catalog
 from games.tw.models.model import RegionPort, RegionType
 from games.tw.models.model_attila import (
     AttilaCampaign,
@@ -32,7 +33,7 @@ class ParserAttila(Parser):
         self.faction_to_culture = self.parse_factions_table()
         metadata_path = self.game_dir / "online_buildings.json"
         self.online_data = (
-            json.loads(metadata_path.read_text()) if metadata_path.exists() else {"buildings": {}}
+            read_catalog(metadata_path) if metadata_path.exists() else {"buildings": {}}
         )
         self.unsupported_effects = []
 
@@ -138,6 +139,7 @@ class ParserAttila(Parser):
         )
 
     def parse_building_effects_junction_tables(self):
+        self.buildings = {}
         path_buildings = self.game_dir / "building_effects_junction_table.tsv"
         # Read file building_effects_junction_table.tsv (tabulated)
         data = parse_tsv(path_buildings)
@@ -159,6 +161,20 @@ class ParserAttila(Parser):
             self.buildings[self.campaign.value[1]][building_id].add_effect(
                 effect, scope_value, float(amount), raw_scope=scope
             )
+
+        self.freeze_catalog()
+
+    def freeze_catalog(self) -> None:
+        self.buildings = freeze(
+            {
+                campaign: {
+                    key: BuildingTemplate.from_building(building)
+                    for key, building in entries.items()
+                }
+                for campaign, entries in self.buildings.items()
+            }
+        )
+        self.context.buildings = self.buildings
 
     def parse_factions_table(self) -> dict[str, Faction]:
         subculture_to_culture = self.parse_cultures_subcultures()

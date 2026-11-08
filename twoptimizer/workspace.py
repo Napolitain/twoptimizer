@@ -1,0 +1,129 @@
+"""Workspace widget composition, separate from application event handling."""
+
+from textual.app import ComposeResult
+from textual.containers import Horizontal, Vertical, VerticalScroll
+from textual.widgets import (
+    Button,
+    Checkbox,
+    DataTable,
+    Footer,
+    Header,
+    Input,
+    Label,
+    LoadingIndicator,
+    Markdown,
+    ProgressBar,
+    RichLog,
+    Select,
+    Static,
+    TabbedContent,
+    TabPane,
+)
+
+from twoptimizer.catalog import GAMES
+
+
+def compose_workspace() -> ComposeResult:
+    yield Header()
+    with Horizontal(id="workspace"):
+        with Vertical(id="left"):
+            with VerticalScroll(id="settings"):
+                yield Label("SCENARIO", classes="section-title")
+                yield Label("Game", classes="field-label")
+                yield Select(GAMES, value="rome2", allow_blank=False, id="game")
+                yield Label("Faction / clan", classes="field-label")
+                yield Select([("Loading…", "loading")], allow_blank=False, id="faction")
+                yield Label("Province / holding", classes="field-label")
+                yield Select([("Loading…", "loading")], allow_blank=False, id="province")
+                yield Label("Research", classes="field-label")
+                yield Select([("Loading…", "loading")], allow_blank=False, id="research")
+                with Vertical(classes="option-group", id="rome-options"):
+                    yield Checkbox("Regional / wonder bonuses", value=True, id="world-bonuses")
+                with Vertical(classes="option-group", id="attila-options"):
+                    yield Label("Fertility", classes="field-label")
+                    yield Input("5", id="fertility", type="number")
+                    yield Label("Common religion", classes="field-label")
+                    from games.tw.models.model_attila import AttilaReligion
+
+                    yield Select(
+                        [(r.name.replace("_", " ").title(), r.name) for r in AttilaReligion],
+                        value="CHRIST_ORTHODOX",
+                        allow_blank=False,
+                        id="religion",
+                    )
+                with Vertical(classes="option-group", id="shogun-options"):
+                    yield Label("Soil", classes="field-label")
+                    yield Select(
+                        [
+                            ("Native province soil", "native"),
+                            ("Barren", "barren"),
+                            ("Very fertile", "very_fertile"),
+                        ],
+                        value="native",
+                        allow_blank=False,
+                        id="soil",
+                    )
+                    yield Label("Base tax (%)", classes="field-label")
+                    yield Input("30", id="tax", type="number")
+                    yield Label("Starting town wealth", classes="field-label")
+                    yield Input("0", id="town-wealth", type="number")
+                yield Label("SOLVER", classes="section-title")
+                yield Select([("Loading…", "loading")], allow_blank=False, id="algorithm")
+                yield Checkbox("Use a time limit", value=False, id="time-limit")
+                with Vertical(classes="option-group", id="time-options"):
+                    yield Label("Solver time limit (seconds)", classes="field-label")
+                    yield Input("10", id="seconds", type="number")
+            yield Static("", id="preview", markup=False)
+            with Horizontal(id="buttons"):
+                yield Button("Run", id="run", variant="primary")
+                yield Button("Cancel", id="cancel", disabled=True)
+        with Vertical(id="right"):
+            yield Static(
+                "Choose a holding, run a solver, then inspect the results.",
+                id="intro",
+                markup=False,
+            )
+            with Horizontal(id="stats"):
+                with Vertical(classes="stat"):
+                    yield Label("SELECTED INCOME / TURN")
+                    yield Static("—", id="income")
+                with Vertical(classes="stat"):
+                    yield Label("UPPER BOUND")
+                    yield Static("—", id="bound")
+                with Vertical(classes="stat"):
+                    yield Label("SOLVER STATUS")
+                    yield Static("Ready", id="status")
+            with TabbedContent(id="tabs"):
+                with TabPane("Results", id="results-pane"):
+                    yield Static(
+                        "No results yet. Tab through settings or click Run.",
+                        id="selection",
+                        markup=False,
+                    )
+                    yield DataTable(id="results", cursor_type="row", zebra_stripes=True)
+                with TabPane("Buildings", id="buildings-pane"):
+                    yield Static(
+                        "Select a result to inspect its layout.",
+                        id="layout-summary",
+                        markup=False,
+                    )
+                    yield DataTable(id="buildings", cursor_type="row", zebra_stripes=True)
+                with (
+                    TabPane("Model notes", id="notes-pane"),
+                    VerticalScroll(id="notes-scroll"),
+                ):
+                    yield Markdown("", id="model-notes")
+                with TabPane("Log", id="log-pane"):
+                    yield RichLog(id="log", wrap=True, max_lines=600, markup=False)
+            with Horizontal(id="activity"):
+                yield LoadingIndicator(id="spinner")
+                yield Static(
+                    "Ready · Ctrl+R to run · F1 for help",
+                    id="run-status",
+                    markup=False,
+                )
+            yield ProgressBar(total=1, show_eta=False, show_percentage=False, id="progress")
+            with Horizontal(id="table-actions"):
+                yield Button("Export JSON + CSV", id="export", disabled=True)
+                yield Button("Clear results", id="clear", disabled=True)
+    yield Footer()

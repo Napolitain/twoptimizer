@@ -14,8 +14,8 @@ from games.tw.multigame.detail import detail_record
 from games.tw.multigame.html import Document
 from games.tw.multigame.import_catalogues import query
 from games.tw.multigame.sources import Sources
+from games.tw.rome2.catalog import CATALOG
 from games.tw.rome2.import_data import DATA, read_table
-from games.tw.rome2.model import CATALOG
 
 DLC = ("rom_kush", "rom_masaesyli", "rom_nabatea", "rom_saba")
 

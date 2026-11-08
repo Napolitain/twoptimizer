@@ -1,143 +1,32 @@
 """Mouse and keyboard workbench; engine work stays in cancellable processes."""
 
 from dataclasses import asdict
-from datetime import datetime
 from time import perf_counter
 from typing import Any, ClassVar
 
 from textual import on, work
 from textual.app import App, ComposeResult
 from textual.binding import Binding
-from textual.containers import Horizontal, Vertical, VerticalScroll
-from textual.screen import ModalScreen
 from textual.widgets import (
     Button,
     Checkbox,
     DataTable,
-    Footer,
-    Header,
     Input,
-    Label,
-    LoadingIndicator,
     Markdown,
     ProgressBar,
     RichLog,
     Select,
     Static,
     TabbedContent,
-    TabPane,
 )
 
 from twoptimizer.catalog import EXACT, GAMES, NOTES, choices, faction_name
-from twoptimizer.export import export_session
 from twoptimizer.models import RunConfig
+from twoptimizer.presentation import money, timing_summary
 from twoptimizer.runner import CaseRunner
+from twoptimizer.screens import ExportScreen, HelpScreen
 from twoptimizer.service import make_jobs
-
-
-def money(value):
-    return "—" if value is None else f"{value:,.3f}"
-
-
-def timing_summary(result):
-    times = result.get("timings", {})
-    return " · ".join(
-        f"{label} {times[key]:.2f}s"
-        for key, label in (
-            ("worker_startup_seconds", "Start"),
-            ("load_engine_seconds", "Load"),
-            ("build_model_seconds", "Build"),
-            ("solve_and_check_seconds", "Solve/check"),
-            ("worker_wall_seconds", "Total"),
-        )
-        if key in times
-    )
-
-
-class HelpScreen(ModalScreen):
-    BINDINGS: ClassVar = [("escape", "close", "Close")]
-
-    def compose(self):
-        with Vertical(id="dialog"):
-            with VerticalScroll():
-                yield Markdown("""# Using twoptimizer
-
-Choose a game, faction, province and solver on the left. **All factions** compares
-the same holding. **Compare exact solvers** runs each supported formulation.
-
-Mouse clicks, wheel scrolling, **Tab / Shift+Tab**, **arrow keys** and **Enter**
-work throughout. Selects support typing to search. Click a result or move with
-the arrows to inspect its income, bound and building layout. **Enter** opens the
-layout; click column headings to sort.
-
-**Ctrl+R** Run · **Esc** Cancel current batch · **Ctrl+S** Export JSON + CSV ·
-**F1** Help · **Ctrl+Q** Quit
-
-Cancellation stops the active solver process and preserves completed cases.
-Runs have no time limit by default: they continue to an optimality or infeasibility
-proof. Enable the optional time limit to allow an earlier, unfinished result.
-CPU parallelism is selected automatically for supported backends.
-The status line shows startup, model building, solving and validation. Exported
-JSON includes settings, source hashes and original engine details. CSV is a summary.
-
-**OPTIMAL** is a solver proof for the stated model. **FEASIBLE** is a valid layout
-with an unresolved bound. **INFEASIBLE** proves the supplied requirements cannot
-all hold. **UNKNOWN** means no usable result yet. **ERROR** has details in the log.
-Income means the selected game's declared domestic/recurring-income objective;
-values from different games are not comparable. See Model notes for assumptions.
-""")
-            yield Button("Close", id="close", variant="primary")
-
-    def action_close(self):
-        self.dismiss()
-
-    @on(Button.Pressed, "#close")
-    def close_button(self):
-        self.dismiss()
-
-
-class ExportScreen(ModalScreen):
-    BINDINGS: ClassVar = [("escape", "cancel", "Cancel")]
-
-    def __init__(self, results, skipped):
-        super().__init__()
-        self.results, self.skipped = results, skipped
-
-    def compose(self):
-        with Vertical(id="dialog"):
-            yield Label("Export results", classes="dialog-title")
-            yield Static("Save full JSON and a matching CSV summary.")
-            yield Input(
-                f"benchmark-results/tui/session-{datetime.now():%Y%m%d-%H%M%S}.json",
-                id="export-path",
-            )
-            yield Checkbox("Replace existing JSON and CSV", id="overwrite")
-            yield Static("", id="export-error")
-            with Horizontal(classes="dialog-buttons"):
-                yield Button("Save", id="save-file", variant="primary")
-                yield Button("Cancel", id="cancel-export")
-
-    @on(Button.Pressed, "#save-file")
-    @on(Input.Submitted, "#export-path")
-    def save(self):
-        try:
-            paths = export_session(
-                self.query_one("#export-path", Input).value,
-                self.results,
-                skipped=self.skipped,
-                overwrite=self.query_one("#overwrite", Checkbox).value,
-            )
-        except (OSError, ValueError) as error:
-            self.query_one("#export-error", Static).update(str(error))
-        else:
-            self.dismiss(paths)
-
-    def action_cancel(self):
-        self.dismiss(None)
-
-    @on(Button.Pressed, "#cancel-export")
-    def cancel_button(self):
-        self.dismiss(None)
+from twoptimizer.workspace import compose_workspace
 
 
 class OptimizerApp(App):
@@ -151,51 +40,7 @@ class OptimizerApp(App):
         Binding("ctrl+q", "quit", "Quit"),
         Binding("ctrl+c", "quit", show=False),
     ]
-    CSS = """
-    Screen { background: #0c1423; }
-    Header { background: #14243a; color: #e3eefa; }
-    Footer { background: #14243a; }
-    #workspace { height: 1fr; }
-    #left { width: 36; min-width: 30; background: #101e31; border-right: solid #28405c; }
-    #settings { height: 1fr; padding: 1 2; }
-    .section-title { color: #68dfcb; text-style: bold; margin-top: 1; }
-    .field-label { color: #aec3db; margin-top: 1; height: 1; }
-    Select, Input { width: 100%; }
-    .option-group { height: auto; }
-    #preview { height: auto; min-height: 2; padding: 0 2; color: #b3c5da; }
-    #buttons { height: 3; padding: 0 1; }
-    #buttons Button { width: 1fr; min-width: 10; margin: 0 1; }
-    #right { width: 1fr; padding: 0 1; }
-    #intro { height: 2; padding: 0 1; color: #a9bdd6; }
-    #stats { height: 5; }
-    .stat { width: 1fr; padding: 0 1; border: round #28405c; background: #101e31; }
-    .stat Label { color: #9ab1cd; height: 1; }
-    .stat Static { color: #e4f8f3; text-style: bold; height: 1; }
-    #tabs { height: 1fr; }
-    TabPane { padding: 0; }
-    DataTable { height: 1fr; background: #101b2c; }
-    #selection { height: auto; min-height: 2; padding: 0 1; color: #b4c9dd; }
-    #layout-summary { height: auto; padding: 0 1; color: #b4c9dd; }
-    #run-status { width: 1fr; height: 2; padding-left: 1; }
-    #activity { height: 2; }
-    #spinner { width: 5; height: 2; }
-    #progress { height: 1; margin: 0 1; }
-    #table-actions { height: 3; }
-    #table-actions Button { margin-right: 1; }
-    #log { height: 1fr; }
-    #notes-scroll { height: 1fr; padding: 0 1; }
-    HelpScreen, ExportScreen { align: center middle; background: #020814 75%; }
-    #dialog {
-        width: 76; max-width: 96%; height: auto; max-height: 90%;
-        background: #14243a; border: round #68dfcb; padding: 1 2;
-    }
-    HelpScreen #dialog { height: 28; }
-    HelpScreen VerticalScroll { height: 1fr; }
-    .dialog-title { text-style: bold; color: #68dfcb; margin-bottom: 1; }
-    .dialog-buttons { height: 3; }
-    .dialog-buttons Button { margin-right: 1; }
-    #export-error { color: #ffae9e; height: auto; margin-bottom: 1; }
-    """
+    CSS_PATH = "workspace.tcss"
 
     def __init__(self, runner_factory=CaseRunner):
         super().__init__()
@@ -211,109 +56,7 @@ class OptimizerApp(App):
         self.sort_column, self.sort_reverse = "income", True
 
     def compose(self) -> ComposeResult:
-        yield Header()
-        with Horizontal(id="workspace"):
-            with Vertical(id="left"):
-                with VerticalScroll(id="settings"):
-                    yield Label("SCENARIO", classes="section-title")
-                    yield Label("Game", classes="field-label")
-                    yield Select(GAMES, value="rome2", allow_blank=False, id="game")
-                    yield Label("Faction / clan", classes="field-label")
-                    yield Select([("Loading…", "loading")], allow_blank=False, id="faction")
-                    yield Label("Province / holding", classes="field-label")
-                    yield Select([("Loading…", "loading")], allow_blank=False, id="province")
-                    yield Label("Research", classes="field-label")
-                    yield Select([("Loading…", "loading")], allow_blank=False, id="research")
-                    with Vertical(classes="option-group", id="rome-options"):
-                        yield Checkbox("Regional / wonder bonuses", value=True, id="world-bonuses")
-                    with Vertical(classes="option-group", id="attila-options"):
-                        yield Label("Fertility", classes="field-label")
-                        yield Input("5", id="fertility", type="number")
-                        yield Label("Common religion", classes="field-label")
-                        from games.tw.models.model_attila import AttilaReligion
-
-                        yield Select(
-                            [(r.name.replace("_", " ").title(), r.name) for r in AttilaReligion],
-                            value="CHRIST_ORTHODOX",
-                            allow_blank=False,
-                            id="religion",
-                        )
-                    with Vertical(classes="option-group", id="shogun-options"):
-                        yield Label("Soil", classes="field-label")
-                        yield Select(
-                            [
-                                ("Native province soil", "native"),
-                                ("Barren", "barren"),
-                                ("Very fertile", "very_fertile"),
-                            ],
-                            value="native",
-                            allow_blank=False,
-                            id="soil",
-                        )
-                        yield Label("Base tax (%)", classes="field-label")
-                        yield Input("30", id="tax", type="number")
-                        yield Label("Starting town wealth", classes="field-label")
-                        yield Input("0", id="town-wealth", type="number")
-                    yield Label("SOLVER", classes="section-title")
-                    yield Select([("Loading…", "loading")], allow_blank=False, id="algorithm")
-                    yield Checkbox("Use a time limit", value=False, id="time-limit")
-                    with Vertical(classes="option-group", id="time-options"):
-                        yield Label("Solver time limit (seconds)", classes="field-label")
-                        yield Input("10", id="seconds", type="number")
-                yield Static("", id="preview", markup=False)
-                with Horizontal(id="buttons"):
-                    yield Button("Run", id="run", variant="primary")
-                    yield Button("Cancel", id="cancel", disabled=True)
-            with Vertical(id="right"):
-                yield Static(
-                    "Choose a holding, run a solver, then inspect the results.",
-                    id="intro",
-                    markup=False,
-                )
-                with Horizontal(id="stats"):
-                    with Vertical(classes="stat"):
-                        yield Label("SELECTED INCOME / TURN")
-                        yield Static("—", id="income")
-                    with Vertical(classes="stat"):
-                        yield Label("UPPER BOUND")
-                        yield Static("—", id="bound")
-                    with Vertical(classes="stat"):
-                        yield Label("SOLVER STATUS")
-                        yield Static("Ready", id="status")
-                with TabbedContent(id="tabs"):
-                    with TabPane("Results", id="results-pane"):
-                        yield Static(
-                            "No results yet. Tab through settings or click Run.",
-                            id="selection",
-                            markup=False,
-                        )
-                        yield DataTable(id="results", cursor_type="row", zebra_stripes=True)
-                    with TabPane("Buildings", id="buildings-pane"):
-                        yield Static(
-                            "Select a result to inspect its layout.",
-                            id="layout-summary",
-                            markup=False,
-                        )
-                        yield DataTable(id="buildings", cursor_type="row", zebra_stripes=True)
-                    with (
-                        TabPane("Model notes", id="notes-pane"),
-                        VerticalScroll(id="notes-scroll"),
-                    ):
-                        yield Markdown("", id="model-notes")
-                    with TabPane("Log", id="log-pane"):
-                        yield RichLog(id="log", wrap=True, max_lines=600, markup=False)
-                with Horizontal(id="activity"):
-                    yield LoadingIndicator(id="spinner")
-                    yield Static(
-                        "Ready · Ctrl+R to run · F1 for help",
-                        id="run-status",
-                        markup=False,
-                    )
-                yield ProgressBar(total=1, show_eta=False, show_percentage=False, id="progress")
-                with Horizontal(id="table-actions"):
-                    yield Button("Export JSON + CSV", id="export", disabled=True)
-                    yield Button("Clear results", id="clear", disabled=True)
-        yield Footer()
+        yield from compose_workspace()
 
     def on_mount(self):
         self._ui_ready = True

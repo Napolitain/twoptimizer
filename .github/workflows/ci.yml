@@ -41,7 +41,8 @@ jobs:
                   "$RUNNER_TEMP/wheel-env/bin/python" - <<'PYTHON'
                   from twoptimizer.tui import OptimizerApp
                   assert callable(OptimizerApp)
-                  from games.tw.shogun2.model import Economy, Province, Scenario
+                  from games.tw.shogun2.model import Economy
+                  from games.tw.shogun2.scenario import Province, Scenario
                   provinces = tuple(Province(p) for p in ("jap_sado", "jap_settsu", "jap_owari"))
                   result = Economy(Scenario("oda", provinces)).optimize(seconds=5, workers=1)
                   assert result["solver"]["status"] == "OPTIMAL"

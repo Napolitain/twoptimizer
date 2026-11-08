@@ -44,7 +44,7 @@ class Problem:
             from games.tw.attila.modifiers import technology_profile
             from games.tw.attila.scenario import Scenario
 
-            scenario_data = scenario.data if isinstance(scenario, Scenario) else scenario or {}
+            scenario_data = scenario.to_dict() if isinstance(scenario, Scenario) else scenario or {}
             self.technology_profile = technology_profile(
                 self.context.instance,
                 technologies,

@@ -10,8 +10,8 @@ from urllib.parse import urlencode
 
 from games.tw.multigame.detail import detail_record
 from games.tw.multigame.sources import Sources
+from games.tw.rome2.catalog import CATALOG
 from games.tw.rome2.effects import CATEGORIES, LABELS, TARGETS, fact_effect, raw_effect
-from games.tw.rome2.model import CATALOG
 
 
 def observation(text):

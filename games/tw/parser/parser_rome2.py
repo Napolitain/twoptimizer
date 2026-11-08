@@ -1,8 +1,10 @@
 from pathlib import Path
 
 from games.tw.building import Building
+from games.tw.catalog import BuildingTemplate
 from games.tw.context import GameContext
 from games.tw.enums import EntryType, Scope
+from games.tw.immutable import freeze
 from games.tw.models.model import EntryName, FullEntryName
 from games.tw.models.model_rome2 import Rome2Campaign, Rome2Factions
 from games.tw.parser.parser import Faction, Parser, parse_tsv
@@ -65,6 +67,13 @@ class ParserRome2(Parser):
                 except ValueError:
                     continue
                 self.buildings[game][building_name].add_effect(effect, scope_value, float(amount))
+        self.buildings = freeze(
+            {
+                campaign: {key: BuildingTemplate.from_building(b) for key, b in entries.items()}
+                for campaign, entries in self.buildings.items()
+            }
+        )
+        self.context.buildings = self.buildings
 
     def get_entry_name(self, full_name: FullEntryName, entry_type: EntryType) -> EntryName:
         raise NotImplementedError

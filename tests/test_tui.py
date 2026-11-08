@@ -8,50 +8,14 @@ from pathlib import Path
 import pytest
 from textual.widgets import Button, Checkbox, DataTable, Input, Select, TabbedContent
 
+from tests.support.ui import QuickRunner, result
 from twoptimizer.catalog import choices
 from twoptimizer.export import export_session
 from twoptimizer.models import RunConfig
 from twoptimizer.runner import CaseRunner
+from twoptimizer.screens import ExportScreen
 from twoptimizer.service import make_jobs
-from twoptimizer.tui import ExportScreen, OptimizerApp
-
-
-def result(config=None):
-    config = config or RunConfig()
-    return {
-        "request": asdict(config),
-        "faction": "Rome",
-        "province": "Coastal reference",
-        "solver": {
-            "algorithm": config.algorithm,
-            "status": "OPTIMAL",
-            "seconds": 0.1,
-            "objective": 4182.7,
-            "bound": 4182.7,
-        },
-        "income": 4182.7,
-        "gap_percent": 0,
-        "metrics": {"food_surplus": 2, "public_order": 1},
-        "buildings": [{"region": "Capital", "building": "Test Market", "id": "market_4"}],
-        "assumptions": "Explicit test scenario",
-        "source_files": {},
-        "raw": {},
-    }
-
-
-class QuickRunner:
-    def __init__(self):
-        self.cancelled = False
-
-    async def run(self, config, on_log, on_progress=None):
-        await asyncio.sleep(0.02)
-        if on_progress:
-            on_progress("Solving and validating")
-        on_log("Validated test layout")
-        return result(config)
-
-    async def stop(self):
-        self.cancelled = True
+from twoptimizer.tui import OptimizerApp
 
 
 def test_all_factions_and_solver_comparisons_expand_explicitly():

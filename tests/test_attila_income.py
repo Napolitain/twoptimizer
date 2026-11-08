@@ -17,7 +17,7 @@ from games.tw.models.game_attila import AttilaGame
 from games.tw.problem import Problem
 from games.tw.region import Region
 from games.tw.solver_ortools import SolverOrTools
-from tests.test_attila_effects import building, province
+from tests.support.attila import building, province
 
 NO_MODIFIERS = {"technology_effects": False, "religion_traits": False}
 

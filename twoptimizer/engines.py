@@ -10,7 +10,9 @@ from twoptimizer.progress import PhaseTimer
 def solve_rome(config: RunConfig, phase: PhaseTimer) -> EngineResult:
     buildings, metrics = [], {}
     from games.tw.rome2.benchmark import presets
-    from games.tw.rome2.model import Economy, Scenario, load_data
+    from games.tw.rome2.catalog import load_data
+    from games.tw.rome2.model import Economy
+    from games.tw.rome2.scenario import Scenario
     from games.tw.rome2.world import province_scenario
 
     data = load_data()
@@ -62,7 +64,9 @@ def solve_rome(config: RunConfig, phase: PhaseTimer) -> EngineResult:
 
 def solve_shogun(config: RunConfig, phase: PhaseTimer) -> EngineResult:
     buildings, metrics = [], {}
-    from games.tw.shogun2.model import Economy, Province, Scenario, load_data
+    from games.tw.shogun2.catalog import load_data
+    from games.tw.shogun2.model import Economy
+    from games.tw.shogun2.scenario import Province, Scenario
 
     data, rules = load_data()
     phase("build_model_seconds", "Preparing province model")

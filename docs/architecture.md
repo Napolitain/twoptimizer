@@ -11,7 +11,7 @@ identifier counters. Parsing one faction never selects it globally.
 
 `compile_scenario(provinces, SnapshotOptions(...))` copies the mutable province
 and region decision containers and creates a fresh context and solver. It shares
-catalog records for reading, not decision variables. The returned `ModelSnapshot`
+recursively frozen catalog records, not decision variables. The returned `ModelSnapshot`
 retains the compiled binary model and independent evaluator. Input regions remain
 untouched on both success and failure, and the same catalog supports concurrent
 compilation of different scenarios.
@@ -32,8 +32,8 @@ report = compare_model(compiled.model, ComparisonOptions(workers=1), compiled.ec
 
 `Problem(context=...)` is the lower-level mutable model builder. Adding provinces
 to it transfers their decision ownership to that problem. Use `compile_scenario`
-when retaining or reusing caller-owned provinces. Treat loaded catalog entries as
-read-only; changes to imported game data belong in the importer workflow.
+when retaining or reusing caller-owned provinces. Loaded catalogs enforce read-only ownership at runtime. Use `thaw` to create
+caller-owned inputs; changes to imported game data belong in the importer workflow.
 
 Entities, parsers and `Problem` require an explicit context. `AttilaGame` and
 `Rome2Game` can create a fresh context when constructing a game; that context is
@@ -107,3 +107,40 @@ the same workload: three serial runs per revision had identical result
 fingerprints and proved the same optimum. Median wall time was **5.70 s before /
 5.50 s after**, with ranges **5.65–6.31 s / 5.40–5.85 s**. These ranges overlap;
 the comparison shows no observed regression rather than a general speedup.
+
+## Domain modules and ownership
+
+Attila separates typed `scenario` inputs, JSON `scenario_validation`, exact
+`algebra`, solver `compiler`, domain `economy` rules and `reporting`. Campaign,
+province, region, metric, project and external-effect inputs are frozen records.
+The engine uses their named fields; JSON dictionaries enter through validation
+and leave through explicit serialization. Boolean polynomial indicators also use
+named records rather than positional tuples.
+
+Rome II separates source `catalog` and `records`, immutable `scenario` settings,
+`placement` policy, constraint `compiler`, native `backends` and solver
+`optimization`. Per-build `EffectTerms` owns the mutable expression buckets.
+Report creation and independent replay share `provenance.model_fingerprint` so
+changes in extracted mathematics remain part of source verification. Shogun 2
+has corresponding catalog, scenario and report/source record modules.
+
+`games.tw.immutable` freezes mappings recursively behind a mapping proxy and
+turns JSON arrays into tuples. File catalogs are cached by path, nanosecond
+modification time and size. Cache hits safely share immutable data; changed file
+revisions load new data. `thaw` produces independent JSON containers when a
+caller needs to customize an input or export a report.
+
+Parsed building builders are converted to frozen `BuildingTemplate` records.
+Templates hold immutable effects and metadata and contain no solver variables.
+Each model instantiates separate mutable decision buildings. Template metadata
+can be shared; decision effect dictionaries and variables belong to one model.
+
+The terminal app separates workspace composition/style, modal screens,
+presentation formatting and application event handling. The wheel bundles
+`workspace.tcss` alongside the Python modules.
+
+Shared test factories live under `tests/support`; fixtures are registered in
+`tests/conftest.py`. Test modules do not import other test modules. Ownership
+regressions cover caller mutation, nested catalog writes, exports, cache refresh,
+model isolation, repeated solver builds and constant native constraints, alongside
+the existing independent economic calculations and model signatures.

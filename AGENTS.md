@@ -171,5 +171,10 @@ no process-global game state or fallback context. Use `compile_scenario` and
 `SnapshotOptions` for reusable province inputs, and `ComparisonOptions` for search configuration. Keep typed
 application objects inside adapters/services and serialize at worker/export
 boundaries. Preserve the report schema and verify model signatures and solver
-results when changing compilation. Catalog records are shared read-only; decision
-containers and solver variables belong to one compiled model.
+results when changing compilation. Catalogs and building templates are recursively immutable; use `thaw` for
+caller-owned custom inputs. Decision containers and solver variables belong to
+one compiled model. Keep shared test factories in `tests/support` and fixtures
+in `tests/conftest.py`; do not import test collection modules from other tests.
+Keep scenario records, validation, constraint compilation, solver execution and
+reporting in their owning domain modules. Update source provenance when moving
+mathematical code, and bundle terminal style assets in the wheel.

@@ -91,6 +91,14 @@ def source_files(game):
             ROOT / "rome2" / name
             for name in (
                 "model.py",
+                "compiler.py",
+                "optimization.py",
+                "backends.py",
+                "scenario.py",
+                "placement.py",
+                "catalog.py",
+                "records.py",
+                "provenance.py",
                 "effects.py",
                 "world.py",
                 "data/economy_catalog.json",
@@ -100,7 +108,15 @@ def source_files(game):
         ]
     elif game == "shogun2":
         paths = [
-            ROOT / "shogun2" / name for name in ("model.py", "effects.py", "data/rules.json")
+            ROOT / "shogun2" / name
+            for name in (
+                "model.py",
+                "scenario.py",
+                "catalog.py",
+                "records.py",
+                "effects.py",
+                "data/rules.json",
+            )
         ] + [
             ROOT / "multigame/data/shogun2.json",
             ROOT / "competition.py",
@@ -122,6 +138,14 @@ def source_files(game):
                 ROOT / name
                 for name in (
                     "attila/economy.py",
+                    "attila/algebra.py",
+                    "attila/compiler.py",
+                    "attila/reporting.py",
+                    "attila/scenario.py",
+                    "attila/scenario_validation.py",
+                    "attila/records.py",
+                    "catalog.py",
+                    "immutable.py",
                     "attila/model.py",
                     "context.py",
                     "comparison.py",
@@ -138,6 +162,7 @@ def source_files(game):
             ROOT / "sparse.py",
             ROOT / "resources.py",
         ]
+    paths.append(ROOT / "immutable.py")
     return {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
 
 

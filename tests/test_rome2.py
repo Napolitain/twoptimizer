@@ -6,92 +6,12 @@ from dataclasses import replace
 
 import pytest
 
+from games.tw.rome2.catalog import load_data
 from games.tw.rome2.effects import CATEGORIES, fact_effect, raw_effect
 from games.tw.rome2.import_data import entity, named_regions
-from games.tw.rome2.model import Economy, Scenario, Site, load_data
-
-
-def effect(key, value, scope="this_building"):
-    return {"id": key, "value": value, "scope": scope}
-
-
-@pytest.fixture
-def tiny():
-    def building(key, category, title, effects):
-        return {
-            "id": key,
-            "name": key,
-            "level": 4,
-            "facts": [],
-            "effects": effects,
-            "occurrences": [
-                {
-                    "culture": "rom_Roman",
-                    "category": category,
-                    "chain_title": title,
-                    "factions": ["rom_rome"],
-                }
-            ],
-        }
-
-    records = [
-        building(
-            "rome_city_4",
-            "Provincial Capital",
-            "Province Capital",
-            [
-                effect("rom_building_gdp_industry_manufacture", 100),
-                effect("rom_building_gdp_mod_all", 10, "regions_in_this_province"),
-            ],
-        ),
-        building(
-            "rome_town_4",
-            "Minor Settlement",
-            "Minor Settlement",
-            [effect("rom_building_gdp_industry_manufacture", 50)],
-        ),
-        building(
-            "rome_religious_alpha_4",
-            "Religious",
-            "Religious",
-            [
-                effect("rom_building_gdp_mod_industry", 20, "regions_in_this_province"),
-                effect("rom_building_public_order_happiness", 2, "this_province"),
-                effect("rom_building_food_consumption", 1, "this_region"),
-            ],
-        ),
-        building(
-            "rome_religious_beta_4",
-            "Religious",
-            "Religious",
-            [
-                effect("rom_building_gdp_industry_manufacture", 80),
-                effect("rom_building_public_order_attitude_squalor", -2, "this_province"),
-                effect("rom_building_food_consumption", 2, "this_region"),
-            ],
-        ),
-    ]
-    return {
-        "buildings": {b["id"]: b for b in records},
-        "technologies": {"rom_rome": {}},
-        "factions": {
-            "rom_rome": {
-                "id": "rom_rome",
-                "name": "Rome",
-                "traits": {
-                    "culture_facts": [],
-                    "parties": [
-                        {"playable": True, "facts": ["Administrators: +10% tax rate"]},
-                        {
-                            "playable": True,
-                            "facts": ["Industry: +20% wealth from industry"],
-                        },
-                        {"playable": True, "facts": []},
-                    ],
-                },
-            }
-        },
-    }
+from games.tw.rome2.model import Economy
+from games.tw.rome2.scenario import Scenario, Site
+from tests.support.rome2 import effect
 
 
 def tiny_scenario(**kwargs):
@@ -254,7 +174,7 @@ def test_money_facts_and_raw_effects_are_never_silently_lost():
             if any(term in row["id"] for term in ("gdp", "food", "tax_level", "public_order")):
                 assert raw_effect(row["id"], row["value"]) is not None, row
     for faction in data["factions"].values():
-        facts = faction["traits"]["culture_facts"] + [
+        facts = list(faction["traits"]["culture_facts"]) + [
             t for p in faction["traits"]["parties"] if p["playable"] for t in p["facts"]
         ]
         for text in facts:
@@ -365,7 +285,7 @@ def test_real_provinces_join_resources_and_scoped_modifiers():
     assert len(italy.sites) == 4
     assert {s.resource for s in italy.sites} == {None, "wine", "olive"}
     assert sum(s.port for s in italy.sites) == 2
-    assert {r["name"] for r in italy.modifiers} == {"Roma", "Mount Vesuvius"}
+    assert {r.name for r in italy.modifiers} == {"Roma", "Mount Vesuvius"}
     africa = province_scenario("Africa", "rom_saba")
     assert len(africa.sites) == 4 and sum(s.port for s in africa.sites) == 4
     economy = Economy(africa)

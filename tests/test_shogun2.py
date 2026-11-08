@@ -1,14 +1,16 @@
 """Original economic formulas and legality checks versus exact model solving."""
 
-import copy
 import itertools
 from dataclasses import replace
 
 import pytest
 
+from games.tw.immutable import thaw
+from games.tw.shogun2.catalog import load_data
 from games.tw.shogun2.effects import parse, unavailable_reason, unique_key
 from games.tw.shogun2.import_rules import province_records
-from games.tw.shogun2.model import Economy, Province, Scenario, load_data
+from games.tw.shogun2.model import Economy
+from games.tw.shogun2.scenario import Province, Scenario
 
 
 @pytest.fixture
@@ -168,7 +170,7 @@ def test_unresearched_arts_do_not_unlock_advanced_buildings(data):
 
 @pytest.mark.parametrize("algorithm", ["cp-sat", "cbc", "scip"])
 def test_exact_solvers_match_exhaustive_original_formulas(data, algorithm):
-    catalog, rules = copy.deepcopy(data)
+    catalog, rules = thaw(data)
     ids = [
         "sho_castle_1_fort",
         "sho_castle_2_stronghold",

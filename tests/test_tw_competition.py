@@ -174,7 +174,7 @@ def test_default_cpsat_engine_all_provinces(fertility, use_hash, tmp_path):
                     original = parser.buildings[parser.campaign.value[1]][base_name]
                     expected_answers[building.lp_variable.name()] = (
                         region.get_name_output(),
-                        original.get_name_output(),
+                        original.get_name_output(problem.context.name_type),
                     )
             assert answers == [expected_answers[v.name()] for v in selected]
             problem.dump(str(tmp_path / "province.lp"))

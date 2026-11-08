@@ -1,11 +1,11 @@
 """Source-backed choices shared by the TUI and its isolated solver worker."""
 
 import csv
-import json
 from functools import lru_cache
 from pathlib import Path
 
 import games.tw
+from games.tw.immutable import freeze, read_catalog
 
 ROOT = Path(games.tw.__file__).resolve().parent
 GAMES = [
@@ -64,11 +64,15 @@ NOTES = {
 
 
 def read(relative):
-    return json.loads((ROOT / relative).read_text())
+    return read_catalog(ROOT / relative)
 
 
 @lru_cache
 def choices(game):
+    return freeze(_choices(game))
+
+
+def _choices(game):
     if game == "rome2":
         data = read("rome2/data/economy_catalog.json")
         factions = sorted(((r["name"], key) for key, r in data["factions"].items()))

@@ -132,7 +132,7 @@ class Parser(abc.ABC):
         """
         if entry_type == EntryType.BUILDING:
             for building in self.buildings[self.campaign.value[1]].values():
-                building_name = building.get_name()
+                building_name = building.get_name(self.context.name_type)
                 if full_name.name.endswith(f"_{building_name}"):
                     return EntryName(building_name)
         elif entry_type == EntryType.REGION:
@@ -158,7 +158,7 @@ class Parser(abc.ABC):
         """
         if entry_type == EntryType.BUILDING:
             for building in self.buildings[self.campaign.value[1]].values():
-                if building.get_name() == entry_name.name:
+                if building.get_name(self.context.name_type) == entry_name.name:
                     return EntryName(building.name)
         elif entry_type == EntryType.REGION:
             for region in self.regions.values():
@@ -203,7 +203,9 @@ class Parser(abc.ABC):
         :return: print name of the entry
         """
         if entry_type == EntryType.BUILDING:
-            return self.buildings[self.campaign.value[1]][name.name].get_name_output()
+            return self.buildings[self.campaign.value[1]][name.name].get_name_output(
+                self.context.name_type
+            )
         elif entry_type == EntryType.REGION:
             return self.regions[name.name].get_name_output()
         elif entry_type == EntryType.PROVINCE:

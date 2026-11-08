@@ -10,28 +10,11 @@ from fractions import Fraction
 from math import isfinite, lcm
 from types import SimpleNamespace
 
+from games.tw.attila.algebra import Indicator, Polynomial, add, multiply, rational
+from games.tw.attila.compiler import PolynomialCompiler
 from games.tw.attila.effects import Reach, entries
+from games.tw.attila.records import LayoutReport
 from games.tw.context import GameContext
-
-
-def rational(value):
-    return value if isinstance(value, Fraction) else Fraction(str(value))
-
-
-def add(left, right):
-    result = defaultdict(Fraction, {key: rational(value) for key, value in left.items()})
-    for key, value in right.items():
-        result[key] += rational(value)
-    return {key: value for key, value in result.items() if value}
-
-
-def multiply(left, right):
-    result = defaultdict(Fraction)
-    for a, x in left.items():
-        for b, y in right.items():
-            # Decisions are Boolean: x*x == x. Sorted keys share auxiliaries.
-            result[tuple(sorted(set(a) | set(b)))] += rational(x) * rational(y)
-    return dict(result)
 
 
 class Economy:
@@ -60,24 +43,23 @@ class Economy:
         self.scenario = (scenario if isinstance(scenario, Scenario) else Scenario(scenario)).bind(
             provinces
         )
-        self.adjacency = (
-            adjacency if adjacency is not None else self.scenario.data.get("adjacency", {})
-        )
+        self.adjacency = adjacency if adjacency is not None else self.scenario.adjacency
         # Validate API-supplied adjacency too; never silently ignore absent neighbors.
         Scenario({"adjacency": self.adjacency}).bind(provinces)
         self.sources = list(self.buildings)
         region_by_id = {r.name: r for r in self.regions}
-        for i, record in enumerate(self.scenario.data.get("external_effects", [])):
+        for i, record in enumerate(self.scenario.external_effects):
             source = SimpleNamespace(
                 name=f"@external_{i}",
-                region=region_by_id[record["region"]],
-                raw_effects={(record["effect"], record["scope"]): record["amount"]},
+                region=region_by_id[record.region],
+                raw_effects={(record.effect, record.scope): record.amount},
             )
             self.sources.append(source)
-        self.logic = {}
+        self.logic: dict[str, Indicator] = {}
         self._logic_variables = {}
         self._serial = 0
         self.products = {}
+        self.compiler = PolynomialCompiler(self)
         self._fields = {}
         self._wealth = {}
         self._metrics = {}
@@ -95,18 +77,22 @@ class Economy:
         from games.tw.models.model import RegionType
 
         faction = getattr(getattr(self.context.instance, "faction", None), "value", None)
-        self.traits = profile(faction, self.scenario.data.get("faction_traits", True))
+        self.traits = profile(faction, self.scenario.faction_traits)
         self.farms_without_penalties = bool(rules(self.traits, "farms_without_penalties"))
-        self.campaign = self.scenario.data.get("campaign", {})
+        self.campaign = self.scenario.campaign
         selected_capitals = sum(r.region_type == RegionType.REGION_MAJOR for r in self.regions)
-        self.capitals_held = self.campaign.get("province_capitals_held", selected_capitals)
+        self.capitals_held = (
+            self.campaign.province_capitals_held
+            if self.campaign.province_capitals_held is not None
+            else selected_capitals
+        )
         if self.capitals_held < selected_capitals:
             raise ValueError("province_capitals_held cannot be below the selected owned capitals")
         self._add_trait_sources()
         from games.tw.attila.modifiers import modifier_profile
 
         self.modifiers, semantic_effects = modifier_profile(
-            self.context.instance, technology_profile, self.scenario.data
+            self.context.instance, technology_profile, self.scenario.to_dict()
         )
         if semantic_effects:
             self.sources.append(
@@ -123,22 +109,21 @@ class Economy:
         self.omitted = []
         for b in self.sources:
             for key, rule, scope, _ in self.effects(b):
-                if rule.kind == "conditional_fertility_food" and key not in self.scenario.data.get(
-                    "conditional_targets", {}
+                if (
+                    rule.kind == "conditional_fertility_food"
+                    and key not in self.scenario.conditional_targets
                 ):
                     self.omitted.append((b.name, key, "requires_explicit_recipients"))
                 elif rule.kind == "unmodeled" or scope == Reach.OTHER:
                     self.omitted.append((b.name, key, scope.value))
                 elif scope == Reach.ADJACENT and not self.adjacency:
                     self.omitted.append((b.name, key, "adjacency_not_supplied"))
-                elif scope == Reach.CONDITIONAL and key not in self.scenario.data.get(
-                    "conditional_targets", {}
-                ):
+                elif scope == Reach.CONDITIONAL and key not in self.scenario.conditional_targets:
                     self.omitted.append((b.name, key, "requires_food_sharing_condition"))
                 elif (
                     rule.kind.startswith("immigration_")
-                    and not self.scenario.data.get("provinces")
-                    and not self.scenario.data.get("regions")
+                    and not self.scenario.provinces
+                    and not self.scenario.regions
                 ):
                     self.omitted.append((b.name, key, "requires_external_immigration_scenario"))
 
@@ -153,7 +138,7 @@ class Economy:
                 "poor_fertility_food": "poor_fertility_regions",
                 "tribute_percent": "base_tribute",
             }
-            if rule and rule[0] in required and required[rule[0]] not in self.campaign:
+            if rule and rule[0] in required and required[rule[0]] not in self.campaign.provided:
                 record["status"] = "requires_campaign_input"
                 record["required_input"] = required[rule[0]]
 
@@ -214,7 +199,7 @@ class Economy:
         return False
 
     def applies(self, source, target_region, scope, effect, recipient=None):
-        mapping = self.scenario.data.get("conditional_targets", {}).get(effect)
+        mapping = self.scenario.conditional_targets.get(effect)
         if mapping is not None and (
             scope == Reach.CONDITIONAL
             or effect == "att_effect_food_production_fertility_neighbouring"
@@ -272,13 +257,13 @@ class Economy:
                             region, "wealth_percent", category, producer
                         ).items()
                     }
-                    external = self.scenario.region(region, "wealth_percent", {})
+                    external = self.scenario.for_region(region).wealth_percent
                     modifier = add(
                         modifier,
                         {(): rational(external.get("all", 0) + external.get(category, 0)) / 100},
                     )
                     total = add(total, multiply(base, add({(): 1}, modifier)))
-        immigration = self.scenario.region(region, "immigration_wealth")
+        immigration = self.scenario.for_region(region).immigration_wealth
         if immigration:
             modifier = {
                 key: value / 100
@@ -295,20 +280,21 @@ class Economy:
         from games.tw.attila.traits import rules
 
         trait_food = 0
-        if rules(self.traits, "poor_fertility_food") and region.name in self.campaign.get(
-            "poor_fertility_regions", []
+        if (
+            rules(self.traits, "poor_fertility_food")
+            and region.name in self.campaign.poor_fertility_regions
         ):
             trait_food += 15
         if rules(self.traits, "trade_food"):
             # This is a provincial total, credited once to its first region.
             province = next(p for p in self.provinces if p.name == self.owner[region.name])
             if region is province.regions[0]:
-                trait_food += min(150, 30 * self.campaign.get("active_trade_routes", 0))
+                trait_food += min(150, 30 * self.campaign.active_trade_routes)
         consumption = {key: -value for key, value in self.field(region, "food_consumption").items()}
         return add(
             add(
                 add(self.field(region, "food"), consumption),
-                {(): rational(self.scenario.region(region, "food")) + trait_food},
+                {(): rational(self.scenario.for_region(region).food) + trait_food},
             ),
             multiply(
                 add(
@@ -332,16 +318,16 @@ class Economy:
     def public_order(self, province):
         result = add(
             self.province_field(province, "public_order"),
-            {(): self.scenario.province(province, "public_order")},
+            {(): self.scenario.for_province(province).public_order},
         )
-        base = self.scenario.province(province, "immigration_order")
+        base = self.scenario.for_province(province).immigration_order
         if base:
             modifier = {
                 key: value / 100
                 for key, value in self.province_field(province, "immigration_order_percent").items()
             }
             result = add(result, multiply({(): base}, self.floor_zero(add({(): 1}, modifier))))
-        religious = self.scenario.province(province, "religious_order")
+        religious = self.scenario.for_province(province).religious_order
         if religious:
             modifier = {
                 key: value / 100
@@ -357,7 +343,7 @@ class Economy:
         return add(
             add(
                 self.field(region, "sanitation"),
-                {(): self.scenario.region(region, "sanitation")},
+                {(): self.scenario.for_region(region).sanitation},
             ),
             {key: -value for key, value in self.field(region, "squalor").items()},
         )
@@ -373,12 +359,12 @@ class Economy:
             return {}
         identity = tuple(sorted(terms.items()))
         for name, info in self.logic.items():
-            if info[0] == identity:
+            if info.identity == identity:
                 return {(name,): 1}
         name = f"__gate_{self._serial}"
         self._serial += 1
         step = Fraction(1, lcm(*(rational(v).denominator for v in terms.values())))
-        self.logic[name] = (identity, terms, lower, upper, step)
+        self.logic[name] = Indicator(identity, terms, lower, upper, step)
         return {(name,): 1}
 
     def floor_zero(self, terms):
@@ -391,7 +377,9 @@ class Economy:
         )
 
     def corruption(self, region):
-        base = rational(self.scenario.province(self.owner[region.name], "corruption_percent")) / 100
+        base = (
+            rational(self.scenario.for_province(self.owner[region.name]).corruption_percent) / 100
+        )
         if not base:
             return {}
         modifiers = {
@@ -465,11 +453,11 @@ class Economy:
             for _, rule, scope, value in self.effects(source):
                 if rule.kind == "tariff_percent" and scope == Reach.FACTION:
                     tariffs = add(tariffs, {self.decision(source): rational(value) / 100})
-        total = multiply({(): self.scenario.data.get("base_tariffs", 0)}, add({(): 1}, tariffs))
-        for resource, price in self.scenario.data.get("resource_prices", {}).items():
+        total = multiply({(): self.scenario.base_tariffs}, add({(): 1}, tariffs))
+        for resource, price in self.scenario.resource_prices.items():
             quantity = self.floor_zero(self.metric(f"resource:{resource}"))
-            if resource in self.scenario.data.get("resource_demand", {}):
-                quantity = self.cap(quantity, self.scenario.data["resource_demand"][resource])
+            if resource in self.scenario.resource_demand:
+                quantity = self.cap(quantity, self.scenario.resource_demand[resource])
             total = add(total, multiply(quantity, {(): price}))
         bonus = sum(rule[1] for rule in rules(self.traits, "trade_income_percent"))
         return multiply(total, {(): 1 + rational(bonus) / 100})
@@ -478,13 +466,10 @@ class Economy:
         from games.tw.attila.traits import rules
 
         tribute_bonus = sum(rule[1] for rule in rules(self.traits, "tribute_percent"))
-        tribute = rational(self.campaign.get("base_tribute", 0)) * (
-            1 + rational(tribute_bonus) / 100
-        )
+        tribute = rational(self.campaign.base_tribute) * (1 + rational(tribute_bonus) / 100)
         subsidy = (
             500
-            if rules(self.traits, "peace_subsidy")
-            and self.campaign.get("at_peace_with_sassanids", False)
+            if rules(self.traits, "peace_subsidy") and self.campaign.at_peace_with_sassanids
             else 0
         )
         return {(): tribute + subsidy}
@@ -494,15 +479,15 @@ class Economy:
 
         total = {}
         region_by_id = {r.name: r for r in self.regions}
-        for project in self.scenario.data.get("projects", []):
-            region = region_by_id[project["region"]]
+        for project in self.scenario.projects:
+            region = region_by_id[project.region]
             modifiers = self.field(
                 region,
-                "conversion_cost_percent" if project.get("conversion") else "construction_percent",
+                "conversion_cost_percent" if project.conversion else "construction_percent",
             )
-            if project.get("sanitation") and not project.get("conversion"):
+            if project.sanitation and not project.conversion:
                 modifiers = add(modifiers, self.field(region, "sanitation_cost_percent"))
-            if project.get("main_settlement"):
+            if project.main_settlement:
                 modifiers = add(
                     modifiers,
                     {
@@ -510,15 +495,13 @@ class Economy:
                             rule[1]
                             for rule in rules(
                                 self.traits,
-                                "main_conversion"
-                                if project.get("conversion")
-                                else "main_construction",
+                                "main_conversion" if project.conversion else "main_construction",
                             )
                         )
                     },
                 )
-            if not project.get("conversion"):
-                category = "main" if project.get("main_settlement") else project.get("category")
+            if not project.conversion:
+                category = "main" if project.main_settlement else project.category
                 if category:
                     modifiers = add(modifiers, self.field(region, "project_cost_percent", category))
                     if category in ("industry", "agriculture"):
@@ -527,14 +510,12 @@ class Economy:
                             self.field(region, "project_cost_percent", "industry_agriculture"),
                         )
             factor = self.floor_zero(add({(): 1}, {k: v / 100 for k, v in modifiers.items()}))
-            total = add(total, multiply({(): project["base_cost"]}, factor))
+            total = add(total, multiply({(): project.base_cost}, factor))
         return total
 
     def tax_factor(self, region):
         tax = {key: value / 100 for key, value in self.field(region, "tax_percent").items()}
-        baseline = (
-            rational(self.scenario.province(self.owner[region.name], "tax_percent", 100)) / 100
-        )
+        baseline = rational(self.scenario.for_province(self.owner[region.name]).tax_percent) / 100
         return self.floor_zero(add({(): baseline}, tax))
 
     def taxable_income(self, region):
@@ -569,109 +550,34 @@ class Economy:
             total = add(total, {k: -v for k, v in self.upkeep().items()})
             total = add(total, self.export_income())
             total = add(total, self.other_income())
-        for weight in self.scenario.data.get("weights", []):
+        for weight in self.scenario.weights:
             total = add(
                 total,
                 multiply(
                     self.metric(
-                        weight["metric"],
-                        weight["scope"],
-                        weight.get("target", "faction"),
+                        weight.metric,
+                        weight.scope,
+                        weight.recipient,
                     ),
-                    {(): weight["value"]},
+                    {(): weight.value},
                 ),
             )
         return total
 
-    def variable(self, name, solver):
-        if name not in self.logic:
-            return self.by_id[name].lp_variable
-        if name not in self._logic_variables:
-            _, terms, lower, upper, step = self.logic[name]
-            variable = solver.create_auxiliary(name)
-            self._logic_variables[name] = variable
-            expression = self.compile(terms, solver)
-            solver.create_constraint(
-                name + "_lower",
-                [*expression, float(lower) * variable],
-                constraint_fn=lambda x: x >= float(lower),
-            )
-            solver.create_constraint(
-                name + "_upper",
-                [*expression, -float(upper + step) * variable],
-                constraint_fn=lambda x: x <= -float(step),
-            )
-        return self._logic_variables[name]
-
     def compile(self, terms, solver):
-        result = []
-        for monomial, coefficient in terms.items():
-            if not monomial:
-                result.append(float(coefficient))
-                continue
-            key = (monomial[0],)
-            variable = self.variable(key[0], solver)
-            for name in monomial[1:]:
-                key = tuple(sorted((*key, name)))
-                if key not in self.products:
-                    self.products[key] = solver.create_product(
-                        variable,
-                        self.variable(name, solver),
-                        f"__and_{len(self.products)}",
-                    )
-                variable = self.products[key]
-            result.append(float(coefficient) * variable)
-        return result
+        return self.compiler.compile(terms, solver)
 
     def install_constraints(self, solver):
-        for province in self.provinces:
-            food = {}
-            for region in province.regions:
-                food = add(food, self.food(region))
-                solver.create_constraint(
-                    f"{region.name}_Scoped_Sanitation",
-                    self.compile(self.sanitation(region), solver),
-                    constraint_fn=lambda total, r=region: (
-                        total >= self.scenario.region(r, "minimum_sanitation", 1)
-                    ),
-                )
-            solver.create_constraint(
-                f"{province.name}_Scoped_Food",
-                self.compile(add(food, {(): self.scenario.province(province, "food")}), solver),
-                constraint_fn=lambda total, p=province: (
-                    total >= self.scenario.province(p, "minimum_food")
-                ),
-            )
-            solver.create_constraint(
-                f"{province.name}_Scoped_Order",
-                self.compile(self.public_order(province), solver),
-                constraint_fn=lambda total, p=province: (
-                    total >= self.scenario.province(p, "minimum_public_order")
-                ),
-            )
+        self.compiler.install_constraints(solver)
 
-        for i, target in enumerate(self.scenario.data.get("targets", [])):
-            terms = self.metric(target["metric"], target["scope"], target.get("target", "faction"))
-            solver.create_constraint(
-                f"Scenario_Target_{i}",
-                self.compile(terms, solver),
-                constraint_fn=lambda x, t=target: x >= t["value"],
-            )
-        if "project_budget" in self.scenario.data:
-            solver.create_constraint(
-                "Project_Budget",
-                self.compile(self.project_cost(), solver),
-                constraint_fn=lambda x: x <= self.scenario.data["project_budget"],
-            )
-
-    def evaluate(self, terms, selected):
+    def evaluate(self, terms: Polynomial, selected) -> float:
         cache = {}
 
         def enabled(name):
             if name not in self.logic:
                 return name in selected
             if name not in cache:
-                expression = self.logic[name][1]
+                expression = self.logic[name].expression
                 cache[name] = (
                     sum(v for k, v in expression.items() if all(enabled(n) for n in k)) >= 0
                 )
@@ -681,118 +587,7 @@ class Economy:
             sum(value for monomial, value in terms.items() if all(enabled(key) for key in monomial))
         )
 
-    def evaluate_layout(self, selected, mode="income"):
-        from games.tw.attila.effects import METRICS
+    def evaluate_layout(self, selected, mode="income") -> LayoutReport:
+        from games.tw.attila.reporting import evaluate_layout
 
-        financials = {}
-        for r in self.regions:
-            wealth = self.evaluate(self.wealth(r), selected)
-            taxable = self.evaluate(self.taxable_income(r), selected)
-            tax = self.evaluate(self.tax_income(r), selected)
-            upkeep = self.evaluate(self.upkeep(r), selected)
-            financials[r.name] = {
-                "wealth": wealth,
-                "tax_multiplier": self.evaluate(self.tax_factor(r), selected),
-                "tax_bonus_income": taxable - wealth,
-                "corruption_loss": taxable - tax,
-                "tax_income": tax,
-                "building_upkeep": upkeep,
-                "net_income": tax - upkeep,
-            }
-        exports = self.evaluate(self.export_income(), selected)
-        totals = {
-            key: sum(row[key] for row in financials.values())
-            for key in (
-                "wealth",
-                "tax_bonus_income",
-                "corruption_loss",
-                "tax_income",
-                "building_upkeep",
-                "net_income",
-            )
-        }
-        totals["trade_income"] = exports
-        totals["other_recurring_income"] = self.evaluate(self.other_income(), selected)
-        totals["net_income"] += exports + totals["other_recurring_income"]
-        return {
-            "finances": {"total": totals, "regions": financials},
-            "faction_traits": self.traits,
-            "catalogue_exclusions": getattr(self, "catalogue_exclusions", []),
-            "imported_modifiers": self.modifiers,
-            "assumptions": {
-                "treasury_interest": "excluded_by_requested_objective",
-                "province_capitals_held": self.capitals_held,
-                "base_tax_percent_default": 100,
-                "base_corruption_percent_default": 0,
-                "unsupplied_trade_tribute_and_immigration_baselines": 0,
-                "campaign": self.campaign,
-                "technology_economic_bonuses": (
-                    "imported; see imported_modifiers for active facts and omissions"
-                ),
-                "religion_economic_bonuses": (
-                    "imported; conditional religious public order requires scenario input"
-                ),
-            },
-            "state_religion": self.state_religion,
-            "metric_semantics": (
-                "Scoped effect totals and capabilities; not a forecast of conversion "
-                "or research completion"
-            ),
-            "targets": [
-                {
-                    **target,
-                    "actual": self.evaluate(
-                        self.metric(
-                            target["metric"],
-                            target["scope"],
-                            target.get("target", "faction"),
-                        ),
-                        selected,
-                    ),
-                }
-                for target in self.scenario.data.get("targets", [])
-            ],
-            "weighted_metrics": [
-                {
-                    **target,
-                    "actual": self.evaluate(
-                        self.metric(
-                            target["metric"],
-                            target["scope"],
-                            target.get("target", "faction"),
-                        ),
-                        selected,
-                    ),
-                }
-                for target in self.scenario.data.get("weights", [])
-            ],
-            "metrics": {
-                metric: self.evaluate(self.metric(metric), selected)
-                for metric in sorted(METRICS)
-                if self.metric(metric)
-            },
-            "export_income": self.evaluate(self.export_income(), selected),
-            "project_cost": self.evaluate(self.project_cost(), selected),
-            "objective_kind": "weighted_" + mode if self.scenario.data.get("weights") else mode,
-            "objective": self.evaluate(self.objective(mode), selected),
-            "regions": {
-                r.name: {
-                    "wealth": self.evaluate(self.wealth(r), selected),
-                    "food": self.evaluate(self.food(r), selected),
-                    "sanitation": self.evaluate(self.sanitation(r), selected),
-                    "fertility": self.evaluate(self.fertility(r), selected),
-                }
-                for r in self.regions
-            },
-            "corruption_percent": {
-                r.name: 100 * self.evaluate(self.corruption(r), selected) for r in self.regions
-            },
-            "province_food": {
-                p.name: sum(self.evaluate(self.food(r), selected) for r in p.regions)
-                + self.scenario.province(p, "food")
-                for p in self.provinces
-            },
-            "public_order": {
-                p.name: self.evaluate(self.public_order(p), selected) for p in self.provinces
-            },
-        }
+        return evaluate_layout(self, selected, mode)

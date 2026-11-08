@@ -6,7 +6,7 @@ from dataclasses import asdict
 import pytest
 
 from games.tw.multigame.detail import detail_record
-from games.tw.rome2.model import load_data
+from games.tw.rome2.catalog import load_data
 from games.tw.rome2.world import DATA, import_world
 
 

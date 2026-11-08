@@ -5,8 +5,8 @@ import json
 import re
 from pathlib import Path
 
+from games.tw.rome2.catalog import CATALOG
 from games.tw.rome2.effects import TARGETS
-from games.tw.rome2.model import CATALOG
 
 DATA = Path(__file__).parent / "data"
 ALIASES = {
@@ -138,7 +138,7 @@ def province_scenario(
     world_bonuses=True,
     owned_regions=None,
 ):
-    from games.tw.rome2.model import Scenario, Site
+    from games.tw.rome2.scenario import Scenario, ScenarioModifier, Site
 
     world = json.loads((DATA / "world.json").read_text())
     modifiers = json.loads((DATA / "world_modifiers.json").read_text())
@@ -189,7 +189,7 @@ def province_scenario(
         name=regions[0]["province_name"],
         all_technologies=all_technologies,
         technology_profile=technology_profile,
-        modifiers=tuple(applied),
+        modifiers=tuple(ScenarioModifier.from_dict(row) for row in applied),
         world_profile=modifiers["profile"]
         if world_bonuses
         else "resource_map_without_wonder_bonuses",

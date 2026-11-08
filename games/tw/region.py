@@ -118,7 +118,7 @@ class Region(RegionBase, Entity):
 
     def _copy_building(self, building):
         context = self.context
-        deep_copy = building.__copy__()
+        deep_copy = building.instantiate(self.context)
         deep_copy.region = self
         deep_copy.context = self.context
         deep_copy.name = f"{self.name}_{building.name}"

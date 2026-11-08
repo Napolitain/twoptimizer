@@ -5,24 +5,16 @@ import hashlib
 import json
 from pathlib import Path
 
-from games.tw.rome2.model import CATALOG, Economy, Scenario, Site, load_data
+from games.tw.rome2.catalog import CATALOG, load_data
+from games.tw.rome2.model import Economy
+from games.tw.rome2.provenance import model_fingerprint
+from games.tw.rome2.scenario import Scenario, Site
 
 
 def verify(paths):
     data = load_data()
     catalog_hash = hashlib.sha256(CATALOG.read_bytes()).hexdigest()
-    model_hash = hashlib.sha256(
-        b"".join(
-            (CATALOG.parent.parent / name).read_bytes()
-            for name in (
-                "model.py",
-                "effects.py",
-                "world.py",
-                "data/world.json",
-                "data/world_modifiers.json",
-            )
-        )
-    ).hexdigest()
+    model_hash = model_fingerprint()
     cases, proofs, reports = 0, 0, {}
     for path in paths:
         report = json.loads(path.read_text())

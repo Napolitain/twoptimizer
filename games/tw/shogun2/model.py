@@ -4,16 +4,15 @@ All coefficients come from the public catalog/rules or explicit scenario inputs.
 Growth is disclosed, not silently converted to current income or future wealth.
 """
 
-import json
 from collections import Counter, defaultdict
-from dataclasses import asdict, dataclass
+from dataclasses import asdict
 from fractions import Fraction
-from pathlib import Path
-from typing import Any
 
 from ortools.linear_solver import pywraplp
 
 from games.tw.competition import BinaryModel, solve
+from games.tw.immutable import freeze
+from games.tw.shogun2.catalog import load_data
 from games.tw.shogun2.effects import (
     family,
     level,
@@ -22,10 +21,16 @@ from games.tw.shogun2.effects import (
     unique_key,
     values,
 )
+from games.tw.shogun2.records import (
+    Catalog,
+    Economics,
+    ProvinceEconomics,
+    ProvinceRules,
+    PublicRecord,
+    Rules,
+)
+from games.tw.shogun2.scenario import Province, Scenario
 
-ROOT = Path(__file__).parents[1]
-CATALOG_PATH = ROOT / "multigame/data/shogun2.json"
-RULES_PATH = Path(__file__).parent / "data/rules.json"
 TOWN = {"crafts", "stealth", "buddhist", "christian", "ikko"}
 DEDICATED = {"castle", "farming", "infrastructure", "port", "specialty"}
 
@@ -34,33 +39,13 @@ def fraction(value):
     return Fraction(str(value))
 
 
-def load_data():
-    return json.loads(CATALOG_PATH.read_text()), json.loads(RULES_PATH.read_text())
-
-
-@dataclass(frozen=True)
-class Province:
-    id: str
-    town_wealth: float = 0
-    base_tax_percent: float = 30
-    administration: float = 1
-    order_offset: float = -4  # Normal-tax unrest; other unrest must be supplied.
-    minimum_order: float = 0
-    farm_multiplier: float | None = None  # None uses the source's native soil.
-
-
-@dataclass(frozen=True)
-class Scenario:
-    clan: str
-    provinces: tuple[Province, ...]
-    all_arts: bool = True
-    religion: str | None = None
-    nanban_contact: bool = False
-
-
 class Economy:
-    def __init__(self, scenario, catalog=None, rules=None):
-        loaded = load_data() if catalog is None or rules is None else (catalog, rules)
+    def __init__(
+        self, scenario: Scenario, catalog: Catalog | None = None, rules: Rules | None = None
+    ):
+        loaded = (
+            load_data() if catalog is None or rules is None else (freeze(catalog), freeze(rules))
+        )
         self.catalog, self.rules = loaded
         self.scenario = scenario
         if scenario.clan not in self.catalog["factions"]:
@@ -78,13 +63,13 @@ class Economy:
         self.arts = Counter()
         if scenario.all_arts:
             for art in self.catalog["technologies"].values():
-                for text in art["facts"] + art.get("clan_facts", []):
+                for text in (*art["facts"], *art.get("clan_facts", ())):
                     if effect := parse(text):
                         self.arts[effect.kind] += effect.value
         self.farm_percent = self.arts["farm_percent"] + self.rules["clan_farm_percent"].get(
             scenario.clan, 0
         )
-        self.candidates = {}
+        self.candidates: dict[str, dict[str, PublicRecord]] = {}
 
         self._load_candidates(scenario)
 
@@ -121,9 +106,9 @@ class Economy:
             }
 
     def _load_provinces(self, scenario):
-        self.provinces = {}
+        self.provinces: dict[str, tuple[Province, ProvinceRules]] = {}
         for province in scenario.provinces:
-            location = dict(self.rules["provinces"][province.id])
+            location: ProvinceRules = {**self.rules["provinces"][province.id]}
             for amount in asdict(province).values():
                 if amount is not None and not isinstance(amount, str):
                     fraction(amount)  # Reject NaN/inf as well as non-numbers.
@@ -245,14 +230,14 @@ class Economy:
                 objective[term.name()] += rate * amount * administration
         return offset
 
-    def evaluate(self, layout):
+    def evaluate(self, layout) -> Economics:
         """Recompute original economics and constraints without product variables."""
         if set(layout) != set(self.provinces):
             raise ValueError("Layout province coverage differs")
         total_food = self.arts["food"]  # A faction effect, counted once.
         total_income = Fraction(0)
         unique = Counter()
-        report: dict[str, Any] = {}
+        report: dict[str, ProvinceEconomics] = {}
         for province_id, keys in layout.items():
             buildings, slots = self._validate_province_layout(keys, province_id)
             for building in buildings:

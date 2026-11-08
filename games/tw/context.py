@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from collections.abc import Mapping
 from dataclasses import dataclass, field, replace
 from types import SimpleNamespace
 from typing import TYPE_CHECKING
@@ -10,7 +11,7 @@ from typing import TYPE_CHECKING
 from games.tw.enums import NameType
 
 if TYPE_CHECKING:
-    from games.tw.building import Building
+    from games.tw.catalog import BuildingTemplate
     from games.tw.models.game import Game
     from games.tw.solver_cpsat import SolverCpSat
     from games.tw.solver_ortools import SolverOrTools
@@ -28,7 +29,7 @@ class GameContext:
     """
 
     instance: Game | SimpleNamespace | None = None
-    buildings: dict[str, dict[str, Building]] | None = None
+    buildings: Mapping[str, Mapping[str, BuildingTemplate]] | None = None
     problem: Solver | None = None
     fertility: float = 5
     legacy_effects: bool = False

@@ -8,15 +8,10 @@ from datetime import UTC, datetime
 from math import isfinite
 from pathlib import Path
 
+from games.tw.shogun2.catalog import CATALOG_PATH, RULES_PATH, load_data
 from games.tw.shogun2.effects import family, parse
-from games.tw.shogun2.model import (
-    CATALOG_PATH,
-    RULES_PATH,
-    Economy,
-    Province,
-    Scenario,
-    load_data,
-)
+from games.tw.shogun2.model import Economy
+from games.tw.shogun2.scenario import Province, Scenario
 
 
 def assumptions():

@@ -81,7 +81,7 @@ def level(building):
 def values(building, kind, category=None):
     return sum(
         e.value
-        for text in building["facts"] + building.get("clan_facts", [])
+        for text in (*building["facts"], *building.get("clan_facts", ()))
         if (e := parse(text)) and e.kind == kind and (category is None or category == e.category)
     )
 
