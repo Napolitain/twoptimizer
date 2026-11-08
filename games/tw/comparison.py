@@ -6,7 +6,7 @@ from dataclasses import asdict, dataclass
 from math import isfinite
 from typing import TYPE_CHECKING, Any
 
-from games.tw.competition import BinaryModel, solve
+from games.tw.competition import BinaryModel, Result, solve
 
 if TYPE_CHECKING:
     from games.tw.attila.economy import Economy
@@ -40,6 +40,16 @@ def compare_model(
         )
         for name in options.algorithms
     ]
+    return report_results(model, results, options, economy)
+
+
+def report_results(
+    model: BinaryModel,
+    results: list[Result],
+    options: ComparisonOptions,
+    economy: Economy | None = None,
+) -> dict[str, Any]:
+    """Independently evaluate fresh or revalidated cached solver results."""
     feasible = [r.objective for r in results if not r.relaxation and r.objective is not None]
     best = max(feasible, default=None)
     bounds = [r.bound for r in results if r.bound is not None and isfinite(r.bound)]
@@ -76,6 +86,7 @@ def compare_model(
         )
         if economy is not None and row["selected"] is not None:
             row["layout"] = economy.evaluate_layout(set(row["selected"]), options.objective)
+            assert result.objective is not None
             if abs(row["layout"]["objective"] - result.objective) > 1e-5:
                 raise RuntimeError("Layout evaluator disagrees with the compiled objective")
         rows.append(row)

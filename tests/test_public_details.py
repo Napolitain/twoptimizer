@@ -55,6 +55,7 @@ def test_world_join_is_complete_and_rejects_missing_or_unknown_resources():
 
 def test_native_proof_without_cp_fingerprint_is_not_reused(monkeypatch, tmp_path):
     from games.tw.rome2 import benchmark
+    from twoptimizer.adapters import rome2
 
     calls = []
 
@@ -83,7 +84,7 @@ def test_native_proof_without_cp_fingerprint_is_not_reused(monkeypatch, tmp_path
         def reuse_optimum(self, reference):
             pytest.fail("Native optimum had no portable CP proof/layout metadata")
 
-    monkeypatch.setattr(benchmark, "Economy", NativeResult)
+    monkeypatch.setattr(rome2, "Economy", NativeResult)
     result = benchmark.main(
         [
             "--faction",

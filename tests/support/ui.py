@@ -1,7 +1,6 @@
 """Deterministic worker results and cancellable UI test doubles."""
 
 import asyncio
-from dataclasses import asdict
 
 from twoptimizer.models import RunConfig
 
@@ -9,7 +8,7 @@ from twoptimizer.models import RunConfig
 def result(config=None):
     config = config or RunConfig()
     return {
-        "request": asdict(config),
+        "request": config.to_dict(),
         "faction": "Rome",
         "province": "Coastal reference",
         "solver": {

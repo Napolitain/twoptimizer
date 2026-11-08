@@ -5,6 +5,7 @@ import sys
 import traceback
 from pathlib import Path
 
+from twoptimizer.errors import serialize_error
 from twoptimizer.models import RunConfig
 from twoptimizer.progress import PREFIX
 from twoptimizer.service import solve_case
@@ -17,11 +18,13 @@ def main():
         def progress(phase):
             print(PREFIX + json.dumps({"phase": phase}), flush=True)
 
-        result = solve_case(RunConfig(**json.loads(request_path.read_text())), progress=progress)
+        result = solve_case(
+            RunConfig.from_dict(json.loads(request_path.read_text())), progress=progress
+        )
         output_path.write_text(json.dumps(result.to_dict(), allow_nan=False))
         return 0
     except Exception as error:
-        output_path.write_text(json.dumps({"error": str(error)}))
+        output_path.write_text(json.dumps(serialize_error(error)))
         traceback.print_exc()
         return 1
 

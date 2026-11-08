@@ -178,3 +178,16 @@ in `tests/conftest.py`; do not import test collection modules from other tests.
 Keep scenario records, validation, constraint compilation, solver execution and
 reporting in their owning domain modules. Update source provenance when moving
 mathematical code, and bundle terminal style assets in the wheel.
+
+CLI parsers and TUI widgets must translate inputs into shared application requests.
+Use `RunRequest`/`RunConfig`, `make_jobs` and `solve_case` for validation, expansion,
+scenario preparation and typed results. Keep native solver invocation and result
+adaptation in `twoptimizer.adapters`; keep process lifetime, progress transport
+and cancellation in `CaseRunner`. Preserve legacy report shapes with boundary
+serializers, not separate optimization paths. Use explicit request/result
+serialization for workers instead of `dataclasses.asdict`. Application objectives
+are income only; campaign target constraints remain supported, but objective
+weights do not. Retain advanced joint-holding and campaign capabilities when
+changing the request model, and verify semantic results without depending on
+tied building choices or timings. Keep proof/incumbent reuse in caller-owned
+`RunSession` state and validate reused decisions through the owning engine.

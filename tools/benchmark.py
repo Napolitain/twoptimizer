@@ -4,7 +4,6 @@ import argparse
 import hashlib
 import json
 import platform
-from dataclasses import asdict
 from pathlib import Path
 from statistics import median
 from time import perf_counter
@@ -47,7 +46,7 @@ def main() -> None:
     report = {
         "python": platform.python_version(),
         "platform": platform.platform(),
-        "request": asdict(config),
+        "request": config.to_dict(),
         "result_sha256": signatures.pop(),
         "median_seconds": median(s["wall_seconds"] for s in samples),
         "samples": samples,

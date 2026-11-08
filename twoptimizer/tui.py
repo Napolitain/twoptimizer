@@ -1,6 +1,5 @@
 """Mouse and keyboard workbench; engine work stays in cancellable processes."""
 
-from dataclasses import asdict
 from time import perf_counter
 from typing import Any, ClassVar
 
@@ -28,7 +27,7 @@ from twoptimizer.presentation import money, timing_summary
 from twoptimizer.province_picker import BorderPicker, ProvincePicker, ProvinceSelection
 from twoptimizer.runner import CaseRunner
 from twoptimizer.screens import ExportScreen, HelpScreen
-from twoptimizer.service import make_jobs
+from twoptimizer.service import error_result, make_jobs
 from twoptimizer.workspace import compose_workspace
 
 
@@ -339,23 +338,7 @@ class OptimizerApp(App):
                 except (RuntimeError, OSError, ValueError) as error:
                     errors += 1
                     log.write(f"ERROR: {error}")
-                    result = {
-                        "request": asdict(job),
-                        "faction": faction_name(job.game, job.faction),
-                        "province": province_label(job),
-                        "solver": {
-                            "algorithm": job.algorithm,
-                            "status": "ERROR",
-                            "seconds": 0,
-                            "bound": None,
-                        },
-                        "income": None,
-                        "gap_percent": None,
-                        "metrics": {},
-                        "buildings": [],
-                        "assumptions": NOTES[job.game],
-                        "raw": {"error": str(error)},
-                    }
+                    result = error_result(job, error).to_dict()
                 if result is None:
                     break
                 self.results.append(result)

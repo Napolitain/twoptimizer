@@ -1,7 +1,9 @@
-# Engine architecture
+# Application and engine architecture
 
-The CLI and terminal UI share the same engine adapters and serialized report
-schema. The domain code can also run directly without launching either interface.
+The CLI and terminal UI share request validation, scenario preparation and typed
+application results. Their existing JSON and CSV report formats are preserved by
+serializers at the output boundary. The domain code can also run directly without
+launching either interface.
 
 ## Ownership and model compilation
 
@@ -49,28 +51,101 @@ removed; use `uv run --locked twoptimizer attila` for the maintained CLI.
 
 ## Application boundaries
 
-- `twoptimizer.models` defines frozen request, building-selection, engine-result,
-  solver-summary and case-result dataclasses. Frozen containers do not imply deep
-  immutability of native engine reports; those remain owned by their case.
-- `twoptimizer.engines` translates each game's existing output into `EngineResult`.
-  Native dictionaries stay at this adapter boundary so engine-specific details
-  and the existing exported format remain available.
-- `twoptimizer.service` validates requests, expands batches and coordinates one
-  typed `CaseResult` through `solve_case`.
-- `twoptimizer.holdings` expands independent province batches or preserves a
-  joint holding for supported engines. `RunConfig.provinces=None` keeps the
-  original single province; an empty tuple selects no jobs. Joint Attila borders
-  are explicit two-way links, validated before a worker starts.
-- `twoptimizer.province_picker` owns the optional selection dialogs. Adding
-  provinces invalidates cached border knowledge; removing them prunes links.
-- `solve_case` returns the typed result. Workers explicitly call `CaseResult.to_dict`
-  at the JSON boundary, preserving the existing worker/report schema.
-  `twoptimizer.export` writes JSON and CSV.
-- `twoptimizer.progress` tracks phase timings and defines the worker progress
-  protocol. `twoptimizer.runner` owns subprocess cancellation and reaping.
+Both interfaces optimize **income only**. Attila's `--objective income` remains
+accepted; wealth, legacy and campaign objective weights are rejected by the
+application. Lower-level domain APIs retain their existing modes for engine
+regressions and direct use.
 
-Solver mathematics, search parameters, proof semantics and default time limits
-are unchanged by this refactor.
+The call paths are:
+
+```text
+CLI parser -> RunRequest -> make_jobs -> solve_case -> game adapter -> engine
+                                        |                             |
+                                        +-- CaseResult <- EngineResult+
+                                            |
+                                            +-> CLI report serializer
+
+TUI widgets -> RunConfig -> make_jobs -> CaseRunner -> worker subprocess
+                                                       |
+                                                       +-> RunConfig.from_dict
+                                                       +-> solve_case
+                                                       +-> CaseResult.to_dict
+```
+
+`twoptimizer.models` defines `RunConfig` for settings and province selection,
+and `RunRequest` for additional batch axes: factions, provinces, solvers, fertility
+and soil. `RunConfig.provinces=None` uses the single `province`; an empty tuple
+selects no jobs. With multiple provinces, `joint=False` creates independent cases
+and `joint=True` retains one combined holding in Attila or Shogun 2.
+`AttilaOptions` carries typed campaign inputs, region fertility overrides,
+technology selections, building filters and heuristic settings. Explicit
+`to_dict`/`from_dict` methods preserve those records across worker JSON.
+
+`twoptimizer.requests.make_jobs`, exposed through `twoptimizer.service`, resolves
+province/faction identities, validates common and game-specific options, applies
+research availability rules and expands the batch. `default_config` supplies the
+single-case defaults. CLI commands supply their comparison defaults explicitly;
+their broader default batches remain intentional. `solve_case` also validates its
+single request, so direct calls and worker calls use the same rules.
+
+`twoptimizer.holdings` owns selection and border helpers.
+`twoptimizer.province_picker` owns the optional TUI selection dialogs. Adding
+provinces invalidates known borders; removing provinces prunes links. Joint TUI
+Attila holdings require explicit border input, including an empty confirmed list
+when none are adjacent. Picker borders are two-way links. Campaign JSON can
+supply its existing directed adjacency map; no border map is inferred.
+
+`twoptimizer.adapters` prepares the game's scenario and invokes its existing
+engine. It turns the independently evaluated native report into `EngineResult`.
+`solve_case` constructs `CaseResult` with income, status, objective, bound, layouts,
+metrics, assumptions, source hashes and phase timings. Native dictionaries remain
+at the adapter/report boundary and belong to that case. Frozen dataclasses do not
+make those native reports deeply immutable. A relaxed LP objective supplies a
+bound, not a feasible income or building layout.
+
+An optional, caller-owned `RunSession` retains Attila model preparation and
+validated faction proofs, and Rome II incumbents and portable proofs. It also
+checks agreement between proved optima for equivalent requests. Rome II resumes
+preserve the best incumbent and strongest available bound. These services own
+reuse behavior; CLI modules own loading and saving existing report formats.
+Attila computes the full compiled-model signature only when proof reuse is
+requested; ordinary cases avoid that extra pass over the model. Session state
+never becomes process-global, and each independently compiled model owns its
+decision containers.
+
+`twoptimizer.runner` owns process creation, captured native output, progress
+transport, termination and reaping. The worker only decodes one request, invokes
+`solve_case` and encodes its result or error. Foreground CLI cases call the same
+service synchronously. Worker startup/wall timings belong to the execution layer;
+model and solver phase timings belong to the case. Cancelling the active TUI
+worker preserves already completed case results for viewing and export.
+
+`ApplicationError` identifies invalid requests across direct and subprocess
+execution; its message and code survive worker transport. Runtime failures remain
+failures rather than solver feasibility claims. `service.error_result` constructs
+the typed failed-case record used by the TUI. `twoptimizer.export` retains the TUI
+session JSON/CSV schema, while the CLI modules serialize their existing native
+comparison formats.
+
+### Interface capabilities and defaults
+
+All interfaces default to no time limit and automatic CPU selection. Explicit
+`--seconds` and `--workers` remain available in the CLI. The TUI exposes an optional
+time limit and uses automatic workers.
+
+| Interface | Default scope | Additional supported inputs |
+| --- | --- | --- |
+| TUI | Rome II, Rome, coastal reference, portfolio, research disabled | Independent province batches; joint Attila/Shogun holdings and Attila border picker; one/all factions; solver comparison; game research profiles; Attila fertility/religion; Shogun soil, wealth and tax; Rome world bonuses |
+| `attila` | ERE, Orthodox; every province independently at fertility 0 and 5; CP-SAT; all technologies | Repeated provinces and optional joint ownership/limit; campaign JSON and target constraints; named technology subset; regional fertility; city/building levels and military eligibility; exact solvers, heuristics and GLOP bound; seed, beam width and restarts |
+| `attila-factions` | Settled playable factions; independent Aegyptus, Thracia and Germania; fertility 5; Orthodox; all technologies; CP-SAT | Province selection, religion, fertility, NPC factions with horde exclusions, validated proof reuse and resume |
+| `rome2` | All imported factions on independent inland/coastal/grain reference layouts; portfolio; research bonuses disabled | Repeated named provinces/layouts, factions and solvers; public/archived research; world bonuses; resume/fill-missing, warm hints and portable proof reuse |
+| `shogun2` | All imported clans jointly owning Sado, Settsu and Owari; native/barren/very fertile soil comparisons; CP-SAT; all arts | Repeated joint provinces, clans, soils and exact solvers; fixed town wealth and tax |
+
+The shared request supports advanced CLI cases even though the TUI does not expose
+all of those controls. Adding an interface option should translate into these
+requests rather than introduce another engine orchestration path. Solver
+mathematics, independent evaluation, bundled game data and Python 3.12 support
+remain in their existing engine/build boundaries.
 
 ## Regression evidence
 
@@ -83,6 +158,20 @@ constraint coefficients, bounds and objective offset.
 `tests/test_architecture.py` checks those signatures, concurrent and interleaved
 compilation, cleanup after failure, typed serialization, and independent layout
 validation. Existing fixture, CLI, worker, TUI and export tests remain in place.
+
+`tests/test_application_cli.py` and `tests/test_attila_application.py` compare
+CLI requests with the shared service and direct engine compilation, including
+joint holdings, campaign inputs, region fertility, technology subsets and LP
+bounds. Assertions compare income and proof semantics rather than timings or
+building choices among tied optima. Resume tests cover validated proof replay,
+negative-income incumbents and contradictory bounds.
+
+`tests/test_application_requests.py` checks shared validation, batch expansion,
+income-only inputs and typed request boundaries. `tests/test_tui_lifecycle.py`
+checks direct/worker equivalence, typed campaign serialization, portable errors,
+and cancellation of a real native worker while retaining a completed case and
+its JSON/CSV export. Upstream province-picker, border and Rome snapshot replay
+regressions remain in the suite.
 
 ## Repeatable performance checks
 
@@ -113,6 +202,27 @@ the same workload: three serial runs per revision had identical result
 fingerprints and proved the same optimum. Median wall time was **5.70 s before /
 5.50 s after**, with ranges **5.65–6.31 s / 5.40–5.85 s**. These ranges overlap;
 the comparison shows no observed regression rather than a general speedup.
+
+## Shared application comparison
+
+The application-layer change was compared with `bb1f142` using Python 3.14.9,
+CP-SAT, one worker and no time limit. Six serial runs per revision/game used the
+UI's default economic settings; the measurement order was reversed halfway
+through. Every run retained the same income, status, objective and bound. These
+checks intentionally ignored timing and tied building selections when comparing
+semantics.
+
+| Game | Previous median (range), seconds | Shared-service median (range), seconds |
+| --- | --- | --- |
+| Attila | 0.6564 (0.6211–1.0207) | 0.6314 (0.5950–0.6676) |
+| Rome II | 0.9879 (0.9742–1.0142) | 1.0313 (0.9098–1.0746) |
+| Shogun 2 | 0.0132 (0.0121–0.0227) | 0.0145 (0.0116–0.0177) |
+
+The ranges overlap. These small samples establish result preservation, not a
+general speedup: Rome II's median was slightly higher, and Shogun 2 added about
+one millisecond. Profiling the initial Attila adapter found approximately 0.10 s
+spent computing an unused model signature; ordinary runs now skip that work,
+while faction proof reuse retains the signature and independent validation.
 
 ## Domain modules and ownership
 

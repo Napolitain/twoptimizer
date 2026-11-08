@@ -1,8 +1,9 @@
 """Interactive navigation, engine isolation, CLI compatibility and export checks."""
 
 import asyncio
+import csv
 import json
-from dataclasses import asdict, replace
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -52,6 +53,35 @@ def test_export_roundtrip_and_existing_csv_is_protected(tmp_path):
     assert saved["cases"][0]["income"] == 4182.7
     assert saved["skipped"] == ["Incomplete research"]
     assert "OPTIMAL" in csv_path.read_text()
+    with csv_path.open(newline="") as stream:
+        reader = csv.DictReader(stream)
+        assert reader.fieldnames == [
+            "game",
+            "faction",
+            "province",
+            "research",
+            "algorithm",
+            "status",
+            "income",
+            "bound",
+            "gap_percent",
+            "seconds",
+            "fertility",
+            "soil",
+            "tax",
+            "town_wealth",
+            "time_limit_seconds",
+            "workers",
+            "elapsed_seconds",
+            "build_seconds",
+            "search_seconds",
+            "joint",
+            "province_ids",
+            "adjacency",
+        ]
+        row = next(reader)
+        assert row["status"] == "OPTIMAL" and row["income"] == "4182.7"
+        assert row["time_limit_seconds"] == ""
     json_path.unlink()
     with pytest.raises(FileExistsError):
         export_session(path, [result()])
@@ -177,7 +207,7 @@ def test_real_engine_worker(game):
             "UNKNOWN",
             "INFEASIBLE",
         }
-        assert output["request"] == asdict(config)
+        assert output["request"] == config.to_dict()
         assert output["source_files"]
         assert output["timings"]["worker_wall_seconds"] > 0
         assert output["timings"]["worker_startup_seconds"] >= 0

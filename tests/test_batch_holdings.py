@@ -1,7 +1,7 @@
 """Batches, shared ownership, border effects and portable multi-province requests."""
 
 import json
-from dataclasses import asdict, replace
+from dataclasses import replace
 
 import pytest
 from hypothesis import given
@@ -81,7 +81,7 @@ def test_worker_json_roundtrip_keeps_immutable_selection_and_borders():
         adjacency=(ATTILA,),
         algorithm="cp-sat",
     )
-    decoded = RunConfig(**json.loads(json.dumps(asdict(config))))
+    decoded = RunConfig.from_dict(json.loads(json.dumps(config.to_dict())))
     assert decoded == config
     jobs, _ = make_jobs(decoded)
     assert len(jobs) == 1 and jobs[0].provinces == ATTILA
@@ -178,7 +178,7 @@ def test_joint_attila_worker_uses_the_selected_border_graph():
         workers=1,
     )
     result = solve_case(config).to_dict()
-    assert result["request"]["provinces"] == ATTILA
+    assert result["request"]["provinces"] == list(ATTILA)
     assert result["raw"]["adjacency"] == adjacency_mapping(config)
     assert "Together" in result["province"]
     assert result["solver"]["status"] in {"OPTIMAL", "FEASIBLE", "UNKNOWN"}

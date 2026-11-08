@@ -40,8 +40,9 @@ uv run --locked twoptimizer attila --province Thracia --fertility 5 --seconds 15
 
 `--seconds` sets an optional per-case time limit; omit it to run to completion.
 Add `--help` to any subcommand for its options, or run
-`uv run --locked twoptimizer --help` to list commands. Generated reports go under
-`benchmark-results/` by default.
+`uv run --locked twoptimizer --help` to list commands. Comparison reports go under
+`benchmark-results/` by default; use `attila --output results.json` to save an
+Attila run.
 
 ## Details
 

@@ -102,7 +102,8 @@ and preserves completed cases. The CLI retains campaign JSON inputs and its exis
 advanced options.
 Installed wheels include the game data; a Git checkout is not required to run them.
 
-The new launcher also forwards CLI arguments unchanged:
+The CLI uses the same application service as the TUI. Existing commands and
+comparison report formats remain available:
 
 ```sh
 uv run --locked twoptimizer rome2 --layout coastal --seconds 15
@@ -113,6 +114,9 @@ uv run --locked twoptimizer attila-factions --help
 
 All optimizer CLIs also run without a time cap by default. Omit `--seconds` to
 run to completion; specify it only when you want an optional per-case time limit.
+All application requests optimize income. The shared service applies the same
+validation, scenario preparation and result semantics in either interface; CLI
+comparison commands retain their broader batch defaults.
 
 ## Run Rome II
 
@@ -154,7 +158,8 @@ uv run --locked twoptimizer attila --province Thracia --fertility 5 \
 
 The default solver is native CP-SAT. The default scenario uses Eastern Roman
 Empire buildings, Orthodox religion, level-4 cities, all available nonmilitary
-building levels, all technology effects, and the **income** objective. Technologies
+building levels, all technology effects, and the **income** objective. Income is
+the only application objective; `--objective income` is accepted explicitly. Technologies
 that disable legacy unlocks are respected. Without `--province`, the runner
 covers all 62 map provinces at fertility 0 and 5; these are hypothetical owned
 provinces, not the faction's starting territory.
@@ -175,19 +180,17 @@ the selected requirements cannot all be met. `UNKNOWN` means the time budget
 expired without a usable result. No result is labeled optimal just because it
 matches another algorithm's score.
 
-### Objectives and scenarios
+### Income and scenarios
 
-* `--objective wealth`: maximize building-generated wealth, including
-  additive category and all-wealth percentage bonuses.
-* `--objective income` (default): apply tax/corruption assumptions and building modifiers,
-  subtract imported upkeep, and add supplied trade, tribute and subsidies. Defaults
-  use a neutral tax multiplier of 1, zero corruption and no external revenue.
-  This is a static income proxy, not a complete treasury forecast. ERE's +8%
-  provincial governor tax bonus counts here. Treasury interest is deliberately
-  excluded from this objective. Allow more
-  time than for wealth.
-* `--objective legacy --building-level 4`: reproduce the historical base-GDP
-  benchmark with its old effect interpretation and eligibility assumptions.
+Income applies tax/corruption assumptions and building modifiers, subtracts
+imported upkeep, and adds supplied trade, tribute and subsidies. Defaults use a
+neutral tax multiplier of 1, zero corruption and no external revenue. ERE's +8%
+provincial governor tax bonus counts here; treasury interest is excluded. The
+result is recurring income under the supplied static scenario.
+
+The CLI rejects `--objective wealth`, `--objective legacy` and nonempty campaign
+`weights`. Campaign targets remain available as constraints while maximizing
+income.
 
 ```sh
 uv run --locked twoptimizer attila --province Aegyptus --fertility 3 \
@@ -207,8 +210,8 @@ specific to the culture. Missing metadata raises an error when a requested
 restriction cannot be checked; it is never interpreted as a free building.
 In income mode, buildings without imported upkeep/availability metadata are
 excluded and listed by name in `catalogue_exclusions`. This is a known coverage
-gap, not a claim that those buildings are unavailable in the game. Wealth mode
-can still inspect the older, wider roster. The original tables are retained.
+gap, not a claim that those buildings are unavailable in the game. The original
+tables are retained.
 Fertility is an explicit scenario input; historical regional fertility has not
 been imported or inferred from a modern map.
 
@@ -344,8 +347,8 @@ under the git-ignored `benchmark-results/` directory.
 This is a static settlement-building optimizer. It enforces nonnegative building
 food and public order and at least one net sanitation point per region unless
 scenario thresholds specify otherwise. Growth, research, religious influence,
-resources and recruitment capabilities can now be targets or weighted preferences;
-the model does not simulate their evolution over time. It does not simulate
+resources and recruitment capabilities can be minimum targets while income is
+maximized; the model does not simulate their evolution over time. It does not simulate
 construction queues, upgrade histories, battles, population conversion, trade
 diplomacy or the full campaign economy. Imported construction times remain catalog
 facts. City capacity still follows the existing level-4 slot assumptions;
@@ -359,47 +362,18 @@ identities, culture-specific requirements, mixed-build rejection and offline
 imports. The HoI4 tests remain in the suite. Rome II is retained, but its current
 parser still lacks checked-in province and region name tables.
 
-### Verified run in this workspace
+Historical wealth and legacy benchmark measurements remain in Git history. They
+do not describe the current income-only application.
 
-The wealth measurements below predate automatic technology/faction/religion
-modifiers and the change to income as the default. They are historical results
-for the narrower model, not measurements of the new default.
+## Campaign inputs and targets
 
-The revised wealth model was checked over all 124 default cases. The initial
-five-second run proved 113 optimal; the remaining 11 were resolved with a
-60-second budget. All 124 layouts were validated against the current model.
-The verification report records where a bound from a model with additional
-culture candidates was reused after validating its layout under stricter
-eligibility; those original timings are not presented as fresh-run timings.
-See `benchmark-results/attila-verified-wealth.json` and the compact
-`benchmark-results/attila-verified-summary.csv`.
-
-A separate fresh six-case comparison used one worker and five seconds per solver:
-
-| Solver | Proved optimal | Feasible, proof incomplete | Median total time |
-| --- | ---: | ---: | ---: |
-| CP-SAT | 6/6 | 0 | 1.95 s |
-| CBC | 4/6 | 2/6 | 3.83 s |
-| SCIP | 2/6 | 4/6 | 5.02 s |
-
-These are single-run measurements. CP-SAT remains the default. `--workers 8`
-enables its parallel portfolio when useful; other solvers' thread settings are
-unchanged. Those benchmarks used one worker for reproducibility; normal runs now
-select CPU parallelism automatically, with `--workers` available as an override.
-
-
-## Campaign options and priorities
-
-Pass `--scenario path.json` to use campaign inputs. The repository contains three
-illustrative scenarios; their numbers are example assumptions, not imported
-historical starting conditions:
+Pass `--scenario path.json` to use campaign inputs. These two checked-in examples
+use supplied assumptions, not imported historical starting conditions:
 
 ```sh
 uv run --locked twoptimizer attila --province Aegyptus --fertility 5 \
   --objective income --scenario games/tw/attila/scenarios/campaign-income.json \
   --workers 8 --seconds 60 --output benchmark-results/campaign-income.json
-uv run --locked twoptimizer attila --province Aegyptus --fertility 5 \
-  --scenario games/tw/attila/scenarios/priorities.json --workers 8 --seconds 60
 uv run --locked twoptimizer attila --joint --province Aegyptus --province Aethiopia \
   --fertility 5 --scenario games/tw/attila/scenarios/joint.json --workers 8 --seconds 120
 ```
@@ -408,7 +382,11 @@ uv run --locked twoptimizer attila --joint --province Aegyptus --province Aethio
 research targets, export revenue and adjacency are then coupled. Faction tariffs
 are counted once, not once per province. Without `--joint`, each province is an
 independent scenario; inputs that refer to unselected places are rejected.
-The API equivalent is `Problem(context=parser.context, scenario=...)` with all participating provinces.
+The shared application equivalent is a `RunConfig` with `provinces`, `joint=True`
+and `AttilaOptions(campaign=Scenario(...))`, passed through `make_jobs` and
+`solve_case`. Its adjacency inputs remain explicit. Direct engine use
+can also pass all participating provinces to `Problem(context=parser.context,
+scenario=...)`.
 
 The JSON keys are:
 
@@ -423,7 +401,7 @@ The JSON keys are:
 | `adjacency` | Source province IDs mapped to adjacent selected province IDs; lists are explicit and directed |
 | `conditional_targets` | Effect IDs mapped to source-province/recipient-province lists for exceptional food-sharing/neighbor effects |
 | `targets` | Minimum required scoped effects: `metric`, `scope`, `target`, `value` |
-| `weights` | Optional GDP-equivalent preference coefficients with the same fields; changes the objective to a weighted score |
+| `weights` | Must be absent or empty; the application optimizes income only |
 | `projects` | Fixed future project quotes: `region`, `base_cost`, optional `name`, `sanitation`, `conversion` |
 | `project_budget` | Maximum total quoted cost of those future projects under the selected operating layout |
 | `campaign` | Optional `province_capitals_held`, `active_trade_routes`, `base_tribute`, `at_peace_with_sassanids`, and explicit `poor_fertility_regions` |
@@ -464,14 +442,14 @@ regions, provincial capabilities over recipient provinces, and global research
 and agent caps once per contributing source. Agent recruitment enablement is
 Boolean, so two spy-enabling buildings do not enable two distinct spy types.
 State-religion influence joins the selected faith; `religion:state` and the
-selected faith's specific metric are aliases. Do not weight both unless that
-double preference is intentional.
+selected faith's specific metric are aliases.
 
 These metrics measure effect totals/capabilities, not time forecasts or battle
 outcomes. A research-rate target does not guarantee that a technology finishes
 by a date. Religious influence/osmosis targets do not predict future population
-shares or unrest. Weighted objectives are labeled `weighted_wealth` or
-`weighted_income` in JSON; their scores must not be reported as pure GDP.
+shares or unrest. The older `priorities.json` example contains objective weights
+and remains a lower-level engine fixture; remove its `weights` entry to use its
+minimum targets with the income-only application.
 
 Conditional recipients currently support
 `att_effect_public_order_base_neighbouring` and
@@ -503,10 +481,8 @@ those or the 65 army/horde combinations. Run the audit to inspect each exact ID.
 The corruption interpretation is corroborated by the [in-game effect tooltip for
 Aksumite Monks’ Quarters](https://www.honga.net/totalwar/attila/building.php?b=att_bld_eos_religion_east_church_major_faction_1&f=att_fact_axum&l=en&v=attila), which describes a percentage of the current value.
 
-The three checked-in scenario examples were exercised end-to-end and proved
-optimal before automatic campaign modifiers were enabled. The earlier
-Aegyptus/fertility-5 wealth result was 18,675 without a scenario. These checks validate the model and its supplied
-inputs, not complete in-game fidelity.
+The checked-in scenario examples also serve as engine regression inputs.
+Validation checks the model and its supplied inputs, not complete in-game fidelity.
 
 ## Compare civilizations by recurring income
 

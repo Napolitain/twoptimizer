@@ -5,13 +5,13 @@ import csv
 import hashlib
 import json
 from datetime import UTC, datetime
-from math import isfinite
 from pathlib import Path
 
 from games.tw.shogun2.catalog import CATALOG_PATH, RULES_PATH, load_data
 from games.tw.shogun2.effects import family, parse
-from games.tw.shogun2.model import Economy
-from games.tw.shogun2.scenario import Province, Scenario
+from twoptimizer import service
+from twoptimizer.models import RunConfig, RunRequest
+from twoptimizer.session import RunSession
 
 
 def assumptions():
@@ -152,78 +152,39 @@ def main(argv=None):
     )
     parser.add_argument("--output", type=Path, default=Path("benchmark-results/shogun2/income"))
     args = parser.parse_args(argv)
-    if args.seconds is not None and (not isfinite(args.seconds) or args.seconds <= 0):
-        parser.error("--seconds must be positive; omit it to run to completion")
-    catalog, rules = load_data()
-    clans = args.clan or sorted(catalog["factions"])
-    algorithms = args.algorithm or ["cp-sat"]
-    provinces = args.province or ["jap_sado", "jap_settsu", "jap_owari"]
+    catalog, _ = load_data()
+    request = request_from_args(args)
+    jobs, _ = service.make_jobs(request)
+    provinces = list(request.provinces)
     cases, rows = [], []
-    for soil in args.soil or ["native", "barren", "very_fertile"]:
-        multiplier = {"native": None, "barren": 1, "very_fertile": 3}[soil]
-        for clan in clans:
-            scenario = Scenario(
-                clan,
-                tuple(
-                    Province(
-                        key,
-                        town_wealth=args.town_wealth,
-                        base_tax_percent=args.tax,
-                        farm_multiplier=multiplier,
-                    )
+    first_results = {}
+    session = RunSession()
+    for job in jobs:
+        case = service.solve_case(job, session=session)
+        result = case.raw
+        cases.append({"soil": job.soil, "clan_name": case.faction, **result})
+        first_results.setdefault((job.soil, job.faction), case)
+        print(
+            f"{job.soil:13} {job.faction:12} {job.algorithm:6} {case.solver.status:9} "
+            f"{case.income} ({case.solver.seconds:.3f}s)",
+            flush=True,
+        )
+    for (soil, _), first in first_results.items():
+        result = first.raw
+        rows.append(
+            {
+                "soil": soil,
+                "clan": first.faction,
+                "religion": result.get("religion"),
+                "domestic_tax_income": first.income,
+                "food_surplus": first.metrics.get("food_surplus"),
+                "status": first.solver.status,
+                **{
+                    key: result.get("provinces", {}).get(key, {}).get("tax_income")
                     for key in provinces
-                ),
-            )
-            results = []
-            for algorithm in algorithms:
-                result = Economy(scenario, catalog, rules).optimize(
-                    algorithm, args.seconds, args.workers
-                )
-                cases.append(
-                    {
-                        "soil": soil,
-                        "clan_name": catalog["factions"][clan]["name"],
-                        **result,
-                    }
-                )
-                results.append(result)
-                print(
-                    (
-                        f"{soil:13}"
-                        " "
-                        f"{clan:12}"
-                        " "
-                        f"{algorithm:6}"
-                        " "
-                        f"{result['solver']['status']:9}"
-                        " "
-                        f"{result.get('domestic_tax_income')}"
-                        " ("
-                        f"{result['solver']['seconds']:.3f}"
-                        "s)"
-                    ),
-                    flush=True,
-                )
-            proven = [
-                r["domestic_tax_income"] for r in results if r["solver"]["status"] == "OPTIMAL"
-            ]
-            if proven and max(proven) - min(proven) > 1e-5:
-                raise AssertionError("Exact solvers disagree on a proved optimum")
-            first = results[0]
-            rows.append(
-                {
-                    "soil": soil,
-                    "clan": catalog["factions"][clan]["name"],
-                    "religion": first.get("religion"),
-                    "domestic_tax_income": first.get("domestic_tax_income"),
-                    "food_surplus": first.get("food_surplus"),
-                    "status": first["solver"]["status"],
-                    **{
-                        key: first.get("provinces", {}).get(key, {}).get("tax_income")
-                        for key in provinces
-                    },
-                }
-            )
+                },
+            }
+        )
     payload = {
         "schema_version": 1,
         "created_at_utc": datetime.now(UTC).isoformat(),
@@ -247,5 +208,29 @@ def main(argv=None):
     return payload
 
 
+def request_from_args(args) -> RunRequest:
+    """Preserve jointly owned CLI holdings and research defaults in shared requests."""
+    return RunRequest(
+        config=RunConfig(
+            game="shogun2",
+            faction="all",
+            province="jap_owari",
+            algorithm="cp-sat",
+            seconds=args.seconds,
+            workers=args.workers,
+            research="all",
+            town_wealth=args.town_wealth,
+            tax=args.tax,
+        ),
+        factions=tuple(args.clan or ()),
+        provinces=tuple(args.province or ("jap_sado", "jap_settsu", "jap_owari")),
+        algorithms=tuple(args.algorithm or ()),
+        soils=tuple(args.soil or ("native", "barren", "very_fertile")),
+        joint=True,
+    )
+
+
 if __name__ == "__main__":
-    main()
+    from twoptimizer.cli import run_cli
+
+    raise SystemExit(run_cli(main))

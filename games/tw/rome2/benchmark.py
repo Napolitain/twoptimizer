@@ -4,26 +4,19 @@ import argparse
 import csv
 import hashlib
 import json
-from dataclasses import asdict
+from dataclasses import replace
 from datetime import UTC, datetime
-from math import isfinite
 from pathlib import Path
 
 from games.tw.models.model_rome2 import Rome2Factions
 from games.tw.rome2.catalog import CATALOG, load_data
 from games.tw.rome2.effects import fact_effect, raw_effect
-from games.tw.rome2.model import Economy
 from games.tw.rome2.provenance import model_fingerprint
-from games.tw.rome2.scenario import Scenario, Site
-from games.tw.rome2.world import province_scenario
-
-
-def presets(name):
-    coastal = name != "inland"
-    return (
-        Site("capital", major=True, port=coastal),
-        Site("town", port=coastal, resource="grain" if name == "grain" else None),
-    )
+from twoptimizer import service
+from twoptimizer.adapters.rome2 import prepare_scenario, request_key
+from twoptimizer.models import RunConfig, RunRequest
+from twoptimizer.rome_session import RomeSession
+from twoptimizer.session import RunSession
 
 
 def assumptions():
@@ -140,44 +133,7 @@ def audit(data):
     }
 
 
-def _solve_case(scenario, data, cases, algorithm, args, proofs):
-    economy = Economy(scenario, data)
-    seeds = [
-        c
-        for c in cases.values()
-        if "sites" in c
-        and json.dumps(c["scenario"], sort_keys=True)
-        == json.dumps(asdict(scenario), sort_keys=True)
-    ]
-    seed = max(seeds, key=lambda c: c["domestic_net_income"], default=None)
-    fingerprint = economy.fingerprint() if algorithm in {"cp-sat", "portfolio"} else None
-    result = (
-        economy.reuse_optimum(proofs[fingerprint])
-        if fingerprint in proofs
-        else economy.optimize(
-            algorithm,
-            args.seconds,
-            args.workers,
-            incumbent=seed if algorithm in {"cp-sat", "scip-nonlinear", "portfolio"} else None,
-        )
-    )
-    return result, fingerprint
-
-
-def _merge_incumbent(old, result):
-    if old and old.get("domestic_net_income", -1) > result.get("domestic_net_income", -1):
-        best = old
-    else:
-        best = result
-    bounds = [c["solver"]["bound"] for c in (old, result) if c and c["solver"]["bound"] is not None]
-    if bounds:
-        best["solver"]["bound"] = min(bounds)
-    return best
-
-
 def _validate_run_options(args, parser):
-    if args.seconds is not None and (not isfinite(args.seconds) or args.seconds <= 0):
-        parser.error("--seconds must be positive; omit it to run to completion")
     if args.fill_missing and not args.resume:
         parser.error("--fill-missing requires --resume")
 
@@ -279,116 +235,63 @@ def main(argv=None):
                     )
                 )
 
-    proofs = {
-        c["proof_fingerprint"]: c
-        for c in cases.values()
-        if c["solver"]["status"] == "OPTIMAL" and "proof_fingerprint" in c
+    request = request_from_args(args)
+    jobs, _ = service.make_jobs(request)
+    labels = {
+        prepare_scenario(replace(request.config, province=name)).name: name
+        for name in request.provinces
     }
-    factions = args.faction or sorted(data["factions"])
-    factions = _faction_selection(args, factions, data, payload)
-    for layout in args.province or args.layout or ["inland", "coastal", "grain"]:
-        for faction in factions:
-            scenario = (
-                province_scenario(
-                    layout,
-                    faction,
-                    all_technologies=args.all_technologies,
-                    technology_profile=args.technology_profile,
-                    world_bonuses=not args.no_world_bonuses,
-                )
-                if args.province
-                else Scenario(
-                    faction,
-                    presets(layout),
-                    name=layout,
-                    all_technologies=args.all_technologies,
-                    technology_profile=args.technology_profile,
-                )
-            )
-            for algorithm in args.algorithm or ["portfolio"]:
-                key = json.dumps([asdict(scenario), algorithm], sort_keys=True)
-                if key in cases and (
-                    args.fill_missing or cases[key]["solver"]["status"] == "OPTIMAL"
-                ):
-                    continue
-                result, fingerprint = _solve_case(scenario, data, cases, algorithm, args, proofs)
-                result.update(
-                    case_key=key,
-                    layout=layout,
-                    faction_name=data["factions"][faction]["name"],
-                )
-                if (
-                    fingerprint
-                    and result.get("proof_fingerprint") == fingerprint
-                    and result["solver"]["status"] == "OPTIMAL"
-                ):
-                    proofs[fingerprint] = result
-                old = cases.get(key)
-                best = _merge_incumbent(old, result)
-                result = best
-                cases[key] = result
-                _assert_matching_proofs(cases, layout, faction, scenario)
-                save()  # Retain incumbents/proofs if a later source case fails.
-                print(
-                    (
-                        f"{layout:7}"
-                        " "
-                        f"{faction:15}"
-                        " "
-                        f"{algorithm:6}"
-                        " "
-                        f"{result['solver']['status']:9}"
-                        " income="
-                        f"{result.get('domestic_net_income')}"
-                        " bound="
-                        f"{result['solver']['bound']}"
-                        " ("
-                        f"{result['solver']['seconds']:.2f}"
-                        "s)"
-                    ),
-                    flush=True,
-                )
-    return payload
-
-
-def _assert_matching_proofs(cases, layout, faction, scenario):
-    same = [
-        c
-        for c in cases.values()
-        if c["layout"] == layout
-        and c["scenario"]["faction"] == faction
-        and c["scenario"] == asdict(scenario)
-        and c["solver"]["status"] == "OPTIMAL"
-    ]
-    if (
-        same
-        and max(c["domestic_net_income"] for c in same)
-        - min(c["domestic_net_income"] for c in same)
-        > 1e-5
-    ):
-        raise AssertionError("Exact solvers disagree on a proved optimum")
-
-
-def _faction_selection(args, factions, data, payload):
-    if args.all_technologies and not args.faction:
-        factions = [
-            f
-            for f in factions
-            if (
-                data["technology_coverage"][f]["complete_public_tree"]
-                if args.technology_profile == "public"
-                else f in data["technologies_archived"]
-            )
-        ]
+    selected = {job.faction for job in jobs}
     payload["research_mode"] = (
         args.technology_profile if args.all_technologies else "bonuses_disabled_unlocked_buildings"
     )
     payload["research_excluded_factions"] = (
-        sorted(set(data["factions"]) - set(factions))
+        sorted(set(data["factions"]) - selected)
         if args.all_technologies and not args.faction
         else []
     )
-    return factions
+    session = RunSession(rome=RomeSession(cases))
+    for job in jobs:
+        if session.rome.should_skip(job, fill_missing=args.fill_missing):
+            continue
+        case = service.solve_case(job, session=session)
+        result = case.raw
+        key = request_key(job)
+        result.update(
+            case_key=key,
+            layout=labels[result["scenario"]["name"]],
+            faction_name=case.faction,
+        )
+        cases[key] = result
+        save()  # Retain incumbents/proofs if a later source case fails.
+        solver = case.solver
+        print(
+            f"{job.province:7} {job.faction:15} {job.algorithm:6} {solver.status:9} "
+            f"income={case.income} bound={solver.bound} ({solver.seconds:.2f}s)",
+            flush=True,
+        )
+    payload["cases"] = list(cases.values())
+    return payload
+
+
+def request_from_args(args) -> RunRequest:
+    """Translate CLI defaults into the same request expanded by the terminal UI."""
+    return RunRequest(
+        config=RunConfig(
+            game="rome2",
+            faction="all",
+            province="coastal",
+            algorithm="portfolio",
+            seconds=args.seconds,
+            workers=args.workers,
+            research=args.technology_profile if args.all_technologies else "none",
+            technology_profile=args.technology_profile,
+            world_bonuses=not args.no_world_bonuses,
+        ),
+        factions=tuple(args.faction or ()),
+        provinces=tuple(args.province or args.layout or ("inland", "coastal", "grain")),
+        algorithms=tuple(args.algorithm or ()),
+    )
 
 
 def _load_previous(args, output, source_hash, model_hash, previous):
@@ -404,4 +307,6 @@ def _load_previous(args, output, source_hash, model_hash, previous):
 
 
 if __name__ == "__main__":
-    main()
+    from twoptimizer.cli import run_cli
+
+    raise SystemExit(run_cli(main))

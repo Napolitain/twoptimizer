@@ -8,34 +8,22 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-from math import isfinite
+from itertools import batched
 from pathlib import Path
-from typing import Any
 
 import ortools
 
-from games.tw.attila.model import SnapshotOptions, compile_scenario, load_attila
-from games.tw.comparison import ComparisonOptions, compare_model
+from games.tw.attila.scenario import Scenario
 from games.tw.competition import ALGORITHMS
 from games.tw.models.game_attila import AttilaGame
+from twoptimizer import service
+from twoptimizer.adapters.attila import comparison_report
+from twoptimizer.catalog import ROOT
+from twoptimizer.models import AttilaOptions, RegionFertility, RunConfig, RunRequest
+from twoptimizer.session import RunSession
 
 
-def _apply_region_fertility(args, parser, cli):
-    for assignment in args.region_fertility:
-        try:
-            name, value = assignment.rsplit("=", 1)
-            value = float(value)
-            if not isfinite(value) or value < 0:
-                raise ValueError()
-            matches = [r for r in parser.regions.values() if name in (r.name, r.print_name)]
-            if len(matches) != 1:
-                raise ValueError()
-            matches[0].fertility = value
-        except ValueError:
-            cli.error(f"Invalid or unknown region fertility assignment: {assignment}")
-
-
-def main(argv=None):
+def _parser():
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument("--algorithms", nargs="+", choices=ALGORITHMS, default=["cp-sat"])
     cli.add_argument("--fertility", type=float, nargs="+", default=[0, 5])
@@ -48,7 +36,7 @@ def main(argv=None):
         help="Optional time limit per algorithm/case; default runs to completion",
     )
     cli.add_argument("--seed", type=int, default=0)
-    cli.add_argument("--scenario", type=Path, help="Campaign inputs, targets and weights as JSON")
+    cli.add_argument("--scenario", type=Path, help="Campaign inputs and targets as JSON")
     cli.add_argument("--joint", action="store_true", help="Optimize selected provinces together")
     cli.add_argument(
         "--workers",
@@ -58,9 +46,9 @@ def main(argv=None):
     )
     cli.add_argument(
         "--objective",
-        choices=("wealth", "income", "legacy"),
+        choices=("income",),
         default="income",
-        help="Maximize recurring income (default), gross building wealth, or legacy GDP",
+        help="Maximize recurring income (the supported application objective)",
     )
     techs = cli.add_mutually_exclusive_group()
     techs.add_argument(
@@ -92,138 +80,108 @@ def main(argv=None):
     cli.add_argument(
         "--output", type=Path, help="Write machine-readable results and layouts as JSON"
     )
-    args = cli.parse_args(argv)
-    if (
-        (args.seconds is not None and (not isfinite(args.seconds) or args.seconds <= 0))
-        or args.beam_width < 1
-        or args.restarts < 1
-        or (args.workers is not None and args.workers < 1)
-        or (args.limit is not None and args.limit < 1)
-        or any(not isfinite(f) or f < 0 for f in args.fertility)
-    ):
-        cli.error("Budgets/counts must be positive and fertility must be finite and nonnegative")
-    try:
-        scenario = json.loads(args.scenario.read_text()) if args.scenario else None
-        from games.tw.attila.scenario import Scenario
+    return cli
 
-        Scenario(scenario)
-    except (OSError, ValueError, TypeError) as error:
-        cli.error(f"Invalid scenario: {error}")
-    if args.objective == "legacy" and scenario:
-        cli.error("Campaign scenarios require wealth or income mode")
-    parser = load_attila(
-        AttilaGame.Factions[args.faction],
-        AttilaGame.Religion[args.religion],
-        legacy=args.objective == "legacy",
+
+def request_from_args(args) -> RunRequest:
+    """Decode CLI syntax into the same typed requests used by workers and the TUI."""
+    campaign = Scenario(json.loads(args.scenario.read_text())) if args.scenario else None
+    region_fertility = tuple(
+        RegionFertility(name, float(value))
+        for name, value in (assignment.rsplit("=", 1) for assignment in args.region_fertility)
     )
-    _apply_region_fertility(args, parser, cli)
-    provinces = list(parser.provinces.values())
-    provinces = _select_provinces(args, provinces, cli)
+    config = RunConfig(
+        game="attila",
+        faction=args.faction,
+        province="all",
+        algorithm="cp-sat",
+        seconds=args.seconds,
+        workers=args.workers,
+        research="none" if args.no_technologies else "all",
+        religion=args.religion,
+        joint=args.joint,
+        adjacency=()
+        if args.joint and (campaign is None or "adjacency" not in campaign.data)
+        else None,
+        attila=AttilaOptions(
+            campaign=campaign,
+            technologies=None if args.technology is None else tuple(args.technology),
+            region_fertility=region_fertility,
+            city_level=args.city_level,
+            building_level=args.building_level,
+            military=args.military,
+            seed=args.seed,
+            beam_width=args.beam_width,
+            restarts=args.restarts,
+        ),
+    )
+    return RunRequest(
+        config,
+        provinces=tuple(args.province or ("all",)),
+        algorithms=tuple(args.algorithms),
+        fertilities=tuple(args.fertility),
+        joint=args.joint,
+        limit=args.limit,
+    )
+
+
+def _source_digest():
+    directory = ROOT / "attila/data"
     digest = hashlib.sha256()
     for path in sorted(
         [
-            *parser.game_dir.glob("*.tsv"),
-            parser.game_dir / "online_buildings.json",
-            parser.game_dir / "online_factions.json",
-            parser.game_dir / "online_modifiers.json",
+            *directory.glob("*.tsv"),
+            directory / "online_buildings.json",
+            directory / "online_factions.json",
+            directory / "online_modifiers.json",
         ]
     ):
         digest.update(path.name.encode())
         digest.update(path.read_bytes())
+    return digest.hexdigest()
+
+
+def _run_cases(jobs, joint, algorithm_count):
+    session = RunSession()
+    for group in batched(jobs, algorithm_count):
+        case = comparison_report(
+            [service.solve_case(job, session=session) for job in group], joint=joint
+        )
+        _print_case(case, group[0].fertility)
+        yield case
+
+
+def main(argv=None):
+    cli = _parser()
+    args = cli.parse_args(argv)
+    try:
+        request = request_from_args(args)
+        jobs, _ = service.make_jobs(request)
+    except (OSError, ValueError, TypeError) as error:
+        cli.error(str(error))
     settings = vars(args).copy()
     settings.pop("output")
-    settings["scenario"] = scenario
-    report: dict[str, Any] = {
+    settings["scenario"] = (
+        request.config.attila.campaign.to_dict() if request.config.attila.campaign else None
+    )
+    report = {
         "settings": settings,
         "ortools_version": ortools.__version__,
-        "data_sha256": digest.hexdigest(),
+        "data_sha256": _source_digest(),
         "cases": [],
     }
     print(
-        f"{'Province':24}"
-        " "
-        f"{'Fert':>5}"
-        " "
-        f"{'Algorithm':12}"
-        " "
-        f"{'Status':18}"
-        " "
-        f"{'Objective':>10}"
-        " "
-        f"{'Seconds':>8}"
-        " "
-        f"{'Gap/bound':>10}"
+        f"{'Province':24} {'Fert':>5} {'Algorithm':12} {'Status':18} "
+        f"{'Objective':>10} {'Seconds':>8} {'Gap/bound':>10}"
     )
-    for fertility in args.fertility:
-        for group in [provinces] if args.joint else [[p] for p in provinces]:
-            province = group[0]
-            try:
-                compiled = compile_scenario(
-                    group,
-                    SnapshotOptions(
-                        fertility=fertility,
-                        city_level=args.city_level,
-                        building_level=args.building_level,
-                        military=args.military,
-                        objective=args.objective,
-                        scenario=scenario,
-                        technologies=frozenset()
-                        if args.no_technologies
-                        else None
-                        if args.technology is None
-                        else frozenset(args.technology),
-                    ),
-                )
-                model, build_seconds, economy = (
-                    compiled.model,
-                    compiled.build_seconds,
-                    compiled.economy,
-                )
-            except (ValueError, TypeError) as error:
-                cli.error(str(error))
-            case: dict[str, Any] = {
-                "province": "joint" if args.joint else province.name,
-                "province_name": ", ".join(p.print_name for p in group),
-                "fertility": fertility,
-                "variables": len(model.names),
-                "constraints": len(model.lower),
-                "build_seconds": build_seconds,
-                "omitted_effects": sorted(set(economy.omitted)) if economy is not None else [],
-            }
-            case.update(
-                compare_model(
-                    model,
-                    ComparisonOptions(
-                        algorithms=tuple(args.algorithms),
-                        seconds=args.seconds,
-                        seed=args.seed,
-                        width=args.beam_width,
-                        restarts=args.restarts,
-                        objective=args.objective,
-                        workers=args.workers,
-                    ),
-                    economy,
-                )
-            )
-            report["cases"].append(case)
-            _print_case(case, fertility)
+    try:
+        report["cases"] = list(_run_cases(jobs, args.joint, len(args.algorithms)))
+    except (ValueError, TypeError) as error:
+        cli.error(str(error))
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
     return report
-
-
-def _select_provinces(args, provinces, cli):
-    if args.province:
-        missing = set(args.province) - {n for p in provinces for n in (p.name, p.print_name)}
-        if missing:
-            cli.error(f"Unknown provinces: {', '.join(sorted(missing))}")
-        provinces = [
-            p for p in provinces if p.name in args.province or p.print_name in args.province
-        ]
-    if args.limit:
-        provinces = provinces[: args.limit]
-    return provinces
 
 
 def _print_case(case, fertility):

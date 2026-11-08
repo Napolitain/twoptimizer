@@ -1,7 +1,5 @@
 """Province selection and joint ownership shared by the TUI and worker adapters."""
 
-from dataclasses import replace
-
 from twoptimizer.catalog import choices
 from twoptimizer.models import RunConfig
 
@@ -9,7 +7,7 @@ JOINT_GAMES = {"attila", "shogun2"}
 
 
 def selected_provinces(config: RunConfig) -> tuple[str, ...]:
-    return (config.province,) if config.provinces is None else config.provinces
+    return config.holdings
 
 
 def province_label(config: RunConfig) -> str:
@@ -41,7 +39,16 @@ def validate_selection(config: RunConfig) -> tuple[str, ...]:
 
 
 def validate_borders(config: RunConfig, selected: tuple[str, ...]) -> None:
-    if config.joint and config.game == "attila" and len(selected) > 1 and config.adjacency is None:
+    has_campaign_borders = (
+        config.attila.campaign is not None and "adjacency" in config.attila.campaign.data
+    )
+    if (
+        config.joint
+        and config.game == "attila"
+        and len(selected) > 1
+        and config.adjacency is None
+        and not has_campaign_borders
+    ):
         raise ValueError(
             "Set neighboring provinces, or confirm no borders, before running Attila together."
         )
@@ -57,15 +64,6 @@ def validate_borders(config: RunConfig, selected: tuple[str, ...]) -> None:
         if border in seen:
             raise ValueError("List each border only once.")
         seen.add(border)
-
-
-def holding_jobs(config: RunConfig) -> list[RunConfig]:
-    selected = selected_provinces(config)
-    if not selected:
-        return []
-    if config.joint:
-        return [replace(config, province=selected[0], provinces=selected)]
-    return [replace(config, province=key, provinces=None) for key in selected]
 
 
 def adjacency_mapping(config: RunConfig) -> dict[str, list[str]]:

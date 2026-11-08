@@ -1,7 +1,9 @@
-"""No arguments opens the TUI; subcommands forward to the existing CLIs."""
+"""Interface selection; game parsers and workers use the same case service."""
 
 import importlib
 import sys
+
+from twoptimizer.cli import run_cli
 
 COMMANDS = {
     "rome2": "games.tw.rome2.benchmark",
@@ -25,8 +27,7 @@ def main(argv=None):
         OptimizerApp().run()
         return 0
     if args[0] in COMMANDS:
-        importlib.import_module(COMMANDS[args[0]]).main(args[1:])
-        return 0
+        return run_cli(importlib.import_module(COMMANDS[args[0]]).main, args[1:])
     if args in (["--help"], ["-h"]):
         print(
             "Usage: twoptimizer [tui | GAME [options]]\n\nNo arguments opens the"

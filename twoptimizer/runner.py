@@ -4,12 +4,14 @@ import asyncio
 import json
 import os
 import sys
-from dataclasses import asdict
+from contextlib import suppress
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from time import perf_counter
 from typing import Any
 
+from twoptimizer.errors import deserialize_error
+from twoptimizer.models import CaseResult, RunConfig
 from twoptimizer.progress import PREFIX
 
 
@@ -22,14 +24,13 @@ class CaseRunner:
         self.cancelled = True
         process = self.process
         if process is not None and process.returncode is None:
-            try:
+            with suppress(ProcessLookupError):
                 process.terminate()
-            except ProcessLookupError:
-                return
             try:
                 await asyncio.wait_for(process.wait(), 2)
             except TimeoutError:
-                process.kill()
+                with suppress(ProcessLookupError):
+                    process.kill()
                 await process.wait()
 
     async def _read_output(self, process, on_log, on_progress, started):
@@ -49,7 +50,7 @@ class CaseRunner:
                 on_log(text[:1000])
         return startup_seconds
 
-    async def run(self, config, on_log, on_progress=None):
+    async def run(self, config: RunConfig, on_log, on_progress=None):
         started = perf_counter()
         startup_seconds = None
         with TemporaryDirectory(prefix="twoptimizer-") as directory:
@@ -57,7 +58,7 @@ class CaseRunner:
                 Path(directory) / "request.json",
                 Path(directory) / "result.json",
             )
-            request_path.write_text(json.dumps(asdict(config)))
+            request_path.write_text(json.dumps(config.to_dict()))
             process = self.process = await asyncio.create_subprocess_exec(
                 sys.executable,
                 "-m",
@@ -85,15 +86,21 @@ class CaseRunner:
                 if not isinstance(result, dict):
                     raise RuntimeError("Solver worker returned an invalid result object")
                 if "error" in result:
-                    raise RuntimeError(result["error"])
+                    raise deserialize_error(result)
                 if process.returncode:
                     raise RuntimeError(f"Solver worker exited with code {process.returncode}.")
-                result.setdefault("timings", {}).update(
-                    worker_wall_seconds=perf_counter() - started
-                )
+                result = _decode_result(result)
+                result["timings"].update(worker_wall_seconds=perf_counter() - started)
                 if startup_seconds is not None:
                     result["timings"]["worker_startup_seconds"] = startup_seconds
                 return result
             finally:
                 if process.returncode is None:
                     await self.stop()
+
+
+def _decode_result(payload: dict[str, Any]) -> dict[str, Any]:
+    try:
+        return CaseResult.from_dict(payload).to_dict()
+    except (KeyError, TypeError, ValueError) as error:
+        raise RuntimeError("Solver worker returned an invalid result object") from error

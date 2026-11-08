@@ -7,39 +7,27 @@ import argparse
 import csv
 import hashlib
 import json
-from math import isfinite
 from pathlib import Path
 
-from games.tw.attila.model import SnapshotOptions, compile_scenario, load_attila
-from games.tw.attila.modifiers import catalog
-from games.tw.attila.traits import profile
-from games.tw.competition import Result, solve
 from games.tw.models.game_attila import AttilaGame
+from twoptimizer import service
+from twoptimizer.adapters.attila import faction_report
+from twoptimizer.attila_session import (
+    AttilaSession,
+    faction_metadata,
+)
+from twoptimizer.attila_session import (
+    native_factions as native_factions,
+)
+from twoptimizer.attila_session import (
+    signature as signature,
+)
+from twoptimizer.catalog import ROOT
+from twoptimizer.models import RunConfig
+from twoptimizer.session import RunSession
 
 
-def signature(model):
-    """Reuse a proof only when every variable, coefficient and bound matches."""
-    digest = hashlib.sha256(json.dumps(model.names).encode())
-    for array in (model.profit, model.matrix, model.lower, model.upper):
-        digest.update(str(array.shape).encode())
-        if hasattr(array, "update_hash"):
-            array.update_hash(digest)
-        else:
-            digest.update(array.tobytes())
-    digest.update(str(model.offset).encode())
-    return digest.hexdigest()
-
-
-def native_factions():
-    return [
-        AttilaGame.Factions(f)
-        for f in catalog()["faction_slugs"]
-        if not any(s in f for s in ("separatist", "rebel"))
-        and profile(f)["ruling_party_identified"]
-    ]
-
-
-def main(argv=None):
+def _parser():
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument("--province", action="append")
     cli.add_argument("--fertility", type=float, default=5)
@@ -71,13 +59,12 @@ def main(argv=None):
         help="Include NPC/rebel/separatist entries",
     )
     cli.add_argument("--output", type=Path, default=Path("benchmark-results/factions/income.json"))
+    return cli
+
+
+def main(argv=None):
+    cli = _parser()
     args = cli.parse_args(argv)
-    if (
-        (args.seconds is not None and (not isfinite(args.seconds) or args.seconds <= 0))
-        or (args.workers is not None and args.workers < 1)
-        or args.fertility < 0
-    ):
-        cli.error("Invalid budget, workers or fertility")
     provinces = args.province or ["Aegyptus", "Thracia", "Germania"]
     factions = (
         [f for f in AttilaGame.Factions if f.value.startswith("att_fact_")]
@@ -99,110 +86,32 @@ def main(argv=None):
         "factions": [],
         "excluded": [],
     }
-    cache = {}
-    prior = {}
-    prior = _read_prior_cases(args, prior)
+    session = RunSession(attila=AttilaSession(reuse_proofs=True, prior=_read_prior_cases(args)))
+    metadata = faction_metadata()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     for faction in factions:
-        parser = load_attila(faction, AttilaGame.Religion[args.religion])
-        info = parser.faction_to_culture[faction.value]
-        if "nomadic" in info.subculture:
+        info = metadata[faction.value]
+        if info["nomadic"]:
             report["excluded"].append(
                 {
                     "id": faction.value,
-                    "name": info.name,
+                    "name": info["name"],
                     "reason": "Nomadic/horde income requires a different model",
                 }
             )
             continue
-        row = {"id": faction.value, "name": info.name, "cases": []}
-        for name in provinces:
-            matches = [p for p in parser.provinces.values() if name in (p.name, p.print_name)]
-            if len(matches) != 1:
-                cli.error(f"Unknown or ambiguous province: {name}")
-            compiled = compile_scenario(matches, SnapshotOptions(fertility=args.fertility))
-            model, build_seconds, economy = compiled.model, compiled.build_seconds, compiled.economy
-            assert economy is not None
-            key = signature(model)
-            reused = key in cache
-            result = cache.get(key)
-            if result is None and key in prior:
-                previous = prior[key]
-                selected = set(previous["selected"])
-                auxiliary = {
-                    variable.name(): monomial for monomial, variable in economy.products.items()
-                }
-                values = [
-                    economy.evaluate({auxiliary.get(name, (name,)): 1}, selected)
-                    for name in model.names
-                ]
-                value = float(model.profit @ values + model.offset)
-                if (
-                    model.feasible(values)
-                    and abs(value - previous["income"]) < 1e-5
-                    and abs(value - previous["bound"]) < 1e-5
-                ):
-                    result = Result(
-                        "cp-sat",
-                        "OPTIMAL",
-                        seconds=previous["solve_seconds"],
-                        objective=value,
-                        bound=previous["bound"],
-                        values=values,
-                        detail="Reused validated optimal case with identical compiled model",
-                    )
-                    cache[key] = result
-                    reused = True
-            if result is None:
-                result = solve(model, "cp-sat", seconds=args.seconds, workers=args.workers)
-                cache[key] = result
-            selected = (
-                None
-                if result.values is None
-                else {
-                    n
-                    for n, value in zip(model.names, result.values, strict=False)
-                    if value > 0.5 and not n.startswith("__")
-                }
-            )
-            layout = None if selected is None else economy.evaluate_layout(selected)
-            _validate_comparison(layout, model, result)
-            case = {
-                "province": matches[0].print_name,
-                "signature": key,
-                "status": result.status,
-                "income": result.objective,
-                "bound": result.bound,
-                "proof_reused": reused,
-                "solve_seconds": result.seconds,
-                "build_seconds": build_seconds,
-                "selected": None if selected is None else sorted(selected),
-                "layout": layout,
-                "omitted_effects": sorted(set(economy.omitted)),
-            }
-            row["cases"].append(case)
-            print(
-                (
-                    f"{info.name:24}"
-                    " "
-                    f"{name:12}"
-                    " "
-                    f"{result.status:12}"
-                    " "
-                    f"{result.objective!s:12}"
-                    " "
-                    f"{('reused' if reused else 'solved')}"
-                ),
-                flush=True,
-            )
-        report["factions"].append(row)
-        report["unique_models"] = len(cache)
+        try:
+            jobs = _faction_jobs(args, faction.value, provinces)
+            cases = _run_faction(jobs, session, info["name"])
+        except (ValueError, TypeError) as error:
+            cli.error(str(error))
+        report["factions"].append({"id": faction.value, "name": info["name"], "cases": cases})
+        report["unique_models"] = len(session.attila.proofs)
         args.output.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
-    # Include exclusions even when the last factions were nomadic.
-    data_dir = parser.game_dir
+    directory = ROOT / "attila/data"
     report["source_sha256"] = {
         p.name: hashlib.sha256(p.read_bytes()).hexdigest()
-        for p in sorted([*data_dir.glob("*.tsv"), *data_dir.glob("online_*.json")])
+        for p in sorted([*directory.glob("*.tsv"), *directory.glob("online_*.json")])
     }
     args.output.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
     with args.output.with_suffix(".csv").open("w") as stream:
@@ -220,23 +129,50 @@ def main(argv=None):
     return report
 
 
-def _validate_comparison(layout, model, result):
-    if layout is not None and (
-        not model.feasible(result.values) or abs(layout["objective"] - result.objective) > 1e-5
-    ):
-        raise RuntimeError("Comparison result did not validate")
+def _faction_jobs(args, faction, provinces):
+    # CSV columns follow the caller's province order, including the historical defaults.
+    jobs = []
+    for province in provinces:
+        expanded, _ = service.make_jobs(
+            RunConfig(
+                game="attila",
+                faction=faction,
+                province=province,
+                algorithm="cp-sat",
+                fertility=args.fertility,
+                religion=args.religion,
+                research="all",
+                seconds=args.seconds,
+                workers=args.workers,
+            )
+        )
+        jobs.extend(expanded)
+    return jobs
 
 
-def _read_prior_cases(args, prior):
-    if args.resume and args.output.exists():
-        old = json.loads(args.output.read_text())
-        prior = {
-            c["signature"]: c
-            for f in old["factions"]
-            for c in f["cases"]
-            if c["status"] == "OPTIMAL" and c["selected"] is not None
-        }
-    return prior
+def _run_faction(jobs, session, name):
+    cases = []
+    for job in jobs:
+        case = faction_report(service.solve_case(job, session=session))
+        cases.append(case)
+        print(
+            f"{name:24} {case['province']:12} {case['status']:12} "
+            f"{case['income']!s:12} {'reused' if case['proof_reused'] else 'solved'}",
+            flush=True,
+        )
+    return cases
+
+
+def _read_prior_cases(args):
+    if not args.resume or not args.output.exists():
+        return {}
+    old = json.loads(args.output.read_text())
+    return {
+        case["signature"]: case
+        for faction in old["factions"]
+        for case in faction["cases"]
+        if case["status"] == "OPTIMAL" and case["selected"] is not None
+    }
 
 
 if __name__ == "__main__":

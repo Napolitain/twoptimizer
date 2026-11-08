@@ -4,13 +4,14 @@ import asyncio
 import json
 import subprocess
 import sys
-from dataclasses import asdict, replace
+from dataclasses import replace
 
 import pytest
 
 from twoptimizer import __main__ as entry
 from twoptimizer import worker
 from twoptimizer.catalog import choices
+from twoptimizer.errors import ApplicationError
 from twoptimizer.models import RunConfig
 from twoptimizer.runner import CaseRunner
 from twoptimizer.service import make_jobs, solve_case
@@ -30,7 +31,7 @@ def test_ui_adapters_validate_real_engine_results(game):
         workers=1,
     )
     result = solve_case(config).to_dict()
-    assert result["request"] == asdict(config)
+    assert result["request"] == config.to_dict()
     assert result["solver"]["status"] in {"OPTIMAL", "FEASIBLE"}
     assert result["income"] > 0
     assert result["buildings"]
@@ -52,24 +53,24 @@ def test_worker_success_and_error_are_portable_json(tmp_path, monkeypatch, capsy
         seconds=5,
         workers=1,
     )
-    request.write_text(json.dumps(asdict(config)))
+    request.write_text(json.dumps(config.to_dict()))
     monkeypatch.setattr(sys, "argv", ["worker", str(request), str(output)])
     assert worker.main() == 0
     result = json.loads(output.read_text())
-    assert result["income"] > 0 and result["request"] == asdict(config)
-    request.write_text(json.dumps(asdict(replace(config, game="hoi4"))))
+    assert result["income"] > 0 and result["request"] == config.to_dict()
+    request.write_text(json.dumps(replace(config, game="hoi4").to_dict()))
     assert worker.main() == 1
     assert "complete optimizer" in json.loads(output.read_text())["error"]
-    assert "ValueError" in capsys.readouterr().err
+    assert "ApplicationError" in capsys.readouterr().err
 
 
 def test_runner_exposes_worker_errors_and_reaps_process():
     async def exercise():
         runner, logs = CaseRunner(), []
-        with pytest.raises(RuntimeError, match="complete optimizer"):
+        with pytest.raises(ApplicationError, match="complete optimizer"):
             await runner.run(RunConfig(game="hoi4"), logs.append)
         assert runner.process is not None and runner.process.returncode == 1
-        assert any("ValueError" in line for line in logs)
+        assert any("ApplicationError" in line for line in logs)
 
     asyncio.run(exercise())
 

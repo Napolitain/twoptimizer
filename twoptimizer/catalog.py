@@ -149,4 +149,10 @@ def _choices(game):
 
 
 def faction_name(game, key):
-    return {key: label for label, key in choices(game)["factions"]}[key]
+    names = {key: label for label, key in choices(game)["factions"]}
+    if game == "attila" and key not in names:
+        with (ROOT / "attila/data/factions_table.tsv").open() as stream:
+            names.update(
+                {row[0]: row[4] for row in csv.reader(stream, delimiter="\t") if len(row) > 4}
+            )
+    return names[key]

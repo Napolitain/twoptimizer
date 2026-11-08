@@ -117,7 +117,7 @@ def test_attila_benchmark_json_and_input_errors(tmp_path):
         "--fertility",
         "5",
         "--objective",
-        "legacy",
+        "income",
         "--seconds",
         "5",
         "--workers",
@@ -130,6 +130,8 @@ def test_attila_benchmark_json_and_input_errors(tmp_path):
     assert case["results"][0]["status"] == "OPTIMAL"
     assert case["results"][0]["objective"] > 0
     assert json.loads(output.read_text()) == report
+    with pytest.raises(SystemExit):
+        benchmark.main([*args, "--objective", "legacy"])
     with pytest.raises(SystemExit):
         benchmark.main([*args, "--province", "missing"])
     with pytest.raises(SystemExit):

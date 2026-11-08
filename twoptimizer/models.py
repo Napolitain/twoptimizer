@@ -3,6 +3,64 @@
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
+from games.tw.attila.scenario import Scenario as CampaignScenario
+from twoptimizer.errors import ApplicationError
+
+
+@dataclass(frozen=True, slots=True)
+class RegionFertility:
+    region: str
+    value: float
+
+
+@dataclass(frozen=True, slots=True)
+class AttilaOptions:
+    """Income-model inputs and search settings shared by every interface."""
+
+    technologies: tuple[str, ...] | None = None
+    campaign: CampaignScenario | None = None
+    region_fertility: tuple[RegionFertility, ...] = ()
+    city_level: int = 4
+    building_level: int = 1
+    military: bool = False
+    seed: int = 0
+    beam_width: int = 128
+    restarts: int = 16
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "technologies": None if self.technologies is None else list(self.technologies),
+            "campaign": None if self.campaign is None else self.campaign.to_dict(),
+            "region_fertility": [asdict(item) for item in self.region_fertility],
+            **{
+                key: getattr(self, key)
+                for key in (
+                    "city_level",
+                    "building_level",
+                    "military",
+                    "seed",
+                    "beam_width",
+                    "restarts",
+                )
+            },
+        }
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "AttilaOptions":
+        if not isinstance(payload, dict):
+            raise ApplicationError("Attila options must be a JSON object.")
+        data = dict(payload)
+        if data.get("technologies") is not None:
+            if not isinstance(data["technologies"], (tuple, list)):
+                raise ApplicationError("Technologies must be a list of names.")
+            data["technologies"] = tuple(data["technologies"])
+        if data.get("campaign") is not None:
+            data["campaign"] = CampaignScenario(data["campaign"])
+        data["region_fertility"] = tuple(
+            RegionFertility(**item) for item in data.get("region_fertility", ())
+        )
+        return cls(**data)
+
 
 @dataclass(frozen=True, slots=True)
 class RunConfig:
@@ -22,13 +80,64 @@ class RunConfig:
     provinces: tuple[str, ...] | None = None
     joint: bool = False
     adjacency: tuple[tuple[str, str], ...] | None = None
+    technology_profile: str = "public"
+    attila: AttilaOptions = field(default_factory=AttilaOptions)
 
-    def __post_init__(self):
-        # JSON uses lists; keep requests immutable after crossing the worker boundary.
+    def __post_init__(self) -> None:
         if self.provinces is not None:
             object.__setattr__(self, "provinces", tuple(self.provinces))
         if self.adjacency is not None:
             object.__setattr__(self, "adjacency", tuple(tuple(pair) for pair in self.adjacency))
+
+    @property
+    def holdings(self) -> tuple[str, ...]:
+        return (self.province,) if self.provinces is None else self.provinces
+
+    def to_dict(self) -> dict[str, Any]:
+        """Keep old single-case JSON fields, adding advanced options when used."""
+        data = {
+            key: getattr(self, key)
+            for key in self.__dataclass_fields__
+            if key not in {"technology_profile", "attila"}
+        }
+        data["provinces"] = None if self.provinces is None else list(self.provinces)
+        data["adjacency"] = (
+            None if self.adjacency is None else [list(pair) for pair in self.adjacency]
+        )
+        if self.technology_profile != "public":
+            data["technology_profile"] = self.technology_profile
+        if self.attila != AttilaOptions():
+            data["attila"] = self.attila.to_dict()
+        return data
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "RunConfig":
+        try:
+            if not isinstance(payload, dict):
+                raise ApplicationError("A request must be a JSON object.")
+            data = dict(payload)
+            if data.get("provinces") is not None:
+                if not isinstance(data["provinces"], (list, tuple)):
+                    raise ApplicationError("Provinces must be a list of province IDs.")
+                data["provinces"] = tuple(data["provinces"])
+            data["attila"] = AttilaOptions.from_dict(data.get("attila", {}))
+            return cls(**data)
+        except (TypeError, ValueError) as error:
+            raise ApplicationError(str(error)) from error
+
+
+@dataclass(frozen=True, slots=True)
+class RunRequest:
+    """A batch of cases; empty axes retain the base request's explicit settings."""
+
+    config: RunConfig
+    factions: tuple[str, ...] = ()
+    provinces: tuple[str, ...] = ()
+    algorithms: tuple[str, ...] = ()
+    fertilities: tuple[float, ...] = ()
+    soils: tuple[str, ...] = ()
+    joint: bool = False
+    limit: int | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -93,7 +202,7 @@ class CaseResult:
     def to_dict(self) -> dict[str, Any]:
         """Retain the existing JSON schema at the public process/export boundary."""
         return {
-            "request": asdict(self.request),
+            "request": self.request.to_dict(),
             "faction": self.faction,
             "province": self.province,
             "solver": self.solver.to_dict(),
@@ -106,3 +215,11 @@ class CaseResult:
             "raw": self.raw,
             "timings": self.timings,
         }
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "CaseResult":
+        data = dict(payload)
+        data["request"] = RunConfig.from_dict(data["request"])
+        data["solver"] = SolverSummary.from_dict(data["solver"])
+        data["buildings"] = [BuildingSelection(**item) for item in data["buildings"]]
+        return cls(**data)
