@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True, slots=True)
 class ThreeKingdomsOptions:
-    city_level: int = 5
+    city_level: int | None = 5
     population: int = 1_000_000
     corruption_percent: int = 0
     order_offset: int = 0

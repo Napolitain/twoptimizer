@@ -1,0 +1,3866 @@
+{
+  "description": "Installed-wheel correctness validation for automatic city levels with unchanged population and other inputs. Fixed-level5 cases reproduce the prior release results; automatic cases are solved by both backends.",
+  "request": {
+    "game": "three_kingdoms",
+    "faction": "3k_main_faction_cao_cao",
+    "province": "3k_main_province_yingchuan",
+    "algorithm": "cp-sat",
+    "seconds": null,
+    "workers": null,
+    "research": "none",
+    "fertility": 5,
+    "religion": "CHRIST_ORTHODOX",
+    "soil": "native",
+    "town_wealth": 0,
+    "tax": 30,
+    "world_bonuses": true,
+    "provinces": null,
+    "joint": false,
+    "adjacency": null,
+    "three_kingdoms": {
+      "city_level": null,
+      "population": 1000000,
+      "corruption_percent": 0,
+      "order_offset": 0,
+      "minimum_order": 0,
+      "external_food": 0,
+      "capital_commandery": null,
+      "external_resources": [],
+      "include_leader_effects": true
+    }
+  },
+  "seconds_per_case": 10,
+  "workers": 4,
+  "source_files": {
+    "three_kingdoms/__init__.py": "cb26f38df1d0bc4e7e13b93cced386e9a2b417d3e3110570dadbc1703a298720",
+    "three_kingdoms/audit_reference.py": "25bfc4e62ebef9e8629289a5b936a0a08ec6755ef8eaf8f64fdfed5824ab6e67",
+    "three_kingdoms/catalog.py": "7c8937b5659b5ae2eeb5afa5b6e452adc4d4d11cb115e429f461f7684cace88c",
+    "three_kingdoms/compiler.py": "178964e26e82ee81dd9ea4b495bcace2500b19dde224496ea10d491fe482311e",
+    "three_kingdoms/evaluation.py": "303b20f561a3fba4a9c101e6dd234e8a21471e598cb264e1b4ca7ac141a8885e",
+    "three_kingdoms/import_effects.py": "d0c77796b0599c8aa1e12a0b2e87704a07e119953c9006de974223111e94e6bc",
+    "three_kingdoms/import_geography.py": "c92496b84530a3325f56c9c87eee8009816c617638ef15845ad2a46c7af2f443",
+    "three_kingdoms/import_reference.py": "a98fcc93628df0d9acb547d853197f66cc623e10cf70fdcc0631a7472a5dcbdb",
+    "three_kingdoms/import_rules.py": "c335e0aedd4110c52b0dd42af548f1210a9b78aa85f07bfc8a62151ef2f3f209",
+    "three_kingdoms/integer.py": "138db7c26e3363bf4f86c87eced37bdce6f8b86320447d0e2255f90276ec5dd3",
+    "three_kingdoms/model.py": "dba6dd702ad6b514c3360ffe7c427a857cde28857146a05005f0cf34f2be0c99",
+    "three_kingdoms/optimization.py": "f9c2eb36dd5ed0830916a91e1f6d0ff2725081a06c1d3c03b92f24207b8431f8",
+    "three_kingdoms/scenario.py": "d61fe53d222f69fccd39630063e8c0996adc1488b18f3b9322c682d6efd14e4e",
+    "three_kingdoms/scopes.py": "ff45d930e57971f66052c53eccec73f9ea2a3a0c2ee1e3b3dae0cb5c30478bfd",
+    "three_kingdoms/source.py": "244fdd81e1beae3d18483e2459e8dc171817ef06e47dc7a4385c9c9ca2073327",
+    "three_kingdoms/data/buildings_city_1.json": "7c62afa9e4fbddb23b152dac03ca04a4f5f468e57831d4b97c941f39427d037d",
+    "three_kingdoms/data/buildings_district_1.json": "c46dc37c09f24321817adac2a11b8614b50a16da71fee493fd8cd8c72fd429e7",
+    "three_kingdoms/data/buildings_district_2.json": "1c755a95a52091102a6f4122474e0c2ae90a8344f5dda4903479d795991d6139",
+    "three_kingdoms/data/buildings_district_3.json": "e56fd568ba05c519ffb144532b5621bb6842230d7bd4670fe755d6b50e93d41f",
+    "three_kingdoms/data/buildings_resource_1.json": "9f20120da829c1d2d71a6d9d84d4246c6ecd7ee9ee2d0798f688d5c5d943a553",
+    "three_kingdoms/data/buildings_resource_2.json": "4c15299b70248cfc7fafb2171fe51c2fc621889d163c57746cc139d571676297",
+    "three_kingdoms/data/campaign_map.json": "c5774c6161dd160917839d188fc5a1d6f8a20c480b4e6033b71f862bd70ad570",
+    "three_kingdoms/data/geography.json": "831beca9fcf5b9a93f2a0b045028621ba8a432351d6268baf65f281ecd29c000",
+    "three_kingdoms/data/reference.json": "6f3451c754c3165319e69850505290eac0a8da710cc541e248e93997ce484a50",
+    "three_kingdoms/data/rules.json": "8fd373993594cbf8960376c54e69a01d9681d0ef7aeb820ab28e59b665e1c6c3",
+    "resources.py": "b05eaf10e77328669b95e919dd800e055469e4334c143229899f69f99bb4da7b",
+    "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+    "highs_backend.py": "e2718069877a8b699d45b9aa3557d68b426b65ebb75807fd2ba5a48ef9e0d982",
+    "search_progress.py": "a370804762b9e4beabdd5b4d6318809346dce8a6380257c2d49bb5b40b9350d8",
+    "cancellation.py": "bd5ca92d0b26f36a197575ea01de666d7427fd4d810df9876e2ab7bce59b176e",
+    "maps/catalog.py": "84cb17307fe8139edf6bd9e450784355e17451953e75dfc266e77dd46239b15c",
+    "twoptimizer/requests.py": "00b8f8bf46007f27f340d88c838d623e02b2469df2964dc9c12fc51c1bddf1eb",
+    "twoptimizer/models.py": "19e4a48c6b98289dabccace5c25fec9cf09bf43406749a36f0b409e6bbc3d8de",
+    "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+    "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+    "twoptimizer/service.py": "bf3f4553cbb17ded43bd90db8e741a56c3e734c76ad122f46e66f62d32d9176c",
+    "twoptimizer/session.py": "471e1af7f8479f468683f840b20af8c6a0878cb7de7c0e4b6456b42144e46d22",
+    "twoptimizer/holdings.py": "5931953fffd87d50c7aa150edf7c1ac0b792af43d181f72f5d78b949145f5157",
+    "twoptimizer/progress.py": "cb5bb25fe597be95ef6d36078f7e9e7e4219648ceae0caa6fb08b0e2ef4710cd",
+    "twoptimizer/adapters/model_stats.py": "e2abccb167b3ad8d9f20fef7500bd78c354307856afee4166890108286e993f4",
+    "twoptimizer/adapters/search.py": "bb3c85cb538b04988bb7512665e7d14a9be31262eb782af7a11e7dc67c921364",
+    "twoptimizer/adapters/three_kingdoms.py": "4d6beed02fb500a8d913b71b0efbcbe4309301b1cff63f499ecd49dadf08acc2",
+    "twoptimizer/three_kingdoms_options.py": "32b961bcb293dbf8eda10cc8ab0af6ecd748a2ff4ae23f7b86ad4b50e3ed1897"
+  },
+  "cases": [
+    {
+      "id": "3k_main_province_anding",
+      "name": "Anding",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1216.75,
+          "bound": 1216.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.5,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1216.75,
+          "bound": 1216.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.5,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1269.0,
+          "bound": 1269.0,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 2.0,
+          "public_order": 4
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1269.0,
+          "bound": 1269.0,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 2.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_anping",
+      "name": "Anping",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_bajun",
+      "name": "Ba",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 722.75,
+          "bound": 722.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 722.75,
+          "bound": 722.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 836.5,
+          "bound": 836.5,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 2.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 836.5,
+          "bound": 836.5,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 2.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_badong",
+      "name": "Badong",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1187.75,
+          "bound": 1187.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1187.75,
+          "bound": 1187.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1187.75,
+          "bound": 1187.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1187.75,
+          "bound": 1187.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_baxi",
+      "name": "Baxi",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1132.75,
+          "bound": 1132.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1132.75,
+          "bound": 1132.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1132.75,
+          "bound": 1132.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1132.75,
+          "bound": 1132.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_beihai",
+      "name": "Beihai",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 832.75,
+          "bound": 832.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 832.75,
+          "bound": 832.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 832.75,
+          "bound": 832.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 832.75,
+          "bound": 832.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_bohai",
+      "name": "Bohai",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_cangwu",
+      "name": "Cangwu",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1104.25,
+          "bound": 1104.25,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1104.25,
+          "bound": 1104.25,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1444.0,
+          "bound": 1444.0,
+          "city_level": 8,
+          "population": 1000000,
+          "food_surplus": 0.5,
+          "public_order": 4
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1444.0,
+          "bound": 1444.0,
+          "city_level": 8,
+          "population": 1000000,
+          "food_surplus": 0.5,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_changan",
+      "name": "Chang'an",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 810.25,
+          "bound": 810.25,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 810.25,
+          "bound": 810.25,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_changsha",
+      "name": "Changsha",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 948.75,
+          "bound": 948.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 948.75,
+          "bound": 948.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_chenjun",
+      "name": "Chen",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 916.75,
+          "bound": 916.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.5,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 916.75,
+          "bound": 916.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.5,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 969.0,
+          "bound": 969.0,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 2.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 969.0,
+          "bound": 969.0,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 2.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_chengdu",
+      "name": "Chengdu",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 927.75,
+          "bound": 927.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 927.75,
+          "bound": 927.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 927.75,
+          "bound": 927.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 927.75,
+          "bound": 927.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_daijun",
+      "name": "Dai",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 457.75,
+          "bound": 457.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 457.75,
+          "bound": 457.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_dongjun",
+      "name": "Dong",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1022.75,
+          "bound": 1022.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1022.75,
+          "bound": 1022.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1022.75,
+          "bound": 1022.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1022.75,
+          "bound": 1022.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_dongou",
+      "name": "Dong'ou",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1022.75,
+          "bound": 1022.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1022.75,
+          "bound": 1022.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1022.75,
+          "bound": 1022.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1022.75,
+          "bound": 1022.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_donghai",
+      "name": "Donghai",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_donglai",
+      "name": "Donglai",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 722.75,
+          "bound": 722.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 722.75,
+          "bound": 722.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 836.5,
+          "bound": 836.5,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 2.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 836.5,
+          "bound": 836.5,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 2.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_fuling",
+      "name": "Fuling",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_gaoliang",
+      "name": "Gaoliang",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 767.75,
+          "bound": 767.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 767.75,
+          "bound": 767.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_guangling",
+      "name": "Guangling",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 912.75,
+          "bound": 912.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 912.75,
+          "bound": 912.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 912.75,
+          "bound": 912.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 912.75,
+          "bound": 912.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_hanzhong",
+      "name": "Hanzhong",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 712.75,
+          "bound": 712.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 712.75,
+          "bound": 712.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_hedong",
+      "name": "Hedong",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 767.75,
+          "bound": 767.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 767.75,
+          "bound": 767.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_henei",
+      "name": "Henei",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 722.75,
+          "bound": 722.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 722.75,
+          "bound": 722.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 836.5,
+          "bound": 836.5,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 2.0,
+          "public_order": 4
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 836.5,
+          "bound": 836.5,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 2.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_hepu",
+      "name": "Hepu",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 887.75,
+          "bound": 887.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 887.75,
+          "bound": 887.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1061.5,
+          "bound": 1061.5,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 0.5,
+          "public_order": 4
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1061.5,
+          "bound": 1061.5,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 0.5,
+          "public_order": 4
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_ye",
+      "name": "Houguan",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 916.25,
+          "bound": 916.25,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 916.25,
+          "bound": 916.25,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 964.0,
+          "bound": 964.0,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 1.5,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 964.0,
+          "bound": 964.0,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 1.5,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_jianan",
+      "name": "Jian'an",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 792.75,
+          "bound": 792.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 792.75,
+          "bound": 792.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 792.75,
+          "bound": 792.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 792.75,
+          "bound": 792.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_jingzhou",
+      "name": "Jiangling",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 916.25,
+          "bound": 916.25,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 916.25,
+          "bound": 916.25,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 964.0,
+          "bound": 964.0,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 1.5,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 964.0,
+          "bound": 964.0,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 1.5,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_jiangxia",
+      "name": "Jiangxia",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_jiangyang",
+      "name": "Jiangyang",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1187.75,
+          "bound": 1187.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1187.75,
+          "bound": 1187.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1351.5,
+          "bound": 1351.5,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 2.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1351.5,
+          "bound": 1351.5,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 2.0,
+          "public_order": 4
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_jianye",
+      "name": "Jianye",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1322.75,
+          "bound": 1322.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1322.75,
+          "bound": 1322.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1322.75,
+          "bound": 1322.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1322.75,
+          "bound": 1322.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_jiaozhi",
+      "name": "Jiaozhi",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 872.75,
+          "bound": 872.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 872.75,
+          "bound": 872.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 872.75,
+          "bound": 872.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 872.75,
+          "bound": 872.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_jincheng",
+      "name": "Jincheng",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 967.75,
+          "bound": 967.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 967.75,
+          "bound": 967.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 967.75,
+          "bound": 967.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 967.75,
+          "bound": 967.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_kuaiji",
+      "name": "Kuaiji",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 926.75,
+          "bound": 926.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 926.75,
+          "bound": 926.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 979.0,
+          "bound": 979.0,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 0.5,
+          "public_order": 4
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 979.0,
+          "bound": 979.0,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 0.5,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_langye",
+      "name": "Langye",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 792.75,
+          "bound": 792.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 792.75,
+          "bound": 792.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 792.75,
+          "bound": 792.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 792.75,
+          "bound": 792.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_yu",
+      "name": "Liaoxi",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 767.75,
+          "bound": 767.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 767.75,
+          "bound": 767.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_lingling",
+      "name": "Lingling",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1092.75,
+          "bound": 1092.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1092.75,
+          "bound": 1092.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1092.75,
+          "bound": 1092.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1092.75,
+          "bound": 1092.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_lujiang",
+      "name": "Lujiang",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 792.75,
+          "bound": 792.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 792.75,
+          "bound": 792.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 792.75,
+          "bound": 792.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 792.75,
+          "bound": 792.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_luling",
+      "name": "Luling",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 632.75,
+          "bound": 632.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 632.75,
+          "bound": 632.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_luoyang",
+      "name": "Luoyang",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 877.75,
+          "bound": 877.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 877.75,
+          "bound": 877.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_nanhai",
+      "name": "Nanhai",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1336.25,
+          "bound": 1336.25,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1336.25,
+          "bound": 1336.25,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1709.0,
+          "bound": 1709.0,
+          "city_level": 8,
+          "population": 1000000,
+          "food_surplus": 0.5,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1709.0,
+          "bound": 1709.0,
+          "city_level": 8,
+          "population": 1000000,
+          "food_surplus": 0.5,
+          "public_order": 4
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_nanyang",
+      "name": "Nanyang",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 810.25,
+          "bound": 810.25,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 810.25,
+          "bound": 810.25,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_penchang",
+      "name": "Pengcheng",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_pingyuan",
+      "name": "Pingyuan",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 767.75,
+          "bound": 767.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 767.75,
+          "bound": 767.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_poyang",
+      "name": "Poyang",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1067.75,
+          "bound": 1067.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1067.75,
+          "bound": 1067.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_runan",
+      "name": "Runan",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 767.75,
+          "bound": 767.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 767.75,
+          "bound": 767.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_shangdang",
+      "name": "Shangdang",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_shangyong",
+      "name": "Shangyong",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 632.75,
+          "bound": 632.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 632.75,
+          "bound": 632.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_shoufang",
+      "name": "Shuofang",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1022.75,
+          "bound": 1022.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1022.75,
+          "bound": 1022.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1022.75,
+          "bound": 1022.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1022.75,
+          "bound": 1022.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_taishan",
+      "name": "Taishan",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 712.75,
+          "bound": 712.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 712.75,
+          "bound": 712.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_taiyuan",
+      "name": "Taiyuan",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1067.75,
+          "bound": 1067.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1067.75,
+          "bound": 1067.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_tongan",
+      "name": "Tong'an",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1022.75,
+          "bound": 1022.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1022.75,
+          "bound": 1022.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1022.75,
+          "bound": 1022.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1022.75,
+          "bound": 1022.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_wudu",
+      "name": "Wudu",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1012.75,
+          "bound": 1012.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1012.75,
+          "bound": 1012.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_wuling",
+      "name": "Wuling",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1226.75,
+          "bound": 1226.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1226.75,
+          "bound": 1226.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1279.0,
+          "bound": 1279.0,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 0.5,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1279.0,
+          "bound": 1279.0,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 0.5,
+          "public_order": 4
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_wuwei",
+      "name": "Wuwei",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_xiangyang",
+      "name": "Xiangyang",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 767.75,
+          "bound": 767.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 767.75,
+          "bound": 767.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_xihe",
+      "name": "Xihe",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_xindu",
+      "name": "Xindu",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 792.75,
+          "bound": 792.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 792.75,
+          "bound": 792.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 792.75,
+          "bound": 792.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 792.75,
+          "bound": 792.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_yangzhou",
+      "name": "Yangzhou",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1216.75,
+          "bound": 1216.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.5,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1216.75,
+          "bound": 1216.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.5,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1269.0,
+          "bound": 1269.0,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 2.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1269.0,
+          "bound": 1269.0,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 2.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_yanmen",
+      "name": "Yanmen",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 632.75,
+          "bound": 632.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 632.75,
+          "bound": 632.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_weijun",
+      "name": "Ye",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_yingchuan",
+      "name": "Yingchuan",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_yizhou",
+      "name": "Yizhou",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 882.75,
+          "bound": 882.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 882.75,
+          "bound": 882.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_yizhou_island",
+      "name": "Yizhou Island",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 627.75,
+          "bound": 627.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_youbeiping",
+      "name": "Youbeiping",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 712.75,
+          "bound": 712.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 712.75,
+          "bound": 712.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_youzhou",
+      "name": "Youzhou",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 767.75,
+          "bound": 767.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 767.75,
+          "bound": 767.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_yulin",
+      "name": "Yulin",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 957.75,
+          "bound": 957.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 957.75,
+          "bound": 957.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_jianning",
+      "name": "Yunnan",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1012.75,
+          "bound": 1012.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1012.75,
+          "bound": 1012.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_yuzhang",
+      "name": "Yuzhang",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1226.75,
+          "bound": 1226.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1226.75,
+          "bound": 1226.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 1279.0,
+          "bound": 1279.0,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 0.5,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 1279.0,
+          "bound": 1279.0,
+          "city_level": 7,
+          "population": 1000000,
+          "food_surplus": 0.5,
+          "public_order": 4
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_zangke",
+      "name": "Zangke",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "INFEASIBLE",
+          "income": null,
+          "bound": null,
+          "city_level": null,
+          "population": null,
+          "food_surplus": null,
+          "public_order": null
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 948.75,
+          "bound": 948.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 948.75,
+          "bound": 948.75,
+          "city_level": 4,
+          "population": 1000000,
+          "food_surplus": 1.0,
+          "public_order": 2
+        }
+      ]
+    },
+    {
+      "id": "3k_main_province_zhongshan",
+      "name": "Zhongshan",
+      "samples": [
+        {
+          "mode": "fixed_5",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 832.75,
+          "bound": 832.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "fixed_5",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 832.75,
+          "bound": 832.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "cp-sat",
+          "status": "OPTIMAL",
+          "income": 832.75,
+          "bound": 832.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        },
+        {
+          "mode": "auto",
+          "algorithm": "highs",
+          "status": "OPTIMAL",
+          "income": 832.75,
+          "bound": 832.75,
+          "city_level": 5,
+          "population": 1000000,
+          "food_surplus": 0.0,
+          "public_order": 2
+        }
+      ]
+    }
+  ],
+  "recorded_at_utc": "2026-11-09T01:16:47.556993+00:00",
+  "python": "3.14.9",
+  "ortools": "9.15.6755",
+  "installed_wheel_sha256": "9b4380361ff74163e395efa5c66dba1433ebb9e20ec4681a0af56ce003530563",
+  "method": "The installed wheel ran outside the checkout with dependency versions matching the lock environment. Each of 70 commanderies was solved at fixed city level5 and automatic city level, using CP-SAT and HiGHS (280 solves). Each received at most10 seconds and4 workers. All fixed results matched the prior release matrix. No population, food, public-order or other scenario inputs were relaxed. These are correctness checks, not speed comparisons.",
+  "reproduce": "uv run --locked twoptimizer three-kingdoms --commandery all --city-level auto --algorithm cp-sat --algorithm highs --workers 4 --seconds 10",
+  "summary": {
+    "fixed_level5_optimal": 45,
+    "fixed_level5_infeasible": 25,
+    "automatic_optimal": 70,
+    "automatic_infeasible": 0,
+    "previously_infeasible_now_feasible": 25,
+    "previously_feasible_with_strictly_higher_income": 15,
+    "cp_sat_selected_city_levels": {
+      "7": 13,
+      "5": 30,
+      "8": 2,
+      "4": 25
+    }
+  },
+  "bounded_joint_checks": [
+    {
+      "request": {
+        "game": "three_kingdoms",
+        "faction": "3k_main_faction_cao_cao",
+        "province": "3k_main_province_yingchuan",
+        "algorithm": "cp-sat",
+        "seconds": 15,
+        "workers": 4,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "3k_main_province_anding",
+          "3k_main_province_anping",
+          "3k_main_province_bajun",
+          "3k_main_province_badong",
+          "3k_main_province_baxi",
+          "3k_main_province_beihai",
+          "3k_main_province_bohai",
+          "3k_main_province_cangwu",
+          "3k_main_province_changan",
+          "3k_main_province_changsha",
+          "3k_main_province_chenjun",
+          "3k_main_province_chengdu",
+          "3k_main_province_daijun",
+          "3k_main_province_dongjun",
+          "3k_main_province_dongou",
+          "3k_main_province_donghai",
+          "3k_main_province_donglai",
+          "3k_main_province_fuling",
+          "3k_main_province_gaoliang",
+          "3k_main_province_guangling",
+          "3k_main_province_hanzhong",
+          "3k_main_province_hedong",
+          "3k_main_province_henei",
+          "3k_main_province_hepu",
+          "3k_main_province_ye",
+          "3k_main_province_jianan",
+          "3k_main_province_jingzhou",
+          "3k_main_province_jiangxia",
+          "3k_main_province_jiangyang",
+          "3k_main_province_jianye",
+          "3k_main_province_jiaozhi",
+          "3k_main_province_jincheng",
+          "3k_main_province_kuaiji",
+          "3k_main_province_langye",
+          "3k_main_province_yu",
+          "3k_main_province_lingling",
+          "3k_main_province_lujiang",
+          "3k_main_province_luling",
+          "3k_main_province_luoyang",
+          "3k_main_province_nanhai",
+          "3k_main_province_nanyang",
+          "3k_main_province_penchang",
+          "3k_main_province_pingyuan",
+          "3k_main_province_poyang",
+          "3k_main_province_runan",
+          "3k_main_province_shangdang",
+          "3k_main_province_shangyong",
+          "3k_main_province_shoufang",
+          "3k_main_province_taishan",
+          "3k_main_province_taiyuan",
+          "3k_main_province_tongan",
+          "3k_main_province_wudu",
+          "3k_main_province_wuling",
+          "3k_main_province_wuwei",
+          "3k_main_province_xiangyang",
+          "3k_main_province_xihe",
+          "3k_main_province_xindu",
+          "3k_main_province_yangzhou",
+          "3k_main_province_yanmen",
+          "3k_main_province_weijun",
+          "3k_main_province_yingchuan",
+          "3k_main_province_yizhou",
+          "3k_main_province_yizhou_island",
+          "3k_main_province_youbeiping",
+          "3k_main_province_youzhou",
+          "3k_main_province_yulin",
+          "3k_main_province_jianning",
+          "3k_main_province_yuzhang",
+          "3k_main_province_zangke",
+          "3k_main_province_zhongshan"
+        ],
+        "joint": true,
+        "adjacency": null,
+        "three_kingdoms": {
+          "city_level": null,
+          "population": 1000000,
+          "corruption_percent": 0,
+          "order_offset": 0,
+          "minimum_order": 0,
+          "external_food": 0,
+          "capital_commandery": null,
+          "external_resources": [],
+          "include_leader_effects": true
+        }
+      },
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "FEASIBLE",
+        "seconds": 15.027516824000031,
+        "objective": 52138.25,
+        "bound": 125917.63,
+        "detail": "graph_var_lns (d=2.93e-01 s=85 t=0.10 p=0.00 stall=0 h=base)",
+        "model_stats": {
+          "formulation": "linearized_income",
+          "variables": 10405,
+          "constraints": 18766
+        },
+        "timings": {
+          "model_conversion_seconds": 0.38884035599994604,
+          "search_seconds": 13.954321734999667,
+          "preparation_seconds": 0.681956832999731
+        },
+        "workers": 4
+      },
+      "income": 52138.25,
+      "gap_percent": 58.59336774365909,
+      "metrics": {
+        "food_surplus": 0.75,
+        "public_order": 0
+      },
+      "city_levels": {
+        "5": 42,
+        "4": 24,
+        "6": 3,
+        "7": 1
+      }
+    },
+    {
+      "request": {
+        "game": "three_kingdoms",
+        "faction": "3k_main_faction_cao_cao",
+        "province": "3k_main_province_yingchuan",
+        "algorithm": "highs",
+        "seconds": 15,
+        "workers": 4,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "3k_main_province_anding",
+          "3k_main_province_anping",
+          "3k_main_province_bajun",
+          "3k_main_province_badong",
+          "3k_main_province_baxi",
+          "3k_main_province_beihai",
+          "3k_main_province_bohai",
+          "3k_main_province_cangwu",
+          "3k_main_province_changan",
+          "3k_main_province_changsha",
+          "3k_main_province_chenjun",
+          "3k_main_province_chengdu",
+          "3k_main_province_daijun",
+          "3k_main_province_dongjun",
+          "3k_main_province_dongou",
+          "3k_main_province_donghai",
+          "3k_main_province_donglai",
+          "3k_main_province_fuling",
+          "3k_main_province_gaoliang",
+          "3k_main_province_guangling",
+          "3k_main_province_hanzhong",
+          "3k_main_province_hedong",
+          "3k_main_province_henei",
+          "3k_main_province_hepu",
+          "3k_main_province_ye",
+          "3k_main_province_jianan",
+          "3k_main_province_jingzhou",
+          "3k_main_province_jiangxia",
+          "3k_main_province_jiangyang",
+          "3k_main_province_jianye",
+          "3k_main_province_jiaozhi",
+          "3k_main_province_jincheng",
+          "3k_main_province_kuaiji",
+          "3k_main_province_langye",
+          "3k_main_province_yu",
+          "3k_main_province_lingling",
+          "3k_main_province_lujiang",
+          "3k_main_province_luling",
+          "3k_main_province_luoyang",
+          "3k_main_province_nanhai",
+          "3k_main_province_nanyang",
+          "3k_main_province_penchang",
+          "3k_main_province_pingyuan",
+          "3k_main_province_poyang",
+          "3k_main_province_runan",
+          "3k_main_province_shangdang",
+          "3k_main_province_shangyong",
+          "3k_main_province_shoufang",
+          "3k_main_province_taishan",
+          "3k_main_province_taiyuan",
+          "3k_main_province_tongan",
+          "3k_main_province_wudu",
+          "3k_main_province_wuling",
+          "3k_main_province_wuwei",
+          "3k_main_province_xiangyang",
+          "3k_main_province_xihe",
+          "3k_main_province_xindu",
+          "3k_main_province_yangzhou",
+          "3k_main_province_yanmen",
+          "3k_main_province_weijun",
+          "3k_main_province_yingchuan",
+          "3k_main_province_yizhou",
+          "3k_main_province_yizhou_island",
+          "3k_main_province_youbeiping",
+          "3k_main_province_youzhou",
+          "3k_main_province_yulin",
+          "3k_main_province_jianning",
+          "3k_main_province_yuzhang",
+          "3k_main_province_zangke",
+          "3k_main_province_zhongshan"
+        ],
+        "joint": true,
+        "adjacency": null,
+        "three_kingdoms": {
+          "city_level": null,
+          "population": 1000000,
+          "corruption_percent": 0,
+          "order_offset": 0,
+          "minimum_order": 0,
+          "external_food": 0,
+          "capital_commandery": null,
+          "external_resources": [],
+          "include_leader_effects": true
+        }
+      },
+      "solver": {
+        "algorithm": "highs",
+        "status": "UNKNOWN",
+        "seconds": 15.217004558000099,
+        "objective": null,
+        "bound": 83876.67,
+        "workers": 4,
+        "timings": {
+          "model_conversion_seconds": 0.34258298500026285,
+          "search_seconds": 14.17584858500004,
+          "preparation_seconds": 0.6955174959998658
+        },
+        "native_version": "1.12.0",
+        "model_stats": {
+          "formulation": "linear_mip",
+          "variables": 10404,
+          "constraints": 17587
+        },
+        "detail": ""
+      },
+      "income": null,
+      "gap_percent": null,
+      "metrics": {
+        "food_surplus": null,
+        "public_order": null
+      },
+      "city_levels": {}
+    }
+  ],
+  "joint_check_note": "Single15-second installed-wheel functional checks at4workers. CP-SAT returned a validated incumbent; HiGHS returned UNKNOWN without an incumbent. UNKNOWN is not an infeasibility proof. These checks do not estimate time to optimality."
+}

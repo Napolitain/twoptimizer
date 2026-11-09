@@ -22,6 +22,9 @@ def default_config(game: str) -> RunConfig:
         province=options["default_province"],
         research=options["default_research"],
         algorithm="cp-sat",
+        three_kingdoms=ThreeKingdomsOptions(city_level=None)
+        if game == "three_kingdoms"
+        else ThreeKingdomsOptions(),
     )
 
 

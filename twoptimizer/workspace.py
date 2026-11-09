@@ -171,8 +171,15 @@ def three_kingdoms_controls() -> ComposeResult:
     defaults = ThreeKingdomsOptions()
     with Vertical(classes="option-group", id="three-kingdoms-options"):
         yield Static("Historical 1.2.0 · common snapshot inputs")
+        yield Label("City level", classes="field-label")
+        yield Select(
+            [("Optimize occupied levels 1-10", "auto")]
+            + [(f"Fixed level {level}", str(level)) for level in range(1, 11)],
+            value="auto",
+            allow_blank=False,
+            id="three-kingdoms-city_level",
+        )
         for label, field in (
-            ("City level", "city_level"),
             ("Population (people)", "population"),
             ("Base corruption (%)", "corruption_percent"),
             ("Public order offset", "order_offset"),

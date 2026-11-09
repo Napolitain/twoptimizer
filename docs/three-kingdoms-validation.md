@@ -4,6 +4,24 @@ The historical 1.2.0 model runs through the shared CLI, terminal UI and worker
 with both CP-SAT and HiGHS. This validates the implemented static model; it does
 not establish agreement with a current installed game.
 
+These measurements used the original **fixed city level 5** comparison. New
+CLI/TUI runs optimize city levels by default; use `--city-level 5` to reproduce
+the scenarios below. Infeasibility here does not imply that a smaller city fails.
+
+The [automatic-city validation](../reports/three-kingdoms-city-levels.json) checks
+all 70 commanderies again with both solvers and unchanged population, food and
+public-order inputs. All 70 now have proved optima. The 25 previously infeasible
+cases select level-4 cities; 15 previously feasible cases also improve their
+income by choosing larger cities. Explicit level-5 runs reproduce every original
+result. Concrete low-tier layouts also independently validate feasibility across
+all 15 factions and the full map in the regression suite.
+
+Automatic sizing enlarges joint models. In separate single 15-second functional
+checks, CP-SAT returned a validated all-70 layout with income 52,138.25, while
+HiGHS returned `UNKNOWN` without an incumbent. That timeout is not an
+infeasibility proof; the smaller-city feasible layouts are known. Neither check
+establishes time to optimality or a speed comparison with the fixed-level runs.
+
 The [public-data audit](../reports/three-kingdoms-historical-readiness.json)
 records 424 buildings, 15 faction profiles, 143 reforms, 70 commanderies and
 187 counties. The separate pinned reference recovers effects for 139 buildings
@@ -51,16 +69,16 @@ Reproduce the numerical workloads with:
 
 ```sh
 uv run --locked twoptimizer three-kingdoms --faction all \
-  --commandery Yingchuan --algorithm cp-sat --algorithm highs --workers 4 --seconds 5
+  --commandery Yingchuan --city-level 5 --algorithm cp-sat --algorithm highs --workers 4 --seconds 5
 uv run --locked twoptimizer three-kingdoms --commandery all \
-  --algorithm cp-sat --algorithm highs --workers 4 --seconds 5
+  --city-level 5 --algorithm cp-sat --algorithm highs --workers 4 --seconds 5
 uv run --locked twoptimizer three-kingdoms --commandery all --joint \
-  --algorithm cp-sat --algorithm highs --workers 4 --seconds 30
+  --city-level 5 --algorithm cp-sat --algorithm highs --workers 4 --seconds 30
 ```
 
 Use a different `--output` stem for each report, or `--overwrite` when replacing
 an existing export. The application normally runs without a time limit; these
-limits are explicit validation settings. Defaults use city level 5, one million
+limits are explicit validation settings. These comparisons use city level 5, one million
 people per commandery, zero base corruption, normal tax/fertility/non-harvest,
 no reforms and the original leader profile. The
 [model documentation](../games/tw/three_kingdoms/README.md) describes the missing

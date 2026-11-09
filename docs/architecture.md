@@ -533,6 +533,14 @@ corruption clamping. CP-SAT and HiGHS consume the same integer formulation.
 An independent Fraction-based evaluator validates placement, resources,
 uniqueness, population capacity, food and public order before accepting income.
 
+New CLI/TUI requests encode `city_level: null` to choose an occupied city level
+from 1–10 in each commandery. City choices determine both ordinary-slot capacity
+and minimum city-level requirements for other buildings. The evaluator derives
+the chosen level from the layout and checks those restrictions independently.
+Population stays fixed and must fit the selected settlement capacities. Explicit
+integer city levels retain the original fixed-snapshot behavior; old serialized
+requests that omit the game options still decode as fixed level 5.
+
 Joint holdings share food and resource availability. Explicit adjacent-commandery
 links route neighboring corruption reductions; the incomplete historical map
 cannot supply them automatically. Missing adjacency is immaterial when the only

@@ -38,8 +38,9 @@ single-province dropdown. Joint runs share supported faction effects and constra
 Use **Single province** in the picker to return to the original dropdown.
 
 **Three Kingdoms** uses a historical vanilla **1.2.0** reference, not the latest
-patch. Set a common city level, population in people, base corruption and public-order
-inputs explicitly. These values describe a controlled snapshot, not a campaign start.
+patch. City levels default optimized from 1 to 10, or you can fix a common level.
+Population in people, base corruption and public-order inputs remain explicit.
+These values describe a controlled snapshot, not a campaign start.
 Joint holdings share food and applicable bonuses. If borders are unavailable, zero
 base corruption makes the imported adjacent corruption reductions inactive; otherwise
 provide borders or explicitly choose no borders. Specify a faction capital to allow

@@ -46,12 +46,16 @@ class Compiler:
         return proto
 
     def _choices(self):
+        self.choices = {
+            (county, key): self.solver.BoolVar(county + ":" + key)
+            for county, buildings in self.economy.candidates.items()
+            for key in buildings
+        }
         unique = defaultdict(list)
         for county, buildings in self.economy.candidates.items():
             roles, groups = defaultdict(list), defaultdict(list)
             for key, building in buildings.items():
-                variable = self.solver.BoolVar(county + ":" + key)
-                self.choices[(county, key)] = variable
+                variable = self.choices[(county, key)]
                 roles[self.economy.role(county, building)].append(variable)
                 groups[building["superchain"]].append(variable)
                 if building["faction_unique"]:
@@ -61,11 +65,32 @@ class Compiler:
                 self.solver.Add(sum(roles["port"]) == 1)
             for variables in groups.values():
                 self.solver.Add(sum(variables) <= 1)
-            province = self.economy.provinces[self.economy.regions[county]["commandery"]]
-            slots = self.economy.data["rules"]["city_levels"][str(province.city_level)]["slots"]
-            self.solver.Add(sum(roles["district"] + roles["port"]) <= slots)
+            self._city_constraints(county, roles)
         for variables in unique.values():
             self.solver.Add(sum(variables) <= 1)
+
+    def _city_constraints(self, county, roles):
+        province = self.economy.provinces[self.economy.regions[county]["commandery"]]
+        city_rules = self.economy.data["rules"]["city_levels"]
+        if province.city_level is not None:
+            slots = city_rules[str(province.city_level)]["slots"]
+        else:
+            capital = self.economy.data["commanderies"][province.id]["capital"]
+            city_choices = [
+                (building["level"], self.choices[(capital, key)])
+                for key, building in self.economy.candidates[capital].items()
+                if building["kind"] == "city"
+            ]
+            slots = sum(city_rules[str(level)]["slots"] * choice for level, choice in city_choices)
+            for key, building in self.economy.candidates[county].items():
+                if building["kind"] != "city" and building["minimum_city_level"]:
+                    required = sum(
+                        choice
+                        for level, choice in city_choices
+                        if level >= building["minimum_city_level"]
+                    )
+                    self.solver.Add(self.choices[(county, key)] <= required)
+        self.solver.Add(sum(roles["district"] + roles["port"]) <= slots)
 
     def _resources(self):
         providers = defaultdict(list)

@@ -24,7 +24,7 @@ def integer(value, label, lower, upper):
 @dataclass(frozen=True, slots=True)
 class Commandery:
     id: str
-    city_level: int = 5
+    city_level: int | None = 5
     population: int = 1_000_000
     corruption_percent: int = 0
     order_offset: int = 0
@@ -33,7 +33,8 @@ class Commandery:
     def __post_init__(self):
         if not isinstance(self.id, str) or not self.id:
             raise ValueError("Choose a commandery ID")
-        integer(self.city_level, "City level", 1, 10)
+        if self.city_level is not None:
+            integer(self.city_level, "City level", 1, 10)
         integer(self.population, "Population", 0, 10_000_000)
         integer(self.corruption_percent, "Base corruption", 0, 100)
         integer(self.order_offset, "Public-order offset", -1000, 1000)

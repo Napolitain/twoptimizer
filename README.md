@@ -30,7 +30,8 @@ Rome II runs use bundled campaign borders automatically; **Neighboring provinces
 lets you override them. **All** selects actual provinces; the joint mode shares
 the game's applicable bonuses and constraints.
 Three Kingdoms uses a separately labeled **historical 1.2.0 public reference**,
-with explicit city level, population and base corruption inputs. Its historical
+with city levels optimized by default, and explicit population and base corruption
+inputs. Choose a fixed city level when comparing a particular settlement size. Its historical
 map coverage is incomplete: joint runs at zero base corruption can proceed
 because the modeled neighboring effects only reduce corruption. At positive
 base corruption, supply the neighboring commanderies explicitly.

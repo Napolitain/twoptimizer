@@ -60,7 +60,8 @@ def audit_reference() -> dict:
         "limitations": [
             "Historical game 1.2.0 data; later patches and DLC/start dates are not included.",
             "Full land adjacency is missing; joint cross-border effects need an explicit map.",
-            "Population, city level, corruption, taxation and fertility use static inputs.",
+            "Population, corruption, taxation and fertility use static inputs; "
+            "city levels may be optimized or explicitly fixed.",
             "Original ruler career bonuses require that leader profile; successor traits differ.",
             "Dynamic faction resources, diplomacy/trade, court assignments, character equipment, "
             "rank bonuses, construction schedules and scripted conditions are outside this model.",

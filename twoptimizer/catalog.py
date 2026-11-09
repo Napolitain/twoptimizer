@@ -55,8 +55,9 @@ NOTES = {
     "three_kingdoms": (
         "Historical vanilla 1.2.0 public Assembly Kit reference; not a current-patch "
         "or installed-game validation. Maximize recurring domestic income after "
-        "modeled corruption and building maintenance. City level, population and "
-        "base corruption are explicit common snapshot inputs, not a historical "
+        "modeled corruption and building maintenance. City levels default optimized "
+        "from 1 to 10 and may be fixed. Population and base corruption are explicit "
+        "common snapshot inputs, not a historical "
         "starting state. Joint holdings share food and supported cross-commandery "
         "effects. No construction timeline, armies, trade agreements or character "
         "optimization. Original leader economic traits default enabled and can be disabled. "

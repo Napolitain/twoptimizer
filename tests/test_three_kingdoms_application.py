@@ -60,6 +60,7 @@ def test_cli_preserves_named_capital_resources_research_and_solver_comparison():
         assert scenario.capital_commandery == YINGCHUAN
         assert scenario.commanderies[0].population == 500000
         assert scenario.commanderies[0].corruption_percent == 25
+        assert scenario.commanderies[0].city_level is None
         assert scenario.external_resources == (COPPER,)
         assert scenario.required_buildings == ("3k_city_5",)
         assert scenario.all_reforms
@@ -74,6 +75,7 @@ def test_cli_preserves_named_capital_resources_research_and_solver_comparison():
         {"population": True},
         {"population": 1.5},
         {"city_level": 11},
+        {"city_level": 0},
         {"corruption_percent": 101},
         {"order_offset": float("nan")},
         {"external_food": float("inf")},
@@ -97,6 +99,35 @@ def test_game_options_cannot_be_silently_applied_to_another_game():
         make_jobs(RunConfig(three_kingdoms=ThreeKingdomsOptions(population=5)))
     with pytest.raises(ValueError, match="JSON object"):
         RunConfig.from_dict({"three_kingdoms": []})
+
+
+def test_new_auto_defaults_are_explicit_and_old_requests_keep_fixed_city_level():
+    fresh = default_config(GAME)
+    assert fresh.three_kingdoms.city_level is None
+    payload = json.loads(json.dumps(fresh.to_dict()))
+    assert payload["three_kingdoms"]["city_level"] is None
+    assert RunConfig.from_dict(payload) == fresh
+    payload.pop("three_kingdoms")
+    legacy = RunConfig.from_dict(payload)
+    assert legacy.three_kingdoms.city_level == 5
+    payload["three_kingdoms"] = {}
+    assert RunConfig.from_dict(payload) == legacy
+    assert prepare_scenario(legacy).commanderies[0].city_level == 5
+
+
+@pytest.mark.parametrize("value, expected", [("auto", None), ("1", 1), ("5", 5), ("10", 10)])
+def test_cli_auto_and_fixed_city_levels_translate_without_changing_other_inputs(value, expected):
+    args = parser().parse_args(["--city-level", value])
+    config = request_from_args(args).config
+    assert config.three_kingdoms.city_level == expected
+    assert config.three_kingdoms.population == 1_000_000
+    assert config.three_kingdoms.external_food == 0
+
+
+@pytest.mark.parametrize("value", ["0", "11", "5.5", "unknown"])
+def test_cli_city_levels_reject_uninhabited_out_of_range_and_noninteger_values(value):
+    with pytest.raises(SystemExit):
+        parser().parse_args(["--city-level", value])
 
 
 def test_zero_all_and_joint_batch_modes_preserve_each_commandery():
@@ -170,6 +201,9 @@ def test_native_cli_dispatch_compares_both_solvers_and_exports_provenance(tmp_pa
         assert row["source_files"]["three_kingdoms/data/reference.json"]
         assert row["raw"]["model_complexity"]
         assert all("Yingchuan," in placement["region"] for placement in row["buildings"])
+        assert row["request"]["three_kingdoms"]["city_level"] is None
+        assert row["raw"]["commanderies"][YINGCHUAN]["city_level"] in range(1, 11)
+        assert any("city level" in building["building"] for building in row["buildings"])
 
 
 def test_native_constraint_comparison_preserves_building_requirements_and_snapshot():
@@ -190,6 +224,21 @@ def test_native_constraint_comparison_preserves_building_requirements_and_snapsh
     assert comparison["exact_cost"] >= 0
     assert comparison["baseline"]["request"]["three_kingdoms"] == config.three_kingdoms.to_dict()
     assert comparison["baseline_income"] - result.income == pytest.approx(comparison["exact_cost"])
+
+
+def test_auto_city_default_recovers_a_holding_infeasible_at_fixed_level_five():
+    commandery = "3k_main_province_changan"
+    config = replace(default_config(GAME), province=commandery, seconds=5, workers=1)
+    fixed = solve_case(replace(config, three_kingdoms=ThreeKingdomsOptions(city_level=5)))
+    assert fixed.solver.status == "INFEASIBLE" and fixed.income is None
+    automatic = solve_case(config)
+    assert automatic.solver.status == "OPTIMAL"
+    assert automatic.income is not None and automatic.income > 0
+    assert automatic.raw["commanderies"][commandery]["city_level"] < 5
+    assert automatic.request.three_kingdoms.population == fixed.request.three_kingdoms.population
+    assert (
+        automatic.request.three_kingdoms.external_food == fixed.request.three_kingdoms.external_food
+    )
 
 
 def test_native_cancellation_on_first_candidate_keeps_validated_result_and_progress():
@@ -242,6 +291,11 @@ def test_tui_snapshot_controls_and_resources_reach_shared_requests():
             assert app.query_one("#three-kingdoms-options").display
             assert not app.query_one("#run", Button).disabled
             assert app._config().three_kingdoms.population == 1000000
+            assert app._config().three_kingdoms.city_level is None
+            app.query_one("#three-kingdoms-city_level", Select).value = "4"
+            await pilot.pause()
+            assert app._config().three_kingdoms.city_level == 4
+            app.query_one("#three-kingdoms-city_level", Select).value = "auto"
             app.query_one("#three-kingdoms-population", Input).value = "500000"
             app.query_one("#three-kingdoms-capital", Select).value = YINGCHUAN
             app.query_one("#three-kingdoms-resources", SelectionList).select(COPPER)
@@ -252,6 +306,7 @@ def test_tui_snapshot_controls_and_resources_reach_shared_requests():
             await app.workers.wait_for_complete()
             saved = app.results[0]["request"]
             assert saved["three_kingdoms"]["population"] == 500000
+            assert saved["three_kingdoms"]["city_level"] is None
             assert saved["three_kingdoms"]["capital_commandery"] == YINGCHUAN
             assert saved["three_kingdoms"]["external_resources"] == [COPPER]
             assert saved["three_kingdoms"]["include_leader_effects"] is False

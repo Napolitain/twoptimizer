@@ -59,4 +59,11 @@ jobs:
                   ))
                   assert historical.solver.status == "OPTIMAL"
                   assert abs(historical.income - 627.75) < 1e-5
+                  smaller = solve_case(replace(
+                      default_config("three_kingdoms"),
+                      province="3k_main_province_changan", seconds=5, workers=1,
+                  ))
+                  assert smaller.solver.status == "OPTIMAL"
+                  assert abs(smaller.income - 810.25) < 1e-5
+                  assert smaller.raw["commanderies"]["3k_main_province_changan"]["city_level"] == 4
                   PYTHON

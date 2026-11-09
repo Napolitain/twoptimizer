@@ -86,10 +86,10 @@ class Economy:
             *region["port_superchains"],
         ):
             return "county_slot_template"
-        if building["kind"] == "city":
+        if building["kind"] == "city" and province.city_level is not None:
             return None if building["level"] == province.city_level else "fixed_city_level"
-        if building["minimum_city_level"] > province.city_level:
-            return "city_level_requirement"
+        if reason := self._city_requirement(building, province):
+            return reason
         if building["only_in_capital"] and region["commandery"] != self.scenario.capital_commandery:
             return "faction_capital_required"
         if (
@@ -97,6 +97,14 @@ class Economy:
             and set(building["required_technologies"]) & self.reforms.keys()
         ):
             return "reform_required"
+        return None
+
+    @staticmethod
+    def _city_requirement(building, province):
+        if building["kind"] == "city" and building["level"] == 0:
+            return "abandoned_city_outside_snapshot"
+        if province.city_level is not None and building["minimum_city_level"] > province.city_level:
+            return "city_level_requirement"
         return None
 
     def role(self, county, building):

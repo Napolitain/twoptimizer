@@ -34,12 +34,18 @@ The no-argument `uv run --locked twoptimizer` command opens the shared terminal 
 Choose Three Kingdoms, then select one or several commanderies and independent
 or joint mode. The UI exposes the same snapshot inputs as the CLI.
 
-The default is a controlled snapshot: city level 5, one million people per
+The default is a controlled snapshot: optimized city levels, one million people per
 commandery, zero base corruption, normal taxes, no researched reforms, no
 external food or resources, and a nonnegative public-order change requirement.
 These are inputs for comparing layouts, not reconstructed 190 CE starting states.
 Use `--city-level`, `--population`, `--corruption`, `--public-order-offset`,
 `--minimum-public-order`, `--external-food` and `--reforms none|all` to change them.
+`--city-level auto` lets each commandery choose a level from 1 to 10 independently.
+The solver balances the extra building slots and income against food consumption;
+it can leave a city smaller when upgrading would hurt the economy. Population
+stays fixed and must fit the chosen city and resource settlements. `--city-level 5`
+reproduces the original fixed-level comparison. The TUI offers the same automatic
+and fixed choices.
 External resources supplied with repeated `--resource` arguments are explicit
 availability assumptions, such as resources obtained through trade.
 The original faction leader's imported economic traits are enabled by default;
@@ -49,8 +55,9 @@ The original faction leader's imported economic traits are enabled by default;
 
 The holding includes all counties in each selected commandery. The reference
 contains **70 commanderies and 187 counties**, including 117 resource settlements.
-The solver chooses building levels and district chains under the supplied city
-level (1–10 for inhabited cities). It uses the city's unlocked capacity, resource-settlement and port
+The solver chooses city levels, resource-settlement levels and district chains.
+An explicit fixed city level removes that city's level decision. It uses the
+selected city's unlocked capacity, resource-settlement and port
 templates, faction availability, reform requirements and resource prerequisites.
 Faction-unique and capital-only restrictions remain constraints. A harbour uses
 one of the unlocked city slots; its separate port template does not grant a free
@@ -71,10 +78,13 @@ distribution costs. Public-order effects and population penalties are checked
 per commandery. Independent mode solves each commandery separately, so it cannot
 benefit from another selected commandery's food, resources or faction effects.
 An independent case can therefore be infeasible even when the same commandery is
-viable in a joint holding. For example, the default Chang'an snapshot needs food
-from elsewhere; `--external-food 6` makes that isolated case feasible. This is a
-constraint of the specified snapshot, not a claim that the commandery can never
-support itself under different city or research inputs.
+viable in a joint holding. The original fixed level-5 Chang'an comparison was
+infeasible without external food. Automatic city sizing instead selects level 4,
+keeps the supplied million inhabitants, and produces 810.25 income with a food
+surplus of 1. Both solvers prove that result. To keep level 5, supplying
+`--city-level 5 --external-food 6` also makes the isolated case feasible.
+Other incompatible inputs, such as excessive population or required buildings,
+can still make automatic sizing infeasible.
 
 The historical population rules have 21 exact integer bands, using thousands of
 people internally. The supplied number of people is divided by 1,000 with any

@@ -82,9 +82,14 @@ def _buildings(raw, data):
     return [
         BuildingSelection(
             data["regions"][placement["county"]]["battle_name"],
-            data["buildings"][placement["building"]]["name"],
+            _building_name(data["buildings"][placement["building"]]),
             placement["building"],
         )
         for row in raw.get("commanderies", {}).values()
         for placement in row["placements"]
     ]
+
+
+def _building_name(building):
+    name = building["name"]
+    return f"{name} · city level {building['level']}" if building["kind"] == "city" else name

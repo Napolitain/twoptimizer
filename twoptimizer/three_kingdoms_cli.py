@@ -4,6 +4,7 @@ import argparse
 from dataclasses import replace
 from pathlib import Path
 
+from twoptimizer.catalog import choices
 from twoptimizer.cli_constraints import add_constraint_options, print_comparison, read_constraints
 from twoptimizer.cli_holdings import add_holding_options, read_borders
 from twoptimizer.export import export_session
@@ -53,7 +54,13 @@ def parser() -> argparse.ArgumentParser:
 def _snapshot_arguments(result: argparse.ArgumentParser) -> None:
     defaults = ThreeKingdomsOptions()
     group = result.add_argument_group("explicit static scenario inputs, common to every commandery")
-    group.add_argument("--city-level", type=int, default=defaults.city_level)
+    group.add_argument(
+        "--city-level",
+        type=city_level,
+        default=None,
+        metavar="auto|1..10",
+        help="Optimize each commandery's city level (default auto), or fix one inhabited level",
+    )
     group.add_argument("--population", type=int, default=defaults.population, help="People")
     group.add_argument(
         "--corruption", type=int, default=defaults.corruption_percent, help="Percent"
@@ -81,6 +88,20 @@ def _snapshot_arguments(result: argparse.ArgumentParser) -> None:
         default=defaults.external_food,
         help="Fixed food from outside this solved holding; default zero",
     )
+
+
+def city_level(value: str) -> int | None:
+    if value == "auto":
+        return None
+    try:
+        level = int(value)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError(
+            "City level must be auto or a whole number from 1 to 10"
+        ) from error
+    if level not in range(1, 11):
+        raise argparse.ArgumentTypeError("City level must be auto or a whole number from 1 to 10")
+    return level
 
 
 def request_from_args(args: argparse.Namespace) -> RunRequest:
@@ -128,10 +149,17 @@ def main(argv=None):
             f"{case.solver.status} · income {case.income} · bound {case.solver.bound}",
             flush=True,
         )
+        print_city_levels(case.raw)
         print_comparison(case.raw)
     paths = export_session(args.output, results, skipped=skipped, overwrite=args.overwrite)
     print(f"Saved {paths[0]} and {paths[1]}", flush=True)
     return results
+
+
+def print_city_levels(raw: dict) -> None:
+    names = {key: name for name, key in choices("three_kingdoms")["provinces"]}
+    for key, row in raw.get("commanderies", {}).items():
+        print(f"  {names[key]}: city level {row['city_level']}", flush=True)
 
 
 if __name__ == "__main__":

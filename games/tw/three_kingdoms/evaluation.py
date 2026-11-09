@@ -9,12 +9,14 @@ from games.tw.three_kingdoms.scopes import ECONOMIC, targets
 def validate_layout(economy, layout):
     if set(layout) != set(economy.regions):
         raise ValueError("Layout must cover exactly the selected counties")
+    city_levels = selected_city_levels(economy, layout)
     selected, unique, resources = set(), Counter(), set(economy.scenario.external_resources)
     for county, keys in layout.items():
         if len(keys) != len(set(keys)) or set(keys) - economy.candidates[county].keys():
             raise ValueError("Duplicate or unavailable building")
         buildings = [economy.candidates[county][key] for key in keys]
-        _validate_slots(economy, county, buildings)
+        province_id = economy.regions[county]["commandery"]
+        _validate_slots(economy, county, buildings, city_levels[province_id])
         for building in buildings:
             selected.add(building["id"])
             resources.update(building["provided_resources"])
@@ -28,9 +30,26 @@ def validate_layout(economy, layout):
         raise ValueError("Forbidden building selected")
     for key in selected:
         _validate_resources(economy.data["buildings"][key], resources)
+    return city_levels
 
 
-def _validate_slots(economy, county, buildings):
+def selected_city_levels(economy, layout):
+    levels = {}
+    for province in economy.provinces:
+        capital = economy.data["commanderies"][province]["capital"]
+        cities = [
+            economy.candidates[capital][key]
+            for key in layout[capital]
+            if key in economy.candidates[capital]
+            and economy.candidates[capital][key]["kind"] == "city"
+        ]
+        if len(cities) != 1:
+            raise ValueError("Choose exactly one occupied city level per commandery")
+        levels[province] = cities[0]["level"]
+    return levels
+
+
+def _validate_slots(economy, county, buildings, city_level):
     roles = Counter(economy.role(county, b) for b in buildings)
     groups = Counter(b["superchain"] for b in buildings)
     if roles["primary"] != 1 or any(count > 1 for count in groups.values()):
@@ -38,8 +57,9 @@ def _validate_slots(economy, county, buildings):
     has_port = any(economy.role(county, b) == "port" for b in economy.candidates[county].values())
     if roles["port"] != int(has_port):
         raise ValueError("Missing or duplicate dedicated harbour")
-    province = economy.provinces[economy.regions[county]["commandery"]]
-    slots = economy.data["rules"]["city_levels"][str(province.city_level)]["slots"]
+    slots = economy.data["rules"]["city_levels"][str(city_level)]["slots"]
+    if any(b["minimum_city_level"] > city_level for b in buildings if b["kind"] != "city"):
+        raise ValueError("Building requires a higher city level")
     if roles["district"] + roles["port"] > slots:
         raise ValueError("City has too few building slots")
 
@@ -118,7 +138,7 @@ def _county_totals(economy, county, keys, totals, retention):
     )
 
 
-def _province(economy, province, layout, totals):
+def _province(economy, province, layout, totals, city_level):
     order = totals[("order", province.id, "")]
     if order < province.minimum_order:
         raise ValueError("Insufficient public order")
@@ -159,6 +179,7 @@ def _province(economy, province, layout, totals):
             "income": float(income),
             "food_surplus": float(food),
             "public_order": order,
+            "city_level": city_level,
             "population": province.population,
             "population_capacity": capacity,
             "base_corruption_percent": province.corruption_percent,
@@ -173,11 +194,11 @@ def _province(economy, province, layout, totals):
 
 
 def evaluate(economy, layout):
-    validate_layout(economy, layout)
+    city_levels = validate_layout(economy, layout)
     totals = _effects(economy, layout)
     rows, income, food = {}, Fraction(0), Fraction(economy.scenario.external_food)
     for province in economy.scenario.commanderies:
-        row, value, balance = _province(economy, province, layout, totals)
+        row, value, balance = _province(economy, province, layout, totals, city_levels[province.id])
         rows[province.id] = row
         income += value
         food += balance

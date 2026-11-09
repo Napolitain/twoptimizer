@@ -341,11 +341,19 @@ class OptimizerApp(App):
         values = {
             field: self.query_one("#three-kingdoms-" + field, Input).value
             for field in ThreeKingdomsOptions.__dataclass_fields__
-            if field not in {"capital_commandery", "external_resources", "include_leader_effects"}
+            if field
+            not in {
+                "city_level",
+                "capital_commandery",
+                "external_resources",
+                "include_leader_effects",
+            }
         }
         capital = str(self.query_one("#three-kingdoms-capital", Select).value)
+        city = str(self.query_one("#three-kingdoms-city_level", Select).value)
         return ThreeKingdomsOptions(
             **{field: int(value) for field, value in values.items()},
+            city_level=None if city == "auto" else int(city),
             capital_commandery=None if capital == "none" else capital,
             external_resources=tuple(
                 sorted(self.query_one("#three-kingdoms-resources", SelectionList).selected)

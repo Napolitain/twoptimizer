@@ -309,3 +309,70 @@ def test_cancellation_retains_a_validated_candidate():
     assert any(value is not None for value in observed)
     assert result["solver"]["status"] in {"FEASIBLE", "OPTIMAL"}
     assert model.evaluate(layout_from(result))["domestic_income"] == result["domestic_income"]
+
+
+@pytest.mark.parametrize("algorithm", ["cp-sat", "highs"])
+def test_auto_city_equals_best_feasible_fixed_city(algorithm):
+    commandery = Commandery("3k_main_province_changan", city_level=None)
+    auto = Economy(Scenario(FACTION, (commandery,))).optimize(algorithm, workers=1, seconds=10)
+    fixed = {}
+    for level in range(1, 11):
+        options = Scenario(FACTION, (replace(commandery, city_level=level),))
+        result = Economy(options).optimize(algorithm, workers=1, seconds=10)
+        assert result["solver"]["status"] in {"OPTIMAL", "INFEASIBLE"}
+        fixed[level] = result
+    assert fixed[5]["solver"]["status"] == "INFEASIBLE"
+    assert auto["solver"]["status"] == "OPTIMAL"
+    assert auto["domestic_income"] == max(
+        result["domestic_income"] for result in fixed.values() if "domestic_income" in result
+    )
+    row = auto["commanderies"][commandery.id]
+    assert row["city_level"] == 4
+    assert row["population"] == 1_000_000
+    assert row["population"] <= row["population_capacity"]
+    assert auto["food_surplus"] >= 0
+    assert Scenario.from_dict(auto["scenario"]).commanderies[0].city_level is None
+
+
+def test_auto_city_enforces_district_minimum_level(coupled_data):
+    city = coupled_data["buildings"]["city"]
+    coupled_data["buildings"]["small_city"] = {**city, "id": "small_city", "level": 1}
+    coupled_data["rules"]["city_levels"]["1"]["slots"] = 1
+    coupled_data["buildings"]["office"]["minimum_city_level"] = 5
+    options = Scenario(
+        FACTION,
+        (Commandery(PROVINCE, city_level=None),),
+        external_food=5,
+        required_buildings=("office",),
+    )
+    model = Economy(options, coupled_data)
+    result = model.optimize(workers=1, seconds=10)
+    assert result["solver"]["status"] == "OPTIMAL"
+    assert result["commanderies"][PROVINCE]["city_level"] == 5
+    layout = layout_from(result)
+    capital = next(iter(layout))
+    layout[capital] = ["small_city", "office"]
+    with pytest.raises(ValueError, match="higher city level"):
+        model.evaluate(layout)
+
+
+def test_auto_city_respects_city_reform_requirements(coupled_data):
+    city = coupled_data["buildings"]["city"]
+    coupled_data["buildings"]["small_city"] = {**city, "id": "small_city", "level": 1}
+    coupled_data["rules"]["city_levels"]["1"]["slots"] = 1
+    reform = next(
+        key
+        for key, row in coupled_data["reforms"].items()
+        if row["subculture"] == coupled_data["factions"][FACTION]["subculture"]
+    )
+    coupled_data["buildings"]["city"]["required_technologies"] = [reform]
+    auto = Scenario(FACTION, (Commandery(PROVINCE, city_level=None),), external_food=5)
+    model = Economy(auto, coupled_data)
+    capital = coupled_data["commanderies"][PROVINCE]["capital"]
+    assert "city" not in model.candidates[capital]
+    assert "small_city" in model.candidates[capital]
+    researched = Economy(replace(auto, all_reforms=True), coupled_data)
+    assert "city" in researched.candidates[capital]
+    # Explicit fixed cities retain the existing-city snapshot interpretation.
+    fixed = Economy(replace(auto, commanderies=(Commandery(PROVINCE),)), coupled_data)
+    assert "city" in fixed.candidates[capital]

@@ -471,8 +471,11 @@ The [historical model](../games/tw/three_kingdoms/README.md) uses a pinned publi
 1.2.0-era Assembly Kit reference. It optimizes recurring domestic income after
 modeled corruption and maintenance, with city slots, population capacity, food,
 public order, resource prerequisites and faction-specific building eligibility.
-City level 5, one million people per commandery and zero base corruption are
-explicit comparison defaults, not a reconstructed campaign start. `--reforms all`
+Automatic city sizing, one million people per commandery and zero base corruption
+are explicit comparison defaults, not a reconstructed campaign start. Each city
+can choose levels 1–10 while respecting population capacity, available slots and
+building prerequisites. `--city-level 5` fixes every selected city at level 5;
+`--city-level auto` restores automatic sizing. `--reforms all`
 enables the supported reform profile; the default is none. Use `--help` for the
 other snapshot inputs and optional building constraints.
 
