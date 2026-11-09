@@ -34,8 +34,8 @@ def _attila(faction, religion):
         known = read("attila/data/online_buildings.json")["buildings"]
         names = {key: name for key, name in names.items() if key in known}
     else:
+        from games.tw.attila.enums import AttilaFactions, AttilaReligion
         from games.tw.attila.model import load_attila
-        from games.tw.models.model_attila import AttilaFactions, AttilaReligion
 
         parser = load_attila(AttilaFactions(faction), AttilaReligion[religion])
         names = {

@@ -13,7 +13,7 @@ def normalize_ids(value, label):
 
 def validate_candidates(scenario, catalog, candidates):
     chosen = set(scenario.required_buildings) | set(scenario.forbidden_buildings)
-    unknown = chosen - catalog["buildings"].keys()
+    unknown = chosen - catalog.buildings.keys()
     if unknown:
         raise ValueError(f"Unknown building IDs: {', '.join(sorted(unknown))}")
     available = {key for choices in candidates.values() for key in choices}

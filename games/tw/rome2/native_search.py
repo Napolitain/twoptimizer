@@ -3,8 +3,8 @@
 from dataclasses import replace
 from time import perf_counter
 
-from games.tw.attila.native_parts import feasible, objective_terms, objective_value
-from games.tw.rome2.backends import NativeCP
+from games.optimization.cp_backend import NativeCP
+from games.optimization.native_model import feasible, objective_terms, objective_value
 
 
 def validated_values(problem, named_values):

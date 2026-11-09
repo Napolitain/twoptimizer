@@ -15,7 +15,7 @@ secondary spending objective. Construction, production allocation and recruitmen
 research, focuses and laws come from an explicit dated input schedule.
 
 Gameplay choices and approximations require the user's decision. Public evidence
-and unresolved mechanics are tracked in the [rules review](../../docs/hoi4-rules-review.md).
+and unresolved mechanics are tracked in the [rules review](../../docs/hoi4/hoi4-rules-review.md).
 The first model may use the approved provisional hourly integration of the
 documented production-efficiency curve and start recruitment training only when
 a division is fully equipped. These approximations do not establish exact engine behavior.
@@ -58,15 +58,15 @@ and engineers: **910 rifles, 12 artillery, 30 support equipment, 9,600 manpower
 and 120 base training days**. These are base requirements; modifiers, equipment
 substitutions, eligibility and actual training progress remain unresolved.
 
-See [public data and reproducible imports](../../docs/hoi4-public-data.md) for
+See [public data and reproducible imports](../../docs/hoi4/hoi4-public-data.md) for
 sources, hashes, coverage and independent comparisons. The selected target's
 version and DLC setup do not certify the source snapshot.
-The [starting-scenario audit](../../docs/hoi4-starting-scenario-gaps.md) records
+The [starting-scenario audit](../../docs/hoi4/hoi4-starting-scenario-gaps.md) records
 which remaining gaps need source interpretation or actual game validation.
 
 ## Implementation foundations
 
-- The [Clausewitz ingestion pipeline](../../docs/hoi4-source-ingestion.md) preserves
+- The [Clausewitz ingestion pipeline](../../docs/hoi4/hoi4-source-ingestion.md) preserves
   repeated keys, scopes, operators, source positions and unknown statements.
 - [Hourly time](planning/README.md) uses an explicit 365-day, no-leap calendar,
   integer hours and exact deadline boundaries.
@@ -80,23 +80,24 @@ which remaining gaps need source interpretation or actual game validation.
   proof statuses without relabelling HoI4 objectives as Total War income.
 - Reference inspection uses the same application view model in the CLI and TUI.
 
-The [HoI4simulator review](../../docs/hoi4-simulator-review.md) identifies reusable
+The [HoI4simulator review](../../docs/hoi4/hoi4-simulator-review.md) identifies reusable
 loader and replay design ideas, and the hard-coded assumptions that need replacing.
 
 Run focused checks with the locked Python 3.14 environment:
 
 ```sh
-uv run --frozen pytest tests/test_hoi4_hourly_time.py tests/test_hoi4_data_pipeline.py tests/test_hoi4_public_import.py tests/test_hoi4_data_interfaces.py --no-cov
+uv run --frozen pytest tests/games/hoi4 --no-cov
 ```
 
-## Legacy experiments
+## Code layout
 
-The existing `models/`, `optimization/`, phase summaries and demonstration
-scripts are retained for compatibility. They are historical experiments, not
-validated latest-version gameplay or the new hourly planner.
+`data_pipeline/` owns source syntax, provenance and explicitly supported
+interpretation. `planning/` owns the hourly calendar, planning contract and
+independently tested mechanics. `cli.py` connects the supported commands to the
+shared application; the CLI and TUI use the same data inspection interfaces.
+Maintained tests live in `tests/games/hoi4/`.
 
-In particular, the old HiGHS production LP uses a fixed 55% average efficiency;
-its separate production-line class uses a different linear ramp. Neither proves
-that construction, recruitment or stockpile deadlines are achievable in the
-game. The old faction examples contain only a few illustrative states. Their
-phase-completion claims must not be interpreted as current campaign coverage.
+The earlier static production LP, illustrative country models and demonstration
+scripts have been retired. Their fixed efficiency and calendar assumptions are
+not part of the hourly planner. The bundled source snapshots remain available
+to the ingestion pipeline with their original bytes and provenance.

@@ -1,61 +1,25 @@
 """Exact CP-SAT/HiGHS execution with independent economic verification."""
 
-from math import ceil, isfinite
+from math import isfinite
 from time import perf_counter
 
 from ortools.sat.python import cp_model
 
-from games.tw.cancellation import Cancelled
-from games.tw.highs_backend import solve_highs
-from games.tw.resources import resolve_workers
-from games.tw.search_progress import solve_with_progress
+from games.optimization.cancellation import Cancelled
+from games.optimization.cp_backend import NativeCP
+from games.optimization.exact import integer_upper_bound
+from games.optimization.highs_backend import solve_highs
+from games.optimization.resources import resolve_workers
+from games.optimization.search_progress import solve_with_progress
 from games.tw.three_kingdoms import incumbent as starting_layout
 
 SCALE = 1_000_000
 
 
-def exact_integer(value):
-    if not isfinite(value) or int(value) != value:
-        raise ValueError("Three Kingdoms compilation requires finite integer coefficients")
-    return int(value)
-
-
-def native_model(proto):
-    model = cp_model.CpModel()
-    variables = []
-    for variable in proto.variable:
-        if not variable.is_integer:
-            raise ValueError("Three Kingdoms compilation requires integer variables")
-        variables.append(
-            model.new_int_var(
-                exact_integer(variable.lower_bound),
-                exact_integer(variable.upper_bound),
-                variable.name,
-            )
-        )
-    for row in proto.constraint:
-        expression = sum(
-            exact_integer(c) * variables[i]
-            for i, c in zip(row.var_index, row.coefficient, strict=True)
-        )
-        if isfinite(row.lower_bound):
-            model.add(expression >= exact_integer(row.lower_bound))
-        if isfinite(row.upper_bound):
-            model.add(expression <= exact_integer(row.upper_bound))
-    model.maximize(
-        exact_integer(proto.objective_offset)
-        + sum(
-            exact_integer(v.objective_coefficient) * x
-            for v, x in zip(proto.variable, variables, strict=True)
-        )
-    )
-    return model, variables
-
-
 def _observer(on_search, seed_income, known_bound, observed):
     def observe(objective, bound, elapsed):
-        if bound is not None and isfinite(bound) and abs(bound) < 2**53:
-            observed[:] = [min([ceil(bound), *observed])]
+        if bound is not None and (upper := integer_upper_bound(bound)) is not None:
+            observed[:] = [min([upper, *observed])]
         if on_search is not None:
             best = max((v for v in (objective, seed_income) if v is not None), default=None)
             upper = min((v for v in (*observed, known_bound) if v is not None), default=None)
@@ -83,8 +47,8 @@ def _cp_problem(proto, products):
 
         problem = lower(proto, products)
         return problem.model, problem.variables, problem
-    model, variables = native_model(proto)
-    return model, variables, None
+    problem = NativeCP.from_linear(proto)
+    return problem.model, problem.variables, None
 
 
 def _hints(model, variables, proto, incumbent, products):

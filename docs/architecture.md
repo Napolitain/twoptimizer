@@ -5,56 +5,76 @@ application results. Their existing JSON and CSV report formats are preserved by
 serializers at the output boundary. The domain code can also run directly without
 launching either interface.
 
-## Ownership and model compilation
+See the [refactor validation](investigations/architecture-refactor.md) for exact
+model equivalence and measured runtime limits.
 
-`games.tw.attila.model.load_attila` returns a parser with its own `GameContext`.
-The context owns the selected game, building catalog, naming settings and local
-identifier counters. Parsing one faction never selects it globally.
+## Shared mechanisms and game ownership
 
-`compile_scenario(provinces, SnapshotOptions(...))` copies the mutable province
-and region decision containers and creates a fresh context and solver. It shares
-recursively frozen catalog records, not decision variables. The returned `ModelSnapshot`
-retains the compiled binary model and independent evaluator. Input regions remain
-untouched on both success and failure, and the same catalog supports concurrent
-compilation of different scenarios.
+`games.optimization` owns solver mechanisms used across games: sparse binary
+models, CP-SAT construction/import, the OR-Tools HiGHS backend, cancellation,
+CPU allocation, search observations, elapsed-time budgets and conservative bound
+conversion. Its native-model and linear-component utilities extract supported
+components, preserve exact integer objectives and validate reconstructed
+assignments. This package has no dependency on a game's economic rules.
+
+The game engines choose their formulations and search policies. Attila's sparse
+`BinaryModel` remains its reference model; its compact native CP-SAT formulation
+reconstructs the expanded variables for validation. Rome II, Shogun 2 and Three
+Kingdoms retain their existing exact linear and native representations. Shared
+backend code does not imply a universal intermediate representation. The measured
+choice between linear products and native multiplication remains game- and
+workload-specific.
+
+Likewise, decomposition shares mechanisms without assuming that every link can
+be relaxed in the same way. Rome II identifies the realm-food row; Three
+Kingdoms identifies supported food/resource links; Attila certifies ownership
+and projection of reference rows before extracting native components. Each game
+still owns row selection, preparation allowances, bound assembly and complete
+layout validation. An independently feasible collection of provinces is accepted
+as a joint hint only after the full game's constraints have been checked.
+
+## Attila model ownership
+
+Attila's loader, placement rules, buildings, regions, provinces and construction
+model live under `games.tw.attila`. `load_attila` returns an `AttilaLoader` with
+its own `AttilaContext`, immutable building templates and local identifier
+counters. Loading one faction never selects it globally. These are concrete
+Attila domain types; the former generic game/parser/filter/solver hierarchy has
+been retired.
+
+`compile_scenario(provinces, SnapshotOptions(...))` copies mutable province and
+region decision containers and creates a fresh context and `BinaryBuilder`.
+It shares recursively frozen catalog records, while variables and expressions
+belong to that compilation. The returned `ModelSnapshot` retains the reference
+binary model and independent evaluator. Input regions remain untouched on both
+success and failure, and the same catalog supports concurrent compilation of
+different scenarios.
 
 Each Attila `Economy` resolves source effects once and indexes their region and
-province recipients. Building-only modifiers retain their producer check; province
-effects are counted once per province even when multiple regions receive them.
-The index has the same fixed-source lifetime as the compiled expression caches.
-Recompiling after changing caller-owned inputs creates a fresh index. No effect
-cache is shared globally or across models.
+province recipients. Building-only modifiers retain their producer check;
+province effects are counted once per province even when multiple regions
+receive them. The index has the same fixed-source lifetime as the compiled
+expression caches. Recompiling changed caller inputs creates a fresh index.
 
 ```python
+from games.tw.attila.enums import AttilaFactions, AttilaReligion
 from games.tw.attila.model import SnapshotOptions, compile_scenario, load_attila
-from games.tw.comparison import ComparisonOptions, compare_model
-from games.tw.models.model_attila import AttilaFactions, AttilaReligion
+from games.tw.attila.comparison import ComparisonOptions, compare_model
 
-parser = load_attila(
+catalog = load_attila(
     AttilaFactions.ATT_FACT_EASTERN_ROMAN_EMPIRE,
     AttilaReligion.CHRIST_ORTHODOX,
 )
-province = next(p for p in parser.provinces.values() if p.print_name == "Thracia")
+province = next(p for p in catalog.provinces.values() if p.print_name == "Thracia")
 compiled = compile_scenario([province], SnapshotOptions(fertility=5))
 report = compare_model(compiled.model, ComparisonOptions(workers=1), compiled.economy)
 ```
 
-`Problem(context=...)` is the lower-level mutable model builder. Adding provinces
-to it transfers their decision ownership to that problem. Use `compile_scenario`
-when retaining or reusing caller-owned provinces. Loaded catalogs enforce read-only ownership at runtime. Use `thaw` to create
-caller-owned inputs; changes to imported game data belong in the importer workflow.
-
-Entities, parsers and `Problem` require an explicit context. `AttilaGame` and
-`Rome2Game` can create a fresh context when constructing a game; that context is
-owned by the game and never published globally. Identifiers are allocated within
-the owning context, including synthetic models in tests.
-
-The former `Games`, global identifier counters, `benchmark.snapshot` and
-`benchmark.compare` APIs have been removed. Call `compile_scenario` with
-`SnapshotOptions`, and `compare_model` with `ComparisonOptions`. Import
-`RunConfig` from `twoptimizer.models` and `export_session` from
-`twoptimizer.export`. The duplicate `games.tw.attila.main` demonstration was
-removed; use `uv run --locked twoptimizer attila` for the maintained CLI.
+`Construction(context=...)` is the lower-level mutable Attila builder. Adding
+provinces transfers their decision ownership to that construction model. Use
+`compile_scenario` when retaining caller-owned provinces. Loaded catalogs enforce
+read-only ownership at runtime; `thaw` creates caller-owned inputs when needed.
+Changes to imported game data belong in the importer workflow.
 
 ## Application boundaries
 
@@ -62,6 +82,20 @@ Total War cases in both interfaces optimize **income only**. Attila's `--objecti
 accepted; wealth, legacy and campaign objective weights are rejected by the
 application. Lower-level domain APIs retain their existing modes for engine
 regressions and direct use.
+
+`twoptimizer.game_plugin` defines frozen `GamePlugin`, `GameChoices`, command
+and capability records, plus typed adapter and session-cache protocols.
+`twoptimizer.registry` declares the built-in integrations once. CLI dispatch,
+TUI game choices, solve-adapter selection and cache lifecycle consume this
+registry. Imports of adapters remain lazy. Each adapter retains the game's
+scenario types, settings and independent evaluator rather than forcing its
+rules into a common economic schema.
+
+HoI4 is registered with its data-inspector capability and review commands; it
+has no solve adapter until a complete gameplay optimizer is available. Adding
+an optimizer involves declaring its commands, choices, capabilities and adapter,
+then implementing the game-specific scenario and validation boundaries. Bespoke
+settings panels remain appropriate where the games have different inputs.
 
 The call paths are:
 
@@ -151,8 +185,12 @@ Rome II's `HoldingScenario`/`HoldingEconomy` compose the existing placement and
 solver backends. Province-specific economic expressions share one political
 choice, a faction food balance and recipient routing for worldwide/adjacent
 building effects. Each province retains its local order constraint and income
-evaluation. Single-province source fingerprints remain unchanged; joint reports
-add a fingerprint for the holding modules and replay their per-province economics.
+evaluation. Canonical compiled-model identity remains unchanged by the package
+migration where the exact mathematics is unchanged. Source provenance is separate:
+new reports hash the moved game and shared optimization sources, invalidating reuse
+of reports with older source hashes. Joint reports also fingerprint the holding
+modules and replay their per-province economics. Historical reports retain their
+original source paths and hashes.
 
 `twoptimizer.adapters` prepares the game's scenario and invokes its existing
 engine. It turns the independently evaluated native report into `EngineResult`.
@@ -169,7 +207,7 @@ Each cache is bounded to 128 entries by default; source changes invalidate the
 affected game. Three Kingdoms and Shogun can assemble cached independent layouts
 only after complete joint validation. Native-model identities protect bound reuse.
 Attila's in-memory identity hashes stored sparse arrays rather than implied dense
-zeros; the legacy signature remains available for historical fixtures. Session
+zeros; the historical signature remains available for unchanged regression fixtures. Session
 state never becomes process-global, and independently compiled models own their
 decision containers. CLI modules own report loading and saving.
 
@@ -209,7 +247,7 @@ restored from saved results. Counts are before presolve, and sparse matrix bytes
 are not an estimate of solver memory or runtime.
 
 `progress.SearchStats` transports CP-SAT candidate income, objective bound and
-elapsed search time. `games.tw.search_progress` observes native callbacks and
+elapsed search time. `games.optimization.search_progress` observes native callbacks and
 converts scaled objectives back to income units; adapters translate them into
 application events. Delivery is throttled, with first candidate and final
 observations preserved. A missing candidate remains absent, and an UNKNOWN
@@ -251,7 +289,7 @@ and returns statuses, incumbents, bounds and conversion/search timings. Rome's
 CP-SAT default retains its canonical proof model and linear product formulation.
 Eligible Attila compact holdings and Three Kingdoms holdings with eight or more
 provinces automatically use native multiplication, following the
-[paired formulation measurements](native-products.md). Smaller cases, local seed
+[paired formulation measurements](investigations/native-products.md). Smaller cases, local seed
 preparation, Rome II and Shogun retain their existing defaults. Explicit engine
 overrides remain available for experiments without adding an application option.
 HiGHS runs through OR-Tools MathOpt using the shared library bundled with OR-Tools;
@@ -294,7 +332,9 @@ inventory, conditional effects and designer economics remain explicit instead
 of being replaced with usable-looking zero values.
 `twoptimizer.hoi4_data.inspect_reference` supplies the same caller-owned report
 to the `hoi4 data` CLI and TUI inspector. This read-only route does not invoke
-`solve_case` or enable the historical production experiment as a campaign solver.
+`solve_case`. The former production prototype, its demo scripts and print-only
+package tests have been retired. The current source pipeline, public/raw data,
+resolvers, hourly planning modules and their maintained tests remain in this repo.
 
 `games.hoi4.planning` owns the new hourly inputs. Its no-leap calendar and
 half-open intervals make a deadline boundary explicit without selecting the
@@ -324,24 +364,24 @@ objective lists, preserving their JSON and CSV shapes.
 ## Regression evidence
 
 `tests/fixtures/attila-models.json` records model signatures generated from commit
-`8a5f157` before this refactor. Six scenarios cover ERE, WRE and Aksum, Orthodox
+`8a5f157` before the earlier ownership refactor. Six scenarios cover ERE, WRE and Aksum, Orthodox
 and Catholic religions, fertility 0/1/5, researched/unresearched states, and joint
 provinces. The signatures cover variable names, objective coefficients, sparse
 constraint coefficients, bounds and objective offset.
 
-`tests/test_architecture.py` checks those signatures, concurrent and interleaved
+`tests/games/attila/test_architecture.py` checks those signatures, concurrent and interleaved
 compilation, cleanup after failure, typed serialization, and independent layout
 validation. Existing fixture, CLI, worker, TUI and export tests remain in place.
 
-`tests/test_application_cli.py` and `tests/test_attila_application.py` compare
+`tests/app/test_application_cli.py` and `tests/games/attila/test_application.py` compare
 CLI requests with the shared service and direct engine compilation, including
 joint holdings, campaign inputs, region fertility, technology subsets and solver
 bounds. Assertions compare income and proof semantics rather than timings or
 building choices among tied optima. Resume tests cover validated proof replay,
 negative-income incumbents and contradictory bounds.
 
-`tests/test_application_requests.py` checks shared validation, batch expansion,
-income-only inputs and typed request boundaries. `tests/test_tui_lifecycle.py`
+`tests/app/test_application_requests.py` checks shared validation, batch expansion,
+income-only inputs and typed request boundaries. `tests/app/test_tui_lifecycle.py`
 checks direct/worker equivalence, typed campaign serialization, portable errors,
 and cancellation of a real native worker while retaining a completed case and
 its JSON/CSV export. Cancellation regressions also exercise native CP-SAT stops,
@@ -349,6 +389,13 @@ worker transport, retained incumbent validation, constraint comparisons and TUI
 export after stopping. Force termination remains separately tested.
 Upstream province-picker, border and Rome snapshot replay
 regressions remain in the suite.
+
+Regression evidence has two distinct purposes. Model signatures detect changes
+to exact coefficients and placement structure; independent evaluator checks and
+small enumerable cases verify feasible income and certificate direction. A
+recorded feasible incumbent is not a golden optimum, and layouts among tied
+optima need not match. Historical report bytes and source snapshots remain
+unchanged, including their original paths and revision identifiers.
 
 ## Repeatable performance checks
 
@@ -365,41 +412,10 @@ limit. It records interpreter/platform, request, all samples, phase timings and 
 result fingerprint, and rejects repeated runs that produce different results.
 Use `--game rome2` or `--game shogun2` for the other adapters.
 
-A local Python 3.14.9 comparison against `8a5f157` used three serial ERE/Thracia
-runs per revision, full research, fertility 5 and one worker. All six runs proved
-income **24140.375** with identical selected buildings and metrics. Median wall
-time was **6.03 s before / 5.80 s after**; ranges were **5.69–6.16 s / 5.71–6.23 s**.
-These overlapping ranges show no observed slowdown on that workload; they do not
-establish a general speedup or predict timings on another machine. Automatic CPU
-selection remains the application default; the benchmark pins one worker for a
-repeatable comparison.
-
-Removing the compatibility layer was compared separately against `74304d1` on
-the same workload: three serial runs per revision had identical result
-fingerprints and proved the same optimum. Median wall time was **5.70 s before /
-5.50 s after**, with ranges **5.65–6.31 s / 5.40–5.85 s**. These ranges overlap;
-the comparison shows no observed regression rather than a general speedup.
-
-## Shared application comparison
-
-The application-layer change was compared with `bb1f142` using Python 3.14.9,
-CP-SAT, one worker and no time limit. Six serial runs per revision/game used the
-UI's default economic settings; the measurement order was reversed halfway
-through. Every run retained the same income, status, objective and bound. These
-checks intentionally ignored timing and tied building selections when comparing
-semantics.
-
-| Game | Previous median (range), seconds | Shared-service median (range), seconds |
-| --- | --- | --- |
-| Attila | 0.6564 (0.6211–1.0207) | 0.6314 (0.5950–0.6676) |
-| Rome II | 0.9879 (0.9742–1.0142) | 1.0313 (0.9098–1.0746) |
-| Shogun 2 | 0.0132 (0.0121–0.0227) | 0.0145 (0.0116–0.0177) |
-
-The ranges overlap. These small samples establish result preservation, not a
-general speedup: Rome II's median was slightly higher, and Shogun 2 added about
-one millisecond. Profiling the initial Attila adapter found approximately 0.10 s
-spent computing an unused model signature; ordinary runs now skip that work,
-while faction proof reuse retains the signature and independent validation.
+Earlier comparisons against `8a5f157`, `74304d1`, `bb1f142` and `bd60b0c` are
+preserved in the [architecture measurement history](investigations/architecture-history.md).
+Those results describe their recorded revisions and workloads; new architectural
+changes require matched measurements against their own baseline.
 
 ## Domain modules and ownership
 
@@ -411,11 +427,31 @@ and leave through explicit serialization. Boolean polynomial indicators also use
 named records rather than positional tuples.
 
 Rome II separates source `catalog` and `records`, immutable `scenario` settings,
-`placement` policy, constraint `compiler`, native `backends` and solver
-`optimization`. Per-build `EffectTerms` owns the mutable expression buckets.
-Report creation and independent replay share `provenance.model_fingerprint` so
-changes in extracted mathematics remain part of source verification. Shogun 2
-has corresponding catalog, scenario and report/source record modules.
+`placement` policy, constraint `compiler`, solver `optimization` and game-specific
+native-product preparation. CP-SAT backend construction lives in
+`games.optimization.cp_backend`. Per-build `EffectTerms` owns the mutable
+expression buckets.
+Report creation and independent replay share `provenance.model_fingerprint`,
+which fingerprints source files separately from the canonical compiled-model
+identity. Shared backend changes therefore invalidate source-based reuse even
+when the compiled mathematics stays identical.
+
+Three Kingdoms parses source mappings into frozen domain records for buildings,
+effects and their conditional variants, resource requirements, factions, reforms,
+regions, commanderies, population bands and city-slot rules. Its engine consumes
+that detached `Catalog`; local models can share the parsed records without
+reinterpreting source data. The parser checks field shapes, identifiers and
+supported relationships at this boundary. Provenance-rich source JSON and audit
+views remain available separately.
+
+Shogun 2's `domain.parse_catalog` builds an immutable `EconomyCatalog` containing
+faction IDs, parsed building records and technology-effect tuples. Building
+records retain family, level, prerequisites, uniqueness and unsupported source
+facts alongside recognized effects. Province and clan rules remain immutable
+mappings with `TypedDict` declarations; public source and report schemas retain
+their dictionary boundaries. Rome II likewise retains its typed mapping catalog.
+These migrations establish specific engine boundaries, not a claim that every
+catalog or data pipeline has become a frozen dataclass model.
 
 `games.tw.immutable` freezes mappings recursively behind a mapping proxy and
 turns JSON arrays into tuples. File catalogs are cached by path, nanosecond
@@ -440,18 +476,19 @@ the existing independent economic calculations and model signatures.
 
 ## Integrated solver formulations
 
-The concurrent `bd60b0c` solver changes are retained in this module structure.
+The measured game formulations are preserved across the package reorganization.
 Attila's compact income formulation keeps the expanded model as its validation
 reference and reconstructs every auxiliary before checking the result. Rome's
-linear products and CP-SAT import live alongside the extracted compiler/backend
-modules, and proof indices still refer to the canonical model. The exhaustive
+linear products stay in the game engine and CP-SAT import lives in the shared
+backend; proof indices still refer to the canonical model. The exhaustive
 layout and warm-start regressions for those formulations remain part of the suite.
 
 For joint Rome II CP-SAT, `joint_search` can prepare certified bounds before the
 full native search. The linear holding compiler labels only the global food row
 `__realm_food`; the canonical native proof model's row remains unchanged.
-`decomposition` temporarily relaxes that tagged row for bound construction,
-propagates fixed variables, and forms connected components using every retained
+`games.optimization.linear_components` temporarily relaxes the explicitly supplied
+row for bound construction, propagates fixed variables, and forms connected
+components using every retained
 constraint. Shared variables, optional requirements and cross-province effects
 therefore continue to connect groups. This is not a split based on province names.
 
@@ -482,7 +519,7 @@ preparation allowance. These are solver allowances, not hard wall deadlines.
 The pinned HiGHS backend cannot interrupt an active pricing solve; cancellation
 is checked around it, and Force stop remains available. Components are processed
 serially using the same machine-derived worker allocation as the full search.
-See the [method and measurements](rome-joint-bounds.md).
+See the [method and measurements](investigations/rome-joint-bounds.md).
 
 For holdings with at least four provinces, Attila's `compact` builder groups
 factored income by province and adds independent extra-income terms directly to
@@ -498,8 +535,8 @@ choices are jointly attainable.
 Smaller holdings preserve the original native income grouping, auxiliary
 aggregation and product formulation, and skip this bound preparation.
 
-Attila's `native_parts` extracts and independently validates supported native
-components with exact integer objectives. `bound_search` combines safe component
+`games.optimization.native_model` extracts and independently validates supported
+native components with exact integer objectives. `bound_search` combines safe component
 bounds, including fixed contributions, and adds valid inequalities to the
 unchanged complete model. A combined seed must satisfy every original native
 constraint. `joint_search` retains valid seeds and native proof semantics, restores
@@ -509,21 +546,7 @@ Component searches use one native worker each and run concurrently within the
 machine's allocated worker count; final joint search retains the full allocation.
 Each component's allowance is at most one second, with the remaining budget
 shared across the remaining waves. Reports preserve the separate preparation timing and
-component statuses. See the [Attila method](attila-joint-bounds.md).
-
-The integrated architecture was compared against `bd60b0c` with the same locked
-Python 3.14 environment, default scenarios, one worker and three serial samples.
-All three games produced identical result fingerprints, including income,
-status, metrics and selected buildings. Observed median seconds were:
-
-| Game | Incoming solver implementation | Integrated architecture |
-| --- | ---: | ---: |
-| Attila | 0.705 | 0.684 |
-| Rome II | 1.034 | 0.966 |
-| Shogun 2 | 0.0152 | 0.0122 |
-
-Sample ranges overlap. These measurements show no observed slowdown on the
-checked workloads; they do not establish a general speedup.
+component statuses. See the [Attila method](investigations/attila-joint-bounds.md).
 
 ## Three Kingdoms historical model
 
@@ -575,5 +598,5 @@ local or cached layouts; `joint_bounds` temporarily relaxes explicitly tagged
 food/resource rows to derive certified component cuts. `incumbent` separates
 layout validation from exact-model bound identity and retains stronger feasible
 results on cancellation or UNKNOWN. The final model retains every original
-shared requirement. [Joint preparation](joint-preparation.md) documents the
+shared requirement. [Joint preparation](investigations/joint-preparation.md) documents the
 allowances, worker-session lifecycle and bounded search measurements.

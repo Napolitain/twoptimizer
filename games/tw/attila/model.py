@@ -7,28 +7,24 @@ from dataclasses import dataclass
 from time import perf_counter
 from typing import TYPE_CHECKING
 
-from games.tw.competition import BinaryModel
-from games.tw.context import GameContext
-from games.tw.enums import ProblemState, SolverType
-from games.tw.models.game_attila import AttilaGame
-from games.tw.models.model_attila import AttilaFactions, AttilaReligion
-from games.tw.parser.parser_attila import ParserAttila
-from games.tw.problem import Problem
-from games.tw.province import Province
-from games.tw.solver_ortools import SolverOrTools
+from games.optimization.competition import BinaryModel
+from games.tw.attila.construction import Construction
+from games.tw.attila.context import AttilaContext
+from games.tw.attila.enums import AttilaFactions, AttilaReligion
+from games.tw.attila.game import AttilaGame
+from games.tw.attila.loader import AttilaLoader
+from games.tw.attila.province import Province
 
 if TYPE_CHECKING:
     from games.tw.attila.economy import Economy
     from games.tw.attila.scenario import Scenario
 
 
-def load_attila(
-    faction: AttilaFactions, religion: AttilaReligion, legacy: bool = False
-) -> ParserAttila:
-    context = GameContext(legacy_effects=legacy)
+def load_attila(faction: AttilaFactions, religion: AttilaReligion) -> AttilaLoader:
+    context = AttilaContext()
     game = AttilaGame(faction=faction, religion=religion, context=context)
     parser = game.parser
-    assert isinstance(parser, ParserAttila)
+    assert isinstance(parser, AttilaLoader)
     parser.parse_building_effects_junction_tables()
     parser.parse_start_pos_tsv(parser.game_dir)
     return parser
@@ -72,9 +68,8 @@ def compile_scenario(provinces: list[Province], options: SnapshotOptions) -> Mod
     if any(province.context.instance is not source.instance for province in provinces):
         raise ValueError("Joint provinces must belong to the same loaded game")
     start = perf_counter()
-    context = source.for_problem(fertility=options.fertility)
-    problem = Problem(
-        solver=SolverType.CP_SAT,
+    context = source.for_model(fertility=options.fertility)
+    problem = Construction(
         objective=options.objective,
         technologies=options.technologies,
         scenario=options.scenario,
@@ -90,18 +85,12 @@ def compile_scenario(provinces: list[Province], options: SnapshotOptions) -> Mod
         if not options.military:
             region.filter_military()
         region.filter_technologies()
-        problem.problem.filter_added({b.name: b for b in region.buildings})
+        problem.builder.assign_buildings({b.name: b for b in region.buildings})
     for region in regions:
         region.add_constraints()
-    for province in problem.provinces:
-        province.add_sanitation_constraint()
-        province.add_food_constraint()
-        province.add_public_order_constraint()
-    problem.state = ProblemState.CONSTRAINTS_ADDED
     problem.add_objective()
-    assert isinstance(problem.problem, SolverOrTools)
     return ModelSnapshot(
-        problem.problem.binary_model(),
+        problem.builder.binary_model(),
         perf_counter() - start,
         problem.economy,
     )

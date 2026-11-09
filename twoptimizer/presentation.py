@@ -2,9 +2,10 @@
 
 from collections.abc import Sequence
 
-from twoptimizer.holdings import BORDER_GAMES, resolved_borders, unverified_inactive_borders
+from twoptimizer.holdings import resolved_borders, unverified_inactive_borders
 from twoptimizer.models import RunConfig
 from twoptimizer.progress import ModelStats, SearchStats
+from twoptimizer.registry import game_plugin
 
 MODEL_SIZE_NOTE = (
     "Counts describe the formulation before presolve. Model size does not predict "
@@ -91,7 +92,7 @@ def query_summary(config: RunConfig, jobs: Sequence[RunConfig], skipped: Sequenc
             else f"{config.seconds:g}s limit each"
         ),
     ]
-    if config.joint and config.game in BORDER_GAMES and provinces > 1:
+    if config.joint and game_plugin(config.game).capabilities.borders and provinces > 1:
         lines.insert(1, border_summary(config))
     if not jobs:
         lines.append("Select at least one province.")

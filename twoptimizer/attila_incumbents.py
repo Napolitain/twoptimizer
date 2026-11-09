@@ -5,8 +5,8 @@ from copy import deepcopy
 from hashlib import sha256
 from math import isfinite
 
-from games.tw.competition import BinaryModel, Result
-from games.tw.sparse import SparseConstraints
+from games.optimization.competition import BinaryModel, Result
+from games.optimization.sparse import SparseConstraints
 
 
 def model_identity(model: BinaryModel) -> str:

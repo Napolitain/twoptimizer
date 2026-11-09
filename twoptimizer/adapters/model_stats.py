@@ -6,11 +6,11 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from games.tw.sparse import SparseConstraints
+from games.optimization.sparse import SparseConstraints
 from twoptimizer.progress import ModelStats, PhaseTimer
 
 if TYPE_CHECKING:
-    from games.tw.competition import BinaryModel
+    from games.optimization.competition import BinaryModel
 
 
 def record_binary(

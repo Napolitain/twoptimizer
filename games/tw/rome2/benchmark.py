@@ -8,9 +8,9 @@ from dataclasses import replace
 from datetime import UTC, datetime
 from pathlib import Path
 
-from games.tw.models.model_rome2 import Rome2Factions
 from games.tw.rome2.catalog import CATALOG, load_data
 from games.tw.rome2.effects import fact_effect, raw_effect
+from games.tw.rome2.enums import Rome2Factions
 from games.tw.rome2.provenance import model_fingerprint
 from twoptimizer import service
 from twoptimizer.adapters.rome2 import prepare_scenario, request_key

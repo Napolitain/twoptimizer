@@ -6,9 +6,9 @@ from functools import partial
 from time import perf_counter
 from typing import TYPE_CHECKING
 
+from games.optimization.cp_backend import NativeCP
+from games.optimization.resources import resolve_workers
 from games.tw.immutable import thaw
-from games.tw.resources import resolve_workers
-from games.tw.rome2.backends import NativeCP
 
 if TYPE_CHECKING:
     from games.tw.rome2.model import Economy
@@ -54,7 +54,7 @@ class RomeOptimizer:
         return self._optimize_highs(seconds, workers, incumbent, start, cancellation)
 
     def _optimize_highs(self, seconds, workers, incumbent, start, cancellation=None):
-        from games.tw.highs_backend import solve_highs
+        from games.optimization.highs_backend import solve_highs
 
         if not hasattr(self.economy, "_prepared"):
             self.economy.fingerprint()
@@ -146,8 +146,12 @@ class RomeOptimizer:
 
         if not hasattr(self.economy, "_prepared"):
             self.economy.fingerprint()
-        proto = None if native_products else self.economy.build()
-        problem = self.economy._prepared.clone() if native_products else NativeCP.from_linear(proto)
+        if native_products:
+            proto = None
+            problem = self.economy._prepared.clone()
+        else:
+            proto = self.economy.build()
+            problem = NativeCP.from_linear(proto)
         previous = self._cpsat_hints(incumbent, problem, native_products=native_products)
         result, values = solve(
             problem,

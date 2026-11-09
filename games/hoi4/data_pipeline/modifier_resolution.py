@@ -1,7 +1,7 @@
 """Resolve selected initial economic modifiers without executing campaign scripts.
 
 Idea/technology hook exclusions and modifier scopes are documented in
-``docs/hoi4-modifier-resolution.md``. Consumer-goods factors multiply individually;
+``docs/hoi4/hoi4-modifier-resolution.md``. Consumer-goods factors multiply individually;
 other supported country modifiers add before their owning mechanic uses them.
 Unknown branches, scopes and values are retained as blockers, never zero bonuses.
 """

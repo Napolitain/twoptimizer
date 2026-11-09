@@ -3,8 +3,6 @@
 from dataclasses import replace
 from time import perf_counter
 
-from games.tw.shogun2.effects import unique_key
-
 
 def _allowance(economy, seconds):
     if len(economy.provinces) < 4:
@@ -20,7 +18,7 @@ def _local(economy, province):
     from games.tw.shogun2.model import Economy
 
     forbidden = set(economy.scenario.forbidden_buildings) | {
-        key for key, building in economy.catalog["buildings"].items() if unique_key(building)
+        key for key, building in economy.catalog.buildings.items() if building.unique
     }
     scenario = replace(
         economy.scenario,

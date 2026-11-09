@@ -7,7 +7,7 @@ from threading import Lock
 from time import perf_counter
 from typing import Any
 
-from games.tw.cancellation import Cancellation
+from games.optimization.cancellation import Cancellation
 from twoptimizer.search_measurements import SearchMeasurements
 
 PREFIX = "__TWOPTIMIZER_PROGRESS__ "

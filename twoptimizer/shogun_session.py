@@ -5,6 +5,8 @@ from copy import deepcopy
 from dataclasses import dataclass, field
 from math import isfinite
 
+from twoptimizer.session_cache import trim_cache
+
 
 def _key(scenario):
     return json.dumps(scenario, sort_keys=True)
@@ -48,12 +50,11 @@ def _best_seed(candidates):
 class ShogunSession:
     cases: dict[str, dict] = field(default_factory=dict)
 
-    def clear(self):
+    def clear(self) -> None:
         self.cases.clear()
 
-    def trim(self, limit):
-        while len(self.cases) > limit:
-            self.cases.pop(next(iter(self.cases)))
+    def trim(self, limit: int) -> None:
+        trim_cache(self.cases, limit)
 
     def _combined(self, economy):
         scenario = economy.scenario.to_dict()

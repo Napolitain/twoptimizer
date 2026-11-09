@@ -13,10 +13,10 @@ from types import SimpleNamespace
 
 from games.tw.attila.algebra import Indicator, Polynomial, add, multiply, rational, sum_polynomials
 from games.tw.attila.compiler import PolynomialCompiler
+from games.tw.attila.context import AttilaContext
 from games.tw.attila.effect_index import EffectIndex
 from games.tw.attila.effects import Reach, entries
 from games.tw.attila.records import LayoutReport
-from games.tw.context import GameContext
 
 
 class Economy:
@@ -27,7 +27,7 @@ class Economy:
         scenario=None,
         technology_profile=None,
         *,
-        context: GameContext | None = None,
+        context: AttilaContext | None = None,
     ):
         self.context = context if context is not None else provinces[0].context
         self.catalogue_exclusions: list[dict] = []
@@ -75,8 +75,8 @@ class Economy:
         }
         if any(not isfinite(value) or value < 0 for value in self.base_fertility.values()):
             raise ValueError("Fertility must be finite and nonnegative")
+        from games.tw.attila.enums import RegionType
         from games.tw.attila.traits import profile, rules
-        from games.tw.models.model import RegionType
 
         faction = getattr(getattr(self.context.instance, "faction", None), "value", None)
         self.traits = profile(faction, self.scenario.faction_traits)
@@ -194,7 +194,7 @@ class Economy:
         if scope == Reach.PROVINCE:
             return self.owner[source.region.name] == self.owner[target_region.name]
         if scope == Reach.FACTION:
-            return True  # All provinces in one Problem belong to the same faction.
+            return True  # All provinces in one Construction belong to the same faction.
         if scope == Reach.ADJACENT:
             return self.owner[target_region.name] in self.adjacency.get(
                 self.owner[source.region.name], ()

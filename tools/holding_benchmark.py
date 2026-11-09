@@ -22,8 +22,8 @@ from pathlib import Path
 from statistics import median
 from time import perf_counter
 
-from games.tw.highs_backend import native_version
-from games.tw.resources import available_workers
+from games.optimization.highs_backend import native_version
+from games.optimization.resources import available_workers
 from twoptimizer.models import RunConfig
 from twoptimizer.progress import ModelStats, SearchStats
 from twoptimizer.requests import default_config, make_jobs

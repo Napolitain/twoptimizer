@@ -1,0 +1,4887 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-11-09T04:36:39.785328+00:00",
+  "baseline_commit": "5cb4068824962e2cc2c8d03ef248b6106174b726",
+  "candidate_identity": "architecture refactor identified by installed-wheel hash and per-game source manifests",
+  "driver": "tools/native_product_benchmark.py",
+  "driver_sha256": "99078a6f2d894e5a530eb104876ad3207aa86117635c8b710e3b81c83eced9dd",
+  "wheel_sha256": {
+    "baseline": "b2ccfca841527db33ee77230b209d65bca1d8fdbc2fddf86b7302e26e364885e",
+    "candidate": "db2f3672bec60d93ef4e26b5c97e7d983f3efc698b2574ec24eae6ac16fd6e30"
+  },
+  "environments": {
+    "baseline": {
+      "python": "3.14.9",
+      "executable": "/tmp/twoptimizer-native-products-final-env/bin/python",
+      "prefix": "/tmp/twoptimizer-native-products-final-env",
+      "package_path": "/tmp/twoptimizer-native-products-final-env/lib/python3.14/site-packages/twoptimizer/__init__.py",
+      "packages": {
+        "napolitain-twoptimizer": "1.5.0",
+        "ortools": "9.15.6755",
+        "numpy": "2.5.4",
+        "textual": "6.12.0"
+      }
+    },
+    "candidate": {
+      "python": "3.14.9",
+      "executable": "/tmp/twoptimizer-architecture-candidate-env/bin/python",
+      "prefix": "/tmp/twoptimizer-architecture-candidate-env",
+      "package_path": "/tmp/twoptimizer-architecture-candidate-env/lib/python3.14/site-packages/twoptimizer/__init__.py",
+      "packages": {
+        "napolitain-twoptimizer": "1.5.0",
+        "ortools": "9.15.6755",
+        "numpy": "2.5.4",
+        "textual": "6.12.0"
+      }
+    }
+  },
+  "method": [
+    "Identical locked Python 3.14.9 production dependencies; installed wheels, isolated workers outside checkout.",
+    "One worker; seeds 0,1,2; all four games; single province and named joint pair; 20 seconds per solver case.",
+    "Each worker has a 90-second wall and 4096 MiB RSS guard; wall includes import, preparation, search and validation.",
+    "Baseline series ran before candidate series. Candidate timing series ran without overlapping tests, hooks or builds.",
+    "A separate 24-case candidate validation/warmup series is retained, but excluded from timing comparisons because hooks overlapped its start.",
+    "Solver work is serial. Native worker RSS sampled at 50ms and final Linux high-water RSS retained.",
+    "All cases use ordinary requests and independent economic validation. Source hashes intentionally change; exact model identities do not.",
+    "Attila sparse identities independently recompiled from each wheel for both workload requests; other model identities read from every native report.",
+    "Three timing samples per case are descriptive; seeds vary, revision order was not randomized, and host variability is not controlled.",
+    "No full-world speedup claim; the Rome II pair remains FEASIBLE at the allowance, not proved optimal."
+  ],
+  "comparisons": [
+    {
+      "game": "attila",
+      "scope": "single",
+      "model_identity": "9402a8d18b470851a4248aea4ed7ca0d6130664a3774fce73cc32f97fe51f8ac",
+      "identity_preserved": true,
+      "proved_income": 24140.375,
+      "baseline": {
+        "median_seconds": 2.0632136759995774,
+        "range_seconds": [
+          1.5183747709997988,
+          2.239957156998571
+        ],
+        "max_worker_rss_bytes": 141123584,
+        "statuses": [
+          "OPTIMAL",
+          "OPTIMAL",
+          "OPTIMAL"
+        ],
+        "incomes": [
+          24140.375,
+          24140.375,
+          24140.375
+        ],
+        "bounds": [
+          24140.375,
+          24140.375,
+          24140.375
+        ]
+      },
+      "candidate": {
+        "median_seconds": 1.9650552490002156,
+        "range_seconds": [
+          1.8710784169998078,
+          2.07681706600124
+        ],
+        "max_worker_rss_bytes": 138399744,
+        "statuses": [
+          "OPTIMAL",
+          "OPTIMAL",
+          "OPTIMAL"
+        ],
+        "incomes": [
+          24140.375,
+          24140.375,
+          24140.375
+        ],
+        "bounds": [
+          24140.375,
+          24140.375,
+          24140.375
+        ]
+      }
+    },
+    {
+      "game": "attila",
+      "scope": "pair",
+      "model_identity": "5540c726f2c52b831cdbc198b8b3ff2097e3d26f9a31151efc1fd87e6540b6c3",
+      "identity_preserved": true,
+      "proved_income": 50563.8125,
+      "baseline": {
+        "median_seconds": 16.223672740999973,
+        "range_seconds": [
+          12.214183402000344,
+          17.974749397000778
+        ],
+        "max_worker_rss_bytes": 166371328,
+        "statuses": [
+          "OPTIMAL",
+          "OPTIMAL",
+          "OPTIMAL"
+        ],
+        "incomes": [
+          50563.8125,
+          50563.8125,
+          50563.8125
+        ],
+        "bounds": [
+          50563.8125,
+          50563.8125,
+          50563.8125
+        ]
+      },
+      "candidate": {
+        "median_seconds": 17.750205703001484,
+        "range_seconds": [
+          14.436749094998959,
+          18.2312549269991
+        ],
+        "max_worker_rss_bytes": 163872768,
+        "statuses": [
+          "OPTIMAL",
+          "OPTIMAL",
+          "OPTIMAL"
+        ],
+        "incomes": [
+          50563.8125,
+          50563.8125,
+          50563.8125
+        ],
+        "bounds": [
+          50563.8125,
+          50563.8125,
+          50563.8125
+        ]
+      }
+    },
+    {
+      "game": "rome2",
+      "scope": "single",
+      "model_identity": "4ab29ac03156f70199b111833a35a8fc04fa2b3a802d01da73d7611116585764",
+      "identity_preserved": true,
+      "proved_income": 9733.8,
+      "baseline": {
+        "median_seconds": 5.962593053998717,
+        "range_seconds": [
+          4.1272436149993155,
+          8.313637625999036
+        ],
+        "max_worker_rss_bytes": 150249472,
+        "statuses": [
+          "OPTIMAL",
+          "OPTIMAL",
+          "OPTIMAL"
+        ],
+        "incomes": [
+          9733.8,
+          9733.8,
+          9733.8
+        ],
+        "bounds": [
+          9733.8,
+          9733.8,
+          9733.8
+        ]
+      },
+      "candidate": {
+        "median_seconds": 6.753140213999359,
+        "range_seconds": [
+          4.12647973500134,
+          10.835901308000757
+        ],
+        "max_worker_rss_bytes": 149819392,
+        "statuses": [
+          "OPTIMAL",
+          "OPTIMAL",
+          "OPTIMAL"
+        ],
+        "incomes": [
+          9733.8,
+          9733.8,
+          9733.8
+        ],
+        "bounds": [
+          9733.8,
+          9733.8,
+          9733.8
+        ]
+      }
+    },
+    {
+      "game": "rome2",
+      "scope": "pair",
+      "model_identity": "b0af639b2637e2166724f11cc231fe3ddb6d0181cdd4e4a25c8d27cbf5889474",
+      "identity_preserved": true,
+      "proved_income": null,
+      "baseline": {
+        "median_seconds": 20.797321763999207,
+        "range_seconds": [
+          20.7537108180004,
+          20.913350957000148
+        ],
+        "max_worker_rss_bytes": 161087488,
+        "statuses": [
+          "FEASIBLE",
+          "FEASIBLE",
+          "FEASIBLE"
+        ],
+        "incomes": [
+          19013.5,
+          19317.699999999997,
+          19493.9
+        ],
+        "bounds": [
+          23168.18,
+          22977.44,
+          23139.72
+        ]
+      },
+      "candidate": {
+        "median_seconds": 20.83200184299858,
+        "range_seconds": [
+          20.812874388999262,
+          20.93172623999999
+        ],
+        "max_worker_rss_bytes": 159461376,
+        "statuses": [
+          "FEASIBLE",
+          "FEASIBLE",
+          "FEASIBLE"
+        ],
+        "incomes": [
+          19013.5,
+          19317.699999999997,
+          19493.9
+        ],
+        "bounds": [
+          23168.18,
+          22977.44,
+          23139.72
+        ]
+      }
+    },
+    {
+      "game": "shogun2",
+      "scope": "single",
+      "model_identity": "a2dcea7d4994f55e34ebd103ad00257ba05f1b89804387d21b308c21bcf9c645",
+      "identity_preserved": true,
+      "proved_income": 4318.16,
+      "baseline": {
+        "median_seconds": 0.6064334900001995,
+        "range_seconds": [
+          0.6063614560007409,
+          0.6065562619987759
+        ],
+        "max_worker_rss_bytes": 117989376,
+        "statuses": [
+          "OPTIMAL",
+          "OPTIMAL",
+          "OPTIMAL"
+        ],
+        "incomes": [
+          4318.16,
+          4318.16,
+          4318.16
+        ],
+        "bounds": [
+          4318.16,
+          4318.16,
+          4318.16
+        ]
+      },
+      "candidate": {
+        "median_seconds": 0.7093499480015453,
+        "range_seconds": [
+          0.6078658850001375,
+          0.9104956339997443
+        ],
+        "max_worker_rss_bytes": 117391360,
+        "statuses": [
+          "OPTIMAL",
+          "OPTIMAL",
+          "OPTIMAL"
+        ],
+        "incomes": [
+          4318.16,
+          4318.16,
+          4318.16
+        ],
+        "bounds": [
+          4318.16,
+          4318.16,
+          4318.16
+        ]
+      }
+    },
+    {
+      "game": "shogun2",
+      "scope": "pair",
+      "model_identity": "7f561f33aae35cf3bab37a2285e6cadc00ce3c25f5e35958b19c6ac0032a3f7c",
+      "identity_preserved": true,
+      "proved_income": 5497.49,
+      "baseline": {
+        "median_seconds": 0.6578853579994757,
+        "range_seconds": [
+          0.6262267750007595,
+          0.8140252550001605
+        ],
+        "max_worker_rss_bytes": 117972992,
+        "statuses": [
+          "OPTIMAL",
+          "OPTIMAL",
+          "OPTIMAL"
+        ],
+        "incomes": [
+          5497.49,
+          5497.49,
+          5497.49
+        ],
+        "bounds": [
+          5497.49,
+          5497.49,
+          5497.49
+        ]
+      },
+      "candidate": {
+        "median_seconds": 0.7068013200005225,
+        "range_seconds": [
+          0.6062204420013586,
+          0.8608249819990306
+        ],
+        "max_worker_rss_bytes": 118042624,
+        "statuses": [
+          "OPTIMAL",
+          "OPTIMAL",
+          "OPTIMAL"
+        ],
+        "incomes": [
+          5497.49,
+          5497.49,
+          5497.49
+        ],
+        "bounds": [
+          5497.49,
+          5497.49,
+          5497.49
+        ]
+      }
+    },
+    {
+      "game": "three_kingdoms",
+      "scope": "single",
+      "model_identity": "9c6f87b330559058cf9ed5882c5b77f13cecaca88376cb9997654d6b85a6f98e",
+      "identity_preserved": true,
+      "proved_income": 627.75,
+      "baseline": {
+        "median_seconds": 0.8594032670007437,
+        "range_seconds": [
+          0.8083979229995748,
+          1.0094512189989473
+        ],
+        "max_worker_rss_bytes": 130301952,
+        "statuses": [
+          "OPTIMAL",
+          "OPTIMAL",
+          "OPTIMAL"
+        ],
+        "incomes": [
+          627.75,
+          627.75,
+          627.75
+        ],
+        "bounds": [
+          627.75,
+          627.75,
+          627.75
+        ]
+      },
+      "candidate": {
+        "median_seconds": 0.9617661499996757,
+        "range_seconds": [
+          0.9585270059997129,
+          1.0102955010006553
+        ],
+        "max_worker_rss_bytes": 132395008,
+        "statuses": [
+          "OPTIMAL",
+          "OPTIMAL",
+          "OPTIMAL"
+        ],
+        "incomes": [
+          627.75,
+          627.75,
+          627.75
+        ],
+        "bounds": [
+          627.75,
+          627.75,
+          627.75
+        ]
+      }
+    },
+    {
+      "game": "three_kingdoms",
+      "scope": "pair",
+      "model_identity": "2b8baf2020f48db27c3b3818fc90a3ed1180ce5fac84886328c8c8e594104549",
+      "identity_preserved": true,
+      "proved_income": 1628.0,
+      "baseline": {
+        "median_seconds": 1.2585283669995988,
+        "range_seconds": [
+          1.110260241001015,
+          1.326280465000309
+        ],
+        "max_worker_rss_bytes": 131362816,
+        "statuses": [
+          "OPTIMAL",
+          "OPTIMAL",
+          "OPTIMAL"
+        ],
+        "incomes": [
+          1628.0,
+          1628.0,
+          1628.0
+        ],
+        "bounds": [
+          1628.0,
+          1628.0,
+          1628.0
+        ]
+      },
+      "candidate": {
+        "median_seconds": 1.3119454799998493,
+        "range_seconds": [
+          1.262158747000285,
+          1.3624549000014667
+        ],
+        "max_worker_rss_bytes": 134164480,
+        "statuses": [
+          "OPTIMAL",
+          "OPTIMAL",
+          "OPTIMAL"
+        ],
+        "incomes": [
+          1628.0,
+          1628.0,
+          1628.0
+        ],
+        "bounds": [
+          1628.0,
+          1628.0,
+          1628.0
+        ]
+      }
+    }
+  ],
+  "sources": {
+    "baseline:attila": {
+      "attila/data/building_culture_variants_table.tsv": "6438a7e52babe196cfae1b52e4330159f48f119c5abd00a5b8d4d488e94a544c",
+      "attila/data/building_effects_junction_table.tsv": "dd95c690b7f7ac4e05106ebcf309628ca15aa5a1056f85507ec258ec115e55a9",
+      "attila/data/cultures_subcultures_table.tsv": "4e27ebec6dbd3c86f93f0b272602b0876333454b372a28925b3a51c604680cc7",
+      "attila/data/factions_table.tsv": "623b48208dee338dd563f5b32a49d85bd929105e72caadb56518a6575b0644a0",
+      "attila/data/provinces.tsv": "fa9b36e5ddda75fb6fa31b96218a555406d4b0047c2bf93ea0fcbbe1fa159905",
+      "attila/data/region_to_provinces_junctions_table.tsv": "f11adfa9d715e7048f1bbf3a74a6c9f64b4292ebf40075f841d9ade0bfb21770",
+      "attila/data/regions.tsv": "3bc3556d1ec349e22bf75b7ff928a1b597e77e40b6b85a3f02b84418b304d6b4",
+      "attila/data/start_pos_region_slot_templates_table.tsv": "12f34565345c74b4c432d71da7f4f8586c52c0f51723f31aa8f2efba0cbbf4d6",
+      "attila/data/online_buildings.json": "7958b74651ad52bb442e737f435079948103412f4770a818e68619fef654ac6e",
+      "attila/data/online_factions.json": "a087b6305d9bd5a3ca831a84f3261ed16ae1dd9a283169a553ef145a7adbaffe",
+      "attila/data/online_modifiers.json": "1b96106a9fbbfd616fdcf200bfecdc0772c48452eaf93bb06863ee2b22e0075e",
+      "attila/economy.py": "1cb94f6f8d6ffef23cadaa9615fef7e2fb5f1b0cbe8fd33110a6b2956b73621e",
+      "attila/effect_index.py": "4b4ce42878aa0290b7f63ad19e51b7a3b1461ecd8b2ef5a4f16cff1bd96614b5",
+      "attila/algebra.py": "23f3679d782e010ebd7687e5490ae7f12d5c50524d26fb5e00b17a38b1e93b81",
+      "attila/compiler.py": "faa26af5feafd2a39bc7a234cbe00575c5a6c5ce600997e6647c05eb32d0774f",
+      "attila/compact.py": "e0513e9293b1e2a9e1f29a1db42f29aeb294312bd3109c5d0ceec713643b6502",
+      "attila/joint_search.py": "911f9942f7b836bbaa5f1fbef7656866f0ce6712537e9d71b9075ddbb1a12568",
+      "attila/bound_search.py": "17f20d7cd092b590fae710cd7ec2e31cc55895c6ed145d928cb9e7101da1bbe1",
+      "attila/partition.py": "d22bb0033784c35d13f1fe31a01e665dbacb9fa22043e911e154828f97ba714c",
+      "attila/native_parts.py": "cb29c6dcf72dfff8598e328c73bcac48782850bcf55f3076cc1a833234422df2",
+      "attila/native_experiment.py": "40fcb875994145b4f8159f2815fe01d09333d84a9a7babd2a0c4f05a313fa31c",
+      "attila/projection.py": "4f6c07246e457346324c6d581b28d26d286e30c2d1a2a64d48fd769e49d4c44d",
+      "attila/reporting.py": "18f57586fb573e213c6cbf2c14e03c5526821be88d498ad2dbbd30b656030696",
+      "attila/scenario.py": "2a1b607fd8d9150a9061df92e84ae295c6e9f5064350bf5292c25deae156300d",
+      "attila/scenario_validation.py": "01d3865b561be2a5717cffecdadbe2fc1979e974c1a825e3d713a6a0f7faff29",
+      "attila/records.py": "275184c851877cb71083359d0217adad715373949e5608fa35d758cda50bb766",
+      "attila/building_rules.py": "2a6ccfe34e6bebd828434ca6fedb22f979a31ab3b26af299146e17529e05cb8c",
+      "attila/special_slots.py": "2fa735c6e6524f7e4bab754eda8dad2955d04de84b5098c495366b328b676a0f",
+      "catalog.py": "1b435dc7ab6e126c8ec980152efe526d2c466d63f1f02698bd845b5862125e0b",
+      "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+      "attila/model.py": "8232fc704767ca398b7fcef1cc51701ecf11f448c994b39e7e3fc78efc2b43d0",
+      "context.py": "115e42e40c5dc58fb70ae1feeaeb22dfa38a54a7e7f7bbd4ee9419ac6c9ebef8",
+      "comparison.py": "d12e3229af336497c63ae1bb372355d8b440b0d76bdfe338f65bc26cfe1a35c2",
+      "building.py": "7505350bfd3d9d2eb42a745d28abe6ee5ff4a97f6c5e41c8eea6fb8aeb8b508b",
+      "entity.py": "d3fe7dfedf916f986cdff78d9ebcd3e5a89457038d0ccd0ba51b897b8305f00e",
+      "region.py": "83e8d02ce7f85f46fbec88dbb184f6cb74f05d84ead2c619e168816e8cc28e24",
+      "province.py": "9aabfa210d19568e2eb472fc258c5375548effcdbe78cb8105d0c70c0fa776d9",
+      "problem.py": "f7e3345884bdf9ab3b05290fc428bb0d5ea48eb81f209ee9a2e5459f90ed22ea",
+      "solver_ortools.py": "4ba63112ff139f779d60ed95ed042dd1fb776cac0884bfbe310baa03424b2a71",
+      "solver_cpsat.py": "d016de2321fa2fcb36113986da2aea447c43ec789ddbd98719649f53db0e03d3",
+      "solver_highs.py": "ccdb3fe31fbe6a1ecb377feaf40309881633d8017f2a436fc06aaf0a2329e024",
+      "parser/parser.py": "2e8f049efb1f381155a50fd1abbfc55a861062eb3b23ab5ad6d568b101ee2f95",
+      "parser/parser_attila.py": "7f672ea3d14136e79607dc3941959a49db6341da8d5894cbd3170bf900818439",
+      "competition.py": "242f4a2ab18d6a9607b8ecc117b275f63bb37e235019309fbc862249cafc99f2",
+      "sparse.py": "4847ece3e4517fd1b2631de4a036324cb795449ae1a307fc4ec7c4cbd2ef0748",
+      "resources.py": "b05eaf10e77328669b95e919dd800e055469e4334c143229899f69f99bb4da7b",
+      "highs_backend.py": "e2718069877a8b699d45b9aa3557d68b426b65ebb75807fd2ba5a48ef9e0d982",
+      "search_progress.py": "a370804762b9e4beabdd5b4d6318809346dce8a6380257c2d49bb5b40b9350d8",
+      "cancellation.py": "bd5ca92d0b26f36a197575ea01de666d7427fd4d810df9876e2ab7bce59b176e",
+      "maps/catalog.py": "84cb17307fe8139edf6bd9e450784355e17451953e75dfc266e77dd46239b15c",
+      "attila/data/campaign_map.json": "7224f705401a7e2d0d60c5ea66a67ef640f7557bbcbccf8015d875ce0a808789",
+      "twoptimizer/requests.py": "00b8f8bf46007f27f340d88c838d623e02b2469df2964dc9c12fc51c1bddf1eb",
+      "twoptimizer/models.py": "19e4a48c6b98289dabccace5c25fec9cf09bf43406749a36f0b409e6bbc3d8de",
+      "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+      "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+      "twoptimizer/service.py": "b6db83512e3df80a8c809431a968d3868474e9a310b7e2470cb6e9e1ae3f1cc5",
+      "twoptimizer/session.py": "9167ec7f1f6925a2f6cdd27a7b4de5508f93683d9ebbe60421eea3ac3d73229c",
+      "twoptimizer/holdings.py": "5931953fffd87d50c7aa150edf7c1ac0b792af43d181f72f5d78b949145f5157",
+      "twoptimizer/progress.py": "dafd5057de62f6d078823345f2f16b40c580af9a49c2fe9c9a96d73782ed3a3c",
+      "twoptimizer/search_measurements.py": "e628a4dd45fa3e072039d0761b545692067be904692d233841763bc3ed945a16",
+      "twoptimizer/adapters/model_stats.py": "e2abccb167b3ad8d9f20fef7500bd78c354307856afee4166890108286e993f4",
+      "twoptimizer/adapters/search.py": "8198dda8a08fad4fb0556bc667ee8c0bf4917bbad398d520bbcae083304c6ffc",
+      "twoptimizer/adapters/attila.py": "e355df2c4e2007f65ce33e49d8fef7381e64b40d95154bff2956fcc8bf7acda4",
+      "twoptimizer/attila_session.py": "a87250720d15711f483f1da3d9b3c7caad2e4f038ffcf81f8a141e1a3ae42dd6",
+      "twoptimizer/attila_incumbents.py": "407106b83ced9309ca9aedd5750299af09ebeba4ae982da7571c46bd5a255133"
+    },
+    "baseline:rome2": {
+      "rome2/model.py": "9eb713c09363da26747aa058f0c78328e8744d6991038ad0865b6822560c2c07",
+      "rome2/compiler.py": "87887664f6f93c7fde34b3d28bb7019b6bddfa8328fb3ecf5b39e3068bd2da50",
+      "rome2/linear.py": "e190b88904b75dbde3ceb79177c1eec6425ffa704c8bc8857adc7451e5dcc87a",
+      "rome2/native_search.py": "fa1e672239e019a4e19e8bc510ac0fc2de480fcbf4a03b103d332cb6a9310909",
+      "rome2/optimization.py": "ce43c50a4fd16bb724a4423dcea27e0026fab8c2a3ea8d46b51fdde701b9309b",
+      "rome2/joint_search.py": "6957c3aa46f40e915c5c0c7f68b8d9dd724479f89277139bf9998a3f68a26b2c",
+      "rome2/bound_search.py": "9e8424c2461ca07146a7701068f5f6c390fb664f9db2f6494b2df91109323787",
+      "rome2/decomposition.py": "2fee279162496448e4b08d871e0405122c10184f71105f24ce7b24477973d2ca",
+      "rome2/backends.py": "bc51cfe37c8f3ed83fa369b5c41e9370a834d035d2732003c4f272b1b951fe21",
+      "rome2/scenario.py": "78c4a296b5984ecdcb718ee1e7d0b1e4ace87e6ec3f3ca4a10a5e639f1e884fd",
+      "rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+      "rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+      "rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+      "rome2/provenance.py": "d562ef4d18cbd983afc14174e7e76b858978d3e1382a61ccf2bc0650dc6870dd",
+      "rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+      "rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+      "rome2/holdings.py": "58f4beaeca008298f5428b4a0a44932edf0d049b1b8b1e030b3fb15a9ec17f0f",
+      "rome2/holding_compiler.py": "fba7c4a19037889505cb6f2404c75a9f9c8fb0d61e04fae17d0e23f85038bc41",
+      "rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+      "rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+      "rome2/building_constraints.py": "f87c6afee90906cc846712b09e0a96a64749f1ad62d4119912b07a69e1cab566",
+      "rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+      "rome2/data/special_buildings_coverage.json": "10e91f33f67bc8296487844c7fadf2961bbf5646143e1b338eb174800fe74d68",
+      "rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+      "rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+      "attila/native_parts.py": "cb29c6dcf72dfff8598e328c73bcac48782850bcf55f3076cc1a833234422df2",
+      "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+      "highs_backend.py": "e2718069877a8b699d45b9aa3557d68b426b65ebb75807fd2ba5a48ef9e0d982",
+      "search_progress.py": "a370804762b9e4beabdd5b4d6318809346dce8a6380257c2d49bb5b40b9350d8",
+      "cancellation.py": "bd5ca92d0b26f36a197575ea01de666d7427fd4d810df9876e2ab7bce59b176e",
+      "maps/catalog.py": "84cb17307fe8139edf6bd9e450784355e17451953e75dfc266e77dd46239b15c",
+      "rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+      "twoptimizer/requests.py": "00b8f8bf46007f27f340d88c838d623e02b2469df2964dc9c12fc51c1bddf1eb",
+      "twoptimizer/models.py": "19e4a48c6b98289dabccace5c25fec9cf09bf43406749a36f0b409e6bbc3d8de",
+      "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+      "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+      "twoptimizer/service.py": "b6db83512e3df80a8c809431a968d3868474e9a310b7e2470cb6e9e1ae3f1cc5",
+      "twoptimizer/session.py": "9167ec7f1f6925a2f6cdd27a7b4de5508f93683d9ebbe60421eea3ac3d73229c",
+      "twoptimizer/holdings.py": "5931953fffd87d50c7aa150edf7c1ac0b792af43d181f72f5d78b949145f5157",
+      "twoptimizer/progress.py": "dafd5057de62f6d078823345f2f16b40c580af9a49c2fe9c9a96d73782ed3a3c",
+      "twoptimizer/search_measurements.py": "e628a4dd45fa3e072039d0761b545692067be904692d233841763bc3ed945a16",
+      "twoptimizer/adapters/model_stats.py": "e2abccb167b3ad8d9f20fef7500bd78c354307856afee4166890108286e993f4",
+      "twoptimizer/adapters/search.py": "8198dda8a08fad4fb0556bc667ee8c0bf4917bbad398d520bbcae083304c6ffc",
+      "twoptimizer/adapters/rome2.py": "2753b4a5e2102ba943b7b4848310a06b4bddc7e035a62fc5a824cd1e0a5bd5b0",
+      "twoptimizer/adapters/rome_models.py": "2ed3186b564956dceb7aedc19bbc63912a1df27eea97b72eef76f81c07d80c85",
+      "twoptimizer/rome_session.py": "ae3b84c20139e8a5725fca6f40f25ebf3a056e019e20c64e7b64a6f743e59dc3"
+    },
+    "baseline:shogun2": {
+      "shogun2/model.py": "a4ac5c6e7945ca3810a144d442decee4f7fdba766b7024906f51b3bca81d39d0",
+      "shogun2/scenario.py": "1c9546027b5dcdf042412f3abc8e4d4f84b9f5cb779309986934b33e88659540",
+      "shogun2/catalog.py": "99ab1387a3a1f0b98f3580927a05223208e3af9fd268a4b9a0ee7adef3481817",
+      "shogun2/records.py": "c17ab21580f26b91e9772d69da14820a931dc2a4a1dae09854df6a043e0d256b",
+      "shogun2/effects.py": "8f828168ea67cd7ef7e1c7b370539c10b97c403f2c9ad3c1fc97050c96aade0a",
+      "shogun2/constraints.py": "22d6a1d54e49bdc9b24e1cbf0c86b41e8bb7f360031dfb747c51b4dce1e36e30",
+      "shogun2/optimization.py": "50420850bb3b504958d8b3beb80027d3e3c4d12308ce29de98f0f8d07a519d4c",
+      "shogun2/native_products.py": "26e5986636c12f091cf453814ae770315c301273bafab2b297290c40b33cfd06",
+      "shogun2/preparation.py": "e5e64589c6ee5333c9918404bc5a89e78a807c04b48f99cd930a9b2bec106a70",
+      "shogun2/data/rules.json": "78fd6567c22095313024845067bd2a1975814b1d7a9b973ad7e77a921c704e5d",
+      "multigame/data/shogun2.json": "3307bcf1d29d2dc82280f1adfa74b4e99ea588ad28caf83075bac4eb9c2c9b44",
+      "competition.py": "242f4a2ab18d6a9607b8ecc117b275f63bb37e235019309fbc862249cafc99f2",
+      "sparse.py": "4847ece3e4517fd1b2631de4a036324cb795449ae1a307fc4ec7c4cbd2ef0748",
+      "resources.py": "b05eaf10e77328669b95e919dd800e055469e4334c143229899f69f99bb4da7b",
+      "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+      "highs_backend.py": "e2718069877a8b699d45b9aa3557d68b426b65ebb75807fd2ba5a48ef9e0d982",
+      "search_progress.py": "a370804762b9e4beabdd5b4d6318809346dce8a6380257c2d49bb5b40b9350d8",
+      "cancellation.py": "bd5ca92d0b26f36a197575ea01de666d7427fd4d810df9876e2ab7bce59b176e",
+      "maps/catalog.py": "84cb17307fe8139edf6bd9e450784355e17451953e75dfc266e77dd46239b15c",
+      "shogun2/data/campaign_map.json": "63e79585d9ec254710d9bf86ab6be423336b0b298333275c23f5560e9e142ba4",
+      "twoptimizer/requests.py": "00b8f8bf46007f27f340d88c838d623e02b2469df2964dc9c12fc51c1bddf1eb",
+      "twoptimizer/models.py": "19e4a48c6b98289dabccace5c25fec9cf09bf43406749a36f0b409e6bbc3d8de",
+      "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+      "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+      "twoptimizer/service.py": "b6db83512e3df80a8c809431a968d3868474e9a310b7e2470cb6e9e1ae3f1cc5",
+      "twoptimizer/session.py": "9167ec7f1f6925a2f6cdd27a7b4de5508f93683d9ebbe60421eea3ac3d73229c",
+      "twoptimizer/holdings.py": "5931953fffd87d50c7aa150edf7c1ac0b792af43d181f72f5d78b949145f5157",
+      "twoptimizer/progress.py": "dafd5057de62f6d078823345f2f16b40c580af9a49c2fe9c9a96d73782ed3a3c",
+      "twoptimizer/search_measurements.py": "e628a4dd45fa3e072039d0761b545692067be904692d233841763bc3ed945a16",
+      "twoptimizer/adapters/model_stats.py": "e2abccb167b3ad8d9f20fef7500bd78c354307856afee4166890108286e993f4",
+      "twoptimizer/adapters/search.py": "8198dda8a08fad4fb0556bc667ee8c0bf4917bbad398d520bbcae083304c6ffc",
+      "twoptimizer/adapters/shogun2.py": "67ce7320d1708aa4079a416833e5e8b2fbe39b0f2d47a93ffc12455ff1222992",
+      "twoptimizer/shogun_session.py": "608723e744ecce3fb77a038534f61acdf5d65a7bcc7a6a5ab6dbdcc659d005b5"
+    },
+    "baseline:three_kingdoms": {
+      "three_kingdoms/__init__.py": "cb26f38df1d0bc4e7e13b93cced386e9a2b417d3e3110570dadbc1703a298720",
+      "three_kingdoms/audit_reference.py": "25bfc4e62ebef9e8629289a5b936a0a08ec6755ef8eaf8f64fdfed5824ab6e67",
+      "three_kingdoms/catalog.py": "7c8937b5659b5ae2eeb5afa5b6e452adc4d4d11cb115e429f461f7684cace88c",
+      "three_kingdoms/compiler.py": "dae07e5926187dfeacf39d86c69169d6e4c48c0d76e534e70c1b93f917e2a59b",
+      "three_kingdoms/evaluation.py": "303b20f561a3fba4a9c101e6dd234e8a21471e598cb264e1b4ca7ac141a8885e",
+      "three_kingdoms/import_effects.py": "d0c77796b0599c8aa1e12a0b2e87704a07e119953c9006de974223111e94e6bc",
+      "three_kingdoms/import_geography.py": "c92496b84530a3325f56c9c87eee8009816c617638ef15845ad2a46c7af2f443",
+      "three_kingdoms/import_reference.py": "a98fcc93628df0d9acb547d853197f66cc623e10cf70fdcc0631a7472a5dcbdb",
+      "three_kingdoms/import_rules.py": "c335e0aedd4110c52b0dd42af548f1210a9b78aa85f07bfc8a62151ef2f3f209",
+      "three_kingdoms/incumbent.py": "f6bf18c5a04035d0b08c7c95ddcee9253a6ec3e226c4adaa3c21b2e801820ed6",
+      "three_kingdoms/integer.py": "eb4bdeaa5a216e373260559fbdbb3566d4ab92ac1c0bfb82629cc517225a3731",
+      "three_kingdoms/joint_bounds.py": "81d5a90d94aff9ea9ee0c0afa571f8be16ace0eb2b6e9d50182d2aae347926e7",
+      "three_kingdoms/model.py": "aa1bdbfc6c0d6509a34dac1bcad4bdeb3a1921c39d8ac5c4207f79def4c78bf6",
+      "three_kingdoms/native_products.py": "f763b000c4ac8ac1b63096505f2115ac310f541b39b462f1d2f0f6f3634c104d",
+      "three_kingdoms/optimization.py": "91a3aa816c9d7e4add21c8285c63c69b20a096add8176494d7515c3989152f35",
+      "three_kingdoms/preparation.py": "205a5750b77fe08e3972dc633115cd9f58faeffec3ef30fe327bf99117806987",
+      "three_kingdoms/product_metadata.py": "b0669ffed36f5af5669c15197cb26c0ccb4087f1163d9d162dcc117550f81b89",
+      "three_kingdoms/scenario.py": "d61fe53d222f69fccd39630063e8c0996adc1488b18f3b9322c682d6efd14e4e",
+      "three_kingdoms/scopes.py": "ff45d930e57971f66052c53eccec73f9ea2a3a0c2ee1e3b3dae0cb5c30478bfd",
+      "three_kingdoms/selection.py": "9af7fda78a6b25f2099b6a018e48969fc1efe0fadff45efb6f9878b524b572af",
+      "three_kingdoms/source.py": "244fdd81e1beae3d18483e2459e8dc171817ef06e47dc7a4385c9c9ca2073327",
+      "three_kingdoms/data/buildings_city_1.json": "7c62afa9e4fbddb23b152dac03ca04a4f5f468e57831d4b97c941f39427d037d",
+      "three_kingdoms/data/buildings_district_1.json": "c46dc37c09f24321817adac2a11b8614b50a16da71fee493fd8cd8c72fd429e7",
+      "three_kingdoms/data/buildings_district_2.json": "1c755a95a52091102a6f4122474e0c2ae90a8344f5dda4903479d795991d6139",
+      "three_kingdoms/data/buildings_district_3.json": "e56fd568ba05c519ffb144532b5621bb6842230d7bd4670fe755d6b50e93d41f",
+      "three_kingdoms/data/buildings_resource_1.json": "9f20120da829c1d2d71a6d9d84d4246c6ecd7ee9ee2d0798f688d5c5d943a553",
+      "three_kingdoms/data/buildings_resource_2.json": "4c15299b70248cfc7fafb2171fe51c2fc621889d163c57746cc139d571676297",
+      "three_kingdoms/data/campaign_map.json": "c5774c6161dd160917839d188fc5a1d6f8a20c480b4e6033b71f862bd70ad570",
+      "three_kingdoms/data/geography.json": "831beca9fcf5b9a93f2a0b045028621ba8a432351d6268baf65f281ecd29c000",
+      "three_kingdoms/data/reference.json": "6f3451c754c3165319e69850505290eac0a8da710cc541e248e93997ce484a50",
+      "three_kingdoms/data/rules.json": "8fd373993594cbf8960376c54e69a01d9681d0ef7aeb820ab28e59b665e1c6c3",
+      "resources.py": "b05eaf10e77328669b95e919dd800e055469e4334c143229899f69f99bb4da7b",
+      "rome2/decomposition.py": "2fee279162496448e4b08d871e0405122c10184f71105f24ce7b24477973d2ca",
+      "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+      "highs_backend.py": "e2718069877a8b699d45b9aa3557d68b426b65ebb75807fd2ba5a48ef9e0d982",
+      "search_progress.py": "a370804762b9e4beabdd5b4d6318809346dce8a6380257c2d49bb5b40b9350d8",
+      "cancellation.py": "bd5ca92d0b26f36a197575ea01de666d7427fd4d810df9876e2ab7bce59b176e",
+      "maps/catalog.py": "84cb17307fe8139edf6bd9e450784355e17451953e75dfc266e77dd46239b15c",
+      "twoptimizer/requests.py": "00b8f8bf46007f27f340d88c838d623e02b2469df2964dc9c12fc51c1bddf1eb",
+      "twoptimizer/models.py": "19e4a48c6b98289dabccace5c25fec9cf09bf43406749a36f0b409e6bbc3d8de",
+      "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+      "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+      "twoptimizer/service.py": "b6db83512e3df80a8c809431a968d3868474e9a310b7e2470cb6e9e1ae3f1cc5",
+      "twoptimizer/session.py": "9167ec7f1f6925a2f6cdd27a7b4de5508f93683d9ebbe60421eea3ac3d73229c",
+      "twoptimizer/holdings.py": "5931953fffd87d50c7aa150edf7c1ac0b792af43d181f72f5d78b949145f5157",
+      "twoptimizer/progress.py": "dafd5057de62f6d078823345f2f16b40c580af9a49c2fe9c9a96d73782ed3a3c",
+      "twoptimizer/search_measurements.py": "e628a4dd45fa3e072039d0761b545692067be904692d233841763bc3ed945a16",
+      "twoptimizer/adapters/model_stats.py": "e2abccb167b3ad8d9f20fef7500bd78c354307856afee4166890108286e993f4",
+      "twoptimizer/adapters/search.py": "8198dda8a08fad4fb0556bc667ee8c0bf4917bbad398d520bbcae083304c6ffc",
+      "twoptimizer/adapters/three_kingdoms.py": "055136b16861e4dc3292c251406b76a7f3fa3f697ffd61068e7d9805a3a9b887",
+      "twoptimizer/three_kingdoms_options.py": "32b961bcb293dbf8eda10cc8ab0af6ecd748a2ff4ae23f7b86ad4b50e3ed1897",
+      "twoptimizer/three_kingdoms_session.py": "249b9b3169a782ae7a385aa79549aeaf55c669530e3ea32ae9ee97e25b553c1d"
+    },
+    "candidate:attila": {
+      "games/optimization/__init__.py": "7733a96159157f8b04b97d110f58e5ef4c7205c6dcabbc760918d8475fe41c45",
+      "games/optimization/bounds.py": "74f241c8c190c29f547ca60b76d0f193547a31ecb3b8378982bfb3edbfcc3fae",
+      "games/optimization/budget.py": "f6bdb79634d116f480e86c6b31bcaed69a15a3b46ec43975dfd40fd99cd2429d",
+      "games/optimization/cancellation.py": "bd5ca92d0b26f36a197575ea01de666d7427fd4d810df9876e2ab7bce59b176e",
+      "games/optimization/competition.py": "0f442fed80c984a3f31f72ceb56b0c982602654f5e21a7c3f165ad9c986866a9",
+      "games/optimization/cp_backend.py": "2a70d30c41232afa648af18b3b772564d98f02834577fe850bf20a735c1c1b3d",
+      "games/optimization/errors.py": "379d239933ccd551061f216dd748d1fa377b02740765f27ce3c03b4d0def62a1",
+      "games/optimization/exact.py": "f01d4565c563abc69edc259560773d81b93a99ea2978d2d51b5c057e2ff2d459",
+      "games/optimization/highs_backend.py": "90929ba836ecdceee6e6c218d08255d3a7499bf4afc25f76fdebb05a663fced2",
+      "games/optimization/linear_components.py": "2fee279162496448e4b08d871e0405122c10184f71105f24ce7b24477973d2ca",
+      "games/optimization/native_model.py": "71c4e0472e9bec7d8b01185f58cf005731ccfa05d723712a9a4eaba803abe75e",
+      "games/optimization/resources.py": "b05eaf10e77328669b95e919dd800e055469e4334c143229899f69f99bb4da7b",
+      "games/optimization/search_progress.py": "60908fb1653f528d9bfb8dee7851d428dc136ad2c848857845b287ad8a7afdc3",
+      "games/optimization/sparse.py": "4847ece3e4517fd1b2631de4a036324cb795449ae1a307fc4ec7c4cbd2ef0748",
+      "games/tw/attila/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "games/tw/attila/algebra.py": "23f3679d782e010ebd7687e5490ae7f12d5c50524d26fb5e00b17a38b1e93b81",
+      "games/tw/attila/benchmark.py": "fec29efdd8800d6fb56abbab8d762d171a07f29522fc00dd1c595032199456bd",
+      "games/tw/attila/bound_search.py": "f450a6fbfbe76b880422410762513dfaf0306bac4beeb62b89e4923f7523e1e6",
+      "games/tw/attila/builder.py": "f8a1c38690c25a44fd76b684bdf20611c8cb325204328a8b6db2648605a1e5c7",
+      "games/tw/attila/building.py": "30cdb31ad4e6154c788cd5a91c8937e9f4230b1268d37ee39e7dfbf7bb6092bd",
+      "games/tw/attila/building_rules.py": "2a6ccfe34e6bebd828434ca6fedb22f979a31ab3b26af299146e17529e05cb8c",
+      "games/tw/attila/catalogue.py": "90173c6a988d91c792aa2cc1bb88f36a668ff628f773799bb35998f3248a3659",
+      "games/tw/attila/compact.py": "a3eeeda24042cee6c42b98df42df809dd4cedd384e90aac233b35cff3e616bda",
+      "games/tw/attila/comparison.py": "0b766dbb3013d98b3e4cb71862ab97371b061beac48b43f72b0b210b49b4db6a",
+      "games/tw/attila/compiler.py": "faa26af5feafd2a39bc7a234cbe00575c5a6c5ce600997e6647c05eb32d0774f",
+      "games/tw/attila/construction.py": "c6dc997174c73d81ad3207e91ddde9ada305e49ca1b13b67e24da043651d6380",
+      "games/tw/attila/context.py": "3d2e4b23e8a3a1c83f4bddb7700e95ace867c0b13b6cb42fc9c2cd9d1c163e6e",
+      "games/tw/attila/data/building_culture_variants_table.tsv": "6438a7e52babe196cfae1b52e4330159f48f119c5abd00a5b8d4d488e94a544c",
+      "games/tw/attila/data/building_effects_junction_table.tsv": "dd95c690b7f7ac4e05106ebcf309628ca15aa5a1056f85507ec258ec115e55a9",
+      "games/tw/attila/data/campaign_map.json": "7224f705401a7e2d0d60c5ea66a67ef640f7557bbcbccf8015d875ce0a808789",
+      "games/tw/attila/data/campaign_map_hex_source.json": "2f67bddf1ce9719c2c6d597817dc4fbb2be857ff9949ed35197aaaab047c21de",
+      "games/tw/attila/data/campaign_map_source.json": "735cbc72a4f3b37e8c163ec2c913ef46aa5aea6eb52fa82670f6e105db07b0bf",
+      "games/tw/attila/data/cultures_subcultures_table.tsv": "4e27ebec6dbd3c86f93f0b272602b0876333454b372a28925b3a51c604680cc7",
+      "games/tw/attila/data/effect_audit.json": "de94a0badedac81a71a00b5249d723810d9726cb6a84b95b1e16aa50fbcd68fa",
+      "games/tw/attila/data/factions_table.tsv": "623b48208dee338dd563f5b32a49d85bd929105e72caadb56518a6575b0644a0",
+      "games/tw/attila/data/online_buildings.json": "7958b74651ad52bb442e737f435079948103412f4770a818e68619fef654ac6e",
+      "games/tw/attila/data/online_factions.json": "a087b6305d9bd5a3ca831a84f3261ed16ae1dd9a283169a553ef145a7adbaffe",
+      "games/tw/attila/data/online_modifiers.json": "1b96106a9fbbfd616fdcf200bfecdc0772c48452eaf93bb06863ee2b22e0075e",
+      "games/tw/attila/data/provinces.tsv": "fa9b36e5ddda75fb6fa31b96218a555406d4b0047c2bf93ea0fcbbe1fa159905",
+      "games/tw/attila/data/region_to_provinces_junctions_table.tsv": "f11adfa9d715e7048f1bbf3a74a6c9f64b4292ebf40075f841d9ade0bfb21770",
+      "games/tw/attila/data/regions.tsv": "3bc3556d1ec349e22bf75b7ff928a1b597e77e40b6b85a3f02b84418b304d6b4",
+      "games/tw/attila/data/special_building_audit.json": "5f0fc8b35efe7c4db34eeb347c2e2ae5216e4582ca41c807b93f755a1b8fdf18",
+      "games/tw/attila/data/special_building_sources.json": "a16939ce93ce31a1676391fee8d9b398cd3d196a2ecf23cc979fa42503ca95bf",
+      "games/tw/attila/data/start_pos_region_slot_templates_table.tsv": "12f34565345c74b4c432d71da7f4f8586c52c0f51723f31aa8f2efba0cbbf4d6",
+      "games/tw/attila/economy.py": "f691b960f14970e561efe36f6a71ae33b4838e61288f90c05712f80d07df5058",
+      "games/tw/attila/effect_index.py": "4b4ce42878aa0290b7f63ad19e51b7a3b1461ecd8b2ef5a4f16cff1bd96614b5",
+      "games/tw/attila/effects.py": "235252142db2335755c084cc7794d0852393f2136e354f00539e7f2f167c6e47",
+      "games/tw/attila/entity.py": "69a4b505f615e76c44e0606c9b911458de3929de61d84a1f39462fbfad93a4ad",
+      "games/tw/attila/enums.py": "eabb6267790062d630e5424975826d0d6ad8cd409e49cb20b8e7a088928bdff0",
+      "games/tw/attila/faction_comparison.py": "0073c3d4949dd5bfbd4d6555255632fb74274e8f2a5618553dfe4d48d0026692",
+      "games/tw/attila/game.py": "2334b81d9b3d81af51b80d1a4e293b806c44f656ff419089f847dfec8098a29c",
+      "games/tw/attila/joint_search.py": "7717ca32d53e924dc5631a10509711dc15b1dfbbfb65b5f5573d36fe76b64300",
+      "games/tw/attila/loader.py": "3efe6f10e1b5442c50f65a0010f07f320d5c4f6875b625b63f8610075d938609",
+      "games/tw/attila/model.py": "435bfb11f811479b46776a34f4e1fbcac6f8bebe1bc3f44e93cec4d71e831e88",
+      "games/tw/attila/modifiers.py": "9692555f6e965fd4870c1c38adcde6c47f5304b7deccf7da9d33575660675b30",
+      "games/tw/attila/native_experiment.py": "5b4af0692118219782bc44ec6a87f1d89808d027a0e83668787d84e02e561013",
+      "games/tw/attila/partition.py": "9e9c9fa18da739ab7183a9e12d19c88c93c760b7def917450d53fe9ec2bbd580",
+      "games/tw/attila/placement.py": "edb8d8e555d981f7b76075a1c7ad2ce2a7330beed946b25d5a294f9aa72edbda",
+      "games/tw/attila/projection.py": "3d140726e6bc0e5d45b64a9796c8efbb8d14cf5eb9e484b6f22c034148847225",
+      "games/tw/attila/province.py": "d0a4f6d43b133e5c17550785481091de4ea2667ab2f2ee5746f7470aaaa124dc",
+      "games/tw/attila/records.py": "275184c851877cb71083359d0217adad715373949e5608fa35d758cda50bb766",
+      "games/tw/attila/region.py": "784b8135b1ad244609e61fdd3cf3601acec13d425ea7948deed973f850e90ee3",
+      "games/tw/attila/reporting.py": "18f57586fb573e213c6cbf2c14e03c5526821be88d498ad2dbbd30b656030696",
+      "games/tw/attila/scenario.py": "2a1b607fd8d9150a9061df92e84ae295c6e9f5064350bf5292c25deae156300d",
+      "games/tw/attila/scenario_validation.py": "01d3865b561be2a5717cffecdadbe2fc1979e974c1a825e3d713a6a0f7faff29",
+      "games/tw/attila/special_slots.py": "c5f9ffe69dd8fc216c3c56e0b85eedd23ce6b992961ce7de7a1ed99b1cb2df51",
+      "games/tw/attila/templates.py": "7e688686c5a526ee212c8573f4849f8c33118d5b9599fed522151a871f58e592",
+      "games/tw/attila/tools/__init__.py": "e9429c2c0cfefa25b0a8cfe8b27c4c87e7612e766f8a872e5cb6445b78605b22",
+      "games/tw/attila/tools/audit_data.py": "1df01e704fdbe6f3eed7e0844e2e6046d53333d9157aa6545c5fb5880a79caca",
+      "games/tw/attila/tools/audit_specials.py": "11d29b705116398720800e61501d3e07471c91c6387c306579217a0148d3809a",
+      "games/tw/attila/tools/import_factions.py": "efde066c4c3813a0d4ad81364cc49aedb2c935926821ac0e6136cdc03dafa6ae",
+      "games/tw/attila/tools/import_map.py": "ee7b2f4b4e317dffaec124fb5048c72cdd254893fb68b0459367880b5a6f7059",
+      "games/tw/attila/tools/import_modifiers.py": "52f6b82c56b9e67ac0b1771a5b18918ec8af5e5afc69be2e89067b145f688adf",
+      "games/tw/attila/tools/import_online.py": "25170c39d01089ad5d370809a43b9b91ce6d45da658b1fb3c09d678f49c33a03",
+      "games/tw/attila/traits.py": "6ee0b477db1056ba025ca0828dc48ad05ae6d6c5126ad7f73ce42b447e641a4b",
+      "games/tw/immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+      "games/tw/maps/catalog.py": "84cb17307fe8139edf6bd9e450784355e17451953e75dfc266e77dd46239b15c",
+      "twoptimizer/adapters/attila.py": "2ec79e39afa1fc7aaac9bf835037c5bffdcfcfcf90930802c49383e3c5848975",
+      "twoptimizer/adapters/model_stats.py": "46594f9093b5389fe35dc2107e21309d5d298bc554d453063a35f5546612f425",
+      "twoptimizer/adapters/search.py": "8198dda8a08fad4fb0556bc667ee8c0bf4917bbad398d520bbcae083304c6ffc",
+      "twoptimizer/attila_incumbents.py": "6a792311c361f300d80dedb82e1d2865e3c8d8a9c446862f4339d8b627cda037",
+      "twoptimizer/attila_session.py": "e0a7fc7e279be70b623dfeccda8a760b0ca0fe7eee2df4c6c8b4682172a95a8a",
+      "twoptimizer/catalog.py": "c787b0317ad5f18a2968b23a9f69c33e2bbfd5944adab0ed24a9b5e352ecc590",
+      "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+      "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+      "twoptimizer/game_plugin.py": "6d8bb1e1d3539fe0440673a4fbba1c8ddd88d1df22ec87788591e6e6d054a52b",
+      "twoptimizer/holdings.py": "feab8aa8013e8d321f0b607b827d5c3ad9650d32640a2c3adf6ce7f673de7436",
+      "twoptimizer/models.py": "19e4a48c6b98289dabccace5c25fec9cf09bf43406749a36f0b409e6bbc3d8de",
+      "twoptimizer/progress.py": "dd77004afa5675df2a69743d08db01aca41d6ecfce9bb96b193b3bba980a3bd2",
+      "twoptimizer/provenance.py": "a23bc189b5db4121a604f3b7fe40174d9b9be87cb789dfe698308af81f8972e7",
+      "twoptimizer/registry.py": "ccf9eafe2cb07e4f77beb1fd6f5a234eec899041da84145ea412929c6ffb1b49",
+      "twoptimizer/requests.py": "cefe95e34267b616d10107d6243151c96c233f1f2d5c538b07323d9a20c68b6c",
+      "twoptimizer/search_measurements.py": "e628a4dd45fa3e072039d0761b545692067be904692d233841763bc3ed945a16",
+      "twoptimizer/service.py": "b3d93aaee3a3d1513202a702d035f0fc4a84fae52b6f2b999357ef31ad1b86fa",
+      "twoptimizer/session.py": "e6799f6e2cb374e0ea6158942fa73e7f0c500a9e8e6724ee926a34ce71493d56",
+      "twoptimizer/session_cache.py": "b607052d41bdacce492d36215a02638249c1760b38738e16852a83520df3f9af"
+    },
+    "candidate:rome2": {
+      "games/optimization/__init__.py": "7733a96159157f8b04b97d110f58e5ef4c7205c6dcabbc760918d8475fe41c45",
+      "games/optimization/bounds.py": "74f241c8c190c29f547ca60b76d0f193547a31ecb3b8378982bfb3edbfcc3fae",
+      "games/optimization/budget.py": "f6bdb79634d116f480e86c6b31bcaed69a15a3b46ec43975dfd40fd99cd2429d",
+      "games/optimization/cancellation.py": "bd5ca92d0b26f36a197575ea01de666d7427fd4d810df9876e2ab7bce59b176e",
+      "games/optimization/competition.py": "0f442fed80c984a3f31f72ceb56b0c982602654f5e21a7c3f165ad9c986866a9",
+      "games/optimization/cp_backend.py": "2a70d30c41232afa648af18b3b772564d98f02834577fe850bf20a735c1c1b3d",
+      "games/optimization/errors.py": "379d239933ccd551061f216dd748d1fa377b02740765f27ce3c03b4d0def62a1",
+      "games/optimization/exact.py": "f01d4565c563abc69edc259560773d81b93a99ea2978d2d51b5c057e2ff2d459",
+      "games/optimization/highs_backend.py": "90929ba836ecdceee6e6c218d08255d3a7499bf4afc25f76fdebb05a663fced2",
+      "games/optimization/linear_components.py": "2fee279162496448e4b08d871e0405122c10184f71105f24ce7b24477973d2ca",
+      "games/optimization/native_model.py": "71c4e0472e9bec7d8b01185f58cf005731ccfa05d723712a9a4eaba803abe75e",
+      "games/optimization/resources.py": "b05eaf10e77328669b95e919dd800e055469e4334c143229899f69f99bb4da7b",
+      "games/optimization/search_progress.py": "60908fb1653f528d9bfb8dee7851d428dc136ad2c848857845b287ad8a7afdc3",
+      "games/optimization/sparse.py": "4847ece3e4517fd1b2631de4a036324cb795449ae1a307fc4ec7c4cbd2ef0748",
+      "games/tw/immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+      "games/tw/maps/catalog.py": "84cb17307fe8139edf6bd9e450784355e17451953e75dfc266e77dd46239b15c",
+      "games/tw/rome2/__init__.py": "3ec9e9546664db7aa7c9c786e238767319dfeeb53f4bb20a74f33825ff681f9c",
+      "games/tw/rome2/audit_sources.py": "2e445330589b096b495b38fcb46ff1595428fd501b77701cdd51d445f6c0c988",
+      "games/tw/rome2/audit_special_buildings.py": "9ead33aa4535fc9a378316be181781b79ec94d315c0f1b820894499afc1625f5",
+      "games/tw/rome2/benchmark.py": "675349a9880c941d7db7ca9eb77a674ff17ec6d482d2f5dc6ca59cf0842cf03c",
+      "games/tw/rome2/bound_search.py": "89a25c4904079e0b2222c8aee1cbed47cb356f1d811ae43c2cd67693085aa4ef",
+      "games/tw/rome2/building_constraints.py": "f87c6afee90906cc846712b09e0a96a64749f1ad62d4119912b07a69e1cab566",
+      "games/tw/rome2/catalog.py": "a1ea76cbf76fc2980d04b10af3c98b8d4bb839883081acb80c52a87a74a19dbd",
+      "games/tw/rome2/compiler.py": "7fbdcdcbc332f78e882ab5fca29be3023dfd374d8199f0d6bb294bca09f4cc2b",
+      "games/tw/rome2/data/campaign_map.json": "eacf7d60c78831e51af02d0fc40adb5fb0a7a5b533c0979ad164304f386f6a77",
+      "games/tw/rome2/data/economy_catalog.json": "495356e0e1e6869337bcf5bfdbbedb2e305624bf93153c8c8cf52e5b990952e3",
+      "games/tw/rome2/data/special_buildings_coverage.json": "10e91f33f67bc8296487844c7fadf2961bbf5646143e1b338eb174800fe74d68",
+      "games/tw/rome2/data/world.json": "d7e3872ebc3c7377da6329029e43c1e93fbe577aca2246be190ca73680b770de",
+      "games/tw/rome2/data/world_modifiers.json": "d228d998945b9e8d2e4a9fc34b560098146864634972f489ab7d13042d8c7aaf",
+      "games/tw/rome2/data/world_source_extract.json": "e0c7d419e113ad3abbbbfe38be41ffce23f968a7f5a7741f7e1146ff67d68def",
+      "games/tw/rome2/effects.py": "1532aeb954afc42144618cbaa989e9d3b8b03d1bae39884fc682a065b74641de",
+      "games/tw/rome2/enums.py": "bb037aa1580f484353527ba2f85c0aceebceab6bd98c78a34972b5389a1231f7",
+      "games/tw/rome2/holding_compiler.py": "328f57f9afdef5ffa8f0d40a5f73bec323b1ba3f96a6a55a866f64ba4ad164f1",
+      "games/tw/rome2/holding_evaluation.py": "189c1fe80f4f47921ef3897d1c65222e1fda225704c7385c49bd5a9d13e15bfc",
+      "games/tw/rome2/holding_scopes.py": "eac7add2817fb7d540d5a6aa6fc971d14dad7cb9f50a9e6e70b9e6b901bdd243",
+      "games/tw/rome2/holdings.py": "58f4beaeca008298f5428b4a0a44932edf0d049b1b8b1e030b3fb15a9ec17f0f",
+      "games/tw/rome2/import_data.py": "ff1bd72b9604e52df6f332574d35bd52e02205e19ae19b787f32e7f9a9836f4a",
+      "games/tw/rome2/import_map.py": "7c9342da5751cf71f1a860296841064f106e7dd58e7011da6b4e3e516a413874",
+      "games/tw/rome2/import_public.py": "8308fd4f0d9ca1ec8be491b17d9dcddd73f89e1c5813eec123f8fe6756bb7ec4",
+      "games/tw/rome2/joint_search.py": "29baa4f4ea452f98b569f7f04f61e1eb3f04f90f2c2bd100339a2bd4451a1628",
+      "games/tw/rome2/linear.py": "e190b88904b75dbde3ceb79177c1eec6425ffa704c8bc8857adc7451e5dcc87a",
+      "games/tw/rome2/main.py": "36c90aaf989a171be1481a07357fa5369d14d0c16309d0789ec64aa679224d6a",
+      "games/tw/rome2/model.py": "9eb713c09363da26747aa058f0c78328e8744d6991038ad0865b6822560c2c07",
+      "games/tw/rome2/native_search.py": "f10d0808971a5f3bfd13a217c1ca0b98655b9e829777e941088e7143e6ffb4a4",
+      "games/tw/rome2/optimization.py": "9e9ff1f2c8969bf81d591fbf3631c36c2426a8334744743367e2af46c13aee93",
+      "games/tw/rome2/placement.py": "20db92797a7e35df67002367ea152d9256685562156e6fdf82478603ce8082dc",
+      "games/tw/rome2/provenance.py": "14e55f3961edcfc99104d98bac73f8648b03d196be7ac9530e47306ebd708ecc",
+      "games/tw/rome2/records.py": "37228cee1c2329fca0fdc5c14bda81589e022d58ff15c4d724b7019908ae540b",
+      "games/tw/rome2/scenario.py": "78c4a296b5984ecdcb718ee1e7d0b1e4ace87e6ec3f3ca4a10a5e639f1e884fd",
+      "games/tw/rome2/summarize.py": "a494496e00471778b2e4f4f209b13c33a2391418ecc8979eaa15966838b345e4",
+      "games/tw/rome2/verify.py": "2372722fae48c0d7ffd5e694fd3e8875db29a05126cedd375e62459e6ca00ca0",
+      "games/tw/rome2/world.py": "f2ebd15d02d723e36ec786f51e198e9d7dc2dd66121ca1996d9220866a372b95",
+      "twoptimizer/adapters/model_stats.py": "46594f9093b5389fe35dc2107e21309d5d298bc554d453063a35f5546612f425",
+      "twoptimizer/adapters/rome2.py": "2753b4a5e2102ba943b7b4848310a06b4bddc7e035a62fc5a824cd1e0a5bd5b0",
+      "twoptimizer/adapters/rome_models.py": "31c80c5f66e101ff20b24bb27f0d212ed486ec2b6c7384325757a52d636e59b6",
+      "twoptimizer/adapters/search.py": "8198dda8a08fad4fb0556bc667ee8c0bf4917bbad398d520bbcae083304c6ffc",
+      "twoptimizer/catalog.py": "c787b0317ad5f18a2968b23a9f69c33e2bbfd5944adab0ed24a9b5e352ecc590",
+      "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+      "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+      "twoptimizer/game_plugin.py": "6d8bb1e1d3539fe0440673a4fbba1c8ddd88d1df22ec87788591e6e6d054a52b",
+      "twoptimizer/holdings.py": "feab8aa8013e8d321f0b607b827d5c3ad9650d32640a2c3adf6ce7f673de7436",
+      "twoptimizer/models.py": "19e4a48c6b98289dabccace5c25fec9cf09bf43406749a36f0b409e6bbc3d8de",
+      "twoptimizer/progress.py": "dd77004afa5675df2a69743d08db01aca41d6ecfce9bb96b193b3bba980a3bd2",
+      "twoptimizer/provenance.py": "a23bc189b5db4121a604f3b7fe40174d9b9be87cb789dfe698308af81f8972e7",
+      "twoptimizer/registry.py": "ccf9eafe2cb07e4f77beb1fd6f5a234eec899041da84145ea412929c6ffb1b49",
+      "twoptimizer/requests.py": "cefe95e34267b616d10107d6243151c96c233f1f2d5c538b07323d9a20c68b6c",
+      "twoptimizer/rome_session.py": "c8f2b133b64d5c0591b39c50216a426460a804ddd653b264b687bb729919a330",
+      "twoptimizer/search_measurements.py": "e628a4dd45fa3e072039d0761b545692067be904692d233841763bc3ed945a16",
+      "twoptimizer/service.py": "b3d93aaee3a3d1513202a702d035f0fc4a84fae52b6f2b999357ef31ad1b86fa",
+      "twoptimizer/session.py": "e6799f6e2cb374e0ea6158942fa73e7f0c500a9e8e6724ee926a34ce71493d56",
+      "twoptimizer/session_cache.py": "b607052d41bdacce492d36215a02638249c1760b38738e16852a83520df3f9af"
+    },
+    "candidate:shogun2": {
+      "games/optimization/__init__.py": "7733a96159157f8b04b97d110f58e5ef4c7205c6dcabbc760918d8475fe41c45",
+      "games/optimization/bounds.py": "74f241c8c190c29f547ca60b76d0f193547a31ecb3b8378982bfb3edbfcc3fae",
+      "games/optimization/budget.py": "f6bdb79634d116f480e86c6b31bcaed69a15a3b46ec43975dfd40fd99cd2429d",
+      "games/optimization/cancellation.py": "bd5ca92d0b26f36a197575ea01de666d7427fd4d810df9876e2ab7bce59b176e",
+      "games/optimization/competition.py": "0f442fed80c984a3f31f72ceb56b0c982602654f5e21a7c3f165ad9c986866a9",
+      "games/optimization/cp_backend.py": "2a70d30c41232afa648af18b3b772564d98f02834577fe850bf20a735c1c1b3d",
+      "games/optimization/errors.py": "379d239933ccd551061f216dd748d1fa377b02740765f27ce3c03b4d0def62a1",
+      "games/optimization/exact.py": "f01d4565c563abc69edc259560773d81b93a99ea2978d2d51b5c057e2ff2d459",
+      "games/optimization/highs_backend.py": "90929ba836ecdceee6e6c218d08255d3a7499bf4afc25f76fdebb05a663fced2",
+      "games/optimization/linear_components.py": "2fee279162496448e4b08d871e0405122c10184f71105f24ce7b24477973d2ca",
+      "games/optimization/native_model.py": "71c4e0472e9bec7d8b01185f58cf005731ccfa05d723712a9a4eaba803abe75e",
+      "games/optimization/resources.py": "b05eaf10e77328669b95e919dd800e055469e4334c143229899f69f99bb4da7b",
+      "games/optimization/search_progress.py": "60908fb1653f528d9bfb8dee7851d428dc136ad2c848857845b287ad8a7afdc3",
+      "games/optimization/sparse.py": "4847ece3e4517fd1b2631de4a036324cb795449ae1a307fc4ec7c4cbd2ef0748",
+      "games/tw/immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+      "games/tw/maps/catalog.py": "84cb17307fe8139edf6bd9e450784355e17451953e75dfc266e77dd46239b15c",
+      "games/tw/multigame/data/shogun2.json": "3307bcf1d29d2dc82280f1adfa74b4e99ea588ad28caf83075bac4eb9c2c9b44",
+      "games/tw/shogun2/__init__.py": "f9c051df064ce0718ec891595c28571ca0232437c0430a1490ab3ce467376275",
+      "games/tw/shogun2/benchmark.py": "caf2a0b5466bdf3e24377bf29d34d072a79c9523930128539dc82a1e521e5453",
+      "games/tw/shogun2/catalog.py": "99ab1387a3a1f0b98f3580927a05223208e3af9fd268a4b9a0ee7adef3481817",
+      "games/tw/shogun2/constraints.py": "75e2d1492eb2e888a1713142bf9e4005f66917a7670b8512e42ceb29491fabff",
+      "games/tw/shogun2/data/campaign_adjacency_source.json": "0c190c65e6018815f3a2d3503e96a817e71d92b98042baa5e5a8c0815ea4a5f0",
+      "games/tw/shogun2/data/campaign_map.json": "63e79585d9ec254710d9bf86ab6be423336b0b298333275c23f5560e9e142ba4",
+      "games/tw/shogun2/data/campaign_map_source.json": "ca8527349e47bbd6615fdb44d59ae3dbd0d1053366cb1c6910fb14a128f34f5c",
+      "games/tw/shogun2/data/rules.json": "78fd6567c22095313024845067bd2a1975814b1d7a9b973ad7e77a921c704e5d",
+      "games/tw/shogun2/domain.py": "623350508833ef8637e82cded610a9c2ff4b41dc1697a9bd7f1ff62cbdb13acc",
+      "games/tw/shogun2/effects.py": "d10e01beabbd8c7e2d073ed0a14fcffee4f470cfb1822723156417701b4ac937",
+      "games/tw/shogun2/import_map.py": "3ede53902f7e49ce5f427cd4e29552a782b5653dec2c36fdf27d128a4e0c2e8b",
+      "games/tw/shogun2/import_rules.py": "98f69a8bf77ac7c06695ca2f10c7f819c2894e7da0bcdd2100f163566c52b031",
+      "games/tw/shogun2/model.py": "d0b6937db73ce8a09de771253b5e6901095272868f2f9f3e194c88fde88fac56",
+      "games/tw/shogun2/native_products.py": "50af92d61ae9fdeea2588746ee3c3d74540fc99474d3506308fd371276207a8e",
+      "games/tw/shogun2/optimization.py": "93b9fb7845156bc2c84c68cb3b397fde85514bd925cc286215599143ba619ed6",
+      "games/tw/shogun2/preparation.py": "67cbe2d26582f60989b5b4770f2e792fdf08ccbc35c6718e5b655436715775d3",
+      "games/tw/shogun2/records.py": "f33dbe903104452ed173f10ac007f5088c16d38f8338995ecb071f5833286533",
+      "games/tw/shogun2/scenario.py": "1c9546027b5dcdf042412f3abc8e4d4f84b9f5cb779309986934b33e88659540",
+      "twoptimizer/adapters/model_stats.py": "46594f9093b5389fe35dc2107e21309d5d298bc554d453063a35f5546612f425",
+      "twoptimizer/adapters/search.py": "8198dda8a08fad4fb0556bc667ee8c0bf4917bbad398d520bbcae083304c6ffc",
+      "twoptimizer/adapters/shogun2.py": "67ce7320d1708aa4079a416833e5e8b2fbe39b0f2d47a93ffc12455ff1222992",
+      "twoptimizer/catalog.py": "c787b0317ad5f18a2968b23a9f69c33e2bbfd5944adab0ed24a9b5e352ecc590",
+      "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+      "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+      "twoptimizer/game_plugin.py": "6d8bb1e1d3539fe0440673a4fbba1c8ddd88d1df22ec87788591e6e6d054a52b",
+      "twoptimizer/holdings.py": "feab8aa8013e8d321f0b607b827d5c3ad9650d32640a2c3adf6ce7f673de7436",
+      "twoptimizer/models.py": "19e4a48c6b98289dabccace5c25fec9cf09bf43406749a36f0b409e6bbc3d8de",
+      "twoptimizer/progress.py": "dd77004afa5675df2a69743d08db01aca41d6ecfce9bb96b193b3bba980a3bd2",
+      "twoptimizer/provenance.py": "a23bc189b5db4121a604f3b7fe40174d9b9be87cb789dfe698308af81f8972e7",
+      "twoptimizer/registry.py": "ccf9eafe2cb07e4f77beb1fd6f5a234eec899041da84145ea412929c6ffb1b49",
+      "twoptimizer/requests.py": "cefe95e34267b616d10107d6243151c96c233f1f2d5c538b07323d9a20c68b6c",
+      "twoptimizer/search_measurements.py": "e628a4dd45fa3e072039d0761b545692067be904692d233841763bc3ed945a16",
+      "twoptimizer/service.py": "b3d93aaee3a3d1513202a702d035f0fc4a84fae52b6f2b999357ef31ad1b86fa",
+      "twoptimizer/session.py": "e6799f6e2cb374e0ea6158942fa73e7f0c500a9e8e6724ee926a34ce71493d56",
+      "twoptimizer/session_cache.py": "b607052d41bdacce492d36215a02638249c1760b38738e16852a83520df3f9af",
+      "twoptimizer/shogun_session.py": "2c49f8c9334c07b4b25e439d7b0c61305a468b6290403fc50e8e09ebf208c180"
+    },
+    "candidate:three_kingdoms": {
+      "games/optimization/__init__.py": "7733a96159157f8b04b97d110f58e5ef4c7205c6dcabbc760918d8475fe41c45",
+      "games/optimization/bounds.py": "74f241c8c190c29f547ca60b76d0f193547a31ecb3b8378982bfb3edbfcc3fae",
+      "games/optimization/budget.py": "f6bdb79634d116f480e86c6b31bcaed69a15a3b46ec43975dfd40fd99cd2429d",
+      "games/optimization/cancellation.py": "bd5ca92d0b26f36a197575ea01de666d7427fd4d810df9876e2ab7bce59b176e",
+      "games/optimization/competition.py": "0f442fed80c984a3f31f72ceb56b0c982602654f5e21a7c3f165ad9c986866a9",
+      "games/optimization/cp_backend.py": "2a70d30c41232afa648af18b3b772564d98f02834577fe850bf20a735c1c1b3d",
+      "games/optimization/errors.py": "379d239933ccd551061f216dd748d1fa377b02740765f27ce3c03b4d0def62a1",
+      "games/optimization/exact.py": "f01d4565c563abc69edc259560773d81b93a99ea2978d2d51b5c057e2ff2d459",
+      "games/optimization/highs_backend.py": "90929ba836ecdceee6e6c218d08255d3a7499bf4afc25f76fdebb05a663fced2",
+      "games/optimization/linear_components.py": "2fee279162496448e4b08d871e0405122c10184f71105f24ce7b24477973d2ca",
+      "games/optimization/native_model.py": "71c4e0472e9bec7d8b01185f58cf005731ccfa05d723712a9a4eaba803abe75e",
+      "games/optimization/resources.py": "b05eaf10e77328669b95e919dd800e055469e4334c143229899f69f99bb4da7b",
+      "games/optimization/search_progress.py": "60908fb1653f528d9bfb8dee7851d428dc136ad2c848857845b287ad8a7afdc3",
+      "games/optimization/sparse.py": "4847ece3e4517fd1b2631de4a036324cb795449ae1a307fc4ec7c4cbd2ef0748",
+      "games/tw/immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+      "games/tw/maps/catalog.py": "84cb17307fe8139edf6bd9e450784355e17451953e75dfc266e77dd46239b15c",
+      "games/tw/three_kingdoms/__init__.py": "cb26f38df1d0bc4e7e13b93cced386e9a2b417d3e3110570dadbc1703a298720",
+      "games/tw/three_kingdoms/audit_reference.py": "25bfc4e62ebef9e8629289a5b936a0a08ec6755ef8eaf8f64fdfed5824ab6e67",
+      "games/tw/three_kingdoms/catalog.py": "a4f6f7f7ec382f411b2b0bcf7dc3f81597131f12f5fdfc578f98fcf8c87b2227",
+      "games/tw/three_kingdoms/compiler.py": "60299c4f40447124c57d910f03d0a27bcc20300d592670e84c97835261861c80",
+      "games/tw/three_kingdoms/data/buildings_city_1.json": "7c62afa9e4fbddb23b152dac03ca04a4f5f468e57831d4b97c941f39427d037d",
+      "games/tw/three_kingdoms/data/buildings_district_1.json": "c46dc37c09f24321817adac2a11b8614b50a16da71fee493fd8cd8c72fd429e7",
+      "games/tw/three_kingdoms/data/buildings_district_2.json": "1c755a95a52091102a6f4122474e0c2ae90a8344f5dda4903479d795991d6139",
+      "games/tw/three_kingdoms/data/buildings_district_3.json": "e56fd568ba05c519ffb144532b5621bb6842230d7bd4670fe755d6b50e93d41f",
+      "games/tw/three_kingdoms/data/buildings_resource_1.json": "9f20120da829c1d2d71a6d9d84d4246c6ecd7ee9ee2d0798f688d5c5d943a553",
+      "games/tw/three_kingdoms/data/buildings_resource_2.json": "4c15299b70248cfc7fafb2171fe51c2fc621889d163c57746cc139d571676297",
+      "games/tw/three_kingdoms/data/campaign_map.json": "c5774c6161dd160917839d188fc5a1d6f8a20c480b4e6033b71f862bd70ad570",
+      "games/tw/three_kingdoms/data/geography.json": "831beca9fcf5b9a93f2a0b045028621ba8a432351d6268baf65f281ecd29c000",
+      "games/tw/three_kingdoms/data/reference.json": "6f3451c754c3165319e69850505290eac0a8da710cc541e248e93997ce484a50",
+      "games/tw/three_kingdoms/data/rules.json": "8fd373993594cbf8960376c54e69a01d9681d0ef7aeb820ab28e59b665e1c6c3",
+      "games/tw/three_kingdoms/evaluation.py": "93512ec310eec945cb2d54f705bcb4a207c8321272bd16dec7394abbeba08395",
+      "games/tw/three_kingdoms/import_effects.py": "d0c77796b0599c8aa1e12a0b2e87704a07e119953c9006de974223111e94e6bc",
+      "games/tw/three_kingdoms/import_geography.py": "c92496b84530a3325f56c9c87eee8009816c617638ef15845ad2a46c7af2f443",
+      "games/tw/three_kingdoms/import_reference.py": "a98fcc93628df0d9acb547d853197f66cc623e10cf70fdcc0631a7472a5dcbdb",
+      "games/tw/three_kingdoms/import_rules.py": "c335e0aedd4110c52b0dd42af548f1210a9b78aa85f07bfc8a62151ef2f3f209",
+      "games/tw/three_kingdoms/incumbent.py": "f6bf18c5a04035d0b08c7c95ddcee9253a6ec3e226c4adaa3c21b2e801820ed6",
+      "games/tw/three_kingdoms/integer.py": "eb4bdeaa5a216e373260559fbdbb3566d4ab92ac1c0bfb82629cc517225a3731",
+      "games/tw/three_kingdoms/joint_bounds.py": "0bbac154e1200a88b7034d1ea94d78c6d598bbc772578e7a90165175804896e1",
+      "games/tw/three_kingdoms/model.py": "b4fa55a72d710e3224ca66f44173358576258daefb999dc5b02e3debde890426",
+      "games/tw/three_kingdoms/native_products.py": "f763b000c4ac8ac1b63096505f2115ac310f541b39b462f1d2f0f6f3634c104d",
+      "games/tw/three_kingdoms/optimization.py": "9f3a2ddce1b4328a6833e09716a85db4934be777637b460f2a3c1fbb02871adf",
+      "games/tw/three_kingdoms/parsing.py": "548b266a2e0856eee1ee8507dce883d8bd0ed25dd627e5c71428e6837e3db078",
+      "games/tw/three_kingdoms/preparation.py": "7fd7061a5d53352a7347ebe35fd388e527417151e8459a30d73d9b1768bb479b",
+      "games/tw/three_kingdoms/product_metadata.py": "b0669ffed36f5af5669c15197cb26c0ccb4087f1163d9d162dcc117550f81b89",
+      "games/tw/three_kingdoms/records.py": "5f44b4a2ab0fc156a7b652d75cd0964e3b12d6f63a3b6edeae30548d3d7a8dda",
+      "games/tw/three_kingdoms/scenario.py": "d61fe53d222f69fccd39630063e8c0996adc1488b18f3b9322c682d6efd14e4e",
+      "games/tw/three_kingdoms/scopes.py": "36e36ec1df98361a8813362bbc2c7a0803c913b08031dbab870c255a8c89914b",
+      "games/tw/three_kingdoms/selection.py": "0e3e3316e920e58a64664aa95b040496862f5871c5ced1c47d61a0937ba3c5f8",
+      "games/tw/three_kingdoms/source.py": "244fdd81e1beae3d18483e2459e8dc171817ef06e47dc7a4385c9c9ca2073327",
+      "twoptimizer/adapters/model_stats.py": "46594f9093b5389fe35dc2107e21309d5d298bc554d453063a35f5546612f425",
+      "twoptimizer/adapters/search.py": "8198dda8a08fad4fb0556bc667ee8c0bf4917bbad398d520bbcae083304c6ffc",
+      "twoptimizer/adapters/three_kingdoms.py": "055136b16861e4dc3292c251406b76a7f3fa3f697ffd61068e7d9805a3a9b887",
+      "twoptimizer/catalog.py": "c787b0317ad5f18a2968b23a9f69c33e2bbfd5944adab0ed24a9b5e352ecc590",
+      "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+      "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+      "twoptimizer/game_plugin.py": "6d8bb1e1d3539fe0440673a4fbba1c8ddd88d1df22ec87788591e6e6d054a52b",
+      "twoptimizer/holdings.py": "feab8aa8013e8d321f0b607b827d5c3ad9650d32640a2c3adf6ce7f673de7436",
+      "twoptimizer/models.py": "19e4a48c6b98289dabccace5c25fec9cf09bf43406749a36f0b409e6bbc3d8de",
+      "twoptimizer/progress.py": "dd77004afa5675df2a69743d08db01aca41d6ecfce9bb96b193b3bba980a3bd2",
+      "twoptimizer/provenance.py": "a23bc189b5db4121a604f3b7fe40174d9b9be87cb789dfe698308af81f8972e7",
+      "twoptimizer/registry.py": "ccf9eafe2cb07e4f77beb1fd6f5a234eec899041da84145ea412929c6ffb1b49",
+      "twoptimizer/requests.py": "cefe95e34267b616d10107d6243151c96c233f1f2d5c538b07323d9a20c68b6c",
+      "twoptimizer/search_measurements.py": "e628a4dd45fa3e072039d0761b545692067be904692d233841763bc3ed945a16",
+      "twoptimizer/service.py": "b3d93aaee3a3d1513202a702d035f0fc4a84fae52b6f2b999357ef31ad1b86fa",
+      "twoptimizer/session.py": "e6799f6e2cb374e0ea6158942fa73e7f0c500a9e8e6724ee926a34ce71493d56",
+      "twoptimizer/session_cache.py": "b607052d41bdacce492d36215a02638249c1760b38738e16852a83520df3f9af",
+      "twoptimizer/three_kingdoms_cli.py": "fc2c7734b84228ae44b0b86f55c32039ce1401b52451d5f7a6121b77c6dbc06d",
+      "twoptimizer/three_kingdoms_options.py": "32b961bcb293dbf8eda10cc8ab0af6ecd748a2ff4ae23f7b86ad4b50e3ed1897",
+      "twoptimizer/three_kingdoms_session.py": "3687dec949b9a4a6d9ac857569bbf9f9210d68b113b640b9688b73b0a5d9b4da"
+    }
+  },
+  "runs": [
+    {
+      "series": "baseline",
+      "game": "attila",
+      "scope": "single",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 24140.375,
+      "bound": 24140.375,
+      "gap_percent": 0.0,
+      "wall_seconds": 2.0632136759995774,
+      "peak_worker_rss_bytes": 141123584,
+      "timings": {
+        "request_seconds": 0.00028334700073173735,
+        "load_engine_seconds": 2.5173998437821865e-05,
+        "build_model_seconds": 0.2686714910014416,
+        "solve_and_check_seconds": 0.864705285999662,
+        "prepare_result_seconds": 0.008693556999787688
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.024101126999084954,
+        "bound_strengthening_seconds": 0.016402961000494543,
+        "search_seconds": 0.763184072000513,
+        "validation_seconds": 0.00030381900069187395
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 2580,
+          "constraints": 7437,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 123,
+          "nonzeros": 17747,
+          "storage_bytes": 485432
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 548,
+          "constraints": 500,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "c8103a6fea9e7a1e9d813c7e91e8a05d93d698d7babf2ad9a8c7ff7219ff4b15",
+      "model_identity": "9402a8d18b470851a4248aea4ed7ca0d6130664a3774fce73cc32f97fe51f8ac"
+    },
+    {
+      "series": "baseline",
+      "game": "attila",
+      "scope": "pair",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 50563.8125,
+      "bound": 50563.8125,
+      "gap_percent": 0.0,
+      "wall_seconds": 12.214183402000344,
+      "peak_worker_rss_bytes": 166129664,
+      "timings": {
+        "request_seconds": 0.0025176119997922797,
+        "load_engine_seconds": 3.6643001294578426e-05,
+        "build_model_seconds": 0.5423419709986774,
+        "solve_and_check_seconds": 10.928626566001185,
+        "prepare_result_seconds": 0.010761908999484149
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.05511075100184826,
+        "bound_strengthening_seconds": 0.004602627999702236,
+        "search_seconds": 10.735669304998737,
+        "validation_seconds": 0.001323772999967332
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 6241,
+          "constraints": 18086,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 259,
+          "nonzeros": 43041,
+          "storage_bytes": 1177680
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1325,
+          "constraints": 1225,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "d887ffd9991f1e0cb79aad194b4bc6b3d4e49653a7d86aade7ef99f76d238941",
+      "model_identity": "5540c726f2c52b831cdbc198b8b3ff2097e3d26f9a31151efc1fd87e6540b6c3"
+    },
+    {
+      "series": "baseline",
+      "game": "rome2",
+      "scope": "single",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 9733.8,
+      "bound": 9733.8,
+      "gap_percent": 0.0,
+      "wall_seconds": 8.313637625999036,
+      "peak_worker_rss_bytes": 150249472,
+      "timings": {
+        "request_seconds": 0.0003948279991163872,
+        "load_engine_seconds": 6.476999988080934e-05,
+        "build_model_seconds": 0.006822581000960781,
+        "solve_and_check_seconds": 7.567774547998852,
+        "prepare_result_seconds": 0.00853988400012895
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.07148761399912473,
+        "bound_strengthening_seconds": 0.08396572499987087,
+        "search_seconds": 7.385084265999467
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 288,
+          "constraints": 131,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 516,
+          "constraints": 994,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": 13302,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 517,
+          "constraints": 1025,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "f353659c1ced01ebd50f28d6060c695b4decb283c7ebebab40ee53c482d4747a",
+      "model_identity": "4ab29ac03156f70199b111833a35a8fc04fa2b3a802d01da73d7611116585764"
+    },
+    {
+      "series": "baseline",
+      "game": "rome2",
+      "scope": "pair",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "FEASIBLE",
+      "income": 19013.5,
+      "bound": 23168.18,
+      "gap_percent": 17.932699072607342,
+      "wall_seconds": 20.7537108180004,
+      "peak_worker_rss_bytes": 160718848,
+      "timings": {
+        "request_seconds": 0.0017157579986815108,
+        "load_engine_seconds": 4.879500011156779e-05,
+        "build_model_seconds": 0.015555113999653258,
+        "solve_and_check_seconds": 20.03260043500086,
+        "prepare_result_seconds": 0.00924600200050918
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.1253743969991774,
+        "bound_strengthening_seconds": 0.0721467080002185,
+        "search_seconds": 19.804661046000547
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 590,
+          "constraints": 261,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 1059,
+          "constraints": 2029,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": 28632,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1060,
+          "constraints": 2090,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "d32f1dd0b7d2472b229ae20a7aa68f193a62e9940fc8136c1a751d093789a8f6",
+      "model_identity": "b0af639b2637e2166724f11cc231fe3ddb6d0181cdd4e4a25c8d27cbf5889474"
+    },
+    {
+      "series": "baseline",
+      "game": "shogun2",
+      "scope": "single",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 4318.16,
+      "bound": 4318.16,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.6065562619987759,
+      "peak_worker_rss_bytes": 117989376,
+      "timings": {
+        "request_seconds": 0.00017800699970393907,
+        "load_engine_seconds": 0.011589989999265526,
+        "build_model_seconds": 0.001778582000042661,
+        "solve_and_check_seconds": 0.021539676001339103,
+        "prepare_result_seconds": 0.001592912998603424
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.0033121960004791617,
+        "search_seconds": 0.0048264230008499,
+        "validation_seconds": 0.0002361309998377692,
+        "preparation_seconds": 0.008080493000306888
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 49,
+          "constraints": 70,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 30,
+          "nonzeros": 208,
+          "storage_bytes": 5560
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 49,
+          "constraints": 74,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 30,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "6a67d0d08ea82aac7f71d77eb09e3d582353dee176ca39680d95fa8c37bff1d9",
+      "model_identity": "a2dcea7d4994f55e34ebd103ad00257ba05f1b89804387d21b308c21bcf9c645"
+    },
+    {
+      "series": "baseline",
+      "game": "shogun2",
+      "scope": "pair",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 5497.49,
+      "bound": 5497.49,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.8140252550001605,
+      "peak_worker_rss_bytes": 117903360,
+      "timings": {
+        "request_seconds": 0.0002458969993313076,
+        "load_engine_seconds": 0.008568094999645837,
+        "build_model_seconds": 0.0039300970001932,
+        "solve_and_check_seconds": 0.05388379600117332,
+        "prepare_result_seconds": 0.002385717998549808
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.007612724999489728,
+        "search_seconds": 0.01375334500153258,
+        "validation_seconds": 0.00023946500004967675,
+        "preparation_seconds": 0.02753175299949362
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 107,
+          "constraints": 155,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 63,
+          "nonzeros": 461,
+          "storage_bytes": 12312
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 107,
+          "constraints": 164,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 63,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "b203e55cf15a451042eb26ab0e36f9b3166ee58755a6e3322a5c004b0bcee4ac",
+      "model_identity": "7f561f33aae35cf3bab37a2285e6cadc00ce3c25f5e35958b19c6ac0032a3f7c"
+    },
+    {
+      "series": "baseline",
+      "game": "three_kingdoms",
+      "scope": "single",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "bound": 627.75,
+      "gap_percent": 0.0,
+      "wall_seconds": 1.0094512189989473,
+      "peak_worker_rss_bytes": 130301952,
+      "timings": {
+        "request_seconds": 0.0002323890003026463,
+        "load_engine_seconds": 0.007951759000206948,
+        "build_model_seconds": 0.0028705219992843922,
+        "solve_and_check_seconds": 0.22650591599995096,
+        "prepare_result_seconds": 0.0041547190012352075
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.006814435999331181,
+        "search_seconds": 0.10211236200120766,
+        "preparation_seconds": 0.017506098998637754,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 118,
+          "constraints": 189,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 61,
+          "nonzeros": 1463,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 119,
+          "constraints": 203,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 61,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "5a4e4a11c17ba1191818eb10f4d3b07f575a753f5d0e902b528d3b2d3fe39c4d",
+      "model_identity": "9c6f87b330559058cf9ed5882c5b77f13cecaca88376cb9997654d6b85a6f98e"
+    },
+    {
+      "series": "baseline",
+      "game": "three_kingdoms",
+      "scope": "pair",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 1628.0,
+      "bound": 1628.0,
+      "gap_percent": 0.0,
+      "wall_seconds": 1.2585283669995988,
+      "peak_worker_rss_bytes": 131362816,
+      "timings": {
+        "request_seconds": 0.0020768150006915675,
+        "load_engine_seconds": 0.004875468999671284,
+        "build_model_seconds": 0.003363850999448914,
+        "solve_and_check_seconds": 0.47593281700028456,
+        "prepare_result_seconds": 0.005686032000085106
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.013381479999225121,
+        "search_seconds": 0.3545367429996986,
+        "preparation_seconds": 0.019398209000428324,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 253,
+          "constraints": 420,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 118,
+          "nonzeros": 3323,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 254,
+          "constraints": 450,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 118,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "0d5ea44185f8d77695e39322cfcf27f7f70251dd43af89339a3b704dda6959f9",
+      "model_identity": "2b8baf2020f48db27c3b3818fc90a3ed1180ce5fac84886328c8c8e594104549"
+    },
+    {
+      "series": "baseline",
+      "game": "attila",
+      "scope": "single",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 24140.375,
+      "bound": 24140.375,
+      "gap_percent": 0.0,
+      "wall_seconds": 1.5183747709997988,
+      "peak_worker_rss_bytes": 140038144,
+      "timings": {
+        "request_seconds": 0.00027605700051935855,
+        "load_engine_seconds": 2.159100040444173e-05,
+        "build_model_seconds": 0.21843131499917945,
+        "solve_and_check_seconds": 0.6345101780007099,
+        "prepare_result_seconds": 0.006780847999834805
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.02095139700031723,
+        "bound_strengthening_seconds": 0.0042571989997668425,
+        "search_seconds": 0.5529083149995131,
+        "validation_seconds": 0.0002651630002219463
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 2580,
+          "constraints": 7437,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 123,
+          "nonzeros": 17747,
+          "storage_bytes": 485432
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 548,
+          "constraints": 500,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "c8103a6fea9e7a1e9d813c7e91e8a05d93d698d7babf2ad9a8c7ff7219ff4b15",
+      "model_identity": "9402a8d18b470851a4248aea4ed7ca0d6130664a3774fce73cc32f97fe51f8ac"
+    },
+    {
+      "series": "baseline",
+      "game": "attila",
+      "scope": "pair",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 50563.8125,
+      "bound": 50563.8125,
+      "gap_percent": 0.0,
+      "wall_seconds": 16.223672740999973,
+      "peak_worker_rss_bytes": 166371328,
+      "timings": {
+        "request_seconds": 0.002061495000816649,
+        "load_engine_seconds": 3.436800034251064e-05,
+        "build_model_seconds": 0.4787364349995187,
+        "solve_and_check_seconds": 15.002260924999064,
+        "prepare_result_seconds": 0.011648265000985702
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.047028794999278034,
+        "bound_strengthening_seconds": 0.0046506210001098225,
+        "search_seconds": 14.799926158000744,
+        "validation_seconds": 0.0007984009989741025
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 6241,
+          "constraints": 18086,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 259,
+          "nonzeros": 43041,
+          "storage_bytes": 1177680
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1325,
+          "constraints": 1225,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "58ea7159527923176ae4a68be3715dc8a8199167ab6ab479678da51fafbc5a5a",
+      "model_identity": "5540c726f2c52b831cdbc198b8b3ff2097e3d26f9a31151efc1fd87e6540b6c3"
+    },
+    {
+      "series": "baseline",
+      "game": "rome2",
+      "scope": "single",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 9733.8,
+      "bound": 9733.8,
+      "gap_percent": 0.0,
+      "wall_seconds": 5.962593053998717,
+      "peak_worker_rss_bytes": 147312640,
+      "timings": {
+        "request_seconds": 0.0003951279995817458,
+        "load_engine_seconds": 6.490399937320035e-05,
+        "build_model_seconds": 0.00890799400076503,
+        "solve_and_check_seconds": 5.194742773999678,
+        "prepare_result_seconds": 0.011271847999523743
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.08218680499885522,
+        "bound_strengthening_seconds": 0.0858259270007693,
+        "search_seconds": 5.004521333999946
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 288,
+          "constraints": 131,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 516,
+          "constraints": 994,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": 13302,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 517,
+          "constraints": 1025,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "bd640c28c5fa9fa41cb64eade6b6eb4a7e13caa115b98a7b32703c2c0a61d191",
+      "model_identity": "4ab29ac03156f70199b111833a35a8fc04fa2b3a802d01da73d7611116585764"
+    },
+    {
+      "series": "baseline",
+      "game": "rome2",
+      "scope": "pair",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "FEASIBLE",
+      "income": 19317.699999999997,
+      "bound": 22977.44,
+      "gap_percent": 15.927535878670565,
+      "wall_seconds": 20.913350957000148,
+      "peak_worker_rss_bytes": 161087488,
+      "timings": {
+        "request_seconds": 0.0022461550015577814,
+        "load_engine_seconds": 6.371699964802247e-05,
+        "build_model_seconds": 0.015039934998640092,
+        "solve_and_check_seconds": 20.03118825400088,
+        "prepare_result_seconds": 0.013255111000034958
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.12811798800066754,
+        "bound_strengthening_seconds": 0.07327964399883058,
+        "search_seconds": 19.80119852900134
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 590,
+          "constraints": 261,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 1059,
+          "constraints": 2029,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": 28632,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1060,
+          "constraints": 2090,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "cf6d2405f6b7c40c4e9146fc9887aacd8da3aa6793abc57eae62c78cd8a9f910",
+      "model_identity": "b0af639b2637e2166724f11cc231fe3ddb6d0181cdd4e4a25c8d27cbf5889474"
+    },
+    {
+      "series": "baseline",
+      "game": "shogun2",
+      "scope": "single",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 4318.16,
+      "bound": 4318.16,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.6063614560007409,
+      "peak_worker_rss_bytes": 117608448,
+      "timings": {
+        "request_seconds": 0.00022490800074592698,
+        "load_engine_seconds": 0.004085757000211743,
+        "build_model_seconds": 0.0017763799987733364,
+        "solve_and_check_seconds": 0.019249765000495245,
+        "prepare_result_seconds": 0.0017457650010328507
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.0033019149996107444,
+        "search_seconds": 0.005225038999924436,
+        "validation_seconds": 0.00021082400053273886,
+        "preparation_seconds": 0.007857657999920775
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 49,
+          "constraints": 70,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 30,
+          "nonzeros": 208,
+          "storage_bytes": 5560
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 49,
+          "constraints": 74,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 30,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "6a67d0d08ea82aac7f71d77eb09e3d582353dee176ca39680d95fa8c37bff1d9",
+      "model_identity": "a2dcea7d4994f55e34ebd103ad00257ba05f1b89804387d21b308c21bcf9c645"
+    },
+    {
+      "series": "baseline",
+      "game": "shogun2",
+      "scope": "pair",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 5497.49,
+      "bound": 5497.49,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.6578853579994757,
+      "peak_worker_rss_bytes": 117972992,
+      "timings": {
+        "request_seconds": 0.0001933229996211594,
+        "load_engine_seconds": 0.00478905899944948,
+        "build_model_seconds": 0.002061716000753222,
+        "solve_and_check_seconds": 0.03489041299872042,
+        "prepare_result_seconds": 0.0015712580006947974
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.005199182000069413,
+        "search_seconds": 0.009311634999903617,
+        "validation_seconds": 0.00023026800045045093,
+        "preparation_seconds": 0.016550080999877537
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 107,
+          "constraints": 155,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 63,
+          "nonzeros": 461,
+          "storage_bytes": 12312
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 107,
+          "constraints": 164,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 63,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "b203e55cf15a451042eb26ab0e36f9b3166ee58755a6e3322a5c004b0bcee4ac",
+      "model_identity": "7f561f33aae35cf3bab37a2285e6cadc00ce3c25f5e35958b19c6ac0032a3f7c"
+    },
+    {
+      "series": "baseline",
+      "game": "three_kingdoms",
+      "scope": "single",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "bound": 627.75,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.8083979229995748,
+      "peak_worker_rss_bytes": 129650688,
+      "timings": {
+        "request_seconds": 0.00028002599901810754,
+        "load_engine_seconds": 0.0029151010003261035,
+        "build_model_seconds": 0.00202263800019864,
+        "solve_and_check_seconds": 0.13539887300066766,
+        "prepare_result_seconds": 0.00382354899920756
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.005136075000336859,
+        "search_seconds": 0.045260872999278945,
+        "preparation_seconds": 0.008598841999628348,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 118,
+          "constraints": 189,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 61,
+          "nonzeros": 1463,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 119,
+          "constraints": 203,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 61,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "5a4e4a11c17ba1191818eb10f4d3b07f575a753f5d0e902b528d3b2d3fe39c4d",
+      "model_identity": "9c6f87b330559058cf9ed5882c5b77f13cecaca88376cb9997654d6b85a6f98e"
+    },
+    {
+      "series": "baseline",
+      "game": "three_kingdoms",
+      "scope": "pair",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 1628.0,
+      "bound": 1628.0,
+      "gap_percent": 0.0,
+      "wall_seconds": 1.326280465000309,
+      "peak_worker_rss_bytes": 131182592,
+      "timings": {
+        "request_seconds": 0.0009116270011872984,
+        "load_engine_seconds": 0.0023756110003887443,
+        "build_model_seconds": 0.003112114998657489,
+        "solve_and_check_seconds": 0.583955797001181,
+        "prepare_result_seconds": 0.006328407998807961
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.009675204999439302,
+        "search_seconds": 0.47964983900055813,
+        "preparation_seconds": 0.015598564999891096,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 253,
+          "constraints": 420,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 118,
+          "nonzeros": 3323,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 254,
+          "constraints": 450,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 118,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "0d5ea44185f8d77695e39322cfcf27f7f70251dd43af89339a3b704dda6959f9",
+      "model_identity": "2b8baf2020f48db27c3b3818fc90a3ed1180ce5fac84886328c8c8e594104549"
+    },
+    {
+      "series": "baseline",
+      "game": "attila",
+      "scope": "single",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 24140.375,
+      "bound": 24140.375,
+      "gap_percent": 0.0,
+      "wall_seconds": 2.239957156998571,
+      "peak_worker_rss_bytes": 140779520,
+      "timings": {
+        "request_seconds": 0.00020424099966476206,
+        "load_engine_seconds": 2.1148000087123364e-05,
+        "build_model_seconds": 0.2847445750012412,
+        "solve_and_check_seconds": 0.8842214180003793,
+        "prepare_result_seconds": 0.0071216459982679226
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.02056061400071485,
+        "bound_strengthening_seconds": 0.0045818369999324204,
+        "search_seconds": 0.8131643869983236,
+        "validation_seconds": 0.00026116499975614715
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 2580,
+          "constraints": 7437,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 123,
+          "nonzeros": 17747,
+          "storage_bytes": 485432
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 548,
+          "constraints": 500,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "c8103a6fea9e7a1e9d813c7e91e8a05d93d698d7babf2ad9a8c7ff7219ff4b15",
+      "model_identity": "9402a8d18b470851a4248aea4ed7ca0d6130664a3774fce73cc32f97fe51f8ac"
+    },
+    {
+      "series": "baseline",
+      "game": "attila",
+      "scope": "pair",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 50563.8125,
+      "bound": 50563.8125,
+      "gap_percent": 0.0,
+      "wall_seconds": 17.974749397000778,
+      "peak_worker_rss_bytes": 165879808,
+      "timings": {
+        "request_seconds": 0.0022706319996359525,
+        "load_engine_seconds": 3.6702000215882435e-05,
+        "build_model_seconds": 0.4915860250002879,
+        "solve_and_check_seconds": 16.809696292000808,
+        "prepare_result_seconds": 0.00935587099957047
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.04619211700082815,
+        "bound_strengthening_seconds": 0.004580634000376449,
+        "search_seconds": 16.652275425998596,
+        "validation_seconds": 0.0007585589992231689
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 6241,
+          "constraints": 18086,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 259,
+          "nonzeros": 43041,
+          "storage_bytes": 1177680
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1325,
+          "constraints": 1225,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "8e6c28b8778f5ca054819ae84346ca9c024e391e94b116a3e8dfb4e36330e4cc",
+      "model_identity": "5540c726f2c52b831cdbc198b8b3ff2097e3d26f9a31151efc1fd87e6540b6c3"
+    },
+    {
+      "series": "baseline",
+      "game": "rome2",
+      "scope": "single",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 9733.8,
+      "bound": 9733.8,
+      "gap_percent": 0.0,
+      "wall_seconds": 4.1272436149993155,
+      "peak_worker_rss_bytes": 146751488,
+      "timings": {
+        "request_seconds": 0.0005076119996374473,
+        "load_engine_seconds": 7.461600034730509e-05,
+        "build_model_seconds": 0.0076476630001707235,
+        "solve_and_check_seconds": 3.4109466449990578,
+        "prepare_result_seconds": 0.008914902000469738
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.06854915199983225,
+        "bound_strengthening_seconds": 0.07380290699984471,
+        "search_seconds": 3.2491565760010417
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 288,
+          "constraints": 131,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 516,
+          "constraints": 994,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": 13302,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 517,
+          "constraints": 1025,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "9fca7fe04aaae21945e1d33a3006987d98d30ed66a676f3e24bec3cf3f443972",
+      "model_identity": "4ab29ac03156f70199b111833a35a8fc04fa2b3a802d01da73d7611116585764"
+    },
+    {
+      "series": "baseline",
+      "game": "rome2",
+      "scope": "pair",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "FEASIBLE",
+      "income": 19493.9,
+      "bound": 23139.72,
+      "gap_percent": 15.75567897969379,
+      "wall_seconds": 20.797321763999207,
+      "peak_worker_rss_bytes": 158871552,
+      "timings": {
+        "request_seconds": 0.0016864090011949884,
+        "load_engine_seconds": 4.885700036538765e-05,
+        "build_model_seconds": 0.015205475998300244,
+        "solve_and_check_seconds": 20.026504262001254,
+        "prepare_result_seconds": 0.010145418000320205
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.1266937889995461,
+        "bound_strengthening_seconds": 0.07074958900011552,
+        "search_seconds": 19.803052432000186
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 590,
+          "constraints": 261,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 1059,
+          "constraints": 2029,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": 28632,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1060,
+          "constraints": 2090,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "5de4e8a20b9cca9b524150fc06e5e4fb2837050edc9190a440a460f12a52b0f6",
+      "model_identity": "b0af639b2637e2166724f11cc231fe3ddb6d0181cdd4e4a25c8d27cbf5889474"
+    },
+    {
+      "series": "baseline",
+      "game": "shogun2",
+      "scope": "single",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 4318.16,
+      "bound": 4318.16,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.6064334900001995,
+      "peak_worker_rss_bytes": 117190656,
+      "timings": {
+        "request_seconds": 0.00019181500101694837,
+        "load_engine_seconds": 0.003972239999711746,
+        "build_model_seconds": 0.0019106709987681825,
+        "solve_and_check_seconds": 0.01859614800014242,
+        "prepare_result_seconds": 0.0017501310012448812
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.0029132430008758092,
+        "search_seconds": 0.00452178499836009,
+        "validation_seconds": 0.00021010000091337133,
+        "preparation_seconds": 0.008607097999629332
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 49,
+          "constraints": 70,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 30,
+          "nonzeros": 208,
+          "storage_bytes": 5560
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 49,
+          "constraints": 74,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 30,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "6a67d0d08ea82aac7f71d77eb09e3d582353dee176ca39680d95fa8c37bff1d9",
+      "model_identity": "a2dcea7d4994f55e34ebd103ad00257ba05f1b89804387d21b308c21bcf9c645"
+    },
+    {
+      "series": "baseline",
+      "game": "shogun2",
+      "scope": "pair",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 5497.49,
+      "bound": 5497.49,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.6262267750007595,
+      "peak_worker_rss_bytes": 117895168,
+      "timings": {
+        "request_seconds": 0.00017930399917531759,
+        "load_engine_seconds": 0.003923317999579012,
+        "build_model_seconds": 0.0018283580011484446,
+        "solve_and_check_seconds": 0.03339104099904944,
+        "prepare_result_seconds": 0.0015803790010977536
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.004942456998833222,
+        "search_seconds": 0.009506747001069016,
+        "validation_seconds": 0.0002274349990329938,
+        "preparation_seconds": 0.015293832000679686
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 107,
+          "constraints": 155,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 63,
+          "nonzeros": 461,
+          "storage_bytes": 12312
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 107,
+          "constraints": 164,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 63,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "b203e55cf15a451042eb26ab0e36f9b3166ee58755a6e3322a5c004b0bcee4ac",
+      "model_identity": "7f561f33aae35cf3bab37a2285e6cadc00ce3c25f5e35958b19c6ac0032a3f7c"
+    },
+    {
+      "series": "baseline",
+      "game": "three_kingdoms",
+      "scope": "single",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "bound": 627.75,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.8594032670007437,
+      "peak_worker_rss_bytes": 130142208,
+      "timings": {
+        "request_seconds": 0.00023908200091682374,
+        "load_engine_seconds": 0.0024456979990645777,
+        "build_model_seconds": 0.0018615250010043383,
+        "solve_and_check_seconds": 0.14744000199971197,
+        "prepare_result_seconds": 0.004122893000385375
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.0045996980006748345,
+        "search_seconds": 0.059289143999194494,
+        "preparation_seconds": 0.008784830999502447,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 118,
+          "constraints": 189,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 61,
+          "nonzeros": 1463,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 119,
+          "constraints": 203,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 61,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "5a4e4a11c17ba1191818eb10f4d3b07f575a753f5d0e902b528d3b2d3fe39c4d",
+      "model_identity": "9c6f87b330559058cf9ed5882c5b77f13cecaca88376cb9997654d6b85a6f98e"
+    },
+    {
+      "series": "baseline",
+      "game": "three_kingdoms",
+      "scope": "pair",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 1628.0,
+      "bound": 1628.0,
+      "gap_percent": 0.0,
+      "wall_seconds": 1.110260241001015,
+      "peak_worker_rss_bytes": 131338240,
+      "timings": {
+        "request_seconds": 0.0015887139998085331,
+        "load_engine_seconds": 0.002489369000613806,
+        "build_model_seconds": 0.00292989499939722,
+        "solve_and_check_seconds": 0.4333034470000712,
+        "prepare_result_seconds": 0.00499076999949466
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.009699539999928675,
+        "search_seconds": 0.33087289099967165,
+        "preparation_seconds": 0.014940761000616476,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 253,
+          "constraints": 420,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 118,
+          "nonzeros": 3323,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 254,
+          "constraints": 450,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 118,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "0d5ea44185f8d77695e39322cfcf27f7f70251dd43af89339a3b704dda6959f9",
+      "model_identity": "2b8baf2020f48db27c3b3818fc90a3ed1180ce5fac84886328c8c8e594104549"
+    },
+    {
+      "series": "candidate",
+      "game": "attila",
+      "scope": "single",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 24140.375,
+      "bound": 24140.375,
+      "gap_percent": 0.0,
+      "wall_seconds": 2.07681706600124,
+      "peak_worker_rss_bytes": 138235904,
+      "timings": {
+        "request_seconds": 0.00023742899975331966,
+        "load_engine_seconds": 0.006792047999624629,
+        "build_model_seconds": 0.2662656449992937,
+        "solve_and_check_seconds": 0.9898009210010059,
+        "prepare_result_seconds": 0.016608260999419144
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.025450463001106982,
+        "bound_strengthening_seconds": 0.0068922579994250555,
+        "search_seconds": 0.8874367099997471,
+        "validation_seconds": 0.00034228899858135264
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 2580,
+          "constraints": 7437,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 123,
+          "nonzeros": 17747,
+          "storage_bytes": 485432
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 548,
+          "constraints": 500,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "c8103a6fea9e7a1e9d813c7e91e8a05d93d698d7babf2ad9a8c7ff7219ff4b15",
+      "model_identity": "9402a8d18b470851a4248aea4ed7ca0d6130664a3774fce73cc32f97fe51f8ac"
+    },
+    {
+      "series": "candidate",
+      "game": "attila",
+      "scope": "pair",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 50563.8125,
+      "bound": 50563.8125,
+      "gap_percent": 0.0,
+      "wall_seconds": 14.436749094998959,
+      "peak_worker_rss_bytes": 163581952,
+      "timings": {
+        "request_seconds": 0.004325279000113369,
+        "load_engine_seconds": 0.002198713998950552,
+        "build_model_seconds": 0.5366827710004145,
+        "solve_and_check_seconds": 12.845277841999632,
+        "prepare_result_seconds": 0.01392151400068542
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.09890790299868968,
+        "bound_strengthening_seconds": 0.006255799000427942,
+        "search_seconds": 12.613645126999472,
+        "validation_seconds": 0.0011472520000097575
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 6241,
+          "constraints": 18086,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 259,
+          "nonzeros": 43041,
+          "storage_bytes": 1177680
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1325,
+          "constraints": 1225,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "d887ffd9991f1e0cb79aad194b4bc6b3d4e49653a7d86aade7ef99f76d238941",
+      "model_identity": "5540c726f2c52b831cdbc198b8b3ff2097e3d26f9a31151efc1fd87e6540b6c3"
+    },
+    {
+      "series": "candidate",
+      "game": "rome2",
+      "scope": "single",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 9733.8,
+      "bound": 9733.8,
+      "gap_percent": 0.0,
+      "wall_seconds": 10.835901308000757,
+      "peak_worker_rss_bytes": 149819392,
+      "timings": {
+        "request_seconds": 0.0005102850009279791,
+        "load_engine_seconds": 0.007564575998912915,
+        "build_model_seconds": 0.009004724999613245,
+        "solve_and_check_seconds": 9.972579979001239,
+        "prepare_result_seconds": 0.012689887000306044
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.09073006399921724,
+        "bound_strengthening_seconds": 0.08660317000067153,
+        "search_seconds": 9.774192030999984
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 288,
+          "constraints": 131,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 516,
+          "constraints": 994,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": 13302,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 517,
+          "constraints": 1025,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "f353659c1ced01ebd50f28d6060c695b4decb283c7ebebab40ee53c482d4747a",
+      "model_identity": "4ab29ac03156f70199b111833a35a8fc04fa2b3a802d01da73d7611116585764"
+    },
+    {
+      "series": "candidate",
+      "game": "rome2",
+      "scope": "pair",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "FEASIBLE",
+      "income": 19013.5,
+      "bound": 23168.18,
+      "gap_percent": 17.932699072607342,
+      "wall_seconds": 20.83200184299858,
+      "peak_worker_rss_bytes": 158556160,
+      "timings": {
+        "request_seconds": 0.0024640659994474845,
+        "load_engine_seconds": 0.006646046000241768,
+        "build_model_seconds": 0.014911551001205225,
+        "solve_and_check_seconds": 20.03184647999842,
+        "prepare_result_seconds": 0.01496083600068232
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.14053488000172365,
+        "bound_strengthening_seconds": 0.07491528299942729,
+        "search_seconds": 19.78895780699895
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 590,
+          "constraints": 261,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 1059,
+          "constraints": 2029,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": 28632,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1060,
+          "constraints": 2090,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "d32f1dd0b7d2472b229ae20a7aa68f193a62e9940fc8136c1a751d093789a8f6",
+      "model_identity": "b0af639b2637e2166724f11cc231fe3ddb6d0181cdd4e4a25c8d27cbf5889474"
+    },
+    {
+      "series": "candidate",
+      "game": "shogun2",
+      "scope": "single",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 4318.16,
+      "bound": 4318.16,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.9104956339997443,
+      "peak_worker_rss_bytes": 117391360,
+      "timings": {
+        "request_seconds": 0.0003224479987693485,
+        "load_engine_seconds": 0.014056969999728608,
+        "build_model_seconds": 0.0052037680015928345,
+        "solve_and_check_seconds": 0.013135769999280456,
+        "prepare_result_seconds": 0.005784249999123858
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.0026455200004420476,
+        "search_seconds": 0.004780008999659913,
+        "validation_seconds": 0.00021957500030111987,
+        "preparation_seconds": 0.004529172998445574
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 49,
+          "constraints": 70,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 30,
+          "nonzeros": 208,
+          "storage_bytes": 5560
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 49,
+          "constraints": 74,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 30,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "6a67d0d08ea82aac7f71d77eb09e3d582353dee176ca39680d95fa8c37bff1d9",
+      "model_identity": "a2dcea7d4994f55e34ebd103ad00257ba05f1b89804387d21b308c21bcf9c645"
+    },
+    {
+      "series": "candidate",
+      "game": "shogun2",
+      "scope": "pair",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 5497.49,
+      "bound": 5497.49,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.8608249819990306,
+      "peak_worker_rss_bytes": 117604352,
+      "timings": {
+        "request_seconds": 0.00024253099945781287,
+        "load_engine_seconds": 0.006643283999437699,
+        "build_model_seconds": 0.005039973000748432,
+        "solve_and_check_seconds": 0.02361774099881586,
+        "prepare_result_seconds": 0.0040070650011330144
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.004838859000301454,
+        "search_seconds": 0.009214412999426713,
+        "validation_seconds": 0.0003983589995186776,
+        "preparation_seconds": 0.007432440999764367
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 107,
+          "constraints": 155,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 63,
+          "nonzeros": 461,
+          "storage_bytes": 12312
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 107,
+          "constraints": 164,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 63,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "b203e55cf15a451042eb26ab0e36f9b3166ee58755a6e3322a5c004b0bcee4ac",
+      "model_identity": "7f561f33aae35cf3bab37a2285e6cadc00ce3c25f5e35958b19c6ac0032a3f7c"
+    },
+    {
+      "series": "candidate",
+      "game": "three_kingdoms",
+      "scope": "single",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "bound": 627.75,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.9617661499996757,
+      "peak_worker_rss_bytes": 132395008,
+      "timings": {
+        "request_seconds": 0.00029090399948472623,
+        "load_engine_seconds": 0.0028228749997651903,
+        "build_model_seconds": 0.05171499099924404,
+        "solve_and_check_seconds": 0.1732118440013437,
+        "prepare_result_seconds": 0.007243358999403426
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.0055326769997918746,
+        "search_seconds": 0.08412429800046084,
+        "preparation_seconds": 0.008532224999726168,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 118,
+          "constraints": 189,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 61,
+          "nonzeros": 1463,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 119,
+          "constraints": 203,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 61,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "5a4e4a11c17ba1191818eb10f4d3b07f575a753f5d0e902b528d3b2d3fe39c4d",
+      "model_identity": "9c6f87b330559058cf9ed5882c5b77f13cecaca88376cb9997654d6b85a6f98e"
+    },
+    {
+      "series": "candidate",
+      "game": "three_kingdoms",
+      "scope": "pair",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 1628.0,
+      "bound": 1628.0,
+      "gap_percent": 0.0,
+      "wall_seconds": 1.262158747000285,
+      "peak_worker_rss_bytes": 133869568,
+      "timings": {
+        "request_seconds": 0.0009768279996933416,
+        "load_engine_seconds": 0.0057012890010810224,
+        "build_model_seconds": 0.08258163400023477,
+        "solve_and_check_seconds": 0.42963892899933853,
+        "prepare_result_seconds": 0.0074515039996185806
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.011650909998934367,
+        "search_seconds": 0.30819011600033264,
+        "preparation_seconds": 0.025597325999115128,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 253,
+          "constraints": 420,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 118,
+          "nonzeros": 3323,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 254,
+          "constraints": 450,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 118,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "0d5ea44185f8d77695e39322cfcf27f7f70251dd43af89339a3b704dda6959f9",
+      "model_identity": "2b8baf2020f48db27c3b3818fc90a3ed1180ce5fac84886328c8c8e594104549"
+    },
+    {
+      "series": "candidate",
+      "game": "attila",
+      "scope": "single",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 24140.375,
+      "bound": 24140.375,
+      "gap_percent": 0.0,
+      "wall_seconds": 1.8710784169998078,
+      "peak_worker_rss_bytes": 138182656,
+      "timings": {
+        "request_seconds": 0.0002782419996947283,
+        "load_engine_seconds": 0.00675511400004325,
+        "build_model_seconds": 0.30614341699947545,
+        "solve_and_check_seconds": 0.7628042579999601,
+        "prepare_result_seconds": 0.011981522000496625
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.029965020999952685,
+        "bound_strengthening_seconds": 0.008043411000471679,
+        "search_seconds": 0.6696826879997388,
+        "validation_seconds": 0.00040819700006977655
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 2580,
+          "constraints": 7437,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 123,
+          "nonzeros": 17747,
+          "storage_bytes": 485432
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 548,
+          "constraints": 500,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "c8103a6fea9e7a1e9d813c7e91e8a05d93d698d7babf2ad9a8c7ff7219ff4b15",
+      "model_identity": "9402a8d18b470851a4248aea4ed7ca0d6130664a3774fce73cc32f97fe51f8ac"
+    },
+    {
+      "series": "candidate",
+      "game": "attila",
+      "scope": "pair",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 50563.8125,
+      "bound": 50563.8125,
+      "gap_percent": 0.0,
+      "wall_seconds": 18.2312549269991,
+      "peak_worker_rss_bytes": 163872768,
+      "timings": {
+        "request_seconds": 0.002864535999833606,
+        "load_engine_seconds": 0.0017103280006267596,
+        "build_model_seconds": 0.5372396759994444,
+        "solve_and_check_seconds": 16.919769140000426,
+        "prepare_result_seconds": 0.016464059999634628
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.13659166100114817,
+        "bound_strengthening_seconds": 0.009693512998637743,
+        "search_seconds": 16.64443347499946,
+        "validation_seconds": 0.0007781120002618991
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 6241,
+          "constraints": 18086,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 259,
+          "nonzeros": 43041,
+          "storage_bytes": 1177680
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1325,
+          "constraints": 1225,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "58ea7159527923176ae4a68be3715dc8a8199167ab6ab479678da51fafbc5a5a",
+      "model_identity": "5540c726f2c52b831cdbc198b8b3ff2097e3d26f9a31151efc1fd87e6540b6c3"
+    },
+    {
+      "series": "candidate",
+      "game": "rome2",
+      "scope": "single",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 9733.8,
+      "bound": 9733.8,
+      "gap_percent": 0.0,
+      "wall_seconds": 6.753140213999359,
+      "peak_worker_rss_bytes": 146821120,
+      "timings": {
+        "request_seconds": 0.000545864000741858,
+        "load_engine_seconds": 0.007657685999220121,
+        "build_model_seconds": 0.00844765500005451,
+        "solve_and_check_seconds": 5.8697150480002165,
+        "prepare_result_seconds": 0.013578001000496442
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.0900589390003006,
+        "bound_strengthening_seconds": 0.10445275900019624,
+        "search_seconds": 5.654309704999832
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 288,
+          "constraints": 131,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 516,
+          "constraints": 994,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": 13302,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 517,
+          "constraints": 1025,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "bd640c28c5fa9fa41cb64eade6b6eb4a7e13caa115b98a7b32703c2c0a61d191",
+      "model_identity": "4ab29ac03156f70199b111833a35a8fc04fa2b3a802d01da73d7611116585764"
+    },
+    {
+      "series": "candidate",
+      "game": "rome2",
+      "scope": "pair",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "FEASIBLE",
+      "income": 19317.699999999997,
+      "bound": 22977.44,
+      "gap_percent": 15.927535878670565,
+      "wall_seconds": 20.93172623999999,
+      "peak_worker_rss_bytes": 159461376,
+      "timings": {
+        "request_seconds": 0.0020928690009895945,
+        "load_engine_seconds": 0.007635893000042415,
+        "build_model_seconds": 0.015478552999411477,
+        "solve_and_check_seconds": 20.06030893500065,
+        "prepare_result_seconds": 0.03477056699921377
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.1533372900012182,
+        "bound_strengthening_seconds": 0.0877444479992846,
+        "search_seconds": 19.782784368999273
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 590,
+          "constraints": 261,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 1059,
+          "constraints": 2029,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": 28632,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1060,
+          "constraints": 2090,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "cf6d2405f6b7c40c4e9146fc9887aacd8da3aa6793abc57eae62c78cd8a9f910",
+      "model_identity": "b0af639b2637e2166724f11cc231fe3ddb6d0181cdd4e4a25c8d27cbf5889474"
+    },
+    {
+      "series": "candidate",
+      "game": "shogun2",
+      "scope": "single",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 4318.16,
+      "bound": 4318.16,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.7093499480015453,
+      "peak_worker_rss_bytes": 117227520,
+      "timings": {
+        "request_seconds": 0.00027328099895385094,
+        "load_engine_seconds": 0.007857454000259168,
+        "build_model_seconds": 0.005846705000294605,
+        "solve_and_check_seconds": 0.014264980000007199,
+        "prepare_result_seconds": 0.004729980000774958
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.0034813050006050617,
+        "search_seconds": 0.0054351250000763685,
+        "validation_seconds": 0.00019318600061524194,
+        "preparation_seconds": 0.004141376999541535
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 49,
+          "constraints": 70,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 30,
+          "nonzeros": 208,
+          "storage_bytes": 5560
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 49,
+          "constraints": 74,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 30,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "6a67d0d08ea82aac7f71d77eb09e3d582353dee176ca39680d95fa8c37bff1d9",
+      "model_identity": "a2dcea7d4994f55e34ebd103ad00257ba05f1b89804387d21b308c21bcf9c645"
+    },
+    {
+      "series": "candidate",
+      "game": "shogun2",
+      "scope": "pair",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 5497.49,
+      "bound": 5497.49,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.7068013200005225,
+      "peak_worker_rss_bytes": 118042624,
+      "timings": {
+        "request_seconds": 0.00036959299904992804,
+        "load_engine_seconds": 0.007729209999524755,
+        "build_model_seconds": 0.0063672030009911396,
+        "solve_and_check_seconds": 0.025976499999160296,
+        "prepare_result_seconds": 0.005167933000848279
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.00540664099935384,
+        "search_seconds": 0.010864337000384694,
+        "validation_seconds": 0.00029899100081820507,
+        "preparation_seconds": 0.00839475100110576
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 107,
+          "constraints": 155,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 63,
+          "nonzeros": 461,
+          "storage_bytes": 12312
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 107,
+          "constraints": 164,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 63,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "b203e55cf15a451042eb26ab0e36f9b3166ee58755a6e3322a5c004b0bcee4ac",
+      "model_identity": "7f561f33aae35cf3bab37a2285e6cadc00ce3c25f5e35958b19c6ac0032a3f7c"
+    },
+    {
+      "series": "candidate",
+      "game": "three_kingdoms",
+      "scope": "single",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "bound": 627.75,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.9585270059997129,
+      "peak_worker_rss_bytes": 132362240,
+      "timings": {
+        "request_seconds": 0.00024049999956332613,
+        "load_engine_seconds": 0.0035469439990265528,
+        "build_model_seconds": 0.060033214000213775,
+        "solve_and_check_seconds": 0.15253395199943043,
+        "prepare_result_seconds": 0.009530059000098845
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.006759342000805191,
+        "search_seconds": 0.050585642999067204,
+        "preparation_seconds": 0.010780462000184343,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 118,
+          "constraints": 189,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 61,
+          "nonzeros": 1463,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 119,
+          "constraints": 203,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 61,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "5a4e4a11c17ba1191818eb10f4d3b07f575a753f5d0e902b528d3b2d3fe39c4d",
+      "model_identity": "9c6f87b330559058cf9ed5882c5b77f13cecaca88376cb9997654d6b85a6f98e"
+    },
+    {
+      "series": "candidate",
+      "game": "three_kingdoms",
+      "scope": "pair",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 1628.0,
+      "bound": 1628.0,
+      "gap_percent": 0.0,
+      "wall_seconds": 1.3624549000014667,
+      "peak_worker_rss_bytes": 134070272,
+      "timings": {
+        "request_seconds": 0.0011483289999887347,
+        "load_engine_seconds": 0.0039028479986882303,
+        "build_model_seconds": 0.059936843999821576,
+        "solve_and_check_seconds": 0.5574528630004352,
+        "prepare_result_seconds": 0.008920345000660745
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.01226950100135582,
+        "search_seconds": 0.4283970409996982,
+        "preparation_seconds": 0.018662608999875374,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 253,
+          "constraints": 420,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 118,
+          "nonzeros": 3323,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 254,
+          "constraints": 450,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 118,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "0d5ea44185f8d77695e39322cfcf27f7f70251dd43af89339a3b704dda6959f9",
+      "model_identity": "2b8baf2020f48db27c3b3818fc90a3ed1180ce5fac84886328c8c8e594104549"
+    },
+    {
+      "series": "candidate",
+      "game": "attila",
+      "scope": "single",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 24140.375,
+      "bound": 24140.375,
+      "gap_percent": 0.0,
+      "wall_seconds": 1.9650552490002156,
+      "peak_worker_rss_bytes": 138399744,
+      "timings": {
+        "request_seconds": 0.0002990869998029666,
+        "load_engine_seconds": 0.007416532000206644,
+        "build_model_seconds": 0.2511547319991223,
+        "solve_and_check_seconds": 0.9949068020014238,
+        "prepare_result_seconds": 0.011745095000151196
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.02394336199904501,
+        "bound_strengthening_seconds": 0.005443088000902208,
+        "search_seconds": 0.9147581929992157,
+        "validation_seconds": 0.0004012320005131187
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 2580,
+          "constraints": 7437,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 123,
+          "nonzeros": 17747,
+          "storage_bytes": 485432
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 548,
+          "constraints": 500,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "c8103a6fea9e7a1e9d813c7e91e8a05d93d698d7babf2ad9a8c7ff7219ff4b15",
+      "model_identity": "9402a8d18b470851a4248aea4ed7ca0d6130664a3774fce73cc32f97fe51f8ac"
+    },
+    {
+      "series": "candidate",
+      "game": "attila",
+      "scope": "pair",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 50563.8125,
+      "bound": 50563.8125,
+      "gap_percent": 0.0,
+      "wall_seconds": 17.750205703001484,
+      "peak_worker_rss_bytes": 163377152,
+      "timings": {
+        "request_seconds": 0.0028364909994706977,
+        "load_engine_seconds": 0.0017235129998880439,
+        "build_model_seconds": 0.4300238609994267,
+        "solve_and_check_seconds": 16.66007741300018,
+        "prepare_result_seconds": 0.012412860000040382
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.07951472900094814,
+        "bound_strengthening_seconds": 0.005663600999469054,
+        "search_seconds": 16.470638917999167,
+        "validation_seconds": 0.001009873998555122
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 6241,
+          "constraints": 18086,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 259,
+          "nonzeros": 43041,
+          "storage_bytes": 1177680
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1325,
+          "constraints": 1225,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "8e6c28b8778f5ca054819ae84346ca9c024e391e94b116a3e8dfb4e36330e4cc",
+      "model_identity": "5540c726f2c52b831cdbc198b8b3ff2097e3d26f9a31151efc1fd87e6540b6c3"
+    },
+    {
+      "series": "candidate",
+      "game": "rome2",
+      "scope": "single",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 9733.8,
+      "bound": 9733.8,
+      "gap_percent": 0.0,
+      "wall_seconds": 4.12647973500134,
+      "peak_worker_rss_bytes": 146296832,
+      "timings": {
+        "request_seconds": 0.0004134939990763087,
+        "load_engine_seconds": 0.007050609001453267,
+        "build_model_seconds": 0.0077700049987470265,
+        "solve_and_check_seconds": 3.367392441999982,
+        "prepare_result_seconds": 0.012539735000245855
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.07208751600046526,
+        "bound_strengthening_seconds": 0.06840872799875797,
+        "search_seconds": 3.2083427570014464
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 288,
+          "constraints": 131,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 516,
+          "constraints": 994,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": 13302,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 517,
+          "constraints": 1025,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "9fca7fe04aaae21945e1d33a3006987d98d30ed66a676f3e24bec3cf3f443972",
+      "model_identity": "4ab29ac03156f70199b111833a35a8fc04fa2b3a802d01da73d7611116585764"
+    },
+    {
+      "series": "candidate",
+      "game": "rome2",
+      "scope": "pair",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "FEASIBLE",
+      "income": 19493.9,
+      "bound": 23139.72,
+      "gap_percent": 15.75567897969379,
+      "wall_seconds": 20.812874388999262,
+      "peak_worker_rss_bytes": 158781440,
+      "timings": {
+        "request_seconds": 0.0021263979997456772,
+        "load_engine_seconds": 0.006264588000703952,
+        "build_model_seconds": 0.014390829999683774,
+        "solve_and_check_seconds": 20.02869193799961,
+        "prepare_result_seconds": 0.012345967999863205
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.14137874000152806,
+        "bound_strengthening_seconds": 0.07073192699863284,
+        "search_seconds": 19.79030440400129
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 590,
+          "constraints": 261,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 1059,
+          "constraints": 2029,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": 28632,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1060,
+          "constraints": 2090,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "5de4e8a20b9cca9b524150fc06e5e4fb2837050edc9190a440a460f12a52b0f6",
+      "model_identity": "b0af639b2637e2166724f11cc231fe3ddb6d0181cdd4e4a25c8d27cbf5889474"
+    },
+    {
+      "series": "candidate",
+      "game": "shogun2",
+      "scope": "single",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 4318.16,
+      "bound": 4318.16,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.6078658850001375,
+      "peak_worker_rss_bytes": 117116928,
+      "timings": {
+        "request_seconds": 0.00021780099996249191,
+        "load_engine_seconds": 0.006534494999868912,
+        "build_model_seconds": 0.004724448001070414,
+        "solve_and_check_seconds": 0.013799958000163315,
+        "prepare_result_seconds": 0.003472375999990618
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.003105841000433429,
+        "search_seconds": 0.00538794699969003,
+        "validation_seconds": 0.0002157950002583675,
+        "preparation_seconds": 0.0042323140005464666
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 49,
+          "constraints": 70,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 30,
+          "nonzeros": 208,
+          "storage_bytes": 5560
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 49,
+          "constraints": 74,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 30,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "6a67d0d08ea82aac7f71d77eb09e3d582353dee176ca39680d95fa8c37bff1d9",
+      "model_identity": "a2dcea7d4994f55e34ebd103ad00257ba05f1b89804387d21b308c21bcf9c645"
+    },
+    {
+      "series": "candidate",
+      "game": "shogun2",
+      "scope": "pair",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 5497.49,
+      "bound": 5497.49,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.6062204420013586,
+      "peak_worker_rss_bytes": 117796864,
+      "timings": {
+        "request_seconds": 0.00018845799968403298,
+        "load_engine_seconds": 0.007420924999678391,
+        "build_model_seconds": 0.005656749999616295,
+        "solve_and_check_seconds": 0.023540060999948764,
+        "prepare_result_seconds": 0.003360913000506116
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.004765128000144614,
+        "search_seconds": 0.00997162100065907,
+        "validation_seconds": 0.000289407998934621,
+        "preparation_seconds": 0.00755101399954583
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 107,
+          "constraints": 155,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 63,
+          "nonzeros": 461,
+          "storage_bytes": 12312
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 107,
+          "constraints": 164,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 63,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "b203e55cf15a451042eb26ab0e36f9b3166ee58755a6e3322a5c004b0bcee4ac",
+      "model_identity": "7f561f33aae35cf3bab37a2285e6cadc00ce3c25f5e35958b19c6ac0032a3f7c"
+    },
+    {
+      "series": "candidate",
+      "game": "three_kingdoms",
+      "scope": "single",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "bound": 627.75,
+      "gap_percent": 0.0,
+      "wall_seconds": 1.0102955010006553,
+      "peak_worker_rss_bytes": 132390912,
+      "timings": {
+        "request_seconds": 0.00025642599939601496,
+        "load_engine_seconds": 0.003160061000016867,
+        "build_model_seconds": 0.06073148300129105,
+        "solve_and_check_seconds": 0.16937351699925784,
+        "prepare_result_seconds": 0.008512259999406524
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.006140170000435319,
+        "search_seconds": 0.06759686199984571,
+        "preparation_seconds": 0.010989522999807377,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 118,
+          "constraints": 189,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 61,
+          "nonzeros": 1463,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 119,
+          "constraints": 203,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 61,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "5a4e4a11c17ba1191818eb10f4d3b07f575a753f5d0e902b528d3b2d3fe39c4d",
+      "model_identity": "9c6f87b330559058cf9ed5882c5b77f13cecaca88376cb9997654d6b85a6f98e"
+    },
+    {
+      "series": "candidate",
+      "game": "three_kingdoms",
+      "scope": "pair",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 1628.0,
+      "bound": 1628.0,
+      "gap_percent": 0.0,
+      "wall_seconds": 1.3119454799998493,
+      "peak_worker_rss_bytes": 134164480,
+      "timings": {
+        "request_seconds": 0.0009581399990565842,
+        "load_engine_seconds": 0.003459228000792791,
+        "build_model_seconds": 0.06251089199940907,
+        "solve_and_check_seconds": 0.4942670279997401,
+        "prepare_result_seconds": 0.00815168200097105
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.01190235000103712,
+        "search_seconds": 0.3679128679996211,
+        "preparation_seconds": 0.02301717299997108,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 253,
+          "constraints": 420,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 118,
+          "nonzeros": 3323,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 254,
+          "constraints": 450,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 118,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "0d5ea44185f8d77695e39322cfcf27f7f70251dd43af89339a3b704dda6959f9",
+      "model_identity": "2b8baf2020f48db27c3b3818fc90a3ed1180ce5fac84886328c8c8e594104549"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "attila",
+      "scope": "single",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 24140.375,
+      "bound": 24140.375,
+      "gap_percent": 0.0,
+      "wall_seconds": 3.722572630000286,
+      "peak_worker_rss_bytes": 143937536,
+      "timings": {
+        "request_seconds": 0.00019025599976885132,
+        "load_engine_seconds": 0.006112523000410874,
+        "build_model_seconds": 0.2641886900000827,
+        "solve_and_check_seconds": 0.8852324370000133,
+        "prepare_result_seconds": 0.013509480999346124
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.024173741998311016,
+        "bound_strengthening_seconds": 0.02076149100139446,
+        "search_seconds": 0.7843747360002453,
+        "validation_seconds": 0.0005008949992770795
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 2580,
+          "constraints": 7437,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 123,
+          "nonzeros": 17747,
+          "storage_bytes": 485432
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 548,
+          "constraints": 500,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "c8103a6fea9e7a1e9d813c7e91e8a05d93d698d7babf2ad9a8c7ff7219ff4b15",
+      "model_identity": "9402a8d18b470851a4248aea4ed7ca0d6130664a3774fce73cc32f97fe51f8ac"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "attila",
+      "scope": "pair",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 50563.8125,
+      "bound": 50563.8125,
+      "gap_percent": 0.0,
+      "wall_seconds": 10.837839432000692,
+      "peak_worker_rss_bytes": 163737600,
+      "timings": {
+        "request_seconds": 0.0027194209997105645,
+        "load_engine_seconds": 0.0015347249991464196,
+        "build_model_seconds": 0.42553854400102864,
+        "solve_and_check_seconds": 9.712560549000045,
+        "prepare_result_seconds": 0.01104458999907365
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.07942490700042981,
+        "bound_strengthening_seconds": 0.004460741000002599,
+        "search_seconds": 9.527155391999258,
+        "validation_seconds": 0.0007919889994809637
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 6241,
+          "constraints": 18086,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 259,
+          "nonzeros": 43041,
+          "storage_bytes": 1177680
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1325,
+          "constraints": 1225,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "d887ffd9991f1e0cb79aad194b4bc6b3d4e49653a7d86aade7ef99f76d238941",
+      "model_identity": "5540c726f2c52b831cdbc198b8b3ff2097e3d26f9a31151efc1fd87e6540b6c3"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "rome2",
+      "scope": "single",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 9733.8,
+      "bound": 9733.8,
+      "gap_percent": 0.0,
+      "wall_seconds": 8.457410310998966,
+      "peak_worker_rss_bytes": 150540288,
+      "timings": {
+        "request_seconds": 0.0004513499989116099,
+        "load_engine_seconds": 0.020349115000499296,
+        "build_model_seconds": 0.007359777000601753,
+        "solve_and_check_seconds": 7.671256371999334,
+        "prepare_result_seconds": 0.011498404001031304
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.07528578200071934,
+        "bound_strengthening_seconds": 0.1966796289998456,
+        "search_seconds": 7.3744308879995515
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 288,
+          "constraints": 131,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 516,
+          "constraints": 994,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": 13302,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 517,
+          "constraints": 1025,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "f353659c1ced01ebd50f28d6060c695b4decb283c7ebebab40ee53c482d4747a",
+      "model_identity": "4ab29ac03156f70199b111833a35a8fc04fa2b3a802d01da73d7611116585764"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "rome2",
+      "scope": "pair",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "FEASIBLE",
+      "income": 19013.5,
+      "bound": 23168.18,
+      "gap_percent": 17.932699072607342,
+      "wall_seconds": 20.78557355799967,
+      "peak_worker_rss_bytes": 160616448,
+      "timings": {
+        "request_seconds": 0.002251967000120203,
+        "load_engine_seconds": 0.006935850000445498,
+        "build_model_seconds": 0.013773979999314179,
+        "solve_and_check_seconds": 20.03514218700002,
+        "prepare_result_seconds": 0.013723675001529045
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.13323569700150983,
+        "bound_strengthening_seconds": 0.07092894899869862,
+        "search_seconds": 19.79869553900062
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 590,
+          "constraints": 261,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 1059,
+          "constraints": 2029,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": 28632,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1060,
+          "constraints": 2090,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "d32f1dd0b7d2472b229ae20a7aa68f193a62e9940fc8136c1a751d093789a8f6",
+      "model_identity": "b0af639b2637e2166724f11cc231fe3ddb6d0181cdd4e4a25c8d27cbf5889474"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "shogun2",
+      "scope": "single",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 4318.16,
+      "bound": 4318.16,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.6584830270003295,
+      "peak_worker_rss_bytes": 117669888,
+      "timings": {
+        "request_seconds": 0.0001898360005725408,
+        "load_engine_seconds": 0.02024357499976759,
+        "build_model_seconds": 0.005370724000385962,
+        "solve_and_check_seconds": 0.01855903199975728,
+        "prepare_result_seconds": 0.0038293520010483917
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.00356621900027676,
+        "search_seconds": 0.005054016999565647,
+        "validation_seconds": 0.0002134789992851438,
+        "preparation_seconds": 0.0059018329993705265
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 49,
+          "constraints": 70,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 30,
+          "nonzeros": 208,
+          "storage_bytes": 5560
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 49,
+          "constraints": 74,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 30,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "6a67d0d08ea82aac7f71d77eb09e3d582353dee176ca39680d95fa8c37bff1d9",
+      "model_identity": "a2dcea7d4994f55e34ebd103ad00257ba05f1b89804387d21b308c21bcf9c645"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "shogun2",
+      "scope": "pair",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 5497.49,
+      "bound": 5497.49,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.6042691670008935,
+      "peak_worker_rss_bytes": 117354496,
+      "timings": {
+        "request_seconds": 0.00018510200061427895,
+        "load_engine_seconds": 0.006608099998629768,
+        "build_model_seconds": 0.0046374420016945805,
+        "solve_and_check_seconds": 0.021694515999115538,
+        "prepare_result_seconds": 0.003608224000345217
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.004539059000308043,
+        "search_seconds": 0.00958486399940739,
+        "validation_seconds": 0.00023220300136017613,
+        "preparation_seconds": 0.006176579001476057
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 107,
+          "constraints": 155,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 63,
+          "nonzeros": 461,
+          "storage_bytes": 12312
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 107,
+          "constraints": 164,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 63,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "b203e55cf15a451042eb26ab0e36f9b3166ee58755a6e3322a5c004b0bcee4ac",
+      "model_identity": "7f561f33aae35cf3bab37a2285e6cadc00ce3c25f5e35958b19c6ac0032a3f7c"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "three_kingdoms",
+      "scope": "single",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "bound": 627.75,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.9095367059999262,
+      "peak_worker_rss_bytes": 132513792,
+      "timings": {
+        "request_seconds": 0.00024049700004979968,
+        "load_engine_seconds": 0.007957944000736461,
+        "build_model_seconds": 0.05405575599979784,
+        "solve_and_check_seconds": 0.18241459599994414,
+        "prepare_result_seconds": 0.006734656999469735
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.005481445999976131,
+        "search_seconds": 0.08544220300063898,
+        "preparation_seconds": 0.013015029000598588,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 118,
+          "constraints": 189,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 61,
+          "nonzeros": 1463,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 119,
+          "constraints": 203,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 61,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "5a4e4a11c17ba1191818eb10f4d3b07f575a753f5d0e902b528d3b2d3fe39c4d",
+      "model_identity": "9c6f87b330559058cf9ed5882c5b77f13cecaca88376cb9997654d6b85a6f98e"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "three_kingdoms",
+      "scope": "pair",
+      "seed": 0,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 1628.0,
+      "bound": 1628.0,
+      "gap_percent": 0.0,
+      "wall_seconds": 1.1609439060011937,
+      "peak_worker_rss_bytes": 133652480,
+      "timings": {
+        "request_seconds": 0.0010399250004411442,
+        "load_engine_seconds": 0.0030693690005136887,
+        "build_model_seconds": 0.056584993999422295,
+        "solve_and_check_seconds": 0.3948826369996823,
+        "prepare_result_seconds": 0.007645988000149373
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.010806333000800805,
+        "search_seconds": 0.29416644899902167,
+        "preparation_seconds": 0.016782184999101446,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 253,
+          "constraints": 420,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 118,
+          "nonzeros": 3323,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 254,
+          "constraints": 450,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 118,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "0d5ea44185f8d77695e39322cfcf27f7f70251dd43af89339a3b704dda6959f9",
+      "model_identity": "2b8baf2020f48db27c3b3818fc90a3ed1180ce5fac84886328c8c8e594104549"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "attila",
+      "scope": "single",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 24140.375,
+      "bound": 24140.375,
+      "gap_percent": 0.0,
+      "wall_seconds": 1.4618457529995794,
+      "peak_worker_rss_bytes": 138383360,
+      "timings": {
+        "request_seconds": 0.0002940110007330077,
+        "load_engine_seconds": 0.005335306999768363,
+        "build_model_seconds": 0.21093794199987315,
+        "solve_and_check_seconds": 0.5956740969995735,
+        "prepare_result_seconds": 0.010027188000094611
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.020953025999915553,
+        "bound_strengthening_seconds": 0.004975039000782999,
+        "search_seconds": 0.5264112360000581,
+        "validation_seconds": 0.0005498379996424774
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 2580,
+          "constraints": 7437,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 123,
+          "nonzeros": 17747,
+          "storage_bytes": 485432
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 548,
+          "constraints": 500,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "c8103a6fea9e7a1e9d813c7e91e8a05d93d698d7babf2ad9a8c7ff7219ff4b15",
+      "model_identity": "9402a8d18b470851a4248aea4ed7ca0d6130664a3774fce73cc32f97fe51f8ac"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "attila",
+      "scope": "pair",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 50563.8125,
+      "bound": 50563.8125,
+      "gap_percent": 0.0,
+      "wall_seconds": 15.110909373999675,
+      "peak_worker_rss_bytes": 163086336,
+      "timings": {
+        "request_seconds": 0.002616829000544385,
+        "load_engine_seconds": 0.0015293819997168612,
+        "build_model_seconds": 0.4179614559998299,
+        "solve_and_check_seconds": 14.019266126999355,
+        "prepare_result_seconds": 0.011791113000072073
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.08267360200079565,
+        "bound_strengthening_seconds": 0.004565576999084442,
+        "search_seconds": 13.810289606999504,
+        "validation_seconds": 0.0010175860006711446
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 6241,
+          "constraints": 18086,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 259,
+          "nonzeros": 43041,
+          "storage_bytes": 1177680
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1325,
+          "constraints": 1225,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "58ea7159527923176ae4a68be3715dc8a8199167ab6ab479678da51fafbc5a5a",
+      "model_identity": "5540c726f2c52b831cdbc198b8b3ff2097e3d26f9a31151efc1fd87e6540b6c3"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "rome2",
+      "scope": "single",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 9733.8,
+      "bound": 9733.8,
+      "gap_percent": 0.0,
+      "wall_seconds": 5.488882785999522,
+      "peak_worker_rss_bytes": 147181568,
+      "timings": {
+        "request_seconds": 0.0004032340002595447,
+        "load_engine_seconds": 0.0067297440000402275,
+        "build_model_seconds": 0.00726615799976571,
+        "solve_and_check_seconds": 4.730214701001387,
+        "prepare_result_seconds": 0.012452893999579828
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.0722640579988365,
+        "bound_strengthening_seconds": 0.07839409900043393,
+        "search_seconds": 4.559821262000696
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 288,
+          "constraints": 131,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 516,
+          "constraints": 994,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": 13302,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 517,
+          "constraints": 1025,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "bd640c28c5fa9fa41cb64eade6b6eb4a7e13caa115b98a7b32703c2c0a61d191",
+      "model_identity": "4ab29ac03156f70199b111833a35a8fc04fa2b3a802d01da73d7611116585764"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "rome2",
+      "scope": "pair",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "FEASIBLE",
+      "income": 19317.699999999997,
+      "bound": 22977.44,
+      "gap_percent": 15.927535878670565,
+      "wall_seconds": 20.789966436001123,
+      "peak_worker_rss_bytes": 159973376,
+      "timings": {
+        "request_seconds": 0.0021089259989821585,
+        "load_engine_seconds": 0.006497544000012567,
+        "build_model_seconds": 0.013678990000698832,
+        "solve_and_check_seconds": 20.04853800300043,
+        "prepare_result_seconds": 0.01572493899948313
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.13285156399979314,
+        "bound_strengthening_seconds": 0.0700841660000151,
+        "search_seconds": 19.818453617999694
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 590,
+          "constraints": 261,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 1059,
+          "constraints": 2029,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": 28632,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1060,
+          "constraints": 2090,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "cf6d2405f6b7c40c4e9146fc9887aacd8da3aa6793abc57eae62c78cd8a9f910",
+      "model_identity": "b0af639b2637e2166724f11cc231fe3ddb6d0181cdd4e4a25c8d27cbf5889474"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "shogun2",
+      "scope": "single",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 4318.16,
+      "bound": 4318.16,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.6069061449998117,
+      "peak_worker_rss_bytes": 117088256,
+      "timings": {
+        "request_seconds": 0.00018096600069839042,
+        "load_engine_seconds": 0.006540180998854339,
+        "build_model_seconds": 0.004589683001540834,
+        "solve_and_check_seconds": 0.013430360999336699,
+        "prepare_result_seconds": 0.003664526999273221
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.0027990620001219213,
+        "search_seconds": 0.005483840999659151,
+        "validation_seconds": 0.0002535599996917881,
+        "preparation_seconds": 0.004168535000644624
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 49,
+          "constraints": 70,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 30,
+          "nonzeros": 208,
+          "storage_bytes": 5560
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 49,
+          "constraints": 74,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 30,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "6a67d0d08ea82aac7f71d77eb09e3d582353dee176ca39680d95fa8c37bff1d9",
+      "model_identity": "a2dcea7d4994f55e34ebd103ad00257ba05f1b89804387d21b308c21bcf9c645"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "shogun2",
+      "scope": "pair",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 5497.49,
+      "bound": 5497.49,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.6071489719997771,
+      "peak_worker_rss_bytes": 117485568,
+      "timings": {
+        "request_seconds": 0.0002077270000881981,
+        "load_engine_seconds": 0.00613523699939833,
+        "build_model_seconds": 0.00465072500082897,
+        "solve_and_check_seconds": 0.023102493998521823,
+        "prepare_result_seconds": 0.0033942050013138214
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.005845256000611698,
+        "search_seconds": 0.009958855000149924,
+        "validation_seconds": 0.0002737400009209523,
+        "preparation_seconds": 0.006089979000535095
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 107,
+          "constraints": 155,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 63,
+          "nonzeros": 461,
+          "storage_bytes": 12312
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 107,
+          "constraints": 164,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 63,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "b203e55cf15a451042eb26ab0e36f9b3166ee58755a6e3322a5c004b0bcee4ac",
+      "model_identity": "7f561f33aae35cf3bab37a2285e6cadc00ce3c25f5e35958b19c6ac0032a3f7c"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "three_kingdoms",
+      "scope": "single",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "bound": 627.75,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.8588683580001089,
+      "peak_worker_rss_bytes": 132222976,
+      "timings": {
+        "request_seconds": 0.00022965400057728402,
+        "load_engine_seconds": 0.0036073079991183477,
+        "build_model_seconds": 0.051739286000156426,
+        "solve_and_check_seconds": 0.12607993799974793,
+        "prepare_result_seconds": 0.0075547619999269955
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.005355270999643835,
+        "search_seconds": 0.04105067499949655,
+        "preparation_seconds": 0.009474549000515253,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 118,
+          "constraints": 189,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 61,
+          "nonzeros": 1463,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 119,
+          "constraints": 203,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 61,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "5a4e4a11c17ba1191818eb10f4d3b07f575a753f5d0e902b528d3b2d3fe39c4d",
+      "model_identity": "9c6f87b330559058cf9ed5882c5b77f13cecaca88376cb9997654d6b85a6f98e"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "three_kingdoms",
+      "scope": "pair",
+      "seed": 1,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 1628.0,
+      "bound": 1628.0,
+      "gap_percent": 0.0,
+      "wall_seconds": 1.2602416620011354,
+      "peak_worker_rss_bytes": 133808128,
+      "timings": {
+        "request_seconds": 0.0009097299989662133,
+        "load_engine_seconds": 0.003093573001024197,
+        "build_model_seconds": 0.05243894200066279,
+        "solve_and_check_seconds": 0.5281616689990187,
+        "prepare_result_seconds": 0.00934164300088014
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.011115362998680212,
+        "search_seconds": 0.42911643700062996,
+        "preparation_seconds": 0.01700038299895823,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 253,
+          "constraints": 420,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 118,
+          "nonzeros": 3323,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 254,
+          "constraints": 450,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 118,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "0d5ea44185f8d77695e39322cfcf27f7f70251dd43af89339a3b704dda6959f9",
+      "model_identity": "2b8baf2020f48db27c3b3818fc90a3ed1180ce5fac84886328c8c8e594104549"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "attila",
+      "scope": "single",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 24140.375,
+      "bound": 24140.375,
+      "gap_percent": 0.0,
+      "wall_seconds": 1.6643236689997138,
+      "peak_worker_rss_bytes": 138043392,
+      "timings": {
+        "request_seconds": 0.000236269001106848,
+        "load_engine_seconds": 0.005975447998935124,
+        "build_model_seconds": 0.21285051700033364,
+        "solve_and_check_seconds": 0.8499962740006595,
+        "prepare_result_seconds": 0.009257178999177995
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.020448362000024645,
+        "bound_strengthening_seconds": 0.004814142999748583,
+        "search_seconds": 0.7788510469999892,
+        "validation_seconds": 0.00028722099887090735
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 2580,
+          "constraints": 7437,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 123,
+          "nonzeros": 17747,
+          "storage_bytes": 485432
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 548,
+          "constraints": 500,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "c8103a6fea9e7a1e9d813c7e91e8a05d93d698d7babf2ad9a8c7ff7219ff4b15",
+      "model_identity": "9402a8d18b470851a4248aea4ed7ca0d6130664a3774fce73cc32f97fe51f8ac"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "attila",
+      "scope": "pair",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 50563.8125,
+      "bound": 50563.8125,
+      "gap_percent": 0.0,
+      "wall_seconds": 17.82109380700058,
+      "peak_worker_rss_bytes": 163381248,
+      "timings": {
+        "request_seconds": 0.002477658001225791,
+        "load_engine_seconds": 0.0015145079996727873,
+        "build_model_seconds": 0.42015138199894864,
+        "solve_and_check_seconds": 16.673338618000344,
+        "prepare_result_seconds": 0.021283554000547156
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.07743743899845867,
+        "bound_strengthening_seconds": 0.004460158001165837,
+        "search_seconds": 16.4869784349994,
+        "validation_seconds": 0.0006913299985171761
+      },
+      "model_complexity": [
+        {
+          "label": "Attila expanded income model",
+          "variables": 6241,
+          "constraints": 18086,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 259,
+          "nonzeros": 43041,
+          "storage_bytes": 1177680
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1325,
+          "constraints": 1225,
+          "formulation": "factored_income",
+          "stage": "solver",
+          "decision_variables": null,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "8e6c28b8778f5ca054819ae84346ca9c024e391e94b116a3e8dfb4e36330e4cc",
+      "model_identity": "5540c726f2c52b831cdbc198b8b3ff2097e3d26f9a31151efc1fd87e6540b6c3"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "rome2",
+      "scope": "single",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 9733.8,
+      "bound": 9733.8,
+      "gap_percent": 0.0,
+      "wall_seconds": 4.188485888000287,
+      "peak_worker_rss_bytes": 146132992,
+      "timings": {
+        "request_seconds": 0.0003622839994932292,
+        "load_engine_seconds": 0.006951249999474385,
+        "build_model_seconds": 0.007517166000980069,
+        "solve_and_check_seconds": 3.4103797279985884,
+        "prepare_result_seconds": 0.01106704400081071
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.07549099699826911,
+        "bound_strengthening_seconds": 0.07599942900014867,
+        "search_seconds": 3.241264576001413
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 288,
+          "constraints": 131,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 516,
+          "constraints": 994,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 258,
+          "nonzeros": 13302,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 517,
+          "constraints": 1025,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 258,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "9fca7fe04aaae21945e1d33a3006987d98d30ed66a676f3e24bec3cf3f443972",
+      "model_identity": "4ab29ac03156f70199b111833a35a8fc04fa2b3a802d01da73d7611116585764"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "rome2",
+      "scope": "pair",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "FEASIBLE",
+      "income": 19493.9,
+      "bound": 23140.5,
+      "gap_percent": 15.758518614550242,
+      "wall_seconds": 20.83829159800007,
+      "peak_worker_rss_bytes": 157532160,
+      "timings": {
+        "request_seconds": 0.0023553279988846043,
+        "load_engine_seconds": 0.007573779001177172,
+        "build_model_seconds": 0.015207693999400362,
+        "solve_and_check_seconds": 20.04758646600021,
+        "prepare_result_seconds": 0.013194306000514189
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.13276203600071312,
+        "bound_strengthening_seconds": 0.07380275499963318,
+        "search_seconds": 19.813198011999702
+      },
+      "model_complexity": [
+        {
+          "label": "Rome II canonical proof model",
+          "variables": 590,
+          "constraints": 261,
+          "formulation": "native_products",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        },
+        {
+          "label": "Rome II linearized model",
+          "variables": 1059,
+          "constraints": 2029,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 530,
+          "nonzeros": 28632,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 1060,
+          "constraints": 2090,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 530,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "5de4e8a20b9cca9b524150fc06e5e4fb2837050edc9190a440a460f12a52b0f6",
+      "model_identity": "b0af639b2637e2166724f11cc231fe3ddb6d0181cdd4e4a25c8d27cbf5889474"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "shogun2",
+      "scope": "single",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 4318.16,
+      "bound": 4318.16,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.6069126300008065,
+      "peak_worker_rss_bytes": 117460992,
+      "timings": {
+        "request_seconds": 0.0001823269994929433,
+        "load_engine_seconds": 0.00714103100108332,
+        "build_model_seconds": 0.004721277000498958,
+        "solve_and_check_seconds": 0.01217622199874313,
+        "prepare_result_seconds": 0.003299900999991223
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.0025114460004260764,
+        "search_seconds": 0.0047660609998274595,
+        "validation_seconds": 0.00024821400074870326,
+        "preparation_seconds": 0.003838132999590016
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 49,
+          "constraints": 70,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 30,
+          "nonzeros": 208,
+          "storage_bytes": 5560
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 49,
+          "constraints": 74,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 30,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "6a67d0d08ea82aac7f71d77eb09e3d582353dee176ca39680d95fa8c37bff1d9",
+      "model_identity": "a2dcea7d4994f55e34ebd103ad00257ba05f1b89804387d21b308c21bcf9c645"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "shogun2",
+      "scope": "pair",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 5497.49,
+      "bound": 5497.49,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.6069219300006807,
+      "peak_worker_rss_bytes": 117760000,
+      "timings": {
+        "request_seconds": 0.0001840029999584658,
+        "load_engine_seconds": 0.006264659001317341,
+        "build_model_seconds": 0.005331082000338938,
+        "solve_and_check_seconds": 0.02177616299923102,
+        "prepare_result_seconds": 0.003336230000059004
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.005061420999481925,
+        "search_seconds": 0.009013846000016201,
+        "validation_seconds": 0.00022833700131741352,
+        "preparation_seconds": 0.006472774000940262
+      },
+      "model_complexity": [
+        {
+          "label": "Shogun 2 binary income model",
+          "variables": 107,
+          "constraints": 155,
+          "formulation": "expanded_boolean",
+          "stage": "reference",
+          "decision_variables": 63,
+          "nonzeros": 461,
+          "storage_bytes": 12312
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 107,
+          "constraints": 164,
+          "formulation": "expanded_boolean",
+          "stage": "solver",
+          "decision_variables": 63,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "b203e55cf15a451042eb26ab0e36f9b3166ee58755a6e3322a5c004b0bcee4ac",
+      "model_identity": "7f561f33aae35cf3bab37a2285e6cadc00ce3c25f5e35958b19c6ac0032a3f7c"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "three_kingdoms",
+      "scope": "single",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "bound": 627.75,
+      "gap_percent": 0.0,
+      "wall_seconds": 0.8578054460012936,
+      "peak_worker_rss_bytes": 132423680,
+      "timings": {
+        "request_seconds": 0.0002804609994200291,
+        "load_engine_seconds": 0.003923729000234744,
+        "build_model_seconds": 0.06236917599926528,
+        "solve_and_check_seconds": 0.14341139600037422,
+        "prepare_result_seconds": 0.006393694999133004
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.005837153999891598,
+        "search_seconds": 0.059646892001183005,
+        "preparation_seconds": 0.008244916998592089,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 118,
+          "constraints": 189,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 61,
+          "nonzeros": 1463,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 119,
+          "constraints": 203,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 61,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "5a4e4a11c17ba1191818eb10f4d3b07f575a753f5d0e902b528d3b2d3fe39c4d",
+      "model_identity": "9c6f87b330559058cf9ed5882c5b77f13cecaca88376cb9997654d6b85a6f98e"
+    },
+    {
+      "series": "candidate_validation",
+      "game": "three_kingdoms",
+      "scope": "pair",
+      "seed": 2,
+      "workers": 1,
+      "solver_allowance_seconds": 20.0,
+      "completion": "COMPLETE",
+      "status": "OPTIMAL",
+      "income": 1628.0,
+      "bound": 1628.0,
+      "gap_percent": 0.0,
+      "wall_seconds": 1.1613007179985289,
+      "peak_worker_rss_bytes": 133804032,
+      "timings": {
+        "request_seconds": 0.0008962209994933801,
+        "load_engine_seconds": 0.0028827629994339077,
+        "build_model_seconds": 0.05315172399969015,
+        "solve_and_check_seconds": 0.41580806000092707,
+        "prepare_result_seconds": 0.007626053999047144
+      },
+      "solver_timings": {
+        "model_conversion_seconds": 0.010510737000004156,
+        "search_seconds": 0.31647187399903487,
+        "preparation_seconds": 0.017724807001286536,
+        "joint_preparation_seconds": 0.0
+      },
+      "model_complexity": [
+        {
+          "label": "Three Kingdoms linearized income model",
+          "variables": 253,
+          "constraints": 420,
+          "formulation": "linearized_income",
+          "stage": "reference",
+          "decision_variables": 118,
+          "nonzeros": 3323,
+          "storage_bytes": null
+        },
+        {
+          "label": "CP-SAT solver input",
+          "variables": 254,
+          "constraints": 450,
+          "formulation": "linearized_income",
+          "stage": "solver",
+          "decision_variables": 118,
+          "nonzeros": null,
+          "storage_bytes": null
+        }
+      ],
+      "layout_sha256": "0d5ea44185f8d77695e39322cfcf27f7f70251dd43af89339a3b704dda6959f9",
+      "model_identity": "2b8baf2020f48db27c3b3818fc90a3ed1180ce5fac84886328c8c8e594104549"
+    }
+  ]
+}

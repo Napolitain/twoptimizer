@@ -47,19 +47,19 @@ During CP-SAT search, a separate live line shows the candidate income, upper
 bound and remaining gap. A candidate becomes a result after validation.
 Larger joint Rome II CP-SAT runs automatically prepare bounds from smaller
 connected groups before searching the complete model. Shared food and all other
-requirements remain enforced; the [measurement report](docs/rome-joint-bounds.md)
+requirements remain enforced; the [measurement report](docs/investigations/rome-joint-bounds.md)
 explains the method, observed results and limits.
 Eligible joint Attila CP-SAT runs use a separate bound-preparation method for
 provincial food and cross-province effects. Its
-[measurement report](docs/attila-joint-bounds.md) shows improved income and bounds
+[measurement report](docs/investigations/attila-joint-bounds.md) shows improved income and bounds
 within the tested allowance, alongside higher wall time and memory use.
 Three Kingdoms joint runs can prepare validated local layouts and bounds from
 connected groups. Shogun 2 can prepare a conservative local starting layout.
 Preparation is automatic and bounded; it does not limit the subsequent unlimited
-solve. See [joint preparation and reusable search](docs/joint-preparation.md).
+solve. See [joint preparation and reusable search](docs/investigations/joint-preparation.md).
 Eligible Attila and Three Kingdoms holdings with eight or more provinces use
 native CP-SAT multiplication automatically. Rome II and Shogun keep their existing
-defaults; [paired measurements](docs/native-products.md) explain the selection
+defaults; [paired measurements](docs/investigations/native-products.md) explain the selection
 and the cases where native products were worse.
 The **Runtime** tab shows matching historical measurements, timings from earlier
 runs with the same settings in this session, and time since the candidate or
@@ -100,6 +100,19 @@ Add `--help` to any subcommand for its options, or run
 `benchmark-results/` by default; use `attila --output results.json` to save an
 Attila run.
 
+## Project structure
+
+The Total War engines own their economic rules, scenarios and independent result
+validation. Shared solver mechanisms live in `games/optimization`; a typed
+application registry connects the CLI, terminal UI, adapters and session caches.
+Attila's loader and domain model live with its game code. HoI4 remains in this
+repository with its source pipeline, public data and hourly planning foundation.
+
+The [architecture guide](docs/architecture.md) explains those boundaries and the
+remaining game-specific formulations. The [documentation index](docs/README.md)
+separates usage references from investigations; the [reports index](reports/README.md)
+links preserved measurements and source audits.
+
 ## Details
 
 Results optimize the stated static economic models and supplied inputs; they are
@@ -110,13 +123,13 @@ current-patch certification. HoI4 optimization is still under development.
 - [Rome II model](games/tw/rome2/README.md)
 - [Shogun 2 model](games/tw/shogun2/README.md)
 - [Three Kingdoms historical model, sources and limitations](games/tw/three_kingdoms/README.md)
-- [Three Kingdoms solver validation and measured joint runs](docs/three-kingdoms-validation.md)
+- [Three Kingdoms solver validation and measured joint runs](docs/investigations/three-kingdoms-validation.md)
 - [HoI4 development status, public data and hourly planning](games/hoi4/README.md)
 - [Data preparation and coverage](games/tw/multigame/README.md)
-- [CP-SAT and HiGHS comparison](docs/cpsat-highs-performance.md)
-- [Joint Attila and Rome II performance investigation](docs/joint-scaling.md)
-- [Rome II joint bounds and measured solution quality](docs/rome-joint-bounds.md)
-- [Historical joint and independent holding benchmarks](docs/holding-performance.md)
-- [Attila special-building audit](docs/attila-special-audit.md)
-- [Rome II special-building audit](docs/rome-special-audit.md)
+- [CP-SAT and HiGHS comparison](docs/investigations/cpsat-highs-performance.md)
+- [Joint Attila and Rome II performance investigation](docs/investigations/joint-scaling.md)
+- [Rome II joint bounds and measured solution quality](docs/investigations/rome-joint-bounds.md)
+- [Historical joint and independent holding benchmarks](docs/investigations/holding-performance.md)
+- [Attila special-building audit](docs/investigations/attila-special-audit.md)
+- [Rome II special-building audit](docs/investigations/rome-special-audit.md)
 - [Agent and development guidelines](AGENTS.md)

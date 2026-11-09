@@ -10,24 +10,19 @@ from fractions import Fraction
 
 from ortools.linear_solver import pywraplp
 
-from games.tw.competition import BinaryModel
+from games.optimization.competition import BinaryModel
 from games.tw.immutable import freeze
 from games.tw.shogun2.catalog import load_data
 from games.tw.shogun2.constraints import install_constraints, validate_candidates, validate_layout
-from games.tw.shogun2.effects import (
-    family,
-    level,
-    parse,
-    unavailable_reason,
-    unique_key,
-    values,
-)
+from games.tw.shogun2.domain import parse_catalog
+from games.tw.shogun2.effects import unavailable_reason
 from games.tw.shogun2.records import (
+    Building,
     Catalog,
     Economics,
+    EconomyCatalog,
     ProvinceEconomics,
     ProvinceRules,
-    PublicRecord,
     Rules,
 )
 from games.tw.shogun2.scenario import Province, Scenario
@@ -42,14 +37,18 @@ def fraction(value):
 
 class Economy:
     def __init__(
-        self, scenario: Scenario, catalog: Catalog | None = None, rules: Rules | None = None
+        self,
+        scenario: Scenario,
+        catalog: Catalog | EconomyCatalog | None = None,
+        rules: Rules | None = None,
     ):
         loaded = (
             load_data() if catalog is None or rules is None else (freeze(catalog), freeze(rules))
         )
-        self.catalog, self.rules = loaded
+        raw_catalog, self.rules = loaded
+        self.catalog = parse_catalog(raw_catalog)
         self.scenario = scenario
-        if scenario.clan not in self.catalog["factions"]:
+        if scenario.clan not in self.catalog.factions:
             raise ValueError("Unknown clan")
         self.religion = scenario.religion or self.rules["clan_religion"][scenario.clan]
         if self.religion not in {"christian", "buddhist", "ikko"}:
@@ -63,30 +62,28 @@ class Economy:
         self._load_provinces(scenario)
         self.arts = Counter()
         if scenario.all_arts:
-            for art in self.catalog["technologies"].values():
-                for text in (*art["facts"], *art.get("clan_facts", ())):
-                    if effect := parse(text):
-                        self.arts[effect.kind] += effect.value
+            for effects in self.catalog.technologies.values():
+                for effect in effects:
+                    self.arts[effect.kind] += effect.value
         self.farm_percent = self.arts["farm_percent"] + self.rules["clan_farm_percent"].get(
             scenario.clan, 0
         )
-        self.candidates: dict[str, dict[str, PublicRecord]] = {}
+        self.candidates: dict[str, dict[str, Building]] = {}
 
         self._load_candidates(scenario)
         validate_candidates(scenario, self.catalog, self.candidates)
 
     def _load_candidates(self, scenario):
-        def arts_available(building, seen=frozenset()):
+        def arts_available(building: Building, seen: frozenset[str] = frozenset()) -> bool:
             if scenario.all_arts:
                 return True
-            if building["id"] in seen:
+            if building.id in seen:
                 raise ValueError("Cyclic construction prerequisite")
-            for url in building.get("requires", []):
-                key = url.rsplit("/", 1)[-1].removesuffix(".html")
-                if key in self.catalog["technologies"]:
+            for key in building.prerequisites:
+                if key in self.catalog.technologies:
                     return False
-                if key in self.catalog["buildings"] and not arts_available(
-                    self.catalog["buildings"][key], seen | {building["id"]}
+                if key in self.catalog.buildings and not arts_available(
+                    self.catalog.buildings[key], seen | {building.id}
                 ):
                     return False
             return True
@@ -94,8 +91,8 @@ class Economy:
         for province_id, (_, location) in self.provinces.items():
             self.candidates[province_id] = {
                 key: building
-                for key, building in self.catalog["buildings"].items()
-                if family(building) in TOWN | DEDICATED
+                for key, building in self.catalog.buildings.items()
+                if building.family in TOWN | DEDICATED
                 and arts_available(building)
                 and unavailable_reason(
                     building,
@@ -126,14 +123,14 @@ class Economy:
                 location["farm_multiplier"] = province.farm_multiplier
             self.provinces[province.id] = (province, location)
 
-    def wealth(self, province_id, building):
+    def wealth(self, province_id: str, building: Building) -> Fraction:
         location = self.provinces[province_id][1]
         return (
-            fraction(values(building, "wealth", "farms"))
+            fraction(building.value("wealth", "farms"))
             * fraction(location["farm_multiplier"])
             * (1 + fraction(self.farm_percent) / 100)
-            + values(building, "wealth", "commerce")
-            + values(building, "wealth", "mines")
+            + building.value("wealth", "commerce")
+            + building.value("wealth", "mines")
         )
 
     def compile(self):
@@ -167,22 +164,22 @@ class Economy:
             for key, building in buildings.items():
                 variable = solver.BoolVar(province_id + ":" + key)
                 variables[(province_id, key)] = variable
-                groups[family(building)].append(variable)
-                food.append(values(building, "food") * variable)
-                if unique_id := unique_key(building):
+                groups[building.family].append(variable)
+                food.append(building.value("food") * variable)
+                if unique_id := building.unique:
                     unique[unique_id].append(variable)
             self._compile_chain_constraints(groups, solver)
             slots = sum(
-                level(buildings[key]) * variables[(province_id, key)]
+                buildings[key].level * variables[(province_id, key)]
                 for key in buildings
-                if family(buildings[key]) == "castle"
+                if buildings[key].family == "castle"
             )
             town = sum(
-                variables[(province_id, key)] for key in buildings if family(buildings[key]) in TOWN
+                variables[(province_id, key)] for key in buildings if buildings[key].family in TOWN
             )
             solver.Add(town <= slots)
             order = sum(
-                (values(b, "order") + values(b, "religious_order")) * variables[(province_id, key)]
+                (b.value("order") + b.value("religious_order")) * variables[(province_id, key)]
                 for key, b in buildings.items()
             )
             solver.Add(order + self.arts["order"] + province.order_offset >= province.minimum_order)
@@ -221,9 +218,9 @@ class Economy:
         offset += base_wealth * base_tax * administration
         wealth = [(key, self.wealth(province_id, b)) for key, b in buildings.items()]
         taxes = [
-            (key, fraction(values(b, "tax_percent")) / 100)
+            (key, fraction(b.value("tax_percent")) / 100)
             for key, b in buildings.items()
-            if values(b, "tax_percent")
+            if b.value("tax_percent")
         ]
         for key, amount in wealth:
             objective[variables[(province_id, key)].name()] += amount * base_tax * administration
@@ -233,7 +230,7 @@ class Economy:
             for wealth_key, amount in wealth:
                 if not amount:
                     continue
-                if key != wealth_key and family(buildings[key]) == family(buildings[wealth_key]):
+                if key != wealth_key and buildings[key].family == buildings[wealth_key].family:
                     continue  # Mutually exclusive stages of the same chain.
                 term = product(tax_variable, variables[(province_id, wealth_key)])
                 objective[term.name()] += rate * amount * administration
@@ -251,31 +248,31 @@ class Economy:
         for province_id, keys in layout.items():
             buildings, slots = self._validate_province_layout(keys, province_id)
             for building in buildings:
-                if key := unique_key(building):
+                if key := building.unique:
                     unique[key] += 1
             province, location = self.provinces[province_id]
             order = (
                 fraction(province.order_offset)
                 + self.arts["order"]
-                + sum(values(b, "order") + values(b, "religious_order") for b in buildings)
+                + sum(b.value("order") + b.value("religious_order") for b in buildings)
             )
             if order < fraction(province.minimum_order):
                 raise ValueError("Insufficient public order")
-            food = sum(values(b, "food") for b in buildings)
+            food = sum(b.value("food") for b in buildings)
             total_food += food
             farm_wealth = sum(
-                fraction(values(b, "wealth", "farms"))
+                fraction(b.value("wealth", "farms"))
                 * fraction(location["farm_multiplier"])
                 * (1 + fraction(self.farm_percent) / 100)
                 for b in buildings
             )
-            commerce = sum(values(b, "wealth", "commerce") for b in buildings)
-            mines = sum(values(b, "wealth", "mines") for b in buildings)
+            commerce = sum(b.value("wealth", "commerce") for b in buildings)
+            mines = sum(b.value("wealth", "mines") for b in buildings)
             wealth = fraction(province.town_wealth) + farm_wealth + commerce + mines
             tax = (
                 fraction(province.base_tax_percent)
                 + self.arts["tax_percent"]
-                + sum(values(b, "tax_percent") for b in buildings)
+                + sum(b.value("tax_percent") for b in buildings)
             )
             income = wealth * tax / 100 * fraction(province.administration)
             total_income += income
@@ -295,9 +292,9 @@ class Economy:
                 "local_food_balance": food,
                 "public_order": float(order),
                 "growth_components": {
-                    "buildings": sum(values(b, "building_growth") for b in buildings),
+                    "buildings": sum(b.value("building_growth") for b in buildings),
                     "building_growth_bonus_percent": sum(
-                        values(b, "growth_percent") for b in buildings
+                        b.value("growth_percent") for b in buildings
                     ),
                     "arts": self.arts["arts_growth"],
                 },
@@ -326,14 +323,14 @@ class Economy:
         if set(keys) - self.candidates[province_id].keys():
             raise ValueError("Unavailable building")
         buildings = [self.candidates[province_id][key] for key in keys]
-        groups = Counter(family(b) for b in buildings)
-        available_groups = {family(b) for b in self.candidates[province_id].values()}
+        groups = Counter(b.family for b in buildings)
+        available_groups = {b.family for b in self.candidates[province_id].values()}
         if any(groups[g] != 1 for g in DEDICATED & available_groups) or any(
             n > 1 for n in groups.values()
         ):
             raise ValueError("Invalid chain occupancy")
-        castle = next(b for b in buildings if family(b) == "castle")
-        slots = level(castle)
+        castle = next(b for b in buildings if b.family == "castle")
+        slots = castle.level
         if sum(groups[g] for g in TOWN) > slots:
             raise ValueError("Castle has too few town slots")
         return buildings, slots

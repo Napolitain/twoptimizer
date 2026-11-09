@@ -4,15 +4,15 @@ from collections.abc import Callable
 from dataclasses import replace
 from math import isfinite
 
-from games.tw.cancellation import Cancellation, Cancelled
-from twoptimizer.catalog import NOTES, faction_name
+from games.optimization.cancellation import Cancellation, Cancelled
+from twoptimizer.catalog import faction_name
 from twoptimizer.constraint_comparison import baseline_config, compare_results, has_requirements
-from twoptimizer.engines import solve_attila, solve_rome, solve_shogun, solve_three_kingdoms
 from twoptimizer.errors import ApplicationError, deserialize_error, serialize_error
 from twoptimizer.holdings import map_context, province_label
 from twoptimizer.models import CaseResult, RunConfig, SolverSummary
 from twoptimizer.progress import ModelStats, PhaseTimer, ProgressEvent, SearchStats
 from twoptimizer.provenance import source_files
+from twoptimizer.registry import game_plugin, solve_adapter
 from twoptimizer.requests import make_jobs as make_jobs
 from twoptimizer.session import RunSession
 
@@ -65,7 +65,7 @@ def _cancelled_result(config: RunConfig, phase: PhaseTimer, reason: str) -> Case
         gap_percent=None,
         metrics={},
         buildings=[],
-        assumptions=NOTES[config.game],
+        assumptions=game_plugin(config.game).notes,
         source_files={},
         raw={
             "cancellation": {"reason": reason},
@@ -80,12 +80,7 @@ def _cancelled_result(config: RunConfig, phase: PhaseTimer, reason: str) -> Case
 
 def _solve_one(config: RunConfig, phase: PhaseTimer, session: RunSession | None) -> CaseResult:
     phase("load_engine_seconds", "Loading engine and game data")
-    adapter = {
-        "rome2": solve_rome,
-        "shogun2": solve_shogun,
-        "attila": solve_attila,
-        "three_kingdoms": solve_three_kingdoms,
-    }[config.game]
+    adapter = solve_adapter(config.game)
     if session is not None:
         session.prepare(config.game)
     try:
@@ -122,7 +117,7 @@ def _solve_one(config: RunConfig, phase: PhaseTimer, session: RunSession | None)
         gap_percent=gap,
         metrics=result.metrics,
         buildings=sorted(result.buildings, key=lambda b: (b.region, b.building)),
-        assumptions=NOTES[config.game],
+        assumptions=game_plugin(config.game).notes,
         source_files=source_files(config.game),
         raw=result.raw,
         timings=phase.timings,
@@ -194,6 +189,10 @@ def _comparison_side(config, label, progress, session, cancellation):
 
 def error_result(config: RunConfig, error: Exception) -> CaseResult:
     """Retain a failed case in a batch with the same result schema as successes."""
+    try:
+        assumptions = game_plugin(config.game).notes
+    except ValueError:
+        assumptions = ""
     return CaseResult(
         request=config,
         faction=config.faction,
@@ -203,7 +202,7 @@ def error_result(config: RunConfig, error: Exception) -> CaseResult:
         gap_percent=None,
         metrics={},
         buildings=[],
-        assumptions=NOTES.get(config.game, ""),
+        assumptions=assumptions,
         source_files={},
         raw=serialize_error(error),
         timings={},

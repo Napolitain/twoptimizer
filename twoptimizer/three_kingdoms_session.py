@@ -7,6 +7,8 @@ from copy import deepcopy
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
 
+from twoptimizer.session_cache import trim_cache
+
 if TYPE_CHECKING:
     from games.tw.three_kingdoms.model import Economy
     from twoptimizer.models import RunConfig
@@ -20,8 +22,7 @@ class ThreeKingdomsSession:
         self.cases.clear()
 
     def trim(self, limit: int) -> None:
-        while len(self.cases) > limit:
-            self.cases.pop(next(iter(self.cases)))
+        trim_cache(self.cases, limit)
 
     def solve(self, economy: Economy, config: RunConfig, **observers) -> dict[str, Any]:
         key = json.dumps(economy.scenario.to_dict(), sort_keys=True)

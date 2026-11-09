@@ -8,6 +8,8 @@ from dataclasses import dataclass, field
 from math import isfinite
 from typing import TYPE_CHECKING, Any
 
+from twoptimizer.session_cache import trim_cache
+
 if TYPE_CHECKING:
     from games.tw.rome2.model import Economy
     from twoptimizer.models import RunConfig
@@ -54,6 +56,14 @@ class RomeSession:
             for case in self.cases.values()
             if case["solver"]["status"] == "OPTIMAL" and "proof_fingerprint" in case
         }
+
+    def clear(self) -> None:
+        self.cases.clear()
+        self.proofs.clear()
+
+    def trim(self, limit: int) -> None:
+        trim_cache(self.cases, limit)
+        trim_cache(self.proofs, limit)
 
     def should_skip(self, config: RunConfig, *, fill_missing: bool = False) -> bool:
         from twoptimizer.adapters.rome2 import request_key

@@ -9,17 +9,18 @@ from dataclasses import dataclass, field
 from time import perf_counter
 from typing import TYPE_CHECKING, Any
 
+from games.optimization.cancellation import Cancelled
+from games.optimization.competition import BinaryModel, Result, solve
+from games.tw.attila.game import AttilaGame
+from games.tw.attila.loader import AttilaLoader
 from games.tw.attila.model import ModelSnapshot, SnapshotOptions, compile_scenario, load_attila
 from games.tw.attila.modifiers import catalog
 from games.tw.attila.scenario import Scenario
 from games.tw.attila.traits import profile
-from games.tw.cancellation import Cancelled
-from games.tw.competition import BinaryModel, Result, solve
-from games.tw.models.game_attila import AttilaGame
-from games.tw.parser.parser_attila import ParserAttila
 from twoptimizer.attila_incumbents import checked, model_identity, retain
 from twoptimizer.catalog import ROOT
 from twoptimizer.holdings import adjacency_mapping, has_campaign_borders
+from twoptimizer.session_cache import trim_cache
 
 if TYPE_CHECKING:
     from twoptimizer.models import RunConfig
@@ -121,11 +122,25 @@ class AttilaSession:
     proofs: dict[str, Result] = field(default_factory=dict)
     incumbents: dict[str, Result] = field(default_factory=dict)
     _parser_key: str | None = None
-    _parser: ParserAttila | None = None
+    _parser: AttilaLoader | None = None
     _prepared_key: str | None = None
     _prepared: PreparedAttila | None = None
 
-    def parser(self, config: RunConfig) -> ParserAttila:
+    def clear(self) -> None:
+        self.prior.clear()
+        self.proofs.clear()
+        self.incumbents.clear()
+        self._parser_key = None
+        self._parser = None
+        self._prepared_key = None
+        self._prepared = None
+
+    def trim(self, limit: int) -> None:
+        trim_cache(self.prior, limit)
+        trim_cache(self.proofs, limit)
+        trim_cache(self.incumbents, limit)
+
+    def parser(self, config: RunConfig) -> AttilaLoader:
         key = json.dumps(
             [config.faction, config.religion, config.attila.to_dict()["region_fertility"]],
             sort_keys=True,

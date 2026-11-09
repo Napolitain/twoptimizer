@@ -9,8 +9,8 @@ production policy currently prefers the expanded Boolean formulation.
 
 from dataclasses import dataclass, replace
 
+from games.optimization.competition import BinaryModel
 from games.tw.attila.compact import CompactIncome
-from games.tw.competition import BinaryModel
 
 
 @dataclass(frozen=True, slots=True)

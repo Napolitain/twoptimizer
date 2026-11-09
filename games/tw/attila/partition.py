@@ -9,7 +9,7 @@ The full model is never modified. This module performs no native search.
 from collections import defaultdict
 from dataclasses import dataclass
 
-from games.tw.attila.native_parts import constraint_variables, objective_terms
+from games.optimization.native_model import constraint_variables, objective_terms
 
 
 class UnsupportedPartition(ValueError):

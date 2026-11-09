@@ -15,12 +15,13 @@ from time import perf_counter
 
 from ortools.sat.python import cp_model
 
+from games.optimization.errors import UnsupportedFormulation
 from games.tw.attila.algebra import add, rational
 
 LIMIT = 2**60
 
 
-class UnsupportedCompact(ValueError):
+class UnsupportedCompact(UnsupportedFormulation):
     """The existing expanded formulation is required or preferable."""
 
 
@@ -413,7 +414,7 @@ class Builder:
         return Value(variable, unit, lower, upper)
 
     def add_reference_rows(self):
-        from games.tw.competition import integer_row
+        from games.optimization.competition import integer_row
 
         for row, indices, coefficients, lower, upper in self.rows:
             bounds = [v for v in (lower, upper) if isfinite(v)]

@@ -4,11 +4,11 @@ import argparse
 from dataclasses import replace
 from pathlib import Path
 
-from twoptimizer.catalog import choices
 from twoptimizer.cli_constraints import add_constraint_options, print_comparison, read_constraints
 from twoptimizer.cli_holdings import add_holding_options, read_borders
 from twoptimizer.export import export_session
 from twoptimizer.models import RunRequest
+from twoptimizer.registry import choices
 from twoptimizer.requests import default_config, make_jobs
 from twoptimizer.service import solve_case
 from twoptimizer.session import RunSession
@@ -157,7 +157,7 @@ def main(argv=None):
 
 
 def print_city_levels(raw: dict) -> None:
-    names = {key: name for name, key in choices("three_kingdoms")["provinces"]}
+    names = {key: name for name, key in choices("three_kingdoms").provinces}
     for key, row in raw.get("commanderies", {}).items():
         print(f"  {names[key]}: city level {row['city_level']}", flush=True)
 

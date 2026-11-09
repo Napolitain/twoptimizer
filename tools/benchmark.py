@@ -8,15 +8,17 @@ from pathlib import Path
 from statistics import median
 from time import perf_counter
 
-from twoptimizer.catalog import choices
 from twoptimizer.models import RunConfig
+from twoptimizer.registry import choices, game_plugins
 from twoptimizer.service import solve_case
 
 
 def main() -> None:
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument(
-        "--game", choices=("attila", "rome2", "shogun2", "three_kingdoms"), default="attila"
+        "--game",
+        choices=tuple(plugin.identifier for plugin in game_plugins() if plugin.optimizable),
+        default="attila",
     )
     cli.add_argument("--repeat", type=int, default=3)
     cli.add_argument("--workers", type=int, default=1)
@@ -27,9 +29,9 @@ def main() -> None:
     catalog = choices(args.game)
     config = RunConfig(
         game=args.game,
-        faction=catalog["default_faction"],
-        province=catalog["default_province"],
-        research=catalog["default_research"],
+        faction=catalog.default_faction,
+        province=catalog.default_province,
+        research=catalog.default_research,
         algorithm="cp-sat",
         workers=args.workers,
     )

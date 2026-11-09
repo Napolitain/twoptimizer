@@ -5,7 +5,7 @@ att_city_zafar template is the Ma'rib Dam site, not a sixth patriarchal see.
 This does not establish faction-wide limits for ordinary legendary buildings.
 """
 
-from games.tw.models.model_attila import AttilaRegionResources, AttilaReligion
+from games.tw.attila.enums import AttilaRegionResources, AttilaReligion
 
 PATRIARCHAL_SLOTS = frozenset(
     {
@@ -30,14 +30,6 @@ def church_resource(slot, religion):
 
 
 def special_allowed(region, building):
-    if region.context.legacy_effects:
-        return all(
-            resource.value not in building.name or region.has_ressource == resource
-            for resource in (
-                AttilaRegionResources.ATTILA_REGION_CHURCH_CATHOLIC,
-                AttilaRegionResources.ATTILA_REGION_CHURCH_ORTHODOX,
-            )
-        )
     if building.name.endswith("att_bld_eos_marib_dam"):
         return region.name == "att_reg_arabia_felix_zafar"
     for resource in PATRIARCHAL_RESOURCES.values():

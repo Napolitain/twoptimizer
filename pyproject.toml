@@ -33,7 +33,7 @@ build-backend = "uv_build"
 module-name = ["games", "twoptimizer"]
 module-root = ""
 source-include = ["tests/**", "tools/**", "reports/**", "docs/**", "uv.lock", "AGENTS.md",
-                  "prek.toml", "requirements.txt", ".python-version", ".editorconfig",
+                  "prek.toml", ".python-version", ".editorconfig",
                   ".github/**", ".gitignore", "flake.nix", "flake.lock"]
 
 [tool.ruff]
@@ -57,7 +57,7 @@ python-version = "3.14"
 error-on-warning = true
 
 [tool.pytest.ini_options]
-testpaths = ["tests", "games/hoi4"]
+testpaths = ["tests"]
 addopts = ["-ra", "--strict-markers", "--cov", "--cov-report=term-missing", "--cov-report=xml"]
 
 [tool.coverage.run]
@@ -73,6 +73,5 @@ fail_under = 80
 [tool.mutmut]
 source_paths = ["games", "twoptimizer"]
 also_copy = ["tools", "reports"]
-do_not_mutate = ["games/**/test_*.py"]
 pytest_add_cli_args = ["--no-cov"]
 mutate_only_covered_lines = true

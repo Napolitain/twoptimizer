@@ -6,16 +6,13 @@ from dataclasses import dataclass, field
 from twoptimizer.attila_session import AttilaSession
 from twoptimizer.models import CaseResult
 from twoptimizer.provenance import source_files
+from twoptimizer.registry import game_plugin, game_plugins
 from twoptimizer.rome_session import RomeSession
+from twoptimizer.session_cache import trim_cache
 from twoptimizer.shogun_session import ShogunSession
 from twoptimizer.three_kingdoms_session import ThreeKingdomsSession
 
 MAX_CASES = 128
-
-
-def _trim(values: dict, limit: int) -> None:
-    while len(values) > limit:
-        values.pop(next(iter(values)))
 
 
 @dataclass(slots=True)
@@ -43,27 +40,15 @@ class RunSession:
         self.trim()
 
     def _invalidate(self, game: str) -> None:
-        if game == "attila":
-            self.attila = AttilaSession(reuse_proofs=self.attila.reuse_proofs)
-        elif game == "rome2":
-            self.rome = RomeSession()
-        elif game == "shogun2":
-            self.shogun.clear()
-        elif game == "three_kingdoms":
-            self.three_kingdoms.clear()
+        cache = game_plugin(game).session_cache
+        if cache is not None:
+            cache(self).clear()
 
     def trim(self) -> None:
-        for values in (
-            self.attila.prior,
-            self.attila.proofs,
-            self.attila.incumbents,
-            self.rome.cases,
-            self.rome.proofs,
-        ):
-            _trim(values, self.max_cases)
-        self.shogun.trim(self.max_cases)
-        self.three_kingdoms.trim(self.max_cases)
-        _trim(self._optima, self.max_cases * 4)
+        for plugin in game_plugins():
+            if plugin.session_cache is not None:
+                plugin.session_cache(self).trim(self.max_cases)
+        trim_cache(self._optima, self.max_cases * 4)
 
     def record(self, result: CaseResult) -> None:
         self.trim()
@@ -82,7 +67,7 @@ class RunSession:
         previous = self._optima.setdefault(key, value)
         if abs(previous - value) > 1e-5:
             raise RuntimeError("Exact solvers disagree on a proved optimum")
-        _trim(self._optima, self.max_cases * 4)
+        trim_cache(self._optima, self.max_cases * 4)
 
     def _record_objectives(self, result: CaseResult, settings: dict) -> None:
         if result.solver.status not in {"OPTIMAL", "FEASIBLE"}:

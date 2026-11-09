@@ -4,7 +4,7 @@ These subclasses return the engine's models untouched. In particular the
 canonical proof model is distinct from the linearization used by CP-SAT.
 """
 
-from games.tw.rome2.backends import NativeCP
+from games.optimization.cp_backend import NativeCP
 from games.tw.rome2.holdings import HoldingEconomy
 from games.tw.rome2.model import Economy
 from twoptimizer.progress import ModelStats, PhaseTimer

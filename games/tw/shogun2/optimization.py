@@ -4,8 +4,8 @@ from dataclasses import asdict
 from math import isfinite
 from time import perf_counter
 
-from games.tw.cancellation import Cancelled
-from games.tw.competition import ALGORITHMS, Result, solve
+from games.optimization.cancellation import Cancelled
+from games.optimization.competition import ALGORITHMS, Result, solve
 from games.tw.shogun2.preparation import prepare
 
 

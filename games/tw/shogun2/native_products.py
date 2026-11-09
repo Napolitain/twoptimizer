@@ -6,9 +6,9 @@ from time import perf_counter
 
 from ortools.sat.python import cp_model
 
-from games.tw.competition import BinaryModel, Result, _binary_cp_model
-from games.tw.search_progress import solve_with_progress
-from games.tw.sparse import SparseConstraints
+from games.optimization.competition import BinaryModel, Result, _binary_cp_model
+from games.optimization.search_progress import solve_with_progress
+from games.optimization.sparse import SparseConstraints
 
 
 @dataclass(frozen=True, slots=True)

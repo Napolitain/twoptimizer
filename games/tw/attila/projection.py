@@ -6,7 +6,7 @@ from itertools import pairwise
 
 from ortools.sat.python import cp_model
 
-from games.tw.attila.native_parts import (
+from games.optimization.native_model import (
     SAFE_INTEGER,
     UnsupportedNativeModel,
     constraint_variables,

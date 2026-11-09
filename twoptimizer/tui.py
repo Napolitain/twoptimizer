@@ -23,7 +23,7 @@ from textual.widgets import (
 )
 
 from games.tw.maps.catalog import province_borders
-from twoptimizer.catalog import EXACT, GAMES, NOTES, choices, faction_name
+from twoptimizer.catalog import faction_name
 from twoptimizer.comparison_presentation import (
     COMPARISON_EMPTY,
     comparison_rows,
@@ -32,9 +32,9 @@ from twoptimizer.comparison_presentation import (
 from twoptimizer.constraint_catalog import building_choices
 from twoptimizer.constraint_options import ConstraintOptions
 from twoptimizer.constraint_picker import ConstraintPicker, constraint_count
+from twoptimizer.game_plugin import GameChoices
 from twoptimizer.hoi4_data_screen import HoI4DataScreen
 from twoptimizer.holdings import (
-    BORDER_GAMES,
     named_province_choices,
     province_label,
     selected_provinces,
@@ -56,6 +56,7 @@ from twoptimizer.province_picker import (
     ProvincePicker,
     ProvinceSelection,
 )
+from twoptimizer.registry import choices, game_plugin, supports_optimization
 from twoptimizer.runner import BatchRunner
 from twoptimizer.runtime_view import RuntimeView
 from twoptimizer.screens import ExportScreen, HelpScreen
@@ -139,8 +140,9 @@ class OptimizerApp(App):
         self.query_one("#compare-constraints", Checkbox).value = False
         game = str(self.query_one("#game", Select).value)
         options = choices(game)
-        available = game in EXACT
-        self.query_one("#hoi4-data").display = game == "hoi4"
+        plugin = game_plugin(game)
+        available = plugin.optimizable
+        self.query_one("#hoi4-data").display = plugin.capabilities.reference_inspector
         self.query_one("#rome-options").display = game == "rome2"
         self.query_one("#attila-options").display = game == "attila"
         self.query_one("#shogun-options").display = game == "shogun2"
@@ -153,28 +155,26 @@ class OptimizerApp(App):
                 widget.set_options([("Not available yet", "unavailable")])
                 widget.value = "unavailable"
         if available:
-            for field in ("faction", "province", "research"):
+            for field, values, default in (
+                ("faction", options.factions, options.default_faction),
+                ("province", options.provinces, options.default_province),
+                ("research", options.research, options.default_research),
+            ):
                 widget = self.query_one("#" + field, Select)
-                values = (
-                    options["factions"]
-                    if field == "faction"
-                    else options["provinces"]
-                    if field == "province"
-                    else options["research"]
-                )
                 widget.set_options(
                     ([("All factions / clans", "all"), *values]) if field == "faction" else values
                 )
-                widget.value = options["default_" + field]
-            solvers = [("CP-SAT", "cp-sat"), ("HiGHS", "highs")]
+                widget.value = default
+            labels = {"cp-sat": "CP-SAT", "highs": "HiGHS"}
+            solvers = [(labels[key], key) for key in plugin.algorithms]
             solvers.append(("Compare exact solvers", "compare"))
             self.query_one("#algorithm", Select).set_options(solvers)
             self.query_one("#algorithm", Select).value = "cp-sat"
         self.query_one("#model-notes", Markdown).update(
             "# "
-            + {key: label for label, key in GAMES}[game]
+            + plugin.label
             + "\n\n"
-            + NOTES[game]
+            + plugin.notes
             + (
                 "\n\nSelects support typing to search. Each run uses the existing "
                 "game engine and independently checks returned layouts. Export "
@@ -185,14 +185,14 @@ class OptimizerApp(App):
         self._loading_settings = False
         self._refresh_preview()
 
-    def _configure_three_kingdoms(self, game, options):
+    def _configure_three_kingdoms(self, game: str, options: GameChoices) -> None:
         if game != "three_kingdoms":
             return
         from games.tw.three_kingdoms.catalog import load_data
 
         capital = self.query_one("#three-kingdoms-capital", Select)
         capital.set_options(
-            [("Not specified · capital-only buildings excluded", "none"), *options["provinces"]]
+            [("Not specified · capital-only buildings excluded", "none"), *options.provinces]
         )
         capital.value = "none"
         resources = self.query_one("#three-kingdoms-resources", SelectionList)
@@ -208,7 +208,7 @@ class OptimizerApp(App):
 
     @on(Button.Pressed, "#choose-constraints")
     def choose_constraints(self):
-        if self.busy or str(self.query_one("#game", Select).value) not in EXACT:
+        if self.busy or not supports_optimization(str(self.query_one("#game", Select).value)):
             return
         try:
             config = self._config()
@@ -235,7 +235,7 @@ class OptimizerApp(App):
     @on(Button.Pressed, "#choose-provinces")
     def choose_provinces(self):
         game = str(self.query_one("#game", Select).value)
-        if self.busy or game not in EXACT:
+        if self.busy or not supports_optimization(game):
             return
         self.push_screen(
             ProvincePicker(
@@ -257,7 +257,7 @@ class OptimizerApp(App):
         game = str(self.query_one("#game", Select).value)
         selected = set(self.province_selection.provinces or ())
         options = [(label, key) for label, key in named_province_choices(game) if key in selected]
-        if self.busy or game not in BORDER_GAMES or len(options) < 2:
+        if self.busy or not game_plugin(game).capabilities.borders or len(options) < 2:
             return
         self.push_screen(
             BorderPicker(
@@ -286,9 +286,11 @@ class OptimizerApp(App):
             f"{len(state.provinces or ())} selected · "
             + ("together" if state.joint else "independent")
         )
-        self.query_one("#choose-provinces", Button).disabled = game not in EXACT
+        self.query_one("#choose-provinces", Button).disabled = not supports_optimization(game)
         self.query_one("#choose-borders").display = (
-            game in BORDER_GAMES and state.joint and len(state.provinces or ()) > 1
+            game_plugin(game).capabilities.borders
+            and state.joint
+            and len(state.provinces or ()) > 1
         )
 
     def _config(self):
@@ -384,7 +386,9 @@ class OptimizerApp(App):
         constraint_button.label = (
             f"Optional constraints… ({count})" if count else "Optional constraints…"
         )
-        constraint_button.disabled = str(self.query_one("#game", Select).value) not in EXACT
+        constraint_button.disabled = not supports_optimization(
+            str(self.query_one("#game", Select).value)
+        )
         self.query_one("#compare-constraints", Checkbox).disabled = constraint_button.disabled
         self.query_one("#time-options").display = self.query_one("#time-limit", Checkbox).value
         try:

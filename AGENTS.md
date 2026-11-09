@@ -135,8 +135,7 @@ uv build
 Use `uv run --frozen pytest <path> --no-cov` for focused tests. Hooks run Ruff formatting/linting,
 ty and pytest with branch coverage and an 80% coverage gate. Ruff hooks apply safe fixes; request unsafe fixes explicitly and review every diff.
 Typing runs without automatic fixes. Keep engine implementation and bundled data in `games/`, the terminal app in
-`twoptimizer/`, and tests in `tests/`;
-legacy HoI4 demonstration tests under `games/hoi4/` remain collected. Hypothesis properties run with pytest. Preserve Ruff's
+`twoptimizer/`, and tests in `tests/`, grouped by application, optimization and game. Hypothesis properties run with pytest. Preserve Ruff's
 cyclomatic complexity limit of 10 and strict typing.
 
 Run `uv run --frozen prek run --hook-stage manual mutmut --all-files` for mutation testing when
@@ -166,14 +165,18 @@ Online refresh commands change reference data and require explicit intent.
 Build with `uv build`; the wheel contains the `games` and `twoptimizer` packages, bundled data,
 and the `twoptimizer` console entry point.
 Keep canonical module paths stable; update all callers when deliberately removing obsolete APIs. Source distributions include tests and development
-configuration. Use `requirements.txt` only as a pip compatibility entry point;
-`pyproject.toml` and `uv.lock` own dependencies.
+configuration. `pyproject.toml` and `uv.lock` own dependencies; use the documented
+uv workflow.
 
 ## Architecture boundaries
 
 See `docs/architecture.md` for ownership rules and canonical APIs.
-Pass `GameContext` explicitly to engine entities, parsers and problems. There is
-no process-global game state or fallback context. Use `compile_scenario` and
+Keep reusable numerical and solver machinery in `games/optimization`, which
+must not import game engines or the application. Games own economics, placement,
+linking-row semantics and independent validation. Native and linear formulations
+remain explicit where measured solver behavior justifies them.
+Pass `AttilaContext` explicitly to Attila entities, loaders and construction;
+there is no generic legacy engine or process-global game state. Use `compile_scenario` and
 `SnapshotOptions` for reusable province inputs, and `ComparisonOptions` for search configuration. Keep typed
 application objects inside adapters/services and serialize at worker/export
 boundaries. Preserve the report schema and verify model signatures and solver
@@ -185,6 +188,9 @@ Keep scenario records, validation, constraint compilation, solver execution and
 reporting in their owning domain modules. Update source provenance when moving
 mathematical code, and bundle terminal style assets in the wheel.
 
+Register games, commands and capabilities in `twoptimizer/registry.py`; keep
+game-specific forms and validation explicit. HoI4 remains in this repository with
+its maintained data pipeline and hourly planning modules.
 CLI parsers and TUI widgets must translate inputs into shared application requests.
 Use `RunRequest`/`RunConfig`, `make_jobs` and `solve_case` for validation, expansion,
 scenario preparation and typed results. Keep native solver invocation and result

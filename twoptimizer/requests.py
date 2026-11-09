@@ -4,23 +4,24 @@ import csv
 from dataclasses import replace
 from math import isfinite
 
-from twoptimizer.catalog import EXACT, ROOT, choices, faction_name, read
+from twoptimizer.catalog import ROOT, faction_name, read
 from twoptimizer.constraint_options import ConstraintOptions
 from twoptimizer.errors import ApplicationError
 from twoptimizer.holdings import named_province_choices, validate_selection
 from twoptimizer.models import AttilaOptions, RunConfig, RunRequest
+from twoptimizer.registry import choices, game_plugin, supports_optimization
 from twoptimizer.three_kingdoms_options import ThreeKingdomsOptions
 
 
 def default_config(game: str) -> RunConfig:
-    if game not in EXACT:
+    if not supports_optimization(game):
         raise ApplicationError("This game does not yet have a complete optimizer.")
     options = choices(game)
     return RunConfig(
         game=game,
-        faction=options["default_faction"],
-        province=options["default_province"],
-        research=options["default_research"],
+        faction=options.default_faction,
+        province=options.default_province,
+        research=options.default_research,
         algorithm="cp-sat",
         three_kingdoms=ThreeKingdomsOptions(city_level=None)
         if game == "three_kingdoms"
@@ -41,7 +42,7 @@ def make_jobs(request: RunConfig | RunRequest) -> tuple[list[RunConfig], list[st
 def _expand(request: RunRequest) -> tuple[list[RunConfig], list[str]]:
     config = _normalize_three_kingdoms(request.config)
     request = replace(request, config=config)
-    if config.game not in EXACT:
+    if not supports_optimization(config.game):
         raise ApplicationError("This game does not yet have a complete optimizer.")
     validate_case(config)
     factions, skipped = _factions(config, request.factions or (config.faction,))
@@ -103,7 +104,7 @@ def validate_case(config: RunConfig) -> None:
     if config.seconds is not None and (not _finite_number(config.seconds) or config.seconds <= 0):
         raise ApplicationError("Time limit must be positive, or disabled to run to completion.")
     _positive_integer(config.workers, "Workers")
-    if config.research not in {key for _, key in choices(config.game)["research"]}:
+    if config.research not in {key for _, key in choices(config.game).research}:
         raise ApplicationError("Choose an available research profile.")
     if config.game == "attila":
         _validate_attila(config)
@@ -137,7 +138,7 @@ def _validate_flags(config: RunConfig) -> None:
 
 
 def _validate_attila(config: RunConfig) -> None:
-    from games.tw.models.model_attila import AttilaReligion
+    from games.tw.attila.enums import AttilaReligion
 
     if not _finite_number(config.fertility) or config.fertility < 0:
         raise ApplicationError("Fertility must be finite and nonnegative.")
@@ -172,7 +173,7 @@ def _validate_shogun(config: RunConfig) -> None:
 
 def _faction_id(game: str, value: str) -> str:
     if game == "attila":
-        from games.tw.models.model_attila import AttilaFactions
+        from games.tw.attila.enums import AttilaFactions
 
         if value in AttilaFactions.__members__:
             return AttilaFactions[value].value
@@ -180,8 +181,8 @@ def _faction_id(game: str, value: str) -> str:
             return AttilaFactions(value).value
         except ValueError:
             pass
-    known = {key: key for _, key in choices(game)["factions"]}
-    known.update({label: key for label, key in choices(game)["factions"]})
+    known = {key: key for _, key in choices(game).factions}
+    known.update({label: key for label, key in choices(game).factions})
     if value not in known:
         raise ApplicationError("Unknown faction or clan.")
     return known[value]
@@ -190,7 +191,7 @@ def _faction_id(game: str, value: str) -> str:
 def _factions(config: RunConfig, selected: tuple[str, ...]) -> tuple[list[str], list[str]]:
     implicit = selected == ("all",)
     factions = (
-        sorted(key for _, key in choices(config.game)["factions"])
+        sorted(key for _, key in choices(config.game).factions)
         if implicit
         else [_faction_id(config.game, name) for name in selected]
     )
@@ -236,8 +237,8 @@ def _religious_factions(config, factions, implicit):
 
 
 def _algorithms(config: RunConfig, selected: tuple[str, ...]) -> tuple[str, ...]:
-    allowed = EXACT[config.game]
-    algorithms = EXACT[config.game] if selected == ("compare",) else selected
+    allowed = game_plugin(config.game).algorithms
+    algorithms = allowed if selected == ("compare",) else selected
     if any(algorithm not in allowed for algorithm in algorithms):
         raise ApplicationError("Supported solvers are CP-SAT and HiGHS; choose cp-sat or highs.")
     return tuple(algorithms)
@@ -246,7 +247,7 @@ def _algorithms(config: RunConfig, selected: tuple[str, ...]) -> tuple[str, ...]
 def province_id(game: str, value: str) -> str:
     if not isinstance(value, str):
         raise ApplicationError("Choose an available province or reference layout.")
-    options = choices(game)["provinces"]
+    options = choices(game).provinces
     if game == "rome2":
         from games.tw.rome2.world import normalized
 

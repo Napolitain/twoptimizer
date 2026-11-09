@@ -1,17 +1,23 @@
 """Compile ownership, resource eligibility and scoped economy into an exact MILP."""
 
 from collections import defaultdict
+from typing import TYPE_CHECKING
 
 from ortools.linear_solver import linear_solver_pb2, pywraplp
 
 from games.tw.three_kingdoms.integer import Arithmetic, Quantity
 from games.tw.three_kingdoms.optimization import SCALE
+from games.tw.three_kingdoms.records import Effect
+from games.tw.three_kingdoms.scenario import Commandery
 from games.tw.three_kingdoms.scopes import ECONOMIC, targets
 from games.tw.three_kingdoms.selection import SelectionBounds, guaranteed_resources
 
+if TYPE_CHECKING:
+    from games.tw.three_kingdoms.model import Economy
+
 
 class Compiler:
-    def __init__(self, economy):
+    def __init__(self, economy: Economy):
         self.economy = economy
         self.solver = pywraplp.Solver.CreateSolver("SAT")
         self.arithmetic = Arithmetic(self.solver)
@@ -30,7 +36,7 @@ class Compiler:
             self._province_constraints(province)
             retention = self._retention(province)
             for county, region in self.economy.regions.items():
-                if region["commandery"] == province.id:
+                if region.commandery == province.id:
                     food.append(self._county_food(county).expression)
                     wealth = self._county_wealth(county)
                     income.append(
@@ -38,7 +44,7 @@ class Compiler:
                     )
         self.solver.Add(sum(food) + self.economy.scenario.external_food * 100 >= 0, "__realm_food")
         upkeep = sum(
-            self.economy.candidates[county][key]["upkeep"] * variable
+            self.economy.candidates[county][key].upkeep * variable
             for (county, key), variable in self.choices.items()
         )
         self.solver.Maximize(sum(income) - upkeep * SCALE)
@@ -60,8 +66,8 @@ class Compiler:
             for key, building in buildings.items():
                 variable = self.choices[(county, key)]
                 roles[self.economy.role(county, building)].append(variable)
-                groups[building["superchain"]].append(variable)
-                if building["faction_unique"]:
+                groups[building.superchain].append(variable)
+                if building.faction_unique:
                     unique[key].append(variable)
             self.solver.Add(sum(roles["primary"]) == 1)
             if roles["port"]:
@@ -73,24 +79,24 @@ class Compiler:
             self.solver.Add(sum(variables) <= 1)
 
     def _city_constraints(self, county, roles):
-        province = self.economy.provinces[self.economy.regions[county]["commandery"]]
-        city_rules = self.economy.data["rules"]["city_levels"]
+        province = self.economy.provinces[self.economy.regions[county].commandery]
+        city_rules = self.economy.data.rules.city_levels
         if province.city_level is not None:
-            slots = city_rules[str(province.city_level)]["slots"]
+            slots = city_rules[province.city_level].slots
         else:
-            capital = self.economy.data["commanderies"][province.id]["capital"]
+            capital = self.economy.data.commanderies[province.id].capital
             city_choices = [
-                (building["level"], self.choices[(capital, key)])
+                (building.level, self.choices[(capital, key)])
                 for key, building in self.economy.candidates[capital].items()
-                if building["kind"] == "city"
+                if building.kind == "city"
             ]
-            slots = sum(city_rules[str(level)]["slots"] * choice for level, choice in city_choices)
+            slots = sum(city_rules[level].slots * choice for level, choice in city_choices)
             for key, building in self.economy.candidates[county].items():
-                if building["kind"] != "city" and building["minimum_city_level"]:
+                if building.kind != "city" and building.minimum_city_level:
                     required = sum(
                         choice
                         for level, choice in city_choices
-                        if level >= building["minimum_city_level"]
+                        if level >= building.minimum_city_level
                     )
                     self.solver.Add(self.choices[(county, key)] <= required)
         self.solver.Add(sum(roles["district"] + roles["port"]) <= slots)
@@ -99,13 +105,13 @@ class Compiler:
         providers = defaultdict(list)
         for pair, variable in self.choices.items():
             building = self.economy.candidates[pair[0]][pair[1]]
-            for resource in building["provided_resources"]:
+            for resource in building.provided_resources:
                 providers[resource].append(variable)
         available = guaranteed_resources(self.economy)
         for pair, variable in self.choices.items():
-            required = self.economy.candidates[pair[0]][pair[1]]["required_resources"]
-            resources = set(required["resources"])
-            if required["operator"] == "OR":
+            required = self.economy.candidates[pair[0]][pair[1]].required_resources
+            resources = set(required.resources)
+            if required.operator == "OR":
                 if resources and not resources & available:
                     self.solver.Add(
                         variable <= sum(v for r in sorted(resources) for v in providers[r]),
@@ -124,8 +130,8 @@ class Compiler:
         for key in self.economy.scenario.forbidden_buildings:
             self.solver.Add(sum(v for (_, b), v in self.choices.items() if b == key) == 0)
 
-    def _add_effect(self, effect, county, variable=None):
-        if effect["metric"] not in ECONOMIC:
+    def _add_effect(self, effect: Effect, county: str, variable=None) -> None:
+        if effect.metric not in ECONOMIC:
             return
         destinations = targets(
             effect,
@@ -135,11 +141,11 @@ class Compiler:
             self.economy.scenario.adjacency or (),
         )
         for destination in destinations:
-            key = (effect["metric"], destination, effect["category"])
+            key = (effect.metric, destination, effect.category)
             if variable is None:
-                self.fixed[key] += effect["value"]
+                self.fixed[key] += effect.value
             else:
-                self.terms[key].append((effect["value"], Quantity(variable, 0, 1)))
+                self.terms[key].append((effect.value, Quantity(variable, 0, 1)))
 
     def _effect_terms(self):
         for pair, variable in self.choices.items():
@@ -151,15 +157,15 @@ class Compiler:
         for province in self.economy.scenario.commanderies:
             population = self.economy.population_effects(province)
             self.fixed[("order", province.id, "")] += (
-                population["public_order"] + province.order_offset
+                population.public_order + province.order_offset
             )
             for county, region in self.economy.regions.items():
-                if region["commandery"] == province.id:
-                    self.fixed[("wealth_percent", county, "peasantry")] += population[
-                        "peasantry_percent"
-                    ]
+                if region.commandery == province.id:
+                    self.fixed[("wealth_percent", county, "peasantry")] += (
+                        population.peasantry_percent
+                    )
 
-    def quantity(self, metric, place, category="", offset=0):
+    def quantity(self, metric: str, place: str, category: str = "", offset: int = 0) -> Quantity:
         key = (metric, place, category)
         fixed = offset + self.fixed[key]
         terms = self.terms[key]
@@ -169,20 +175,18 @@ class Compiler:
         )
         return Quantity(expression, fixed + lower, fixed + upper)
 
-    def _province_constraints(self, province):
+    def _province_constraints(self, province: Commandery) -> None:
         self.solver.Add(self.quantity("order", province.id).expression >= province.minimum_order)
         capacity = sum(
-            effect["value"] * self.choices[pair]
+            effect.value * self.choices[pair]
             for pair, effects in self.economy.effects.items()
-            if self.economy.regions[pair[0]]["commandery"] == province.id
+            if self.economy.regions[pair[0]].commandery == province.id
             for effect in effects
-            if effect["metric"] == "population_capacity"
+            if effect.metric == "population_capacity"
         )
-        self.solver.Add(
-            capacity * self.economy.data["rules"]["population_unit"] >= province.population
-        )
+        self.solver.Add(capacity * self.economy.data.rules.population_unit >= province.population)
 
-    def _retention(self, province):
+    def _retention(self, province: Commandery) -> Quantity:
         if not province.corruption_percent:
             return Quantity.constant(10_000)
         modifier = self.arithmetic.maximum_zero(

@@ -4,16 +4,7 @@ import importlib
 import sys
 
 from twoptimizer.cli import run_cli
-
-COMMANDS = {
-    "rome2": "games.tw.rome2.benchmark",
-    "shogun2": "games.tw.shogun2.benchmark",
-    "three-kingdoms": "twoptimizer.three_kingdoms_cli",
-    "three_kingdoms": "twoptimizer.three_kingdoms_cli",
-    "attila": "games.tw.benchmark",
-    "attila-factions": "games.tw.faction_comparison",
-    "hoi4": "games.hoi4.cli",
-}
+from twoptimizer.registry import command_help, command_named
 
 
 def main(argv=None):
@@ -29,18 +20,14 @@ def main(argv=None):
 
         OptimizerApp().run()
         return 0
-    if args[0] in COMMANDS:
-        return run_cli(importlib.import_module(COMMANDS[args[0]]).main, args[1:])
+    if (command := command_named(args[0])) is not None:
+        return run_cli(importlib.import_module(command.module).main, args[1:])
     if args in (["--help"], ["-h"]):
         print(
             "Usage: twoptimizer [tui | GAME [options]]\n\nNo arguments opens the"
-            " interactive terminal UI.\n\nCLI commands:\n  rome2             Rome"
-            " II comparisons\n  shogun2           Shogun 2 comparisons\n  attila"
-            "            Attila province optimization\n  attila-factions   "
-            "Attila faction comparisons\n  hoi4 data         HoI4 public reference data"
-            "\n  three-kingdoms    Three Kingdoms historical 1.2.0 economy"
-            "\n  hoi4 plan-check   Review hourly planning input structure"
-            "\n\nUse twoptimizer GAME --help for "
+            " interactive terminal UI.\n\nCLI commands:\n"
+            + "\n".join(f"  {name:<17}{description}" for name, description in command_help())
+            + "\n\nUse twoptimizer GAME --help for "
             "existing CLI options."
         )
         return 0

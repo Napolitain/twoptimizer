@@ -1,32 +1,23 @@
 """Certified component upper bounds after explicitly relaxing shared requirements."""
 
 from collections import Counter, defaultdict
-from math import ceil, isfinite
-from time import perf_counter
+from math import isfinite
 
 from ortools.linear_solver import linear_solver_pb2
 from ortools.sat.python import cp_model
 
-from games.tw.cancellation import Cancelled
-from games.tw.highs_backend import estimate_lower_bound_price
-from games.tw.rome2.decomposition import (
+from games.optimization.budget import Budget
+from games.optimization.cancellation import Cancelled
+from games.optimization.cp_backend import NativeCP
+from games.optimization.exact import integer_upper_bound
+from games.optimization.highs_backend import estimate_lower_bound_price
+from games.optimization.linear_components import (
     InfeasibleRelaxation,
     UnsupportedDecomposition,
     decompose,
     objective_upper_bound,
 )
-from games.tw.search_progress import solve_with_progress
-
-
-class Budget:
-    def __init__(self, seconds):
-        self.started = perf_counter()
-        self.seconds = seconds
-        self.price_report = {"status": "NOT_RUN", "price": None}
-
-    @property
-    def remaining(self):
-        return max(0.0, self.seconds - (perf_counter() - self.started))
+from games.optimization.search_progress import solve_with_progress
 
 
 def _stopped(budget, cancellation):
@@ -35,18 +26,17 @@ def _stopped(budget, cancellation):
 
 def _price(proto, food_row, budget, workers, cancellation):
     if food_row is None or _stopped(budget, cancellation):
-        return 0
+        return 0, {"status": "NOT_RUN", "price": None}
     report = estimate_lower_bound_price(
         proto, food_row, min(3.0, budget.remaining / 3), workers, cancellation=cancellation
     )
-    budget.price_report = report
     price = report.get("price")
     if type(price) is int and price >= 0:
         report["price_source"] = "continuous_relaxation"
-        return price
+        return price, report
     price = _fallback_price(proto, food_row)
     report.update(price_source="objective_food_domain_ratio", fallback_price=price)
-    return price
+    return price, report
 
 
 def _fallback_price(proto, food_row):
@@ -98,20 +88,18 @@ def _weighted(part, food, price):
 
 
 def _solve(proto, budget, cancellation):
-    from games.tw.three_kingdoms.optimization import native_model
-
     bounds = [objective_upper_bound(proto)]
     if _stopped(budget, cancellation):
         return bounds[0], "NOT_RUN"
-    model, _ = native_model(proto)
+    model = NativeCP.from_linear(proto).model
     solver = cp_model.CpSolver()
     solver.parameters.num_search_workers = 1
     solver.parameters.linearization_level = 2
     solver.parameters.max_time_in_seconds = min(0.5, max(0.001, budget.remaining))
 
     def observe(objective, bound, elapsed):
-        if bound is not None and isfinite(bound) and abs(bound) < 2**53:
-            bounds.append(ceil(bound))
+        if bound is not None and (upper := integer_upper_bound(bound)) is not None:
+            bounds.append(upper)
 
     status = solve_with_progress(solver, model, on_search=observe, cancellation=cancellation)
     if status == cp_model.INFEASIBLE:
@@ -170,7 +158,7 @@ def _strengthen(proto, target, rows, budget, workers, cancellation, on_phase):
     split = decompose(proto, relaxed_rows=rows)
     food_row = next((i for i in rows if proto.constraint[i].name == "__realm_food"), None)
     food, required = _food(proto, food_row)
-    price = _price(proto, food_row, budget, workers, cancellation)
+    price, price_report = _price(proto, food_row, budget, workers, cancellation)
     total = split.constant + price * (sum(food[i] * v for i, v in split.fixed.items()) - required)
     statuses = Counter()
     for number, part in enumerate(split.parts, 1):
@@ -187,7 +175,7 @@ def _strengthen(proto, target, rows, budget, workers, cancellation, on_phase):
         "largest_component_variables": max((len(p.indices) for p in split.parts), default=0),
         "relaxed_rows": len(rows),
         "food_price": price,
-        "price_estimation": budget.price_report,
+        "price_estimation": price_report,
         "component_statuses": dict(statuses),
         "upper_bound": total,
     }

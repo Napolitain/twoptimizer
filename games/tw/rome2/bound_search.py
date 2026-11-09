@@ -8,28 +8,24 @@ use the original integer units (one ten-thousandth of income).
 
 from collections import Counter, defaultdict
 from dataclasses import dataclass
-from math import ceil, isfinite
+from math import isfinite
 from time import perf_counter
 
 from ortools.linear_solver import linear_solver_pb2
 from ortools.sat.python import cp_model
 
-from games.tw.highs_backend import estimate_lower_bound_price
-from games.tw.rome2.backends import NativeCP
-from games.tw.rome2.decomposition import (
+from games.optimization.bounds import BoundSearchResult
+from games.optimization.budget import Budget
+from games.optimization.cp_backend import NativeCP
+from games.optimization.exact import integer_upper_bound
+from games.optimization.highs_backend import estimate_lower_bound_price
+from games.optimization.linear_components import (
     InfeasibleRelaxation,
     UnsupportedDecomposition,
     decompose,
     objective_upper_bound,
 )
-from games.tw.search_progress import solve_with_progress
-
-
-@dataclass(frozen=True)
-class BoundSearchResult:
-    upper_bound: int | None
-    hint_values: dict[int, int] | None
-    report: dict
+from games.optimization.search_progress import solve_with_progress
 
 
 @dataclass(frozen=True)
@@ -37,22 +33,6 @@ class _ComponentResult:
     bound: int
     values: dict[int, int] | None = None
     status: str = "NOT_RUN"
-
-
-class _Budget:
-    def __init__(self, seconds):
-        if seconds is not None and (not isfinite(seconds) or seconds < 0):
-            raise ValueError("Bound preparation seconds must be nonnegative and finite")
-        self.started = perf_counter()
-        self.limit = 40.0 if seconds is None else seconds
-
-    @property
-    def remaining(self):
-        return max(0.0, self.limit - (perf_counter() - self.started))
-
-    @property
-    def elapsed(self):
-        return perf_counter() - self.started
 
 
 def _integer(value):
@@ -89,13 +69,6 @@ def _weighted_proto(part, food, price):
     if activity >= 2**60:
         raise UnsupportedDecomposition("Priced objective exceeds safe CP-SAT activity")
     return proto
-
-
-def _native_upper(value):
-    # Integer CP-SAT bounds remain exactly representable within this range.
-    # Beyond it, keep the exact Python-integer domain bound instead of trusting
-    # a double that could have rounded below the real integer upper bound.
-    return ceil(value) if isfinite(value) and abs(value) < 2**53 else None
 
 
 def _feasible(proto, values):
@@ -152,7 +125,7 @@ def _solve_component(proto, budget, workers, cancellation):
     bounds = [fallback]
 
     def observe(objective, bound, elapsed):
-        if bound is not None and (upper := _native_upper(bound)) is not None:
+        if bound is not None and (upper := integer_upper_bound(bound)) is not None:
             bounds.append(upper)
 
     status = solve_with_progress(
@@ -275,7 +248,7 @@ def strengthen(
     chooses a nonnegative integer Lagrange multiplier; its objective/bound is
     never treated as an exact income certificate.
     """
-    budget = _Budget(seconds)
+    budget = Budget(40.0 if seconds is None else seconds, clock=perf_counter)
     try:
         result = _search(problem, proto, food_row, workers, budget, cancellation, on_phase)
     except UnsupportedDecomposition as error:

@@ -6,7 +6,7 @@ import traceback
 from pathlib import Path
 from typing import Any
 
-from games.tw.cancellation import Cancellation
+from games.optimization.cancellation import Cancellation
 from twoptimizer.errors import serialize_error
 from twoptimizer.models import RunConfig
 from twoptimizer.progress import PREFIX, encode_progress

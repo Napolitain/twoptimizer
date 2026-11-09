@@ -4,7 +4,7 @@ from collections import defaultdict
 
 from ortools.linear_solver import linear_solver_pb2, pywraplp
 
-from games.tw.rome2.backends import NativeCP
+from games.optimization.cp_backend import NativeCP
 from games.tw.rome2.building_constraints import install
 from games.tw.rome2.compiler import EffectTerms, RomeCompiler, variable_name
 from games.tw.rome2.effects import CATEGORIES, raw_effect

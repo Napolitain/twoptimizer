@@ -6,8 +6,8 @@ from dataclasses import fields
 from math import isfinite
 from typing import TYPE_CHECKING, Any
 
-from games.tw.comparison import ComparisonOptions, report_results
-from games.tw.competition import Result
+from games.optimization.competition import Result
+from games.tw.attila.comparison import ComparisonOptions, report_results
 from games.tw.immutable import thaw
 from twoptimizer.adapters.model_stats import record_binary, record_cp_result
 from twoptimizer.adapters.search import search_observers

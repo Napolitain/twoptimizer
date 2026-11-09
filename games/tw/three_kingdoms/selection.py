@@ -1,19 +1,23 @@
 """Exact-choice implications used to bound expressions without relaxing the model."""
 
 from collections import Counter, defaultdict
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from games.tw.three_kingdoms.model import Economy
 
 
 class SelectionBounds:
     """Bound a linear sum using mandatory roles, exclusive chains and available slots."""
 
-    def __init__(self, economy, choices):
+    def __init__(self, economy: Economy, choices):
         self.membership = {}
         self.sizes = Counter()
         ports = set()
         for (county, key), variable in choices.items():
             building = economy.candidates[county][key]
             role = economy.role(county, building)
-            chain = building["superchain"] if role == "district" else role
+            chain = building.superchain if role == "district" else role
             group = (county, role, chain)
             self.membership[variable.name()] = group
             self.sizes[group] += 1
@@ -51,20 +55,20 @@ class SelectionBounds:
         return lower, upper
 
 
-def _city_slots(economy, county):
-    province = economy.provinces[economy.regions[county]["commandery"]]
-    rules = economy.data["rules"]["city_levels"]
+def _city_slots(economy: Economy, county):
+    province = economy.provinces[economy.regions[county].commandery]
+    rules = economy.data.rules.city_levels
     if province.city_level is not None:
-        return rules[str(province.city_level)]["slots"]
-    capital = economy.data["commanderies"][province.id]["capital"]
+        return rules[province.city_level].slots
+    capital = economy.data.commanderies[province.id].capital
     return max(
-        rules[str(building["level"])]["slots"]
+        rules[building.level].slots
         for building in economy.candidates[capital].values()
-        if building["kind"] == "city"
+        if building.kind == "city"
     )
 
 
-def guaranteed_resources(economy):
+def guaranteed_resources(economy: Economy):
     """Resources supplied by every alternative of a required settlement or port."""
     guaranteed = set(economy.scenario.external_resources)
     for county, buildings in economy.candidates.items():
@@ -72,7 +76,7 @@ def guaranteed_resources(economy):
         for building in buildings.values():
             role = economy.role(county, building)
             if role in {"primary", "port"}:
-                roles[role].append(set(building["provided_resources"]))
+                roles[role].append(set(building.provided_resources))
         for alternatives in roles.values():
             guaranteed.update(set.intersection(*alternatives))
     return guaranteed

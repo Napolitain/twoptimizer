@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any
 
 from ortools.linear_solver import linear_solver_pb2, pywraplp
 
-from games.tw.rome2.backends import NativeCP
+from games.optimization.cp_backend import NativeCP
 from games.tw.rome2.building_constraints import install
 from games.tw.rome2.effects import CATEGORIES, raw_effect
 from games.tw.rome2.linear import LinearProducts, preserve_base_domain, preserve_minor_domains

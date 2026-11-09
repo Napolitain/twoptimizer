@@ -21,8 +21,8 @@ from textual.widgets import (
     TabPane,
 )
 
-from twoptimizer.catalog import GAMES
 from twoptimizer.comparison_presentation import COMPARISON_EMPTY
+from twoptimizer.registry import game_plugins
 from twoptimizer.three_kingdoms_options import ThreeKingdomsOptions
 
 
@@ -33,7 +33,12 @@ def compose_workspace() -> ComposeResult:
             with VerticalScroll(id="settings"):
                 yield Label("SCENARIO", classes="section-title")
                 yield Label("Game", classes="field-label")
-                yield Select(GAMES, value="rome2", allow_blank=False, id="game")
+                yield Select(
+                    [(game.label, game.identifier) for game in game_plugins()],
+                    value="rome2",
+                    allow_blank=False,
+                    id="game",
+                )
                 yield Button("Inspect HoI4 data…", id="hoi4-data")
                 yield Label("Faction / clan", classes="field-label")
                 yield Select([("Loading…", "loading")], allow_blank=False, id="faction")
@@ -54,7 +59,7 @@ def compose_workspace() -> ComposeResult:
                     yield Label("Fertility", classes="field-label")
                     yield Input("5", id="fertility", type="number")
                     yield Label("Common religion", classes="field-label")
-                    from games.tw.models.model_attila import AttilaReligion
+                    from games.tw.attila.enums import AttilaReligion
 
                     yield Select(
                         [(r.name.replace("_", " ").title(), r.name) for r in AttilaReligion],

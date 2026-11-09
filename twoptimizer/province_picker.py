@@ -9,7 +9,7 @@ from textual.screen import ModalScreen
 from textual.widgets import Button, Checkbox, Input, Select, SelectionList, Static
 
 from games.tw.maps.catalog import province_borders
-from twoptimizer.holdings import BORDER_GAMES, JOINT_GAMES
+from twoptimizer.registry import game_plugin
 
 # None means cancel for a modal result, so automatic borders need a distinct action.
 USE_MAP_BORDERS = object()
@@ -67,7 +67,7 @@ class ProvincePicker(ModalScreen):
                 yield Checkbox(
                     "Optimize selected provinces together",
                     value=self.original.joint,
-                    disabled=self.game not in JOINT_GAMES,
+                    disabled=not game_plugin(self.game).capabilities.joint_holdings,
                     id="joint-provinces",
                 )
                 yield Static("", id="joint-note")
@@ -92,7 +92,7 @@ class ProvincePicker(ModalScreen):
         if together:
             text = "One joint holding per faction and solver. " + (
                 self.border_note()
-                if self.game in BORDER_GAMES
+                if game_plugin(self.game).capabilities.borders
                 else "Shares food, faction effects and unique-building limits across the holding."
             )
         self.query_one("#joint-note", Static).update(text)

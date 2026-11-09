@@ -1,8 +1,8 @@
 """Small independent Attila arithmetic examples."""
 
-from games.tw.building import Building
-from games.tw.enums import Scope
-from games.tw.province import Province
+from games.tw.attila.building import Building
+from games.tw.attila.enums import Scope
+from games.tw.attila.province import Province
 
 
 def building(region, name, *effects, upkeep=0):

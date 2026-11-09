@@ -15,8 +15,8 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.request import Request, urlopen
 
+from games.tw.attila.enums import AttilaFactions
 from games.tw.attila.tools.import_online import DATA
-from games.tw.models.model_attila import AttilaFactions
 
 BASE = "https://www.honga.net/totalwar/attila/faction.php?l=en&f="
 

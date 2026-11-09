@@ -5,9 +5,9 @@ from time import perf_counter
 
 from ortools.sat.python import cp_model
 
-from games.tw.cancellation import Cancelled
-from games.tw.competition import Result
-from games.tw.search_progress import solve_with_progress
+from games.optimization.cancellation import Cancelled
+from games.optimization.competition import Result
+from games.optimization.search_progress import solve_with_progress
 
 
 def _strengthen(builder, seconds, seed, workers, started, cancellation, on_phase):

@@ -1,17 +1,11 @@
 """Exact recognition of monetary/food/order facts; unsupported facts stay visible."""
 
 import re
-from dataclasses import dataclass
+
+from games.tw.shogun2.records import Building, BuildingIdentity, Effect, Location
 
 
-@dataclass(frozen=True)
-class Effect:
-    kind: str
-    value: int
-    category: str = ""
-
-
-def parse(text):
+def parse(text: str) -> Effect | None:
     if match := re.fullmatch(
         r"Spreads (Buddhism|Christianity|radical Ikko beliefs) to neighbouring provinces "
         r"\(([+-][0-9]+) religious zeal\)",
@@ -75,29 +69,21 @@ def parse(text):
     return None
 
 
-def family(building):
+def family(building: BuildingIdentity) -> str:
     key = building["id"]
     if key.startswith("sho_region_specialty_"):
         return "specialty"
     return key.split("_")[1]
 
 
-def level(building):
+def level(building: BuildingIdentity) -> int:
     matches = re.findall(r"_([0-9]+)(?:_|$)", building["id"])
     if len(matches) != 1:
         raise ValueError(f"Unrecognized building level: {building['id']}")
     return int(matches[0])
 
 
-def values(building, kind, category=None):
-    return sum(
-        e.value
-        for text in (*building["facts"], *building.get("clan_facts", ()))
-        if (e := parse(text)) and e.kind == kind and (category is None or category == e.category)
-    )
-
-
-def _nanban_reason(nanban_contact, religion, key):
+def _nanban_reason(nanban_contact: bool, religion: str, key: str) -> str | None:
     if not nanban_contact or religion == "ikko":
         return "nanban_contact_or_religion"
     if key.endswith("nanban_quarter") and religion != "christian":
@@ -105,8 +91,15 @@ def _nanban_reason(nanban_contact, religion, key):
     return None
 
 
-def unavailable_reason(building, province, religion, *, nanban_contact=True, clan=None):
-    key, group = building["id"], family(building)
+def unavailable_reason(
+    building: Building,
+    province: Location,
+    religion: str,
+    *,
+    nanban_contact: bool = True,
+    clan: str | None = None,
+) -> str | None:
+    key, group = building.id, building.family
     if group == "port" and not province["has_port"]:
         return "no_port_location"
     if group == "specialty":
@@ -115,7 +108,7 @@ def unavailable_reason(building, province, religion, *, nanban_contact=True, cla
             return "different_province_specialty"
     if group in {"buddhist", "christian", "ikko"} and group != religion:
         return "different_state_religion"
-    if group == "christian" and clan is not None and level(building) > 1:
+    if group == "christian" and clan is not None and building.level > 1:
         otomo_branch = any(word in key for word in ("hospital", "jesuit"))
         if otomo_branch != (clan == "otomo"):
             return "different_clan_christian_branch"
@@ -126,7 +119,7 @@ def unavailable_reason(building, province, religion, *, nanban_contact=True, cla
     return None
 
 
-def unique_key(building):
+def unique_key(building: BuildingIdentity) -> str | None:
     group = family(building)
     if group == "port" and "nanban" in building["id"]:
         return "nanban_chain"

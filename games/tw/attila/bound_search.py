@@ -8,12 +8,16 @@ native integers; the owning optimizer applies the compact model's income unit.
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, replace
-from math import ceil, isfinite
+from math import ceil
 from time import perf_counter
 
 from ortools.sat.python import cp_model
 
-from games.tw.attila.native_parts import (
+from games.optimization.bounds import BoundSearchResult
+from games.optimization.budget import Budget
+from games.optimization.cancellation import Cancelled
+from games.optimization.exact import integer_upper_bound
+from games.optimization.native_model import (
     UnsupportedNativeModel,
     extract,
     feasible,
@@ -21,17 +25,9 @@ from games.tw.attila.native_parts import (
     objective_upper_bound,
     objective_value,
 )
+from games.optimization.search_progress import solve_with_progress
 from games.tw.attila.partition import UnsupportedPartition, partition
 from games.tw.attila.projection import ProjectionRows
-from games.tw.cancellation import Cancelled
-from games.tw.search_progress import solve_with_progress
-
-
-@dataclass(frozen=True)
-class BoundSearchResult:
-    upper_bound: int | None
-    hint_values: dict[int, int] | None
-    report: dict
 
 
 @dataclass(frozen=True)
@@ -47,22 +43,6 @@ class _InfeasibleRelaxation(Exception):
     pass
 
 
-class _Budget:
-    def __init__(self, seconds):
-        if seconds is not None and (not isfinite(seconds) or seconds < 0):
-            raise ValueError("Bound preparation seconds must be nonnegative and finite")
-        self.started = perf_counter()
-        self.limit = 40.0 if seconds is None else min(40.0, seconds)
-
-    @property
-    def remaining(self):
-        return max(0.0, self.limit - (perf_counter() - self.started))
-
-    @property
-    def elapsed(self):
-        return perf_counter() - self.started
-
-
 def _domain_bound(model, indices, coefficients):
     total = 0
     for index in indices:
@@ -74,11 +54,6 @@ def _domain_bound(model, indices, coefficients):
 
 def _stopped(budget, cancellation):
     return budget.remaining <= 0 or (cancellation is not None and cancellation.requested)
-
-
-def _native_bound(value):
-    # Never rescale through display income before rounding a native certificate.
-    return ceil(value) if isfinite(value) and abs(value) < 2**53 else None
 
 
 def _values(model, original_indices, solver, status, bound):
@@ -112,7 +87,7 @@ def _solve_component(
     bounds = [fallback]
 
     def observe(objective, bound, elapsed):
-        if bound is not None and (upper := _native_bound(bound)) is not None:
+        if bound is not None and (upper := integer_upper_bound(bound)) is not None:
             bounds[:] = [min(bounds[0], upper)]
 
     try:
@@ -294,7 +269,8 @@ def _search(builder, budget, seed, workers, cancellation, on_phase):
 
 def strengthen(builder, seconds, seed, workers, *, cancellation=None, on_phase=None):
     """Bound relaxed groups within forty seconds and retain only original-model hints."""
-    budget = _Budget(seconds)
+    budget = Budget(40.0 if seconds is None else seconds, clock=perf_counter)
+    budget.limit = min(40.0, budget.limit)
     try:
         result = _search(builder, budget, seed, workers, cancellation, on_phase)
     except (UnsupportedNativeModel, UnsupportedPartition) as error:

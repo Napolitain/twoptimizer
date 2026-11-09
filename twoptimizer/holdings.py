@@ -2,11 +2,9 @@
 
 from games.tw.immutable import thaw
 from games.tw.maps.catalog import load_campaign_map, province_borders
-from twoptimizer.catalog import choices
 from twoptimizer.models import RunConfig
+from twoptimizer.registry import choices, game_plugin
 
-JOINT_GAMES = {"attila", "rome2", "shogun2", "three_kingdoms"}
-BORDER_GAMES = {"attila", "rome2", "three_kingdoms"}
 ROME_REFERENCE_LAYOUTS = {"coastal", "inland", "grain"}
 
 
@@ -14,7 +12,7 @@ def named_province_choices(game: str) -> tuple[tuple[str, str], ...]:
     """Geographic holdings exclude hypothetical Rome II reference layouts."""
     return tuple(
         (label, key)
-        for label, key in choices(game)["provinces"]
+        for label, key in choices(game).provinces
         if game != "rome2" or key not in ROME_REFERENCE_LAYOUTS
     )
 
@@ -24,7 +22,7 @@ def selected_provinces(config: RunConfig) -> tuple[str, ...]:
 
 
 def province_label(config: RunConfig) -> str:
-    names = dict((key, label) for label, key in choices(config.game)["provinces"])
+    names = dict((key, label) for label, key in choices(config.game).provinces)
     selected = selected_provinces(config)
     if not selected:
         return "No provinces selected"
@@ -38,12 +36,12 @@ def validate_selection(config: RunConfig) -> tuple[str, ...]:
     if not isinstance(config.joint, bool):
         raise ValueError("Joint mode must be a boolean.")
     selected = selected_provinces(config)
-    available = {key for _, key in choices(config.game)["provinces"]}
+    available = {key for _, key in choices(config.game).provinces}
     if any(key not in available for key in selected):
         raise ValueError("Choose an available province or reference layout.")
     if len(set(selected)) != len(selected):
         raise ValueError("Select each province only once.")
-    if config.joint and config.game not in JOINT_GAMES:
+    if config.joint and not game_plugin(config.game).capabilities.joint_holdings:
         raise ValueError("Joint ownership is unavailable for this game.")
     if config.joint and config.game == "rome2" and set(selected) & ROME_REFERENCE_LAYOUTS:
         raise ValueError("Joint Rome II holdings require named provinces, not reference layouts.")
@@ -54,23 +52,21 @@ def validate_selection(config: RunConfig) -> tuple[str, ...]:
 def validate_borders(config: RunConfig, selected: tuple[str, ...]) -> None:
     if (
         config.joint
-        and config.game in BORDER_GAMES
+        and game_plugin(config.game).capabilities.borders
         and len(selected) > 1
         and config.adjacency is None
         and not has_campaign_borders(config)
         and not unverified_inactive_borders(config)
         and province_borders(config.game, selected) is None
     ):
-        game = {"attila": "Attila", "rome2": "Rome II", "three_kingdoms": "Three Kingdoms"}[
-            config.game
-        ]
+        game = game_plugin(config.game).label
         raise ValueError(
             f"No complete map covers this holding. Set neighboring provinces, "
             f"or confirm no borders, before running {game} together."
         )
     if config.adjacency is None:
         return
-    if not config.joint or config.game not in BORDER_GAMES:
+    if not config.joint or not game_plugin(config.game).capabilities.borders:
         raise ValueError(
             "Neighboring provinces apply to joint Attila, Rome II or Three Kingdoms runs."
         )
@@ -110,7 +106,11 @@ def resolved_borders(config: RunConfig) -> tuple[tuple[str, str], ...]:
         assert config.attila.campaign is not None
         mapping = config.attila.campaign.adjacency
         return tuple(sorted((a, b) for a, neighbors in mapping.items() for b in neighbors))
-    if not config.joint or config.game not in BORDER_GAMES or len(config.holdings) < 2:
+    if (
+        not config.joint
+        or not game_plugin(config.game).capabilities.borders
+        or len(config.holdings) < 2
+    ):
         return ()
     borders = province_borders(config.game, config.holdings)
     if borders is None:
@@ -122,7 +122,7 @@ def resolved_borders(config: RunConfig) -> tuple[tuple[str, str], ...]:
 
 def map_context(config: RunConfig) -> dict:
     """Record effective borders separately from the user's automatic/custom intent."""
-    if not config.joint or config.game not in BORDER_GAMES:
+    if not config.joint or not game_plugin(config.game).capabilities.borders:
         return {"mode": "not_applied", "borders": [], "directed": False}
     if config.game == "three_kingdoms" and len(config.holdings) < 2:
         return {"mode": "not_applied", "borders": [], "directed": False}

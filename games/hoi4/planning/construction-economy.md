@@ -135,7 +135,7 @@ The mirror/wiki describe civilian output of 4–5 IC/day and military output of
 3.5–4.5; an earlier publisher example instead used military output of 4–4.5.
 No source value is selected silently. The helper excludes proposed power-plant
 rules from the later beta and does not invent a current coal-demand equation.
-See the [broader source review](../../../../docs/hoi4-rules-review.md) for
+See the [broader source review](../../../docs/hoi4/hoi4-rules-review.md) for
 version provenance and unresolved interactions.
 
 [construction]: https://hoi4.paradoxwikis.com/index.php?title=Construction&oldid=102988

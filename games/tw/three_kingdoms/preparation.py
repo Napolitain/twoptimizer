@@ -3,9 +3,10 @@
 from dataclasses import replace
 from time import perf_counter
 
-from games.tw.cancellation import Cancelled
+from games.optimization.budget import Budget
+from games.optimization.cancellation import Cancelled
 from games.tw.three_kingdoms.incumbent import layout_from, validated
-from games.tw.three_kingdoms.joint_bounds import Budget, strengthen
+from games.tw.three_kingdoms.joint_bounds import strengthen
 
 
 def allowance(economy, seconds):

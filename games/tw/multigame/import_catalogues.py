@@ -215,7 +215,7 @@ def _select_factions(game, factions, native_only):
     if game == "rome2":
         factions = {k: v for k, v in factions.items() if k.startswith("rom_")}
         if native_only:
-            from games.tw.models.model_rome2 import Rome2Factions
+            from games.tw.rome2.enums import Rome2Factions
 
             ids = {f.value for f in Rome2Factions if f.value.startswith("rom_")}
             factions = {k: v for k, v in factions.items() if k in ids}

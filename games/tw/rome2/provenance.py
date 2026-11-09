@@ -3,34 +3,43 @@
 import hashlib
 from pathlib import Path
 
+PACKAGE_ROOT = Path(__file__).resolve().parents[3]
+
 MODEL_SOURCES = (
-    "model.py",
-    "linear.py",
-    "compiler.py",
-    "optimization.py",
-    "joint_search.py",
-    "bound_search.py",
-    "decomposition.py",
-    "backends.py",
-    "placement.py",
-    "scenario.py",
-    "building_constraints.py",
-    "catalog.py",
-    "records.py",
-    "effects.py",
-    "world.py",
-    "provenance.py",
-    "../immutable.py",
-    "../highs_backend.py",
-    "data/world.json",
-    "data/world_modifiers.json",
+    *(
+        f"games/tw/rome2/{name}"
+        for name in (
+            "model.py",
+            "linear.py",
+            "compiler.py",
+            "optimization.py",
+            "joint_search.py",
+            "bound_search.py",
+            "native_search.py",
+            "placement.py",
+            "scenario.py",
+            "building_constraints.py",
+            "catalog.py",
+            "records.py",
+            "effects.py",
+            "world.py",
+            "provenance.py",
+            "data/world.json",
+            "data/world_modifiers.json",
+        )
+    ),
+    "games/tw/immutable.py",
 )
 
 
 def model_fingerprint() -> str:
-    root = Path(__file__).parent
+    """Fingerprint source provenance, separately from compiled-model proof identity."""
+    core = (
+        path.relative_to(PACKAGE_ROOT).as_posix()
+        for path in (PACKAGE_ROOT / "games/optimization").glob("*.py")
+    )
     digest = hashlib.sha256()
-    for name in MODEL_SOURCES:
+    for name in sorted((*MODEL_SOURCES, *core)):
         digest.update(name.encode())
-        digest.update((root / name).read_bytes())
+        digest.update((PACKAGE_ROOT / name).read_bytes())
     return digest.hexdigest()

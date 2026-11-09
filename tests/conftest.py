@@ -2,13 +2,13 @@
 
 import pytest
 
-from games.tw.context import GameContext
+from games.tw.attila.context import AttilaContext
 from tests.support.rome2 import tiny_catalog
 
 
 @pytest.fixture
-def context() -> GameContext:
-    return GameContext(fertility=2)
+def context() -> AttilaContext:
+    return AttilaContext(fertility=2)
 
 
 @pytest.fixture

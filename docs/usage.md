@@ -110,6 +110,13 @@ existing JSON/CSV files unless replacement is explicitly selected. Model notes
 state each game's income definition and remaining data gaps. Values from different
 games are not a common GDP ranking.
 
+New reports name hashed sources relative to the installed packages, for example
+`games/optimization/resources.py`, `games/tw/rome2/model.py` and
+`twoptimizer/service.py`. These names work in both a checkout and an installed
+wheel. Older reports remain readable with their original names. Changes to the
+source manifest invalidate cached proof reuse; they do not rewrite historical
+reports or change the compiled model's mathematical identity.
+
 The status line shows engine startup, data loading, model building, solving and
 validation. Finished rows include phase timings; JSON exports also retain solver
 conversion/search/validation times. Attila and Shogun 2 exact solvers use sparse
@@ -205,7 +212,7 @@ not the number of provinces. Later cases report dispatch time instead of another
 startup time. Cancel requests a graceful stop before the batch ends. Press Run
 again to improve a matching scenario using retained layouts and applicable bounds.
 Force stop or exiting the application discards worker state. The native solver's
-search tree is not resumed. See [joint preparation](joint-preparation.md) for
+search tree is not resumed. See [joint preparation](investigations/joint-preparation.md) for
 game-specific eligibility, bound validation and cache limits.
 
 The CLI uses the same application service as the TUI. Existing commands and
@@ -274,7 +281,7 @@ uv run --locked twoptimizer rome2 --faction rom_rome --province Italia \
 ```
 
 The CLI prints a proved cost or unresolved bounds and preserves both sides in
-the report. The [worked comparison examples](constraint-cost-examples.md) show
+the report. The [worked comparison examples](investigations/constraint-cost-examples.md) show
 actual CLI and worker results for all three games, including a zero-cost
 requirement. Repeat `--compare-constraints` when resuming a Rome II comparison;
 resume cannot change comparison mode. A comparison whose income cost remains
@@ -318,7 +325,7 @@ JSON exports also preserve a bounded structured search trace, first-observed
 candidate times and 10%, 5%, 2% and 1% gap milestones under
 `raw.search_measurements`. The Runtime tab displays saved milestones and available
 decomposition sizes. These observations remain separate from the final validated
-layout. See [search evidence](joint-preparation.md#search-evidence) for clock and
+layout. See [search evidence](investigations/joint-preparation.md#search-evidence) for clock and
 retention details.
 Joint Rome II CP-SAT can now show a preparatory stage that estimates a shared-food
 price and bounds smaller connected groups. These bounds help the subsequent
@@ -332,7 +339,7 @@ of the remaining allowance when a time limit is set. This does not cap an
 otherwise unlimited full solve. Its HiGHS LP price estimate has an allowance of
 at most ten seconds; Cancel may wait for that native stage to return because the
 pinned backend cannot interrupt it. Force stop remains available.
-The [Rome II joint-bounds report](rome-joint-bounds.md) gives the measured income,
+The [Rome II joint-bounds report](investigations/rome-joint-bounds.md) gives the measured income,
 bound, gap, timings and memory, including unfinished proof statuses. Worker
 selection remains automatic. Those measurements do not establish a performance
 gain for Attila or Shogun 2.
@@ -349,13 +356,13 @@ use one worker each, running concurrently within the machine's CPU allocation.
 Final joint search uses the full allocation. Simpler quadratic income models
 retain their expanded formulation; holdings below four provinces keep their
 original native formulation and skip this preparation. The
-[Attila report](attila-joint-bounds.md) records higher income and a tighter remaining gap in matched full-world ERE
+[Attila report](investigations/attila-joint-bounds.md) records higher income and a tighter remaining gap in matched full-world ERE
 runs, with modestly higher wall time and memory. It does not establish time to
 a proved optimum.
-The [joint-model investigation](joint-scaling.md) records reductions in model
+The [joint-model investigation](investigations/joint-scaling.md) records reductions in model
 construction time and the remaining difficulty of proving full-world optima.
-The [CP-SAT/HiGHS comparison](cpsat-highs-performance.md) records the supported
-backends on paired provinces. The [earlier holding report](holding-performance.md)
+The [CP-SAT/HiGHS comparison](investigations/cpsat-highs-performance.md) records the supported
+backends on paired provinces. The [earlier holding report](investigations/holding-performance.md)
 also covers all provinces and retired backends. Both retain resource limits and
 unfinished results; those limits are benchmark settings, not application defaults.
 
@@ -430,9 +437,9 @@ uv run --frozen python -m games.tw.attila.tools.import_map
 The [Rome II special-building audit](../games/tw/rome2/data/special_buildings_coverage.json)
 records the missing rules and the official construction-manual evidence. These
 coverage limits matter when interpreting an optimum as a campaign result.
-The latest [Rome II evidence review](rome-special-audit.md) expands the per-building
+The latest [Rome II evidence review](investigations/rome-special-audit.md) expands the per-building
 requirements audit without enabling any of the 35 excluded level-five buildings.
-The [Attila evidence review](attila-special-audit.md) identifies a missing
+The [Attila evidence review](investigations/attila-special-audit.md) identifies a missing
 faction-capital restriction for some legendary civic buildings; exact vanilla
 per-ID flags remain unavailable. Current Attila layouts can therefore overstate
 attainable campaign income. No new legendary unlocks or guessed caps were added
@@ -587,7 +594,7 @@ Unsupported military effects no longer cause an entire building to be deleted.
 * Province and faction public order contribute once per receiving province,
   rather than once per region. Immigration penalty percentages are not treated
   as flat public-order losses.
-* Faction bonuses can affect all owned provinces passed to one `Problem`.
+* Faction bonuses can affect all owned provinces in one compiled scenario.
   Adjacent-province effects use the supplied adjacency mapping in a joint problem.
   Conditional food-sharing effects use explicit recipient maps rather than an invented food-import rule.
 * Horde structures are excluded from settlement slots. Religious building
@@ -598,16 +605,19 @@ they are **not exclusivity constraints**. The existing per-branch level exclusio
 remain in place, allowing different branches to coexist. Complete building
 availability and slot rules still need validation against the running game.
 
-The API defaults to CP-SAT through `Problem(context=parser.context)`. Use
-`Problem(context=parser.context, solver=SolverType.HIGHS)` for HiGHS, or
-`SolverType.CP_SAT` explicitly (`SolverType` is in `games.tw.enums`).
-`Problem(context=parser.context, technologies={...})` restricts technologies.
-`Problem(context=parser.context, adjacency={province_id: [neighbor_id, ...]})`
-supplies neighboring owned
-provinces; include their decision variables in the same problem. The CP-SAT
-adapter exposes its status and bound through `problem.problem.result`; its default
-search has no time cap and selects CPU parallelism automatically. Explicit limits remain available
-through the backend API. LP/MPS exports remain available.
+For direct Attila API use, load a catalog with `load_attila`, then pass the chosen
+provinces to `compile_scenario(provinces, SnapshotOptions(...))`. Named technology
+selections belong in `SnapshotOptions.technologies`; campaign settings and
+neighboring-province links belong in `SnapshotOptions.scenario`. Include all
+participating provinces in the same compilation.
+
+`compare_model(compiled.model, ComparisonOptions(), compiled.economy)` uses
+CP-SAT and independently evaluates the returned layout. Select HiGHS with
+`ComparisonOptions(algorithms=("highs",))`, or both backends with
+`algorithms=("cp-sat", "highs")`. The report retains status and bound. The default
+search has no time cap and chooses CPU parallelism automatically; `seconds` and
+`workers` are explicit optional comparison settings. See the
+[API example](architecture.md#attila-model-ownership) for imports and compilation.
 
 ## Refresh the online data
 
@@ -736,9 +746,8 @@ independent scenario; inputs that refer to unselected places are rejected.
 The shared application equivalent is a `RunConfig` with `provinces`, `joint=True`
 and `AttilaOptions(campaign=Scenario(...))`, passed through `make_jobs` and
 `solve_case`. Bundled borders apply when adjacency is omitted; explicit campaign
-or border inputs take precedence. Direct engine use
-can also pass all participating provinces to `Problem(context=parser.context,
-scenario=...)`.
+or border inputs take precedence. Direct engine use passes all participating
+provinces to `compile_scenario` with the campaign in `SnapshotOptions.scenario`.
 
 The JSON keys are:
 

@@ -22,9 +22,8 @@ explicitly names `hoi4_no_leap`, preventing silent interpretation as a Gregorian
 calendar.
 
 These helpers do not choose production formulas, event ordering, construction
-completion rules, rates, deadlines or starting scenarios. The old experimental
-`models.game_date.GameDate` remains unchanged for legacy examples; new hourly
-plans must use the explicit calendar type.
+completion rules, rates, deadlines or starting scenarios. Hourly plans use the
+explicit calendar type throughout.
 
 ```python
 from games.hoi4.planning import CampaignDate, HourlyHorizon
@@ -136,7 +135,7 @@ from the planning contract or public reference snapshots.
 active hour. The profile requires effective IC per factory per day, efficiency
 cap, daily growth coefficient and gain multiplier. Effective IC must already
 account for resources, power and other modifiers. The documented daily curve
-uses coefficient `0.001`; see the [rules evidence review](../../../../docs/hoi4-rules-review.md).
+uses coefficient `0.001`; see the [rules evidence review](../../../docs/hoi4/hoi4-rules-review.md).
 The helper has no implicit coefficient or starting efficiency.
 
 Production uses the starting efficiency for the hour, retains fractional IC in
