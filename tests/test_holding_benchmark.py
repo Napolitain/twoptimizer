@@ -10,7 +10,7 @@ import pytest
 from tests.support.ui import result
 from tools import holding_benchmark as benchmark
 from tools import holding_benchmark_sensitivity as sensitivity
-from twoptimizer.progress import ModelStats
+from twoptimizer.progress import ModelStats, SearchStats
 from twoptimizer.requests import default_config
 
 
@@ -180,3 +180,35 @@ def test_highs_diagnostic_preserves_existing_cp_sat_report(monkeypatch, tmp_path
     assert report["groups"][0]["request"]["algorithm"] == "highs"
     assert report["groups"][0]["samples"][0]["requested_cases"] == 65
     assert report["groups"][0]["samples"][0]["completion"] == "COMPLETE"
+
+
+def test_search_callbacks_remain_structured_with_a_bounded_active_case_trace(monkeypatch):
+    class StreamingRunner(Runner):
+        async def run(self, config, on_log, on_progress):
+            for index in range(200):
+                on_progress(SearchStats("CP-SAT", index, 200, index / 10))
+            return await super().run(config, on_log, on_progress)
+
+    sample = _sample(monkeypatch, StreamingRunner())
+    assert sample["last_search"]["objective"] == 199
+    assert sample["last_search"]["bound"] == 200
+    trace = sample["active_case_search_measurements"]
+    assert trace["observations"] == 200
+    assert len(trace["samples"]) <= 128
+    assert trace["samples"][-1]["objective"] == 199
+    assert "including worker startup" in trace["clock"]
+    assert trace["streams"][0]["first_candidate_seconds"] is not None
+
+
+def test_case_record_keeps_service_search_measurements_and_separate_final_status():
+    payload = result()
+    measurements = {
+        "observations": 1,
+        "samples": [{"objective": 4000}],
+        "final": {"income": 4182.7},
+    }
+    payload["raw"]["search_measurements"] = measurements
+    payload["timings"] = {}
+    captured = benchmark.case_record(payload)
+    assert captured["search_measurements"] == measurements
+    assert captured["income"] == pytest.approx(4182.7)

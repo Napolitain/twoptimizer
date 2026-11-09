@@ -19,7 +19,7 @@ from tests.support.ui import result
 from twoptimizer import worker
 from twoptimizer.models import CaseResult
 
-def solve(config, progress, cancellation):
+def solve(config, progress, cancellation, *, session=None):
     requested_before_search = cancellation.requested
     progress("Searching controlled case")
     if config.faction == "ignore":
@@ -90,7 +90,13 @@ def test_cooperative_stop_retains_the_active_case_result(monkeypatch, runner_typ
                 assert output["buildings"][0]["id"] == "market_4"
             elif status == "UNKNOWN":
                 assert output["income"] is None and output["buildings"] == []
-            assert runner.process is not None and runner.process.returncode is not None
+            assert runner.process is not None
+            if runner_type is BatchRunner:
+                assert (
+                    runner.process.returncode is None
+                )  # Keep its bounded session for another Run.
+            else:
+                assert runner.process.returncode is not None
             assert await runner.run(RunConfig(), lambda _: None) is None
         finally:
             await runner.stop()
@@ -227,6 +233,16 @@ def test_batch_reuse_keeps_marker_files_and_cancellation_requests_separate(monke
             assert output["raw"]["requested_before_search"] is False
             assert len(set(directories)) == 3
             assert not any(Path(path).exists() for path in directories)
+            process = runner.process
+            assert process is not None
+            runner.begin_batch()
+            repeated = await asyncio.wait_for(
+                runner.run(RunConfig(faction="complete"), lambda _: None), 5
+            )
+            assert runner.process is process and process.returncode is None
+            assert repeated["raw"]["requested_before_search"] is False
+            assert "cancellation" not in repeated["raw"]
+            assert len(set(directories)) == 4
         finally:
             await runner.stop()
 

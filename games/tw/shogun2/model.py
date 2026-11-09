@@ -10,7 +10,7 @@ from fractions import Fraction
 
 from ortools.linear_solver import pywraplp
 
-from games.tw.competition import BinaryModel, solve
+from games.tw.competition import BinaryModel
 from games.tw.immutable import freeze
 from games.tw.shogun2.catalog import load_data
 from games.tw.shogun2.constraints import install_constraints, validate_candidates, validate_layout
@@ -197,6 +197,7 @@ class Economy:
             target.SetCoefficient(lookup[name], float(amount))
         self.binary = BinaryModel.from_solver(solver)
         self.decision_names = {v.name(): pair for pair, v in variables.items()}
+        self.product_factors = {variable.name(): pair for pair, variable in products.items()}
         return self.binary
 
     def _compile_chain_constraints(self, groups, solver):
@@ -341,30 +342,19 @@ class Economy:
         on_search=None,
         on_model=None,
         cancellation=None,
+        incumbent=None,
+        on_phase=None,
     ):
-        if cancellation is not None:
-            cancellation.checkpoint()
-        result = solve(
-            self.compile(),
+        from games.tw.shogun2.optimization import optimize
+
+        return optimize(
+            self,
             algorithm,
-            seconds=seconds,
-            workers=workers,
+            seconds,
+            workers,
             on_search=on_search,
             on_model=on_model,
             cancellation=cancellation,
+            incumbent=incumbent,
+            on_phase=on_phase,
         )
-        report = {
-            "scenario": self.scenario.to_dict(),
-            "solver": {k: v for k, v in asdict(result).items() if k != "values"},
-        }
-        if result.values is not None:
-            layout = {p: [] for p in self.provinces}
-            for name, value in zip(self.binary.names, result.values, strict=False):
-                if value > 0.5 and name in self.decision_names:
-                    province, key = self.decision_names[name]
-                    layout[province].append(key)
-            economics = self.evaluate(layout)
-            if abs(economics["domestic_tax_income"] - result.objective) > 1e-5:
-                raise AssertionError("Independent tax evaluation disagrees with solver")
-            report.update(economics)
-        return report

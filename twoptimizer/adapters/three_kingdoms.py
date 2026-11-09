@@ -54,11 +54,11 @@ def solve_three_kingdoms(config: RunConfig, phase: PhaseTimer, session=None) -> 
     phase("build_model_seconds", "Preparing historical Three Kingdoms snapshot")
     economy = ObservedEconomy(prepare_scenario(config))
     phase("solve_and_check_seconds", "Solving and validating")
-    raw = economy.optimize(
-        config.algorithm,
-        config.seconds,
-        config.workers,
-        **_observers(config, phase, economy),
+    observers = _observers(config, phase, economy)
+    raw = (
+        session.three_kingdoms.solve(economy, config, **observers)
+        if session is not None
+        else economy.optimize(config.algorithm, config.seconds, config.workers, **observers)
     )
     record_cp_result(phase, raw["solver"], len(economy.decisions))
     phase("prepare_result_seconds", "Preparing result")
@@ -74,7 +74,9 @@ def solve_three_kingdoms(config: RunConfig, phase: PhaseTimer, session=None) -> 
 
 def _observers(config: RunConfig, phase: PhaseTimer, economy) -> dict:
     if config.algorithm == "cp-sat":
-        return search_observers(phase, "Three Kingdoms CP-SAT", lambda: len(economy.decisions))
+        return search_observers(
+            phase, "Three Kingdoms CP-SAT", lambda: len(economy.decisions), phases=True
+        )
     return {} if phase.cancellation is None else {"cancellation": phase.cancellation}
 
 

@@ -4,6 +4,12 @@ The historical 1.2.0 model runs through the shared CLI, terminal UI and worker
 with both CP-SAT and HiGHS. This validates the implemented static model; it does
 not establish agreement with a current installed game.
 
+The latest [joint-preparation measurements](joint-preparation.md#matched-installed-wheel-measurements)
+compare strengthened bounds, validated starting layouts and backend-specific
+preparation against the automatic-city baseline. Both solvers retain the same
+70 independent optima. The older fixed-city and 15-second measurements below
+remain historical records of their stated scenarios and implementations.
+
 These measurements used the original **fixed city level 5** comparison. New
 CLI/TUI runs optimize city levels by default; use `--city-level 5` to reproduce
 the scenarios below. Infeasibility here does not imply that a smaller city fails.

@@ -197,12 +197,16 @@ is not total solver RAM, and variable/constraint counts do not predict runtime.
 Selecting a completed row restores its recorded counts; JSON exports retain them
 under each case's `raw.model_complexity` without changing native solver metadata.
 
-The TUI reuses one engine process across a batch, so independent cases pay Python
-and native-library startup once. Each case still builds its own model. Solver CPU
+The TUI reuses one engine process across batches, so independent cases pay Python
+and native-library startup once. Matching prepared data and validated previous
+layouts can be reused within a bounded session. Solver CPU
 parallelism comes from the machine's available cores and container allocation,
 not the number of provinces. Later cases report dispatch time instead of another
-startup time. Cancel requests a graceful stop before the batch ends; starting a
-new batch creates a fresh process.
+startup time. Cancel requests a graceful stop before the batch ends. Press Run
+again to improve a matching scenario using retained layouts and applicable bounds.
+Force stop or exiting the application discards worker state. The native solver's
+search tree is not resumed. See [joint preparation](joint-preparation.md) for
+game-specific eligibility, bound validation and cache limits.
 
 The CLI uses the same application service as the TUI. Existing commands and
 comparison report formats remain available:
@@ -309,6 +313,13 @@ remaining cases. HiGHS currently has no live candidate/bound telemetry.
 Neither model size, gap nor a quiet interval predicts whether a proof will take
 minutes, hours or weeks. The outlook reports **unknown** without matching evidence;
 past completion times are not an ETA or a new time limit.
+
+JSON exports also preserve a bounded structured search trace, first-observed
+candidate times and 10%, 5%, 2% and 1% gap milestones under
+`raw.search_measurements`. The Runtime tab displays saved milestones and available
+decomposition sizes. These observations remain separate from the final validated
+layout. See [search evidence](joint-preparation.md#search-evidence) for clock and
+retention details.
 Joint Rome II CP-SAT can now show a preparatory stage that estimates a shared-food
 price and bounds smaller connected groups. These bounds help the subsequent
 search of the complete model; they do not remove food, adjacency, worldwide

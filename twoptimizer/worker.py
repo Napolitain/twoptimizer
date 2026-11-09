@@ -4,12 +4,14 @@ import json
 import sys
 import traceback
 from pathlib import Path
+from typing import Any
 
 from games.tw.cancellation import Cancellation
 from twoptimizer.errors import serialize_error
 from twoptimizer.models import RunConfig
 from twoptimizer.progress import PREFIX, encode_progress
 from twoptimizer.service import solve_case
+from twoptimizer.session import RunSession
 
 
 def emit(record):
@@ -17,20 +19,24 @@ def emit(record):
     print("\n" + PREFIX + json.dumps(record), flush=True)
 
 
-def run_case(request_path: Path, output_path: Path, cancel_path: Path | None = None) -> int:
-    """Write one complete result atomically, without retaining model/session state."""
+def run_case(
+    request_path: Path,
+    output_path: Path,
+    cancel_path: Path | None = None,
+    *,
+    session: RunSession | None = None,
+) -> int:
+    """Write one complete result atomically, optionally retaining bounded batch state."""
     try:
 
         def progress(event):
             emit(encode_progress(event))
 
         config = RunConfig.from_dict(json.loads(request_path.read_text()))
-        if cancel_path is None:
-            result = solve_case(config, progress=progress)
-        else:
-            result = solve_case(
-                config, progress=progress, cancellation=Cancellation(checker=cancel_path.exists)
-            )
+        options: dict[str, Any] = {} if session is None else {"session": session}
+        if cancel_path is not None:
+            options["cancellation"] = Cancellation(checker=cancel_path.exists)
+        result = solve_case(config, progress=progress, **options)
         payload = json.dumps(result.to_dict(), allow_nan=False)
         status = 0
     except Exception as error:
@@ -45,10 +51,12 @@ def run_case(request_path: Path, output_path: Path, cancel_path: Path | None = N
 
 def batch_main() -> int:
     """A completed case may fail; malformed transport ends the worker."""
+    session = RunSession()
+    session.attila.reuse_proofs = True
     for line in sys.stdin:
         request = json.loads(line)
         cancel_path = Path(request["cancel"]) if "cancel" in request else None
-        run_case(Path(request["request"]), Path(request["output"]), cancel_path)
+        run_case(Path(request["request"]), Path(request["output"]), cancel_path, session=session)
         emit({"completed": request["id"]})
     return 0
 

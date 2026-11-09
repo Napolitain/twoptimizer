@@ -74,6 +74,7 @@ class CompactIncome:
         on_model=None,
         cancellation=None,
         on_phase=None,
+        hint_values=None,
     ):
         from games.tw.attila.joint_search import solve
 
@@ -103,6 +104,7 @@ class CompactIncome:
             on_model=on_model,
             on_phase=on_phase,
             cancellation=cancellation,
+            hint_values=hint_values,
         )
 
 

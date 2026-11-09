@@ -1,5 +1,7 @@
 """Competing algorithms over a single snapshot of the engine's binary model."""
 
+import hashlib
+import json
 from dataclasses import dataclass, field
 from fractions import Fraction
 from functools import reduce
@@ -23,6 +25,23 @@ class BinaryModel:
     upper: np.ndarray
     offset: float = 0
     cp_sat_plan: object | None = field(default=None, repr=False, compare=False)
+
+    def fingerprint(self):
+        """Identify every binary variable, coefficient, constraint and objective offset."""
+        digest = hashlib.sha256(json.dumps(self.names).encode())
+        for array in (self.profit, self.matrix, self.lower, self.upper):
+            digest.update(str(array.shape).encode())
+            dtype = array.values.dtype if isinstance(array, SparseConstraints) else array.dtype
+            # Keep existing canonical float64 proof identities while distinguishing
+            # identical byte sequences interpreted as another numeric type.
+            if dtype != np.dtype(float):
+                digest.update(f"dtype:{dtype.str}".encode())
+            if isinstance(array, SparseConstraints):
+                array.update_hash(digest)
+            else:
+                digest.update(array.tobytes())
+        digest.update(str(self.offset).encode())
+        return digest.hexdigest()
 
     @classmethod
     def from_solver(cls, solver):
@@ -97,7 +116,7 @@ def integer_row(values):
     return integers
 
 
-def highs_solve(model, seconds, seed, workers=None, *, cancellation=None):
+def highs_solve(model, seconds, seed, workers=None, *, cancellation=None, hint_values=None):
     """Export sparse binary coefficients to the shared general HiGHS adapter."""
     from games.tw.highs_backend import solve_highs
 
@@ -125,7 +144,12 @@ def highs_solve(model, seconds, seed, workers=None, *, cancellation=None):
     exported = perf_counter() - start
     remaining = None if seconds is None else max(0.001, seconds - exported)
     report = solve_highs(
-        proto, seconds=remaining, workers=workers, seed=seed, cancellation=cancellation
+        proto,
+        seconds=remaining,
+        workers=workers,
+        seed=seed,
+        cancellation=cancellation,
+        incumbent=None if hint_values is None else dict(zip(model.names, hint_values, strict=True)),
     )
     result = Result(
         **{key: value for key, value in report.items() if key in Result.__dataclass_fields__}
@@ -168,6 +192,7 @@ def sat_solve(
     on_model=None,
     cancellation=None,
     on_phase=None,
+    hint_values=None,
 ):
     workers = resolve_workers(workers)
     if cancellation is not None:
@@ -186,6 +211,7 @@ def sat_solve(
                     ("on_model", on_model),
                     ("cancellation", cancellation),
                     ("on_phase", on_phase),
+                    ("hint_values", hint_values),
                 )
                 if value is not None
             }
@@ -193,6 +219,9 @@ def sat_solve(
         except UnsupportedCompact as error:
             fallback_reason = str(error)
     problem, variables, scale = _binary_cp_model(model)
+    if hint_values is not None:
+        for variable, value in zip(variables, hint_values, strict=True):
+            problem.add_hint(variable, round(value))
     solver = cp_model.CpSolver()
     if deadline is not None:
         solver.parameters.max_time_in_seconds = max(0.001, deadline - perf_counter())
@@ -248,11 +277,14 @@ def solve(
     on_model=None,
     cancellation=None,
     on_phase=None,
+    hint_values=None,
 ):
     if algorithm not in ALGORITHMS:
         raise ValueError(f"Unknown algorithm: {algorithm}; choose cp-sat or highs")
     if seconds is not None and (seconds <= 0 or not isfinite(seconds)):
         raise ValueError("Time limit must be positive and finite")
+    if hint_values is not None and not model.feasible(hint_values):
+        raise ValueError("Initial binary layout violates the original model")
     workers = resolve_workers(workers)
     if cancellation is not None:
         cancellation.checkpoint()
@@ -268,9 +300,12 @@ def solve(
                 on_model=on_model,
                 cancellation=cancellation,
                 on_phase=on_phase,
+                hint_values=hint_values,
             )
             if algorithm == "cp-sat"
-            else highs_solve(model, seconds, seed, workers, cancellation=cancellation)
+            else highs_solve(
+                model, seconds, seed, workers, cancellation=cancellation, hint_values=hint_values
+            )
         )
     except ValueError as exc:
         result = Result(algorithm, "MODEL_INVALID", detail=str(exc))

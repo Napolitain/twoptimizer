@@ -3,19 +3,21 @@
 from __future__ import annotations
 
 import csv
-import hashlib
 import json
+from copy import deepcopy
 from dataclasses import dataclass, field
+from time import perf_counter
 from typing import TYPE_CHECKING, Any
 
 from games.tw.attila.model import ModelSnapshot, SnapshotOptions, compile_scenario, load_attila
 from games.tw.attila.modifiers import catalog
 from games.tw.attila.scenario import Scenario
 from games.tw.attila.traits import profile
+from games.tw.cancellation import Cancelled
 from games.tw.competition import BinaryModel, Result, solve
 from games.tw.models.game_attila import AttilaGame
 from games.tw.parser.parser_attila import ParserAttila
-from games.tw.sparse import SparseConstraints
+from twoptimizer.attila_incumbents import checked, model_identity, retain
 from twoptimizer.catalog import ROOT
 from twoptimizer.holdings import adjacency_mapping, has_campaign_borders
 
@@ -45,15 +47,7 @@ def faction_metadata():
 
 def signature(model: BinaryModel) -> str:
     """Reuse a proof only when every variable, coefficient and bound matches."""
-    digest = hashlib.sha256(json.dumps(model.names).encode())
-    for array in (model.profit, model.matrix, model.lower, model.upper):
-        digest.update(str(array.shape).encode())
-        if isinstance(array, SparseConstraints):
-            array.update_hash(digest)
-        else:
-            digest.update(array.tobytes())
-    digest.update(str(model.offset).encode())
-    return digest.hexdigest()
+    return model.fingerprint()
 
 
 @dataclass(frozen=True, slots=True)
@@ -125,6 +119,7 @@ class AttilaSession:
     reuse_proofs: bool = False
     prior: dict[str, dict[str, Any]] = field(default_factory=dict)
     proofs: dict[str, Result] = field(default_factory=dict)
+    incumbents: dict[str, Result] = field(default_factory=dict)
     _parser_key: str | None = None
     _parser: ParserAttila | None = None
     _prepared_key: str | None = None
@@ -185,22 +180,23 @@ class AttilaSession:
     ) -> tuple[Result, str | None, bool]:
         model = prepared.snapshot.model
         may_reuse = self.reuse_proofs and config.algorithm == "cp-sat"
-        key = signature(model) if may_reuse else None
+        identity = model_identity(model)
+        key = identity if may_reuse else None
+        previous = checked(model, self.incumbents.get(identity))
         result = self._cached_optimum(key)
         if result is None and may_reuse and key in self.prior:
             result = _restore_proof(prepared.snapshot, self.prior[key])
         reused = result is not None
         if result is None:
-            result = solve(
-                model,
-                config.algorithm,
-                seconds=config.seconds,
-                seed=config.attila.seed,
-                workers=config.workers,
-                **observers,
-            )
+            result = self._search(config, model, previous, observers)
+        result = retain(model, result, previous)
+        if result.status in {"FEASIBLE", "OPTIMAL"} and result.values is not None:
+            candidate = checked(model, result)
+            assert candidate is not None
+            self.incumbents.pop(identity, None)
+            self.incumbents[identity] = candidate
         if key is not None and result.status == "OPTIMAL":
-            self.proofs[key] = result
+            self.proofs[key] = deepcopy(result)
         if (
             reused
             and result.values is not None
@@ -208,6 +204,31 @@ class AttilaSession:
         ):
             raise RuntimeError("Comparison result did not validate")
         return result, key, reused
+
+    @staticmethod
+    def _search(config, model, previous, observers):
+        started = perf_counter()
+        hints = {} if previous is None else {"hint_values": previous.values}
+        try:
+            return solve(
+                model,
+                config.algorithm,
+                seconds=config.seconds,
+                seed=config.attila.seed,
+                workers=config.workers,
+                **hints,
+                **observers,
+            )
+        except Cancelled:
+            if previous is None:
+                raise
+            return Result(
+                config.algorithm,
+                "UNKNOWN",
+                seconds=perf_counter() - started,
+                workers=config.workers,
+                detail="Cancelled after validating a previous Attila layout",
+            )
 
     def _cached_optimum(self, key: str | None) -> Result | None:
         if key is None:
@@ -217,7 +238,7 @@ class AttilaSession:
             # Interrupted searches are valid incumbents, not reusable proofs.
             self.proofs.pop(key)
             return None
-        return result
+        return deepcopy(result)
 
 
 def _restore_proof(snapshot: ModelSnapshot, previous: dict[str, Any]) -> Result | None:

@@ -24,7 +24,7 @@ def solve_case(
     session: RunSession | None = None,
     cancellation: Cancellation | None = None,
 ) -> CaseResult:
-    phase = PhaseTimer(progress, cancellation=cancellation)
+    phase = PhaseTimer(progress, cancellation=cancellation, collect_search=True)
     phase("request_seconds", "Validating request")
     jobs, _ = make_jobs(config)
     if len(jobs) != 1:
@@ -70,6 +70,9 @@ def _cancelled_result(config: RunConfig, phase: PhaseTimer, reason: str) -> Case
         raw={
             "cancellation": {"reason": reason},
             "model_complexity": [stats.to_dict() for stats in phase.models],
+            "search_measurements": phase.search_report(
+                {"status": "UNKNOWN", "income": None, "bound": None, "validated_layout": False}
+            ),
         },
         timings=phase.timings,
     )
@@ -83,6 +86,8 @@ def _solve_one(config: RunConfig, phase: PhaseTimer, session: RunSession | None)
         "attila": solve_attila,
         "three_kingdoms": solve_three_kingdoms,
     }[config.game]
+    if session is not None:
+        session.prepare(config.game)
     try:
         result = adapter(config, phase, session)
     except (ValueError, TypeError) as error:
@@ -99,6 +104,15 @@ def _solve_one(config: RunConfig, phase: PhaseTimer, session: RunSession | None)
     )
     if result.objectives:
         gap = result.objectives[0].gap_percent
+    result.raw["search_measurements"] = phase.search_report(
+        {
+            "status": solver.status,
+            "income": income,
+            "bound": bound,
+            "gap_percent": gap,
+            "validated_layout": income is not None,
+        }
+    )
     output = CaseResult(
         request=config,
         faction=faction_name(config.game, config.faction),

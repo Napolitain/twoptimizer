@@ -88,10 +88,9 @@ def test_cancellation_reaches_the_engine_independently_of_progress(
         assert phase.cancellation is token
         observers = search_observers(phase, "Test solver", lambda: 2)
         forwarded.append(observers["cancellation"])
-        if with_progress:
-            observers["on_search"](80, 80, 1.25)
-        else:
-            assert set(observers) == {"cancellation"}
+        assert set(observers) == {"cancellation", "on_search", "on_model"}
+        assert callable(observers["on_model"])
+        observers["on_search"](80, 80, 1.25)
         return _candidate(config, status="OPTIMAL", bound=80)
 
     _install(monkeypatch, game, adapter)
@@ -102,6 +101,10 @@ def test_cancellation_reaches_the_engine_independently_of_progress(
     assert result.solver.status == "OPTIMAL" and result.income == 80
     assert not token.requested
     assert any(isinstance(event, SearchStats) for event in events) == with_progress
+    measurements = result.raw["search_measurements"]
+    assert measurements["observations"] == 1
+    assert measurements["samples"][0]["objective"] == 80
+    assert measurements["final"]["validated_layout"] is True
 
 
 def test_preparation_cancellation_retains_model_observations_without_a_candidate(monkeypatch):

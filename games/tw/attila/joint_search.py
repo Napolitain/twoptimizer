@@ -22,7 +22,7 @@ def _strengthen(builder, seconds, seed, workers, started, cancellation, on_phase
     )
 
 
-def _observe(on_search, bounds, observed, unit):
+def _observe(on_search, bounds, observed, unit, incumbent_income=None):
     known = None if bounds is None else bounds.upper_bound
     seed = None if bounds is None else bounds.report.get("hint_objective")
 
@@ -30,11 +30,33 @@ def _observe(on_search, bounds, observed, unit):
         if bound is not None and isfinite(bound) and abs(bound) < 2**53:
             observed[:] = [min([ceil(bound), *observed])]
         incomes = [value * float(unit) for value in (objective, seed) if value is not None]
+        if incumbent_income is not None:
+            incomes.append(incumbent_income)
         upper = [value * float(unit) for value in (bound, known) if value is not None]
         if on_search is not None:
             on_search(max(incomes, default=None), min(upper, default=None), elapsed)
 
     return observe
+
+
+def _install_hint(builder, reference, bounds, hint_values, unit):
+    """Prefer the stronger validated hint, mapping original decisions into compact variables."""
+    income = None
+    if hint_values is not None:
+        if not reference.feasible(hint_values):
+            raise ValueError("Previous Attila layout violates the original model")
+        income = float(reference.profit @ hint_values) + reference.offset
+    prepared = bounds is not None and bounds.hint_values is not None
+    model = builder.model
+    if prepared and (income is None or bounds.report["hint_objective"] * float(unit) >= income):
+        model.clear_hints()
+        for index, value in bounds.hint_values.items():
+            model.add_hint(model.get_int_var_from_proto_index(index), value)
+    elif hint_values is not None:
+        model.clear_hints()
+        for index, variable in builder.variables.items():
+            model.add_hint(variable, round(hint_values[index]))
+    return income
 
 
 def _native_solve(solver, model, observer, bounds, cancellation):
@@ -105,16 +127,14 @@ def solve(
     on_model=None,
     on_phase=None,
     cancellation=None,
+    hint_values=None,
 ):
     """Keep certified native-unit bounds and validated candidates on cancellation."""
     bound_start = perf_counter()
     bounds = _strengthen(builder, seconds, seed, workers, started, cancellation, on_phase)
     bound_seconds = perf_counter() - bound_start
     model = builder.model
-    if bounds is not None and bounds.hint_values is not None:
-        model.clear_hints()
-        for index, value in bounds.hint_values.items():
-            model.add_hint(model.get_int_var_from_proto_index(index), value)
+    incumbent_income = _install_hint(builder, reference, bounds, hint_values, unit)
     error = model.validate()
     if error:
         raise ValueError(error)
@@ -139,7 +159,7 @@ def solve(
     if on_model is not None:
         on_model(stats)
     observed = []
-    observer = _observe(on_search, bounds, observed, unit)
+    observer = _observe(on_search, bounds, observed, unit, incumbent_income)
     search_start = perf_counter()
     native_status = _native_solve(solver, model, observer, bounds, cancellation)
     search_seconds = perf_counter() - search_start

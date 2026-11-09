@@ -128,12 +128,18 @@ class CaseRunner:
 
 
 class BatchRunner(CaseRunner):
-    """One worker per sequential batch; each case owns a fresh engine model."""
+    """A persistent worker with bounded reuse across sequential cases and batches."""
 
     def __init__(self):
         super().__init__()
         self._active = False
         self._case_id = 0
+
+    def begin_batch(self):
+        """Restart scheduling after completion/cancellation, retaining the worker session."""
+        if self._active:
+            raise RuntimeError("Wait for the active case before starting another batch")
+        self.cancelled = self._forced_stop = False
 
     async def _close_process(self):
         process = self.process
@@ -168,6 +174,7 @@ class BatchRunner(CaseRunner):
             try:
                 process = await self._ensure_process()
                 if self.cancelled:
+                    await self._close_process()
                     return None
                 if process.stdin is None:
                     raise RuntimeError("Solver worker input pipe is unavailable")
@@ -192,9 +199,6 @@ class BatchRunner(CaseRunner):
                 if self._forced_stop and isinstance(error, Exception):
                     return None
                 raise
-            finally:
-                if self.cancelled:
-                    await self._close_process()
 
     async def run(self, config: RunConfig, on_log, on_progress=None):
         if self.cancelled:
@@ -210,6 +214,8 @@ class BatchRunner(CaseRunner):
                 return None
             result, startup = completed
             if "error" in result:
+                if self.cancelled:
+                    await self._close_process()
                 raise deserialize_error(result)
             result["timings"]["worker_wall_seconds"] = perf_counter() - started
             if startup is not None:

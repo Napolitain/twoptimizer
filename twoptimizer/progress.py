@@ -8,6 +8,7 @@ from time import perf_counter
 from typing import Any
 
 from games.tw.cancellation import Cancellation
+from twoptimizer.search_measurements import SearchMeasurements
 
 PREFIX = "__TWOPTIMIZER_PROGRESS__ "
 
@@ -137,11 +138,14 @@ class PhaseTimer:
         progress: Callable[[ProgressEvent], None] | None = None,
         *,
         cancellation: Cancellation | None = None,
+        collect_search: bool = False,
     ):
         self.timings: dict[str, float] = {}
         self.models: list[ModelStats] = []
         self.stage: str | None = None
-        self.started = perf_counter()
+        self.started = self.case_started = perf_counter()
+        self.collect_search = collect_search
+        self.search_measurements = SearchMeasurements()
         self.progress = progress
         self.cancellation = cancellation
         self._search_emitted: dict[str, float] = {}
@@ -164,12 +168,20 @@ class PhaseTimer:
 
     def record_search(self, stats: SearchStats, *, force: bool = False) -> None:
         """Bound callback/IPC traffic; the first and explicitly final updates always pass."""
-        if self.progress is None:
-            return
         with self._search_lock:
             now = perf_counter()
+            if self.collect_search:
+                self.search_measurements.observe(stats, now - self.case_started)
+            if self.progress is None:
+                return
             previous = self._search_emitted.get(stats.label)
             if not force and previous is not None and now - previous < 0.75:
                 return
             self._search_emitted[stats.label] = now
             self.progress(stats)
+
+    def search_report(self, final: dict[str, Any] | None = None) -> dict[str, Any]:
+        with self._search_lock:
+            if final is not None:
+                final = {**final, "case_elapsed_seconds": perf_counter() - self.case_started}
+            return self.search_measurements.to_dict(final)

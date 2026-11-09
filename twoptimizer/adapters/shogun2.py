@@ -49,11 +49,13 @@ def solve_shogun(config: RunConfig, phase: PhaseTimer, session=None) -> EngineRe
     phase("build_model_seconds", "Preparing province model")
     economy = ObservedEconomy(prepare_scenario(config), data, rules)
     phase("solve_and_check_seconds", "Solving and validating")
-    raw = economy.optimize(
-        config.algorithm,
-        config.seconds,
-        config.workers,
-        **search_observers(phase, "Shogun 2 CP-SAT", lambda: len(economy.decision_names)),
+    observers = search_observers(
+        phase, "Shogun 2 CP-SAT", lambda: len(economy.decision_names), phases=True
+    )
+    raw = (
+        session.shogun.solve(economy, config, **observers)
+        if session is not None
+        else economy.optimize(config.algorithm, config.seconds, config.workers, **observers)
     )
     record_cp_result(phase, raw["solver"], len(economy.decision_names))
     phase("prepare_result_seconds", "Preparing result")

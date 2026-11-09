@@ -7,6 +7,7 @@ from ortools.linear_solver import linear_solver_pb2, pywraplp
 from games.tw.three_kingdoms.integer import Arithmetic, Quantity
 from games.tw.three_kingdoms.optimization import SCALE
 from games.tw.three_kingdoms.scopes import ECONOMIC, targets
+from games.tw.three_kingdoms.selection import SelectionBounds, guaranteed_resources
 
 
 class Compiler:
@@ -23,6 +24,7 @@ class Compiler:
         self._resources()
         self._requirements()
         self._effect_terms()
+        self.selection = SelectionBounds(self.economy, self.choices)
         food, income = [], []
         for province in self.economy.scenario.commanderies:
             self._province_constraints(province)
@@ -34,7 +36,7 @@ class Compiler:
                     income.append(
                         self.arithmetic.product(wealth, retention, "net_income").expression
                     )
-        self.solver.Add(sum(food) + self.economy.scenario.external_food * 100 >= 0)
+        self.solver.Add(sum(food) + self.economy.scenario.external_food * 100 >= 0, "__realm_food")
         upkeep = sum(
             self.economy.candidates[county][key]["upkeep"] * variable
             for (county, key), variable in self.choices.items()
@@ -98,16 +100,22 @@ class Compiler:
             building = self.economy.candidates[pair[0]][pair[1]]
             for resource in building["provided_resources"]:
                 providers[resource].append(variable)
-        external = set(self.economy.scenario.external_resources)
+        available = guaranteed_resources(self.economy)
         for pair, variable in self.choices.items():
             required = self.economy.candidates[pair[0]][pair[1]]["required_resources"]
             resources = set(required["resources"])
             if required["operator"] == "OR":
-                if resources and not resources & external:
-                    self.solver.Add(variable <= sum(v for r in resources for v in providers[r]))
+                if resources and not resources & available:
+                    self.solver.Add(
+                        variable <= sum(v for r in sorted(resources) for v in providers[r]),
+                        "__resource:" + variable.name() + ":OR",
+                    )
             else:
-                for resource in resources - external:
-                    self.solver.Add(variable <= sum(providers[resource]))
+                for resource in sorted(resources - available):
+                    self.solver.Add(
+                        variable <= sum(providers[resource]),
+                        "__resource:" + variable.name() + ":" + resource,
+                    )
 
     def _requirements(self):
         for key in self.economy.scenario.required_buildings:
@@ -152,7 +160,13 @@ class Compiler:
 
     def quantity(self, metric, place, category="", offset=0):
         key = (metric, place, category)
-        return self.arithmetic.sum(self.terms[key], offset + self.fixed[key])
+        fixed = offset + self.fixed[key]
+        terms = self.terms[key]
+        expression = fixed + sum(amount * value.expression for amount, value in terms)
+        lower, upper = self.selection.bounds(
+            (amount, value.expression.name()) for amount, value in terms
+        )
+        return Quantity(expression, fixed + lower, fixed + upper)
 
     def _province_constraints(self, province):
         self.solver.Add(self.quantity("order", province.id).expression >= province.minimum_order)

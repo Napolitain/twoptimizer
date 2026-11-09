@@ -146,3 +146,45 @@ def model_details(models: Sequence[ModelStats], title: str) -> str:
         sections.append("No model counts recorded for this case.")
     sections.append(MODEL_SIZE_NOTE)
     return "\n\n".join(sections)
+
+
+def search_measurement_summary(report: dict) -> str:
+    """Describe observed milestones without presenting them as validated solutions."""
+    if not report:
+        return ""
+    lines = []
+    for stream in report.get("streams", ()):
+        first = stream.get("first_candidate_seconds")
+        label = stream["label"]
+        if first is not None:
+            lines.append(f"{label}: first solver candidate observed at {first:.2f}s of case time.")
+        reached = stream.get("gap_reached_seconds", {})
+        if reached:
+            milestones = ", ".join(f"{gap}% at {seconds:.2f}s" for gap, seconds in reached.items())
+            lines.append(f"{label}: observed gap milestones: {milestones}.")
+    if not report.get("observations"):
+        lines.append("No streamed search observations were recorded for this case.")
+    final = report.get("final") or {}
+    if final.get("validated_layout"):
+        lines.append(
+            f"Final independently validated income: {money(final['income'])} "
+            f"at {final['case_elapsed_seconds']:.2f}s of case time."
+        )
+    if report.get("observations"):
+        lines.append(
+            "Search milestones precede independent validation and include preparation; "
+            "they exclude worker startup. The exported trace is bounded and may be thinned."
+        )
+    return "\n".join(lines)
+
+
+def bound_preparation_summary(report: dict) -> str:
+    """Show measured decomposition size when the engine supplies those counts."""
+    count = report.get("components")
+    if count is None:
+        return ""
+    text = f"Bound preparation: {count} connected groups"
+    largest = report.get("largest_component_variables")
+    if largest is not None:
+        text += f"; largest has {largest:,} variables"
+    return text + "."

@@ -162,23 +162,26 @@ at the adapter/report boundary and belong to that case. Frozen dataclasses do no
 make those native reports deeply immutable. Solver upper bounds remain separate
 from independently evaluated feasible income.
 
-An optional, caller-owned `RunSession` retains Attila model preparation and
-validated faction proofs, and Rome II incumbents and portable proofs. It also
-checks agreement between proved optima for equivalent requests. Rome II resumes
-preserve the best incumbent and strongest available bound. These services own
-reuse behavior; CLI modules own loading and saving existing report formats.
-Attila computes the full compiled-model signature only when proof reuse is
-requested; ordinary cases avoid that extra pass over the model. Session state
-never becomes process-global, and each independently compiled model owns its
-decision containers.
+An optional, caller-owned `RunSession` retains game-specific validated layouts,
+applicable bounds and supported proofs, plus Attila model preparation. It checks
+agreement between proved optima for equivalent requests and source versions.
+Each cache is bounded to 128 entries by default; source changes invalidate the
+affected game. Three Kingdoms and Shogun can assemble cached independent layouts
+only after complete joint validation. Native-model identities protect bound reuse.
+Attila's in-memory identity hashes stored sparse arrays rather than implied dense
+zeros; the legacy signature remains available for historical fixtures. Session
+state never becomes process-global, and independently compiled models own their
+decision containers. CLI modules own report loading and saving.
 
 `twoptimizer.runner` owns process creation, captured native output, progress
 transport, termination and reaping. The TUI's `BatchRunner` reuses one subprocess
-for sequential cases, retaining imports and immutable catalogs while building a
-fresh model for each case. `CaseRunner` retains its one-shot API. The worker
+for sequential cases and subsequent Runs, retaining imports, immutable catalogs
+and a bounded worker-owned `RunSession`. `CaseRunner` retains its one-shot API. The worker
 decodes each request, invokes `solve_case` and atomically publishes its result or
-error before acknowledging the request. It does not share incumbents or proofs
-between cases. Foreground CLI cases call the same service synchronously.
+error before acknowledging the request. Reused layouts are revalidated by their
+owning engine; prepared data is reused only for matching inputs. Graceful
+cancellation ends dispatch without terminating the worker, and each new batch
+resets its own cancellation marker. Foreground CLI cases call the same service synchronously.
 Worker startup/dispatch/wall timings belong to the execution layer;
 model and solver phase timings belong to the case. The first TUI cancellation
 request prevents dispatch of later cases and asks the active solver to stop
@@ -554,3 +557,12 @@ profile, supplied external resources and a declared faction capital. Result
 provenance includes the model, split data files and application preparation code.
 Normal optimization does not access the network. See the
 [model reference](../games/tw/three_kingdoms/README.md) for coverage and limitations.
+
+Selection-aware bounds and guaranteed-resource propagation strengthen compilation
+without changing economic inputs. `preparation` assembles and jointly validates
+local or cached layouts; `joint_bounds` temporarily relaxes explicitly tagged
+food/resource rows to derive certified component cuts. `incumbent` separates
+layout validation from exact-model bound identity and retains stronger feasible
+results on cancellation or UNKNOWN. The final model retains every original
+shared requirement. [Joint preparation](joint-preparation.md) documents the
+allowances, worker-session lifecycle and bounded search measurements.

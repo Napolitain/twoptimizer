@@ -3,7 +3,11 @@
 from collections.abc import Sequence
 
 from twoptimizer.models import RunConfig
-from twoptimizer.presentation import search_summary
+from twoptimizer.presentation import (
+    bound_preparation_summary,
+    search_measurement_summary,
+    search_summary,
+)
 from twoptimizer.progress import ModelStats, ProgressEvent, SearchStats
 from twoptimizer.runtime_evidence import runtime_details, runtime_outlook
 from twoptimizer.runtime_history import RuntimeHistory
@@ -47,6 +51,7 @@ class RuntimeView:
         self.searching = False
         self.stop_requested = False
         self.retained = False
+        self.measurement_details = ""
 
     def preview(self, config: RunConfig, jobs: Sequence[RunConfig]) -> tuple[str, str]:
         summary = self.history.summary(jobs) or runtime_outlook(config, jobs)
@@ -58,6 +63,7 @@ class RuntimeView:
         self.finished = self.outcome = None
         self.phase, self.searching = "Starting engine", False
         self.stop_requested = self.retained = False
+        self.measurement_details = ""
         self.search = SearchActivity()
 
     @property
@@ -91,6 +97,16 @@ class RuntimeView:
                 result.get("raw", {}).get("cancellation", {}).get("requested", False)
             )
             self.retained = self.stop_requested and result.get("income") is not None
+            self.measurement_details = "\n".join(
+                text
+                for text in (
+                    search_measurement_summary(
+                        result.get("raw", {}).get("search_measurements", {})
+                    ),
+                    bound_preparation_summary(result["solver"].get("joint_bound_search") or {}),
+                )
+                if text
+            )
         self.history.record(self.job, self.outcome, max(0.0, now - self.started))
         self.searching = False
 
@@ -125,4 +141,7 @@ class RuntimeView:
             "ERROR": "Case or comparison failed; inspect results and log",
         }.get(self.outcome, self.outcome)
         retained = "\nCancellation requested; validated layout retained." if self.retained else ""
-        return f"Last case: {elapsed} elapsed · {outcome}{retained}\n\n" + RUNTIME_NOTE
+        measurements = "\n\n" + self.measurement_details if self.measurement_details else ""
+        return (
+            f"Last case: {elapsed} elapsed · {outcome}{retained}{measurements}\n\n" + RUNTIME_NOTE
+        )

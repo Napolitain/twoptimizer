@@ -68,7 +68,17 @@ def test_native_proof_without_cp_fingerprint_is_not_reused(monkeypatch, tmp_path
         def fingerprint(self):
             return "identical-cp-model"
 
-        def optimize(self, algorithm, seconds, workers, incumbent=None):
+        def optimize(
+            self,
+            algorithm,
+            seconds,
+            workers,
+            incumbent=None,
+            *,
+            on_search=None,
+            on_model=None,
+            on_phase=None,
+        ):
             calls.append(self.scenario.faction)
             return {
                 "scenario": asdict(self.scenario),

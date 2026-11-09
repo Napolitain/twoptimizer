@@ -430,7 +430,10 @@ class OptimizerApp(App):
             return
         self.action_clear()
         self.skipped = skipped
-        self.runner = self.runner_factory()
+        if isinstance(self.runner, BatchRunner):
+            self.runner.begin_batch()
+        else:
+            self.runner = self.runner_factory()
         self.started = perf_counter()
         self._set_busy(True)
         self.query_one("#progress", ProgressBar).update(total=len(jobs), progress=0)
@@ -507,7 +510,8 @@ class OptimizerApp(App):
             label = "Cancelled" if runner.cancelled else "Finished"
             self.current_case = f"{label} · {len(self.results)}/{len(jobs)} cases · {errors} errors"
         finally:
-            await runner.stop()
+            if not isinstance(runner, BatchRunner):
+                await runner.stop()
             self._set_busy(False)
             if self.results:
                 self._show_result(self.results[-1])
@@ -779,3 +783,7 @@ class OptimizerApp(App):
         if self.runner:
             await self.runner.stop()
         self.exit()
+
+    async def on_unmount(self):
+        if self.runner:
+            await self.runner.stop()

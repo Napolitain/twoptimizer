@@ -25,9 +25,10 @@ from time import perf_counter
 from games.tw.highs_backend import native_version
 from games.tw.resources import available_workers
 from twoptimizer.models import RunConfig
-from twoptimizer.progress import ModelStats
+from twoptimizer.progress import ModelStats, SearchStats
 from twoptimizer.requests import default_config, make_jobs
 from twoptimizer.runner import BatchRunner
+from twoptimizer.search_measurements import SearchMeasurements
 
 SOLVERS = ("cp-sat", "highs")
 
@@ -89,6 +90,7 @@ def case_record(result):
         "effective_workers": result["solver"].get("workers"),
         "timings": result["timings"],
         "model_complexity": result["raw"].get("model_complexity", []),
+        "search_measurements": result["raw"].get("search_measurements"),
     }
 
 
@@ -106,11 +108,16 @@ async def run_sample(config, limits, *, runner_factory=BatchRunner):
         "source_files": {},
         "last_progress": None,
         "last_model": None,
+        "last_search": None,
+        "active_case_search_measurements": None,
     }
 
     def progress(event):
-        key = "last_model" if isinstance(event, ModelStats) else "last_progress"
-        state[key] = event.to_dict() if isinstance(event, ModelStats) else str(event)
+        if isinstance(event, SearchStats):
+            state["last_search"] = event.to_dict()
+        else:
+            key = "last_model" if isinstance(event, ModelStats) else "last_progress"
+            state[key] = event.to_dict() if isinstance(event, ModelStats) else event
 
     watcher = asyncio.create_task(monitor(runner, state, limits.memory_mib * 1024**2))
     try:
@@ -138,7 +145,20 @@ async def run_sample(config, limits, *, runner_factory=BatchRunner):
 
 async def _run_jobs(runner, jobs, state, progress):
     for job in jobs:
-        result = await runner.run(job, lambda _: None, progress)
+        measurements = SearchMeasurements(
+            clock="Seconds since case dispatch, including worker startup and callback transport"
+        )
+        started = perf_counter()
+
+        def observe(event, measurements=measurements, started=started):
+            if isinstance(event, SearchStats):
+                measurements.observe(event, perf_counter() - started)
+            progress(event)
+
+        try:
+            result = await runner.run(job, lambda _: None, observe)
+        finally:
+            state["active_case_search_measurements"] = measurements.to_dict()
         if result is None:
             if state["completion"] == "COMPLETE":
                 state["completion"] = "INTERRUPTED"

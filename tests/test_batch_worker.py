@@ -36,7 +36,7 @@ from twoptimizer import worker
 from twoptimizer.models import CaseResult
 from twoptimizer.progress import ModelStats
 
-def solve(config, progress, *, cancellation=None):
+def solve(config, progress, *, cancellation=None, session=None):
     if config.faction == "runtime-error":
         raise RuntimeError("Controlled native failure")
     progress("Starting controlled case")

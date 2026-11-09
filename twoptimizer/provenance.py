@@ -12,6 +12,7 @@ def source_files(game):
             *sorted((ROOT / "three_kingdoms").glob("*.py")),
             *sorted((ROOT / "three_kingdoms/data").glob("*.json")),
             ROOT / "resources.py",
+            ROOT / "rome2/decomposition.py",
         ]
     elif game == "rome2":
         paths = [
@@ -53,6 +54,8 @@ def source_files(game):
                 "records.py",
                 "effects.py",
                 "constraints.py",
+                "optimization.py",
+                "preparation.py",
                 "data/rules.json",
             )
         ] + [
@@ -122,6 +125,15 @@ def source_files(game):
         paths.append(map_path)
     hashes = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
     application = Path(__file__).parent
+    for path in _application_paths(game):
+        hashes[f"twoptimizer/{path.relative_to(application)}"] = hashlib.sha256(
+            path.read_bytes()
+        ).hexdigest()
+    return hashes
+
+
+def _application_paths(game):
+    application = Path(__file__).parent
     application_paths = [
         application / "requests.py",
         application / "models.py",
@@ -131,6 +143,7 @@ def source_files(game):
         application / "session.py",
         application / "holdings.py",
         application / "progress.py",
+        application / "search_measurements.py",
         application / "adapters" / "model_stats.py",
         application / "adapters" / "search.py",
         application / "adapters" / f"{game}.py",
@@ -139,12 +152,13 @@ def source_files(game):
         application_paths.append(application / "adapters" / "rome_models.py")
     if game == "three_kingdoms":
         application_paths.append(application / "three_kingdoms_options.py")
+        application_paths.append(application / "three_kingdoms_session.py")
+    if game == "shogun2":
+        application_paths.append(application / "shogun_session.py")
     if game in {"attila", "rome2"}:
         application_paths.append(
             application / ("attila_session.py" if game == "attila" else "rome_session.py")
         )
-    for path in application_paths:
-        hashes[f"twoptimizer/{path.relative_to(application)}"] = hashlib.sha256(
-            path.read_bytes()
-        ).hexdigest()
-    return hashes
+    if game == "attila":
+        application_paths.append(application / "attila_incumbents.py")
+    return application_paths

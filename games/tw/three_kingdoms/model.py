@@ -185,7 +185,10 @@ class Economy:
         *,
         on_search=None,
         on_model=None,
+        on_phase=None,
         cancellation=None,
+        incumbent=None,
+        local_incumbents=None,
     ):
         from games.tw.three_kingdoms.optimization import optimize
 
@@ -196,5 +199,8 @@ class Economy:
             workers,
             on_search=on_search,
             on_model=on_model,
+            on_phase=on_phase,
             cancellation=cancellation,
+            incumbent=incumbent,
+            local_incumbents=local_incumbents,
         )

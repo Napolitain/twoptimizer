@@ -6,7 +6,7 @@ from twoptimizer.progress import PhaseTimer, SearchStats
 
 def search_observers(phase: PhaseTimer, label: str, decisions, *, phases=False) -> dict:
     observers = {} if phase.cancellation is None else {"cancellation": phase.cancellation}
-    if phase.progress is None:
+    if phase.progress is None and not phase.collect_search:
         return observers
 
     def search(objective, bound, elapsed):

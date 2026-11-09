@@ -53,9 +53,16 @@ Eligible joint Attila CP-SAT runs use a separate bound-preparation method for
 provincial food and cross-province effects. Its
 [measurement report](docs/attila-joint-bounds.md) shows improved income and bounds
 within the tested allowance, alongside higher wall time and memory use.
+Three Kingdoms joint runs can prepare validated local layouts and bounds from
+connected groups. Shogun 2 can prepare a conservative local starting layout.
+Preparation is automatic and bounded; it does not limit the subsequent unlimited
+solve. See [joint preparation and reusable search](docs/joint-preparation.md).
 The **Runtime** tab shows matching historical measurements, timings from earlier
 runs with the same settings in this session, and time since the candidate or
 bound last improved. These are observations, not a promised completion time.
+The same app session retains validated layouts and applicable bounds between
+Runs, including after graceful cancellation. Run again to continue improving a
+matching scenario; Force stop or exiting the app discards worker state.
 Press **Cancel** once to stop CP-SAT search and retain its best candidate after
 independent validation, including the remaining bound and gap. Later batch cases
 will not start. **Force stop** (Cancel again) or Quit may discard the active
