@@ -75,14 +75,23 @@ class CompactIncome:
         cancellation=None,
         on_phase=None,
         hint_values=None,
+        native_products=None,
     ):
         from games.tw.attila.joint_search import solve
 
         if cancellation is not None:
             cancellation.checkpoint()
         start = perf_counter()
-        builder = Builder(self, reference, joint_bounds=len(self.economy.provinces) >= 4)
-        if not any(
+        force_native = native_products is True
+        holdings = len(self.economy.provinces)
+        native_products = holdings >= 8 if native_products is None else native_products
+        builder = Builder(
+            self,
+            reference,
+            joint_bounds=holdings >= 4,
+            native_products=native_products,
+        )
+        if not force_native and not any(
             reference.profit[index] and len(terms) > 2 for index, terms in builder.products.items()
         ):
             # The expanded Boolean relaxation remains stronger for the simpler
@@ -109,9 +118,12 @@ class CompactIncome:
 
 
 class Builder:
-    def __init__(self, plan, reference, *, joint_bounds=True):
+    def __init__(self, plan, reference, *, joint_bounds=True, native_products=False):
+        if not isinstance(native_products, bool):
+            raise ValueError("native_products must be a Boolean experiment selector")
         self.plan, self.reference = plan, reference
         self.joint_bounds = joint_bounds
+        self.native_products = native_products
         self.model = cp_model.CpModel()
         self.indices = {name: i for i, name in enumerate(reference.names)}
         if len(self.indices) != len(reference.names):
@@ -186,8 +198,11 @@ class Builder:
             return self.variable(self.product_lookup[terms])
         if terms not in self.new_products:
             variable = self.model.new_bool_var(f"__compact_and_{len(self.new_products)}")
-            self.model.add_bool_and([self.variable(i) for i in terms]).only_enforce_if(variable)
-            self.model.add_bool_or([self.variable(i).Not() for i in terms] + [variable])
+            if self.native_products:
+                self.model.add_multiplication_equality(variable, [self.variable(i) for i in terms])
+            else:
+                self.model.add_bool_and([self.variable(i) for i in terms]).only_enforce_if(variable)
+                self.model.add_bool_or([self.variable(i).Not() for i in terms] + [variable])
             self.new_products[terms] = variable
         return self.new_products[terms]
 
@@ -393,7 +408,7 @@ class Builder:
             lower, upper = min(ends), max(ends)
         checked(lower, upper)
         variable = self.model.new_int_var(lower, upper, name)
-        if not self.selector_product(variable, dynamic, name):
+        if self.native_products or not self.selector_product(variable, dynamic, name):
             self.model.add_multiplication_equality(variable, [value.variable for value in dynamic])
         return Value(variable, unit, lower, upper)
 

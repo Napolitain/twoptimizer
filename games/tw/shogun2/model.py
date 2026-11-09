@@ -142,6 +142,7 @@ class Economy:
         unique = defaultdict(list)
         objective = defaultdict(Fraction)
         products = {}
+        product_rows = {}
 
         def product(left, right):
             if left.name() == right.name():
@@ -149,10 +150,13 @@ class Economy:
             pair = tuple(sorted((left.name(), right.name())))
             if pair not in products:
                 aux = solver.BoolVar("product:" + "&".join(pair))
-                solver.Add(aux <= left)
-                solver.Add(aux <= right)
-                solver.Add(aux >= left + right - 1)
+                rows = (
+                    solver.Add(aux <= left),
+                    solver.Add(aux <= right),
+                    solver.Add(aux >= left + right - 1),
+                )
                 products[pair] = aux
+                product_rows[aux.name()] = tuple(row.index() for row in rows)
             return products[pair]
 
         food = []
@@ -198,6 +202,7 @@ class Economy:
         self.binary = BinaryModel.from_solver(solver)
         self.decision_names = {v.name(): pair for pair, v in variables.items()}
         self.product_factors = {variable.name(): pair for pair, variable in products.items()}
+        self.product_rows = product_rows
         return self.binary
 
     def _compile_chain_constraints(self, groups, solver):
@@ -344,6 +349,7 @@ class Economy:
         cancellation=None,
         incumbent=None,
         on_phase=None,
+        native_products=False,
     ):
         from games.tw.shogun2.optimization import optimize
 
@@ -357,4 +363,5 @@ class Economy:
             cancellation=cancellation,
             incumbent=incumbent,
             on_phase=on_phase,
+            native_products=native_products,
         )

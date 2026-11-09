@@ -29,6 +29,16 @@ class NativeCP:
     def multiply(self, result, left, right):
         self.model.add_multiplication_equality(result, [left, right])
 
+    def clone(self):
+        """Keep canonical proof inputs isolated from search hints and bound cuts."""
+        copied = NativeCP()
+        copied.model = self.model.clone()
+        copied.variables = [
+            copied.model.get_int_var_from_proto_index(index)
+            for index in range(len(copied.model.proto.variables))
+        ]
+        return copied
+
     @classmethod
     def from_linear(cls, proto):
         """Import the exact integer linearization without floating-point scaling."""

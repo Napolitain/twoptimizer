@@ -245,10 +245,15 @@ comparison formats.
 All interfaces default to no time limit and automatic CPU selection. Explicit
 `--seconds` and `--workers` remain available in the CLI. The TUI exposes an optional
 time limit and uses automatic workers.
-CP-SAT is the default and HiGHS is the supported alternative across all three
+CP-SAT is the default and HiGHS is the supported alternative across all four
 games. The shared HiGHS adapter consumes the linear model, retains integer domains,
 and returns statuses, incumbents, bounds and conversion/search timings. Rome's
-CP-SAT path retains its canonical proof model and linear product formulation.
+CP-SAT default retains its canonical proof model and linear product formulation.
+Eligible Attila compact holdings and Three Kingdoms holdings with eight or more
+provinces automatically use native multiplication, following the
+[paired formulation measurements](native-products.md). Smaller cases, local seed
+preparation, Rome II and Shogun retain their existing defaults. Explicit engine
+overrides remain available for experiments without adding an application option.
 HiGHS runs through OR-Tools MathOpt using the shared library bundled with OR-Tools;
 there is no standalone `highspy` dependency. The adapter serializes its native
 calls and resets the bundled HiGHS thread scheduler before each solve so changing
@@ -532,7 +537,13 @@ The engine separates `scenario`, `model`, `scopes`, `compiler`, `integer`,
 `evaluation` and `optimization`. Each economy owns its decisions and candidate
 sets. Its general integer linear model represents income and food products with
 bounded binary expansion and exact selection constraints, including proportional
-corruption clamping. CP-SAT and HiGHS consume the same integer formulation.
+corruption clamping. HiGHS consumes that formulation. For native CP-SAT search,
+`product_metadata` records exact factor expressions and definition ownership;
+`native_products` replaces eligible bit expansions with multiplication equalities.
+Auxiliaries referenced outside their definition remain linear. Native assignments
+reconstruct omitted auxiliaries and satisfy the complete canonical linear model,
+including preparation cuts, before their economics are accepted. Canonical model
+identity remains independent of the selected search formulation.
 An independent Fraction-based evaluator validates placement, resources,
 uniqueness, population capacity, food and public order before accepting income.
 

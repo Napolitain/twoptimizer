@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from functools import partial
 from time import perf_counter
 from typing import TYPE_CHECKING
 
@@ -28,16 +29,27 @@ class RomeOptimizer:
         on_model=None,
         cancellation=None,
         on_phase=None,
+        native_products=False,
     ):
         if algorithm not in {"cp-sat", "highs"}:
             raise ValueError("Choose cp-sat or highs")
+        if not isinstance(native_products, bool) or (native_products and algorithm != "cp-sat"):
+            raise ValueError("Native products require a boolean CP-SAT selection")
         workers = resolve_workers(workers)
         if cancellation is not None:
             cancellation.checkpoint()
         start = perf_counter()
         if algorithm == "cp-sat":
             return self._optimize_cpsat(
-                seconds, workers, incumbent, start, on_search, on_model, cancellation, on_phase
+                seconds,
+                workers,
+                incumbent,
+                start,
+                on_search,
+                on_model,
+                cancellation,
+                on_phase,
+                native_products,
             )
         return self._optimize_highs(seconds, workers, incumbent, start, cancellation)
 
@@ -127,14 +139,16 @@ class RomeOptimizer:
         on_model=None,
         cancellation=None,
         on_phase=None,
+        native_products=False,
     ):
         from games.tw.rome2.joint_search import solve
+        from games.tw.rome2.native_search import prepare
 
         if not hasattr(self.economy, "_prepared"):
             self.economy.fingerprint()
-        proto = self.economy.build()
-        problem = NativeCP.from_linear(proto)
-        previous = self._cpsat_hints(incumbent, problem)
+        proto = None if native_products else self.economy.build()
+        problem = self.economy._prepared.clone() if native_products else NativeCP.from_linear(proto)
+        previous = self._cpsat_hints(incumbent, problem, native_products=native_products)
         result, values = solve(
             problem,
             proto,
@@ -146,6 +160,8 @@ class RomeOptimizer:
             on_model=on_model,
             on_phase=on_phase,
             cancellation=cancellation,
+            preparation=partial(prepare, self.economy) if native_products else None,
+            formulation="native_products" if native_products else "linearized_income",
         )
         report = {
             "scenario": self.economy.scenario.to_dict(),
@@ -186,18 +202,26 @@ class RomeOptimizer:
             return previous
         return selected
 
-    def _cpsat_hints(self, incumbent, problem):
+    def _cpsat_hints(self, incumbent, problem, *, native_products=False):
         selected = None
         if incumbent is not None:
             values = self.economy.warm_values(incumbent)
+            if native_products:
+                from games.tw.rome2.native_search import validated_values
+
+                native_values = validated_values(problem, values)
             selected = set()
             problem.model.clear_hints()
             for variable in problem.variables:
                 if (
-                    variable.name in self.economy.decisions
+                    native_products
+                    or variable.name in self.economy.decisions
                     or variable.name in self.economy.party_variables
                 ):
-                    problem.model.add_hint(variable, values[variable.name])
-                    if values[variable.name]:
+                    value = (
+                        native_values[variable.index] if native_products else values[variable.name]
+                    )
+                    problem.model.add_hint(variable, value)
+                    if value:
                         selected.add(variable.name)
         return selected

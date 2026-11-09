@@ -45,6 +45,7 @@ class Compiler:
         proto = linear_solver_pb2.MPModelProto()
         self.solver.ExportModelToProto(proto)
         self.economy.decisions = {v.name(): pair for pair, v in self.choices.items()}
+        self.economy.products = tuple(self.arithmetic.products)
         return proto
 
     def _choices(self):

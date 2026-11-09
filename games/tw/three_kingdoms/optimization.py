@@ -77,6 +77,25 @@ def _solve_native(solver, model, observer, cancellation, seed_income):
         return cp_model.UNKNOWN
 
 
+def _cp_problem(proto, products):
+    if products is not None:
+        from games.tw.three_kingdoms.native_products import lower
+
+        problem = lower(proto, products)
+        return problem.model, problem.variables, problem
+    model, variables = native_model(proto)
+    return model, variables, None
+
+
+def _hints(model, variables, proto, incumbent, products):
+    if products is not None:
+        products.add_hints(incumbent or {})
+        return
+    for variable, source in zip(variables, proto.variable, strict=True):
+        if incumbent is not None and source.name in incumbent:
+            model.add_hint(variable, incumbent[source.name])
+
+
 def cpsat(
     proto,
     seconds,
@@ -88,19 +107,22 @@ def cpsat(
     incumbent=None,
     seed_income=None,
     known_bound=None,
+    products=None,
 ):
     converted = perf_counter()
-    model, variables = native_model(proto)
+    model, variables, lowered = _cp_problem(proto, products)
     if error := model.validate():
         raise ValueError(error)
-    for variable, source in zip(variables, proto.variable, strict=True):
-        if incumbent is not None and source.name in incumbent:
-            model.add_hint(variable, incumbent[source.name])
-    stats = {
-        "formulation": "linearized_income",
-        "variables": len(model.proto.variables),
-        "constraints": len(model.proto.constraints),
-    }
+    _hints(model, variables, proto, incumbent, lowered)
+    stats = (
+        lowered.stats
+        if lowered is not None
+        else {
+            "formulation": "linearized_income",
+            "variables": len(model.proto.variables),
+            "constraints": len(model.proto.constraints),
+        }
+    )
     if on_model is not None:
         on_model(stats)
     solver = cp_model.CpSolver()
@@ -113,12 +135,17 @@ def cpsat(
     status = _solve_native(solver, model, observer, cancellation, seed_income)
     feasible = status in {cp_model.FEASIBLE, cp_model.OPTIMAL}
     bound = min([*observed, *([solver.best_objective_bound] if feasible else [])], default=None)
+    values = None
+    if feasible:
+        values = (
+            lowered.values(solver) if lowered is not None else [solver.value(v) for v in variables]
+        )
     return {
         "algorithm": "cp-sat",
         "status": solver.status_name(status),
         "objective": solver.objective_value if feasible else None,
         "bound": bound,
-        "values": [solver.value(v) for v in variables] if feasible else None,
+        "values": values,
         "detail": "Search stopped without a native candidate"
         if status == cp_model.UNKNOWN
         else solver.solution_info(),
@@ -172,6 +199,24 @@ def _prepare(economy, proto, seconds, workers, seed, observers):
     return prepare(economy, proto, seconds, workers, seed, **observers)
 
 
+def _validate_options(algorithm, seconds, native_products):
+    if algorithm not in {"cp-sat", "highs"}:
+        raise ValueError("Choose cp-sat or highs")
+    if seconds is not None and (not isfinite(seconds) or seconds <= 0):
+        raise ValueError("Time limit must be positive and finite")
+    if native_products is not None and (
+        not isinstance(native_products, bool) or (native_products and algorithm != "cp-sat")
+    ):
+        raise ValueError("Native products must be None or a CP-SAT-only boolean option")
+
+
+def select_native_products(economy, algorithm, requested):
+    """Use the measured large-holding path while keeping local preparation linear."""
+    if requested is not None:
+        return requested
+    return algorithm == "cp-sat" and len(economy.scenario.commanderies) >= 8
+
+
 def optimize(
     economy,
     algorithm,
@@ -184,11 +229,10 @@ def optimize(
     cancellation=None,
     incumbent=None,
     local_incumbents=None,
+    native_products=None,
 ):
-    if algorithm not in {"cp-sat", "highs"}:
-        raise ValueError("Choose cp-sat or highs")
-    if seconds is not None and (not isfinite(seconds) or seconds <= 0):
-        raise ValueError("Time limit must be positive and finite")
+    _validate_options(algorithm, seconds, native_products)
+    native_products = select_native_products(economy, algorithm, native_products)
     workers = resolve_workers(workers)
     if cancellation is not None and incumbent is None and not local_incumbents:
         cancellation.checkpoint()
@@ -241,6 +285,7 @@ def optimize(
             "incumbent": starting_layout.hints(economy, seed),
             "seed_income": None if seed is None else seed["domestic_income"] * SCALE,
             "known_bound": None if bound is None else bound * SCALE,
+            "products": economy.products if native_products else None,
         },
     )
     values = result.pop("values")

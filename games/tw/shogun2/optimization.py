@@ -113,6 +113,15 @@ def _retain(solver, economics, previous):
     return economics
 
 
+def _validate_options(algorithm, seconds, native_products):
+    if algorithm not in ALGORITHMS:
+        raise ValueError("Choose cp-sat or highs")
+    if seconds is not None and (seconds <= 0 or not isfinite(seconds)):
+        raise ValueError("Time limit must be positive and finite")
+    if not isinstance(native_products, bool) or (native_products and algorithm != "cp-sat"):
+        raise ValueError("Native products require a boolean CP-SAT selection")
+
+
 def optimize(
     economy,
     algorithm,
@@ -124,15 +133,17 @@ def optimize(
     cancellation=None,
     incumbent=None,
     on_phase=None,
+    native_products=False,
 ):
-    if algorithm not in ALGORITHMS:
-        raise ValueError("Choose cp-sat or highs")
-    if seconds is not None and (seconds <= 0 or not isfinite(seconds)):
-        raise ValueError("Time limit must be positive and finite")
+    _validate_options(algorithm, seconds, native_products)
     if cancellation is not None and incumbent is None:
         cancellation.checkpoint()
     started = perf_counter()
     binary = economy.compile()
+    if native_products:
+        from games.tw.shogun2.native_products import NativeProducts
+
+        binary.cp_sat_plan = NativeProducts.from_economy(economy)
     fingerprint = binary.fingerprint()
     remaining = None if seconds is None else max(0.001, seconds - (perf_counter() - started))
     incumbent, preparation = _starting_layout(economy, incumbent, remaining, cancellation, on_phase)

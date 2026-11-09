@@ -1,0 +1,1157 @@
+{
+  "cases": [
+    {
+      "province": "3k_main_province_anding",
+      "status": "OPTIMAL",
+      "income": 1269.0,
+      "expected": 1269.0,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 94,
+        "constraints": 114,
+        "native_product_count": 8,
+        "retained_linear_products": 0,
+        "removed_product_variables": 82
+      },
+      "seconds": 0.06995361599911121
+    },
+    {
+      "province": "3k_main_province_anping",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "expected": 627.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 77,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 52
+      },
+      "seconds": 0.037090831001478364
+    },
+    {
+      "province": "3k_main_province_bajun",
+      "status": "OPTIMAL",
+      "income": 836.5,
+      "expected": 836.5,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 85,
+        "constraints": 105,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 60
+      },
+      "seconds": 0.07191146299919637
+    },
+    {
+      "province": "3k_main_province_badong",
+      "status": "OPTIMAL",
+      "income": 1187.75,
+      "expected": 1187.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 88,
+        "constraints": 113,
+        "native_product_count": 7,
+        "retained_linear_products": 0,
+        "removed_product_variables": 80
+      },
+      "seconds": 0.052279581999755464
+    },
+    {
+      "province": "3k_main_province_baxi",
+      "status": "OPTIMAL",
+      "income": 1132.75,
+      "expected": 1132.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 83,
+        "constraints": 106,
+        "native_product_count": 7,
+        "retained_linear_products": 0,
+        "removed_product_variables": 76
+      },
+      "seconds": 0.03420050100066874
+    },
+    {
+      "province": "3k_main_province_beihai",
+      "status": "OPTIMAL",
+      "income": 832.75,
+      "expected": 832.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 76,
+        "constraints": 98,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 64
+      },
+      "seconds": 0.028928448000442586
+    },
+    {
+      "province": "3k_main_province_bohai",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "expected": 627.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 73,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 52
+      },
+      "seconds": 0.03135957700033032
+    },
+    {
+      "province": "3k_main_province_cangwu",
+      "status": "OPTIMAL",
+      "income": 1444.0,
+      "expected": 1444.0,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 102,
+        "constraints": 125,
+        "native_product_count": 9,
+        "retained_linear_products": 0,
+        "removed_product_variables": 92
+      },
+      "seconds": 0.07705341799919552
+    },
+    {
+      "province": "3k_main_province_changan",
+      "status": "OPTIMAL",
+      "income": 810.25,
+      "expected": 810.25,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 76,
+        "constraints": 98,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 72
+      },
+      "seconds": 0.027349836998837418
+    },
+    {
+      "province": "3k_main_province_changsha",
+      "status": "OPTIMAL",
+      "income": 948.75,
+      "expected": 948.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 84,
+        "constraints": 106,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 78
+      },
+      "seconds": 0.03739546299948415
+    },
+    {
+      "province": "3k_main_province_chenjun",
+      "status": "OPTIMAL",
+      "income": 969.0,
+      "expected": 969.0,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 87,
+        "constraints": 106,
+        "native_product_count": 7,
+        "retained_linear_products": 0,
+        "removed_product_variables": 70
+      },
+      "seconds": 0.04708445600044797
+    },
+    {
+      "province": "3k_main_province_chengdu",
+      "status": "OPTIMAL",
+      "income": 927.75,
+      "expected": 927.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 88,
+        "constraints": 107,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 64
+      },
+      "seconds": 0.05941754200102878
+    },
+    {
+      "province": "3k_main_province_daijun",
+      "status": "OPTIMAL",
+      "income": 457.75,
+      "expected": 457.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 70,
+        "constraints": 90,
+        "native_product_count": 4,
+        "retained_linear_products": 0,
+        "removed_product_variables": 46
+      },
+      "seconds": 0.025435094999920693
+    },
+    {
+      "province": "3k_main_province_dongjun",
+      "status": "OPTIMAL",
+      "income": 1022.75,
+      "expected": 1022.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 81,
+        "constraints": 105,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 66
+      },
+      "seconds": 0.0490917620008986
+    },
+    {
+      "province": "3k_main_province_dongou",
+      "status": "OPTIMAL",
+      "income": 1022.75,
+      "expected": 1022.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 81,
+        "constraints": 105,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 66
+      },
+      "seconds": 0.04926798199994664
+    },
+    {
+      "province": "3k_main_province_donghai",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "expected": 627.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 73,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 52
+      },
+      "seconds": 0.03476046499963559
+    },
+    {
+      "province": "3k_main_province_donglai",
+      "status": "OPTIMAL",
+      "income": 836.5,
+      "expected": 836.5,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 85,
+        "constraints": 105,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 60
+      },
+      "seconds": 0.0789964149989828
+    },
+    {
+      "province": "3k_main_province_fuling",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "expected": 627.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 77,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 52
+      },
+      "seconds": 0.032081777000712464
+    },
+    {
+      "province": "3k_main_province_gaoliang",
+      "status": "OPTIMAL",
+      "income": 767.75,
+      "expected": 767.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 73,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 58
+      },
+      "seconds": 0.027200153999729082
+    },
+    {
+      "province": "3k_main_province_guangling",
+      "status": "OPTIMAL",
+      "income": 912.75,
+      "expected": 912.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 84,
+        "constraints": 102,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 68
+      },
+      "seconds": 0.05131927100046596
+    },
+    {
+      "province": "3k_main_province_hanzhong",
+      "status": "OPTIMAL",
+      "income": 712.75,
+      "expected": 712.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 73,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 58
+      },
+      "seconds": 0.026696050001191907
+    },
+    {
+      "province": "3k_main_province_hedong",
+      "status": "OPTIMAL",
+      "income": 767.75,
+      "expected": 767.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 73,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 58
+      },
+      "seconds": 0.02767162800046208
+    },
+    {
+      "province": "3k_main_province_henei",
+      "status": "OPTIMAL",
+      "income": 836.5,
+      "expected": 836.5,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 85,
+        "constraints": 105,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 60
+      },
+      "seconds": 0.07273752099899866
+    },
+    {
+      "province": "3k_main_province_hepu",
+      "status": "OPTIMAL",
+      "income": 1061.5,
+      "expected": 1061.5,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 88,
+        "constraints": 113,
+        "native_product_count": 7,
+        "retained_linear_products": 0,
+        "removed_product_variables": 74
+      },
+      "seconds": 0.07359891499982041
+    },
+    {
+      "province": "3k_main_province_ye",
+      "status": "OPTIMAL",
+      "income": 964.0,
+      "expected": 964.0,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 84,
+        "constraints": 109,
+        "native_product_count": 7,
+        "retained_linear_products": 0,
+        "removed_product_variables": 72
+      },
+      "seconds": 0.060711724998327554
+    },
+    {
+      "province": "3k_main_province_jianan",
+      "status": "OPTIMAL",
+      "income": 792.75,
+      "expected": 792.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 84,
+        "constraints": 102,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 66
+      },
+      "seconds": 0.0430027610000252
+    },
+    {
+      "province": "3k_main_province_jingzhou",
+      "status": "OPTIMAL",
+      "income": 964.0,
+      "expected": 964.0,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 84,
+        "constraints": 109,
+        "native_product_count": 7,
+        "retained_linear_products": 0,
+        "removed_product_variables": 72
+      },
+      "seconds": 0.06375582199871133
+    },
+    {
+      "province": "3k_main_province_jiangxia",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "expected": 627.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 77,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 52
+      },
+      "seconds": 0.03953405299944279
+    },
+    {
+      "province": "3k_main_province_jiangyang",
+      "status": "OPTIMAL",
+      "income": 1351.5,
+      "expected": 1351.5,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 99,
+        "constraints": 121,
+        "native_product_count": 8,
+        "retained_linear_products": 0,
+        "removed_product_variables": 86
+      },
+      "seconds": 0.08472692800023651
+    },
+    {
+      "province": "3k_main_province_jianye",
+      "status": "OPTIMAL",
+      "income": 1322.75,
+      "expected": 1322.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 88,
+        "constraints": 113,
+        "native_product_count": 7,
+        "retained_linear_products": 0,
+        "removed_product_variables": 78
+      },
+      "seconds": 0.051968331999887596
+    },
+    {
+      "province": "3k_main_province_jiaozhi",
+      "status": "OPTIMAL",
+      "income": 872.75,
+      "expected": 872.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 84,
+        "constraints": 102,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 64
+      },
+      "seconds": 0.042861383999479585
+    },
+    {
+      "province": "3k_main_province_jincheng",
+      "status": "OPTIMAL",
+      "income": 967.75,
+      "expected": 967.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 85,
+        "constraints": 109,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 66
+      },
+      "seconds": 0.05349848500009102
+    },
+    {
+      "province": "3k_main_province_kuaiji",
+      "status": "OPTIMAL",
+      "income": 979.0,
+      "expected": 979.0,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 87,
+        "constraints": 106,
+        "native_product_count": 7,
+        "retained_linear_products": 0,
+        "removed_product_variables": 70
+      },
+      "seconds": 0.04198093900049571
+    },
+    {
+      "province": "3k_main_province_langye",
+      "status": "OPTIMAL",
+      "income": 792.75,
+      "expected": 792.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 80,
+        "constraints": 102,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 66
+      },
+      "seconds": 0.04610639699967578
+    },
+    {
+      "province": "3k_main_province_yu",
+      "status": "OPTIMAL",
+      "income": 767.75,
+      "expected": 767.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 73,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 58
+      },
+      "seconds": 0.026909604001048137
+    },
+    {
+      "province": "3k_main_province_lingling",
+      "status": "OPTIMAL",
+      "income": 1092.75,
+      "expected": 1092.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 91,
+        "constraints": 110,
+        "native_product_count": 7,
+        "retained_linear_products": 0,
+        "removed_product_variables": 78
+      },
+      "seconds": 0.04597645600006217
+    },
+    {
+      "province": "3k_main_province_lujiang",
+      "status": "OPTIMAL",
+      "income": 792.75,
+      "expected": 792.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 80,
+        "constraints": 102,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 66
+      },
+      "seconds": 0.04816637099975196
+    },
+    {
+      "province": "3k_main_province_luling",
+      "status": "OPTIMAL",
+      "income": 632.75,
+      "expected": 632.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 73,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 60
+      },
+      "seconds": 0.030035669999051606
+    },
+    {
+      "province": "3k_main_province_luoyang",
+      "status": "OPTIMAL",
+      "income": 877.75,
+      "expected": 877.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 80,
+        "constraints": 102,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 76
+      },
+      "seconds": 0.028414303000317886
+    },
+    {
+      "province": "3k_main_province_nanhai",
+      "status": "OPTIMAL",
+      "income": 1709.0,
+      "expected": 1709.0,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 102,
+        "constraints": 125,
+        "native_product_count": 9,
+        "retained_linear_products": 0,
+        "removed_product_variables": 94
+      },
+      "seconds": 0.07697369999914372
+    },
+    {
+      "province": "3k_main_province_nanyang",
+      "status": "OPTIMAL",
+      "income": 810.25,
+      "expected": 810.25,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 76,
+        "constraints": 98,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 72
+      },
+      "seconds": 0.029704311999012134
+    },
+    {
+      "province": "3k_main_province_penchang",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "expected": 627.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 79,
+        "constraints": 98,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 52
+      },
+      "seconds": 0.041570543000489124
+    },
+    {
+      "province": "3k_main_province_pingyuan",
+      "status": "OPTIMAL",
+      "income": 767.75,
+      "expected": 767.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 73,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 58
+      },
+      "seconds": 0.03242209200107027
+    },
+    {
+      "province": "3k_main_province_poyang",
+      "status": "OPTIMAL",
+      "income": 1067.75,
+      "expected": 1067.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 84,
+        "constraints": 107,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 70
+      },
+      "seconds": 0.028345099000944174
+    },
+    {
+      "province": "3k_main_province_runan",
+      "status": "OPTIMAL",
+      "income": 767.75,
+      "expected": 767.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 73,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 58
+      },
+      "seconds": 0.027683543999955873
+    },
+    {
+      "province": "3k_main_province_shangdang",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "expected": 627.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 77,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 52
+      },
+      "seconds": 0.03328293499907886
+    },
+    {
+      "province": "3k_main_province_shangyong",
+      "status": "OPTIMAL",
+      "income": 632.75,
+      "expected": 632.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 77,
+        "constraints": 99,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 60
+      },
+      "seconds": 0.025626364000345347
+    },
+    {
+      "province": "3k_main_province_shoufang",
+      "status": "OPTIMAL",
+      "income": 1022.75,
+      "expected": 1022.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 89,
+        "constraints": 114,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 66
+      },
+      "seconds": 0.05461778599965328
+    },
+    {
+      "province": "3k_main_province_taishan",
+      "status": "OPTIMAL",
+      "income": 712.75,
+      "expected": 712.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 73,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 62
+      },
+      "seconds": 0.026084596998771303
+    },
+    {
+      "province": "3k_main_province_taiyuan",
+      "status": "OPTIMAL",
+      "income": 1067.75,
+      "expected": 1067.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 80,
+        "constraints": 102,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 70
+      },
+      "seconds": 0.027062765999289695
+    },
+    {
+      "province": "3k_main_province_tongan",
+      "status": "OPTIMAL",
+      "income": 1022.75,
+      "expected": 1022.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 81,
+        "constraints": 105,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 66
+      },
+      "seconds": 0.0487308989995654
+    },
+    {
+      "province": "3k_main_province_wudu",
+      "status": "OPTIMAL",
+      "income": 1012.75,
+      "expected": 1012.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 80,
+        "constraints": 102,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 70
+      },
+      "seconds": 0.027634117999696173
+    },
+    {
+      "province": "3k_main_province_wuling",
+      "status": "OPTIMAL",
+      "income": 1279.0,
+      "expected": 1279.0,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 94,
+        "constraints": 114,
+        "native_product_count": 8,
+        "retained_linear_products": 0,
+        "removed_product_variables": 82
+      },
+      "seconds": 0.050290963999941596
+    },
+    {
+      "province": "3k_main_province_wuwei",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "expected": 627.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 81,
+        "constraints": 98,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 52
+      },
+      "seconds": 0.035229271999924094
+    },
+    {
+      "province": "3k_main_province_xiangyang",
+      "status": "OPTIMAL",
+      "income": 767.75,
+      "expected": 767.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 73,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 58
+      },
+      "seconds": 0.028767297000740655
+    },
+    {
+      "province": "3k_main_province_xihe",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "expected": 627.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 73,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 52
+      },
+      "seconds": 0.030546141999366228
+    },
+    {
+      "province": "3k_main_province_xindu",
+      "status": "OPTIMAL",
+      "income": 792.75,
+      "expected": 792.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 80,
+        "constraints": 102,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 66
+      },
+      "seconds": 0.03773162200013758
+    },
+    {
+      "province": "3k_main_province_yangzhou",
+      "status": "OPTIMAL",
+      "income": 1269.0,
+      "expected": 1269.0,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 94,
+        "constraints": 114,
+        "native_product_count": 8,
+        "retained_linear_products": 0,
+        "removed_product_variables": 82
+      },
+      "seconds": 0.05278670699954091
+    },
+    {
+      "province": "3k_main_province_yanmen",
+      "status": "OPTIMAL",
+      "income": 632.75,
+      "expected": 632.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 73,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 60
+      },
+      "seconds": 0.026394542001071386
+    },
+    {
+      "province": "3k_main_province_weijun",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "expected": 627.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 77,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 52
+      },
+      "seconds": 0.04389460099991993
+    },
+    {
+      "province": "3k_main_province_yingchuan",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "expected": 627.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 77,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 52
+      },
+      "seconds": 0.03522405900002923
+    },
+    {
+      "province": "3k_main_province_yizhou",
+      "status": "OPTIMAL",
+      "income": 882.75,
+      "expected": 882.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 80,
+        "constraints": 101,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 76
+      },
+      "seconds": 0.03677664799943159
+    },
+    {
+      "province": "3k_main_province_yizhou_island",
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "expected": 627.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 73,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 52
+      },
+      "seconds": 0.03161296100006439
+    },
+    {
+      "province": "3k_main_province_youbeiping",
+      "status": "OPTIMAL",
+      "income": 712.75,
+      "expected": 712.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 73,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 62
+      },
+      "seconds": 0.026967358000547392
+    },
+    {
+      "province": "3k_main_province_youzhou",
+      "status": "OPTIMAL",
+      "income": 767.75,
+      "expected": 767.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 73,
+        "constraints": 94,
+        "native_product_count": 5,
+        "retained_linear_products": 0,
+        "removed_product_variables": 58
+      },
+      "seconds": 0.029396991998510202
+    },
+    {
+      "province": "3k_main_province_yulin",
+      "status": "OPTIMAL",
+      "income": 957.75,
+      "expected": 957.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 80,
+        "constraints": 102,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 74
+      },
+      "seconds": 0.028784144000383094
+    },
+    {
+      "province": "3k_main_province_jianning",
+      "status": "OPTIMAL",
+      "income": 1012.75,
+      "expected": 1012.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 80,
+        "constraints": 102,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 70
+      },
+      "seconds": 0.027345656999386847
+    },
+    {
+      "province": "3k_main_province_yuzhang",
+      "status": "OPTIMAL",
+      "income": 1279.0,
+      "expected": 1279.0,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 94,
+        "constraints": 114,
+        "native_product_count": 8,
+        "retained_linear_products": 0,
+        "removed_product_variables": 82
+      },
+      "seconds": 0.05177231100060453
+    },
+    {
+      "province": "3k_main_province_zangke",
+      "status": "OPTIMAL",
+      "income": 948.75,
+      "expected": 948.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 80,
+        "constraints": 101,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 78
+      },
+      "seconds": 0.03431574199930765
+    },
+    {
+      "province": "3k_main_province_zhongshan",
+      "status": "OPTIMAL",
+      "income": 832.75,
+      "expected": 832.75,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 76,
+        "constraints": 98,
+        "native_product_count": 6,
+        "retained_linear_products": 0,
+        "removed_product_variables": 64
+      },
+      "seconds": 0.033404204001271864
+    }
+  ],
+  "wall_seconds": 3.5281511900011537,
+  "source_catalog": "three_kingdoms:native",
+  "candidate_source_catalog": {
+    "report": "native-products.json",
+    "key": "three_kingdoms:native"
+  },
+  "pricing_identity": [
+    {
+      "variant": "default",
+      "sha256": "5353953feb943249857d3b0ef5e665fe423ef8831f8b124f497842cd0e5bdcac",
+      "variables": 22982,
+      "constraints": 46265,
+      "food_row": 46264,
+      "price_allowance_seconds": 10.0
+    },
+    {
+      "variant": "native",
+      "sha256": "5353953feb943249857d3b0ef5e665fe423ef8831f8b124f497842cd0e5bdcac",
+      "variables": 22982,
+      "constraints": 46265,
+      "food_row": 46264,
+      "price_allowance_seconds": 10.0
+    }
+  ],
+  "final_application": {
+    "attila_auto": {
+      "status": "FEASIBLE",
+      "income": 171127.4375,
+      "model_stats": {
+        "formulation": "factored_income",
+        "variables": 4621,
+        "constraints": 4213,
+        "reference_variables": 21794,
+        "reference_constraints": 62996,
+        "income_groups": 8,
+        "product_encoding": "native"
+      }
+    },
+    "three_kingdoms_auto_cancel_repeat": {
+      "first_status": "FEASIBLE",
+      "first_income": 7324.5,
+      "second_status": "FEASIBLE",
+      "second_income": 7324.5,
+      "same_worker": true,
+      "seed_reused": true,
+      "model_stats": {
+        "formulation": "native_products",
+        "variables": 649,
+        "constraints": 815,
+        "native_product_count": 50,
+        "retained_linear_products": 0,
+        "removed_product_variables": 538
+      }
+    },
+    "rome2_single": {
+      "status": "OPTIMAL",
+      "income": 4182.7,
+      "formulation": "linearized_income"
+    },
+    "shogun2_single": {
+      "status": "OPTIMAL",
+      "income": 4318.16,
+      "formulation": "expanded_boolean"
+    },
+    "three_kingdoms_single": {
+      "status": "OPTIMAL",
+      "income": 627.75,
+      "formulation": "linearized_income"
+    },
+    "highs": {
+      "status": "OPTIMAL",
+      "income": 627.75
+    }
+  },
+  "final_source_changes": {
+    "attila": {
+      "attila/compact.py": "e0513e9293b1e2a9e1f29a1db42f29aeb294312bd3109c5d0ceec713643b6502"
+    },
+    "rome2": {},
+    "shogun2": {},
+    "three_kingdoms": {
+      "three_kingdoms/model.py": "aa1bdbfc6c0d6509a34dac1bcad4bdeb3a1921c39d8ac5c4207f79def4c78bf6",
+      "three_kingdoms/optimization.py": "91a3aa816c9d7e4add21c8285c63c69b20a096add8176494d7515c3989152f35"
+    }
+  },
+  "tested_final_wheel": {
+    "path": "/tmp/twoptimizer-native-products-final-dist/napolitain_twoptimizer-1.5.0-py3-none-any.whl",
+    "sha256": "92ada795f5a045071547e645232b8e9494f53d22d534ff3f273610e9f6d931af"
+  },
+  "drivers": {
+    "validate_native.py": {
+      "sha256": "01a8175befdfc912d8b80c62c473928c902cc0ec20920579889d29c2f6d69916",
+      "source": "import json\nimport runpy\nfrom dataclasses import replace\nfrom pathlib import Path\nfrom time import perf_counter\nfrom twoptimizer.catalog import choices\nfrom twoptimizer.provenance import source_files\nfrom twoptimizer.requests import default_config\nfrom twoptimizer.service import solve_case\n\nhelper=runpy.run_path('/tmp/twoptimizer-native-products-driver/native_product_benchmark.py')\nhelper['install_selector']('three_kingdoms')\nreference=json.loads(Path('/workspace/twoptimizer/reports/three-kingdoms-city-levels.json').read_text())\nexpected={row['id']:next(s['income'] for s in row['samples'] if s['mode']=='auto' and s['algorithm']=='cp-sat') for row in reference['cases']}\noutput={'source_files':source_files('three_kingdoms'),'cases':[]}\nstarted=perf_counter()\nfor _,province in choices('three_kingdoms')['provinces']:\n    result=solve_case(replace(default_config('three_kingdoms'),province=province,seconds=10,workers=4))\n    row={'province':province,'status':result.solver.status,'income':result.income,'expected':expected[province],'model_stats':result.solver.details.get('model_stats'),'seconds':result.solver.seconds}\n    output['cases'].append(row)\n    assert result.solver.status == 'OPTIMAL', row\n    assert abs(result.income-expected[province])<1e-5, row\noutput['wall_seconds']=perf_counter()-started\nPath('/tmp/twoptimizer-native-products-validation.json').write_text(json.dumps(output,indent=2))\nprint('All70 native Three Kingdoms independent optima match reference',output['wall_seconds'],flush=True)\n"
+    },
+    "validate_final.py": {
+      "sha256": "4d45f6f8b03a73bfbf9ce49075b18f53ef8940de3213f15fe52e5ee62d42fcf7",
+      "source": "import asyncio,json,runpy\nfrom dataclasses import replace\nfrom pathlib import Path\nfrom twoptimizer.progress import SearchStats\nfrom twoptimizer.provenance import source_files\nfrom twoptimizer.requests import default_config\nfrom twoptimizer.runner import BatchRunner\nfrom twoptimizer.service import solve_case\nhelper=runpy.run_path('/tmp/twoptimizer-native-products-driver/supplemental_benchmark.py')\nreport={'source_files':{g:source_files(g) for g in ('attila','rome2','shogun2','three_kingdoms')}}\n\ndef config(game, seconds):\n    return replace(default_config(game),provinces=helper['scope_holdings'](game,'eight'),joint=True,seconds=seconds,workers=4)\n\nasync def main():\n    runner=BatchRunner()\n    stop_task=None\n    try:\n        attila=await runner.run(config('attila',15),lambda _:None)\n        assert attila is not None, 'Attila worker did not return'\n        assert attila['solver']['model_stats']['product_encoding']=='native', attila['solver']\n        assert attila['solver']['status'] in ('FEASIBLE','OPTIMAL'), attila['solver']\n        report['attila_auto']={'status':attila['solver']['status'],'income':attila['income'],'model_stats':attila['solver']['model_stats']}\n        print('Installed Attila eight-province request selects native products and validates a layout',flush=True)\n        def observe(event):\n            nonlocal stop_task\n            if isinstance(event,SearchStats) and event.objective is not None and stop_task is None:\n                stop_task=asyncio.create_task(runner.request_stop())\n        first=await runner.run(config('three_kingdoms',30),lambda _:None,observe)\n        assert first is not None and first['income'] is not None, first\n        assert first['raw']['cancellation']['incumbent_retained']\n        assert first['solver']['model_stats']['formulation']=='native_products'\n        process=runner.process\n        runner.begin_batch()\n        second=await runner.run(config('three_kingdoms',0.01),lambda _:None)\n        assert second is not None and second['income']>=first['income']-1e-5\n        assert second['raw']['solver']['seed_reused']\n        assert runner.process is process\n        report['three_kingdoms_auto_cancel_repeat']={'first_status':first['solver']['status'],'first_income':first['income'],'second_status':second['solver']['status'],'second_income':second['income'],'same_worker':True,'seed_reused':True,'model_stats':first['solver']['model_stats']}\n        print('Installed Three Kingdoms auto-native Cancel/Run retains validated layout and worker',flush=True)\n    finally:\n        await runner.stop()\n        if stop_task is not None: await stop_task\n    for game in ('rome2','shogun2','three_kingdoms'):\n        result=solve_case(replace(default_config(game),seconds=5,workers=1))\n        stats=result.solver.details.get('model_stats',result.solver.details)\n        report[game+'_single']={'status':result.solver.status,'income':result.income,'formulation':stats.get('formulation')}\n        assert 'native' not in stats.get('formulation','')\n    highs=solve_case(replace(default_config('three_kingdoms'),algorithm='highs',seconds=5,workers=1))\n    assert highs.solver.status=='OPTIMAL' and highs.income==627.75\n    report['highs']={'status':highs.solver.status,'income':highs.income}\n    Path('/tmp/twoptimizer-native-products-final-validation.json').write_text(json.dumps(report,indent=2))\n    print('Final installed validation complete',flush=True)\n\nasyncio.run(main())\n"
+    },
+    "rome_pricing_identity.py": {
+      "sha256": "7fbf5f4e9c090fc3c1b9c3e45d306786dea0f836d313f21f96e42adabd6ce78a",
+      "source": "import hashlib,json,runpy,sys\nfrom dataclasses import replace\nfrom pathlib import Path\nfrom twoptimizer.requests import default_config\nfrom twoptimizer.service import solve_case\nfrom games.tw.rome2 import bound_search\nvariant=sys.argv[1]\nhelper=runpy.run_path('/tmp/twoptimizer-native-products-driver/native_product_benchmark.py')\nif variant=='native': helper['install_selector']('rome2')\nclass Captured(Exception): pass\ndef capture(proto, food_row, *args, **kwargs):\n    raw=proto.SerializeToString(deterministic=True)\n    report={'variant':variant,'sha256':hashlib.sha256(raw).hexdigest(),'variables':len(proto.variable),'constraints':len(proto.constraint),'food_row':food_row,'price_allowance_seconds':args[0] if args else kwargs.get('seconds')}\n    Path('/tmp/twoptimizer-native-products-rome-pricing-'+variant+'.json').write_text(json.dumps(report,indent=2))\n    print(report,flush=True)\n    raise Captured\nbound_search.estimate_lower_bound_price=capture\ntry:\n    solve_case(replace(default_config('rome2'),provinces=('all',),joint=True,seconds=60,workers=4))\nexcept Captured: pass\nelse: raise AssertionError('Pricing capture not reached')\n"
+    }
+  }
+}

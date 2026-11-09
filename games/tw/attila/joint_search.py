@@ -152,6 +152,8 @@ def solve(
         "reference_constraints": len(reference.lower),
         "income_groups": builder.income_groups,
     }
+    if getattr(builder, "native_products", False):
+        stats["product_encoding"] = "native"
     if on_phase is not None:
         on_phase(
             "Searching the complete joint model" if bounds is not None else "Solving and validating"

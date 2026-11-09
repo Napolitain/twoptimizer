@@ -10,6 +10,11 @@ Preparation is automatic. Small cases and short search allowances can skip fresh
 local searches, while compatible cached layouts remain useful. No new user time
 budget or worker setting is required. An unlimited final search remains unlimited.
 Preparation is not guaranteed to improve wall time or time to optimality.
+The later [native-product measurements](native-products.md) select native CP-SAT
+multiplication automatically for eligible Attila and Three Kingdoms holdings with
+at least eight provinces. Their canonical reference models and preparation
+certificates remain in use; the measurements below describe this document's
+original linear/hybrid candidate.
 
 ## Three Kingdoms
 

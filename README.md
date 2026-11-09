@@ -57,6 +57,10 @@ Three Kingdoms joint runs can prepare validated local layouts and bounds from
 connected groups. Shogun 2 can prepare a conservative local starting layout.
 Preparation is automatic and bounded; it does not limit the subsequent unlimited
 solve. See [joint preparation and reusable search](docs/joint-preparation.md).
+Eligible Attila and Three Kingdoms holdings with eight or more provinces use
+native CP-SAT multiplication automatically. Rome II and Shogun keep their existing
+defaults; [paired measurements](docs/native-products.md) explain the selection
+and the cases where native products were worse.
 The **Runtime** tab shows matching historical measurements, timings from earlier
 runs with the same settings in this session, and time since the candidate or
 bound last improved. These are observations, not a promised completion time.

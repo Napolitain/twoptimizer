@@ -3,6 +3,8 @@
 from dataclasses import dataclass
 from typing import Any
 
+from games.tw.three_kingdoms.product_metadata import Factor, Product
+
 
 @dataclass(frozen=True, slots=True)
 class Quantity:
@@ -19,6 +21,7 @@ class Arithmetic:
     def __init__(self, solver):
         self.solver = solver
         self.counter = 0
+        self.products = []
 
     def variable(self, lower, upper, label):
         self.counter += 1
@@ -53,16 +56,29 @@ class Arithmetic:
             left, right = right, left
         if left.lower == left.upper:
             return self.sum([(left.lower, right)])
+        first_row = self.solver.NumConstraints()
         bits = (left.upper - left.lower).bit_length()
         selectors = [self.variable(0, 1, label + "_bit") for _ in range(bits)]
         self.solver.Add(
             left.expression == left.lower + sum((1 << i) * v for i, v in enumerate(selectors))
         )
+        selected = [self.selected(right, v) for v in selectors]
         expression = left.lower * right.expression + sum(
-            (1 << i) * self.selected(right, v) for i, v in enumerate(selectors)
+            (1 << i) * v for i, v in enumerate(selected)
         )
         bounds = [a * b for a in (left.lower, left.upper) for b in (right.lower, right.upper)]
-        return self.materialize(Quantity(expression, min(bounds), max(bounds)), label)
+        result = self.materialize(Quantity(expression, min(bounds), max(bounds)), label)
+        self.products.append(
+            Product(
+                result.expression.index(),
+                Factor.from_quantity(left),
+                Factor.from_quantity(right),
+                tuple(v.index() for v in selectors),
+                tuple(v.index() for v in selected),
+                tuple(range(first_row, self.solver.NumConstraints())),
+            )
+        )
+        return result
 
     def maximum_zero(self, quantity, label):
         if quantity.lower >= 0:

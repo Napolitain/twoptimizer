@@ -4,6 +4,7 @@ from collections import Counter
 
 from games.tw.immutable import freeze
 from games.tw.three_kingdoms.catalog import building_effects, load_data
+from games.tw.three_kingdoms.product_metadata import Product
 from games.tw.three_kingdoms.scenario import Scenario
 from games.tw.three_kingdoms.scopes import ECONOMIC
 
@@ -42,6 +43,7 @@ class Economy:
         self._validate_choices()
         self._validate_borders()
         self.decisions = {}
+        self.products: tuple[Product, ...] = ()
 
     def _validate_scenario(self):
         if self.scenario.faction not in self.data["factions"]:
@@ -189,6 +191,7 @@ class Economy:
         cancellation=None,
         incumbent=None,
         local_incumbents=None,
+        native_products=None,
     ):
         from games.tw.three_kingdoms.optimization import optimize
 
@@ -203,4 +206,5 @@ class Economy:
             cancellation=cancellation,
             incumbent=incumbent,
             local_incumbents=local_incumbents,
+            native_products=native_products,
         )

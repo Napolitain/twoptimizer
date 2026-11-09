@@ -21,6 +21,7 @@ def source_files(game):
                 "model.py",
                 "compiler.py",
                 "linear.py",
+                "native_search.py",
                 "optimization.py",
                 "joint_search.py",
                 "bound_search.py",
@@ -44,6 +45,7 @@ def source_files(game):
                 "data/world_modifiers.json",
             )
         ]
+        paths.append(ROOT / "attila/native_parts.py")
     elif game == "shogun2":
         paths = [
             ROOT / "shogun2" / name
@@ -55,6 +57,7 @@ def source_files(game):
                 "effects.py",
                 "constraints.py",
                 "optimization.py",
+                "native_products.py",
                 "preparation.py",
                 "data/rules.json",
             )
@@ -87,6 +90,7 @@ def source_files(game):
                     "attila/bound_search.py",
                     "attila/partition.py",
                     "attila/native_parts.py",
+                    "attila/native_experiment.py",
                     "attila/projection.py",
                     "attila/reporting.py",
                     "attila/scenario.py",

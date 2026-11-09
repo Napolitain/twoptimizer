@@ -91,7 +91,7 @@ def _selection(solver, problem, proto, status, bounds, observed):
     bound = min(upper, default=None)
     if bounds is not None:
         values, objective, status = _retain_seed(
-            values, objective, status, bounds, len(proto.variable)
+            values, objective, status, bounds, len(problem.variables)
         )
     if objective is not None and bound is not None and bound < objective - 1e-5:
         raise AssertionError("Joint upper bound is below a validated candidate")
@@ -125,10 +125,13 @@ def solve(
     on_model=None,
     on_phase=None,
     cancellation=None,
+    preparation=None,
+    formulation="linearized_income",
 ):
     """Strengthen the original model, then preserve its best verified assignment."""
     bound_start = perf_counter()
-    bounds = _strengthen(problem, proto, seconds, workers, started, cancellation, on_phase)
+    prepare = _strengthen if preparation is None else preparation
+    bounds = prepare(problem, proto, seconds, workers, started, cancellation, on_phase)
     bound_seconds = perf_counter() - bound_start
     _install_seed(problem, bounds, incumbent_income)
     error = problem.model.validate()
@@ -141,7 +144,7 @@ def solve(
     if seconds is not None:
         solver.parameters.max_time_in_seconds = max(0.001, seconds - (perf_counter() - started))
     stats = {
-        "formulation": "linearized_income",
+        "formulation": formulation,
         "variables": len(problem.model.proto.variables),
         "constraints": len(problem.model.proto.constraints),
     }
