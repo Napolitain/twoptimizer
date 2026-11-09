@@ -2,7 +2,7 @@
 
 from collections.abc import Sequence
 
-from twoptimizer.holdings import BORDER_GAMES, resolved_borders
+from twoptimizer.holdings import BORDER_GAMES, resolved_borders, unverified_inactive_borders
 from twoptimizer.models import RunConfig
 from twoptimizer.progress import ModelStats, SearchStats
 
@@ -101,6 +101,8 @@ def query_summary(config: RunConfig, jobs: Sequence[RunConfig], skipped: Sequenc
 
 
 def border_summary(config: RunConfig) -> str:
+    if config.adjacency is None and unverified_inactive_borders(config):
+        return "Borders unverified · no income effect at 0% corruption"
     borders = len(resolved_borders(config))
     source = "automatic"
     if config.adjacency is not None:

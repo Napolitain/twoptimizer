@@ -1,0 +1,3489 @@
+{
+  "recorded_at_utc": "2026-11-09T00:48:13.395423+00:00",
+  "description": "Serial installed-wheel validation of the historical 1.2.0 reference; not a comparison with installed game mechanics or prior performance.",
+  "method": "Serial fresh processes outside the checkout, installed wheel built with uv build, Python3.14.9 and all installed dependency versions checked against the locked development environment. Four workers; single-commandery runs10 seconds maximum(3samples/backend); joint70commandery runs30 seconds maximum(2samples/backend). Wall includes module imports and shared solve_case, but not shell/uv/package installation. RSS is each process own ru_maxrss. First CP-SAT sample includes cold bytecode/cache effects. No tests or other native solves ran concurrently.",
+  "reproduce_default": "uv run --locked twoptimizer three-kingdoms --commandery Yingchuan --algorithm cp-sat --algorithm highs --workers 4 --seconds 10",
+  "reproduce_joint": "uv run --locked twoptimizer three-kingdoms --commandery all --joint --algorithm cp-sat --algorithm highs --workers 4 --seconds 30",
+  "reproduce_faction_matrix": "uv run --locked twoptimizer three-kingdoms --faction all --commandery Yingchuan --algorithm cp-sat --algorithm highs --workers 4 --seconds 5",
+  "reproduce_independent_matrix": "uv run --locked twoptimizer three-kingdoms --commandery all --algorithm cp-sat --algorithm highs --workers 4 --seconds 5",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "source_files": {
+    "three_kingdoms/__init__.py": "cb26f38df1d0bc4e7e13b93cced386e9a2b417d3e3110570dadbc1703a298720",
+    "three_kingdoms/audit_reference.py": "d93aea76986b182ec19278175582347240bceb43af83d457fc3b3597b9579a38",
+    "three_kingdoms/catalog.py": "7c8937b5659b5ae2eeb5afa5b6e452adc4d4d11cb115e429f461f7684cace88c",
+    "three_kingdoms/compiler.py": "c8ec1623f4462fc9325959def90991b85d499f3e4aca6490b0db62b3f354f9f4",
+    "three_kingdoms/evaluation.py": "a7d35cef487af71467d3ecc38c4fc95c9d7602118592c697556f5373c1f40b03",
+    "three_kingdoms/import_effects.py": "d0c77796b0599c8aa1e12a0b2e87704a07e119953c9006de974223111e94e6bc",
+    "three_kingdoms/import_geography.py": "c92496b84530a3325f56c9c87eee8009816c617638ef15845ad2a46c7af2f443",
+    "three_kingdoms/import_reference.py": "a98fcc93628df0d9acb547d853197f66cc623e10cf70fdcc0631a7472a5dcbdb",
+    "three_kingdoms/import_rules.py": "c335e0aedd4110c52b0dd42af548f1210a9b78aa85f07bfc8a62151ef2f3f209",
+    "three_kingdoms/integer.py": "138db7c26e3363bf4f86c87eced37bdce6f8b86320447d0e2255f90276ec5dd3",
+    "three_kingdoms/model.py": "493331ab2f5ef75e06279d0b35595bd55cf39d55f771eccad7d2cfc21721323a",
+    "three_kingdoms/optimization.py": "f9c2eb36dd5ed0830916a91e1f6d0ff2725081a06c1d3c03b92f24207b8431f8",
+    "three_kingdoms/scenario.py": "72ee39480ad2ff339563720edfb6c8b5a424339ba257f1c46a5060343c941c1c",
+    "three_kingdoms/scopes.py": "ff45d930e57971f66052c53eccec73f9ea2a3a0c2ee1e3b3dae0cb5c30478bfd",
+    "three_kingdoms/source.py": "244fdd81e1beae3d18483e2459e8dc171817ef06e47dc7a4385c9c9ca2073327",
+    "three_kingdoms/data/buildings_city_1.json": "7c62afa9e4fbddb23b152dac03ca04a4f5f468e57831d4b97c941f39427d037d",
+    "three_kingdoms/data/buildings_district_1.json": "c46dc37c09f24321817adac2a11b8614b50a16da71fee493fd8cd8c72fd429e7",
+    "three_kingdoms/data/buildings_district_2.json": "1c755a95a52091102a6f4122474e0c2ae90a8344f5dda4903479d795991d6139",
+    "three_kingdoms/data/buildings_district_3.json": "e56fd568ba05c519ffb144532b5621bb6842230d7bd4670fe755d6b50e93d41f",
+    "three_kingdoms/data/buildings_resource_1.json": "9f20120da829c1d2d71a6d9d84d4246c6ecd7ee9ee2d0798f688d5c5d943a553",
+    "three_kingdoms/data/buildings_resource_2.json": "4c15299b70248cfc7fafb2171fe51c2fc621889d163c57746cc139d571676297",
+    "three_kingdoms/data/campaign_map.json": "c5774c6161dd160917839d188fc5a1d6f8a20c480b4e6033b71f862bd70ad570",
+    "three_kingdoms/data/geography.json": "831beca9fcf5b9a93f2a0b045028621ba8a432351d6268baf65f281ecd29c000",
+    "three_kingdoms/data/reference.json": "6f3451c754c3165319e69850505290eac0a8da710cc541e248e93997ce484a50",
+    "three_kingdoms/data/rules.json": "8fd373993594cbf8960376c54e69a01d9681d0ef7aeb820ab28e59b665e1c6c3",
+    "resources.py": "b05eaf10e77328669b95e919dd800e055469e4334c143229899f69f99bb4da7b",
+    "immutable.py": "61e3be4cdc9e4dc892da115e5672e9b3e6dc513fe9f95f0622d24c24a5149d0a",
+    "highs_backend.py": "e2718069877a8b699d45b9aa3557d68b426b65ebb75807fd2ba5a48ef9e0d982",
+    "search_progress.py": "a370804762b9e4beabdd5b4d6318809346dce8a6380257c2d49bb5b40b9350d8",
+    "cancellation.py": "bd5ca92d0b26f36a197575ea01de666d7427fd4d810df9876e2ab7bce59b176e",
+    "maps/catalog.py": "84cb17307fe8139edf6bd9e450784355e17451953e75dfc266e77dd46239b15c",
+    "twoptimizer/requests.py": "481fd910f78775c4fbf88ddb8d54c0792c3dd58134c48103a61aae6a6e25f34d",
+    "twoptimizer/models.py": "19e4a48c6b98289dabccace5c25fec9cf09bf43406749a36f0b409e6bbc3d8de",
+    "twoptimizer/constraint_options.py": "94fa4a362db05ffd4a0a00abc24c2a8c08ecf381c41f804c6b5582a709a55cb4",
+    "twoptimizer/constraint_comparison.py": "1f7ba8b1a370f2a067da83a57b632836f899a4c048e0e2e671ab6bc82fe33181",
+    "twoptimizer/service.py": "bf3f4553cbb17ded43bd90db8e741a56c3e734c76ad122f46e66f62d32d9176c",
+    "twoptimizer/session.py": "471e1af7f8479f468683f840b20af8c6a0878cb7de7c0e4b6456b42144e46d22",
+    "twoptimizer/holdings.py": "5931953fffd87d50c7aa150edf7c1ac0b792af43d181f72f5d78b949145f5157",
+    "twoptimizer/progress.py": "cb5bb25fe597be95ef6d36078f7e9e7e4219648ceae0caa6fb08b0e2ef4710cd",
+    "twoptimizer/adapters/model_stats.py": "e2abccb167b3ad8d9f20fef7500bd78c354307856afee4166890108286e993f4",
+    "twoptimizer/adapters/search.py": "bb3c85cb538b04988bb7512665e7d14a9be31262eb782af7a11e7dc67c921364",
+    "twoptimizer/adapters/three_kingdoms.py": "3236bedbc59b80c9c24e2cb43bf73d7ec242d3a3c6e1353d4e443d2e84382a95",
+    "twoptimizer/three_kingdoms_options.py": "17b0bee8553577c9b50f86724625aa448469273214a4d48331d078ec88314213"
+  },
+  "wheel_sha256": "3ebaf13f6be4b4548360e58a1cc55ec772e9873dff384fce5e328d129f27c4a9",
+  "summary": [
+    {
+      "workload": "Cao Cao, Yingchuan",
+      "algorithm": "cp-sat",
+      "statuses": {
+        "OPTIMAL": 3
+      },
+      "income_range": [
+        627.75,
+        627.75
+      ],
+      "bound_range": [
+        627.75,
+        627.75
+      ],
+      "gap_percent_range": [
+        0.0,
+        0.0
+      ],
+      "wall_median_seconds": 0.6682235349999246,
+      "wall_range_seconds": [
+        0.6423943290001262,
+        2.718162986000152
+      ],
+      "peak_rss_mib_range": [
+        124.14453125,
+        133.58984375
+      ]
+    },
+    {
+      "workload": "Cao Cao, Yingchuan",
+      "algorithm": "highs",
+      "statuses": {
+        "OPTIMAL": 3
+      },
+      "income_range": [
+        627.75,
+        627.75
+      ],
+      "bound_range": [
+        627.75,
+        627.75
+      ],
+      "gap_percent_range": [
+        0.0,
+        0.0
+      ],
+      "wall_median_seconds": 0.7209113579999666,
+      "wall_range_seconds": [
+        0.7101446320000377,
+        0.724822371000073
+      ],
+      "peak_rss_mib_range": [
+        121.56640625,
+        122.30078125
+      ]
+    },
+    {
+      "workload": "70 commanderies together",
+      "algorithm": "cp-sat",
+      "statuses": {
+        "FEASIBLE": 2
+      },
+      "income_range": [
+        60694.5,
+        61626.0
+      ],
+      "bound_range": [
+        76029.42,
+        76203.37
+      ],
+      "gap_percent_range": [
+        19.129560805512927,
+        20.169718511597218
+      ],
+      "wall_median_seconds": 30.79216088450005,
+      "wall_range_seconds": [
+        30.723838047000072,
+        30.860483722000026
+      ],
+      "peak_rss_mib_range": [
+        316.02734375,
+        316.3046875
+      ]
+    },
+    {
+      "workload": "70 commanderies together",
+      "algorithm": "highs",
+      "statuses": {
+        "FEASIBLE": 2
+      },
+      "income_range": [
+        68007.0,
+        68007.0
+      ],
+      "bound_range": [
+        80328.09,
+        80328.09
+      ],
+      "gap_percent_range": [
+        15.338457568205587,
+        15.338457568205587
+      ],
+      "wall_median_seconds": 30.96011498200005,
+      "wall_range_seconds": [
+        30.939577703000168,
+        30.980652260999932
+      ],
+      "peak_rss_mib_range": [
+        325.21875,
+        327.14453125
+      ]
+    }
+  ],
+  "samples": [
+    {
+      "request": {
+        "game": "three_kingdoms",
+        "faction": "3k_main_faction_cao_cao",
+        "province": "3k_main_province_yingchuan",
+        "algorithm": "cp-sat",
+        "seconds": 10,
+        "workers": 4,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": null,
+        "joint": false,
+        "adjacency": null,
+        "three_kingdoms": {
+          "city_level": 5,
+          "population": 1000000,
+          "corruption_percent": 0,
+          "order_offset": 0,
+          "minimum_order": 0,
+          "external_food": 0,
+          "capital_commandery": null,
+          "external_resources": [],
+          "include_leader_effects": true
+        }
+      },
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 0.046229878000076496,
+        "objective": 627.75,
+        "bound": 627.75,
+        "detail": "no_lp",
+        "model_stats": {
+          "formulation": "linearized_income",
+          "variables": 117,
+          "constraints": 181
+        },
+        "timings": {
+          "model_conversion_seconds": 0.003486157999986972,
+          "search_seconds": 0.03218517499999507,
+          "preparation_seconds": 0.010520058999873072
+        },
+        "workers": 4
+      },
+      "income": 627.75,
+      "metrics": {
+        "food_surplus": 1.0,
+        "public_order": 2
+      },
+      "timings": {
+        "request_seconds": 0.0039192229999116535,
+        "load_engine_seconds": 0.003247845000032612,
+        "build_model_seconds": 0.0014874670000608603,
+        "solve_and_check_seconds": 0.2840368820000094,
+        "prepare_result_seconds": 0.0036722229999668343
+      },
+      "wall_seconds_including_imports": 2.718162986000152,
+      "peak_rss_mib": 133.58984375,
+      "python": "3.14.9",
+      "ortools": "9.15.6755",
+      "engine_path": "/tmp/twoptimizer-three-kingdoms-wheel-env/lib/python3.14/site-packages/games/tw/three_kingdoms/model.py",
+      "sample": 1,
+      "workload": "Cao Cao, Yingchuan",
+      "gap_percent": 0.0
+    },
+    {
+      "request": {
+        "game": "three_kingdoms",
+        "faction": "3k_main_faction_cao_cao",
+        "province": "3k_main_province_yingchuan",
+        "algorithm": "cp-sat",
+        "seconds": 10,
+        "workers": 4,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": null,
+        "joint": false,
+        "adjacency": null,
+        "three_kingdoms": {
+          "city_level": 5,
+          "population": 1000000,
+          "corruption_percent": 0,
+          "order_offset": 0,
+          "minimum_order": 0,
+          "external_food": 0,
+          "capital_commandery": null,
+          "external_resources": [],
+          "include_leader_effects": true
+        }
+      },
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 0.03642602399986572,
+        "objective": 627.75,
+        "bound": 627.75,
+        "detail": "default_lp",
+        "model_stats": {
+          "formulation": "linearized_income",
+          "variables": 117,
+          "constraints": 181
+        },
+        "timings": {
+          "model_conversion_seconds": 0.0040309359999355365,
+          "search_seconds": 0.026562900000044465,
+          "preparation_seconds": 0.005798970999876474
+        },
+        "workers": 4
+      },
+      "income": 627.75,
+      "metrics": {
+        "food_surplus": 1.0,
+        "public_order": 2
+      },
+      "timings": {
+        "request_seconds": 0.0025430400000914233,
+        "load_engine_seconds": 0.000900645000001532,
+        "build_model_seconds": 0.0018953300000248419,
+        "solve_and_check_seconds": 0.11110997800005862,
+        "prepare_result_seconds": 0.0037085530000240396
+      },
+      "wall_seconds_including_imports": 0.6682235349999246,
+      "peak_rss_mib": 124.14453125,
+      "python": "3.14.9",
+      "ortools": "9.15.6755",
+      "engine_path": "/tmp/twoptimizer-three-kingdoms-wheel-env/lib/python3.14/site-packages/games/tw/three_kingdoms/model.py",
+      "sample": 2,
+      "workload": "Cao Cao, Yingchuan",
+      "gap_percent": 0.0
+    },
+    {
+      "request": {
+        "game": "three_kingdoms",
+        "faction": "3k_main_faction_cao_cao",
+        "province": "3k_main_province_yingchuan",
+        "algorithm": "cp-sat",
+        "seconds": 10,
+        "workers": 4,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": null,
+        "joint": false,
+        "adjacency": null,
+        "three_kingdoms": {
+          "city_level": 5,
+          "population": 1000000,
+          "corruption_percent": 0,
+          "order_offset": 0,
+          "minimum_order": 0,
+          "external_food": 0,
+          "capital_commandery": null,
+          "external_resources": [],
+          "include_leader_effects": true
+        }
+      },
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "OPTIMAL",
+        "seconds": 0.04172882200009553,
+        "objective": 627.75,
+        "bound": 627.75,
+        "detail": "graph_arc_lns (d=5.00e-01 s=7 t=0.10 p=0.00 stall=0 h=base)",
+        "model_stats": {
+          "formulation": "linearized_income",
+          "variables": 117,
+          "constraints": 181
+        },
+        "timings": {
+          "model_conversion_seconds": 0.004391762000068411,
+          "search_seconds": 0.03052030300000297,
+          "preparation_seconds": 0.006784367000136626
+        },
+        "workers": 4
+      },
+      "income": 627.75,
+      "metrics": {
+        "food_surplus": 1.0,
+        "public_order": 2
+      },
+      "timings": {
+        "request_seconds": 0.0020599350000338745,
+        "load_engine_seconds": 0.0006421150001187925,
+        "build_model_seconds": 0.0015420479999193049,
+        "solve_and_check_seconds": 0.11935119300005681,
+        "prepare_result_seconds": 0.003561214999990625
+      },
+      "wall_seconds_including_imports": 0.6423943290001262,
+      "peak_rss_mib": 124.8125,
+      "python": "3.14.9",
+      "ortools": "9.15.6755",
+      "engine_path": "/tmp/twoptimizer-three-kingdoms-wheel-env/lib/python3.14/site-packages/games/tw/three_kingdoms/model.py",
+      "sample": 3,
+      "workload": "Cao Cao, Yingchuan",
+      "gap_percent": 0.0
+    },
+    {
+      "request": {
+        "game": "three_kingdoms",
+        "faction": "3k_main_faction_cao_cao",
+        "province": "3k_main_province_yingchuan",
+        "algorithm": "highs",
+        "seconds": 10,
+        "workers": 4,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": null,
+        "joint": false,
+        "adjacency": null,
+        "three_kingdoms": {
+          "city_level": 5,
+          "population": 1000000,
+          "corruption_percent": 0,
+          "order_offset": 0,
+          "minimum_order": 0,
+          "external_food": 0,
+          "capital_commandery": null,
+          "external_resources": [],
+          "include_leader_effects": true
+        }
+      },
+      "solver": {
+        "algorithm": "highs",
+        "status": "OPTIMAL",
+        "seconds": 0.12384964800003218,
+        "objective": 627.75,
+        "bound": 627.75,
+        "workers": 4,
+        "timings": {
+          "model_conversion_seconds": 0.0048210539998763124,
+          "search_seconds": 0.1118311260001974,
+          "preparation_seconds": 0.005905259999963164
+        },
+        "native_version": "1.12.0",
+        "model_stats": {
+          "formulation": "linear_mip",
+          "variables": 116,
+          "constraints": 166
+        },
+        "detail": "HighsModelStatus is kOptimal"
+      },
+      "income": 627.75,
+      "metrics": {
+        "food_surplus": 1.0,
+        "public_order": 2
+      },
+      "timings": {
+        "request_seconds": 0.003179820000013933,
+        "load_engine_seconds": 0.0007200360000751971,
+        "build_model_seconds": 0.0015688099999806582,
+        "solve_and_check_seconds": 0.20386289399993984,
+        "prepare_result_seconds": 0.0039858300001469615
+      },
+      "wall_seconds_including_imports": 0.7209113579999666,
+      "peak_rss_mib": 121.56640625,
+      "python": "3.14.9",
+      "ortools": "9.15.6755",
+      "engine_path": "/tmp/twoptimizer-three-kingdoms-wheel-env/lib/python3.14/site-packages/games/tw/three_kingdoms/model.py",
+      "sample": 1,
+      "workload": "Cao Cao, Yingchuan",
+      "gap_percent": 0.0
+    },
+    {
+      "request": {
+        "game": "three_kingdoms",
+        "faction": "3k_main_faction_cao_cao",
+        "province": "3k_main_province_yingchuan",
+        "algorithm": "highs",
+        "seconds": 10,
+        "workers": 4,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": null,
+        "joint": false,
+        "adjacency": null,
+        "three_kingdoms": {
+          "city_level": 5,
+          "population": 1000000,
+          "corruption_percent": 0,
+          "order_offset": 0,
+          "minimum_order": 0,
+          "external_food": 0,
+          "capital_commandery": null,
+          "external_resources": [],
+          "include_leader_effects": true
+        }
+      },
+      "solver": {
+        "algorithm": "highs",
+        "status": "OPTIMAL",
+        "seconds": 0.11879950299999109,
+        "objective": 627.75,
+        "bound": 627.75,
+        "workers": 4,
+        "timings": {
+          "model_conversion_seconds": 0.005676601000004666,
+          "search_seconds": 0.10547204700014845,
+          "preparation_seconds": 0.006445778999932372
+        },
+        "native_version": "1.12.0",
+        "model_stats": {
+          "formulation": "linear_mip",
+          "variables": 116,
+          "constraints": 166
+        },
+        "detail": "HighsModelStatus is kOptimal"
+      },
+      "income": 627.75,
+      "metrics": {
+        "food_surplus": 1.0,
+        "public_order": 2
+      },
+      "timings": {
+        "request_seconds": 0.0030542160000095464,
+        "load_engine_seconds": 0.0008249159998285904,
+        "build_model_seconds": 0.001497651000136102,
+        "solve_and_check_seconds": 0.19586306199994397,
+        "prepare_result_seconds": 0.003797519000045213
+      },
+      "wall_seconds_including_imports": 0.724822371000073,
+      "peak_rss_mib": 122.05078125,
+      "python": "3.14.9",
+      "ortools": "9.15.6755",
+      "engine_path": "/tmp/twoptimizer-three-kingdoms-wheel-env/lib/python3.14/site-packages/games/tw/three_kingdoms/model.py",
+      "sample": 2,
+      "workload": "Cao Cao, Yingchuan",
+      "gap_percent": 0.0
+    },
+    {
+      "request": {
+        "game": "three_kingdoms",
+        "faction": "3k_main_faction_cao_cao",
+        "province": "3k_main_province_yingchuan",
+        "algorithm": "highs",
+        "seconds": 10,
+        "workers": 4,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": null,
+        "joint": false,
+        "adjacency": null,
+        "three_kingdoms": {
+          "city_level": 5,
+          "population": 1000000,
+          "corruption_percent": 0,
+          "order_offset": 0,
+          "minimum_order": 0,
+          "external_food": 0,
+          "capital_commandery": null,
+          "external_resources": [],
+          "include_leader_effects": true
+        }
+      },
+      "solver": {
+        "algorithm": "highs",
+        "status": "OPTIMAL",
+        "seconds": 0.1233503359999304,
+        "objective": 627.75,
+        "bound": 627.75,
+        "workers": 4,
+        "timings": {
+          "model_conversion_seconds": 0.004726663999917946,
+          "search_seconds": 0.11101541600010023,
+          "preparation_seconds": 0.006445212000016909
+        },
+        "native_version": "1.12.0",
+        "model_stats": {
+          "formulation": "linear_mip",
+          "variables": 116,
+          "constraints": 166
+        },
+        "detail": "HighsModelStatus is kOptimal"
+      },
+      "income": 627.75,
+      "metrics": {
+        "food_surplus": 1.0,
+        "public_order": 2
+      },
+      "timings": {
+        "request_seconds": 0.002358050000111689,
+        "load_engine_seconds": 0.000872006000008696,
+        "build_model_seconds": 0.0016788479999831907,
+        "solve_and_check_seconds": 0.19446178899988809,
+        "prepare_result_seconds": 0.003844180999976743
+      },
+      "wall_seconds_including_imports": 0.7101446320000377,
+      "peak_rss_mib": 122.30078125,
+      "python": "3.14.9",
+      "ortools": "9.15.6755",
+      "engine_path": "/tmp/twoptimizer-three-kingdoms-wheel-env/lib/python3.14/site-packages/games/tw/three_kingdoms/model.py",
+      "sample": 3,
+      "workload": "Cao Cao, Yingchuan",
+      "gap_percent": 0.0
+    },
+    {
+      "request": {
+        "game": "three_kingdoms",
+        "faction": "3k_main_faction_cao_cao",
+        "province": "3k_main_province_anding",
+        "algorithm": "cp-sat",
+        "seconds": 30,
+        "workers": 4,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "3k_main_province_anding",
+          "3k_main_province_anping",
+          "3k_main_province_bajun",
+          "3k_main_province_badong",
+          "3k_main_province_baxi",
+          "3k_main_province_beihai",
+          "3k_main_province_bohai",
+          "3k_main_province_cangwu",
+          "3k_main_province_changan",
+          "3k_main_province_changsha",
+          "3k_main_province_chenjun",
+          "3k_main_province_chengdu",
+          "3k_main_province_daijun",
+          "3k_main_province_dongjun",
+          "3k_main_province_dongou",
+          "3k_main_province_donghai",
+          "3k_main_province_donglai",
+          "3k_main_province_fuling",
+          "3k_main_province_gaoliang",
+          "3k_main_province_guangling",
+          "3k_main_province_hanzhong",
+          "3k_main_province_hedong",
+          "3k_main_province_henei",
+          "3k_main_province_hepu",
+          "3k_main_province_ye",
+          "3k_main_province_jianan",
+          "3k_main_province_jingzhou",
+          "3k_main_province_jiangxia",
+          "3k_main_province_jiangyang",
+          "3k_main_province_jianye",
+          "3k_main_province_jiaozhi",
+          "3k_main_province_jincheng",
+          "3k_main_province_kuaiji",
+          "3k_main_province_langye",
+          "3k_main_province_yu",
+          "3k_main_province_lingling",
+          "3k_main_province_lujiang",
+          "3k_main_province_luling",
+          "3k_main_province_luoyang",
+          "3k_main_province_nanhai",
+          "3k_main_province_nanyang",
+          "3k_main_province_penchang",
+          "3k_main_province_pingyuan",
+          "3k_main_province_poyang",
+          "3k_main_province_runan",
+          "3k_main_province_shangdang",
+          "3k_main_province_shangyong",
+          "3k_main_province_shoufang",
+          "3k_main_province_taishan",
+          "3k_main_province_taiyuan",
+          "3k_main_province_tongan",
+          "3k_main_province_wudu",
+          "3k_main_province_wuling",
+          "3k_main_province_wuwei",
+          "3k_main_province_xiangyang",
+          "3k_main_province_xihe",
+          "3k_main_province_xindu",
+          "3k_main_province_yangzhou",
+          "3k_main_province_yanmen",
+          "3k_main_province_weijun",
+          "3k_main_province_yingchuan",
+          "3k_main_province_yizhou",
+          "3k_main_province_yizhou_island",
+          "3k_main_province_youbeiping",
+          "3k_main_province_youzhou",
+          "3k_main_province_yulin",
+          "3k_main_province_jianning",
+          "3k_main_province_yuzhang",
+          "3k_main_province_zangke",
+          "3k_main_province_zhongshan"
+        ],
+        "joint": true,
+        "adjacency": null,
+        "three_kingdoms": {
+          "city_level": 5,
+          "population": 1000000,
+          "corruption_percent": 0,
+          "order_offset": 0,
+          "minimum_order": 0,
+          "external_food": 0,
+          "capital_commandery": null,
+          "external_resources": [],
+          "include_leader_effects": true
+        }
+      },
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "FEASIBLE",
+        "seconds": 30.02385488599998,
+        "objective": 61626.0,
+        "bound": 76203.37,
+        "detail": "rnd_var_lns (d=6.83e-01 s=234 t=0.10 p=0.60 stall=0 h=base)",
+        "model_stats": {
+          "formulation": "linearized_income",
+          "variables": 9225,
+          "constraints": 15129
+        },
+        "timings": {
+          "model_conversion_seconds": 0.2320054510000773,
+          "search_seconds": 29.326162668999814,
+          "preparation_seconds": 0.4640104430000065
+        },
+        "workers": 4
+      },
+      "income": 61626.0,
+      "metrics": {
+        "food_surplus": 0.0,
+        "public_order": 2
+      },
+      "timings": {
+        "request_seconds": 0.0047866370000519964,
+        "load_engine_seconds": 0.0010003889999552484,
+        "build_model_seconds": 0.08586642899990693,
+        "solve_and_check_seconds": 30.120258419000038,
+        "prepare_result_seconds": 0.010999625000067681
+      },
+      "wall_seconds_including_imports": 30.723838047000072,
+      "peak_rss_mib": 316.3046875,
+      "python": "3.14.9",
+      "ortools": "9.15.6755",
+      "engine_path": "/tmp/twoptimizer-three-kingdoms-wheel-env/lib/python3.14/site-packages/games/tw/three_kingdoms/model.py",
+      "sample": 1,
+      "workload": "70 commanderies together",
+      "gap_percent": 19.129560805512927
+    },
+    {
+      "request": {
+        "game": "three_kingdoms",
+        "faction": "3k_main_faction_cao_cao",
+        "province": "3k_main_province_anding",
+        "algorithm": "cp-sat",
+        "seconds": 30,
+        "workers": 4,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "3k_main_province_anding",
+          "3k_main_province_anping",
+          "3k_main_province_bajun",
+          "3k_main_province_badong",
+          "3k_main_province_baxi",
+          "3k_main_province_beihai",
+          "3k_main_province_bohai",
+          "3k_main_province_cangwu",
+          "3k_main_province_changan",
+          "3k_main_province_changsha",
+          "3k_main_province_chenjun",
+          "3k_main_province_chengdu",
+          "3k_main_province_daijun",
+          "3k_main_province_dongjun",
+          "3k_main_province_dongou",
+          "3k_main_province_donghai",
+          "3k_main_province_donglai",
+          "3k_main_province_fuling",
+          "3k_main_province_gaoliang",
+          "3k_main_province_guangling",
+          "3k_main_province_hanzhong",
+          "3k_main_province_hedong",
+          "3k_main_province_henei",
+          "3k_main_province_hepu",
+          "3k_main_province_ye",
+          "3k_main_province_jianan",
+          "3k_main_province_jingzhou",
+          "3k_main_province_jiangxia",
+          "3k_main_province_jiangyang",
+          "3k_main_province_jianye",
+          "3k_main_province_jiaozhi",
+          "3k_main_province_jincheng",
+          "3k_main_province_kuaiji",
+          "3k_main_province_langye",
+          "3k_main_province_yu",
+          "3k_main_province_lingling",
+          "3k_main_province_lujiang",
+          "3k_main_province_luling",
+          "3k_main_province_luoyang",
+          "3k_main_province_nanhai",
+          "3k_main_province_nanyang",
+          "3k_main_province_penchang",
+          "3k_main_province_pingyuan",
+          "3k_main_province_poyang",
+          "3k_main_province_runan",
+          "3k_main_province_shangdang",
+          "3k_main_province_shangyong",
+          "3k_main_province_shoufang",
+          "3k_main_province_taishan",
+          "3k_main_province_taiyuan",
+          "3k_main_province_tongan",
+          "3k_main_province_wudu",
+          "3k_main_province_wuling",
+          "3k_main_province_wuwei",
+          "3k_main_province_xiangyang",
+          "3k_main_province_xihe",
+          "3k_main_province_xindu",
+          "3k_main_province_yangzhou",
+          "3k_main_province_yanmen",
+          "3k_main_province_weijun",
+          "3k_main_province_yingchuan",
+          "3k_main_province_yizhou",
+          "3k_main_province_yizhou_island",
+          "3k_main_province_youbeiping",
+          "3k_main_province_youzhou",
+          "3k_main_province_yulin",
+          "3k_main_province_jianning",
+          "3k_main_province_yuzhang",
+          "3k_main_province_zangke",
+          "3k_main_province_zhongshan"
+        ],
+        "joint": true,
+        "adjacency": null,
+        "three_kingdoms": {
+          "city_level": 5,
+          "population": 1000000,
+          "corruption_percent": 0,
+          "order_offset": 0,
+          "minimum_order": 0,
+          "external_food": 0,
+          "capital_commandery": null,
+          "external_resources": [],
+          "include_leader_effects": true
+        }
+      },
+      "solver": {
+        "algorithm": "cp-sat",
+        "status": "FEASIBLE",
+        "seconds": 30.093413899000097,
+        "objective": 60694.5,
+        "bound": 76029.42,
+        "detail": "graph_cst_lns (d=1.92e-01 s=235 t=0.10 p=0.25 stall=0 h=base)",
+        "model_stats": {
+          "formulation": "linearized_income",
+          "variables": 9225,
+          "constraints": 15129
+        },
+        "timings": {
+          "model_conversion_seconds": 0.23932579699999224,
+          "search_seconds": 29.382461568000053,
+          "preparation_seconds": 0.46960504100002254
+        },
+        "workers": 4
+      },
+      "income": 60694.5,
+      "metrics": {
+        "food_surplus": 0.5,
+        "public_order": 2
+      },
+      "timings": {
+        "request_seconds": 0.003683616999978767,
+        "load_engine_seconds": 0.0009915210000599473,
+        "build_model_seconds": 0.08433687899992037,
+        "solve_and_check_seconds": 30.206625883000015,
+        "prepare_result_seconds": 0.00968979499998568
+      },
+      "wall_seconds_including_imports": 30.860483722000026,
+      "peak_rss_mib": 316.02734375,
+      "python": "3.14.9",
+      "ortools": "9.15.6755",
+      "engine_path": "/tmp/twoptimizer-three-kingdoms-wheel-env/lib/python3.14/site-packages/games/tw/three_kingdoms/model.py",
+      "sample": 2,
+      "workload": "70 commanderies together",
+      "gap_percent": 20.169718511597218
+    },
+    {
+      "request": {
+        "game": "three_kingdoms",
+        "faction": "3k_main_faction_cao_cao",
+        "province": "3k_main_province_anding",
+        "algorithm": "highs",
+        "seconds": 30,
+        "workers": 4,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "3k_main_province_anding",
+          "3k_main_province_anping",
+          "3k_main_province_bajun",
+          "3k_main_province_badong",
+          "3k_main_province_baxi",
+          "3k_main_province_beihai",
+          "3k_main_province_bohai",
+          "3k_main_province_cangwu",
+          "3k_main_province_changan",
+          "3k_main_province_changsha",
+          "3k_main_province_chenjun",
+          "3k_main_province_chengdu",
+          "3k_main_province_daijun",
+          "3k_main_province_dongjun",
+          "3k_main_province_dongou",
+          "3k_main_province_donghai",
+          "3k_main_province_donglai",
+          "3k_main_province_fuling",
+          "3k_main_province_gaoliang",
+          "3k_main_province_guangling",
+          "3k_main_province_hanzhong",
+          "3k_main_province_hedong",
+          "3k_main_province_henei",
+          "3k_main_province_hepu",
+          "3k_main_province_ye",
+          "3k_main_province_jianan",
+          "3k_main_province_jingzhou",
+          "3k_main_province_jiangxia",
+          "3k_main_province_jiangyang",
+          "3k_main_province_jianye",
+          "3k_main_province_jiaozhi",
+          "3k_main_province_jincheng",
+          "3k_main_province_kuaiji",
+          "3k_main_province_langye",
+          "3k_main_province_yu",
+          "3k_main_province_lingling",
+          "3k_main_province_lujiang",
+          "3k_main_province_luling",
+          "3k_main_province_luoyang",
+          "3k_main_province_nanhai",
+          "3k_main_province_nanyang",
+          "3k_main_province_penchang",
+          "3k_main_province_pingyuan",
+          "3k_main_province_poyang",
+          "3k_main_province_runan",
+          "3k_main_province_shangdang",
+          "3k_main_province_shangyong",
+          "3k_main_province_shoufang",
+          "3k_main_province_taishan",
+          "3k_main_province_taiyuan",
+          "3k_main_province_tongan",
+          "3k_main_province_wudu",
+          "3k_main_province_wuling",
+          "3k_main_province_wuwei",
+          "3k_main_province_xiangyang",
+          "3k_main_province_xihe",
+          "3k_main_province_xindu",
+          "3k_main_province_yangzhou",
+          "3k_main_province_yanmen",
+          "3k_main_province_weijun",
+          "3k_main_province_yingchuan",
+          "3k_main_province_yizhou",
+          "3k_main_province_yizhou_island",
+          "3k_main_province_youbeiping",
+          "3k_main_province_youzhou",
+          "3k_main_province_yulin",
+          "3k_main_province_jianning",
+          "3k_main_province_yuzhang",
+          "3k_main_province_zangke",
+          "3k_main_province_zhongshan"
+        ],
+        "joint": true,
+        "adjacency": null,
+        "three_kingdoms": {
+          "city_level": 5,
+          "population": 1000000,
+          "corruption_percent": 0,
+          "order_offset": 0,
+          "minimum_order": 0,
+          "external_food": 0,
+          "capital_commandery": null,
+          "external_resources": [],
+          "include_leader_effects": true
+        }
+      },
+      "solver": {
+        "algorithm": "highs",
+        "status": "FEASIBLE",
+        "seconds": 30.208398500000158,
+        "objective": 68007.0,
+        "bound": 80328.09,
+        "workers": 4,
+        "timings": {
+          "model_conversion_seconds": 0.2286906669999098,
+          "search_seconds": 29.408289531000037,
+          "preparation_seconds": 0.4716133350000291
+        },
+        "native_version": "1.12.0",
+        "model_stats": {
+          "formulation": "linear_mip",
+          "variables": 9224,
+          "constraints": 13833
+        },
+        "detail": ""
+      },
+      "income": 68007.0,
+      "metrics": {
+        "food_surplus": 1.25,
+        "public_order": 2
+      },
+      "timings": {
+        "request_seconds": 0.004078217000142104,
+        "load_engine_seconds": 0.0008338999998613872,
+        "build_model_seconds": 0.086738811000032,
+        "solve_and_check_seconds": 30.31864782399998,
+        "prepare_result_seconds": 0.009228012999983548
+      },
+      "wall_seconds_including_imports": 30.939577703000168,
+      "peak_rss_mib": 325.21875,
+      "python": "3.14.9",
+      "ortools": "9.15.6755",
+      "engine_path": "/tmp/twoptimizer-three-kingdoms-wheel-env/lib/python3.14/site-packages/games/tw/three_kingdoms/model.py",
+      "sample": 1,
+      "workload": "70 commanderies together",
+      "gap_percent": 15.338457568205587
+    },
+    {
+      "request": {
+        "game": "three_kingdoms",
+        "faction": "3k_main_faction_cao_cao",
+        "province": "3k_main_province_anding",
+        "algorithm": "highs",
+        "seconds": 30,
+        "workers": 4,
+        "research": "none",
+        "fertility": 5,
+        "religion": "CHRIST_ORTHODOX",
+        "soil": "native",
+        "town_wealth": 0,
+        "tax": 30,
+        "world_bonuses": true,
+        "provinces": [
+          "3k_main_province_anding",
+          "3k_main_province_anping",
+          "3k_main_province_bajun",
+          "3k_main_province_badong",
+          "3k_main_province_baxi",
+          "3k_main_province_beihai",
+          "3k_main_province_bohai",
+          "3k_main_province_cangwu",
+          "3k_main_province_changan",
+          "3k_main_province_changsha",
+          "3k_main_province_chenjun",
+          "3k_main_province_chengdu",
+          "3k_main_province_daijun",
+          "3k_main_province_dongjun",
+          "3k_main_province_dongou",
+          "3k_main_province_donghai",
+          "3k_main_province_donglai",
+          "3k_main_province_fuling",
+          "3k_main_province_gaoliang",
+          "3k_main_province_guangling",
+          "3k_main_province_hanzhong",
+          "3k_main_province_hedong",
+          "3k_main_province_henei",
+          "3k_main_province_hepu",
+          "3k_main_province_ye",
+          "3k_main_province_jianan",
+          "3k_main_province_jingzhou",
+          "3k_main_province_jiangxia",
+          "3k_main_province_jiangyang",
+          "3k_main_province_jianye",
+          "3k_main_province_jiaozhi",
+          "3k_main_province_jincheng",
+          "3k_main_province_kuaiji",
+          "3k_main_province_langye",
+          "3k_main_province_yu",
+          "3k_main_province_lingling",
+          "3k_main_province_lujiang",
+          "3k_main_province_luling",
+          "3k_main_province_luoyang",
+          "3k_main_province_nanhai",
+          "3k_main_province_nanyang",
+          "3k_main_province_penchang",
+          "3k_main_province_pingyuan",
+          "3k_main_province_poyang",
+          "3k_main_province_runan",
+          "3k_main_province_shangdang",
+          "3k_main_province_shangyong",
+          "3k_main_province_shoufang",
+          "3k_main_province_taishan",
+          "3k_main_province_taiyuan",
+          "3k_main_province_tongan",
+          "3k_main_province_wudu",
+          "3k_main_province_wuling",
+          "3k_main_province_wuwei",
+          "3k_main_province_xiangyang",
+          "3k_main_province_xihe",
+          "3k_main_province_xindu",
+          "3k_main_province_yangzhou",
+          "3k_main_province_yanmen",
+          "3k_main_province_weijun",
+          "3k_main_province_yingchuan",
+          "3k_main_province_yizhou",
+          "3k_main_province_yizhou_island",
+          "3k_main_province_youbeiping",
+          "3k_main_province_youzhou",
+          "3k_main_province_yulin",
+          "3k_main_province_jianning",
+          "3k_main_province_yuzhang",
+          "3k_main_province_zangke",
+          "3k_main_province_zhongshan"
+        ],
+        "joint": true,
+        "adjacency": null,
+        "three_kingdoms": {
+          "city_level": 5,
+          "population": 1000000,
+          "corruption_percent": 0,
+          "order_offset": 0,
+          "minimum_order": 0,
+          "external_food": 0,
+          "capital_commandery": null,
+          "external_resources": [],
+          "include_leader_effects": true
+        }
+      },
+      "solver": {
+        "algorithm": "highs",
+        "status": "FEASIBLE",
+        "seconds": 30.202912365999964,
+        "objective": 68007.0,
+        "bound": 80328.09,
+        "workers": 4,
+        "timings": {
+          "model_conversion_seconds": 0.22691542299980938,
+          "search_seconds": 29.379704058000016,
+          "preparation_seconds": 0.5033672769998248
+        },
+        "native_version": "1.12.0",
+        "model_stats": {
+          "formulation": "linear_mip",
+          "variables": 9224,
+          "constraints": 13833
+        },
+        "detail": ""
+      },
+      "income": 68007.0,
+      "metrics": {
+        "food_surplus": 1.25,
+        "public_order": 2
+      },
+      "timings": {
+        "request_seconds": 0.003987390000020241,
+        "load_engine_seconds": 0.0013629729999138362,
+        "build_model_seconds": 0.08830339499991169,
+        "solve_and_check_seconds": 30.315800901000102,
+        "prepare_result_seconds": 0.0053217760000734415
+      },
+      "wall_seconds_including_imports": 30.980652260999932,
+      "peak_rss_mib": 327.14453125,
+      "python": "3.14.9",
+      "ortools": "9.15.6755",
+      "engine_path": "/tmp/twoptimizer-three-kingdoms-wheel-env/lib/python3.14/site-packages/games/tw/three_kingdoms/model.py",
+      "sample": 2,
+      "workload": "70 commanderies together",
+      "gap_percent": 15.338457568205587
+    }
+  ],
+  "backend_parity_matrix": {
+    "request": {
+      "game": "three_kingdoms",
+      "faction": "3k_main_faction_cao_cao",
+      "province": "3k_main_province_yingchuan",
+      "algorithm": "cp-sat",
+      "seconds": null,
+      "workers": null,
+      "research": "none",
+      "fertility": 5,
+      "religion": "CHRIST_ORTHODOX",
+      "soil": "native",
+      "town_wealth": 0,
+      "tax": 30,
+      "world_bonuses": true,
+      "provinces": null,
+      "joint": false,
+      "adjacency": null,
+      "three_kingdoms": {
+        "city_level": 5,
+        "population": 1000000,
+        "corruption_percent": 0,
+        "order_offset": 0,
+        "minimum_order": 0,
+        "external_food": 0,
+        "capital_commandery": null,
+        "external_resources": [],
+        "include_leader_effects": true
+      }
+    },
+    "cases": [
+      {
+        "axis": "faction",
+        "id": "3k_main_faction_cao_cao",
+        "name": "Cao Cao",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "faction",
+        "id": "3k_main_faction_dong_zhuo",
+        "name": "Dong Zhuo",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "faction",
+        "id": "3k_main_faction_yellow_turban_anding",
+        "name": "Gong Du",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 922.0,
+            "bound": 922.0,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 4
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 922.0,
+            "bound": 922.0,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 4
+            }
+          }
+        ]
+      },
+      {
+        "axis": "faction",
+        "id": "3k_main_faction_gongsun_zan",
+        "name": "Gongsun Zan",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 711.75,
+            "bound": 711.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 4
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 711.75,
+            "bound": 711.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 4
+            }
+          }
+        ]
+      },
+      {
+        "axis": "faction",
+        "id": "3k_main_faction_yellow_turban_rebels",
+        "name": "He Yi",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 922.0,
+            "bound": 922.0,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 4
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 922.0,
+            "bound": 922.0,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 4
+            }
+          }
+        ]
+      },
+      {
+        "axis": "faction",
+        "id": "3k_main_faction_yellow_turban_taishan",
+        "name": "Huang Shao",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 922.0,
+            "bound": 922.0,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 4
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 922.0,
+            "bound": 922.0,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 4
+            }
+          }
+        ]
+      },
+      {
+        "axis": "faction",
+        "id": "3k_main_faction_kong_rong",
+        "name": "Kong Rong",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "faction",
+        "id": "3k_main_faction_liu_bei",
+        "name": "Liu Bei",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 727.75,
+            "bound": 727.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 727.75,
+            "bound": 727.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "faction",
+        "id": "3k_main_faction_liu_biao",
+        "name": "Liu Biao",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 782.75,
+            "bound": 782.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 0
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 782.75,
+            "bound": 782.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 0
+            }
+          }
+        ]
+      },
+      {
+        "axis": "faction",
+        "id": "3k_main_faction_ma_teng",
+        "name": "Ma Teng",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "faction",
+        "id": "3k_main_faction_sun_jian",
+        "name": "Sun Jian",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "faction",
+        "id": "3k_main_faction_yuan_shao",
+        "name": "Yuan Shao",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 702.75,
+            "bound": 702.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 702.75,
+            "bound": 702.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "faction",
+        "id": "3k_main_faction_yuan_shu",
+        "name": "Yuan Shu",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 712.75,
+            "bound": 712.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 712.75,
+            "bound": 712.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "faction",
+        "id": "3k_main_faction_zhang_yan",
+        "name": "Zhang Yan",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "faction",
+        "id": "3k_main_faction_zheng_jiang",
+        "name": "Zheng Jiang",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_anding",
+        "name": "Anding",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 1216.75,
+            "bound": 1216.75,
+            "metrics": {
+              "food_surplus": 1.5,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 1216.75,
+            "bound": 1216.75,
+            "metrics": {
+              "food_surplus": 1.5,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_anping",
+        "name": "Anping",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_bajun",
+        "name": "Ba",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 722.75,
+            "bound": 722.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 722.75,
+            "bound": 722.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_badong",
+        "name": "Badong",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 1187.75,
+            "bound": 1187.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 1187.75,
+            "bound": 1187.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_baxi",
+        "name": "Baxi",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 1132.75,
+            "bound": 1132.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 1132.75,
+            "bound": 1132.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_beihai",
+        "name": "Beihai",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 832.75,
+            "bound": 832.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 832.75,
+            "bound": 832.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_bohai",
+        "name": "Bohai",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_cangwu",
+        "name": "Cangwu",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 1104.25,
+            "bound": 1104.25,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 1104.25,
+            "bound": 1104.25,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_changan",
+        "name": "Chang'an",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_changsha",
+        "name": "Changsha",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_chenjun",
+        "name": "Chen",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 916.75,
+            "bound": 916.75,
+            "metrics": {
+              "food_surplus": 1.5,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 916.75,
+            "bound": 916.75,
+            "metrics": {
+              "food_surplus": 1.5,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_chengdu",
+        "name": "Chengdu",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 927.75,
+            "bound": 927.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 927.75,
+            "bound": 927.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_daijun",
+        "name": "Dai",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_dongjun",
+        "name": "Dong",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 1022.75,
+            "bound": 1022.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 1022.75,
+            "bound": 1022.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_dongou",
+        "name": "Dong'ou",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 1022.75,
+            "bound": 1022.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 1022.75,
+            "bound": 1022.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_donghai",
+        "name": "Donghai",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_donglai",
+        "name": "Donglai",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 722.75,
+            "bound": 722.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 722.75,
+            "bound": 722.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_fuling",
+        "name": "Fuling",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_gaoliang",
+        "name": "Gaoliang",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_guangling",
+        "name": "Guangling",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 912.75,
+            "bound": 912.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 912.75,
+            "bound": 912.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_hanzhong",
+        "name": "Hanzhong",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_hedong",
+        "name": "Hedong",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_henei",
+        "name": "Henei",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 722.75,
+            "bound": 722.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 722.75,
+            "bound": 722.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_hepu",
+        "name": "Hepu",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 887.75,
+            "bound": 887.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 887.75,
+            "bound": 887.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_ye",
+        "name": "Houguan",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 916.25,
+            "bound": 916.25,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 916.25,
+            "bound": 916.25,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_jianan",
+        "name": "Jian'an",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 792.75,
+            "bound": 792.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 792.75,
+            "bound": 792.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_jingzhou",
+        "name": "Jiangling",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 916.25,
+            "bound": 916.25,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 916.25,
+            "bound": 916.25,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_jiangxia",
+        "name": "Jiangxia",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_jiangyang",
+        "name": "Jiangyang",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 1187.75,
+            "bound": 1187.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 1187.75,
+            "bound": 1187.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_jianye",
+        "name": "Jianye",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 1322.75,
+            "bound": 1322.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 1322.75,
+            "bound": 1322.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_jiaozhi",
+        "name": "Jiaozhi",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 872.75,
+            "bound": 872.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 872.75,
+            "bound": 872.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_jincheng",
+        "name": "Jincheng",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 967.75,
+            "bound": 967.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 967.75,
+            "bound": 967.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_kuaiji",
+        "name": "Kuaiji",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 926.75,
+            "bound": 926.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 926.75,
+            "bound": 926.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_langye",
+        "name": "Langye",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 792.75,
+            "bound": 792.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 792.75,
+            "bound": 792.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_yu",
+        "name": "Liaoxi",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_lingling",
+        "name": "Lingling",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 1092.75,
+            "bound": 1092.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 1092.75,
+            "bound": 1092.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_lujiang",
+        "name": "Lujiang",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 792.75,
+            "bound": 792.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 792.75,
+            "bound": 792.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_luling",
+        "name": "Luling",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_luoyang",
+        "name": "Luoyang",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_nanhai",
+        "name": "Nanhai",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 1336.25,
+            "bound": 1336.25,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 1336.25,
+            "bound": 1336.25,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_nanyang",
+        "name": "Nanyang",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_penchang",
+        "name": "Pengcheng",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_pingyuan",
+        "name": "Pingyuan",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_poyang",
+        "name": "Poyang",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_runan",
+        "name": "Runan",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_shangdang",
+        "name": "Shangdang",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_shangyong",
+        "name": "Shangyong",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_shoufang",
+        "name": "Shuofang",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 1022.75,
+            "bound": 1022.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 1022.75,
+            "bound": 1022.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_taishan",
+        "name": "Taishan",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_taiyuan",
+        "name": "Taiyuan",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_tongan",
+        "name": "Tong'an",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 1022.75,
+            "bound": 1022.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 1022.75,
+            "bound": 1022.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_wudu",
+        "name": "Wudu",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_wuling",
+        "name": "Wuling",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 1226.75,
+            "bound": 1226.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 1226.75,
+            "bound": 1226.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_wuwei",
+        "name": "Wuwei",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_xiangyang",
+        "name": "Xiangyang",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_xihe",
+        "name": "Xihe",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_xindu",
+        "name": "Xindu",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 792.75,
+            "bound": 792.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 792.75,
+            "bound": 792.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_yangzhou",
+        "name": "Yangzhou",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 1216.75,
+            "bound": 1216.75,
+            "metrics": {
+              "food_surplus": 1.5,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 1216.75,
+            "bound": 1216.75,
+            "metrics": {
+              "food_surplus": 1.5,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_yanmen",
+        "name": "Yanmen",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_weijun",
+        "name": "Ye",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_yingchuan",
+        "name": "Yingchuan",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_yizhou",
+        "name": "Yizhou",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_yizhou_island",
+        "name": "Yizhou Island",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 627.75,
+            "bound": 627.75,
+            "metrics": {
+              "food_surplus": 1.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_youbeiping",
+        "name": "Youbeiping",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_youzhou",
+        "name": "Youzhou",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_yulin",
+        "name": "Yulin",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_jianning",
+        "name": "Yunnan",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_yuzhang",
+        "name": "Yuzhang",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 1226.75,
+            "bound": 1226.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 1226.75,
+            "bound": 1226.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_zangke",
+        "name": "Zangke",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "INFEASIBLE",
+            "income": null,
+            "bound": null,
+            "metrics": {
+              "food_surplus": null,
+              "public_order": null
+            }
+          }
+        ]
+      },
+      {
+        "axis": "province",
+        "id": "3k_main_province_zhongshan",
+        "name": "Zhongshan",
+        "results": [
+          {
+            "algorithm": "cp-sat",
+            "status": "OPTIMAL",
+            "income": 832.75,
+            "bound": 832.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          },
+          {
+            "algorithm": "highs",
+            "status": "OPTIMAL",
+            "income": 832.75,
+            "bound": 832.75,
+            "metrics": {
+              "food_surplus": 0.0,
+              "public_order": 2
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

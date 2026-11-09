@@ -7,7 +7,7 @@ from math import isfinite
 from games.tw.cancellation import Cancellation, Cancelled
 from twoptimizer.catalog import NOTES, faction_name
 from twoptimizer.constraint_comparison import baseline_config, compare_results, has_requirements
-from twoptimizer.engines import solve_attila, solve_rome, solve_shogun
+from twoptimizer.engines import solve_attila, solve_rome, solve_shogun, solve_three_kingdoms
 from twoptimizer.errors import ApplicationError, deserialize_error, serialize_error
 from twoptimizer.holdings import map_context, province_label
 from twoptimizer.models import CaseResult, RunConfig, SolverSummary
@@ -77,7 +77,12 @@ def _cancelled_result(config: RunConfig, phase: PhaseTimer, reason: str) -> Case
 
 def _solve_one(config: RunConfig, phase: PhaseTimer, session: RunSession | None) -> CaseResult:
     phase("load_engine_seconds", "Loading engine and game data")
-    adapter = {"rome2": solve_rome, "shogun2": solve_shogun, "attila": solve_attila}[config.game]
+    adapter = {
+        "rome2": solve_rome,
+        "shogun2": solve_shogun,
+        "attila": solve_attila,
+        "three_kingdoms": solve_three_kingdoms,
+    }[config.game]
     try:
         result = adapter(config, phase, session)
     except (ValueError, TypeError) as error:

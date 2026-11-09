@@ -1,0 +1,1769 @@
+{
+  "ruleset": "Historical vanilla 1.2.0 public Assembly Kit reference (190 CE)",
+  "source_commit": "31020c8a75f8a08f83abe5410680a309d58475f1",
+  "population_unit": 1000,
+  "population_scope": "FACTION_PROVINCE",
+  "population_bands": [
+    {
+      "minimum": 0,
+      "maximum": 50,
+      "peasantry_percent": 0,
+      "public_order": 0,
+      "source_group": "3k_main_campaign_group_population_village_very_low",
+      "source_bundle": "3k_main_effect_bundle_population_village_very_low",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_very_low",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "0"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_very_low",
+          "effect_key": "3k_main_effect_population_effects_city_level",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_very_low",
+          "effect_key": "3k_main_effect_population_effects_public_order",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_very_low",
+          "effect_key": "3k_main_effect_population_effects_replenishment",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "minimum": 51,
+      "maximum": 100,
+      "peasantry_percent": 25,
+      "public_order": 0,
+      "source_group": "3k_main_campaign_group_population_village_low",
+      "source_bundle": "3k_main_effect_bundle_population_village_low",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_low",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "25"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_low",
+          "effect_key": "3k_main_effect_population_effects_city_level",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_low",
+          "effect_key": "3k_main_effect_population_effects_public_order",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_low",
+          "effect_key": "3k_main_effect_population_effects_replenishment",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "minimum": 101,
+      "maximum": 200,
+      "peasantry_percent": 30,
+      "public_order": 0,
+      "source_group": "3k_main_campaign_group_population_village_medium",
+      "source_bundle": "3k_main_effect_bundle_population_village_medium",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_medium",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "30"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_medium",
+          "effect_key": "3k_main_effect_population_effects_city_level",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_medium",
+          "effect_key": "3k_main_effect_population_effects_public_order",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_medium",
+          "effect_key": "3k_main_effect_population_effects_replenishment",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "minimum": 201,
+      "maximum": 300,
+      "peasantry_percent": 35,
+      "public_order": 0,
+      "source_group": "3k_main_campaign_group_population_village_high",
+      "source_bundle": "3k_main_effect_bundle_population_village_high",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_high",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "35"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_high",
+          "effect_key": "3k_main_effect_population_effects_city_level",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_high",
+          "effect_key": "3k_main_effect_population_effects_public_order",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_high",
+          "effect_key": "3k_main_effect_population_effects_replenishment",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "minimum": 301,
+      "maximum": 400,
+      "peasantry_percent": 40,
+      "public_order": 0,
+      "source_group": "3k_main_campaign_group_population_village_very_high",
+      "source_bundle": "3k_main_effect_bundle_population_village_very_high",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_very_high",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "40"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_very_high",
+          "effect_key": "3k_main_effect_population_effects_city_level",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_very_high",
+          "effect_key": "3k_main_effect_population_effects_public_order",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_very_high",
+          "effect_key": "3k_main_effect_replenishment_population",
+          "effect_scope": "province_to_force_own_provincewide_unseen",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "minimum": 401,
+      "maximum": 500,
+      "peasantry_percent": 45,
+      "public_order": 0,
+      "source_group": "3k_main_campaign_group_population_village_super_high",
+      "source_bundle": "3k_main_effect_bundle_population_village_super_high",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_super_high",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "45"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_super_high",
+          "effect_key": "3k_main_effect_population_effects_city_level",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_super_high",
+          "effect_key": "3k_main_effect_population_effects_public_order",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_village_super_high",
+          "effect_key": "3k_main_effect_replenishment_population",
+          "effect_scope": "province_to_force_own_provincewide_unseen",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "minimum": 501,
+      "maximum": 600,
+      "peasantry_percent": 50,
+      "public_order": 0,
+      "source_group": "3k_main_campaign_group_population_town_very_low",
+      "source_bundle": "3k_main_effect_bundle_population_town_very_low",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_very_low",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "50"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_very_low",
+          "effect_key": "3k_main_effect_population_effects_public_order",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_very_low",
+          "effect_key": "3k_main_effect_province_building_construction_cost_mod_city_level_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "-1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_very_low",
+          "effect_key": "3k_main_effect_replenishment_population",
+          "effect_scope": "province_to_force_own_provincewide_unseen",
+          "value": "4"
+        }
+      ]
+    },
+    {
+      "minimum": 601,
+      "maximum": 700,
+      "peasantry_percent": 55,
+      "public_order": 0,
+      "source_group": "3k_main_campaign_group_population_town_low",
+      "source_bundle": "3k_main_effect_bundle_population_town_low",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_low",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "55"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_low",
+          "effect_key": "3k_main_effect_population_effects_public_order",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_low",
+          "effect_key": "3k_main_effect_province_building_construction_cost_mod_city_level_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "-1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_low",
+          "effect_key": "3k_main_effect_replenishment_population",
+          "effect_scope": "province_to_force_own_provincewide_unseen",
+          "value": "4"
+        }
+      ]
+    },
+    {
+      "minimum": 701,
+      "maximum": 800,
+      "peasantry_percent": 60,
+      "public_order": -1,
+      "source_group": "3k_main_campaign_group_population_town_medium",
+      "source_bundle": "3k_main_effect_bundle_population_town_medium",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_medium",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "60"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_medium",
+          "effect_key": "3k_main_effect_province_building_construction_cost_mod_city_level_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "-1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_medium",
+          "effect_key": "3k_main_effect_province_public_order_population",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "-1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_medium",
+          "effect_key": "3k_main_effect_replenishment_population",
+          "effect_scope": "province_to_force_own_provincewide_unseen",
+          "value": "4"
+        }
+      ]
+    },
+    {
+      "minimum": 801,
+      "maximum": 1000,
+      "peasantry_percent": 65,
+      "public_order": -2,
+      "source_group": "3k_main_campaign_group_population_town_high",
+      "source_bundle": "3k_main_effect_bundle_population_town_high",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_high",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "65"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_high",
+          "effect_key": "3k_main_effect_province_building_construction_cost_mod_city_level_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "-1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_high",
+          "effect_key": "3k_main_effect_province_public_order_population",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "-2"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_high",
+          "effect_key": "3k_main_effect_replenishment_population",
+          "effect_scope": "province_to_force_own_provincewide_unseen",
+          "value": "8"
+        }
+      ]
+    },
+    {
+      "minimum": 1001,
+      "maximum": 1250,
+      "peasantry_percent": 70,
+      "public_order": -4,
+      "source_group": "3k_main_campaign_group_population_town_very_high",
+      "source_bundle": "3k_main_effect_bundle_population_town_very_high",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_very_high",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "70"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_very_high",
+          "effect_key": "3k_main_effect_province_building_construction_cost_mod_city_level_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "-1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_very_high",
+          "effect_key": "3k_main_effect_province_public_order_population",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "-4"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_very_high",
+          "effect_key": "3k_main_effect_replenishment_population",
+          "effect_scope": "province_to_force_own_provincewide_unseen",
+          "value": "8"
+        }
+      ]
+    },
+    {
+      "minimum": 1251,
+      "maximum": 1500,
+      "peasantry_percent": 80,
+      "public_order": -6,
+      "source_group": "3k_main_campaign_group_population_town_super_high",
+      "source_bundle": "3k_main_effect_bundle_population_town_super_high",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_super_high",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "80"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_super_high",
+          "effect_key": "3k_main_effect_province_building_construction_cost_mod_city_level_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "-1"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_super_high",
+          "effect_key": "3k_main_effect_province_public_order_population",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "-6"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_town_super_high",
+          "effect_key": "3k_main_effect_replenishment_population",
+          "effect_scope": "province_to_force_own_provincewide_unseen",
+          "value": "8"
+        }
+      ]
+    },
+    {
+      "minimum": 1501,
+      "maximum": 1750,
+      "peasantry_percent": 90,
+      "public_order": -8,
+      "source_group": "3k_main_campaign_group_population_city_very_low",
+      "source_bundle": "3k_main_effect_bundle_population_city_very_low",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_very_low",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "90"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_very_low",
+          "effect_key": "3k_main_effect_province_building_construction_cost_mod_city_level_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "-2"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_very_low",
+          "effect_key": "3k_main_effect_province_public_order_population",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "-8"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_very_low",
+          "effect_key": "3k_main_effect_replenishment_population",
+          "effect_scope": "province_to_force_own_provincewide_unseen",
+          "value": "12"
+        }
+      ]
+    },
+    {
+      "minimum": 1751,
+      "maximum": 2000,
+      "peasantry_percent": 100,
+      "public_order": -10,
+      "source_group": "3k_main_campaign_group_population_city_low",
+      "source_bundle": "3k_main_effect_bundle_population_city_low",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_low",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "100"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_low",
+          "effect_key": "3k_main_effect_province_building_construction_cost_mod_city_level_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "-2"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_low",
+          "effect_key": "3k_main_effect_province_public_order_population",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "-10"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_low",
+          "effect_key": "3k_main_effect_replenishment_population",
+          "effect_scope": "province_to_force_own_provincewide_unseen",
+          "value": "12"
+        }
+      ]
+    },
+    {
+      "minimum": 2001,
+      "maximum": 2500,
+      "peasantry_percent": 125,
+      "public_order": -12,
+      "source_group": "3k_main_campaign_group_population_city_medium",
+      "source_bundle": "3k_main_effect_bundle_population_city_medium",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_medium",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "125"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_medium",
+          "effect_key": "3k_main_effect_province_building_construction_cost_mod_city_level_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "-3"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_medium",
+          "effect_key": "3k_main_effect_province_public_order_population",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "-12"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_medium",
+          "effect_key": "3k_main_effect_replenishment_population",
+          "effect_scope": "province_to_force_own_provincewide_unseen",
+          "value": "12"
+        }
+      ]
+    },
+    {
+      "minimum": 2501,
+      "maximum": 3000,
+      "peasantry_percent": 150,
+      "public_order": -14,
+      "source_group": "3k_main_campaign_group_population_city_high",
+      "source_bundle": "3k_main_effect_bundle_population_city_high",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_high",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "150"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_high",
+          "effect_key": "3k_main_effect_province_building_construction_cost_mod_city_level_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "-4"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_high",
+          "effect_key": "3k_main_effect_province_public_order_population",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "-14"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_high",
+          "effect_key": "3k_main_effect_replenishment_population",
+          "effect_scope": "province_to_force_own_provincewide_unseen",
+          "value": "16"
+        }
+      ]
+    },
+    {
+      "minimum": 3001,
+      "maximum": 3500,
+      "peasantry_percent": 175,
+      "public_order": -16,
+      "source_group": "3k_main_campaign_group_population_city_very_high",
+      "source_bundle": "3k_main_effect_bundle_population_city_very_high",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_very_high",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "175"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_very_high",
+          "effect_key": "3k_main_effect_province_building_construction_cost_mod_city_level_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "-5"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_very_high",
+          "effect_key": "3k_main_effect_province_public_order_population",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "-16"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_very_high",
+          "effect_key": "3k_main_effect_replenishment_population",
+          "effect_scope": "province_to_force_own_provincewide_unseen",
+          "value": "16"
+        }
+      ]
+    },
+    {
+      "minimum": 3501,
+      "maximum": 4000,
+      "peasantry_percent": 200,
+      "public_order": -18,
+      "source_group": "3k_main_campaign_group_population_city_super_high",
+      "source_bundle": "3k_main_effect_bundle_population_city_super_high",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_super_high",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "200"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_super_high",
+          "effect_key": "3k_main_effect_province_building_construction_cost_mod_city_level_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "-5"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_super_high",
+          "effect_key": "3k_main_effect_province_public_order_population",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "-18"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_city_super_high",
+          "effect_key": "3k_main_effect_replenishment_population",
+          "effect_scope": "province_to_force_own_provincewide_unseen",
+          "value": "16"
+        }
+      ]
+    },
+    {
+      "minimum": 4001,
+      "maximum": 4500,
+      "peasantry_percent": 250,
+      "public_order": -22,
+      "source_group": "3k_main_campaign_group_population_metropolis_low",
+      "source_bundle": "3k_main_effect_bundle_population_metropolis_low",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_metropolis_low",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "250"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_metropolis_low",
+          "effect_key": "3k_main_effect_province_building_construction_cost_mod_city_level_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "-5"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_metropolis_low",
+          "effect_key": "3k_main_effect_province_public_order_population",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "-22"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_metropolis_low",
+          "effect_key": "3k_main_effect_replenishment_population",
+          "effect_scope": "province_to_force_own_provincewide_unseen",
+          "value": "20"
+        }
+      ]
+    },
+    {
+      "minimum": 4501,
+      "maximum": 5500,
+      "peasantry_percent": 300,
+      "public_order": -26,
+      "source_group": "3k_main_campaign_group_population_metropolis_medium",
+      "source_bundle": "3k_main_effect_bundle_population_metropolis_medium",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_metropolis_medium",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "300"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_metropolis_medium",
+          "effect_key": "3k_main_effect_province_building_construction_cost_mod_city_level_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "-5"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_metropolis_medium",
+          "effect_key": "3k_main_effect_province_public_order_population",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "-26"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_metropolis_medium",
+          "effect_key": "3k_main_effect_replenishment_population",
+          "effect_scope": "province_to_force_own_provincewide_unseen",
+          "value": "25"
+        }
+      ]
+    },
+    {
+      "minimum": 5501,
+      "maximum": 2147483647,
+      "peasantry_percent": 350,
+      "public_order": -30,
+      "source_group": "3k_main_campaign_group_population_metropolis_high",
+      "source_bundle": "3k_main_effect_bundle_population_metropolis_high",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_metropolis_high",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry_from_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "350"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_metropolis_high",
+          "effect_key": "3k_main_effect_province_building_construction_cost_mod_city_level_population",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "-5"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_metropolis_high",
+          "effect_key": "3k_main_effect_province_public_order_population",
+          "effect_scope": "province_to_province_own_unseen",
+          "value": "-30"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_population_metropolis_high",
+          "effect_key": "3k_main_effect_replenishment_population",
+          "effect_scope": "province_to_force_own_provincewide_unseen",
+          "value": "25"
+        }
+      ]
+    }
+  ],
+  "city_levels": {
+    "0": {
+      "building": "3k_city_0",
+      "slots": 0,
+      "population_capacity": 0,
+      "unlock_points": 0,
+      "slot_point_cost": 2
+    },
+    "1": {
+      "building": "3k_city_1",
+      "slots": 1,
+      "population_capacity": 200000,
+      "unlock_points": 2,
+      "slot_point_cost": 2
+    },
+    "10": {
+      "building": "3k_city_10",
+      "slots": 6,
+      "population_capacity": 7500000,
+      "unlock_points": 12,
+      "slot_point_cost": 2
+    },
+    "2": {
+      "building": "3k_city_2",
+      "slots": 2,
+      "population_capacity": 300000,
+      "unlock_points": 4,
+      "slot_point_cost": 2
+    },
+    "3": {
+      "building": "3k_city_3",
+      "slots": 2,
+      "population_capacity": 400000,
+      "unlock_points": 4,
+      "slot_point_cost": 2
+    },
+    "4": {
+      "building": "3k_city_4",
+      "slots": 3,
+      "population_capacity": 800000,
+      "unlock_points": 6,
+      "slot_point_cost": 2
+    },
+    "5": {
+      "building": "3k_city_5",
+      "slots": 4,
+      "population_capacity": 1000000,
+      "unlock_points": 8,
+      "slot_point_cost": 2
+    },
+    "6": {
+      "building": "3k_city_6",
+      "slots": 4,
+      "population_capacity": 1500000,
+      "unlock_points": 8,
+      "slot_point_cost": 2
+    },
+    "7": {
+      "building": "3k_city_7",
+      "slots": 5,
+      "population_capacity": 2000000,
+      "unlock_points": 10,
+      "slot_point_cost": 2
+    },
+    "8": {
+      "building": "3k_city_8",
+      "slots": 6,
+      "population_capacity": 3000000,
+      "unlock_points": 12,
+      "slot_point_cost": 2
+    },
+    "9": {
+      "building": "3k_city_9",
+      "slots": 6,
+      "population_capacity": 4000000,
+      "unlock_points": 12,
+      "slot_point_cost": 2
+    }
+  },
+  "tax_levels": {
+    "exempt": {
+      "income_percent": 0,
+      "effects": [
+        {
+          "ai_only": "0",
+          "effect": "3k_main_effect_province_food_nullify_food_production",
+          "effect_scope": "province_to_region_own_unseen",
+          "optional_campaign_key": "",
+          "optional_player_difficulty_level": "",
+          "specific_feature_set": "",
+          "tax_name": "lower_exempt",
+          "value": "1"
+        },
+        {
+          "ai_only": "0",
+          "effect": "3k_main_effect_province_public_order_tax_rate",
+          "effect_scope": "province_to_province_own_unseen",
+          "optional_campaign_key": "",
+          "optional_player_difficulty_level": "",
+          "specific_feature_set": "",
+          "tax_name": "lower_exempt",
+          "value": "25"
+        }
+      ]
+    },
+    "extortionate": {
+      "income_percent": 120,
+      "effects": [
+        {
+          "ai_only": "0",
+          "effect": "3k_dummy_effect_tax_level",
+          "effect_scope": "province_to_region_own_unseen",
+          "optional_campaign_key": "",
+          "optional_player_difficulty_level": "",
+          "specific_feature_set": "",
+          "tax_name": "lower_extortionate",
+          "value": "20"
+        },
+        {
+          "ai_only": "0",
+          "effect": "3k_main_effect_province_food_mod_farming",
+          "effect_scope": "province_to_region_own_unseen",
+          "optional_campaign_key": "",
+          "optional_player_difficulty_level": "",
+          "specific_feature_set": "",
+          "tax_name": "lower_extortionate",
+          "value": "50"
+        },
+        {
+          "ai_only": "0",
+          "effect": "3k_main_effect_province_public_order_tax_rate",
+          "effect_scope": "province_to_province_own_unseen",
+          "optional_campaign_key": "",
+          "optional_player_difficulty_level": "",
+          "specific_feature_set": "",
+          "tax_name": "lower_extortionate",
+          "value": "-15"
+        }
+      ]
+    },
+    "high": {
+      "income_percent": 110,
+      "effects": [
+        {
+          "ai_only": "0",
+          "effect": "3k_dummy_effect_tax_level",
+          "effect_scope": "province_to_region_own_unseen",
+          "optional_campaign_key": "",
+          "optional_player_difficulty_level": "",
+          "specific_feature_set": "",
+          "tax_name": "lower_high",
+          "value": "10"
+        },
+        {
+          "ai_only": "0",
+          "effect": "3k_main_effect_province_food_mod_farming",
+          "effect_scope": "province_to_region_own_unseen",
+          "optional_campaign_key": "",
+          "optional_player_difficulty_level": "",
+          "specific_feature_set": "",
+          "tax_name": "lower_high",
+          "value": "25"
+        },
+        {
+          "ai_only": "0",
+          "effect": "3k_main_effect_province_public_order_tax_rate",
+          "effect_scope": "province_to_province_own_unseen",
+          "optional_campaign_key": "",
+          "optional_player_difficulty_level": "",
+          "specific_feature_set": "",
+          "tax_name": "lower_high",
+          "value": "-6"
+        }
+      ]
+    },
+    "low": {
+      "income_percent": 90,
+      "effects": [
+        {
+          "ai_only": "0",
+          "effect": "3k_dummy_effect_tax_level",
+          "effect_scope": "province_to_region_own_unseen",
+          "optional_campaign_key": "",
+          "optional_player_difficulty_level": "",
+          "specific_feature_set": "",
+          "tax_name": "lower_low",
+          "value": "-10"
+        },
+        {
+          "ai_only": "0",
+          "effect": "3k_main_effect_province_food_mod_farming",
+          "effect_scope": "province_to_region_own_unseen",
+          "optional_campaign_key": "",
+          "optional_player_difficulty_level": "",
+          "specific_feature_set": "",
+          "tax_name": "lower_low",
+          "value": "-25"
+        },
+        {
+          "ai_only": "0",
+          "effect": "3k_main_effect_province_public_order_tax_rate",
+          "effect_scope": "province_to_province_own_unseen",
+          "optional_campaign_key": "",
+          "optional_player_difficulty_level": "",
+          "specific_feature_set": "",
+          "tax_name": "lower_low",
+          "value": "6"
+        }
+      ]
+    },
+    "minimal": {
+      "income_percent": 80,
+      "effects": [
+        {
+          "ai_only": "0",
+          "effect": "3k_dummy_effect_tax_level",
+          "effect_scope": "province_to_region_own_unseen",
+          "optional_campaign_key": "",
+          "optional_player_difficulty_level": "",
+          "specific_feature_set": "",
+          "tax_name": "lower_minimal",
+          "value": "-20"
+        },
+        {
+          "ai_only": "0",
+          "effect": "3k_main_effect_province_food_mod_farming",
+          "effect_scope": "province_to_region_own_unseen",
+          "optional_campaign_key": "",
+          "optional_player_difficulty_level": "",
+          "specific_feature_set": "",
+          "tax_name": "lower_minimal",
+          "value": "-50"
+        },
+        {
+          "ai_only": "0",
+          "effect": "3k_main_effect_province_public_order_tax_rate",
+          "effect_scope": "province_to_province_own_unseen",
+          "optional_campaign_key": "",
+          "optional_player_difficulty_level": "",
+          "specific_feature_set": "",
+          "tax_name": "lower_minimal",
+          "value": "15"
+        }
+      ]
+    },
+    "normal": {
+      "income_percent": 100,
+      "effects": [
+        {
+          "ai_only": "0",
+          "effect": "3k_dummy_effect_tax_level",
+          "effect_scope": "province_to_region_own_unseen",
+          "optional_campaign_key": "",
+          "optional_player_difficulty_level": "",
+          "specific_feature_set": "",
+          "tax_name": "lower_normal",
+          "value": "0"
+        },
+        {
+          "ai_only": "0",
+          "effect": "3k_main_effect_province_food_mod_farming",
+          "effect_scope": "province_to_region_own_unseen",
+          "optional_campaign_key": "",
+          "optional_player_difficulty_level": "",
+          "specific_feature_set": "",
+          "tax_name": "lower_normal",
+          "value": "0"
+        },
+        {
+          "ai_only": "0",
+          "effect": "3k_main_effect_province_public_order_tax_rate",
+          "effect_scope": "province_to_province_own_unseen",
+          "optional_campaign_key": "",
+          "optional_player_difficulty_level": "",
+          "specific_feature_set": "",
+          "tax_name": "lower_normal",
+          "value": "0"
+        }
+      ]
+    }
+  },
+  "fertility_bundles": {
+    "harvest_high": {
+      "peasantry_percent": 50,
+      "farming_fishing_percent": 25,
+      "source_bundle": "3k_main_effect_bundle_fertility_harvest_high",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_fertility_harvest_high",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "50"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_fertility_harvest_high",
+          "effect_key": "3k_main_effect_province_food_mod",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "25"
+        }
+      ]
+    },
+    "harvest_low": {
+      "peasantry_percent": -10,
+      "farming_fishing_percent": 0,
+      "source_bundle": "3k_main_effect_bundle_fertility_harvest_low",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_fertility_harvest_low",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "-10"
+        }
+      ]
+    },
+    "harvest_normal": {
+      "peasantry_percent": 10,
+      "farming_fishing_percent": 0,
+      "source_bundle": "3k_main_effect_bundle_fertility_harvest_normal",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_fertility_harvest_normal",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "10"
+        }
+      ]
+    },
+    "high": {
+      "peasantry_percent": 25,
+      "farming_fishing_percent": 25,
+      "source_bundle": "3k_main_effect_bundle_fertility_high",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_fertility_high",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "25"
+        },
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_fertility_high",
+          "effect_key": "3k_main_effect_province_food_mod",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "25"
+        }
+      ]
+    },
+    "low": {
+      "peasantry_percent": -25,
+      "farming_fishing_percent": 0,
+      "source_bundle": "3k_main_effect_bundle_fertility_low",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_fertility_low",
+          "effect_key": "3k_main_effect_economy_gdp_mod_peasantry",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "-25"
+        }
+      ]
+    },
+    "normal": {
+      "peasantry_percent": 0,
+      "farming_fishing_percent": 0,
+      "source_bundle": "3k_main_effect_bundle_fertility_normal",
+      "effects": [
+        {
+          "advancement_stage": "start_turn_completed",
+          "effect_bundle_key": "3k_main_effect_bundle_fertility_normal",
+          "effect_key": "3k_main_effect_dummy_no_effects",
+          "effect_scope": "province_to_region_own_unseen",
+          "value": "0"
+        }
+      ]
+    }
+  },
+  "corruption_reference_points": [
+    {
+      "administration_cost": "-5",
+      "difficulty": "AI_IN_EASY_GAME",
+      "region_count": "10"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "AI_IN_EASY_GAME",
+      "region_count": "100"
+    },
+    {
+      "administration_cost": "-10",
+      "difficulty": "AI_IN_EASY_GAME",
+      "region_count": "15"
+    },
+    {
+      "administration_cost": "-20",
+      "difficulty": "AI_IN_EASY_GAME",
+      "region_count": "20"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "AI_IN_EASY_GAME",
+      "region_count": "200"
+    },
+    {
+      "administration_cost": "-50",
+      "difficulty": "AI_IN_EASY_GAME",
+      "region_count": "35"
+    },
+    {
+      "administration_cost": "-70",
+      "difficulty": "AI_IN_EASY_GAME",
+      "region_count": "45"
+    },
+    {
+      "administration_cost": "0",
+      "difficulty": "AI_IN_EASY_GAME",
+      "region_count": "5"
+    },
+    {
+      "administration_cost": "-75",
+      "difficulty": "AI_IN_EASY_GAME",
+      "region_count": "50"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "AI_IN_EASY_GAME",
+      "region_count": "60"
+    },
+    {
+      "administration_cost": "-5",
+      "difficulty": "AI_IN_HARD_GAME",
+      "region_count": "10"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "AI_IN_HARD_GAME",
+      "region_count": "100"
+    },
+    {
+      "administration_cost": "-10",
+      "difficulty": "AI_IN_HARD_GAME",
+      "region_count": "15"
+    },
+    {
+      "administration_cost": "-20",
+      "difficulty": "AI_IN_HARD_GAME",
+      "region_count": "20"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "AI_IN_HARD_GAME",
+      "region_count": "200"
+    },
+    {
+      "administration_cost": "-50",
+      "difficulty": "AI_IN_HARD_GAME",
+      "region_count": "35"
+    },
+    {
+      "administration_cost": "-70",
+      "difficulty": "AI_IN_HARD_GAME",
+      "region_count": "45"
+    },
+    {
+      "administration_cost": "0",
+      "difficulty": "AI_IN_HARD_GAME",
+      "region_count": "5"
+    },
+    {
+      "administration_cost": "-75",
+      "difficulty": "AI_IN_HARD_GAME",
+      "region_count": "50"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "AI_IN_HARD_GAME",
+      "region_count": "60"
+    },
+    {
+      "administration_cost": "-5",
+      "difficulty": "AI_IN_LEGENDARY_GAME",
+      "region_count": "10"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "AI_IN_LEGENDARY_GAME",
+      "region_count": "100"
+    },
+    {
+      "administration_cost": "-10",
+      "difficulty": "AI_IN_LEGENDARY_GAME",
+      "region_count": "15"
+    },
+    {
+      "administration_cost": "-20",
+      "difficulty": "AI_IN_LEGENDARY_GAME",
+      "region_count": "20"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "AI_IN_LEGENDARY_GAME",
+      "region_count": "200"
+    },
+    {
+      "administration_cost": "-50",
+      "difficulty": "AI_IN_LEGENDARY_GAME",
+      "region_count": "35"
+    },
+    {
+      "administration_cost": "-70",
+      "difficulty": "AI_IN_LEGENDARY_GAME",
+      "region_count": "45"
+    },
+    {
+      "administration_cost": "0",
+      "difficulty": "AI_IN_LEGENDARY_GAME",
+      "region_count": "5"
+    },
+    {
+      "administration_cost": "-75",
+      "difficulty": "AI_IN_LEGENDARY_GAME",
+      "region_count": "50"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "AI_IN_LEGENDARY_GAME",
+      "region_count": "60"
+    },
+    {
+      "administration_cost": "-5",
+      "difficulty": "AI_IN_NORMAL_GAME",
+      "region_count": "10"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "AI_IN_NORMAL_GAME",
+      "region_count": "100"
+    },
+    {
+      "administration_cost": "-10",
+      "difficulty": "AI_IN_NORMAL_GAME",
+      "region_count": "15"
+    },
+    {
+      "administration_cost": "-20",
+      "difficulty": "AI_IN_NORMAL_GAME",
+      "region_count": "20"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "AI_IN_NORMAL_GAME",
+      "region_count": "200"
+    },
+    {
+      "administration_cost": "-50",
+      "difficulty": "AI_IN_NORMAL_GAME",
+      "region_count": "35"
+    },
+    {
+      "administration_cost": "-70",
+      "difficulty": "AI_IN_NORMAL_GAME",
+      "region_count": "45"
+    },
+    {
+      "administration_cost": "0",
+      "difficulty": "AI_IN_NORMAL_GAME",
+      "region_count": "5"
+    },
+    {
+      "administration_cost": "-75",
+      "difficulty": "AI_IN_NORMAL_GAME",
+      "region_count": "50"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "AI_IN_NORMAL_GAME",
+      "region_count": "60"
+    },
+    {
+      "administration_cost": "-5",
+      "difficulty": "AI_IN_VERY_HARD_GAME",
+      "region_count": "10"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "AI_IN_VERY_HARD_GAME",
+      "region_count": "100"
+    },
+    {
+      "administration_cost": "-10",
+      "difficulty": "AI_IN_VERY_HARD_GAME",
+      "region_count": "15"
+    },
+    {
+      "administration_cost": "-20",
+      "difficulty": "AI_IN_VERY_HARD_GAME",
+      "region_count": "20"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "AI_IN_VERY_HARD_GAME",
+      "region_count": "200"
+    },
+    {
+      "administration_cost": "-50",
+      "difficulty": "AI_IN_VERY_HARD_GAME",
+      "region_count": "35"
+    },
+    {
+      "administration_cost": "-70",
+      "difficulty": "AI_IN_VERY_HARD_GAME",
+      "region_count": "45"
+    },
+    {
+      "administration_cost": "0",
+      "difficulty": "AI_IN_VERY_HARD_GAME",
+      "region_count": "5"
+    },
+    {
+      "administration_cost": "-75",
+      "difficulty": "AI_IN_VERY_HARD_GAME",
+      "region_count": "50"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "AI_IN_VERY_HARD_GAME",
+      "region_count": "60"
+    },
+    {
+      "administration_cost": "0",
+      "difficulty": "HUMAN_IN_EASY_GAME",
+      "region_count": "10"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "HUMAN_IN_EASY_GAME",
+      "region_count": "100"
+    },
+    {
+      "administration_cost": "-5",
+      "difficulty": "HUMAN_IN_EASY_GAME",
+      "region_count": "15"
+    },
+    {
+      "administration_cost": "-10",
+      "difficulty": "HUMAN_IN_EASY_GAME",
+      "region_count": "20"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "HUMAN_IN_EASY_GAME",
+      "region_count": "200"
+    },
+    {
+      "administration_cost": "-20",
+      "difficulty": "HUMAN_IN_EASY_GAME",
+      "region_count": "35"
+    },
+    {
+      "administration_cost": "-50",
+      "difficulty": "HUMAN_IN_EASY_GAME",
+      "region_count": "45"
+    },
+    {
+      "administration_cost": "0",
+      "difficulty": "HUMAN_IN_EASY_GAME",
+      "region_count": "5"
+    },
+    {
+      "administration_cost": "-70",
+      "difficulty": "HUMAN_IN_EASY_GAME",
+      "region_count": "50"
+    },
+    {
+      "administration_cost": "-75",
+      "difficulty": "HUMAN_IN_EASY_GAME",
+      "region_count": "60"
+    },
+    {
+      "administration_cost": "-5",
+      "difficulty": "HUMAN_IN_HARD_GAME",
+      "region_count": "10"
+    },
+    {
+      "administration_cost": "-90",
+      "difficulty": "HUMAN_IN_HARD_GAME",
+      "region_count": "100"
+    },
+    {
+      "administration_cost": "-15",
+      "difficulty": "HUMAN_IN_HARD_GAME",
+      "region_count": "15"
+    },
+    {
+      "administration_cost": "-25",
+      "difficulty": "HUMAN_IN_HARD_GAME",
+      "region_count": "20"
+    },
+    {
+      "administration_cost": "-90",
+      "difficulty": "HUMAN_IN_HARD_GAME",
+      "region_count": "200"
+    },
+    {
+      "administration_cost": "-55",
+      "difficulty": "HUMAN_IN_HARD_GAME",
+      "region_count": "35"
+    },
+    {
+      "administration_cost": "-75",
+      "difficulty": "HUMAN_IN_HARD_GAME",
+      "region_count": "45"
+    },
+    {
+      "administration_cost": "0",
+      "difficulty": "HUMAN_IN_HARD_GAME",
+      "region_count": "5"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "HUMAN_IN_HARD_GAME",
+      "region_count": "50"
+    },
+    {
+      "administration_cost": "-90",
+      "difficulty": "HUMAN_IN_HARD_GAME",
+      "region_count": "60"
+    },
+    {
+      "administration_cost": "-5",
+      "difficulty": "HUMAN_IN_LEGENDARY_GAME",
+      "region_count": "10"
+    },
+    {
+      "administration_cost": "-90",
+      "difficulty": "HUMAN_IN_LEGENDARY_GAME",
+      "region_count": "100"
+    },
+    {
+      "administration_cost": "-15",
+      "difficulty": "HUMAN_IN_LEGENDARY_GAME",
+      "region_count": "15"
+    },
+    {
+      "administration_cost": "-25",
+      "difficulty": "HUMAN_IN_LEGENDARY_GAME",
+      "region_count": "20"
+    },
+    {
+      "administration_cost": "-90",
+      "difficulty": "HUMAN_IN_LEGENDARY_GAME",
+      "region_count": "200"
+    },
+    {
+      "administration_cost": "-55",
+      "difficulty": "HUMAN_IN_LEGENDARY_GAME",
+      "region_count": "35"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "HUMAN_IN_LEGENDARY_GAME",
+      "region_count": "45"
+    },
+    {
+      "administration_cost": "0",
+      "difficulty": "HUMAN_IN_LEGENDARY_GAME",
+      "region_count": "5"
+    },
+    {
+      "administration_cost": "-90",
+      "difficulty": "HUMAN_IN_LEGENDARY_GAME",
+      "region_count": "50"
+    },
+    {
+      "administration_cost": "-90",
+      "difficulty": "HUMAN_IN_LEGENDARY_GAME",
+      "region_count": "60"
+    },
+    {
+      "administration_cost": "-5",
+      "difficulty": "HUMAN_IN_NORMAL_GAME",
+      "region_count": "10"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "HUMAN_IN_NORMAL_GAME",
+      "region_count": "100"
+    },
+    {
+      "administration_cost": "-10",
+      "difficulty": "HUMAN_IN_NORMAL_GAME",
+      "region_count": "15"
+    },
+    {
+      "administration_cost": "-20",
+      "difficulty": "HUMAN_IN_NORMAL_GAME",
+      "region_count": "20"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "HUMAN_IN_NORMAL_GAME",
+      "region_count": "200"
+    },
+    {
+      "administration_cost": "-50",
+      "difficulty": "HUMAN_IN_NORMAL_GAME",
+      "region_count": "35"
+    },
+    {
+      "administration_cost": "-70",
+      "difficulty": "HUMAN_IN_NORMAL_GAME",
+      "region_count": "45"
+    },
+    {
+      "administration_cost": "0",
+      "difficulty": "HUMAN_IN_NORMAL_GAME",
+      "region_count": "5"
+    },
+    {
+      "administration_cost": "-75",
+      "difficulty": "HUMAN_IN_NORMAL_GAME",
+      "region_count": "50"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "HUMAN_IN_NORMAL_GAME",
+      "region_count": "60"
+    },
+    {
+      "administration_cost": "-5",
+      "difficulty": "HUMAN_IN_VERY_HARD_GAME",
+      "region_count": "10"
+    },
+    {
+      "administration_cost": "-90",
+      "difficulty": "HUMAN_IN_VERY_HARD_GAME",
+      "region_count": "100"
+    },
+    {
+      "administration_cost": "-15",
+      "difficulty": "HUMAN_IN_VERY_HARD_GAME",
+      "region_count": "15"
+    },
+    {
+      "administration_cost": "-25",
+      "difficulty": "HUMAN_IN_VERY_HARD_GAME",
+      "region_count": "20"
+    },
+    {
+      "administration_cost": "-90",
+      "difficulty": "HUMAN_IN_VERY_HARD_GAME",
+      "region_count": "200"
+    },
+    {
+      "administration_cost": "-55",
+      "difficulty": "HUMAN_IN_VERY_HARD_GAME",
+      "region_count": "35"
+    },
+    {
+      "administration_cost": "-75",
+      "difficulty": "HUMAN_IN_VERY_HARD_GAME",
+      "region_count": "45"
+    },
+    {
+      "administration_cost": "0",
+      "difficulty": "HUMAN_IN_VERY_HARD_GAME",
+      "region_count": "5"
+    },
+    {
+      "administration_cost": "-80",
+      "difficulty": "HUMAN_IN_VERY_HARD_GAME",
+      "region_count": "50"
+    },
+    {
+      "administration_cost": "-90",
+      "difficulty": "HUMAN_IN_VERY_HARD_GAME",
+      "region_count": "60"
+    }
+  ],
+  "interpretation": {
+    "population": "The snapshot uses integer thousands of people. A supplied person count is divided by 1000 with its fractional remainder discarded before band lookup. Population is the total in owned regions of the commandery, not only its capital. Population is fixed; growth, migration and replenishment are not optimized.",
+    "population_scope": "These are standard 190 CE population economy/public-order bands. Kong Rong/He Yi special trade or recruitment effects are separate rules.",
+    "corruption": "Raw difficulty/region-count reference points are retained for audit. Interpolation and in-engine rounding are not inferred; the current model takes base corruption as a supplied snapshot input.",
+    "taxation": "All tax levels and their scoped effects are retained. The initial optimizer uses the normal level; other taxation policies are not automatically chosen.",
+    "fertility": "Seasonal fertility bundles are retained without inventing per-commandery geographic assignments. The controlled baseline is normal fertility outside the harvest season unless explicit scenario inputs select another bundle.",
+    "version": "Historical 1.2.0 reference only. Later population and faction-rule changes are not mixed into these tables. This is not installed-build validation."
+  },
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/building_effects_junction.xml",
+      "sha256": "ccb0006870d5c7e9dc75ada86d0ecf5e84e884757bd9b6c3dbf3d51c84598753",
+      "bytes": 2038230
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/building_levels.xml",
+      "sha256": "7bb3b5673bb3d6f043d9fd4b508cad11089e1bc11988efbc19a603d801f3e856",
+      "bytes": 693645
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_group_member_criteria_numeric_ranges.xml",
+      "sha256": "552c4c1141b2af80b4fe6b26336fd58f194bf07c5a4693e2d5239c964299edc7",
+      "bytes": 315863
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_group_member_criteria_pooled_resource_scopes.xml",
+      "sha256": "5f4c9ab8bf2fc2d2e0525f022ff5b690dc01c99b50f9216d7cf1236a64362953",
+      "bytes": 118383
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_group_member_criteria_pooled_resources.xml",
+      "sha256": "b180fa55e7c9d9db8093cb92d690f6e9e768380f40e1736ba91aeb6351b1cd22",
+      "bytes": 120180
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_group_members.xml",
+      "sha256": "86c56794cb628cfae47419bfffcaf219b0f286035d1244a77ede65b1823ef34b",
+      "bytes": 2688829
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_group_pooled_resource_effects.xml",
+      "sha256": "8e37b31eb706e1e2f247f6ffa03963e99d797d532db22608f3a0d7fd382b611e",
+      "bytes": 117166
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_tax_administration_costs.xml",
+      "sha256": "7543f6306f2f2da6e09d6e935276e4ec0ce3d4001e1eedaf54f5c72f23057ffa",
+      "bytes": 32472
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_variables.xml",
+      "sha256": "dc37ac805257e5ac34773ba34d061a0480fd037a45c66c7322c004d4bbb9ceec",
+      "bytes": 316260
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/effect_bundles_to_effects_junctions.xml",
+      "sha256": "0ba774e556a2965032b3005d3cea141833b0041bb522e000b7a681a10bb820f9",
+      "bytes": 1514734
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/pooled_resources.xml",
+      "sha256": "b6f1cc835893339ea2a8f21b570137360c82203a5d7054a0db63a3c5bf8211d7",
+      "bytes": 37942
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/taxes_effects_jct.xml",
+      "sha256": "6b5df7a84af338d77f9f33d67fc0d139acb14188432f788c431a49ac5084cc28",
+      "bytes": 9759
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/taxes_keys.xml",
+      "sha256": "b59b04d7e1cfc9e33e72f8e9715950eb8937fd72f33f96abf5855372f92c6fa4",
+      "bytes": 1781
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/taxes_levels.xml",
+      "sha256": "0d94974b6c11e38faacd3a005614c48e6e6b52855f2f7da6e3fb07c8a73295c8",
+      "bytes": 1636
+    }
+  ]
+}

@@ -15,20 +15,21 @@ Run all commands from the repository root. The CLI commands below remain availab
 
 ![Interactive terminal workbench](tui.png)
 
-The Textual interface supports Attila, Rome II and Shogun 2. Choose a faction or
+The Textual interface supports Attila, Rome II, Shogun 2 and Three Kingdoms. Choose a faction or
 all factions, a province, research profile and solver with clickable,
 searchable dropdowns. Attila adds fertility/religion; Shogun 2 adds soil, town
 wealth and tax; Rome II offers regional bonuses and explicit research profiles.
+Three Kingdoms uses a historical 1.2.0 reference and exposes city level, population,
+base corruption, public order and external food as explicit snapshot inputs.
 The default is a Rome II coastal reference case using CP-SAT. The supported
-solvers are **CP-SAT** and **HiGHS** in all three games.
+solvers are **CP-SAT** and **HiGHS** in all four games.
 Runs have **no time limit by default**: they continue until the solver proves
 optimality or infeasibility. Cancel remains available. The optional **Use a time
 limit** checkbox enables early termination when explicitly requested.
 CPU selection is automatic for both solvers, respecting process affinity and
 container quotas. The solver decides how much parallel work the model supports.
 No worker count is required in the TUI; `--workers` remains an optional CLI override.
-Three Kingdoms and HoI4 show their current readiness rather than starting an
-unsupported optimization.
+HoI4 shows its current data readiness; its hourly optimization is under development.
 
 **Optional constraints…** opens a searchable building list. Choose a building by
 name or exact ID, then **Require** or **Forbid** it; **Remove marked** deletes chosen
@@ -147,7 +148,7 @@ to the original dropdown; Cancel discards picker changes.
 
 By default each province is optimized independently, with one result row per
 province/faction/solver. **Optimize selected provinces together** instead creates
-one joint holding per faction/solver in all three games. **All** selects named
+one joint holding per faction/solver in all four games. **All** selects named
 provinces: 62 in Attila, 57 in Rome II and 65 in Shogun 2, excluding hypothetical
 reference layouts. Attila shares faction
 effects and applies adjacency bonuses across the selected map borders; its existing
@@ -455,6 +456,33 @@ food, local order, religious chains, unique buildings, farm bonuses and tax
 modifiers. This is a static current-income comparison with supplied town wealth,
 not a full campaign or long-term growth forecast. Public references still need
 validation against the installed build.
+
+## Run Three Kingdoms
+
+```sh
+uv run --locked twoptimizer three-kingdoms
+uv run --locked twoptimizer three-kingdoms --commandery Yingchuan \
+  --algorithm cp-sat --algorithm highs
+uv run --locked twoptimizer three-kingdoms --commandery all --seconds 10
+uv run --locked twoptimizer three-kingdoms --commandery all --joint --seconds 60
+```
+
+The [historical model](../games/tw/three_kingdoms/README.md) uses a pinned public
+1.2.0-era Assembly Kit reference. It optimizes recurring domestic income after
+modeled corruption and maintenance, with city slots, population capacity, food,
+public order, resource prerequisites and faction-specific building eligibility.
+City level 5, one million people per commandery and zero base corruption are
+explicit comparison defaults, not a reconstructed campaign start. `--reforms all`
+enables the supported reform profile; the default is none. Use `--help` for the
+other snapshot inputs and optional building constraints.
+
+Independent batches optimize each commandery in isolation. Joint runs share food,
+resources and supported faction-wide effects. The historical border reference is
+incomplete: at zero base corruption the modeled neighboring corruption reductions
+have no effect, so the default joint query remains valid without a complete map.
+For positive corruption, supply explicit borders when neighboring effects matter.
+Newer DLC systems, dynamic character/faction mechanics and installed-build fidelity
+remain outside the certified model. Results list assumptions and exclusions.
 
 ## Run Attila
 

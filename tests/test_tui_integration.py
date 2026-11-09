@@ -18,7 +18,7 @@ from twoptimizer.service import make_jobs, solve_case
 from twoptimizer.tui import OptimizerApp
 
 
-@pytest.mark.parametrize("game", ["rome2", "shogun2", "attila"])
+@pytest.mark.parametrize("game", ["rome2", "shogun2", "attila", "three_kingdoms"])
 def test_ui_adapters_validate_real_engine_results(game):
     options = choices(game)
     config = RunConfig(

@@ -8,12 +8,16 @@ from twoptimizer.errors import ApplicationError
 from twoptimizer.requests import province_id
 
 
-def add_holding_options(parser: argparse.ArgumentParser) -> None:
+def add_holding_options(
+    parser: argparse.ArgumentParser,
+    *,
+    joint_help: str = "Optimize together, using bundled map borders by default",
+) -> None:
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument(
         "--joint",
         action="store_true",
-        help="Optimize together, using bundled map borders by default",
+        help=joint_help,
     )
     mode.add_argument(
         "--independent",

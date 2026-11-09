@@ -12,13 +12,14 @@ GAMES = [
     ("Rome II", "rome2"),
     ("Attila", "attila"),
     ("Shogun 2", "shogun2"),
-    ("Three Kingdoms · data incomplete", "three_kingdoms"),
+    ("Three Kingdoms · historical 1.2.0", "three_kingdoms"),
     ("Hearts of Iron IV · reference data", "hoi4"),
 ]
 EXACT = {
     "rome2": ("cp-sat", "highs"),
     "shogun2": ("cp-sat", "highs"),
     "attila": ("cp-sat", "highs"),
+    "three_kingdoms": ("cp-sat", "highs"),
 }
 NOTES = {
     "rome2": (
@@ -52,10 +53,14 @@ NOTES = {
         "references still need installed-build validation."
     ),
     "three_kingdoms": (
-        "583 public building pages are audited, but 174 explicitly say No "
-        "Effect, including important economic buildings. Slot placeholders"
-        " and population/eligibility rules remain unresolved. No complete "
-        "optimizer is available yet."
+        "Historical vanilla 1.2.0 public Assembly Kit reference; not a current-patch "
+        "or installed-game validation. Maximize recurring domestic income after "
+        "modeled corruption and building maintenance. City level, population and "
+        "base corruption are explicit common snapshot inputs, not a historical "
+        "starting state. Joint holdings share food and supported cross-commandery "
+        "effects. No construction timeline, armies, trade agreements or character "
+        "optimization. Original leader economic traits default enabled and can be disabled. "
+        "See exported coverage for unresolved effects and exclusions."
     ),
     "hoi4": (
         "Inspect HoI4 data opens public source facts for eight major countries, "
@@ -76,6 +81,8 @@ def choices(game):
 
 
 def _choices(game):
+    if game == "three_kingdoms":
+        return _three_kingdoms_choices()
     if game == "rome2":
         data = read("rome2/data/economy_catalog.json")
         factions = sorted(((r["name"], key) for key, r in data["factions"].items()))
@@ -149,6 +156,23 @@ def _choices(game):
             "default_research": "all",
         }
     return {"factions": [], "provinces": []}
+
+
+def _three_kingdoms_choices():
+    from games.tw.three_kingdoms.catalog import DEFAULT_COMMANDERY, DEFAULT_FACTION, load_data
+
+    data = load_data()
+    return {
+        "factions": sorted((row["name"], key) for key, row in data["factions"].items()),
+        "provinces": sorted((row["name"], key) for key, row in data["commanderies"].items()),
+        "default_faction": DEFAULT_FACTION,
+        "default_province": DEFAULT_COMMANDERY,
+        "research": [
+            ("No reforms researched", "none"),
+            ("All compatible historical reforms", "all"),
+        ],
+        "default_research": "none",
+    }
 
 
 def faction_name(game, key):

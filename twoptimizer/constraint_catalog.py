@@ -20,6 +20,8 @@ def _choices(game: str, faction: str, religion: str) -> tuple[tuple[str, str], .
         rows = _rome(faction)
     elif game == "shogun2":
         rows = _shogun()
+    elif game == "three_kingdoms":
+        rows = _three_kingdoms(faction)
     else:
         return ()
     return tuple(sorted(rows, key=lambda row: (row[0].casefold(), row[1])))
@@ -67,4 +69,16 @@ def _shogun():
         (f"{row['name']}{' · unique' if unique_key(row) else ''} · {key}", key)
         for key, row in read("multigame/data/shogun2.json")["buildings"].items()
         if family(row) in DEDICATED | TOWN
+    ]
+
+
+def _three_kingdoms(faction):
+    from games.tw.three_kingdoms.catalog import load_data
+
+    data = load_data()
+    chains = None if faction == "all" else set(data["factions"][faction]["chains"])
+    return [
+        (f"{row['name']} · {key}", key)
+        for key, row in data["buildings"].items()
+        if chains is None or row["chain"] in chains
     ]

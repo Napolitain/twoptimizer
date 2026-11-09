@@ -15,7 +15,9 @@ from twoptimizer.service import solve_case
 
 def main() -> None:
     cli = argparse.ArgumentParser(description=__doc__)
-    cli.add_argument("--game", choices=("attila", "rome2", "shogun2"), default="attila")
+    cli.add_argument(
+        "--game", choices=("attila", "rome2", "shogun2", "three_kingdoms"), default="attila"
+    )
     cli.add_argument("--repeat", type=int, default=3)
     cli.add_argument("--workers", type=int, default=1)
     cli.add_argument("--output", type=Path, required=True)

@@ -48,7 +48,7 @@ def test_independent_batch_is_the_complete_province_faction_solver_product(selec
     assert not skipped
 
 
-@pytest.mark.parametrize("game", ["attila", "rome2", "shogun2"])
+@pytest.mark.parametrize("game", ["attila", "rome2", "shogun2", "three_kingdoms"])
 def test_all_listed_holdings_can_be_queued_without_starting_a_solver(game):
     options = choices(game)
     selected = tuple(key for _, key in options["provinces"])

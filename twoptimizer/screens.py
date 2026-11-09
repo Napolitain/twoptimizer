@@ -29,13 +29,21 @@ they are not assumed to be zero. The public source patch and gameplay scenarios
 remain unverified, so optimization stays unavailable. **Esc** closes the inspector.
 
 **Multiple provinces** opens a searchable checklist with All and None controls.
-Provinces run independently by default. All three games can optimize them together;
+Provinces run independently by default. All four Total War models can optimize them together;
 joint Attila and Rome II runs use bundled land borders when a complete map is available.
 **Neighboring provinces** lets you inspect or override them; **Use map borders**
 restores automatic selection. Applying an empty custom list disables adjacency effects.
 **All** selects every named province; hypothetical reference layouts stay in the
 single-province dropdown. Joint runs share supported faction effects and constraints.
 Use **Single province** in the picker to return to the original dropdown.
+
+**Three Kingdoms** uses a historical vanilla **1.2.0** reference, not the latest
+patch. Set a common city level, population in people, base corruption and public-order
+inputs explicitly. These values describe a controlled snapshot, not a campaign start.
+Joint holdings share food and applicable bonuses. If borders are unavailable, zero
+base corruption makes the imported adjacent corruption reductions inactive; otherwise
+provide borders or explicitly choose no borders. Specify a faction capital to allow
+capital-only buildings there. Public references still need installed-game validation.
 
 **Optional constraints…** lets you search buildings by name or ID, then Require
 at least one or Forbid all copies of that exact building. Requirements apply once

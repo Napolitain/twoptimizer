@@ -7,6 +7,7 @@ from typing import Any
 from games.tw.attila.scenario import Scenario as CampaignScenario
 from twoptimizer.constraint_options import ConstraintOptions
 from twoptimizer.errors import ApplicationError
+from twoptimizer.three_kingdoms_options import ThreeKingdomsOptions
 
 
 @dataclass(frozen=True, slots=True)
@@ -80,6 +81,7 @@ class RunConfig:
     adjacency: tuple[tuple[str, str], ...] | None = None
     technology_profile: str = "public"
     attila: AttilaOptions = field(default_factory=AttilaOptions)
+    three_kingdoms: ThreeKingdomsOptions = field(default_factory=ThreeKingdomsOptions)
     constraints: ConstraintOptions = field(default_factory=ConstraintOptions)
     compare_constraints: bool = False
     comparison_candidates: tuple[str, ...] = ()
@@ -105,6 +107,7 @@ class RunConfig:
             not in {
                 "technology_profile",
                 "attila",
+                "three_kingdoms",
                 "constraints",
                 "compare_constraints",
                 "comparison_candidates",
@@ -118,6 +121,8 @@ class RunConfig:
             data["technology_profile"] = self.technology_profile
         if self.attila != AttilaOptions():
             data["attila"] = self.attila.to_dict()
+        if self.game == "three_kingdoms" or self.three_kingdoms != ThreeKingdomsOptions():
+            data["three_kingdoms"] = self.three_kingdoms.to_dict()
         if self.constraints != ConstraintOptions():
             data["constraints"] = self.constraints.to_dict()
         if self.compare_constraints:
@@ -137,6 +142,7 @@ class RunConfig:
                     raise ApplicationError("Provinces must be a list of province IDs.")
                 data["provinces"] = tuple(data["provinces"])
             data["attila"] = AttilaOptions.from_dict(data.get("attila", {}))
+            data["three_kingdoms"] = ThreeKingdomsOptions.from_dict(data.get("three_kingdoms", {}))
             data["constraints"] = ConstraintOptions.from_dict(data.get("constraints", {}))
             return cls(**data)
         except (TypeError, ValueError) as error:

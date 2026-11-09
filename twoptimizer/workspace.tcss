@@ -55,3 +55,4 @@ HelpScreen VerticalScroll { height: 1fr; }
 
 #province-summary { height: auto; }
 #choose-provinces, #choose-borders { width: 100%; }
+#three-kingdoms-resources { height: 6; }

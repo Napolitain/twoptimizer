@@ -7,7 +7,7 @@ from pathlib import Path
 from games.tw.immutable import FrozenMap, read_catalog
 
 ROOT = Path(__file__).parents[1]
-GAMES = {"attila", "rome2", "shogun2"}
+GAMES = {"attila", "rome2", "shogun2", "three_kingdoms"}
 
 
 def region_provinces(game: str) -> dict[str, str]:
@@ -25,6 +25,9 @@ def region_provinces(game: str) -> dict[str, str]:
     if game == "shogun2":
         data = read_catalog(ROOT / "shogun2/data/rules.json")
         return {key: key for key in data["provinces"]}
+    if game == "three_kingdoms":
+        data = read_catalog(ROOT / "three_kingdoms/data/geography.json")
+        return {key: row["commandery"] for key, row in data["regions"].items()}
     raise ValueError("No campaign map for this game")
 
 

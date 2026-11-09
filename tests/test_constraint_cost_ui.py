@@ -124,7 +124,7 @@ def test_checkbox_reaches_worker_and_result_tab_then_resets_on_game_change():
             app.query_one("#game", Select).value = "shogun2"
             await pilot.pause()
             assert not toggle.value and not app._config().compare_constraints
-            app.query_one("#game", Select).value = "three_kingdoms"
+            app.query_one("#game", Select).value = "hoi4"
             await pilot.pause()
             assert toggle.disabled
 

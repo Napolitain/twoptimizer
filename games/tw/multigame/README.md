@@ -5,8 +5,9 @@ Shogun 2, Rome II and Three Kingdoms. A [Shogun 2 domestic-tax optimizer](../sho
 now runs from public references with explicit scenario inputs. A
 [Rome II model](../rome2/README.md) also combines the repository's raw effects
 with official building eligibility, faction-specific research and public traits.
-Three Kingdoms still awaits a game-specific model. Installed-build validation
-remains outstanding for all three games.
+A [Three Kingdoms historical-reference model](../three_kingdoms/README.md) now uses
+a separate, pinned public Assembly Kit export. Installed-build validation remains
+outstanding for all three games.
 
 | Catalog | Buildings | Faction entries | Additional facts |
 | --- | ---: | ---: | --- |
@@ -33,8 +34,19 @@ All 583 Three Kingdoms building detail pages have also been fetched into
 facts absent from the chain catalog, but 174 explicitly display "No Effect",
 including core settlement and mint buildings. Published slot placeholders,
 population rules, eligibility and conditional faction effects still prevent
-a faithful complete optimizer. The [readiness audit](../../../reports/three-kingdoms-readiness.json)
-lists concrete blockers; missing effects are never assigned zero.
+a faithful complete optimizer from this catalogue alone. The
+[original readiness audit](../../../reports/three-kingdoms-readiness.json)
+lists its concrete blockers; missing effects are never assigned zero.
+
+The new Three Kingdoms engine therefore reads a distinct historical dataset under
+[`three_kingdoms/data`](../three_kingdoms/data/), rather than patching these undated
+Honga records with values from another version. It imports factual tables from a
+[pinned public vanilla Assembly Kit export](https://github.com/ZadesSC/tt3k_dw9_dave/tree/31020c8a75f8a08f83abe5410680a309d58475f1),
+including economic effects, eligibility, city capacity, population bands and
+commandery resource locations. This is a 1.2.0-era reference, not verification
+against the current installed game. Its per-source hashes and explicit exclusions
+travel with the bundled reference; its incomplete historical border graph is not
+represented as a complete map.
 
 The checked-in [coverage audit](data/coverage.json) records integrity checks and
 specific blockers. Some Three Kingdoms slot values and Rome II conditional

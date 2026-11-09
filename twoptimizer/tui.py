@@ -17,6 +17,7 @@ from textual.widgets import (
     ProgressBar,
     RichLog,
     Select,
+    SelectionList,
     Static,
     TabbedContent,
 )
@@ -60,6 +61,7 @@ from twoptimizer.runtime_view import RuntimeView
 from twoptimizer.screens import ExportScreen, HelpScreen
 from twoptimizer.search_activity import format_duration
 from twoptimizer.service import error_result, make_jobs
+from twoptimizer.three_kingdoms_options import ThreeKingdomsOptions
 from twoptimizer.workspace import compose_workspace
 
 
@@ -142,6 +144,8 @@ class OptimizerApp(App):
         self.query_one("#rome-options").display = game == "rome2"
         self.query_one("#attila-options").display = game == "attila"
         self.query_one("#shogun-options").display = game == "shogun2"
+        self.query_one("#three-kingdoms-options").display = game == "three_kingdoms"
+        self._configure_three_kingdoms(game, options)
         for field in ("faction", "province", "research", "algorithm"):
             widget = self.query_one("#" + field, Select)
             widget.disabled = not available
@@ -180,6 +184,22 @@ class OptimizerApp(App):
         )
         self._loading_settings = False
         self._refresh_preview()
+
+    def _configure_three_kingdoms(self, game, options):
+        if game != "three_kingdoms":
+            return
+        from games.tw.three_kingdoms.catalog import load_data
+
+        capital = self.query_one("#three-kingdoms-capital", Select)
+        capital.set_options(
+            [("Not specified · capital-only buildings excluded", "none"), *options["provinces"]]
+        )
+        capital.value = "none"
+        resources = self.query_one("#three-kingdoms-resources", SelectionList)
+        resources.clear_options()
+        resources.add_options(
+            [(label, key, False) for key, label in load_data()["resources"].items()]
+        )
 
     @on(Button.Pressed, "#hoi4-data")
     def inspect_hoi4_data(self):
@@ -309,14 +329,34 @@ class OptimizerApp(App):
                 if self.province_selection.joint
                 else None,
                 constraints=self.constraint_options,
+                three_kingdoms=self._three_kingdoms_options(game),
                 compare_constraints=self.query_one("#compare-constraints", Checkbox).value,
             )
         except ValueError as error:
             raise ValueError("Enter numeric values for the selected settings.") from error
 
+    def _three_kingdoms_options(self, game):
+        if game != "three_kingdoms":
+            return ThreeKingdomsOptions()
+        values = {
+            field: self.query_one("#three-kingdoms-" + field, Input).value
+            for field in ThreeKingdomsOptions.__dataclass_fields__
+            if field not in {"capital_commandery", "external_resources", "include_leader_effects"}
+        }
+        capital = str(self.query_one("#three-kingdoms-capital", Select).value)
+        return ThreeKingdomsOptions(
+            **{field: int(value) for field, value in values.items()},
+            capital_commandery=None if capital == "none" else capital,
+            external_resources=tuple(
+                sorted(self.query_one("#three-kingdoms-resources", SelectionList).selected)
+            ),
+            include_leader_effects=self.query_one("#three-kingdoms-leader-effects", Checkbox).value,
+        )
+
     @on(Select.Changed)
     @on(Input.Changed)
     @on(Checkbox.Changed)
+    @on(SelectionList.SelectedChanged, "#three-kingdoms-resources")
     def settings_changed(self):
         if (
             self.is_running

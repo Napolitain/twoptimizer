@@ -15,6 +15,7 @@ from textual.widgets import (
     ProgressBar,
     RichLog,
     Select,
+    SelectionList,
     Static,
     TabbedContent,
     TabPane,
@@ -22,6 +23,7 @@ from textual.widgets import (
 
 from twoptimizer.catalog import GAMES
 from twoptimizer.comparison_presentation import COMPARISON_EMPTY
+from twoptimizer.three_kingdoms_options import ThreeKingdomsOptions
 
 
 def compose_workspace() -> ComposeResult:
@@ -76,6 +78,7 @@ def compose_workspace() -> ComposeResult:
                     yield Input("30", id="tax", type="number")
                     yield Label("Starting town wealth", classes="field-label")
                     yield Input("0", id="town-wealth", type="number")
+                yield from three_kingdoms_controls()
                 yield Label("SOLVER", classes="section-title")
                 yield Select([("Loading…", "loading")], allow_blank=False, id="algorithm")
                 yield Checkbox("Use a time limit", value=False, id="time-limit")
@@ -162,3 +165,29 @@ def compose_workspace() -> ComposeResult:
                 yield Button("Export JSON + CSV", id="export", disabled=True)
                 yield Button("Clear results", id="clear", disabled=True)
     yield Footer()
+
+
+def three_kingdoms_controls() -> ComposeResult:
+    defaults = ThreeKingdomsOptions()
+    with Vertical(classes="option-group", id="three-kingdoms-options"):
+        yield Static("Historical 1.2.0 · common snapshot inputs")
+        for label, field in (
+            ("City level", "city_level"),
+            ("Population (people)", "population"),
+            ("Base corruption (%)", "corruption_percent"),
+            ("Public order offset", "order_offset"),
+            ("Minimum public order", "minimum_order"),
+            ("External food per holding", "external_food"),
+        ):
+            yield Label(label, classes="field-label")
+            yield Input(str(getattr(defaults, field)), id="three-kingdoms-" + field, type="number")
+        yield Label("Faction capital", classes="field-label")
+        yield Select(
+            [("Not specified · capital-only buildings excluded", "none")],
+            value="none",
+            allow_blank=False,
+            id="three-kingdoms-capital",
+        )
+        yield Label("External resources (trade / snapshot)", classes="field-label")
+        yield SelectionList(id="three-kingdoms-resources")
+        yield Checkbox("Original leader effects", value=True, id="three-kingdoms-leader-effects")

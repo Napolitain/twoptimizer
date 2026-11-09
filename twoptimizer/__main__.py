@@ -8,6 +8,8 @@ from twoptimizer.cli import run_cli
 COMMANDS = {
     "rome2": "games.tw.rome2.benchmark",
     "shogun2": "games.tw.shogun2.benchmark",
+    "three-kingdoms": "twoptimizer.three_kingdoms_cli",
+    "three_kingdoms": "twoptimizer.three_kingdoms_cli",
     "attila": "games.tw.benchmark",
     "attila-factions": "games.tw.faction_comparison",
     "hoi4": "games.hoi4.cli",
@@ -36,6 +38,7 @@ def main(argv=None):
             " II comparisons\n  shogun2           Shogun 2 comparisons\n  attila"
             "            Attila province optimization\n  attila-factions   "
             "Attila faction comparisons\n  hoi4 data         HoI4 public reference data"
+            "\n  three-kingdoms    Three Kingdoms historical 1.2.0 economy"
             "\n  hoi4 plan-check   Review hourly planning input structure"
             "\n\nUse twoptimizer GAME --help for "
             "existing CLI options."

@@ -155,7 +155,7 @@ def test_tui_constraints_reach_requests_and_reset_on_game_change(monkeypatch):
             await pilot.pause()
             assert app._config().constraints == ConstraintOptions()
             assert "(" not in str(app.query_one("#choose-constraints", Button).label)
-            app.query_one("#game", Select).value = "three_kingdoms"
+            app.query_one("#game", Select).value = "hoi4"
             await pilot.pause()
             assert app.query_one("#choose-constraints", Button).disabled
 

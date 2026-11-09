@@ -1,0 +1,1159 @@
+{
+  "schema_version": 1,
+  "game": "three_kingdoms",
+  "campaign": "3k_main_campaign_map",
+  "ruleset": "Historical vanilla 1.2.0 public Assembly Kit reference (190 CE)",
+  "regions": {
+    "3k_main_anding_capital": {
+      "name": "Anding, District",
+      "province": "3k_main_province_anding"
+    },
+    "3k_main_anding_resource_1": {
+      "name": "Anding, Farmland",
+      "province": "3k_main_province_anding"
+    },
+    "3k_main_anding_resource_2": {
+      "name": "Anding, Toolmaker",
+      "province": "3k_main_province_anding"
+    },
+    "3k_main_anding_resource_3": {
+      "name": "Anding, Livestock Farm",
+      "province": "3k_main_province_anding"
+    },
+    "3k_main_anping_capital": {
+      "name": "Anping, District",
+      "province": "3k_main_province_anping"
+    },
+    "3k_main_anping_resource_1": {
+      "name": "Anping, Farmland",
+      "province": "3k_main_province_anping"
+    },
+    "3k_main_badong_capital": {
+      "name": "Badong, District",
+      "province": "3k_main_province_badong"
+    },
+    "3k_main_badong_resource_1": {
+      "name": "Badong, Iron Mine",
+      "province": "3k_main_province_badong"
+    },
+    "3k_main_badong_resource_2": {
+      "name": "Badong, Lumber Yard",
+      "province": "3k_main_province_badong"
+    },
+    "3k_main_bajun_capital": {
+      "name": "Ba, District",
+      "province": "3k_main_province_bajun"
+    },
+    "3k_main_bajun_resource_1": {
+      "name": "Ba, Farmland",
+      "province": "3k_main_province_bajun"
+    },
+    "3k_main_baxi_capital": {
+      "name": "Baxi, District",
+      "province": "3k_main_province_baxi"
+    },
+    "3k_main_baxi_resource_1": {
+      "name": "Baxi, Toolmaker",
+      "province": "3k_main_province_baxi"
+    },
+    "3k_main_baxi_resource_2": {
+      "name": "Baxi, Livestock Farm",
+      "province": "3k_main_province_baxi"
+    },
+    "3k_main_beihai_capital": {
+      "name": "Beihai, District",
+      "province": "3k_main_province_beihai"
+    },
+    "3k_main_beihai_resource_1": {
+      "name": "Beihai, Livestock Farm",
+      "province": "3k_main_province_beihai"
+    },
+    "3k_main_bohai_capital": {
+      "name": "Bohai, District",
+      "province": "3k_main_province_bohai"
+    },
+    "3k_main_bohai_resource_1": {
+      "name": "Bohai, Fishing Port",
+      "province": "3k_main_province_bohai"
+    },
+    "3k_main_cangwu_capital": {
+      "name": "Cangwu, District",
+      "province": "3k_main_province_cangwu"
+    },
+    "3k_main_cangwu_resource_1": {
+      "name": "Cangwu, Rice Paddy",
+      "province": "3k_main_province_cangwu"
+    },
+    "3k_main_cangwu_resource_2": {
+      "name": "Cangwu, Lumber Yard",
+      "province": "3k_main_province_cangwu"
+    },
+    "3k_main_cangwu_resource_3": {
+      "name": "Cangwu, Livestock Farm",
+      "province": "3k_main_province_cangwu"
+    },
+    "3k_main_changan_capital": {
+      "name": "Chang'an, District",
+      "province": "3k_main_province_changan"
+    },
+    "3k_main_changan_resource_1": {
+      "name": "Chang'an, Jade Mine",
+      "province": "3k_main_province_changan"
+    },
+    "3k_main_changsha_capital": {
+      "name": "Changsha, District",
+      "province": "3k_main_province_changsha"
+    },
+    "3k_main_changsha_resource_1": {
+      "name": "Changsha, Trade Port",
+      "province": "3k_main_province_changsha"
+    },
+    "3k_main_changsha_resource_2": {
+      "name": "Changsha, Armour Craftsmen",
+      "province": "3k_main_province_changsha"
+    },
+    "3k_main_changsha_resource_3": {
+      "name": "Changsha, Teahouse",
+      "province": "3k_main_province_changsha"
+    },
+    "3k_main_chengdu_capital": {
+      "name": "Chengdu, District",
+      "province": "3k_main_province_chengdu"
+    },
+    "3k_main_chengdu_resource_1": {
+      "name": "Chengdu, Armour Craftsmen",
+      "province": "3k_main_province_chengdu"
+    },
+    "3k_main_chengdu_resource_2": {
+      "name": "Chengdu, Farmland",
+      "province": "3k_main_province_chengdu"
+    },
+    "3k_main_chengdu_resource_3": {
+      "name": "Chengdu, Salt Mine",
+      "province": "3k_main_province_chengdu"
+    },
+    "3k_main_chenjun_capital": {
+      "name": "Chen, District",
+      "province": "3k_main_province_chenjun"
+    },
+    "3k_main_chenjun_resource_1": {
+      "name": "Chen, Livestock Farm",
+      "province": "3k_main_province_chenjun"
+    },
+    "3k_main_chenjun_resource_2": {
+      "name": "Chen, Farmland",
+      "province": "3k_main_province_chenjun"
+    },
+    "3k_main_chenjun_resource_3": {
+      "name": "Luoyang, Lumber Yard",
+      "province": "3k_main_province_luoyang"
+    },
+    "3k_main_daijun_capital": {
+      "name": "Dai, District",
+      "province": "3k_main_province_daijun"
+    },
+    "3k_main_daijun_resource_1": {
+      "name": "Dai, Horse Pastures",
+      "province": "3k_main_province_daijun"
+    },
+    "3k_main_donghai_capital": {
+      "name": "Donghai, District",
+      "province": "3k_main_province_donghai"
+    },
+    "3k_main_donghai_resource_1": {
+      "name": "Donghai, Fishing Port",
+      "province": "3k_main_province_donghai"
+    },
+    "3k_main_dongjun_capital": {
+      "name": "Dong, District",
+      "province": "3k_main_province_dongjun"
+    },
+    "3k_main_dongjun_resource_1": {
+      "name": "Dong, Iron Mine",
+      "province": "3k_main_province_dongjun"
+    },
+    "3k_main_donglai_capital": {
+      "name": "Donglai, District",
+      "province": "3k_main_province_donglai"
+    },
+    "3k_main_donglai_resource_1": {
+      "name": "Donglai, Farmland",
+      "province": "3k_main_province_donglai"
+    },
+    "3k_main_dongou_capital": {
+      "name": "Dongou, District",
+      "province": "3k_main_province_dongou"
+    },
+    "3k_main_dongou_resource_1": {
+      "name": "Dongou, Salt Mine",
+      "province": "3k_main_province_dongou"
+    },
+    "3k_main_fuling_capital": {
+      "name": "Fuling, District",
+      "province": "3k_main_province_fuling"
+    },
+    "3k_main_fuling_resource_1": {
+      "name": "Fuling, Rice Paddy",
+      "province": "3k_main_province_fuling"
+    },
+    "3k_main_gaoliang_capital": {
+      "name": "Gaoliang, District",
+      "province": "3k_main_province_gaoliang"
+    },
+    "3k_main_gaoliang_resource_1": {
+      "name": "Gaoliang, Salt Mine",
+      "province": "3k_main_province_gaoliang"
+    },
+    "3k_main_guangling_capital": {
+      "name": "Guangling, District",
+      "province": "3k_main_province_guangling"
+    },
+    "3k_main_guangling_resource_1": {
+      "name": "Guangling, Farmland",
+      "province": "3k_main_province_guangling"
+    },
+    "3k_main_guangling_resource_2": {
+      "name": "Guangling, Trade Port",
+      "province": "3k_main_province_guangling"
+    },
+    "3k_main_hanzhong_capital": {
+      "name": "Hanzhong, District",
+      "province": "3k_main_province_hanzhong"
+    },
+    "3k_main_hanzhong_resource_1": {
+      "name": "Hanzhong, Silk Trader",
+      "province": "3k_main_province_hanzhong"
+    },
+    "3k_main_hedong_capital": {
+      "name": "Hedong, District",
+      "province": "3k_main_province_hedong"
+    },
+    "3k_main_hedong_resource_1": {
+      "name": "Hedong, Copper Mine",
+      "province": "3k_main_province_hedong"
+    },
+    "3k_main_henei_capital": {
+      "name": "Henei, District",
+      "province": "3k_main_province_henei"
+    },
+    "3k_main_henei_resource_1": {
+      "name": "Henei, Farmland",
+      "province": "3k_main_province_henei"
+    },
+    "3k_main_hepu_capital": {
+      "name": "Hepu, District",
+      "province": "3k_main_province_hepu"
+    },
+    "3k_main_hepu_resource_1": {
+      "name": "Hepu, Fishing Port",
+      "province": "3k_main_province_hepu"
+    },
+    "3k_main_hepu_resource_2": {
+      "name": "Hepu, Lumber Yard",
+      "province": "3k_main_province_hepu"
+    },
+    "3k_main_jianan_capital": {
+      "name": "Jian'an, District",
+      "province": "3k_main_province_jianan"
+    },
+    "3k_main_jianan_resource_1": {
+      "name": "Jian'an, Rice Paddy",
+      "province": "3k_main_province_jianan"
+    },
+    "3k_main_jianan_resource_2": {
+      "name": "Jian'an, Lumber Yard",
+      "province": "3k_main_province_jianan"
+    },
+    "3k_main_jiangxia_capital": {
+      "name": "Jiangxia, District",
+      "province": "3k_main_province_jiangxia"
+    },
+    "3k_main_jiangxia_resource_1": {
+      "name": "Jiangxia, Farmland",
+      "province": "3k_main_province_jiangxia"
+    },
+    "3k_main_jiangyang_capital": {
+      "name": "Jiangyang, District",
+      "province": "3k_main_province_jiangyang"
+    },
+    "3k_main_jiangyang_resource_1": {
+      "name": "Jiangyang, Farmland",
+      "province": "3k_main_province_jiangyang"
+    },
+    "3k_main_jiangyang_resource_2": {
+      "name": "Jiangyang, Lumber Yard",
+      "province": "3k_main_province_jiangyang"
+    },
+    "3k_main_jiangyang_resource_3": {
+      "name": "Jiangyang, Copper Mine",
+      "province": "3k_main_province_jiangyang"
+    },
+    "3k_main_jianning_capital": {
+      "name": "Yunnan, District",
+      "province": "3k_main_province_jianning"
+    },
+    "3k_main_jianning_resource_1": {
+      "name": "Yunnan, Iron Mine",
+      "province": "3k_main_province_jianning"
+    },
+    "3k_main_jianning_resource_2": {
+      "name": "Yunnan, Spice Trader",
+      "province": "3k_main_province_jianning"
+    },
+    "3k_main_jianye_capital": {
+      "name": "Jianye, District",
+      "province": "3k_main_province_jianye"
+    },
+    "3k_main_jianye_resource_1": {
+      "name": "Jianye, Salt Mine",
+      "province": "3k_main_province_jianye"
+    },
+    "3k_main_jianye_resource_2": {
+      "name": "Jianye, Copper Mine",
+      "province": "3k_main_province_jianye"
+    },
+    "3k_main_jiaozhi_capital": {
+      "name": "Jiaozhi, District",
+      "province": "3k_main_province_jiaozhi"
+    },
+    "3k_main_jiaozhi_resource_1": {
+      "name": "Jiaozhi, Rice Paddy",
+      "province": "3k_main_province_jiaozhi"
+    },
+    "3k_main_jiaozhi_resource_2": {
+      "name": "Jiaozhi, Spice Trader",
+      "province": "3k_main_province_jiaozhi"
+    },
+    "3k_main_jincheng_capital": {
+      "name": "Jincheng, District",
+      "province": "3k_main_province_jincheng"
+    },
+    "3k_main_jincheng_resource_1": {
+      "name": "Jincheng, Silk Trader",
+      "province": "3k_main_province_jincheng"
+    },
+    "3k_main_jincheng_resource_2": {
+      "name": "Jincheng, Horse Pastures",
+      "province": "3k_main_province_jincheng"
+    },
+    "3k_main_jingzhou_capital": {
+      "name": "Jiangling, District",
+      "province": "3k_main_province_jingzhou"
+    },
+    "3k_main_jingzhou_resource_1": {
+      "name": "Jiangling, Livestock Farm",
+      "province": "3k_main_province_jingzhou"
+    },
+    "3k_main_kuaiji_capital": {
+      "name": "Kuaiji, District",
+      "province": "3k_main_province_kuaiji"
+    },
+    "3k_main_kuaiji_resource_1": {
+      "name": "Kuaiji, Rice Paddy",
+      "province": "3k_main_province_kuaiji"
+    },
+    "3k_main_kuaiji_resource_2": {
+      "name": "Kuaiji, Livestock Farm",
+      "province": "3k_main_province_kuaiji"
+    },
+    "3k_main_langye_capital": {
+      "name": "Langye, District",
+      "province": "3k_main_province_langye"
+    },
+    "3k_main_langye_resource_1": {
+      "name": "Langye, Lumber Yard",
+      "province": "3k_main_province_langye"
+    },
+    "3k_main_langye_resource_2": {
+      "name": "Langye, Fishing Port",
+      "province": "3k_main_province_langye"
+    },
+    "3k_main_lingling_capital": {
+      "name": "Lingling, District",
+      "province": "3k_main_province_lingling"
+    },
+    "3k_main_lingling_resource_1": {
+      "name": "Lingling, Rice Paddy",
+      "province": "3k_main_province_lingling"
+    },
+    "3k_main_lingling_resource_2": {
+      "name": "Lingling, Lumber Yard",
+      "province": "3k_main_province_lingling"
+    },
+    "3k_main_lingling_resource_3": {
+      "name": "Lingling, Toolmaker",
+      "province": "3k_main_province_lingling"
+    },
+    "3k_main_lujiang_capital": {
+      "name": "Lujiang, District",
+      "province": "3k_main_province_lujiang"
+    },
+    "3k_main_lujiang_resource_1": {
+      "name": "Lujiang, Fishing Port",
+      "province": "3k_main_province_lujiang"
+    },
+    "3k_main_lujiang_resource_2": {
+      "name": "Lujiang, Lumber Yard",
+      "province": "3k_main_province_lujiang"
+    },
+    "3k_main_luling_capital": {
+      "name": "Luling, District",
+      "province": "3k_main_province_luling"
+    },
+    "3k_main_luling_resource_1": {
+      "name": "Luling, Lumber Yard",
+      "province": "3k_main_province_luling"
+    },
+    "3k_main_luoyang_capital": {
+      "name": "Luoyang, District",
+      "province": "3k_main_province_luoyang"
+    },
+    "3k_main_luoyang_resource_1": {
+      "name": "Luoyang, Trade Port",
+      "province": "3k_main_province_luoyang"
+    },
+    "3k_main_nanhai_capital": {
+      "name": "Nanhai, District",
+      "province": "3k_main_province_nanhai"
+    },
+    "3k_main_nanhai_resource_1": {
+      "name": "Nanhai, Rice Paddy",
+      "province": "3k_main_province_nanhai"
+    },
+    "3k_main_nanhai_resource_2": {
+      "name": "Nanhai, Livestock Farm",
+      "province": "3k_main_province_nanhai"
+    },
+    "3k_main_nanhai_resource_3": {
+      "name": "Nanhai, Trade Port",
+      "province": "3k_main_province_nanhai"
+    },
+    "3k_main_nanyang_capital": {
+      "name": "Nanyang, District",
+      "province": "3k_main_province_nanyang"
+    },
+    "3k_main_nanyang_resource_1": {
+      "name": "Nanyang, Jade Mine",
+      "province": "3k_main_province_nanyang"
+    },
+    "3k_main_penchang_capital": {
+      "name": "Pengcheng, District",
+      "province": "3k_main_province_penchang"
+    },
+    "3k_main_penchang_resource_1": {
+      "name": "Pengcheng, Temple",
+      "province": "3k_main_province_penchang"
+    },
+    "3k_main_penchang_resource_2": {
+      "name": "Pengcheng, Farmland",
+      "province": "3k_main_province_penchang"
+    },
+    "3k_main_pingyuan_capital": {
+      "name": "Pingyuan, District",
+      "province": "3k_main_province_pingyuan"
+    },
+    "3k_main_pingyuan_resource_1": {
+      "name": "Pingyuan, Salt Mine",
+      "province": "3k_main_province_pingyuan"
+    },
+    "3k_main_poyang_capital": {
+      "name": "Poyang, District",
+      "province": "3k_main_province_poyang"
+    },
+    "3k_main_poyang_resource_1": {
+      "name": "Poyang, Iron Mine",
+      "province": "3k_main_province_poyang"
+    },
+    "3k_main_poyang_resource_2": {
+      "name": "Poyang, Copper Mine",
+      "province": "3k_main_province_poyang"
+    },
+    "3k_main_poyang_resource_3": {
+      "name": "Poyang, Weapon Craftsmen",
+      "province": "3k_main_province_poyang"
+    },
+    "3k_main_runan_capital": {
+      "name": "Runan, District",
+      "province": "3k_main_province_runan"
+    },
+    "3k_main_runan_resource_1": {
+      "name": "Runan, Iron Mine",
+      "province": "3k_main_province_runan"
+    },
+    "3k_main_shangdang_capital": {
+      "name": "Shangdang, District",
+      "province": "3k_main_province_shangdang"
+    },
+    "3k_main_shangdang_resource_1": {
+      "name": "Shangdang, Farmland",
+      "province": "3k_main_province_shangdang"
+    },
+    "3k_main_shangyong_capital": {
+      "name": "Shangyong, District",
+      "province": "3k_main_province_shangyong"
+    },
+    "3k_main_shangyong_resource_1": {
+      "name": "Shangyong, Lumber Yard",
+      "province": "3k_main_province_shangyong"
+    },
+    "3k_main_shangyong_resource_2": {
+      "name": "Shangyong, Weapon Craftsmen",
+      "province": "3k_main_province_shangyong"
+    },
+    "3k_main_shoufang_capital": {
+      "name": "Shuofang, District",
+      "province": "3k_main_province_shoufang"
+    },
+    "3k_main_shoufang_resource_1": {
+      "name": "Shuofang, Horse Pastures",
+      "province": "3k_main_province_shoufang"
+    },
+    "3k_main_shoufang_resource_2": {
+      "name": "Shuofang, Animal Tamer",
+      "province": "3k_main_province_shoufang"
+    },
+    "3k_main_shoufang_resource_3": {
+      "name": "Shuofang, Salt Mine",
+      "province": "3k_main_province_shoufang"
+    },
+    "3k_main_taishan_capital": {
+      "name": "Taishan, District",
+      "province": "3k_main_province_taishan"
+    },
+    "3k_main_taishan_resource_1": {
+      "name": "Taishan, Trade Port",
+      "province": "3k_main_province_taishan"
+    },
+    "3k_main_taiyuan_capital": {
+      "name": "Taiyuan, District",
+      "province": "3k_main_province_taiyuan"
+    },
+    "3k_main_taiyuan_resource_1": {
+      "name": "Taiyuan, Iron Mine",
+      "province": "3k_main_province_taiyuan"
+    },
+    "3k_main_taiyuan_resource_2": {
+      "name": "Taiyuan, Toolmaker",
+      "province": "3k_main_province_taiyuan"
+    },
+    "3k_main_tongan_capital": {
+      "name": "Tong'an, District",
+      "province": "3k_main_province_tongan"
+    },
+    "3k_main_tongan_resource_1": {
+      "name": "Tong'an, Toolmaker",
+      "province": "3k_main_province_tongan"
+    },
+    "3k_main_weijun_capital": {
+      "name": "Ye, District",
+      "province": "3k_main_province_weijun"
+    },
+    "3k_main_weijun_resource_1": {
+      "name": "Ye, Farmland",
+      "province": "3k_main_province_weijun"
+    },
+    "3k_main_wudu_capital": {
+      "name": "Wudu, District",
+      "province": "3k_main_province_wudu"
+    },
+    "3k_main_wudu_resource_1": {
+      "name": "Wudu, Silk Trader",
+      "province": "3k_main_province_wudu"
+    },
+    "3k_main_wudu_resource_2": {
+      "name": "Wudu, Copper Mine",
+      "province": "3k_main_province_wudu"
+    },
+    "3k_main_wuling_capital": {
+      "name": "Wuling, District",
+      "province": "3k_main_province_wuling"
+    },
+    "3k_main_wuling_resource_1": {
+      "name": "Wuling, Rice Paddy",
+      "province": "3k_main_province_wuling"
+    },
+    "3k_main_wuling_resource_2": {
+      "name": "Wuling, Livestock Farm",
+      "province": "3k_main_province_wuling"
+    },
+    "3k_main_wuling_resource_3": {
+      "name": "Wuling, Toolmaker",
+      "province": "3k_main_province_wuling"
+    },
+    "3k_main_wuwei_capital": {
+      "name": "Wuwei, District",
+      "province": "3k_main_province_wuwei"
+    },
+    "3k_main_wuwei_resource_1": {
+      "name": "Wuwei, Horse Pastures",
+      "province": "3k_main_province_wuwei"
+    },
+    "3k_main_wuwei_resource_2": {
+      "name": "Wuwei, Farmland",
+      "province": "3k_main_province_wuwei"
+    },
+    "3k_main_xiangyang_capital": {
+      "name": "Xiangyang, District",
+      "province": "3k_main_province_xiangyang"
+    },
+    "3k_main_xiangyang_resource_1": {
+      "name": "Xiangyang, Toolmaker",
+      "province": "3k_main_province_xiangyang"
+    },
+    "3k_main_xihe_capital": {
+      "name": "Xihe, District",
+      "province": "3k_main_province_xihe"
+    },
+    "3k_main_xihe_resource_1": {
+      "name": "Xihe, Fishing Port",
+      "province": "3k_main_province_xihe"
+    },
+    "3k_main_xindu_capital": {
+      "name": "Xindu, District",
+      "province": "3k_main_province_xindu"
+    },
+    "3k_main_xindu_resource_1": {
+      "name": "Xindu, Lumber Yard",
+      "province": "3k_main_province_xindu"
+    },
+    "3k_main_xindu_resource_2": {
+      "name": "Xindu, Fishing Port",
+      "province": "3k_main_province_xindu"
+    },
+    "3k_main_yangzhou_capital": {
+      "name": "Yangzhou, District",
+      "province": "3k_main_province_yangzhou"
+    },
+    "3k_main_yangzhou_resource_1": {
+      "name": "Yangzhou, Livestock Farm",
+      "province": "3k_main_province_yangzhou"
+    },
+    "3k_main_yangzhou_resource_2": {
+      "name": "Yangzhou, Farmland",
+      "province": "3k_main_province_yangzhou"
+    },
+    "3k_main_yangzhou_resource_3": {
+      "name": "Yangzhou, Toolmaker",
+      "province": "3k_main_province_yangzhou"
+    },
+    "3k_main_yanmen_capital": {
+      "name": "Yanmen, District",
+      "province": "3k_main_province_yanmen"
+    },
+    "3k_main_yanmen_resource_1": {
+      "name": "Yanmen, Lumber Yard",
+      "province": "3k_main_province_yanmen"
+    },
+    "3k_main_ye_capital": {
+      "name": "Houguan, District",
+      "province": "3k_main_province_ye"
+    },
+    "3k_main_ye_resource_1": {
+      "name": "Houguan, Livestock Farm",
+      "province": "3k_main_province_ye"
+    },
+    "3k_main_yingchuan_capital": {
+      "name": "Yingchuan, District",
+      "province": "3k_main_province_yingchuan"
+    },
+    "3k_main_yingchuan_resource_1": {
+      "name": "Yingchuan, Farmland",
+      "province": "3k_main_province_yingchuan"
+    },
+    "3k_main_yizhou_capital": {
+      "name": "Yizhou, District",
+      "province": "3k_main_province_yizhou"
+    },
+    "3k_main_yizhou_island_capital": {
+      "name": "Yizhou Island, District",
+      "province": "3k_main_province_yizhou_island"
+    },
+    "3k_main_yizhou_island_resource_1": {
+      "name": "Yizhou Island, Fishing Port",
+      "province": "3k_main_province_yizhou_island"
+    },
+    "3k_main_yizhou_resource_1": {
+      "name": "Yizhou, Lumber Yard",
+      "province": "3k_main_province_yizhou"
+    },
+    "3k_main_yizhou_resource_2": {
+      "name": "Yizhou, Teahouse",
+      "province": "3k_main_province_yizhou"
+    },
+    "3k_main_youbeiping_capital": {
+      "name": "Youbeiping, District",
+      "province": "3k_main_province_youbeiping"
+    },
+    "3k_main_youbeiping_resource_1": {
+      "name": "Youbeiping, Trade Port",
+      "province": "3k_main_province_youbeiping"
+    },
+    "3k_main_youzhou_capital": {
+      "name": "Youzhou, District",
+      "province": "3k_main_province_youzhou"
+    },
+    "3k_main_youzhou_resource_1": {
+      "name": "Youzhou, Iron Mine",
+      "province": "3k_main_province_youzhou"
+    },
+    "3k_main_yu_capital": {
+      "name": "Liaoxi, District",
+      "province": "3k_main_province_yu"
+    },
+    "3k_main_yu_resource_1": {
+      "name": "Liaoxi, Toolmaker",
+      "province": "3k_main_province_yu"
+    },
+    "3k_main_yulin_capital": {
+      "name": "Yulin, District",
+      "province": "3k_main_province_yulin"
+    },
+    "3k_main_yulin_resource_1": {
+      "name": "Yulin, Trade Port",
+      "province": "3k_main_province_yulin"
+    },
+    "3k_main_yulin_resource_2": {
+      "name": "Yulin, Spice Trader",
+      "province": "3k_main_province_yulin"
+    },
+    "3k_main_yuzhang_capital": {
+      "name": "Yuzhang, District",
+      "province": "3k_main_province_yuzhang"
+    },
+    "3k_main_yuzhang_resource_1": {
+      "name": "Yuzhang, Rice Paddy",
+      "province": "3k_main_province_yuzhang"
+    },
+    "3k_main_yuzhang_resource_2": {
+      "name": "Yuzhang, Livestock Farm",
+      "province": "3k_main_province_yuzhang"
+    },
+    "3k_main_yuzhang_resource_3": {
+      "name": "Yuzhang, Copper Mine",
+      "province": "3k_main_province_yuzhang"
+    },
+    "3k_main_zangke_capital": {
+      "name": "Zangke, District",
+      "province": "3k_main_province_zangke"
+    },
+    "3k_main_zangke_resource_1": {
+      "name": "Zangke, Teahouse",
+      "province": "3k_main_province_zangke"
+    },
+    "3k_main_zangke_resource_2": {
+      "name": "Zangke, Trade Port",
+      "province": "3k_main_province_zangke"
+    },
+    "3k_main_zhongshan_capital": {
+      "name": "Zhongshan, District",
+      "province": "3k_main_province_zhongshan"
+    },
+    "3k_main_zhongshan_resource_1": {
+      "name": "Zhongshan, Livestock Farm",
+      "province": "3k_main_province_zhongshan"
+    }
+  },
+  "region_borders": [
+    [
+      "3k_main_anding_resource_1",
+      "3k_main_hedong_capital"
+    ],
+    [
+      "3k_main_anding_resource_1",
+      "3k_main_xihe_resource_1"
+    ],
+    [
+      "3k_main_anding_resource_3",
+      "3k_main_wuwei_resource_2"
+    ],
+    [
+      "3k_main_badong_capital",
+      "3k_main_jingzhou_capital"
+    ],
+    [
+      "3k_main_badong_capital",
+      "3k_main_xiangyang_resource_1"
+    ],
+    [
+      "3k_main_badong_resource_1",
+      "3k_main_bajun_capital"
+    ],
+    [
+      "3k_main_badong_resource_1",
+      "3k_main_bajun_resource_1"
+    ],
+    [
+      "3k_main_badong_resource_1",
+      "3k_main_shangyong_resource_2"
+    ],
+    [
+      "3k_main_badong_resource_1",
+      "3k_main_xiangyang_resource_1"
+    ],
+    [
+      "3k_main_badong_resource_2",
+      "3k_main_jingzhou_capital"
+    ],
+    [
+      "3k_main_bajun_capital",
+      "3k_main_fuling_capital"
+    ],
+    [
+      "3k_main_cangwu_capital",
+      "3k_main_gaoliang_resource_1"
+    ],
+    [
+      "3k_main_cangwu_capital",
+      "3k_main_yulin_capital"
+    ],
+    [
+      "3k_main_cangwu_resource_2",
+      "3k_main_yulin_capital"
+    ],
+    [
+      "3k_main_cangwu_resource_2",
+      "3k_main_yulin_resource_1"
+    ],
+    [
+      "3k_main_cangwu_resource_2",
+      "3k_main_yulin_resource_2"
+    ],
+    [
+      "3k_main_cangwu_resource_3",
+      "3k_main_yulin_resource_2"
+    ],
+    [
+      "3k_main_cangwu_resource_3",
+      "3k_main_zangke_resource_2"
+    ],
+    [
+      "3k_main_changan_capital",
+      "3k_main_hedong_capital"
+    ],
+    [
+      "3k_main_changsha_capital",
+      "3k_main_jingzhou_capital"
+    ],
+    [
+      "3k_main_changsha_resource_1",
+      "3k_main_jiangxia_capital"
+    ],
+    [
+      "3k_main_changsha_resource_1",
+      "3k_main_jingzhou_capital"
+    ],
+    [
+      "3k_main_changsha_resource_1",
+      "3k_main_jingzhou_resource_1"
+    ],
+    [
+      "3k_main_changsha_resource_1",
+      "3k_main_lujiang_resource_1"
+    ],
+    [
+      "3k_main_dongjun_capital",
+      "3k_main_henei_capital"
+    ],
+    [
+      "3k_main_dongjun_capital",
+      "3k_main_henei_resource_1"
+    ],
+    [
+      "3k_main_dongjun_capital",
+      "3k_main_pingyuan_capital"
+    ],
+    [
+      "3k_main_fuling_capital",
+      "3k_main_jiangyang_capital"
+    ],
+    [
+      "3k_main_gaoliang_capital",
+      "3k_main_nanhai_capital"
+    ],
+    [
+      "3k_main_gaoliang_resource_1",
+      "3k_main_nanhai_capital"
+    ],
+    [
+      "3k_main_guangling_resource_1",
+      "3k_main_jianye_capital"
+    ],
+    [
+      "3k_main_guangling_resource_2",
+      "3k_main_jianye_capital"
+    ],
+    [
+      "3k_main_guangling_resource_2",
+      "3k_main_jianye_resource_1"
+    ],
+    [
+      "3k_main_hedong_capital",
+      "3k_main_luoyang_capital"
+    ],
+    [
+      "3k_main_hedong_capital",
+      "3k_main_luoyang_resource_1"
+    ],
+    [
+      "3k_main_hedong_resource_1",
+      "3k_main_luoyang_resource_1"
+    ],
+    [
+      "3k_main_henei_capital",
+      "3k_main_luoyang_capital"
+    ],
+    [
+      "3k_main_henei_capital",
+      "3k_main_yingchuan_resource_1"
+    ],
+    [
+      "3k_main_jianye_capital",
+      "3k_main_yangzhou_resource_3"
+    ],
+    [
+      "3k_main_jianye_resource_2",
+      "3k_main_yangzhou_resource_3"
+    ],
+    [
+      "3k_main_jincheng_resource_1",
+      "3k_main_wuwei_capital"
+    ],
+    [
+      "3k_main_jincheng_resource_1",
+      "3k_main_wuwei_resource_1"
+    ],
+    [
+      "3k_main_jincheng_resource_1",
+      "3k_main_wuwei_resource_2"
+    ],
+    [
+      "3k_main_lujiang_capital",
+      "3k_main_xindu_resource_2"
+    ],
+    [
+      "3k_main_lujiang_resource_1",
+      "3k_main_poyang_resource_1"
+    ],
+    [
+      "3k_main_lujiang_resource_2",
+      "3k_main_poyang_capital"
+    ],
+    [
+      "3k_main_lujiang_resource_2",
+      "3k_main_poyang_resource_2"
+    ],
+    [
+      "3k_main_lujiang_resource_2",
+      "3k_main_xindu_resource_2"
+    ],
+    [
+      "3k_main_pingyuan_capital",
+      "3k_main_taishan_capital"
+    ],
+    [
+      "3k_main_pingyuan_capital",
+      "3k_main_taishan_resource_1"
+    ],
+    [
+      "3k_main_pingyuan_resource_1",
+      "3k_main_taishan_resource_1"
+    ],
+    [
+      "3k_main_shoufang_capital",
+      "3k_main_xihe_capital"
+    ],
+    [
+      "3k_main_shoufang_resource_1",
+      "3k_main_xihe_capital"
+    ],
+    [
+      "3k_main_shoufang_resource_2",
+      "3k_main_wuwei_resource_2"
+    ],
+    [
+      "3k_main_xindu_resource_2",
+      "3k_main_yangzhou_resource_3"
+    ]
+  ],
+  "province_borders": [
+    [
+      "3k_main_province_anding",
+      "3k_main_province_hedong"
+    ],
+    [
+      "3k_main_province_anding",
+      "3k_main_province_wuwei"
+    ],
+    [
+      "3k_main_province_anding",
+      "3k_main_province_xihe"
+    ],
+    [
+      "3k_main_province_badong",
+      "3k_main_province_bajun"
+    ],
+    [
+      "3k_main_province_badong",
+      "3k_main_province_jingzhou"
+    ],
+    [
+      "3k_main_province_badong",
+      "3k_main_province_shangyong"
+    ],
+    [
+      "3k_main_province_badong",
+      "3k_main_province_xiangyang"
+    ],
+    [
+      "3k_main_province_bajun",
+      "3k_main_province_fuling"
+    ],
+    [
+      "3k_main_province_cangwu",
+      "3k_main_province_gaoliang"
+    ],
+    [
+      "3k_main_province_cangwu",
+      "3k_main_province_yulin"
+    ],
+    [
+      "3k_main_province_cangwu",
+      "3k_main_province_zangke"
+    ],
+    [
+      "3k_main_province_changan",
+      "3k_main_province_hedong"
+    ],
+    [
+      "3k_main_province_changsha",
+      "3k_main_province_jiangxia"
+    ],
+    [
+      "3k_main_province_changsha",
+      "3k_main_province_jingzhou"
+    ],
+    [
+      "3k_main_province_changsha",
+      "3k_main_province_lujiang"
+    ],
+    [
+      "3k_main_province_dongjun",
+      "3k_main_province_henei"
+    ],
+    [
+      "3k_main_province_dongjun",
+      "3k_main_province_pingyuan"
+    ],
+    [
+      "3k_main_province_fuling",
+      "3k_main_province_jiangyang"
+    ],
+    [
+      "3k_main_province_gaoliang",
+      "3k_main_province_nanhai"
+    ],
+    [
+      "3k_main_province_guangling",
+      "3k_main_province_jianye"
+    ],
+    [
+      "3k_main_province_hedong",
+      "3k_main_province_luoyang"
+    ],
+    [
+      "3k_main_province_henei",
+      "3k_main_province_luoyang"
+    ],
+    [
+      "3k_main_province_henei",
+      "3k_main_province_yingchuan"
+    ],
+    [
+      "3k_main_province_jianye",
+      "3k_main_province_yangzhou"
+    ],
+    [
+      "3k_main_province_jincheng",
+      "3k_main_province_wuwei"
+    ],
+    [
+      "3k_main_province_lujiang",
+      "3k_main_province_poyang"
+    ],
+    [
+      "3k_main_province_lujiang",
+      "3k_main_province_xindu"
+    ],
+    [
+      "3k_main_province_pingyuan",
+      "3k_main_province_taishan"
+    ],
+    [
+      "3k_main_province_shoufang",
+      "3k_main_province_wuwei"
+    ],
+    [
+      "3k_main_province_shoufang",
+      "3k_main_province_xihe"
+    ],
+    [
+      "3k_main_province_xindu",
+      "3k_main_province_yangzhou"
+    ]
+  ],
+  "coverage": {
+    "complete": false,
+    "region_count": 187,
+    "province_count": 70,
+    "region_border_count": 55,
+    "province_border_count": 31,
+    "limitation": "Only additional adjacency rules are present in this DB export. Base campaign map contacts are unavailable; absent edges are unknown."
+  },
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_region_additional_adjacency_rules.xml",
+      "sha256": "5fd6765e57aae741ab8b3bb4ee15e6de346110dee8fc8039cd174daf7ae49ed0",
+      "bytes": 19717
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/pooled_resources.xml",
+      "sha256": "b6f1cc835893339ea2a8f21b570137360c82203a5d7054a0db63a3c5bf8211d7",
+      "bytes": 37942
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/provinces.xml",
+      "sha256": "0149526879bdb8c2b3234c560fad88eda4198649048ab22b426bdd591a1bd4cc",
+      "bytes": 19986
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/region_to_province_junctions.xml",
+      "sha256": "a6c19720d6d165ee7cb3891b5e7da1b7caf6b0f671e8c5471c95fa4cb42f999b",
+      "bytes": 61485
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/regions.xml",
+      "sha256": "0ebfc0a9e2e870e89a6c407b87542912843b5ae9d63829e63248f1a8e26d034e",
+      "bytes": 167523
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/slot_template_to_building_superchain_junctions.xml",
+      "sha256": "f1c2317fb9dee2e6d9d4dc16e11c754f4f4b680be27d22f89eabb3d19e6370db",
+      "bytes": 32006
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/start_pos_region_pooled_resources.xml",
+      "sha256": "11e2f9056c558e46e40f4b56b1cf4d32ef685ce64015480d3577996f93609db8",
+      "bytes": 123570
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/start_pos_region_slot_templates.xml",
+      "sha256": "f26affb2dd7291ce2bd603b38246483bada0f8d4decbde4cb33190c9d05600bb",
+      "bytes": 253810
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/start_pos_regions.xml",
+      "sha256": "60d9d508d6b389b46653f2eaf2a76efd63740bfceb71d063ca4e8c05fea31c58",
+      "bytes": 421437
+    }
+  ]
+}

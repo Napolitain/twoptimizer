@@ -110,7 +110,7 @@ def test_keyboard_mouse_game_changes_run_layout_and_export(tmp_path):
             await pilot.pause()
             assert app.query_one("#game", Select).value == "attila"
             assert app.query_one("#attila-options").display
-            app.query_one("#game", Select).value = "three_kingdoms"
+            app.query_one("#game", Select).value = "hoi4"
             await pilot.pause()
             assert app.query_one("#run", Button).disabled
             app.query_one("#game", Select).value = "shogun2"
@@ -228,7 +228,7 @@ def test_cancelling_batch_preserves_completed_cases():
     asyncio.run(exercise())
 
 
-@pytest.mark.parametrize("game", ["rome2", "shogun2", "attila"])
+@pytest.mark.parametrize("game", ["rome2", "shogun2", "attila", "three_kingdoms"])
 def test_real_engine_worker(game):
     options = choices(game)
     config = RunConfig(
@@ -351,7 +351,7 @@ def test_each_game_offers_highs_and_defaults_to_cp_sat():
     async def exercise():
         app = OptimizerApp(runner_factory=QuickRunner)
         async with app.run_test(size=(110, 40)) as pilot:
-            for game in ("rome2", "attila", "shogun2"):
+            for game in ("rome2", "attila", "shogun2", "three_kingdoms"):
                 app.query_one("#game", Select).value = game
                 await pilot.pause()
                 selector = app.query_one("#algorithm", Select)

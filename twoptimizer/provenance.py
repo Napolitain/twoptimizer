@@ -7,7 +7,13 @@ from twoptimizer.catalog import ROOT
 
 
 def source_files(game):
-    if game == "rome2":
+    if game == "three_kingdoms":
+        paths = [
+            *sorted((ROOT / "three_kingdoms").glob("*.py")),
+            *sorted((ROOT / "three_kingdoms/data").glob("*.json")),
+            ROOT / "resources.py",
+        ]
+    elif game == "rome2":
         paths = [
             ROOT / "rome2" / name
             for name in (
@@ -131,6 +137,8 @@ def source_files(game):
     ]
     if game == "rome2":
         application_paths.append(application / "adapters" / "rome_models.py")
+    if game == "three_kingdoms":
+        application_paths.append(application / "three_kingdoms_options.py")
     if game in {"attila", "rome2"}:
         application_paths.append(
             application / ("attila_session.py" if game == "attila" else "rome_session.py")

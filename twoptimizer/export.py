@@ -55,6 +55,7 @@ def export_session(
             "A report already exists. Choose another filename or enable replacement."
         )
     include_objectives = any(row.get("objectives") for row in results)
+    include_three_kingdoms = any(row["request"]["game"] == "three_kingdoms" for row in results)
     payload = {
         "schema_version": 1,
         "created_at": datetime.now().astimezone().isoformat(),
@@ -113,6 +114,8 @@ def export_session(
         fields += COMPARISON_FIELDS
     if include_objectives:
         fields += OBJECTIVE_FIELDS
+    if include_three_kingdoms:
+        fields += ("three_kingdoms",)
     with csv_path.open("w", newline="") as stream:
         writer = csv.DictWriter(stream, fieldnames=fields)
         writer.writeheader()
@@ -157,6 +160,11 @@ def export_session(
                     "constraints": json.dumps(row["request"].get("constraints", {})),
                     **(comparison_csv(row.get("raw", {})) if include_comparison else {}),
                     **(_objective_csv(row) if include_objectives else {}),
+                    **(
+                        {"three_kingdoms": json.dumps(row["request"].get("three_kingdoms", {}))}
+                        if include_three_kingdoms
+                        else {}
+                    ),
                 }
             )
     return path, csv_path

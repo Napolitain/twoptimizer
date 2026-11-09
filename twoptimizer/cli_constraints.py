@@ -1,4 +1,4 @@
-"""Optional scenario constraints shared by the three command-line interfaces."""
+"""Optional scenario constraints shared by the Total War command-line interfaces."""
 
 import argparse
 import json

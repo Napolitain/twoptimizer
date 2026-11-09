@@ -1,0 +1,626 @@
+{
+  "ruleset": "Historical vanilla 1.2.0 public Assembly Kit reference (190 CE)",
+  "source_revision": "31020c8a75f8a08f83abe5410680a309d58475f1",
+  "campaign": "3k_main_campaign_map",
+  "historical_static_reference_available": true,
+  "latest_game_complete": false,
+  "installed_build_validated": false,
+  "buildings": 424,
+  "factions": 15,
+  "reforms": 143,
+  "commanderies": 70,
+  "regions": 187,
+  "resolved_faction_building_pairs": 3690,
+  "building_coverage": {
+    "source_building_levels": 439,
+    "imported_buildings": 424,
+    "excluded_buildings": [
+      "3k_minor_port_placeholder",
+      "3k_resource_earth_temple_taoist_1",
+      "3k_ytr_district_market_trade_security_yellow_turban_4",
+      "3k_ytr_district_market_trade_security_yellow_turban_5",
+      "ep_district_government_inspectors_office_1",
+      "ep_district_government_inspectors_office_2",
+      "ep_district_government_inspectors_office_3",
+      "ep_district_government_inspectors_office_4",
+      "ep_district_government_inspectors_office_5",
+      "ep_district_government_judiciary_1",
+      "ep_district_government_judiciary_2",
+      "ep_district_government_judiciary_3",
+      "ep_district_government_judiciary_4",
+      "ep_district_government_judiciary_5",
+      "ep_district_government_judiciary_5_seals"
+    ],
+    "building_scope": "190 CE base game and Yellow Turban buildings; Eight Princes excluded",
+    "undated_honga_catalog_buildings": 583,
+    "honga_comparison": "Separate later/undated reference; numeric values are not mixed",
+    "faction_scope": "Faction building eligibility and original ruler bundle facts are imported. Dynamic faction resources, diplomacy/trade, court assignments, characters, rank bonuses and scripted conditions are outside the static reference model."
+  },
+  "honga_details_sha256": "d6a5e1343bbc67d383ae14a1b440f0b953ad628fb7b29b99d903758c3bc8799f",
+  "formerly_unpublished_building_effects_recovered": [
+    "3k_city_1",
+    "3k_city_2",
+    "3k_city_3",
+    "3k_city_4",
+    "3k_city_5",
+    "3k_city_6",
+    "3k_city_7",
+    "3k_city_8",
+    "3k_district_artisan_minting_3",
+    "3k_district_artisan_minting_4",
+    "3k_district_artisan_minting_5",
+    "3k_district_military_conscription_1",
+    "3k_district_military_conscription_2",
+    "3k_district_military_conscription_3",
+    "3k_district_military_equipment_1",
+    "3k_district_military_equipment_2",
+    "3k_district_military_equipment_armour_3",
+    "3k_district_military_equipment_ranged_3",
+    "3k_district_military_equipment_weapons_3",
+    "3k_district_military_security_capital_4",
+    "3k_resource_earth_temple_1",
+    "3k_resource_fire_iron_1",
+    "3k_resource_fire_iron_2",
+    "3k_resource_fire_iron_3",
+    "3k_resource_fire_iron_artisans_4",
+    "3k_resource_fire_iron_artisans_5",
+    "3k_resource_fire_iron_military_4",
+    "3k_resource_fire_iron_military_5",
+    "3k_resource_fire_northern_horses_1",
+    "3k_resource_fire_northern_horses_2",
+    "3k_resource_fire_northern_horses_3",
+    "3k_resource_fire_northern_horses_4",
+    "3k_resource_fire_northern_horses_5",
+    "3k_resource_metal_copper_1",
+    "3k_resource_metal_copper_2",
+    "3k_resource_metal_copper_3",
+    "3k_resource_metal_copper_4",
+    "3k_resource_metal_copper_5",
+    "3k_resource_metal_copper_minting_5",
+    "3k_resource_metal_craftsmen_animal_1",
+    "3k_resource_metal_craftsmen_animal_2",
+    "3k_resource_metal_craftsmen_animal_3",
+    "3k_resource_metal_craftsmen_armour_1",
+    "3k_resource_metal_craftsmen_armour_2",
+    "3k_resource_metal_craftsmen_armour_3",
+    "3k_resource_metal_craftsmen_weapon_1",
+    "3k_resource_metal_craftsmen_weapon_2",
+    "3k_resource_metal_craftsmen_weapon_3",
+    "3k_resource_metal_jade_1",
+    "3k_resource_metal_jade_2",
+    "3k_resource_metal_jade_3",
+    "3k_resource_metal_jade_4",
+    "3k_resource_metal_jade_5",
+    "3k_resource_metal_jade_trade_4",
+    "3k_resource_metal_jade_trade_5",
+    "3k_resource_metal_tools_1",
+    "3k_resource_metal_tools_2",
+    "3k_resource_metal_tools_3",
+    "3k_resource_metal_tools_artisan_4",
+    "3k_resource_metal_tools_artisan_5",
+    "3k_resource_metal_tools_industry_4",
+    "3k_resource_metal_tools_industry_5",
+    "3k_resource_water_salt_1",
+    "3k_resource_water_salt_2",
+    "3k_resource_water_salt_3",
+    "3k_resource_water_salt_4",
+    "3k_resource_water_salt_5",
+    "3k_resource_water_silk_1",
+    "3k_resource_water_silk_2",
+    "3k_resource_water_silk_3",
+    "3k_resource_water_silk_4",
+    "3k_resource_water_silk_5",
+    "3k_resource_water_spice_1",
+    "3k_resource_water_spice_2",
+    "3k_resource_water_spice_3",
+    "3k_resource_water_spice_4",
+    "3k_resource_water_spice_5",
+    "3k_resource_water_trading_port_1",
+    "3k_resource_water_trading_port_2",
+    "3k_resource_water_trading_port_3",
+    "3k_resource_water_trading_port_4",
+    "3k_resource_water_trading_port_5",
+    "3k_resource_water_trading_port_industry_5",
+    "3k_resource_water_trading_port_spice_5",
+    "3k_resource_wood_farms_grain_1",
+    "3k_resource_wood_farms_grain_2",
+    "3k_resource_wood_farms_grain_3",
+    "3k_resource_wood_farms_grain_4",
+    "3k_resource_wood_farms_grain_5",
+    "3k_resource_wood_farms_grain_agricultural_garrison_1",
+    "3k_resource_wood_farms_grain_agricultural_garrison_2",
+    "3k_resource_wood_farms_grain_agricultural_garrison_3",
+    "3k_resource_wood_farms_grain_agricultural_garrison_4",
+    "3k_resource_wood_farms_grain_agricultural_garrison_5",
+    "3k_resource_wood_farms_rice_1",
+    "3k_resource_wood_farms_rice_2",
+    "3k_resource_wood_farms_rice_3",
+    "3k_resource_wood_farms_rice_4",
+    "3k_resource_wood_farms_rice_5",
+    "3k_resource_wood_farms_rice_agricultural_garrison_1",
+    "3k_resource_wood_farms_rice_agricultural_garrison_2",
+    "3k_resource_wood_farms_rice_agricultural_garrison_3",
+    "3k_resource_wood_farms_rice_agricultural_garrison_4",
+    "3k_resource_wood_farms_rice_agricultural_garrison_5",
+    "3k_resource_wood_fish_1",
+    "3k_resource_wood_fish_2",
+    "3k_resource_wood_fish_3",
+    "3k_resource_wood_fish_4",
+    "3k_resource_wood_fish_5",
+    "3k_resource_wood_fish_shipyard_5",
+    "3k_resource_wood_livestock_1",
+    "3k_resource_wood_livestock_2",
+    "3k_resource_wood_livestock_3",
+    "3k_resource_wood_livestock_4",
+    "3k_resource_wood_livestock_5",
+    "3k_resource_wood_livestock_farmstead_5",
+    "3k_resource_wood_lumber_bamboo_1",
+    "3k_resource_wood_lumber_bamboo_2",
+    "3k_resource_wood_lumber_bamboo_3",
+    "3k_resource_wood_lumber_bamboo_4",
+    "3k_resource_wood_lumber_bamboo_5",
+    "3k_resource_wood_lumber_pine_1",
+    "3k_resource_wood_lumber_pine_2",
+    "3k_resource_wood_lumber_pine_3",
+    "3k_resource_wood_lumber_pine_4",
+    "3k_resource_wood_lumber_pine_5",
+    "3k_resource_wood_lumber_pine_composite_5",
+    "3k_resource_wood_tea_1",
+    "3k_resource_wood_tea_2",
+    "3k_resource_wood_tea_3",
+    "3k_resource_wood_tea_4",
+    "3k_resource_wood_tea_5",
+    "3k_resource_wood_tea_garden_4",
+    "3k_resource_wood_tea_garden_5",
+    "3k_ytr_district_military_security_yellow_turban_1",
+    "3k_ytr_district_military_security_yellow_turban_2",
+    "3k_ytr_district_military_security_yellow_turban_3",
+    "3k_ytr_district_military_security_yellow_turban_4",
+    "3k_ytr_district_military_security_yellow_turban_5"
+  ],
+  "formerly_unpublished_building_effects_absent_from_historical_snapshot": [
+    "3k_dlc06_city_0",
+    "3k_dlc06_city_1",
+    "3k_dlc06_city_2",
+    "3k_dlc06_city_3",
+    "3k_dlc06_city_4",
+    "3k_dlc06_city_5",
+    "3k_dlc06_city_6",
+    "3k_dlc06_city_7",
+    "3k_dlc06_city_8",
+    "3k_dlc06_city_9",
+    "3k_dlc06_gate_pass_1",
+    "3k_dlc06_gate_pass_2",
+    "3k_dlc06_gate_pass_3",
+    "3k_dlc06_gate_pass_4",
+    "3k_dlc06_gate_pass_5",
+    "3k_resource_earth_temple_bandit_0",
+    "3k_resource_fire_iron_bandit_0",
+    "3k_resource_fire_northern_horses_bandit_0",
+    "3k_resource_metal_copper_bandit_0",
+    "3k_resource_metal_craftsmen_animal_bandit_0",
+    "3k_resource_metal_craftsmen_armour_bandit_0",
+    "3k_resource_metal_craftsmen_weapon_bandit_0",
+    "3k_resource_metal_jade_bandit_0",
+    "3k_resource_metal_tools_bandit_0",
+    "3k_resource_water_salt_bandit_0",
+    "3k_resource_water_silk_bandit_0",
+    "3k_resource_water_spice_bandit_0",
+    "3k_resource_water_trading_port_bandit_0",
+    "3k_resource_wood_farms_grain_bandit_0",
+    "3k_resource_wood_farms_rice_bandit_0",
+    "3k_resource_wood_fish_bandit_0",
+    "3k_resource_wood_livestock_bandit_0",
+    "3k_resource_wood_lumber_bamboo_bandit_0",
+    "3k_resource_wood_lumber_pine_bandit_0",
+    "3k_resource_wood_tea_bandit_0"
+  ],
+  "normalized_variant_effect_counts": {
+    "corruption_percent": 14,
+    "food": 127,
+    "food_percent": 58,
+    "order": 191,
+    "population_capacity": 228,
+    "slots": 20,
+    "unmodeled": 1801,
+    "wealth": 294,
+    "wealth_percent": 716
+  },
+  "unmodeled_effect_ids_preserved_for_audit": [
+    "3k_dummy_effect_building_artisan_fealty_sun_jian",
+    "3k_dummy_effect_building_artisan_labour",
+    "3k_dummy_effect_building_artisan_private",
+    "3k_dummy_effect_building_artisan_state",
+    "3k_dummy_effect_building_government_administration_gongsun_zan",
+    "3k_dummy_effect_building_government_administration_yuan_shao",
+    "3k_dummy_effect_building_government_administration_yuan_shu",
+    "3k_dummy_effect_building_government_administration_zhang_yan",
+    "3k_dummy_effect_building_government_administration_zheng_jiang",
+    "3k_dummy_effect_building_government_palace",
+    "3k_dummy_effect_building_government_rural",
+    "3k_dummy_effect_building_government_rural_administration_liu_bei",
+    "3k_dummy_effect_building_government_temple",
+    "3k_dummy_effect_building_market_inn_liu_biao",
+    "3k_dummy_effect_building_market_school_kong_rong",
+    "3k_dummy_effect_building_markets_inn",
+    "3k_dummy_effect_building_markets_school",
+    "3k_dummy_effect_building_markets_trade",
+    "3k_dummy_effect_building_military_conscription",
+    "3k_dummy_effect_building_military_conscription_cao_cao",
+    "3k_dummy_effect_building_military_conscription_dong_zhuo",
+    "3k_dummy_effect_building_military_forges",
+    "3k_dummy_effect_building_military_security",
+    "3k_dummy_effect_building_military_security_ma_teng",
+    "3k_dummy_effect_building_palace_unique_construction",
+    "3k_dummy_effect_building_residential_bandit_lair",
+    "3k_dummy_effect_building_residential_government",
+    "3k_dummy_effect_building_residential_granary",
+    "3k_dummy_effect_building_residential_landlord",
+    "3k_main_dummy_effect_settlement_abandoned_city",
+    "3k_main_dummy_effect_settlement_abandoned_jetty",
+    "3k_main_dummy_effect_settlement_abandoned_resource",
+    "3k_main_effect_Force_military_supplies_hostile_infrastructure",
+    "3k_main_effect_bastion_artillery_count_hidden",
+    "3k_main_effect_campaign_progression_han_empire",
+    "3k_main_effect_captain_mercenary_cost_mod",
+    "3k_main_effect_characters_experience_bonus",
+    "3k_main_effect_characters_satisfaction_bonus_infrastructure",
+    "3k_main_effect_construction_cost_artisan_to_market",
+    "3k_main_effect_construction_cost_government_to_artisan",
+    "3k_main_effect_construction_cost_market_to_residential",
+    "3k_main_effect_construction_cost_military_to_government",
+    "3k_main_effect_construction_cost_residential_to_military",
+    "3k_main_effect_craftsmen_armour_basic",
+    "3k_main_effect_craftsmen_armour_elite",
+    "3k_main_effect_craftsmen_mount_advanced",
+    "3k_main_effect_craftsmen_mount_basic",
+    "3k_main_effect_craftsmen_mount_elite",
+    "3k_main_effect_craftsmen_weapon_advanced",
+    "3k_main_effect_craftsmen_weapon_basic",
+    "3k_main_effect_craftsmen_weapon_elite",
+    "3k_main_effect_diplomacy_han_empire_mod",
+    "3k_main_effect_diplomacy_modify_vassal_income",
+    "3k_main_effect_diplomacy_yellow_turban_mod",
+    "3k_main_effect_economy_trade_power",
+    "3k_main_effect_force_all_campaign_loot_income",
+    "3k_main_effect_force_all_campaign_post_battle_loot_income",
+    "3k_main_effect_force_all_campaign_recruitment_cost_all",
+    "3k_main_effect_force_army_campaign_ranks_new_recruits_cavalry",
+    "3k_main_effect_force_army_campaign_recruitment_cost_armour",
+    "3k_main_effect_force_army_campaign_recruitment_cost_cavalry",
+    "3k_main_effect_force_army_campaign_recruitment_cost_ranged",
+    "3k_main_effect_force_army_campaign_recruitment_cost_weapon",
+    "3k_main_effect_force_army_campaign_upkeep_cavalry",
+    "3k_main_effect_force_military_supplies_from_building",
+    "3k_main_effect_force_redeployment_cost",
+    "3k_main_effect_pooled_resource_legitimacy_buildings",
+    "3k_main_effect_progression_limit_army",
+    "3k_main_effect_progression_limit_governor",
+    "3k_main_effect_province_building_construction_cost_mod",
+    "3k_main_effect_province_building_construction_time_mod",
+    "3k_main_effect_province_mustering_speed",
+    "3k_main_effect_province_population_attraction_buildings",
+    "3k_main_effect_province_population_attraction_decrease_from_conscription",
+    "3k_main_effect_province_population_attraction_from_education",
+    "3k_main_effect_province_supply_stockpile_abs_capacity_increase",
+    "3k_main_effect_province_supply_stockpile_abs_increase_from_military_infrastructure",
+    "3k_main_effect_province_supply_stockpile_abs_increase_from_residential_infrastructure",
+    "3k_main_effect_replenishment_buildings",
+    "3k_main_effect_retinue_deployment_limit_per_turn",
+    "3k_main_effect_settlement_siege_allow_battering_rams",
+    "3k_main_effect_settlement_siege_allow_sapping",
+    "3k_main_effect_technology_research_points",
+    "3k_main_effect_textonly_tower_advanced",
+    "3k_main_effect_textonly_tower_basic",
+    "3k_main_effect_textonly_tower_elite",
+    "3k_main_effect_undercover_character_defence_against_action_network_cost_bonus",
+    "3k_main_effect_undercover_character_max_count_bonus",
+    "3k_main_effect_unit_rank_new_recruits",
+    "3k_main_effect_walls_15m",
+    "3k_main_effects_faction_lineage_buildings",
+    "3k_main_effects_province_mercenary_access",
+    "3k_main_skill_unit_experience",
+    "3k_ytr_effect_campaign_progression_yellow_turbans",
+    "ep_effect_faction_resource_reformation_buildings_negative",
+    "ep_effect_faction_resource_reformation_buildings_positive"
+  ],
+  "modeled_effects_with_unresolved_scope": [],
+  "limitations": [
+    "Historical game 1.2.0 data; later patches and DLC/start dates are not included.",
+    "Full land adjacency is missing; joint cross-border effects need an explicit map.",
+    "Population, city level, corruption, taxation and fertility use static inputs.",
+    "Original ruler career bonuses require that leader profile; successor traits differ.",
+    "Dynamic faction resources, diplomacy/trade, court assignments, character equipment, rank bonuses, construction schedules and scripted conditions are outside this model.",
+    "Normalized unmodeled effects remain preserved; their absence from income does not mean those effects do not exist in the game.",
+    "Yellow Turban permanent traits use explicit reviewed bundle mappings corroborated by a public guide; activation scripts are absent from the snapshot."
+  ],
+  "reference_files": [
+    {
+      "path": "games/tw/three_kingdoms/data/buildings_city_1.json",
+      "sha256": "7c62afa9e4fbddb23b152dac03ca04a4f5f468e57831d4b97c941f39427d037d",
+      "bytes": 35370
+    },
+    {
+      "path": "games/tw/three_kingdoms/data/buildings_district_1.json",
+      "sha256": "c46dc37c09f24321817adac2a11b8614b50a16da71fee493fd8cd8c72fd429e7",
+      "bytes": 284136
+    },
+    {
+      "path": "games/tw/three_kingdoms/data/buildings_district_2.json",
+      "sha256": "1c755a95a52091102a6f4122474e0c2ae90a8344f5dda4903479d795991d6139",
+      "bytes": 285723
+    },
+    {
+      "path": "games/tw/three_kingdoms/data/buildings_district_3.json",
+      "sha256": "e56fd568ba05c519ffb144532b5621bb6842230d7bd4670fe755d6b50e93d41f",
+      "bytes": 40671
+    },
+    {
+      "path": "games/tw/three_kingdoms/data/buildings_resource_1.json",
+      "sha256": "9f20120da829c1d2d71a6d9d84d4246c6ecd7ee9ee2d0798f688d5c5d943a553",
+      "bytes": 274531
+    },
+    {
+      "path": "games/tw/three_kingdoms/data/buildings_resource_2.json",
+      "sha256": "4c15299b70248cfc7fafb2171fe51c2fc621889d163c57746cc139d571676297",
+      "bytes": 40445
+    },
+    {
+      "path": "games/tw/three_kingdoms/data/campaign_map.json",
+      "sha256": "c5774c6161dd160917839d188fc5a1d6f8a20c480b4e6033b71f862bd70ad570",
+      "bytes": 32768
+    },
+    {
+      "path": "games/tw/three_kingdoms/data/geography.json",
+      "sha256": "831beca9fcf5b9a93f2a0b045028621ba8a432351d6268baf65f281ecd29c000",
+      "bytes": 476065
+    },
+    {
+      "path": "games/tw/three_kingdoms/data/reference.json",
+      "sha256": "6f3451c754c3165319e69850505290eac0a8da710cc541e248e93997ce484a50",
+      "bytes": 227258
+    },
+    {
+      "path": "games/tw/three_kingdoms/data/rules.json",
+      "sha256": "8fd373993594cbf8960376c54e69a01d9681d0ef7aeb820ab28e59b665e1c6c3",
+      "bytes": 62320
+    }
+  ],
+  "source_files": [
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/building_chain_availabilities.xml",
+      "sha256": "ee408ac3a217b2826b4d73d1657a9725fade5407fe6747ecce3b7cb9fe78d6bd",
+      "bytes": 74067
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/building_chain_availability_sets.xml",
+      "sha256": "51e257ee4f43cc6d23379a366ad92d1dd4f8d42dd7f43b1f05588f53bf7614b9",
+      "bytes": 104873
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/building_chains.xml",
+      "sha256": "da9d3c038c046ade0358983b09ec9467bdff02f473901469389fb6094ff5013b",
+      "bytes": 105081
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/building_culture_variants.xml",
+      "sha256": "1a27b7ee1586b7ef7332971d681eb0cd2cabf0b128d76a0c9f32eff24d46b47a",
+      "bytes": 360883
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/building_effects_junction.xml",
+      "sha256": "ccb0006870d5c7e9dc75ada86d0ecf5e84e884757bd9b6c3dbf3d51c84598753",
+      "bytes": 2038230
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/building_level_required_technology_junctions.xml",
+      "sha256": "699f5533dcd99267b9102332c079736cd2c72b7d5497d23138c39f200bc31188",
+      "bytes": 121203
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/building_levels.xml",
+      "sha256": "7bb3b5673bb3d6f043d9fd4b508cad11089e1bc11988efbc19a603d801f3e856",
+      "bytes": 693645
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_group_member_criteria_building_levels.xml",
+      "sha256": "fe96d64125e8c835c1e32e9b4fa9bc8851f43466abe68d4aaa7e00a038454244",
+      "bytes": 685827
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_group_member_criteria_campaigns.xml",
+      "sha256": "d46320111f05b0b8d1aca4453f4182c2e9a6f0e919c2f9a6f424bb7c99abc8a7",
+      "bytes": 201341
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_group_member_criteria_factions.xml",
+      "sha256": "aac3d14ec74a00089dbf50e872a7c22455d43e9d56feec167f89b99adcc5592e",
+      "bytes": 1225833
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_group_member_criteria_numeric_ranges.xml",
+      "sha256": "552c4c1141b2af80b4fe6b26336fd58f194bf07c5a4693e2d5239c964299edc7",
+      "bytes": 315863
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_group_member_criteria_pooled_resource_scopes.xml",
+      "sha256": "5f4c9ab8bf2fc2d2e0525f022ff5b690dc01c99b50f9216d7cf1236a64362953",
+      "bytes": 118383
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_group_member_criteria_pooled_resources.xml",
+      "sha256": "b180fa55e7c9d9db8093cb92d690f6e9e768380f40e1736ba91aeb6351b1cd22",
+      "bytes": 120180
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_group_member_criteria_subcultures.xml",
+      "sha256": "f92f1558166b62623ca06791a99d0c2566e51e79db20b1fcd385df208c715e1b",
+      "bytes": 274738
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_group_members.xml",
+      "sha256": "86c56794cb628cfae47419bfffcaf219b0f286035d1244a77ede65b1823ef34b",
+      "bytes": 2688829
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_group_pooled_resource_effects.xml",
+      "sha256": "8e37b31eb706e1e2f247f6ffa03963e99d797d532db22608f3a0d7fd382b611e",
+      "bytes": 117166
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_region_additional_adjacency_rules.xml",
+      "sha256": "5fd6765e57aae741ab8b3bb4ee15e6de346110dee8fc8039cd174daf7ae49ed0",
+      "bytes": 19717
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_tax_administration_costs.xml",
+      "sha256": "7543f6306f2f2da6e09d6e935276e4ec0ce3d4001e1eedaf54f5c72f23057ffa",
+      "bytes": 32472
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/campaign_variables.xml",
+      "sha256": "dc37ac805257e5ac34773ba34d061a0480fd037a45c66c7322c004d4bbb9ceec",
+      "bytes": 316260
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/ceo_effect_list_to_effects.xml",
+      "sha256": "d9c41b9e2031d2de91c075cd39397aefa7d2e0e1110f3adcd48af529d20a31ef",
+      "bytes": 1676647
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/cultures_subcultures.xml",
+      "sha256": "6f3245f4a2d9c0e7060c97d37ce28537c84766a49526a6acbfa78e4536807647",
+      "bytes": 1510
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/effect_bonus_value_basic_junction.xml",
+      "sha256": "d50010b59eb8a0afeaf96f279f02dfa2697e1e13e60ad9a6a7281f4dd8568cd3",
+      "bytes": 73719
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/effect_bonus_value_pooled_resource_factor_junctions.xml",
+      "sha256": "d0ea1416fc41214a5a6461d5d24c4c8c18142a23b41bb3916b1d90f15dbd56c0",
+      "bytes": 69554
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/effect_bonus_value_region_gdp_type_junctions.xml",
+      "sha256": "2ca23f3cfc4566ac7f1db1454e45e5279a6d0f265ab40f5b04115a8d2b201395",
+      "bytes": 18056
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/effect_bundles_to_effects_junctions.xml",
+      "sha256": "0ba774e556a2965032b3005d3cea141833b0041bb522e000b7a681a10bb820f9",
+      "bytes": 1514734
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/faction_resource_ids.xml",
+      "sha256": "55ac989f4fb8a9fcaa77d331b624b7364c8ac5889c2f42bcfc51ecb411c67e52",
+      "bytes": 12799
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/faction_resources_building_levels_permissions_junctions.xml",
+      "sha256": "7feffc2bb3a49dff5326b5a02dd4b4392374588c64b9247773b89277f1172732",
+      "bytes": 58317
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/faction_resources_building_levels_requirements_junctions.xml",
+      "sha256": "832015031841c2f41a2c32d2d6b452f654424168c36c6ce5e34048c10bd37208",
+      "bytes": 23459
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/faction_resources_requirement_set_to_resources_junctions.xml",
+      "sha256": "c074b47f2e4f0e84b60e97022185e12dcbbae25d0987abfe8f2b7c71e2f1a243",
+      "bytes": 10901
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/faction_resources_requirement_sets.xml",
+      "sha256": "f389ff0b02d61431b79d83ef58b073d381a57f5936f018838409f2a55eaf0919",
+      "bytes": 5834
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/factions.xml",
+      "sha256": "65bda3b1277c94e8079d39abc32df3e5957faaf6d4aa9de2a8721cb572525d0d",
+      "bytes": 1653111
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/frontend_faction_leaders.xml",
+      "sha256": "019c8451b57e162d35c46a6e8bac93a5872094d3db9e87958c808accd2b2be9d",
+      "bytes": 79549
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/pooled_resources.xml",
+      "sha256": "b6f1cc835893339ea2a8f21b570137360c82203a5d7054a0db63a3c5bf8211d7",
+      "bytes": 37942
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/provinces.xml",
+      "sha256": "0149526879bdb8c2b3234c560fad88eda4198649048ab22b426bdd591a1bd4cc",
+      "bytes": 19986
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/region_to_province_junctions.xml",
+      "sha256": "a6c19720d6d165ee7cb3891b5e7da1b7caf6b0f671e8c5471c95fa4cb42f999b",
+      "bytes": 61485
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/regions.xml",
+      "sha256": "0ebfc0a9e2e870e89a6c407b87542912843b5ae9d63829e63248f1a8e26d034e",
+      "bytes": 167523
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/slot_template_to_building_superchain_junctions.xml",
+      "sha256": "f1c2317fb9dee2e6d9d4dc16e11c754f4f4b680be27d22f89eabb3d19e6370db",
+      "bytes": 32006
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/start_pos_region_pooled_resources.xml",
+      "sha256": "11e2f9056c558e46e40f4b56b1cf4d32ef685ce64015480d3577996f93609db8",
+      "bytes": 123570
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/start_pos_region_slot_templates.xml",
+      "sha256": "f26affb2dd7291ce2bd603b38246483bada0f8d4decbde4cb33190c9d05600bb",
+      "bytes": 253810
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/start_pos_regions.xml",
+      "sha256": "60d9d508d6b389b46653f2eaf2a76efd63740bfceb71d063ca4e8c05fea31c58",
+      "bytes": 421437
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/taxes_effects_jct.xml",
+      "sha256": "6b5df7a84af338d77f9f33d67fc0d139acb14188432f788c431a49ac5084cc28",
+      "bytes": 9759
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/taxes_keys.xml",
+      "sha256": "b59b04d7e1cfc9e33e72f8e9715950eb8937fd72f33f96abf5855372f92c6fa4",
+      "bytes": 1781
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/taxes_levels.xml",
+      "sha256": "0d94974b6c11e38faacd3a005614c48e6e6b52855f2f7da6e3fb07c8a73295c8",
+      "bytes": 1636
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/technologies.xml",
+      "sha256": "c44d8f377b24e2be1e06a952ef052ca6674f72cd7324a600156eb1ee69f6fc99",
+      "bytes": 293449
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/technology_effects_junction.xml",
+      "sha256": "fed712a5c2e0c27fa55bfd36055b61c54b221d33b3e07d951d75439aebee403c",
+      "bytes": 153633
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/technology_node_sets.xml",
+      "sha256": "c0e861664850f020ba0a8d81eecf2eaaa86f9e4c57b4b1a9464f69088682aa14",
+      "bytes": 9345
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ZadesSC/tt3k_dw9_dave/31020c8a75f8a08f83abe5410680a309d58475f1/db/technology_nodes.xml",
+      "sha256": "716fae5134e3e1534814ad87ea6887361aeb2b75a010ce47f7203aba08427039",
+      "bytes": 111133
+    }
+  ]
+}

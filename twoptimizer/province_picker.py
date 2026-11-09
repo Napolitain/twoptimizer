@@ -104,6 +104,11 @@ class ProvincePicker(ModalScreen):
             return (
                 "Uses bundled land borders automatically; Neighboring provinces can override them."
             )
+        if self.game == "three_kingdoms":
+            return (
+                "Map borders are incomplete. At zero base corruption adjacent bonuses are "
+                "inactive; nonzero corruption requires explicit neighboring provinces."
+            )
         return (
             "Set neighboring provinces before running; map borders are unavailable "
             "for this selection."

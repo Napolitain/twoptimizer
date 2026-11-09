@@ -83,7 +83,9 @@ TUI widgets -> RunConfig -> make_jobs -> CaseRunner -> worker subprocess
 and `RunRequest` for additional batch axes: factions, provinces, solvers, fertility
 and soil. `RunConfig.provinces=None` uses the single `province`; an empty tuple
 selects no jobs. With multiple provinces, `joint=False` creates independent cases
-and `joint=True` retains one combined holding in any of the three games.
+and `joint=True` retains one combined holding in any of the four games.
+`ThreeKingdomsOptions` carries historical-reference city, population, corruption,
+capital and supplied-resource inputs through the same request/worker boundary.
 `AttilaOptions` carries typed campaign inputs, region fertility overrides,
 technology selections, building filters and a random seed. Explicit
 `to_dict`/`from_dict` methods preserve those records across worker JSON.
@@ -253,7 +255,7 @@ report labels describe their original execution and are not rewritten.
 
 | Interface | Default scope | Additional supported inputs |
 | --- | --- | --- |
-| TUI | Rome II, Rome, coastal reference, CP-SAT, research disabled | Independent or joint holdings in all three games; Attila/Rome border picker; one/all factions; solver comparison; model-size details; game research profiles; Attila fertility/religion; Shogun soil, wealth and tax; Rome world bonuses |
+| TUI | Rome II, Rome, coastal reference, CP-SAT, research disabled | Independent or joint holdings in all four games; border controls; one/all factions; solver comparison; model-size details; game research profiles; Attila fertility/religion; Shogun soil, wealth and tax; Rome world bonuses; Three Kingdoms historical snapshot inputs |
 | `attila` | ERE, Orthodox; every province independently at fertility 0 and 5; CP-SAT; all technologies | Repeated provinces and optional joint ownership/limit; campaign JSON and target constraints; named technology subset; regional fertility; city/building levels and military eligibility; CP-SAT or HiGHS; random seed |
 | `attila-factions` | Settled playable factions; independent Aegyptus, Thracia and Germania; fertility 5; Orthodox; all technologies; CP-SAT | Province selection, religion, fertility, NPC factions with horde exclusions, validated proof reuse and resume |
 | `rome2` | All imported factions on independent inland/coastal/grain reference layouts; CP-SAT; research bonuses disabled | Repeated named provinces/layouts, factions and solvers; public/archived research; world bonuses; resume/fill-missing, warm hints and portable proof reuse |
@@ -514,3 +516,33 @@ status, metrics and selected buildings. Observed median seconds were:
 
 Sample ranges overlap. These measurements show no observed slowdown on the
 checked workloads; they do not establish a general speedup.
+
+## Three Kingdoms historical model
+
+Three Kingdoms keeps its pinned 1.2.0 reference separate from the undated shared
+Honga catalogue. Source importers retain numeric mappings, campaign-group
+conditions, eligibility and provenance. Immutable catalog loading resolves each
+building's highest-priority matching effect group; generic and faction-specific
+variants replace one another rather than being added together.
+
+The engine separates `scenario`, `model`, `scopes`, `compiler`, `integer`,
+`evaluation` and `optimization`. Each economy owns its decisions and candidate
+sets. Its general integer linear model represents income and food products with
+bounded binary expansion and exact selection constraints, including proportional
+corruption clamping. CP-SAT and HiGHS consume the same integer formulation.
+An independent Fraction-based evaluator validates placement, resources,
+uniqueness, population capacity, food and public order before accepting income.
+
+Joint holdings share food and resource availability. Explicit adjacent-commandery
+links route neighboring corruption reductions; the incomplete historical map
+cannot supply them automatically. Missing adjacency is immaterial when the only
+applicable neighboring effects reduce zero base corruption. That exception is
+checked by the engine and disclosed separately from a verified map. Other joint
+scenarios require an explicit graph.
+
+The adapter uses the existing request, worker, cancellation, model-count and
+export infrastructure. Snapshot settings include an optional original-leader
+profile, supplied external resources and a declared faction capital. Result
+provenance includes the model, split data files and application preparation code.
+Normal optimization does not access the network. See the
+[model reference](../games/tw/three_kingdoms/README.md) for coverage and limitations.

@@ -5,8 +5,8 @@ from games.tw.maps.catalog import load_campaign_map, province_borders
 from twoptimizer.catalog import choices
 from twoptimizer.models import RunConfig
 
-JOINT_GAMES = {"attila", "rome2", "shogun2"}
-BORDER_GAMES = {"attila", "rome2"}
+JOINT_GAMES = {"attila", "rome2", "shogun2", "three_kingdoms"}
+BORDER_GAMES = {"attila", "rome2", "three_kingdoms"}
 ROME_REFERENCE_LAYOUTS = {"coastal", "inland", "grain"}
 
 
@@ -58,9 +58,12 @@ def validate_borders(config: RunConfig, selected: tuple[str, ...]) -> None:
         and len(selected) > 1
         and config.adjacency is None
         and not has_campaign_borders(config)
+        and not unverified_inactive_borders(config)
         and province_borders(config.game, selected) is None
     ):
-        game = "Attila" if config.game == "attila" else "Rome II"
+        game = {"attila": "Attila", "rome2": "Rome II", "three_kingdoms": "Three Kingdoms"}[
+            config.game
+        ]
         raise ValueError(
             f"No complete map covers this holding. Set neighboring provinces, "
             f"or confirm no borders, before running {game} together."
@@ -68,7 +71,9 @@ def validate_borders(config: RunConfig, selected: tuple[str, ...]) -> None:
     if config.adjacency is None:
         return
     if not config.joint or config.game not in BORDER_GAMES:
-        raise ValueError("Neighboring provinces apply to joint Attila or Rome II runs.")
+        raise ValueError(
+            "Neighboring provinces apply to joint Attila, Rome II or Three Kingdoms runs."
+        )
     seen = set()
     for pair in config.adjacency:
         if len(pair) != 2 or pair[0] == pair[1] or not set(pair) <= set(selected):
@@ -109,6 +114,8 @@ def resolved_borders(config: RunConfig) -> tuple[tuple[str, str], ...]:
         return ()
     borders = province_borders(config.game, config.holdings)
     if borders is None:
+        if unverified_inactive_borders(config):
+            return ()
         raise ValueError("Set neighboring provinces or supply a complete campaign map")
     return borders
 
@@ -117,6 +124,18 @@ def map_context(config: RunConfig) -> dict:
     """Record effective borders separately from the user's automatic/custom intent."""
     if not config.joint or config.game not in BORDER_GAMES:
         return {"mode": "not_applied", "borders": [], "directed": False}
+    if config.game == "three_kingdoms" and len(config.holdings) < 2:
+        return {"mode": "not_applied", "borders": [], "directed": False}
+    if config.adjacency is None and unverified_inactive_borders(config):
+        return {
+            "mode": "unverified_no_effect",
+            "borders": [],
+            "directed": False,
+            "limitations": [
+                "Borders are unverified. The historical reference's adjacent economic effects "
+                "only reduce corruption, so they do not change income at zero base corruption."
+            ],
+        }
     if config.adjacency is not None:
         mode = "custom" if config.adjacency else "none"
     elif has_campaign_borders(config):
@@ -136,3 +155,12 @@ def map_context(config: RunConfig) -> dict:
             limitations=thaw(data.get("limitations", ())),
         )
     return context
+
+
+def unverified_inactive_borders(config: RunConfig) -> bool:
+    """Only this fixed snapshot makes missing neighboring corruption effects inactive."""
+    return (
+        config.game == "three_kingdoms"
+        and config.three_kingdoms.corruption_percent == 0
+        and province_borders(config.game, config.holdings) is None
+    )

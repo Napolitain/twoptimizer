@@ -51,4 +51,12 @@ jobs:
                   result = Economy(Scenario("oda", provinces)).optimize(seconds=5, workers=1)
                   assert result["solver"]["status"] == "OPTIMAL"
                   assert abs(result["domestic_tax_income"] - 7688.06) < 1e-5
+                  from dataclasses import replace
+                  from twoptimizer.requests import default_config
+                  from twoptimizer.service import solve_case
+                  historical = solve_case(replace(
+                      default_config("three_kingdoms"), seconds=5, workers=1,
+                  ))
+                  assert historical.solver.status == "OPTIMAL"
+                  assert abs(historical.income - 627.75) < 1e-5
                   PYTHON

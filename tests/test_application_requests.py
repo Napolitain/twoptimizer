@@ -13,7 +13,7 @@ from twoptimizer.service import error_result
 from twoptimizer.session import RunSession
 
 
-@pytest.mark.parametrize("game", ["attila", "rome2", "shogun2"])
+@pytest.mark.parametrize("game", ["attila", "rome2", "shogun2", "three_kingdoms"])
 def test_default_requests_are_valid_unlimited_and_roundtrip(game):
     config = default_config(game)
     jobs, skipped = make_jobs(config)
@@ -169,7 +169,7 @@ def test_technology_list_cannot_be_coerced_from_a_string():
         RunConfig.from_dict({"attila": {"technologies": "one technology"}})
 
 
-@pytest.mark.parametrize("game", ["attila", "rome2", "shogun2"])
+@pytest.mark.parametrize("game", ["attila", "rome2", "shogun2", "three_kingdoms"])
 @pytest.mark.parametrize(
     "algorithm",
     ["cbc", "scip", "scip-nonlinear", "portfolio", "glop", "greedy", "beam", "multistart"],
@@ -180,7 +180,7 @@ def test_retired_solver_requests_are_rejected_instead_of_silently_redirected(gam
         make_jobs(config)
 
 
-@pytest.mark.parametrize("game", ["attila", "rome2", "shogun2"])
+@pytest.mark.parametrize("game", ["attila", "rome2", "shogun2", "three_kingdoms"])
 def test_exact_comparison_expands_only_supported_solvers(game):
     config = replace(default_config(game), algorithm="compare")
     jobs, skipped = make_jobs(config)

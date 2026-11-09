@@ -9,6 +9,7 @@ from twoptimizer.constraint_options import ConstraintOptions
 from twoptimizer.errors import ApplicationError
 from twoptimizer.holdings import named_province_choices, validate_selection
 from twoptimizer.models import AttilaOptions, RunConfig, RunRequest
+from twoptimizer.three_kingdoms_options import ThreeKingdomsOptions
 
 
 def default_config(game: str) -> RunConfig:
@@ -35,7 +36,8 @@ def make_jobs(request: RunConfig | RunRequest) -> tuple[list[RunConfig], list[st
 
 
 def _expand(request: RunRequest) -> tuple[list[RunConfig], list[str]]:
-    config = request.config
+    config = _normalize_three_kingdoms(request.config)
+    request = replace(request, config=config)
     if config.game not in EXACT:
         raise ApplicationError("This game does not yet have a complete optimizer.")
     validate_case(config)
@@ -63,6 +65,20 @@ def _expand(request: RunRequest) -> tuple[list[RunConfig], list[str]]:
                         validate_selection(job)
                         jobs.append(job)
     return jobs, skipped
+
+
+def _normalize_three_kingdoms(config: RunConfig) -> RunConfig:
+    options = config.three_kingdoms
+    if config.game != "three_kingdoms" or not isinstance(options, ThreeKingdomsOptions):
+        return config
+    if options.capital_commandery is None:
+        return config
+    return replace(
+        config,
+        three_kingdoms=replace(
+            options, capital_commandery=province_id(config.game, options.capital_commandery)
+        ),
+    )
 
 
 def _finite_number(value: object) -> bool:
@@ -94,6 +110,16 @@ def validate_case(config: RunConfig) -> None:
         _validate_shogun(config)
     if config.game == "rome2" and config.technology_profile not in {"public", "archived"}:
         raise ApplicationError("Choose an available research profile.")
+    _validate_three_kingdoms(config)
+
+
+def _validate_three_kingdoms(config: RunConfig) -> None:
+    if not isinstance(config.three_kingdoms, ThreeKingdomsOptions):
+        raise ApplicationError("Three Kingdoms options must use ThreeKingdomsOptions.")
+    if config.game == "three_kingdoms":
+        config.three_kingdoms.validate()
+    elif config.three_kingdoms != ThreeKingdomsOptions():
+        raise ApplicationError("Three Kingdoms options require the Three Kingdoms game.")
 
 
 def _validate_flags(config: RunConfig) -> None:
